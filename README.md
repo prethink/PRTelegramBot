@@ -1,7 +1,7 @@
-# Описание
+# 📰 Описание
 Шаблон консольной программы для быстрого и удобного создания telegram ботов на C#.
 
-# Возможности
+# 💎 Возможности
 
  - Обработка reply команд;
  - Генерация reply меню;
@@ -23,7 +23,7 @@
  - NLog v5.1.1 https://github.com/NLog/NLog
  - Microsoft.Extensions.Configuration.Binder v7.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.Configuration.Json v7.0.0 https://github.com/dotnet/runtime
-# Интегрированные пакеты
+# 🧱 Интегрированные пакеты
  - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker
 
 # 🎌 Быстрый старт
