@@ -5,11 +5,8 @@ namespace PRTelegramBot.Commands.Constants
     /// <summary>
     /// Позволяет редактировать текст сообщений не перекомпилируя программу,а используя json файл
     /// </summary>
-    public class MessageKeys
+    public class DictionaryJSON
     {
-        public const string MSG_MAIN_MENU           = "1m";
-        public const string MSG_EXAMPLE_TEXT        = "2m";
-
         /// <summary>
         /// Преобразует константу сообщения в текст из JSOON
         /// </summary>
@@ -25,7 +22,7 @@ namespace PRTelegramBot.Commands.Constants
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public static string GetValueButton(string command)
+        public static string GetButton(string command)
         {
             var result = ConfigApp.GetSettings<CustomSettings>().GetButton(command);
             return result.Contains("NOT_FOUND") ? command : result;
