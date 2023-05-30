@@ -25,7 +25,7 @@ namespace PRTelegramBot.Examples
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = MessageKeys.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
             await Commands.Common.Message.Send(botClient, update, msg);
         }
 
@@ -96,7 +96,7 @@ namespace PRTelegramBot.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), Models.Enums.CallbackId.ExampleOne);
+            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), Models.Enums.CallbackId.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды

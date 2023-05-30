@@ -17,7 +17,7 @@ namespace PRTelegramBot.Commands
         {
             try
             {
-                await MainMenu(botClient,  update.GetChatId(), MessageKeys.GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
+                await MainMenu(botClient,  update.GetChatId(), DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
             }
             catch(Exception ex)
             {
@@ -29,7 +29,7 @@ namespace PRTelegramBot.Commands
         {
             try
             {
-                await MainMenu(botClient, telegramId, MessageKeys.GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
+                await MainMenu(botClient, telegramId, DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
             }
             catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace PRTelegramBot.Commands
                 }
 
                 var option = new OptionMessage();
-                option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, MessageKeys.GetValueButton(nameof(ReplyKeys.RP_MAIN_MENU)));
+                option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, DictionaryJSON.GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
                 await Common.Message.Send(botClient, telegramId, message, option);
             }
             catch (Exception ex)
