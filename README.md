@@ -1,5 +1,5 @@
 # 📰 Описание
-Шаблон консольной программы для быстрого и удобного создания telegram ботов на C#.
+Библиотека для быстрого и удобного создание telegram ботов. + Пример использования в консольном приложение.
 
 # 💎 Возможности
 
@@ -15,7 +15,6 @@
 
 # ⏳ Планируется сделать
 - Работа с WebApps.
-- Разделить на библиотеку и консольную программу
 
 # 🔑 Зависимости
 
@@ -98,7 +97,7 @@ appconfig - хранит информацию настройки програм�
 Ниже будут приведены примеры как создавать свои команды обработки для телеграма.
 
 ## Примеры использования
-Примеры готовых функций есть по пути ***/Examples***
+Примеры готовых функций есть в консольном приложение по пути ***/Examples***
 - ***ExampleCommand.cs*** - Пример как создавать reply, inline и слеш команды.
 - ***ExampleHandlers.cs*** - Пример как можно обрабатывать callback данные.
 - ***ExampleStepCommand.cs*** - Пример c пошаговым выполнением команд.
@@ -137,7 +136,7 @@ appconfig - хранит информацию настройки програм�
         /// Пример с использованием разных reply команд для вывода одной и той же функции
         /// </summary>
         [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE_ONE, ReplyKeys.RP_EXAMPLE_TWO)]
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChatAttribute(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text}";
@@ -152,8 +151,8 @@ appconfig - хранит информацию настройки програм�
         /// [RequireDate]Пример того что метод будет обрабатывать только текстовые сообщения
         /// </summary>
         [ReplyMenuHandler(true, nameof(ReplyKeys.RP_EXAMPLE_FROM_JSON))]
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
-        [RequireDate(Telegram.Bot.Types.Enums.MessageType.Text)]
+        [RequiredTypeChatAttribute(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequireTypeMessageAttribute(Telegram.Bot.Types.Enums.MessageType.Text)]
         public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text} можете изменить значение команды в настройке appconfig.json";
@@ -336,8 +335,8 @@ appconfig - хранит информацию настройки програм�
 > в appconfig.json хранится список наименований кнопок в секции ***Buttons***   
 Пример использование наименования кнопок из JSON   
 ```csharp
-MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE))
-MessageKeys.GetValueButton("IN_EXAMPLE_ONE")
+DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE))
+DictionaryJSON.GetButton("IN_EXAMPLE_ONE")
 ```
 
 Для того чтобы работало значение IN_EXAMPLE_ONE оно должно присутствовать в appconfig.json   
@@ -346,8 +345,8 @@ MessageKeys.GetValueButton("IN_EXAMPLE_ONE")
 > в appconfig.json хранится список сообщений в секции ***Messages***   
 Пример использование сообщения из JSON   
 ```csharp
-MessageKeys.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
-MessageKeys.GetMessage("MSG_EXAMPLE_TEXT");
+DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 ```
 
 
