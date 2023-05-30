@@ -58,6 +58,21 @@ namespace PRTelegramBot.Core
         /// </summary>
         public event TelegramCommand OnMissingCommand;
 
+        /// <summary>
+        /// Событие Обработки контактных данных
+        /// </summary>
+        public event TelegramCommand OnContactHandle;
+
+        /// <summary>
+        /// Событие обработки голосований
+        /// </summary>
+        public event TelegramCommand OnPollHandle;
+
+        /// <summary>
+        /// Событие обработки локации
+        /// </summary>
+        public event TelegramCommand OnLocationHandle;
+
 
 
         /// <summary>
@@ -86,6 +101,11 @@ namespace PRTelegramBot.Core
         private Dictionary<CallbackId, TelegramCommand> inlineCommands;
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private Dictionary<Telegram.Bot.Types.Enums.MessageType, TelegramCommand> typeMessage;
+
         public Router(ITelegramBotClient botClient)
         {
             _botClient                  = botClient;
@@ -97,7 +117,13 @@ namespace PRTelegramBot.Core
             RegisterCommnad();
         }
 
-
+        internal void UpdateEventLink()
+        {
+            typeMessage = new();
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Contact, OnContactHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Location, OnLocationHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Poll, OnPollHandle);
+        }
 
         /// <summary>
         /// Автоматическая регистрация доступных команд для выполнения через рефлексию
@@ -210,20 +236,36 @@ namespace PRTelegramBot.Core
         {
             try
             {
+                //
                 if (command.Contains("(") && command.Contains(")"))
                 {
                     command = command.Remove(command.LastIndexOf("(") - 1);
                 }
 
+                UpdateEventLink();
+                //Вызываем свое событие для определенных типов сообщений
+                foreach (var item in typeMessage)
+                {
+                    if(item.Key == update.Message.Type)
+                    {
+                        item.Value?.Invoke(_botClient, update);
+                        return;
+                    }
+                }
+
+                //
                 if (await StartHasDeepLink(command, update))
                     return;
 
+                //
                 if (await IsSlashCommand(command, update))
                     return;
 
+                //
                 if (await IsHaveNextStep(command, update))
                     return;
 
+                //
                 foreach (var commandExecute in messageCommands)
                 {
 

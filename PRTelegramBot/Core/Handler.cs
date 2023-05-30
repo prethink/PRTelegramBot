@@ -38,36 +38,49 @@ namespace PRTelegramBot.Core
                 switch (update.Type)
                 {
                     case UpdateType.Unknown:
+                        //TODO: Доделать
                         break;
                     case UpdateType.Message:
-                        await HandleMessageRoute(update);
+                        await HandleMessage(update);
                         break;
                     case UpdateType.InlineQuery:
+                        //TODO: Доделать
                         break;
                     case UpdateType.ChosenInlineResult:
+                        //TODO: Доделать
                         break;
                     case UpdateType.CallbackQuery:
                         await HandleCallbackQuery(update, cancellationToken);
                         break;
                     case UpdateType.EditedMessage:
+                        //TODO: Доделать
                         break;
                     case UpdateType.ChannelPost:
+                        //TODO: Доделать
                         break;
                     case UpdateType.EditedChannelPost:
+                        //TODO: Доделать
                         break;
                     case UpdateType.ShippingQuery:
+                        //TODO: Доделать
                         break;
                     case UpdateType.PreCheckoutQuery:
+                        //TODO: Доделать
                         break;
                     case UpdateType.Poll:
+                        //TODO: Доделать
                         break;
                     case UpdateType.PollAnswer:
+                        //TODO: Доделать
                         break;
                     case UpdateType.MyChatMember:
+                        //TODO: Доделать
                         break;
                     case UpdateType.ChatMember:
+                        //TODO: Доделать
                         break;
                     case UpdateType.ChatJoinRequest:
+                        //TODO: Доделать
                         break;
                 }
             }
@@ -122,112 +135,10 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Маршрутизация сообщений
-        /// </summary>
-        /// <param name="update">Обновление телеграма</param>
-        async Task HandleMessageRoute(Update update)
-        {
-            try
-            {
-                switch (update.Message.Type)
-                {
-                    case MessageType.Unknown:
-                        break;
-                    case MessageType.Text:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Photo:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Audio:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Video:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Voice:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Document:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Sticker:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Location:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Contact:
-                        await HandleMessageContact(update);
-                        break;
-                    case MessageType.Venue:
-                        break;
-                    case MessageType.Game:
-                        break;
-                    case MessageType.VideoNote:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Invoice:
-                        break;
-                    case MessageType.SuccessfulPayment:
-                        break;
-                    case MessageType.WebsiteConnected:
-                        break;
-                    case MessageType.ChatMembersAdded:
-                        break;
-                    case MessageType.ChatMemberLeft:
-                        break;
-                    case MessageType.ChatTitleChanged:
-                        break;
-                    case MessageType.ChatPhotoChanged:
-                        break;
-                    case MessageType.MessagePinned:
-                        break;
-                    case MessageType.ChatPhotoDeleted:
-                        break;
-                    case MessageType.GroupCreated:
-                        break;
-                    case MessageType.SupergroupCreated:
-                        break;
-                    case MessageType.ChannelCreated:
-                        break;
-                    case MessageType.MigratedToSupergroup:
-                        break;
-                    case MessageType.MigratedFromGroup:
-                        break;
-                    case MessageType.Poll:
-                        await HandleMessageText(update);
-                        break;
-                    case MessageType.Dice:
-                        break;
-                    case MessageType.MessageAutoDeleteTimerChanged:
-                        break;
-                    case MessageType.ProximityAlertTriggered:
-                        break;
-                    case MessageType.WebAppData:
-                        break;
-                    case MessageType.VideoChatScheduled:
-                        break;
-                    case MessageType.VideoChatStarted:
-                        break;
-                    case MessageType.VideoChatEnded:
-                        break;
-                    case MessageType.VideoChatParticipantsInvited:
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
-            }
-
-        }
-
-        /// <summary>
         /// Обработчик текстовый сообщений Reply
         /// </summary>
         /// <param name="update">Обновление телеграма</param>
-        async Task HandleMessageText(Update update)
+        async Task HandleMessage(Update update)
         {
             try
             {
@@ -236,23 +147,6 @@ namespace PRTelegramBot.Core
                 TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
                 
                 Router.ExecuteCommandByMessage(command, update);
-            }
-            catch (Exception ex)
-            {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
-            }
-
-        }
-
-        /// <summary>
-        /// Обработчик контактов пользователей
-        /// </summary>
-        /// <param name="update">Обновление телеграма</param>
-        async Task HandleMessageContact(Update update)
-        {
-            try
-            {
-                //TODO: Обратчик контактов
             }
             catch (Exception ex)
             {
