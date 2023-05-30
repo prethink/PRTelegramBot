@@ -9,6 +9,7 @@ using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models.Interface;
 using System;
+using PRTelegramBot.Helpers;
 
 namespace PRTelegramBot.Examples
 {
@@ -26,7 +27,7 @@ namespace PRTelegramBot.Examples
         {
             //Пример как получить текст сообщения из JSON файла
             string msg = DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace PRTelegramBot.Examples
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Commands.Common.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace PRTelegramBot.Examples
         public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text}";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
 
@@ -79,7 +80,7 @@ namespace PRTelegramBot.Examples
         public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text} можете изменить значение команды в настройке appconfig.json";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         #endregion
@@ -128,7 +129,7 @@ namespace PRTelegramBot.Examples
             option.MenuInlineKeyboardMarkup = testMenu;
             string msg = "Пример работы меню";
             //Отправка сообщение с меню
-            await Commands.Common.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
         #endregion
 
@@ -140,7 +141,7 @@ namespace PRTelegramBot.Examples
         public static async Task SlashCommand(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Команда {SlashKeys.SL_EXAMPLE}";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -155,18 +156,18 @@ namespace PRTelegramBot.Examples
                 if (spl.Length > 1)
                 {
                     string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET} со значением {spl[1]}";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
                 else
                 {
                     string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET}";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             else
             {
                 string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET}";
-                await Commands.Common.Message.Send(botClient, update, msg);
+                await Helpers.Message.Send(botClient, update, msg);
             }
         }
         #endregion

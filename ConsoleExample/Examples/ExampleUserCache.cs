@@ -26,7 +26,7 @@ namespace PRTelegramBot.Examples
             string msg = $"Запись в кэш пользователя данных: {update.GetChatId()}";
             //Записываем данные в кеш пользователя
             update.GetCacheData().Id = update.GetChatId();
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Examples
             {
                 msg = $"Данные в кэше пользователя отсутствуют.";
             }
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace PRTelegramBot.Examples
             string msg = "Тестирование функции пошагового выполнения";
             //Очищаем кеш для пользователя
             update.GetCacheData().ClearData();
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
     }
 }

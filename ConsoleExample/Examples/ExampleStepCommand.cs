@@ -3,10 +3,10 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
-using PRTelegramBot.Commands.Common;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Helpers.TG;
 using static PRTelegramBot.Models.StepTelegram;
+using PRTelegramBot.Helpers;
 
 namespace PRTelegramBot.Examples
 {
@@ -25,7 +25,7 @@ namespace PRTelegramBot.Examples
             string msg = "Тестирование функции пошагового выполнения";
             //Регистрация следующего шага пользователя
             update.RegisterNextStep(new StepTelegram(StepOne));
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace PRTelegramBot.Examples
             string msg = "Шаг 1";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PRTelegramBot.Examples
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
             option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, DictionaryJSON.GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
-            await Commands.Common.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
 
 
@@ -64,7 +64,7 @@ namespace PRTelegramBot.Examples
         public static async Task StepThree(ITelegramBotClient botClient, Update update)
         {
             string msg = "Шаг 3";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace PRTelegramBot.Examples
                 msg = "Следующий шаг отсутствовал";
             }
             
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
     }
 }

@@ -6,6 +6,7 @@ using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Models;
+using PRTelegramBot.Helpers;
 
 namespace PRTelegramBot.Commands
 {
@@ -49,7 +50,7 @@ namespace PRTelegramBot.Commands
 
                 var option = new OptionMessage();
                 option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, DictionaryJSON.GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
-                await Common.Message.Send(botClient, telegramId, message, option);
+                await Helpers.Message.Send(botClient, telegramId, message, option);
             }
             catch (Exception ex)
             {

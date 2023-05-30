@@ -6,7 +6,7 @@ using static PRTelegramBot.Core.TelegramService;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 
-namespace PRTelegramBot.Commands.Common
+namespace PRTelegramBot.Helpers
 {
     public class Message
     {
@@ -129,78 +129,78 @@ namespace PRTelegramBot.Commands.Common
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Send(ITelegramBotClient botClient, long chatId, string msg, OptionMessage option = null)
         {
-  
-                Telegram.Bot.Types.Message message;
-                if (string.IsNullOrWhiteSpace(msg))
-                {
-                    return null;
-                }
 
-                var length = msg.Length;
-                if (length > MAX_MESSAGE_LENGTH)
+            Telegram.Bot.Types.Message message;
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                return null;
+            }
+
+            var length = msg.Length;
+            if (length > MAX_MESSAGE_LENGTH)
+            {
+                var chunk = SplitIntoChunks(msg, MAX_MESSAGE_LENGTH);
+                int count = 0;
+                foreach (var item in chunk)
                 {
-                    var chunk = SplitIntoChunks(msg, MAX_MESSAGE_LENGTH);
-                    int count = 0;
-                    foreach (var item in chunk)
+                    count++;
+                    if (count < chunk.Count)
                     {
-                        count++;
-                        if (count < chunk.Count)
-                        {
-                            await Send(botClient, chatId, item);
-                        }
-                        if (count == chunk.Count)
-                        {
-                            msg = item;
-                        }
+                        await Send(botClient, chatId, item);
+                    }
+                    if (count == chunk.Count)
+                    {
+                        msg = item;
                     }
                 }
+            }
 
             if (option == null)
+            {
+                message = await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: msg,
+                        parseMode: ParseMode.Html);
+            }
+            else
+            {
+                if (option.ClearMenu)
+                {
+                    message = await botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: msg,
+                            parseMode: ParseMode.Html,
+                            replyMarkup: new ReplyKeyboardRemove());
+                }
+                else if (option.MenuReplyKeyboardMarkup != null)
+                {
+                    message = await botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: msg,
+                            parseMode: ParseMode.Html,
+                            replyMarkup: option.MenuReplyKeyboardMarkup);
+                }
+                else if (option.MenuInlineKeyboardMarkup != null)
+                {
+                    message = await botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: msg,
+                            parseMode: ParseMode.Html,
+                            replyMarkup: option.MenuInlineKeyboardMarkup);
+                }
+                else
                 {
                     message = await botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: msg,
                             parseMode: ParseMode.Html);
                 }
-                else
-                {
-                    if (option.ClearMenu)
-                    {
-                        message = await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: msg,
-                                parseMode: ParseMode.Html,
-                                replyMarkup: new ReplyKeyboardRemove());
-                    }
-                    else if (option.MenuReplyKeyboardMarkup != null)
-                    {
-                        message = await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: msg,
-                                parseMode: ParseMode.Html,
-                                replyMarkup: option.MenuReplyKeyboardMarkup);
-                    }
-                    else if (option.MenuInlineKeyboardMarkup != null)
-                    {
-                        message = await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: msg,
-                                parseMode: ParseMode.Html,
-                                replyMarkup: option.MenuInlineKeyboardMarkup);
-                    }
-                    else
-                    {
-                        message = await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: msg,
-                                parseMode: ParseMode.Html);
-                    }
-                }
+            }
 
 
-                GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
-                return message;
-            
+            GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
+            return message;
+
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace PRTelegramBot.Commands.Common
             {
                 if (isFirst)
                 {
-                    if(string.IsNullOrWhiteSpace(msg))
+                    if (string.IsNullOrWhiteSpace(msg))
                     {
                         media.Add(new InputMediaPhoto(InputFile.FromString(item)));
                         isFirst = false;
@@ -267,10 +267,10 @@ namespace PRTelegramBot.Commands.Common
 
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-               return await SendPhoto(botClient, chatId, msg, fileStream, option);
+                return await SendPhoto(botClient, chatId, msg, fileStream, option);
             }
 
-                
+
             GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
         }
 
@@ -289,42 +289,42 @@ namespace PRTelegramBot.Commands.Common
 
             Telegram.Bot.Types.Message message;
 
-                if (option == null)
+            if (option == null)
+            {
+                message = await botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: InputFile.FromStream(stream),
+                                caption: msg,
+                                parseMode: ParseMode.Html
+                                );
+                return message;
+            }
+            else
+            {
+                if (option.MenuReplyKeyboardMarkup != null)
                 {
                     message = await botClient.SendPhotoAsync(
                                     chatId: chatId,
                                     photo: InputFile.FromStream(stream),
                                     caption: msg,
-                                    parseMode: ParseMode.Html
+                                    parseMode: ParseMode.Html,
+                                    replyMarkup: option.MenuReplyKeyboardMarkup
                                     );
                     return message;
                 }
-                else
+                else if (option.MenuInlineKeyboardMarkup != null)
                 {
-                    if (option.MenuReplyKeyboardMarkup != null)
-                    {
-                        message = await botClient.SendPhotoAsync(
-                                        chatId: chatId,
-                                        photo: InputFile.FromStream(stream),
-                                        caption: msg,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: option.MenuReplyKeyboardMarkup
-                                        );
-                        return message;
-                    }
-                    else if (option.MenuInlineKeyboardMarkup != null)
-                    {
-                        message = await botClient.SendPhotoAsync(
-                                    chatId: chatId,
-                                    photo: InputFile.FromStream(stream),
-                                    caption: msg,
-                                    parseMode: ParseMode.Html,
-                                    replyMarkup: option.MenuInlineKeyboardMarkup
-                                    );
-                        return message;
-                    }
-                    return null;
-                
+                    message = await botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: InputFile.FromStream(stream),
+                                caption: msg,
+                                parseMode: ParseMode.Html,
+                                replyMarkup: option.MenuInlineKeyboardMarkup
+                                );
+                    return message;
+                }
+                return null;
+
 
 
                 GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
@@ -343,8 +343,39 @@ namespace PRTelegramBot.Commands.Common
         public static async Task<Telegram.Bot.Types.Message> SendPhotoWithUrl(ITelegramBotClient botClient, long chatId, string msg, string url, OptionMessage option = null)
         {
 
-                Telegram.Bot.Types.Message message = null;
-                if (option == null)
+            Telegram.Bot.Types.Message message = null;
+            if (option == null)
+            {
+                message = await botClient.SendPhotoAsync(
+                            chatId: chatId,
+                            photo: InputFile.FromString(url),
+                            caption: msg,
+                            parseMode: ParseMode.Html
+                            );
+            }
+            else
+            {
+                if (option.MenuReplyKeyboardMarkup != null)
+                {
+                    message = await botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: InputFile.FromString(url),
+                                caption: msg,
+                                parseMode: ParseMode.Html,
+                                replyMarkup: option.MenuReplyKeyboardMarkup
+                                );
+                }
+                else if (option.MenuInlineKeyboardMarkup != null)
+                {
+                    message = await botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: InputFile.FromString(url),
+                                caption: msg,
+                                parseMode: ParseMode.Html,
+                                replyMarkup: option.MenuInlineKeyboardMarkup
+                                );
+                }
+                else
                 {
                     message = await botClient.SendPhotoAsync(
                                 chatId: chatId,
@@ -353,42 +384,11 @@ namespace PRTelegramBot.Commands.Common
                                 parseMode: ParseMode.Html
                                 );
                 }
-                else
-                {
-                    if (option.MenuReplyKeyboardMarkup != null)
-                    {
-                        message = await botClient.SendPhotoAsync(
-                                    chatId: chatId,
-                                    photo: InputFile.FromString(url),
-                                    caption: msg,
-                                    parseMode: ParseMode.Html,
-                                    replyMarkup: option.MenuReplyKeyboardMarkup
-                                    );
-                    }
-                    else if (option.MenuInlineKeyboardMarkup != null)
-                    {
-                        message = await botClient.SendPhotoAsync(
-                                    chatId: chatId,
-                                    photo: InputFile.FromString(url),
-                                    caption: msg,
-                                    parseMode: ParseMode.Html,
-                                    replyMarkup: option.MenuInlineKeyboardMarkup
-                                    );
-                    }
-                    else
-                    {
-                        message = await botClient.SendPhotoAsync(
-                                    chatId: chatId,
-                                    photo: InputFile.FromString(url),
-                                    caption: msg,
-                                    parseMode: ParseMode.Html
-                                    );
-                    }
-                    GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
-                }
-                return message;
+                GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
+            }
+            return message;
 
-            
+
 
 
         }
@@ -464,7 +464,7 @@ namespace PRTelegramBot.Commands.Common
         /// <param name="filePath">Путь к файлу</param>
         public static async Task SendFile(ITelegramBotClient botClient, long chatId, string msg, string filePath)
         {
- 
+
             if (!System.IO.File.Exists(filePath))
             {
                 await Send(botClient, chatId, msg);
@@ -614,7 +614,7 @@ namespace PRTelegramBot.Commands.Common
             try
             {
                 Telegram.Bot.Types.Message message = null;
-                if(option?.MenuInlineKeyboardMarkup != null)
+                if (option?.MenuInlineKeyboardMarkup != null)
                 {
                     message = await botClient.EditMessageReplyMarkupAsync(
                             chatId: chatId,
@@ -640,7 +640,7 @@ namespace PRTelegramBot.Commands.Common
         /// <param name="photoPath">Путь к фоото</param>
         /// <param name="option">Насройки сообщения</param>
         /// <returns>Сообщение</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditPhoto(ITelegramBotClient botClient, long chatId, int messageId,string photoPath, OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> EditPhoto(ITelegramBotClient botClient, long chatId, int messageId, string photoPath, OptionMessage option = null)
         {
             try
             {
@@ -653,7 +653,7 @@ namespace PRTelegramBot.Commands.Common
 
                 using (var fileStream = new FileStream(photoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    return await EditPhoto(botClient, chatId, messageId, fileStream,option);
+                    return await EditPhoto(botClient, chatId, messageId, fileStream, option);
                 }
             }
             catch (Exception ex)
@@ -678,24 +678,24 @@ namespace PRTelegramBot.Commands.Common
             {
                 Telegram.Bot.Types.Message message;
 
-                    if (option?.MenuInlineKeyboardMarkup != null)
-                    {
-                        message = await botClient.EditMessageMediaAsync(
-                                chatId: chatId,
-                                media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
-                                messageId: messageId,
-                                replyMarkup: option.MenuInlineKeyboardMarkup);
-                    }
-                    else
-                    {
-                        message = await botClient.EditMessageMediaAsync(
-                                chatId: chatId,
-                                media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
-                                messageId: messageId);
-                    }
+                if (option?.MenuInlineKeyboardMarkup != null)
+                {
+                    message = await botClient.EditMessageMediaAsync(
+                            chatId: chatId,
+                            media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
+                            messageId: messageId,
+                            replyMarkup: option.MenuInlineKeyboardMarkup);
+                }
+                else
+                {
+                    message = await botClient.EditMessageMediaAsync(
+                            chatId: chatId,
+                            media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
+                            messageId: messageId);
+                }
 
-                    return message;
-                
+                return message;
+
             }
             catch (Exception ex)
             {
@@ -733,7 +733,7 @@ namespace PRTelegramBot.Commands.Common
         /// <param name="media">Медиа</param>
         /// <param name="option">Насройки сообщения</param>
         /// <returns>Сообщение</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditWithPhoto(ITelegramBotClient botClient, long chatId, int messageId,string msg, InputMedia media, OptionMessage option)
+        public static async Task<Telegram.Bot.Types.Message> EditWithPhoto(ITelegramBotClient botClient, long chatId, int messageId, string msg, InputMedia media, OptionMessage option)
         {
             try
             {
@@ -749,7 +749,7 @@ namespace PRTelegramBot.Commands.Common
                     message = await botClient.EditMessageCaptionAsync(
                             chatId: chatId,
                             messageId: messageId,
-                            caption:msg,
+                            caption: msg,
                             parseMode: ParseMode.Html,
                             replyMarkup: option.MenuInlineKeyboardMarkup);
                 }

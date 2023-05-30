@@ -23,7 +23,7 @@ namespace PRTelegramBot.Examples
                 if (command != null)
                 {
                     string msg = "Выполнена команда callback";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace PRTelegramBot.Examples
                 if (command != null)
                 {
                     string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             catch (Exception ex)

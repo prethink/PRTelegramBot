@@ -22,7 +22,7 @@ namespace PRTelegramBot.Commands
         public static async Task PrivilagesMissing(ITelegramBotClient botClient, Update update)
         {
             string msg = $"У вас не достаточно прав на использование этой команды!";
-            await Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace PRTelegramBot.Commands
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task IncorrectTypeData(ITelegramBotClient botClient, Update update)
         {
-            await Common.Message.Send(botClient, update, $"Неверный тип данных, попробуйте еще раз");
+            await Helpers.Message.Send(botClient, update, $"Неверный тип данных, попробуйте еще раз");
         }
     }
 }

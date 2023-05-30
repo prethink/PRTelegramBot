@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Configs;
 
-namespace PRTelegramBot.Commands.Constants
+namespace PRTelegramBot.Helpers
 {
     /// <summary>
     /// Позволяет редактировать текст сообщений не перекомпилируя программу,а используя json файл

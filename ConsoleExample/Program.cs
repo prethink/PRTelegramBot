@@ -51,30 +51,30 @@ async Task Router_OnLocationHandle(Telegram.Bot.ITelegramBotClient botclient, Up
 async Task Router_OnWrongTypeChat(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
 {
     string msg = "Неверный тип чата";
-    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
 }
 
 async Task Router_OnMissingCommand(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
 {
     string msg = "Не найдена команда";
-    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
 }
 
 async Task Router_OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, PRTelegramBot.Models.Enums.UserPrivilege? requiredPrivilege)
 {
     string msg = "Проверка привилегий";
-    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
 }
 
 async Task Router_OnUserStartWithArgs(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, string args)
 {
     string msg = "Пользователь отправил старт с аргументом";
-    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
 }
 async Task Router_OnWrongTypeMessage(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
 {
     string msg = "Неверный тип сообщения";
-    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
 }
 
 
