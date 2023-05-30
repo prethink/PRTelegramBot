@@ -340,7 +340,7 @@ MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE))
 MessageKeys.GetValueButton("IN_EXAMPLE_ONE")
 ```
 
-Для того чтобы работало значение IN_EXAMPLE_ONE оно должно присуствовать в appconfig.json   
+Для того чтобы работало значение IN_EXAMPLE_ONE оно должно присутствовать в appconfig.json   
 ### Использование словарика для сообщений
 
 > в appconfig.json хранится список сообщений в секции ***Messages***   
