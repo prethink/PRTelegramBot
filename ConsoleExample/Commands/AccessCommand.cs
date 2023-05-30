@@ -10,7 +10,7 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Не найдена команда
         /// </summary>
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task CommandMissing(ITelegramBotClient botClient, Update update, string command = "")
         {
             await MainCommand.MainMenu(botClient, update);
@@ -28,7 +28,7 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Неверный тип данных
         /// </summary>
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task IncorrectTypeData(ITelegramBotClient botClient, Update update)
         {
             await Common.Message.Send(botClient, update, $"Неверный тип данных, попробуйте еще раз");

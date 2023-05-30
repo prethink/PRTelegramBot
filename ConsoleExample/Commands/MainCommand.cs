@@ -5,13 +5,14 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
+using PRTelegramBot.Models;
 
 namespace PRTelegramBot.Commands
 {
     internal class MainCommand
     {
         [ReplyMenuHandler(true, nameof(ReplyKeys.RP_MENU), nameof(ReplyKeys.RP_MAIN_MENU))]
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task MainMenu(ITelegramBotClient botClient, Update update)
         {
             try
@@ -36,7 +37,7 @@ namespace PRTelegramBot.Commands
             }
         }
 
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task MainMenu(ITelegramBotClient botClient, long telegramId, string message)
         {
             try

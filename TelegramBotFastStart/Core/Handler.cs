@@ -16,12 +16,12 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Маршрутизатор
         /// </summary>
-        private Router _router;
+        public Router Router { get; private set; }
 
         public Handler(ITelegramBotClient botClient)
         {
             _botClient = botClient;
-            _router = new Router(_botClient);
+            Router = new Router(_botClient);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                _router.ExecuteCommandByCallBack(update);
+                Router.ExecuteCommandByCallBack(update);
             }
             catch (Exception ex)
             {
@@ -235,7 +235,7 @@ namespace PRTelegramBot.Core
 
                 TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
                 
-                _router.ExecuteCommandByMessage(command, update);
+                Router.ExecuteCommandByMessage(command, update);
             }
             catch (Exception ex)
             {

@@ -42,7 +42,7 @@ namespace PRTelegramBot.Core
         /// <returns>Массив найденных методов</returns>
         public static MethodInfo[] FindMethods(Type type)
         {
-            string thisAssemblyName = Assembly.GetExecutingAssembly().GetName().FullName;
+            string thisAssemblyName = Assembly.GetEntryAssembly().GetName().FullName;
             var result = AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(x => x.FullName.ToLower() == thisAssemblyName.ToLower())
                 .GetTypes()

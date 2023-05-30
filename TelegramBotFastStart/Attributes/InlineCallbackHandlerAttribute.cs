@@ -5,7 +5,7 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Аттрибут для inline команд
     /// </summary>
-    internal class InlineCallbackHandlerAttribute : Attribute
+    public class InlineCallbackHandlerAttribute : Attribute
     {
         /// <summary>
         /// Коллекция inline команд

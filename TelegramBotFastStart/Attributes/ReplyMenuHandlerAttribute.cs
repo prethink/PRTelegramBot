@@ -5,7 +5,7 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Атрибут для reply методов
     /// </summary>
-    internal class ReplyMenuHandlerAttribute : Attribute
+    public class ReplyMenuHandlerAttribute : Attribute
     {
         /// <summary>
         /// Список reply команд

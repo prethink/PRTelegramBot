@@ -41,7 +41,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Обработчик для телеграм бота
         /// </summary>
-        private Handler _handler;
+        public Handler Handler;
 
         /// <summary>
         /// Токен 
@@ -130,15 +130,15 @@ namespace PRTelegramBot.Core
             try
             {
                 botClient = new TelegramBotClient(Token);
-                _handler = new Handler(botClient);
+                Handler = new Handler(botClient);
                 _cts = new CancellationTokenSource();
                 _options = new ReceiverOptions { AllowedUpdates = { } };
 
                 await ClearUpdates();
 
                 botClient.StartReceiving(
-                            _handler.HandleUpdateAsync,
-                            _handler.HandleErrorAsync,
+                            Handler.HandleUpdateAsync,
+                            Handler.HandleErrorAsync,
                             _options,
                             cancellationToken: _cts.Token);
 

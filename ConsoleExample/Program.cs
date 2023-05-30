@@ -17,9 +17,47 @@ Console.WriteLine($"Для закрытие программы напишите 
 
 #region запуск телеграм бота
 var telegram = TelegramService.GetInstance();
+
 telegram.OnLogCommon += Telegram_OnLogCommon;
 telegram.OnLogError += Telegram_OnLogError;
 await telegram.Start();
+
+telegram.Handler.Router.OnWrongTypeMessage += Router_OnWrongTypeMessage;
+telegram.Handler.Router.OnUserStartWithArgs += Router_OnUserStartWithArgs;
+telegram.Handler.Router.OnCheckPrivilege += Router_OnCheckPrivilege;
+telegram.Handler.Router.OnMissingCommand += Router_OnMissingCommand;
+telegram.Handler.Router.OnWrongTypeChat += Router_OnWrongTypeChat;
+
+async Task Router_OnWrongTypeChat(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
+{
+    string msg = "Неверный тип чата";
+    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+}
+
+async Task Router_OnMissingCommand(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
+{
+    string msg = "Не найдена команда";
+    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+}
+
+async Task Router_OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, PRTelegramBot.Models.Enums.UserPrivilege? requiredPrivilege)
+{
+    string msg = "Проверка привилегий";
+    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+}
+
+async Task Router_OnUserStartWithArgs(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, string args)
+{
+    string msg = "Пользователь отправил старт с аргументом";
+    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+}
+async Task Router_OnWrongTypeMessage(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
+{
+    string msg = "Неверный тип сообщения";
+    await PRTelegramBot.Commands.Common.Message.Send(botclient, update, msg);
+}
+
+
 #endregion
 
 #region Работа фоновых задач
@@ -99,8 +137,3 @@ while (true)
         Environment.Exit(0);
     }
 }
-
-
-
-
-

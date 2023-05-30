@@ -13,7 +13,7 @@ namespace PRTelegramBot.Commands
         /// Обработка команды старт
         /// </summary>
         [ReplyMenuHandler(true, nameof(ReplyKeys.RP_START))]
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task Start(ITelegramBotClient botClient, Update update)
         {
             await CheckRegister(botClient, update, true);
@@ -22,7 +22,7 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Обработка команды старт с аргументом
         /// </summary>
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task StartWithArguments(ITelegramBotClient botClient, Update update, string arg)
         {
             try
@@ -48,7 +48,7 @@ namespace PRTelegramBot.Commands
         /// </summary>
         /// <param name="showMsg">Показывать сообщение</param>
         /// <param name="refferId">Реф ссылка есть есть</param>
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task CheckRegister(ITelegramBotClient botClient, Update update, bool showMsg, string refferId = null)
         {
             try

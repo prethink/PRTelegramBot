@@ -5,14 +5,14 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Атрибут для определенных типов чата
     /// </summary>
-    internal class RequiredTypeUpdateAttribute : Attribute
+    public class RequiredTypeChatAttribute : Attribute
     {
         /// <summary>
         /// Коллекция допустимых чатов
         /// </summary>
         public List<ChatType> TypeUpdate { get; set; } = new List<ChatType>();
 
-        public RequiredTypeUpdateAttribute(params ChatType[] types)
+        public RequiredTypeChatAttribute(params ChatType[] types)
         {
             TypeUpdate.AddRange(types.ToList());
         }

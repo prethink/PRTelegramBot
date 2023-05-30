@@ -5,16 +5,16 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Метод сможет обработать только определенный тип сообщений
     /// </summary>
-    internal class RequireDateAttribute : Attribute
+    public class RequireTypeMessageAttribute : Attribute
     {
         /// <summary>
         /// Тип сообщения
         /// </summary>
-        public MessageType TypeData { get; set; }
+        public List<MessageType> TypeMessages { get; set; } = new List<MessageType>();
 
-        public RequireDateAttribute(MessageType typeData)
+        public RequireTypeMessageAttribute(params MessageType[] typeData)
         {
-            TypeData = typeData;
+            TypeMessages.AddRange(typeData.ToList());
         }
     }
 }

@@ -34,7 +34,6 @@ namespace PRTelegramBot.Examples
         /// Пример генерации reply меню
         /// </summary>
         [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE_REPLY_MENU)]
-        [SlashHandler(SlashKeys.SL_EXAMPLE_WITH_REPLY)]
         public static async Task ExampleReplyMenu(ITelegramBotClient botClient, Update update)
         {
             string msg = "Меню";
@@ -60,7 +59,7 @@ namespace PRTelegramBot.Examples
         /// Пример с использованием разных reply команд для вывода одной и той же функции
         /// </summary>
         [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE_ONE, ReplyKeys.RP_EXAMPLE_TWO)]
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text}";
@@ -75,8 +74,8 @@ namespace PRTelegramBot.Examples
         /// [RequireDate]Пример того что метод будет обрабатывать только текстовые сообщения
         /// </summary>
         [ReplyMenuHandler(true, nameof(ReplyKeys.RP_EXAMPLE_FROM_JSON))]
-        [RequiredTypeUpdate(Telegram.Bot.Types.Enums.ChatType.Private)]
-        [RequireDate(Telegram.Bot.Types.Enums.MessageType.Text)]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
         public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text} можете изменить значение команды в настройке appconfig.json";
