@@ -34,7 +34,7 @@ namespace PRTelegramBot.Core
         public delegate Task TelegramCommandWithPrivilage(ITelegramBotClient botclient, Update update, UserPrivilege? requiredPrivilege);
 
         /// <summary>
-        /// 
+        /// Событие когда пользователь написал start с аргументом
         /// </summary>
         public event TelegramCommandArgs OnUserStartWithArgs;
 
@@ -44,24 +44,24 @@ namespace PRTelegramBot.Core
         public event TelegramCommandWithPrivilage OnCheckPrivilege;
 
         /// <summary>
-        /// 
+        /// Событие когда указан не верный тип сообщения
         /// </summary>
         public event TelegramCommand OnWrongTypeMessage;
 
         /// <summary>
-        /// 
+        /// Событие когда указан не верный тип чат
         /// </summary>
         public event TelegramCommand OnWrongTypeChat;
 
         /// <summary>
-        /// 
+        /// Событие когда не найдена команда
         /// </summary>
         public event TelegramCommand OnMissingCommand;
 
 
 
         /// <summary>
-        /// 
+        /// Клиент для телеграм бота
         /// </summary>
         private ITelegramBotClient _botClient;
 
@@ -102,7 +102,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Автоматическая регистрация доступных команд для выполнения через рефлексию
         /// </summary>
-        public void RegisterCommnad()
+        internal void RegisterCommnad()
         {
             try
             {
@@ -158,7 +158,7 @@ namespace PRTelegramBot.Core
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
         /// <returns></returns>
-        public async Task<bool> IsSlashCommand(string command, Update update)
+        internal async Task<bool> IsSlashCommand(string command, Update update)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
-        public async Task ExecuteCommandByMessage(string command, Update update)
+        internal async Task ExecuteCommandByMessage(string command, Update update)
         {
             try
             {
@@ -272,7 +272,7 @@ namespace PRTelegramBot.Core
         /// Выполняет inline команду
         /// </summary>
         /// <param name="update">Обновление с телеграма</param>
-        public async Task ExecuteCommandByCallBack(Update update)
+        internal async Task ExecuteCommandByCallBack(Update update)
         {
             try
             {
@@ -321,7 +321,7 @@ namespace PRTelegramBot.Core
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
         /// <returns>True/false</returns>
-        public async Task<bool> IsHaveNextStep(string command, Update update)
+        internal async Task<bool> IsHaveNextStep(string command, Update update)
         {
             try
             {
@@ -391,7 +391,7 @@ namespace PRTelegramBot.Core
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
         /// <returns>True/false</returns>
-        public async Task<bool> StartHasDeepLink(string command, Update update)
+        internal async Task<bool> StartHasDeepLink(string command, Update update)
         {
             try
             {
