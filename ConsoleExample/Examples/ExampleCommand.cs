@@ -10,6 +10,7 @@ using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models.Interface;
 using System;
 using PRTelegramBot.Helpers;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Examples
 {

@@ -1,9 +1,9 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Models;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Examples
 {

@@ -2,8 +2,8 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Helpers.TG;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace CalendarPicker.CalendarControl
 {

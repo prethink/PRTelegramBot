@@ -10,10 +10,10 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using static PRTelegramBot.Extensions.Step;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
 using static PRTelegramBot.Core.TelegramService;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Core
 {

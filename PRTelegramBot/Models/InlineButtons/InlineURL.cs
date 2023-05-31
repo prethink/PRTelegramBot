@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Models.Interface;
 
-namespace PRTelegramBot.Models
+namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
     /// Создает кнопку с ссылкой

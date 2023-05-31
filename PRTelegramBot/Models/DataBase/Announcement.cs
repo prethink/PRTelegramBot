@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.Interface;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Models.DataBase
 {

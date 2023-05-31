@@ -4,7 +4,7 @@ using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.Interface;
 
-namespace PRTelegramBot.Models
+namespace PRTelegramBot.Models.InlineButtons
 {
 
     /// <summary>
@@ -121,7 +121,7 @@ namespace PRTelegramBot.Models
         public object GetContent()
         {
             var result = JsonConvert.SerializeObject(this);
-            var byteSize = result.Length * sizeof(Char);
+            var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
             {
                 throw new Exception($"Превышен лимит для callback_data {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Попробуйте уменьшить количество данных в команде");

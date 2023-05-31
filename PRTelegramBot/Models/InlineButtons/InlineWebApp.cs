@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using PRTelegramBot.Models.Interface;
 
-namespace PRTelegramBot.Models
+namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
     /// Создает кнопку для обработки WebApp

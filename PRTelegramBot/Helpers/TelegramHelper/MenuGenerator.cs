@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.Interface;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Helpers.TG
 {
