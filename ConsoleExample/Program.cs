@@ -58,32 +58,133 @@ if(telegram.Handler != null)
     //Обработка когда пользователю отказано в доступе
     telegram.Handler.Router.OnAccessDenied          += Router_OnAccessDenied;
 
+    //Обработка сообщения с документом
+    telegram.Handler.Router.OnDocumentHandle        += Router_OnDocumentHandle;
+
+    //Обработка сообщения с аудио
+    telegram.Handler.Router.OnAudioHandle           += Router_OnAudioHandle;
+
+    //Обработка сообщения с видео
+    telegram.Handler.Router.OnVideoHandle           += Router_OnVideoHandle;
+
+    //Обработка сообщения с фото
+    telegram.Handler.Router.OnPhotoHandle           += Router_OnPhotoHandle;
+
+    //Обработка сообщения с стикером
+    telegram.Handler.Router.OnStickerHandle         += Router_OnStickerHandle;
+
+    //Обработка сообщения с голосовым сообщением
+    telegram.Handler.Router.OnVoiceHandle           += Router_OnVoiceHandle;
+
+    //Обработка сообщения с незивестным типом
+    telegram.Handler.Router.OnUnknownHandle         += Router_OnUnknownHandle;
+
+    //Обработка сообщения с местоположением
+    telegram.Handler.Router.OnVenueHandle           += Router_OnVenueHandle;
+
+    //Обработка сообщения с игрой
+    telegram.Handler.Router.OnGameHandle            += Router_OnGameHandle;
+
+    //Обработка сообщения с видеозаметкой
+    telegram.Handler.Router.OnVideoNoteHandle       += Router_OnVideoNoteHandle;
+
+    //Обработка сообщения с игральной костью
+    telegram.Handler.Router.OnDiceHandle            += Router_OnDiceHandle;
+
+}
+
+async Task Router_OnDiceHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var dice = update.Message.Dice;
+    //Обработка данных
+}
+
+async Task Router_OnVideoNoteHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var videonote = update.Message.VideoNote;
+    //Обработка данных
+}
+
+async Task Router_OnGameHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var game = update.Message.Game;
+    //Обработка данных
+}
+
+async Task Router_OnVenueHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var venue = update.Message.Venue;
+    //Обработка данных
+}
+
+async Task Router_OnUnknownHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    //Обработка данных
+}
+
+async Task Router_OnVoiceHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var voice = update.Message.Voice;
+    //Обработка данных
+}
+
+async Task Router_OnStickerHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var sticker = update.Message.Sticker;
+    //Обработка данных
+}
+
+async Task Router_OnPhotoHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var photo = update.Message.Photo;
+    //Обработка данных
+}
+
+async Task Router_OnVideoHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var video = update.Message.Video;
+    //Обработка данных
+}
+
+async Task Router_OnAudioHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var audio = update.Message.Audio;
+    //Обработка данных
+}
+
+async Task Router_OnDocumentHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var document = update.Message.Document;
+    //Обработка данных
 }
 
 async Task Router_OnAccessDenied(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-    //Обработка если нет доступа
+    //Обработка данных
 }
 
 async Task Router_OnWebAppsHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-    var webAppData = update.Message.WebAppData.Data;
-    //Обработка данных WebApp
+    var webApp = update.Message.WebAppData;
+    //Обработка данных
 }
 
 async Task Router_OnPollHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-    //Обработка голосований
+    var poll = update.Message.Poll;
+    //Обработка данных
 }
 
 async Task Router_OnContactHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-    //Обработка контактов
+    var contact = update.Message.Contact;
+    //Обработка данных
 }
 
 async Task Router_OnLocationHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-    //Обработка локации
+    var location = update.Message.Location;
+    //Обработка данных
 }
 
 async Task Router_OnWrongTypeChat(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)

@@ -35,52 +35,106 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Событие когда пользователь написал start с аргументом
         /// </summary>
-        public event TelegramCommandArgs OnUserStartWithArgs;
+        public event TelegramCommandArgs? OnUserStartWithArgs;
 
         /// <summary>
         /// Событие когда нужно проверить привелегии перед выполнением команды
         /// </summary>
-        public event TelegramCommandWithPrivilage OnCheckPrivilege;
+        public event TelegramCommandWithPrivilage? OnCheckPrivilege;
 
         /// <summary>
         /// Событие когда указан не верный тип сообщения
         /// </summary>
-        public event TelegramCommand OnWrongTypeMessage;
+        public event TelegramCommand? OnWrongTypeMessage;
 
         /// <summary>
         /// Событие когда указан не верный тип чат
         /// </summary>
-        public event TelegramCommand OnWrongTypeChat;
+        public event TelegramCommand? OnWrongTypeChat;
 
         /// <summary>
         /// Событие когда не найдена команда
         /// </summary>
-        public event TelegramCommand OnMissingCommand;
+        public event TelegramCommand? OnMissingCommand;
 
         /// <summary>
         /// Событие Обработки контактных данных
         /// </summary>
-        public event TelegramCommand OnContactHandle;
+        public event TelegramCommand? OnContactHandle;
 
         /// <summary>
         /// Событие обработки голосований
         /// </summary>
-        public event TelegramCommand OnPollHandle;
+        public event TelegramCommand? OnPollHandle;
 
         /// <summary>
         /// Событие обработки локации
         /// </summary>
-        public event TelegramCommand OnLocationHandle;
+        public event TelegramCommand? OnLocationHandle;
         /// <summary>
         /// Событие обработки WebApps
         /// </summary>
-        public event TelegramCommand OnWebAppsHandle;
+        public event TelegramCommand? OnWebAppsHandle;
         
         /// <summary>
         /// Событие когда отказано в доступе
         /// </summary>
-        public event TelegramCommand OnAccessDenied;
+        public event TelegramCommand? OnAccessDenied;
 
+        /// <summary>
+        /// Событие обработки сообщением с документом
+        /// </summary>
+        public event TelegramCommand? OnDocumentHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с аудио
+        /// </summary>
+        public event TelegramCommand? OnAudioHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с видео
+        /// </summary>
+        public event TelegramCommand? OnVideoHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с фото
+        /// </summary>
+        public event TelegramCommand? OnPhotoHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с стикером
+        /// </summary>
+        public event TelegramCommand? OnStickerHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с голосовым сообщением
+        /// </summary>
+        public event TelegramCommand? OnVoiceHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с неизвестный типом сообщения
+        /// </summary>
+        public event TelegramCommand? OnUnknownHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с местом
+        /// </summary>
+        public event TelegramCommand? OnVenueHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с игрой
+        /// </summary>
+        public event TelegramCommand? OnGameHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с видеозаметкой
+        /// </summary>
+        public event TelegramCommand? OnVideoNoteHandle;
+
+        /// <summary>
+        /// Событие обработки сообщением с игральной кости
+        /// </summary>
+        public event TelegramCommand? OnDiceHandle;
 
 
         /// <summary>
@@ -132,6 +186,17 @@ namespace PRTelegramBot.Core
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Location, OnLocationHandle);
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.WebAppData, OnWebAppsHandle);
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Poll, OnPollHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Document, OnDocumentHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Audio, OnAudioHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Video, OnVideoHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Photo, OnPhotoHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Sticker, OnStickerHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Voice, OnVoiceHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Unknown, OnUnknownHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Venue, OnVenueHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Game, OnGameHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.VideoNote, OnVideoNoteHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Dice, OnDiceHandle);
         }
 
         /// <summary>
@@ -251,17 +316,6 @@ namespace PRTelegramBot.Core
                     command = command.Remove(command.LastIndexOf("(") - 1);
                 }
 
-                UpdateEventLink();
-                //Вызываем свое событие для определенных типов сообщений
-                foreach (var item in typeMessage)
-                {
-                    if(item.Key == update.Message.Type)
-                    {
-                        item.Value?.Invoke(_botClient, update);
-                        return;
-                    }
-                }
-
                 //
                 if (await StartHasDeepLink(command, update))
                     return;
@@ -273,6 +327,17 @@ namespace PRTelegramBot.Core
                 //
                 if (await IsHaveNextStep(command, update))
                     return;
+
+                UpdateEventLink();
+                //Вызываем свое событие для определенных типов сообщений
+                foreach (var item in typeMessage)
+                {
+                    if (item.Key == update.Message.Type)
+                    {
+                        item.Value?.Invoke(_botClient, update);
+                        return;
+                    }
+                }
 
                 //
                 foreach (var commandExecute in messageCommands)

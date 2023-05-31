@@ -27,20 +27,20 @@ namespace PRTelegramBot.Configs
         {
             string assemblyPath = Assembly.GetEntryAssembly().Location;
             string basedir = Path.GetDirectoryName(assemblyPath);
-            string configJson = "Configs/appconfig.json";
-            string telegramJson = "Configs/telegram.json";
+            string configJson = "Configs\\appconfig.json";
+            string telegramJson = "Configs\\telegram.json";
 
             string fullPathAppConfig = Path.Combine(basedir, configJson);
             string fullPathTelegramConfig = Path.Combine(basedir, telegramJson);
 
             if (!File.Exists(fullPathAppConfig))
             {
-                CopyTemplate("PRTelegramBot.Configs.appconfig.json", fullPathAppConfig);
+                CopyTemplate("PRTelegramBot.Resources.appconfig.json", fullPathAppConfig);
             }
 
             if (!File.Exists(fullPathTelegramConfig))
             {
-                CopyTemplate("PRTelegramBot.Configs.telegram.json", fullPathTelegramConfig);
+                CopyTemplate("PRTelegramBot.Resources.telegram.json", fullPathTelegramConfig);
             }
 
             config = new ConfigurationBuilder()
@@ -60,7 +60,7 @@ namespace PRTelegramBot.Configs
                 {
                     throw new Exception("Ресурсный файл не найден.");
                 }
-
+                Directory.CreateDirectory(Path.GetDirectoryName(pathFile));
                 using (FileStream fileStream = new FileStream(pathFile, FileMode.Create))
                 {
                     stream.CopyTo(fileStream);

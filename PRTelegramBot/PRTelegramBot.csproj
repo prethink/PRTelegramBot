@@ -26,10 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Configs\appconfig.json">
+    <EmbeddedResource Include="Resources\appconfig.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configs\telegram.json">
+    <EmbeddedResource Include="Resources\telegram.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
