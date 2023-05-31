@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>WebAppTest</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div><center><h1>Тестирование WebApp</h1></center></div>
+    <script>
+        $(document).ready(function () {
+            window.Telegram.WebApp.MainButton.setParams({ text: 'Сохранить' });
+            window.Telegram.WebApp.MainButton.enable();
+            window.Telegram.WebApp.MainButton.onClick(OnClickTelegram);
+            window.Telegram.WebApp.expand();
+            window.Telegram.WebApp.ready();
+        });
+
+        function OnClickTelegram() {
+            window.Telegram.WebApp.sendData("WebApp данные :)");
+            window.Telegram.WebApp.close();
+        }
+
+
+    </script>
+</body>
+</html>
