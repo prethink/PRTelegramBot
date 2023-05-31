@@ -26,7 +26,8 @@ namespace PRTelegramBot.Models
 
         public object GetContent()
         {
-            var webApp = new WebAppInfo().Url = WebAppUrl;
+            var webApp = new WebAppInfo();
+            webApp.Url = WebAppUrl;
             return webApp;
         }
 
