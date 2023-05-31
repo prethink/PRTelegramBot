@@ -114,7 +114,7 @@ namespace PRTelegramBot.Core
                 var telegramConfig = ConfigApp.GetSettingsTelegram<TelegramConfig>();
                 if (string.IsNullOrEmpty(telegramConfig.Token))
                 {
-                    throw new Exception($"Пустой {nameof(telegramConfig.Token)} при создание объекта {typeof(TelegramService)}");
+                    throw new Exception($"Пустой {nameof(telegramConfig.Token)} при создание объекта {typeof(TelegramService)}\nПроверьте файл ../Configs/telegram.json");
                 }
                 Instance = new TelegramService(telegramConfig.Token);
             }
