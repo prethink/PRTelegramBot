@@ -40,7 +40,7 @@
 > 5. После успешного создания бота BotFather выдаст вам токен доступа. Это будет выглядеть примерно так: "1234567890:ABCDEFGHIJKLMNOPQRSTUVXYZ".
 > 6. Скопируйте полученный токен. Этот токен уникален для вашего бота и используется для аутентификации и взаимодействия с API Telegram.
 
-### telegram.json
+### Configs/telegram.json
 telegram - хранит информацию о подключении к базе данных и телеграм api;
 ```json
 //После изменения конфигурации обязательно перезапустите программу!!!
@@ -58,7 +58,7 @@ telegram - хранит информацию о подключении к баз
 }
 ```
 
-### appconfig.json
+### Configs/appconfig.json
 appconfig - хранит информацию настройки программы, и позволяет менять их без необходимости перекомпиляции. Данные которые хранит:
 - Дополнительные переменные;
 - Словарик для текстовых сообщений;
@@ -96,7 +96,9 @@ appconfig - хранит информацию настройки програм�
 - ***ExampleCommand.cs*** - Пример как создавать reply, inline и слеш команды.
 - ***ExampleHandlers.cs*** - Пример как можно обрабатывать callback данные.
 - ***ExampleStepCommand.cs*** - Пример c пошаговым выполнением команд.
-- ***ExampleUserCache.cs*** - Пример c кэш данными пользователя.
+- ***ExampleUserCache.cs*** - Пример c кэш данными пользователя.    
+- ***WebApp.html*** - Скромный пример что требуется для WebApp страницы.   
+
 
 ### Работа с Reply командами
 Пример
@@ -109,7 +111,7 @@ appconfig - хранит информацию настройки програм�
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
             string msg = "Cообщение";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
         
         /// <summary>
@@ -123,7 +125,7 @@ appconfig - хранит информацию настройки програм�
         {
             //Пример как получить текст сообщения из JSON файла
             string msg = MessageKeys.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -135,7 +137,7 @@ appconfig - хранит информацию настройки програм�
         public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text}";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
 
@@ -151,7 +153,7 @@ appconfig - хранит информацию настройки програм�
         public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Вы написали в чате {update.Message.Text} можете изменить значение команды в настройке appconfig.json";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 ```
 #### Создание Reply меню
@@ -190,7 +192,7 @@ appconfig - хранит информацию настройки програм�
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Commands.Common.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
 ```
 ### Работа с Inline командами
@@ -225,6 +227,8 @@ appconfig - хранит информацию настройки програм�
             var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", Models.Enums.CallbackId.ExampleThree, new EntityTCommand(3));
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
+            // Создаем кнопку для работы с webApp
+            var webdata = new InlineWebApp("WA", "https://prethink.github.io/telegram/webapp.html");
 
             //IInlineContent - реализуют все inline кнопки
             List<IInlineContent> menu = new();
@@ -233,6 +237,7 @@ appconfig - хранит информацию настройки програм�
             menu.Add(exampleItemTwo);
             menu.Add(exampleItemThree);
             menu.Add(url);
+            menu.Add(webdata);
 
             //Генерация меню на основе данных в 1 столбец
             var testMenu = MenuGenerator.InlineKeyboard(1, menu);
@@ -243,7 +248,7 @@ appconfig - хранит информацию настройки програм�
             option.MenuInlineKeyboardMarkup = testMenu;
             string msg = "Пример работы меню";
             //Отправка сообщение с меню
-            await Commands.Common.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
 ```
 #### Обработка Inline данных
@@ -263,7 +268,7 @@ appconfig - хранит информацию настройки програм�
                 if (command != null)
                 {
                     string msg = "Выполнена команда callback";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             catch (Exception ex)
@@ -286,7 +291,7 @@ appconfig - хранит информацию настройки програм�
                 if (command != null)
                 {
                     string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             catch (Exception ex)
@@ -306,7 +311,7 @@ appconfig - хранит информацию настройки програм�
         public static async Task SlashCommand(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Команда {SlashKeys.SL_EXAMPLE}";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -321,18 +326,18 @@ appconfig - хранит информацию настройки програм�
                 if (spl.Length > 1)
                 {
                     string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET} со значением {spl[1]}";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
                 else
                 {
                     string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET}";
-                    await Commands.Common.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             else
             {
                 string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET}";
-                await Commands.Common.Message.Send(botClient, update, msg);
+                await Helpers.Message.Send(botClient, update, msg);
             }
         }
 ```
@@ -372,7 +377,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             string msg = $"Запись в кэш пользователя данных: {update.GetChatId()}";
             //Записываем данные в кеш пользователя
             update.GetCacheData().Id = update.GetChatId();
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -393,7 +398,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             {
                 msg = $"Данные в кэше пользователя отсутствуют.";
             }
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -406,7 +411,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             string msg = "Тестирование функции пошагового выполнения";
             //Очищаем кеш для пользователя
             update.GetCacheData().ClearData();
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 ```
 
@@ -425,7 +430,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             string msg = "Тестирование функции пошагового выполнения";
             //Регистрация следующего шага пользователя
             update.RegisterNextStep(new StepTelegram(StepOne));
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -437,7 +442,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             string msg = "Шаг 1";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -454,7 +459,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
             option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, MessageKeys.GetValueButton(nameof(ReplyKeys.RP_MAIN_MENU)));
-            await Commands.Common.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
 
 
@@ -464,7 +469,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         public static async Task StepThree(ITelegramBotClient botClient, Update update)
         {
             string msg = "Шаг 3";
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
@@ -484,7 +489,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
                 msg = "Следующий шаг отсутствовал";
             }
             
-            await Commands.Common.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(botClient, update, msg);
         }
 ```
 
