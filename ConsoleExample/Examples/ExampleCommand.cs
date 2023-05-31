@@ -112,7 +112,7 @@ namespace PRTelegramBot.Examples
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
             // Создаем кнопку для работы с webApp
-            var webdata = new InlineWebApp("WebAppp", "https://google.com");
+            var webdata = new InlineWebApp("WebApp test", "https://prethink.github.io/telegram/webapp.html");
 
             //IInlineContent - реализуют все inline кнопки
             List<IInlineContent> menu = new();
