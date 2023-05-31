@@ -27,6 +27,20 @@ namespace PRTelegramBot.Helpers.TG
         /// <summary>
         /// Генерирует reply меню для бота
         /// </summary>
+        /// <param name="maxColumn">Максимальное количество столбцов</param>
+        /// <param name="keyboardButtons">Коллекция кнопок</param>
+        /// <param name="resizeKeyboard">Изменяет размер по вертикали</param>
+        /// <param name="mainMenu">Есть не пусто, добавляет главное меню</param>
+        /// <returns>Готовое меню</returns>
+        public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<KeyboardButton> keyboardButtons, bool resizeKeyboard = true, string mainMenu = "")
+        {
+            var buttons = ReplyButtons(maxColumn, keyboardButtons, mainMenu);
+            return ReplyKeyboard(buttons, resizeKeyboard);
+        }
+
+        /// <summary>
+        /// Генерирует reply меню для бота
+        /// </summary>
         /// <param name="buttons"></param>
         /// <param name="resizeKeyboard">Изменяет размер по вертикали</param>
         /// <param name="mainMenu">Есть не пусто, добавляет главное меню</param>
@@ -56,21 +70,38 @@ namespace PRTelegramBot.Helpers.TG
         /// <returns>Коллекция кнопок</returns>
         public static List<List<KeyboardButton>> ReplyButtons(int maxColumn, List<string> menu, string mainMenu = "")
         {
-            List<List<KeyboardButton>> buttons = new();
+            List<KeyboardButton> buttons = new();
+            foreach (var item in menu)
+            {
+                buttons.Add(new KeyboardButton(item));
+            }
+            return ReplyButtons(maxColumn, buttons, mainMenu);
+        }
+
+        /// <summary>
+        /// Генерирует reply кнокпи для бота
+        /// </summary>
+        /// <param name="maxColumn">Максимальное количество столбцов</param>
+        /// <param name="buttons">Кнокпки</param>
+        /// <param name="mainMenu">Есть не пусто, добавляет главное меню</param>
+        /// <returns>Коллекция кнопок</returns>
+        public static List<List<KeyboardButton>> ReplyButtons(int maxColumn, List<KeyboardButton> buttons, string mainMenu = "")
+        {
+            List<List<KeyboardButton>> generateButtons = new();
 
             int row = 0;
             int currentElement = 0;
 
-            foreach (var item in menu)
+            foreach (var item in buttons)
             {
                 if (currentElement == 0)
                 {
-                    buttons.Add(new List<KeyboardButton>());
-                    buttons[row].Add(new KeyboardButton(item));
+                    generateButtons.Add(new List<KeyboardButton>());
+                    generateButtons[row].Add(item);
                 }
                 else
                 {
-                    buttons[row].Add(new KeyboardButton(item));
+                    generateButtons[row].Add(item);
                 }
 
                 currentElement++;
@@ -84,13 +115,13 @@ namespace PRTelegramBot.Helpers.TG
 
             if (!string.IsNullOrWhiteSpace(mainMenu))
             {
-                buttons.Add(new List<KeyboardButton>());
+                generateButtons.Add(new List<KeyboardButton>());
                 if (currentElement != 0)
                     row++;
-                buttons[row].Add(mainMenu);
+                generateButtons[row].Add(mainMenu);
             }
 
-            return buttons;
+            return generateButtons;
         }
 
         /// <summary>

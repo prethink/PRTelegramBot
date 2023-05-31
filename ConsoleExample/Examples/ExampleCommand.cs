@@ -11,6 +11,7 @@ using PRTelegramBot.Models.Interface;
 using System;
 using PRTelegramBot.Helpers;
 using PRTelegramBot.Models.InlineButtons;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Examples
 {
@@ -42,12 +43,16 @@ namespace PRTelegramBot.Examples
             //Создаем настройки сообщения
             var option = new OptionMessage();
             //Создаем список для меню
-            var menuList = new List<string>();
+            var menuList = new List<KeyboardButton>();
             //Добавляем пункты меню
-            menuList.Add("Пункт 1");
-            menuList.Add("Пункт 2");
-            menuList.Add("Пункт 3");
-            menuList.Add("Пункт 4");
+            menuList.Add(new KeyboardButton("Кнопка 1"));
+            menuList.Add(KeyboardButton.WithRequestContact("Отправить свой контакт"));
+            menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
+            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat() { RequestId = 2}));
+            menuList.Add(KeyboardButton.WithRequestUser("Отправить пользователя боту", new KeyboardButtonRequestUser() { RequestId = 1}));
+            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою локацию"));
+            menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html"}));
+ 
             //Генерируем reply меню
             //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
