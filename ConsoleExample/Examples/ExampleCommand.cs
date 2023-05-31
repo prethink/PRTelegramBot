@@ -44,13 +44,18 @@ namespace PRTelegramBot.Examples
             var option = new OptionMessage();
             //Создаем список для меню
             var menuList = new List<KeyboardButton>();
-            //Добавляем пункты меню
+            //Добавляем кнопку с текстом
             menuList.Add(new KeyboardButton("Кнопка 1"));
+            //Добавляем кнопку с текстом
             menuList.Add(KeyboardButton.WithRequestContact("Отправить свой контакт"));
             menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
+            //Добавляем кнопку с текстом
             menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat() { RequestId = 2}));
+            //Добавляем кнопку с текстом
             menuList.Add(KeyboardButton.WithRequestUser("Отправить пользователя боту", new KeyboardButtonRequestUser() { RequestId = 1}));
-            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою локацию"));
+            //Добавляем кнопку с текстом
+            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование"));
+            //Добавляем кнопку с текстом
             menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html"}));
  
             //Генерируем reply меню
