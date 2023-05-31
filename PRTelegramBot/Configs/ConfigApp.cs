@@ -56,7 +56,8 @@ namespace PRTelegramBot.Configs
     {
         public string Token { get; set; }
         public List<long> WhiteListUsers { get; set; } 
-        public List<long> Admins { get; set; } 
+        public List<long> Admins { get; set; }
+        public bool ShowErrorNotFoundNameButton { get; set; }
     }
 
     /// <summary>
@@ -101,7 +102,7 @@ namespace PRTelegramBot.Configs
             if (result.Contains("NOT_FOUND"))
             {
                 //TODO: Поправить
-                var showErrors = false;
+                var showErrors = ConfigApp.GetSettingsTelegram<TelegramConfig>().ShowErrorNotFoundNameButton;
                 if (showErrors)
                 {
                     Console.WriteLine($"Обнаружена проблема в кнопке {result} | вызов {methodName}");

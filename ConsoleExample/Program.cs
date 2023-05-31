@@ -23,6 +23,7 @@ var telegram = TelegramService.GetInstance();
 telegram.OnLogCommon                += Telegram_OnLogCommon;
 //Подписка на логи с ошибками
 telegram.OnLogError                 += Telegram_OnLogError;
+//Запуск работы бота
 await telegram.Start();
 
 if(telegram.Handler != null)
@@ -61,7 +62,7 @@ if(telegram.Handler != null)
 
 async Task Router_OnAccessDenied(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-    throw new NotImplementedException();
+    //Обработка если нет доступа
 }
 
 async Task Router_OnWebAppsHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)

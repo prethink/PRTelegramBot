@@ -47,6 +47,26 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
+        /// Проверка что пользователь администратор из конфига
+        /// </summary>
+        /// <param name="update">Обновление полученное с телеграма</param>
+        /// <returns>true/false</returns>
+        public static bool IsAdmin(this Update update)
+        {
+            try
+            {
+                var telegramId = update.GetChatId();
+                var admins = ConfigApp.GetSettings<TelegramConfig>().Admins;
+                return admins != null ? admins.Contains(telegramId) : false;
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Информация о пользователе
         /// </summary>
         /// <param name="update">Обновление полученное с телеграма</param>
