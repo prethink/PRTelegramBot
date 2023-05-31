@@ -111,6 +111,8 @@ namespace PRTelegramBot.Examples
             var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", Models.Enums.CallbackId.ExampleThree, new EntityTCommand(3));
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
+            // Создаем кнопку для работы с webApp
+            var webdata = new InlineWebApp("WebAppp", "https://google.com");
 
             //IInlineContent - реализуют все inline кнопки
             List<IInlineContent> menu = new();
@@ -119,6 +121,7 @@ namespace PRTelegramBot.Examples
             menu.Add(exampleItemTwo);
             menu.Add(exampleItemThree);
             menu.Add(url);
+            menu.Add(webdata);
 
             //Генерация меню на основе данных в 1 столбец
             var testMenu = MenuGenerator.InlineKeyboard(1, menu);

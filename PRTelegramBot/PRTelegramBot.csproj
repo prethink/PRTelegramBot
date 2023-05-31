@@ -15,20 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Common\" />
-    <Folder Include="Commands\Constants\" />
     <Folder Include="Helpers\Controls\" />
     <Folder Include="Uploads\Images\" />
     <Folder Include="Uploads\Users\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Configs\appconfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Configs\dbconfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

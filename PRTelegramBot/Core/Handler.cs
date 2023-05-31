@@ -3,6 +3,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Configs;
 
 namespace PRTelegramBot.Core
 {
@@ -35,6 +36,16 @@ namespace PRTelegramBot.Core
         {
             try
             {
+                var whitelist = ConfigApp.GetSettingsTelegram<TelegramConfig>().WhiteListUsers;
+                if(whitelist?.Count > 0)
+                {
+                    if(!whitelist.Contains(update.GetChatId()))
+                    {
+                        await Router.OnAccessDeniedInvoke(_botClient, update);
+                        return;
+                    }
+                }
+
                 switch (update.Type)
                 {
                     case UpdateType.Unknown:

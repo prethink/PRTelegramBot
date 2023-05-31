@@ -71,6 +71,15 @@ namespace PRTelegramBot.Core
         /// Событие обработки локации
         /// </summary>
         public event TelegramCommand OnLocationHandle;
+        /// <summary>
+        /// Событие обработки WebApps
+        /// </summary>
+        public event TelegramCommand OnWebAppsHandle;
+        
+        /// <summary>
+        /// Событие когда отказано в доступе
+        /// </summary>
+        public event TelegramCommand OnAccessDenied;
 
 
 
@@ -121,6 +130,7 @@ namespace PRTelegramBot.Core
             typeMessage = new();
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Contact, OnContactHandle);
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Location, OnLocationHandle);
+            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.WebAppData, OnWebAppsHandle);
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Poll, OnPollHandle);
         }
 
@@ -199,14 +209,14 @@ namespace PRTelegramBot.Core
                         {
                             if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
                             {
-                                await OnWrongTypeChat?.Invoke(_botClient, update);
+                                OnWrongTypeChat?.Invoke(_botClient, update);
                                 return true;
                             }
                         }
                         var privilages = commandExecute.Value.Method.GetCustomAttribute<AccessAttribute>();
                         if (privilages != null && privilages.RequiredPrivilege != null)
                         {
-                            await OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                            OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
                             return true;
                         }
                         else
@@ -278,7 +288,7 @@ namespace PRTelegramBot.Core
                         {
                             if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
                             {
-                                await OnWrongTypeChat?.Invoke(_botClient, update);
+                                OnWrongTypeChat?.Invoke(_botClient, update);
                                 return;
                             }
                         }
@@ -286,13 +296,13 @@ namespace PRTelegramBot.Core
                         {
                             if (!requireDate.TypeMessages.Contains(update.Message.Type))
                             {
-                                await OnWrongTypeMessage?.Invoke(_botClient, update);
+                                OnWrongTypeMessage?.Invoke(_botClient, update);
                                 return;
                             }
                         }
                         if (privilages != null && privilages.RequiredPrivilege != null)
                         {
-                            await OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                            OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
                             return;
                         }
 
@@ -301,7 +311,7 @@ namespace PRTelegramBot.Core
                     }
                 }
 
-                await OnMissingCommand?.Invoke(_botClient, update);
+                OnMissingCommand?.Invoke(_botClient, update);
             }
             catch (Exception ex)
             {
@@ -331,14 +341,14 @@ namespace PRTelegramBot.Core
                             {
                                 if (!requireUpdate.TypeUpdate.Contains(update.CallbackQuery.Message.Chat.Type))
                                 {
-                                    await OnWrongTypeChat?.Invoke(_botClient, update);
+                                    OnWrongTypeChat?.Invoke(_botClient, update);
                                     return;
                                 }
                             }
                             var privilages = commandCallback.Value.Method.GetCustomAttribute<AccessAttribute>();
                             if (privilages != null && privilages.RequiredPrivilege != null)
                             {
-                                await OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                                OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
                             }
                             else
                             {
@@ -377,7 +387,7 @@ namespace PRTelegramBot.Core
                             {
                                 if (!requireUpdatex.TypeUpdate.Contains(update.Message.Chat.Type))
                                 {
-                                    await OnWrongTypeChat?.Invoke(_botClient, update);
+                                    OnWrongTypeChat?.Invoke(_botClient, update);
                                     return true;
                                 }
                             }
@@ -396,7 +406,7 @@ namespace PRTelegramBot.Core
                     {
                         if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
                         {
-                            await OnWrongTypeChat?.Invoke(_botClient, update);
+                            OnWrongTypeChat?.Invoke(_botClient, update);
                             return true;
                         }
                     }
@@ -404,13 +414,13 @@ namespace PRTelegramBot.Core
                     {
                         if(!requireDate.TypeMessages.Contains(update.Message.Type))
                         {
-                            await OnWrongTypeMessage?.Invoke(_botClient, update);
+                            OnWrongTypeMessage?.Invoke(_botClient, update);
                             return true;
                         }
                     }
                     if (privilages != null && privilages.RequiredPrivilege != null)
                     {
-                        await OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                        OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
                         return true;
                     }
                     await cmd(_botClient, update);
@@ -443,7 +453,7 @@ namespace PRTelegramBot.Core
                     {
                         if (update.Message.Chat.Type == Telegram.Bot.Types.Enums.ChatType.Private)
                         {
-                            await OnUserStartWithArgs?.Invoke(_botClient, update, spl[1]);
+                            OnUserStartWithArgs?.Invoke(_botClient, update, spl[1]);
                         }
                         return true;
                     }
@@ -457,6 +467,11 @@ namespace PRTelegramBot.Core
                 TelegramService.GetInstance().InvokeErrorLog(ex);
                 return false;
             }
+        }
+
+        internal async Task OnAccessDeniedInvoke(ITelegramBotClient botClient, Update update)
+        {
+            OnAccessDenied?.Invoke(botClient, update);
         }
     }
 }

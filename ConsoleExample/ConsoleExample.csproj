@@ -15,7 +15,7 @@
     <None Update="Configs\appconfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Configs\dbconfig.json">
+    <None Update="Configs\telegram.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

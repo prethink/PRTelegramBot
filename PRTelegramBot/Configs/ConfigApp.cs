@@ -11,7 +11,7 @@ namespace PRTelegramBot.Configs
     public class ConfigApp
     {
         public IConfigurationRoot config { get; }
-        public IConfigurationRoot dbConfig { get; }
+        public IConfigurationRoot telegramConfig { get; }
 
         private static ConfigApp Instance;
 
@@ -28,9 +28,9 @@ namespace PRTelegramBot.Configs
                      .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                      .AddJsonFile("Configs/appconfig.json").Build();
 
-            dbConfig = new ConfigurationBuilder()
+            telegramConfig = new ConfigurationBuilder()
                      .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                     .AddJsonFile("Configs/dbconfig.json").Build();
+                     .AddJsonFile("Configs/telegram.json").Build();
         }
 
         public static T GetSettings<T>()
@@ -40,9 +40,9 @@ namespace PRTelegramBot.Configs
             return section.Get<T>();
         }
 
-        public static T GetSettingsDB<T>()
+        public static T GetSettingsTelegram<T>()
         {
-            var config = GetInstance().dbConfig;
+            var config = GetInstance().telegramConfig;
             var section = config.GetSection(typeof(T).Name);
             return section.Get<T>();
         }
@@ -55,29 +55,8 @@ namespace PRTelegramBot.Configs
     public class TelegramConfig
     {
         public string Token { get; set; }
-    }
-    
-    /// <summary>
-    /// Настройки базы данных
-    /// </summary>
-    public class DatabaseConfig
-    {
-        public string Host { get; set; }
-        public string Port { get; set; }
-        public string Database { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-    }
-
-    /// <summary>
-    /// Главные настройки
-    /// </summary>
-    class SettingsConfig
-    {
-        public bool ShowNotifyRegisterUserForAdmin { get; set; }
-        public List<long> Admins { get; set; }
-        public int WordLength { get; set; }
-        public bool ShowErrorNotFoundNameButton { get; set; }
+        public List<long> WhiteListUsers { get; set; } 
+        public List<long> Admins { get; set; } 
     }
 
     /// <summary>
@@ -121,7 +100,8 @@ namespace PRTelegramBot.Configs
             var result = value ?? $"NOT_FOUND_{button}";
             if (result.Contains("NOT_FOUND"))
             {
-                var showErrors = ConfigApp.GetSettings<SettingsConfig>().ShowErrorNotFoundNameButton;
+                //TODO: Поправить
+                var showErrors = false;
                 if (showErrors)
                 {
                     Console.WriteLine($"Обнаружена проблема в кнопке {result} | вызов {methodName}");

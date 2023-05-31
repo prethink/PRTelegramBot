@@ -4,7 +4,6 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Configs;
 using Telegram.Bot.Types;
-using PRTelegramBot.Models;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -20,18 +19,56 @@ Console.WriteLine($"Для закрытие программы напишите 
 #region запуск телеграм бота
 var telegram = TelegramService.GetInstance();
 
-telegram.OnLogCommon += Telegram_OnLogCommon;
-telegram.OnLogError += Telegram_OnLogError;
+//Подписка на простые логи
+telegram.OnLogCommon                += Telegram_OnLogCommon;
+//Подписка на логи с ошибками
+telegram.OnLogError                 += Telegram_OnLogError;
 await telegram.Start();
 
-telegram.Handler.Router.OnWrongTypeMessage += Router_OnWrongTypeMessage;
-telegram.Handler.Router.OnUserStartWithArgs += Router_OnUserStartWithArgs;
-telegram.Handler.Router.OnCheckPrivilege += Router_OnCheckPrivilege;
-telegram.Handler.Router.OnMissingCommand += Router_OnMissingCommand;
-telegram.Handler.Router.OnWrongTypeChat += Router_OnWrongTypeChat;
-telegram.Handler.Router.OnLocationHandle += Router_OnLocationHandle;
-telegram.Handler.Router.OnContactHandle += Router_OnContactHandle;
-telegram.Handler.Router.OnPollHandle += Router_OnPollHandle;
+if(telegram.Handler != null)
+{
+    //Обработка не правильный тип сообщений
+    telegram.Handler.Router.OnWrongTypeMessage      += Router_OnWrongTypeMessage;
+
+    //Обработка пользователь написал в чат start с deeplink
+    telegram.Handler.Router.OnUserStartWithArgs     += Router_OnUserStartWithArgs;
+
+    //Обработка проверка привилегий
+    telegram.Handler.Router.OnCheckPrivilege        += Router_OnCheckPrivilege;
+
+    //Обработка пропущеной команды
+    telegram.Handler.Router.OnMissingCommand        += Router_OnMissingCommand;
+
+    //Обработка не верного типа чата
+    telegram.Handler.Router.OnWrongTypeChat         += Router_OnWrongTypeChat;
+
+    //Обработка локаций
+    telegram.Handler.Router.OnLocationHandle        += Router_OnLocationHandle;
+
+    //Обработка контактных данных
+    telegram.Handler.Router.OnContactHandle         += Router_OnContactHandle;
+
+    //Обработка голосований
+    telegram.Handler.Router.OnPollHandle            += Router_OnPollHandle;
+
+    //Обработка WebApps
+    telegram.Handler.Router.OnWebAppsHandle         += Router_OnWebAppsHandle;
+
+    //Обработка когда пользователю отказано в доступе
+    telegram.Handler.Router.OnAccessDenied          += Router_OnAccessDenied;
+
+}
+
+async Task Router_OnAccessDenied(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    throw new NotImplementedException();
+}
+
+async Task Router_OnWebAppsHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    var webAppData = update.Message.WebAppData.Data;
+    //Обработка данных WebApp
+}
 
 async Task Router_OnPollHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
