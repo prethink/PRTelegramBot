@@ -4,6 +4,7 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Configs;
 using Telegram.Bot.Types;
+using ConsoleExample.Examples;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -29,193 +30,69 @@ await telegram.Start();
 if(telegram.Handler != null)
 {
     //Обработка не правильный тип сообщений
-    telegram.Handler.Router.OnWrongTypeMessage      += Router_OnWrongTypeMessage;
+    telegram.Handler.Router.OnWrongTypeMessage      += ExampleEvent.OnWrongTypeMessage;
 
     //Обработка пользователь написал в чат start с deeplink
-    telegram.Handler.Router.OnUserStartWithArgs     += Router_OnUserStartWithArgs;
+    telegram.Handler.Router.OnUserStartWithArgs     += ExampleEvent.OnUserStartWithArgs;
 
     //Обработка проверка привилегий
-    telegram.Handler.Router.OnCheckPrivilege        += Router_OnCheckPrivilege;
+    telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
 
     //Обработка пропущеной команды
-    telegram.Handler.Router.OnMissingCommand        += Router_OnMissingCommand;
+    telegram.Handler.Router.OnMissingCommand        += ExampleEvent.OnMissingCommand;
 
     //Обработка не верного типа чата
-    telegram.Handler.Router.OnWrongTypeChat         += Router_OnWrongTypeChat;
+    telegram.Handler.Router.OnWrongTypeChat         += ExampleEvent.OnWrongTypeChat;
 
     //Обработка локаций
-    telegram.Handler.Router.OnLocationHandle        += Router_OnLocationHandle;
+    telegram.Handler.Router.OnLocationHandle        += ExampleEvent.OnLocationHandle;
 
     //Обработка контактных данных
-    telegram.Handler.Router.OnContactHandle         += Router_OnContactHandle;
+    telegram.Handler.Router.OnContactHandle         += ExampleEvent.OnContactHandle;
 
     //Обработка голосований
-    telegram.Handler.Router.OnPollHandle            += Router_OnPollHandle;
+    telegram.Handler.Router.OnPollHandle            += ExampleEvent.OnPollHandle;
 
     //Обработка WebApps
-    telegram.Handler.Router.OnWebAppsHandle         += Router_OnWebAppsHandle;
+    telegram.Handler.Router.OnWebAppsHandle         += ExampleEvent.OnWebAppsHandle;
 
     //Обработка когда пользователю отказано в доступе
-    telegram.Handler.Router.OnAccessDenied          += Router_OnAccessDenied;
+    telegram.Handler.Router.OnAccessDenied          += ExampleEvent.OnAccessDenied;
 
     //Обработка сообщения с документом
-    telegram.Handler.Router.OnDocumentHandle        += Router_OnDocumentHandle;
+    telegram.Handler.Router.OnDocumentHandle        += ExampleEvent.OnDocumentHandle;
 
     //Обработка сообщения с аудио
-    telegram.Handler.Router.OnAudioHandle           += Router_OnAudioHandle;
+    telegram.Handler.Router.OnAudioHandle           += ExampleEvent.OnAudioHandle;
 
     //Обработка сообщения с видео
-    telegram.Handler.Router.OnVideoHandle           += Router_OnVideoHandle;
+    telegram.Handler.Router.OnVideoHandle           += ExampleEvent.OnVideoHandle;
 
     //Обработка сообщения с фото
-    telegram.Handler.Router.OnPhotoHandle           += Router_OnPhotoHandle;
+    telegram.Handler.Router.OnPhotoHandle           += ExampleEvent.OnPhotoHandle;
 
     //Обработка сообщения с стикером
-    telegram.Handler.Router.OnStickerHandle         += Router_OnStickerHandle;
+    telegram.Handler.Router.OnStickerHandle         += ExampleEvent.OnStickerHandle;
 
     //Обработка сообщения с голосовым сообщением
-    telegram.Handler.Router.OnVoiceHandle           += Router_OnVoiceHandle;
+    telegram.Handler.Router.OnVoiceHandle           += ExampleEvent.OnVoiceHandle;
 
     //Обработка сообщения с незивестным типом
-    telegram.Handler.Router.OnUnknownHandle         += Router_OnUnknownHandle;
+    telegram.Handler.Router.OnUnknownHandle         += ExampleEvent.OnUnknownHandle;
 
     //Обработка сообщения с местоположением
-    telegram.Handler.Router.OnVenueHandle           += Router_OnVenueHandle;
+    telegram.Handler.Router.OnVenueHandle           += ExampleEvent.OnVenueHandle;
 
     //Обработка сообщения с игрой
-    telegram.Handler.Router.OnGameHandle            += Router_OnGameHandle;
+    telegram.Handler.Router.OnGameHandle            += ExampleEvent.OnGameHandle;
 
     //Обработка сообщения с видеозаметкой
-    telegram.Handler.Router.OnVideoNoteHandle       += Router_OnVideoNoteHandle;
+    telegram.Handler.Router.OnVideoNoteHandle       += ExampleEvent.OnVideoNoteHandle;
 
     //Обработка сообщения с игральной костью
-    telegram.Handler.Router.OnDiceHandle            += Router_OnDiceHandle;
+    telegram.Handler.Router.OnDiceHandle            += ExampleEvent.OnDiceHandle;
 
 }
-
-async Task Router_OnDiceHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var dice = update.Message.Dice;
-    //Обработка данных
-}
-
-async Task Router_OnVideoNoteHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var videonote = update.Message.VideoNote;
-    //Обработка данных
-}
-
-async Task Router_OnGameHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var game = update.Message.Game;
-    //Обработка данных
-}
-
-async Task Router_OnVenueHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var venue = update.Message.Venue;
-    //Обработка данных
-}
-
-async Task Router_OnUnknownHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    //Обработка данных
-}
-
-async Task Router_OnVoiceHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var voice = update.Message.Voice;
-    //Обработка данных
-}
-
-async Task Router_OnStickerHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var sticker = update.Message.Sticker;
-    //Обработка данных
-}
-
-async Task Router_OnPhotoHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var photo = update.Message.Photo;
-    //Обработка данных
-}
-
-async Task Router_OnVideoHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var video = update.Message.Video;
-    //Обработка данных
-}
-
-async Task Router_OnAudioHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var audio = update.Message.Audio;
-    //Обработка данных
-}
-
-async Task Router_OnDocumentHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var document = update.Message.Document;
-    //Обработка данных
-}
-
-async Task Router_OnAccessDenied(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    //Обработка данных
-}
-
-async Task Router_OnWebAppsHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var webApp = update.Message.WebAppData;
-    //Обработка данных
-}
-
-async Task Router_OnPollHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var poll = update.Message.Poll;
-    //Обработка данных
-}
-
-async Task Router_OnContactHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var contact = update.Message.Contact;
-    //Обработка данных
-}
-
-async Task Router_OnLocationHandle(Telegram.Bot.ITelegramBotClient botclient, Update update)
-{
-    var location = update.Message.Location;
-    //Обработка данных
-}
-
-async Task Router_OnWrongTypeChat(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
-{
-    string msg = "Неверный тип чата";
-    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
-}
-
-async Task Router_OnMissingCommand(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
-{
-    string msg = "Не найдена команда";
-    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
-}
-
-async Task Router_OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, PRTelegramBot.Models.Enums.UserPrivilege? requiredPrivilege)
-{
-    string msg = "Проверка привилегий";
-    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
-}
-
-async Task Router_OnUserStartWithArgs(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, string args)
-{
-    string msg = "Пользователь отправил старт с аргументом";
-    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
-}
-async Task Router_OnWrongTypeMessage(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
-{
-    string msg = "Неверный тип сообщения";
-    await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
-}
-
 
 #endregion
 
