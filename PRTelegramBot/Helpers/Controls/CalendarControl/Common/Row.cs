@@ -22,7 +22,7 @@ namespace CalendarPicker.CalendarControl
         public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, DateTimeFormatInfo dtfi) =>
         new InlineKeyboardButton[]
         {
-                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>($"» {date.ToString("Y", dtfi)} «", CallbackId.YearMonthPicker, new CallendarTCommand(date)))
+                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>($"» {date.ToString("Y", dtfi)} «", Header.YearMonthPicker, new CallendarTCommand(date)))
             };
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace CalendarPicker.CalendarControl
                         continue;
                     }
 
-                    week[dayOfWeek] = MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(dayOfMonth.ToString(), CallbackId.PickDate, new CallendarTCommand(new DateTime(date.Year, date.Month, dayOfMonth)))); 
+                    week[dayOfWeek] = MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(dayOfMonth.ToString(), Header.PickDate, new CallendarTCommand(new DateTime(date.Year, date.Month, dayOfMonth)))); 
                     dayOfMonth++;
                 }
                 return week;
@@ -90,9 +90,9 @@ namespace CalendarPicker.CalendarControl
         public static IEnumerable<InlineKeyboardButton> Controls(in DateTime date) =>
             new InlineKeyboardButton[]
             {
-                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<", CallbackId.ChangeTo, new CallendarTCommand(date.AddMonths(-1)))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<", Header.ChangeTo, new CallendarTCommand(date.AddMonths(-1)))),
                 " ",
-                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(">", CallbackId.ChangeTo, new CallendarTCommand(date.AddMonths(1)))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(">", Header.ChangeTo, new CallendarTCommand(date.AddMonths(1)))),
             };
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace CalendarPicker.CalendarControl
         public static InlineKeyboardButton[] BackToMonthYearPicker(in DateTime date) =>
             new InlineKeyboardButton[3]
             {
-                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<<", CallbackId.YearMonthPicker, new CallendarTCommand(date))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<<", Header.YearMonthPicker, new CallendarTCommand(date))),
                 " ",
                 " "
             };
@@ -116,9 +116,9 @@ namespace CalendarPicker.CalendarControl
         public static InlineKeyboardButton[] ChangeYear(in DateTime date) =>
             new InlineKeyboardButton[3]
             {
-                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<", CallbackId.PickYear, new CallendarTCommand(date.AddYears(-12)))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<", Header.PickYear, new CallendarTCommand(date.AddYears(-12)))),
                 " ",
-                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(">", CallbackId.PickYear, new CallendarTCommand(date.AddYears(12))))
+                MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(">", Header.PickYear, new CallendarTCommand(date.AddYears(12))))
             };
     }
 }

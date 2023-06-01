@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
+using Helpers = PRTelegramBot.Helpers;
+using CallbackId = PRTelegramBot.Models.Enums.Header;
 
 namespace ConsoleExample.Examples
 {

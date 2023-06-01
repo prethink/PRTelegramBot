@@ -160,7 +160,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Словарь Inline команд
         /// </summary>
-        private Dictionary<CallbackId, TelegramCommand> inlineCommands;
+        private Dictionary<Header, TelegramCommand> inlineCommands;
 
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace PRTelegramBot.Core
             _botClient                  = botClient;
             messageCommands             = new Dictionary<string, TelegramCommand>();
             messageCommandsPriority     = new Dictionary<string, TelegramCommand>();
-            inlineCommands              = new Dictionary<CallbackId, TelegramCommand>();
+            inlineCommands              = new Dictionary<Header, TelegramCommand>();
             slashCommands               = new Dictionary<string, TelegramCommand>();
 
             RegisterCommnad();

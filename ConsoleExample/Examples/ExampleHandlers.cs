@@ -4,8 +4,10 @@ using PRTelegramBot.Models.CallbackCommands;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using PRTelegramBot.Models.InlineButtons;
+using Helpers = PRTelegramBot.Helpers;
+using Header = PRTelegramBot.Models.Enums.Header;
 
-namespace PRTelegramBot.Examples
+namespace ConsoleExample.Examples
 {
     public class ExampleHandlers
     {
@@ -13,7 +15,7 @@ namespace PRTelegramBot.Examples
         /// callback обработка
         /// Обрабатывает одну точку входа
         /// </summary>
-        [InlineCallbackHandler(Models.Enums.CallbackId.ExampleOne)]
+        [InlineCallbackHandler(Header.ExampleOne)]
         public static async Task Inline(ITelegramBotClient botClient, Update update)
         {
             try
@@ -36,7 +38,7 @@ namespace PRTelegramBot.Examples
         /// callback обработка
         /// Данный метод может обработать несколько точек входа
         /// </summary>
-        [InlineCallbackHandler(Models.Enums.CallbackId.ExampleTwo, Models.Enums.CallbackId.ExampleThree)]
+        [InlineCallbackHandler(Header.ExampleTwo, Header.ExampleThree)]
         public static async Task InlineTwo(ITelegramBotClient botClient, Update update)
         {
             try

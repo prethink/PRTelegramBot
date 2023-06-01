@@ -10,9 +10,9 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Коллекция inline команд
         /// </summary>
-        public List<CallbackId> Commands { get; set; }
+        public List<Header> Commands { get; set; }
 
-        public InlineCallbackHandlerAttribute(params CallbackId[] commands)
+        public InlineCallbackHandlerAttribute(params Header[] commands)
         {
             Commands = commands.ToList();
         }

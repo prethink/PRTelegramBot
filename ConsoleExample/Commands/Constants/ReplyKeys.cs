@@ -16,5 +16,6 @@
         public const string RP_EXAMPLE_REPLY_MENU       = "ReplyMenu";
         public const string RP_EXAMPLE_INLINE_MENU      = "InlineMenu";
         public const string RP_EXAMPLE_FROM_JSON        = "1e";
+        public const string RP_EXAMPLE_CALENDAR         = "Calendar";
     }
 }

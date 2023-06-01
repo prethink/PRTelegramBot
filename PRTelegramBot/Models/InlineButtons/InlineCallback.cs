@@ -20,7 +20,7 @@ namespace PRTelegramBot.Models.InlineButtons
         public new T Data { get; set; }
 
         [JsonConstructor]
-        public InlineCallback(string buttonName, CallbackId commandType, T data) : base(buttonName, commandType, data)
+        public InlineCallback(string buttonName, Header commandType, T data) : base(buttonName, commandType, data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
@@ -66,7 +66,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Тип команды
         /// </summary>
         [JsonProperty("c")]
-        public CallbackId CommandType { get; set; }
+        public Header CommandType { get; set; }
 
         /// <summary>
         /// Данные для обработки
@@ -81,7 +81,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="commandType">Заголовок команды</param>
         /// <param name="data">Данные</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, CallbackId commandType, TCommandBase data)
+        public InlineCallback(string buttonName, Header commandType, TCommandBase data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
@@ -93,7 +93,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="buttonName">Название кнопки</param>
         /// <param name="commandType">Заголовок команды</param>
-        public InlineCallback(string buttonName, CallbackId commandType)
+        public InlineCallback(string buttonName, Header commandType)
         {
             ButtonName = buttonName;
             CommandType = commandType;

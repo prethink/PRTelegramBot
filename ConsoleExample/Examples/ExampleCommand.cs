@@ -2,18 +2,17 @@
 using Telegram.Bot;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Commands.Constants;
-using PRTelegramBot.Extensions;
-using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models.Interface;
-using System;
 using PRTelegramBot.Helpers;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types.ReplyMarkups;
+using Helpers = PRTelegramBot.Helpers;
+using Header = PRTelegramBot.Models.Enums.Header;
 
-namespace PRTelegramBot.Examples
+namespace ConsoleExample.Examples
 {
     public class ExampleCommand
     {
@@ -109,18 +108,18 @@ namespace PRTelegramBot.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), Models.Enums.CallbackId.ExampleOne);
+            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), Header.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, Models.Enums.CallbackId.ExampleTwo, new EntityTCommand(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, Header.ExampleTwo, new EntityTCommand(2));
             /* Создание новой кнопки с callback данными
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", Models.Enums.CallbackId.ExampleThree, new EntityTCommand(3));
+            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", Header.ExampleThree, new EntityTCommand(3));
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
             // Создаем кнопку для работы с webApp

@@ -7,8 +7,10 @@ using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Helpers.TG;
 using static PRTelegramBot.Models.StepTelegram;
 using PRTelegramBot.Helpers;
+using Helpers = PRTelegramBot.Helpers;
+using CallbackId = PRTelegramBot.Models.Enums.Header;
 
-namespace PRTelegramBot.Examples
+namespace ConsoleExample.Examples
 {
     /// <summary>
     /// Пример работы пошагового выполнения команд

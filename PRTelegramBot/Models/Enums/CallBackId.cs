@@ -8,7 +8,7 @@ namespace PRTelegramBot.Models.Enums
     /// <summary>
     /// Идентификаторы для callback команд
     /// </summary>
-    public enum CallbackId : ushort
+    public enum Header
     {
         [Description("Пустая команда")]
         None = 594,
