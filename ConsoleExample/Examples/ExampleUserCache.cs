@@ -4,6 +4,7 @@ using Telegram.Bot;
 using PRTelegramBot.Extensions;
 using Helpers = PRTelegramBot.Helpers;
 using CallbackId = PRTelegramBot.Models.Enums.Header;
+using ConsoleExample.Models;
 
 namespace ConsoleExample.Examples
 {
@@ -21,7 +22,7 @@ namespace ConsoleExample.Examples
         {
             string msg = $"Запись в кэш пользователя данных: {update.GetChatId()}";
             //Записываем данные в кеш пользователя
-            update.GetCacheData().Id = update.GetChatId();
+            update.GetCacheData<UserCache>().Id = update.GetChatId();
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -33,7 +34,7 @@ namespace ConsoleExample.Examples
         public static async Task CheckCache(ITelegramBotClient botClient, Update update)
         {
             //Получаем данные с кеша
-            var cache = update.GetCacheData();
+            var cache = update.GetCacheData<UserCache>();
             string msg = "";
             if(cache.Id != null)
             {
@@ -55,7 +56,7 @@ namespace ConsoleExample.Examples
         {
             string msg = "Тестирование функции пошагового выполнения";
             //Очищаем кеш для пользователя
-            update.GetCacheData().ClearData();
+            update.GetCacheData<UserCache>().ClearData();
             await Helpers.Message.Send(botClient, update, msg);
         }
     }

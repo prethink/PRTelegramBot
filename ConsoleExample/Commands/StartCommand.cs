@@ -4,6 +4,7 @@ using Telegram.Bot.Types;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
+using ConsoleExample.Models;
 
 namespace PRTelegramBot.Commands
 {
@@ -59,7 +60,7 @@ namespace PRTelegramBot.Commands
                 }
                 else
                 {
-                    string msgUser = $"Регистрация группы или другого объекта {update.GetCacheData()}";
+                    string msgUser = $"Регистрация группы или другого объекта {update.GetCacheData<UserCache>()}";
                     TelegramService.GetInstance().InvokeCommonLog(msgUser, TelegramService.TelegramEvents.GroupAction, ConsoleColor.White);
                 }  
             }

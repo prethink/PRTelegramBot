@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using PRTelegramBot.Models;
+using PRTelegramBot.Models.Interface;
 
 namespace PRTelegramBot.Extensions
 {
@@ -11,18 +12,18 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш
         /// </summary>
-        static Dictionary<long, UserCache> _userHandlerData = new();
+        static Dictionary<long, TelegramCache> _userHandlerData = new();
 
 
         /// <summary>
         /// Создает кеш для пользователя
         /// </summary>
         /// <param name="update">Обновление данных telegram</param>
-        public static void CreateCacheData(this Update update)
+        public static void CreateCacheData<T>(this Update update) where T : TelegramCache
         {
             long userId = update.GetChatId();
             update.ClearCacheData();
-            _userHandlerData.Add(userId, new UserCache());
+            _userHandlerData.Add(userId, default(T));
         }
 
         /// <summary>
@@ -30,18 +31,18 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление данных telegram</param>
         /// <returns>Кеш пользователя</returns>
-        public static UserCache GetCacheData(this Update update)
+        public static T GetCacheData<T>(this Update update) where T : TelegramCache
         {
             long userId = update.GetChatId();
             var data = _userHandlerData.FirstOrDefault(x => x.Key == userId);
-            if (data.Equals(default(KeyValuePair<long, UserCache>)))
+            if (data.Equals(default(KeyValuePair<long, Models.TelegramCache>)))
             {
-                update.CreateCacheData();
-                return _userHandlerData.FirstOrDefault(x => x.Key == userId).Value;
+                update.CreateCacheData<T>();
+                return (T)_userHandlerData.FirstOrDefault(x => x.Key == userId).Value;
             }
             else
             {
-                return data.Value;
+                return (T)data.Value;
             }
         }
 

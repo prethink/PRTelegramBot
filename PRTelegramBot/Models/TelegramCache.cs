@@ -1,11 +1,12 @@
-﻿using Telegram.Bot.Types;
+﻿using PRTelegramBot.Models.Interface;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
     /// <summary>
     /// Временные данные пользователя
     /// </summary>
-    public class UserCache
+    public class TelegramCache
     {
         /// <summary>
         /// Идентификатор сущности любого объекта
@@ -22,7 +23,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Очищает данные кеша
         /// </summary>
-        public void ClearData()
+        public virtual void ClearData()
         {
             Id = null;
             LastMessage = null;

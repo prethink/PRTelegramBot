@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
+using PRTelegramBot.Models;
 
 namespace PRTelegramBot.Extensions
 {
@@ -32,7 +33,7 @@ namespace PRTelegramBot.Extensions
         /// <exception cref="Exception">Не найден тип сообщения</exception>
         public static int GetMessageId(this Update update)
         {
-            var data = update.GetCacheData();
+            var data = update.GetCacheData<TelegramCache>();
 
             if (update.CallbackQuery != null)
                 return update.CallbackQuery.Message.MessageId;
