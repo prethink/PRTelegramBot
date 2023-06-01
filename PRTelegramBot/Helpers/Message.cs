@@ -108,9 +108,13 @@ namespace PRTelegramBot.Helpers
         /// <param name="botClient">Клиент телеграм бота</param>
         /// <param name="chatId">Идентификатор чата</param>
         /// <returns>Сообщение</returns>
-        public static async Task<Telegram.Bot.Types.Message> AwaitAnswerBot(ITelegramBotClient botClient, long chatId)
+        public static async Task<Telegram.Bot.Types.Message> AwaitAnswerBot(ITelegramBotClient botClient, long chatId, string message = "")
         {
             string msg = "⏳ Генерирую ответ...";
+            if(!string.IsNullOrEmpty(message))
+            {
+                msg = message;
+            }
             var sentMessage = await botClient.SendTextMessageAsync(
              chatId: chatId,
              text: msg,
@@ -196,11 +200,7 @@ namespace PRTelegramBot.Helpers
                             parseMode: ParseMode.Html);
                 }
             }
-
-
-            GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
             return message;
-
         }
 
         /// <summary>
@@ -242,7 +242,6 @@ namespace PRTelegramBot.Helpers
             }
 
             var messages = await botClient.SendMediaGroupAsync(chatId, media.ToArray());
-            GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
             return messages;
         }
 
@@ -269,9 +268,6 @@ namespace PRTelegramBot.Helpers
             {
                 return await SendPhoto(botClient, chatId, msg, fileStream, option);
             }
-
-
-            GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -324,10 +320,6 @@ namespace PRTelegramBot.Helpers
                     return message;
                 }
                 return null;
-
-
-
-                GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
             }
         }
 
@@ -384,7 +376,6 @@ namespace PRTelegramBot.Helpers
                                 parseMode: ParseMode.Html
                                 );
                 }
-                GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
             }
             return message;
 
@@ -446,7 +437,6 @@ namespace PRTelegramBot.Helpers
                                 parseMode: ParseMode.Html
                                 );
                 }
-                GetInstance().InvokeCommonLog($"Бот {GetInstance().BotName} отправил ответ пользователю с id {chatId}\n{msg}", TelegramEvents.Server, ConsoleColor.Yellow);
             }
             return message;
 
