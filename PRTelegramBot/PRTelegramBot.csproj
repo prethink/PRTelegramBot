@@ -5,12 +5,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.0.1</Version>
+    <Authors>Ilya Samarin</Authors>
+    <Company />
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/prethink/PRTelegramBot</RepositoryUrl>
+    <PackageTags>Telegram, TelegramBot</PackageTags>
+    <Description>Библиотека для быстрого и удобного создания телеграм ботов на C#</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Configs\appconfig.json" />
-    <None Remove="Configs\telegram.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.2" />
@@ -26,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\appconfig.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <EmbeddedResource Include="Configs\appconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\telegram.json">
+    <EmbeddedResource Include="Configs\telegram.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

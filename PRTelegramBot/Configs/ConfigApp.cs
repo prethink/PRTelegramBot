@@ -35,12 +35,12 @@ namespace PRTelegramBot.Configs
 
             if (!File.Exists(fullPathAppConfig))
             {
-                CopyTemplate("PRTelegramBot.Resources.appconfig.json", fullPathAppConfig);
+                CopyTemplate("PRTelegramBot.Configs.appconfig.json", fullPathAppConfig);
             }
 
             if (!File.Exists(fullPathTelegramConfig))
             {
-                CopyTemplate("PRTelegramBot.Resources.telegram.json", fullPathTelegramConfig);
+                CopyTemplate("PRTelegramBot.Configs.telegram.json", fullPathTelegramConfig);
             }
 
             config = new ConfigurationBuilder()
