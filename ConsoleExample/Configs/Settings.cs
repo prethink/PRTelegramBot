@@ -7,9 +7,14 @@ namespace PRTelegramBot.Configs
 {
     class Settings
     {
-        public bool ShowNotifyRegisterUserForAdmin { get; set; }
-        public List<long> Admins { get; set; }
+        /// <summary>
+        /// Уведомлять админинстратора о новом пользователе в боте
+        /// </summary>
+        public bool ShowNotifyNewUser { get; set; }
+
+        /// <summary>
+        /// Количество символов для персональной ссылки (Используется при создание купонов)
+        /// </summary>
         public int WordLength { get; set; }
-        public bool ShowErrorNotFoundNameButton { get; set; }
     } 
 }
