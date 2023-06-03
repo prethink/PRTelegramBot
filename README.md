@@ -4,21 +4,18 @@
 
 # 💎 Возможности
 
- - Автоматическая регистрация и обработка reply команд;
- - Обработка команд со скобками, пример Лайки(5);
- - Генерация reply меню;
- - Автоматическая регистрация и обработка Inline команд;
- - Генерация Inline кнопок и меню;
- - Автоматическая регистрация и обработка слеш команд [/];
+ - Регистрация и автоматическая обработка команд (reply) и ответов;
+ - Обработка команд, содержащих скобки, например, "Лайки (5)";
+ - Создание меню ответов;
+ - Регистрация и обработка встроенных (Inline) команд;
+ - Генерация встроенных кнопок и меню;
+ - Регистрация и обработка команд с использованием слеша [/];
  - Работа со словарем;
- - Выполнение пошагово команд;
- - Обработка фоновых задач;
- - Хранение кэш данных пользователей.
- - Возможность добавить администраторов телеграм бота.
- - Возможность использовать белый список пользователей, которые могут пользоваться ботом.
+ - Выполнение команд пошагово;
+ - Хранение кэша данных пользователей;
+ - Возможность добавления администраторов для управления телеграм-ботом;
+ - Возможность использования белого списка пользователей, которые могут пользоваться ботом.
 
-# ⏳ Планируется сделать
--
 # 🔑 Зависимости
 
  - TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
@@ -49,9 +46,11 @@ telegram - хранит информацию о подключении к баз
   "TelegramConfig": {
     // Токен для телеграм бота
     "Token": "",
-    //Идентификаторы администраторов бота
+    //Идентификаторы администраторов бота, 
+    //Пример Admins": [5125555, 23542352, 32452352, 34534534],
     "Admins": [],
-    //Белый список пользователей которые могут пользоваться ботом, если список пустой ботом могут пользоваться все
+    //Белый список пользователей которые могут пользоваться ботом, если список пустой ботом могут пользоваться все, 
+    //Пример WhiteListUsers": [5125555, 23542352, 32452352, 34534534],
     "WhiteListUsers": [],
     //Показывать или нет что значение кнопок не найдено в словаре
     "ShowErrorNotFoundNameButton": false
@@ -80,8 +79,8 @@ appconfig - хранит информацию настройки програм�
     }
 ```
 ### Создание своих методов команд
-> Вы можете создавать функции в любом месте, главное чтобы сигнатура метода была как в примере.   
-Для автоматического поиска команд используется класс "MethodFinder"
+> В вашей программе можно создавать функции в любом классе, при условии, что сигнатура метода соответствует заданному примеру.    
+> Для автоматического поиска команд используется класс "ReflectionFinder".   
 ```csharp
         [Атрибуты обработки]
         public static async Task НазваниеМетода(ITelegramBotClient название, Update название)
@@ -94,6 +93,7 @@ appconfig - хранит информацию настройки програм�
 
 ## Примеры использования
 Примеры готовых функций есть в консольном приложение по пути ***/Examples***
+- ***ExampleCalendar.cs*** - Пример работы с календарем.
 - ***ExampleCommand.cs*** - Пример как создавать reply, inline и слеш команды.
 - ***ExampleHandlers.cs*** - Пример как можно обрабатывать callback данные.
 - ***ExampleStepCommand.cs*** - Пример c пошаговым выполнением команд.
@@ -103,8 +103,30 @@ appconfig - хранит информацию настройки програм�
 
 
 ### Работа с Reply командами
+
+> Для регистрации и обработки Reply команд используется ***ReplyMenuHandlerAttribute***.    
+> Первый аргумент атрибута проверяет является ли команда приоритетной. Используется при работе с шагами, ниже приведен пример как работают шаги.     
+> Второй аргумент название команды.    
+
+```csharp
+        [ReplyMenuHandler(true, "Название команды")]
+        public static async Task НазваниеМетода(ITelegramBotClient название, Update название)
+        {
+          //Обработка
+        }
+       
+        
+        [ReplyMenuHandler(true, "Название команды", "Название команды")]
+        public static async Task НазваниеМетода(ITelegramBotClient название, Update название)
+        {
+          //Обработка
+        }
+```
+
+
 Пример
 ```csharp
+        static int count = 0;
         /// <summary>
         /// Напишите в чате "Название команды"
         /// true/false обозначает будет ли проигнорирован следующий шаг обработки (что за шаги можно узнать дальше)
@@ -114,6 +136,30 @@ appconfig - хранит информацию настройки програм�
         {
             string msg = "Cообщение";
             await Helpers.Message.Send(botClient, update, msg);
+        }
+        
+        /// <summary>
+        /// Напишите в чате "Скобки"
+        /// Пример если в кнопки должно отображаться количество в скобках (2)
+        /// </summary>
+        [ReplyMenuHandler(true, ReplyKeys.PR_EXAMPLE_BRACKETS)]
+        public static async Task ExampleBracket(ITelegramBotClient botClient, Update update)
+        {
+            
+            string msg = $"Значени {count}";
+            //Создаем настройки сообщения
+            var option = new OptionMessage();
+            //Создаем список для меню
+            var menuList = new List<KeyboardButton>();
+            //Добавляем кнопку с текстом
+            menuList.Add(new KeyboardButton(ReplyKeys.PR_EXAMPLE_BRACKETS+$" ({count})"));
+            //Генерируем reply меню
+            //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
+            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
+            //Добавляем в настройки меню
+            option.MenuReplyKeyboardMarkup = menu;
+            await Helpers.Message.Send(botClient, update, msg, option);
+            count++;
         }
         
         /// <summary>
@@ -198,35 +244,104 @@ appconfig - хранит информацию настройки програм�
         }
 ```
 ### Работа с Inline командами
-**ВНИМАНИЕ: Максимальный допустимый размер данных для обработки в callback 128 байт!**
-> Заголовки Inline команд ***Models/Enums/CallbackId.cs***   
-> Классы для создания Inline кнопок ***/Models/InlineCallback.cs***, ***/Models/InlineURL.cs***,***/Models/InlineWebApp.cs***
+**ВНИМАНИЕ: Максимальный допустимый размер данных для обработки в callback 128 байт!**     
+> Базовые заголовки Inline команд ***Models/Enums/THeader.cs***     
+```csharp
+    /// <summary>
+    /// Идентификаторы для callback команд
+    /// </summary>
+    public enum THeader
+    {
+        [Description("Пустая команда")]
+        None,
+        [Description("Выбрать месяц")]
+        PickMonth,
+        [Description("Выбрать год")]
+        PickYear,
+        [Description("Изменение календаря")]
+        ChangeTo,
+        [Description("Выбор года месяца")]
+        YearMonthPicker,
+        [Description("Выбрать дату")]
+        PickDate,
+        [Description("Следующая страница")]
+        NextPage,
+        [Description("Текущая страница")]
+        CurrentPage,
+        [Description("Предыдущая страница")]
+        PreviousPage,
+    }
+```
+> В консольном примере используется ***Models/CustomTHeader.cs***, вы можете создать свой файл с перечеслением, важно только чтобы название файла имело в себе ***THeader***. Это нужно для того чтобы через рефлексию отработал определенный механизм.     
+> Кто знаком с asp.net mvc знают, что имя файла контроллеров должно содержать "Controller", здесь аналогичная история.
+```csharp
+    public enum CustomTHeader
+    {
+        [Description("Бесплатный ВИП")]
+        GetFreeVIP,
+        [Description("Вип на 1 день")]
+        GetVipOneDay,
+        [Description("Вип на 1 неделю")]
+        GetVipOneWeek,
+        [Description("Вип на 1 месяц")]
+        GetVipOneMonth,
+        [Description("Вип навсегда")]
+        GetVipOneForever,
+        [Description("Пример 1")]
+        ExampleOne,
+        [Description("Пример 2")]
+        ExampleTwo,
+        [Description("Пример 3")]
+        ExampleThree,
+    }   
+```
+> ***/Models/InlineButtons/InlineCallback.cs*** - Создает кнопку с callback.   
+>  ***/Models/InlineButtons/InlineURL.cs*** - Создает кнопку с гиперссылкой.   
+>  ***/Models/InlineButtons/InlineWebApp.cs*** - Создает кнопку для работы с WebApp.   
+
+Для обработки inline команд используется ***InlineCallbackHandlerAttribute***    
+***!!!ВНИМАНИЕ значение в перечислениях THeader должны быть уникальны!!!***    
+
+```csharp
+        [InlineCallbackHandler<Перечисление>(Перечисление.Значение)]
+        public static async Task НазваниеМетода(ITelegramBotClient название, Update название)
+        {
+            //Обработка
+        }
+        
+        [InlineCallbackHandler<Перечисление>(Перечисление.Значение, Перечисление.Значение)]
+        public static async Task НазваниеМетода(ITelegramBotClient название, Update название)
+        {
+            //Обработка
+        }
+```
 
 #### Создание Inline меню
 
 ```csharp
         /// <summary>
+        /// Напишите в чате "InlineMenu"
         /// Пример с генерацией inline меню
         /// </summary>
-        [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE_MENU)]
+        [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE_INLINE_MENU)]
         public static async Task InlineMenu(ITelegramBotClient botClient, Update update)
         {
             /* Создание новой кнопки с callback данными
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), Models.Enums.CallbackId.ExampleOne);
+            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeader.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, Models.Enums.CallbackId.ExampleTwo, new EntityTCommand(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeader.ExampleTwo, new EntityTCommand(2));
             /* Создание новой кнопки с callback данными
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", Models.Enums.CallbackId.ExampleThree, new EntityTCommand(3));
+            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", CustomTHeader.ExampleThree, new EntityTCommand(3));
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
             // Создаем кнопку для работы с webApp
@@ -260,7 +375,7 @@ appconfig - хранит информацию настройки програм�
         /// callback обработка
         /// Обрабатывает одну точку входа
         /// </summary>
-        [InlineCallbackHandler(Models.Enums.CallbackId.ExampleOne)]
+        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.ExampleOne)]
         public static async Task Inline(ITelegramBotClient botClient, Update update)
         {
             try
@@ -283,7 +398,7 @@ appconfig - хранит информацию настройки програм�
         /// callback обработка
         /// Данный метод может обработать несколько точек входа
         /// </summary>
-        [InlineCallbackHandler(Models.Enums.CallbackId.ExampleTwo, Models.Enums.CallbackId.ExampleThree)]
+        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.ExampleTwo, CustomTHeader.ExampleThree)]
         public static async Task InlineTwo(ITelegramBotClient botClient, Update update)
         {
             try
@@ -303,6 +418,152 @@ appconfig - хранит информацию настройки програм�
         }
 ```
 
+### Работа с календарем
+
+```csharp
+        /// <summary>
+        /// Русский формат даты
+        /// </summary>
+        public static DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("ru-RU", false).DateTimeFormat;
+
+        /// <summary>
+        /// Напишите в чат Calendar
+        /// Вызов команды календаря
+        /// </summary>
+        [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE_CALENDAR)]
+        public static async Task PickCalendar(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                var calendarMarkup = Markup.Calendar(DateTime.Today, dtfi);
+                var option = new OptionMessage();
+                option.MenuInlineKeyboardMarkup = calendarMarkup;
+                await Helpers.Message.Send(botClient, update.GetChatId(), $"Выберите дату:", option);
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+            }
+
+        }
+
+        /// <summary>
+        /// Выбор года или месяца
+        /// </summary>
+        [InlineCallbackHandler<THeader>(THeader.YearMonthPicker)]
+        public static async Task PickYearMonth(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                if (command != null)
+                {
+                    var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi);
+                    var option = new OptionMessage();
+                    option.MenuInlineKeyboardMarkup = monthYearMarkup;
+                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
+                }
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+            }
+        }
+
+        /// <summary>
+        /// Выбор месяца
+        /// </summary>
+        [InlineCallbackHandler<THeader>(THeader.PickMonth)]
+        public static async Task PickMonth(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                if (command != null)
+                {
+                    var monthPickerMarkup = Markup.PickMonth(command.Data.Date, dtfi);
+                    var option = new OptionMessage();
+                    option.MenuInlineKeyboardMarkup = monthPickerMarkup;
+                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+            }
+        }
+
+        /// <summary>
+        /// Выбор года
+        /// </summary>
+        [InlineCallbackHandler<THeader>(THeader.PickYear)]
+        public static async Task PickYear(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                if (command != null)
+                {
+                    var monthYearMarkup = Markup.PickYear(command.Data.Date, dtfi);
+                    var option = new OptionMessage();
+                    option.MenuInlineKeyboardMarkup = monthYearMarkup;
+                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
+                }
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Перелистывание месяца
+        /// </summary>
+        [InlineCallbackHandler<THeader>(THeader.ChangeTo)]
+        public static async Task ChangeToHandler(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                if (command != null)
+                {
+                    var calendarMarkup = Markup.Calendar(command.Data.Date, dtfi);
+                    var option = new OptionMessage();
+                    option.MenuInlineKeyboardMarkup = calendarMarkup;
+                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
+                }
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+            }
+
+        }
+
+        /// <summary>
+        /// Обработка выбраной даты
+        /// </summary>
+        [InlineCallbackHandler<THeader>(THeader.PickDate)]
+        public static async Task PickDate(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                if (command != null)
+                {
+                    var data = command.Data.Date;
+                    //Обработка данных даты;
+                }
+            }
+            catch (Exception ex)
+            {
+                TelegramService.GetInstance().InvokeErrorLog(ex);
+            }
+        }
+```
 
 ### Работа со слеш командами
 ```csharp
@@ -366,7 +627,8 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 Для того чтобы работало значение MSG_EXAMPLE_TEXT оно должно присуствовать в appconfig.json
 ### Пример работы с кэшем пользователя
 
-> Класс для хранения временных данных пользователей ***/Models/UserCache.cs***
+> Класс для хранения временных данных пользователей ***/Models/TelegramCache.cs***      
+> В консольном примере используется класс ***UserCache*** который наследует TelegramCache. При желание вы можете создать свой класс любыми свойствами.   
 
 ```csharp
         /// <summary>
@@ -378,7 +640,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         {
             string msg = $"Запись в кэш пользователя данных: {update.GetChatId()}";
             //Записываем данные в кеш пользователя
-            update.GetCacheData().Id = update.GetChatId();
+            update.GetCacheData<UserCache>().Id = update.GetChatId();
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -390,7 +652,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         public static async Task CheckCache(ITelegramBotClient botClient, Update update)
         {
             //Получаем данные с кеша
-            var cache = update.GetCacheData();
+            var cache = update.GetCacheData<UserCache>();
             string msg = "";
             if(cache.Id != null)
             {
@@ -412,10 +674,12 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         {
             string msg = "Тестирование функции пошагового выполнения";
             //Очищаем кеш для пользователя
-            update.GetCacheData().ClearData();
+            update.GetCacheData<UserCache>().ClearData();
             await Helpers.Message.Send(botClient, update, msg);
         }
 ```
+
+
 
 ### Пример работы с шагами пользователя
 ВНИМАНИЕ: Чтобы назначить следующий шаг у метода должна быть следующая сигнатура ***Task Название(ITelegramBotClient название, Update название)***
