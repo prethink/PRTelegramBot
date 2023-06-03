@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PRTelegramBot.Core;
+using PRTelegramBot.Helpers;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.Interface;
@@ -20,7 +21,7 @@ namespace PRTelegramBot.Models.InlineButtons
         public new T Data { get; set; }
 
         [JsonConstructor]
-        public InlineCallback(string buttonName, Header commandType, T data) : base(buttonName, commandType, data)
+        public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
@@ -66,7 +67,8 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Тип команды
         /// </summary>
         [JsonProperty("c")]
-        public Header CommandType { get; set; }
+        [JsonConverter(typeof(HeaderConverter))]
+        public Enum CommandType { get; set; }
 
         /// <summary>
         /// Данные для обработки
@@ -81,7 +83,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="commandType">Заголовок команды</param>
         /// <param name="data">Данные</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, Header commandType, TCommandBase data)
+        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
@@ -93,7 +95,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="buttonName">Название кнопки</param>
         /// <param name="commandType">Заголовок команды</param>
-        public InlineCallback(string buttonName, Header commandType)
+        public InlineCallback(string buttonName, Enum commandType)
         {
             ButtonName = buttonName;
             CommandType = commandType;

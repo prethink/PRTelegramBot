@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Helpers;
 using System.Reflection;
 
 namespace PRTelegramBot.Core
@@ -6,7 +7,7 @@ namespace PRTelegramBot.Core
     /// <summary>
     /// Позволяет автоматически находить методы который помечены определенными атрибутами
     /// </summary>
-    public class MethodFinder
+    public class ReflectionFinder
     {
         /// <summary>
         /// Поиск методов в программе для выполнения reply команд
@@ -23,7 +24,7 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для inline команд</returns>
         public static MethodInfo[] FindInlineMenuHandlers()
         {
-            return FindMethods(typeof(InlineCallbackHandlerAttribute));
+            return FindMethods(typeof(InlineCallbackHandlerAttribute<>));
         }
 
         /// <summary>
@@ -33,6 +34,33 @@ namespace PRTelegramBot.Core
         public static MethodInfo[] FindSlashCommandHandlers()
         {
             return FindMethods(typeof(SlashHandlerAttribute));
+        }
+
+        public static void FindEnumHeaders()
+        {
+            EnumHeaders enums = EnumHeaders.Instance;
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            int count = 0;
+            // Обходим все сборки
+            foreach (Assembly assembly in assemblies)
+            {
+                // Получаем все типы из сборки
+                Type[] types = assembly.GetTypes();
+
+                // Ищем только перечисления
+                foreach (Type type in types)
+                {
+                    if (type.IsEnum && type.Name.Contains("THeader"))
+                    {
+                        Array enumValues = Enum.GetValues(type);
+                        foreach (Enum item in enumValues)
+                        {
+                            enums.Add(count, item);
+                            count++;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

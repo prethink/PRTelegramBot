@@ -160,7 +160,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Словарь Inline команд
         /// </summary>
-        private Dictionary<Header, TelegramCommand> inlineCommands;
+        private Dictionary<Enum, TelegramCommand> inlineCommands;
 
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace PRTelegramBot.Core
             _botClient                  = botClient;
             messageCommands             = new Dictionary<string, TelegramCommand>();
             messageCommandsPriority     = new Dictionary<string, TelegramCommand>();
-            inlineCommands              = new Dictionary<Header, TelegramCommand>();
+            inlineCommands              = new Dictionary<Enum, TelegramCommand>();
             slashCommands               = new Dictionary<string, TelegramCommand>();
 
             RegisterCommnad();
@@ -207,9 +207,10 @@ namespace PRTelegramBot.Core
             try
             {
                 //Находим все методы которые используют наши атрибуты
-                var messageMethods = MethodFinder.FindMessageMenuHandlers();
-                var inlineMethods = MethodFinder.FindInlineMenuHandlers();
-                var slashCommandMethods = MethodFinder.FindSlashCommandHandlers();
+                var messageMethods = ReflectionFinder.FindMessageMenuHandlers();
+                var inlineMethods = ReflectionFinder.FindInlineMenuHandlers();
+                var slashCommandMethods = ReflectionFinder.FindSlashCommandHandlers();
+                ReflectionFinder.FindEnumHeaders();
 
                 //Регистрируем Reply команды
                 foreach (var method in messageMethods)
@@ -229,10 +230,20 @@ namespace PRTelegramBot.Core
                 //Регистрируем Inline команды
                 foreach (var method in inlineMethods)
                 {
-                    foreach (var command in method.GetCustomAttribute<InlineCallbackHandlerAttribute>().Commands)
+                    foreach (var attribute in method.GetCustomAttributes(true))
                     {
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(TelegramCommand), method, false);
-                        inlineCommands.Add(command, (TelegramCommand)serverMessageHandler);
+                        if (attribute.GetType().IsGenericType &&
+                            attribute.GetType().GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
+                        {
+                            var commandsProperty = attribute.GetType().GetProperty("Commands");
+                            var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
+
+                            foreach (var command in commands)
+                            {
+                                var serverMessageHandler = Delegate.CreateDelegate(typeof(TelegramCommand), method, false);
+                                inlineCommands.Add(command, (TelegramCommand)serverMessageHandler);
+                            }
+                        }
                     }
                 }
 
@@ -399,7 +410,7 @@ namespace PRTelegramBot.Core
                     TelegramService.GetInstance().InvokeCommonLog(msg, TelegramService.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
                     foreach (var commandCallback in inlineCommands)
                     {
-                        if (command.CommandType == commandCallback.Key)
+                        if (((Enum)command.CommandType).Equals(commandCallback.Key) )
                         {
                             var requireUpdate = commandCallback.Value.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
                             if (requireUpdate != null)

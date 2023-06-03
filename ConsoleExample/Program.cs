@@ -5,6 +5,7 @@ using PRTelegramBot.Core;
 using PRTelegramBot.Configs;
 using Telegram.Bot.Types;
 using ConsoleExample.Examples;
+using System.Reflection;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -100,6 +101,8 @@ if(telegram.Handler != null)
 var tasker = new Tasker(10);
 tasker.Start();
 #endregion
+
+
 
 #region Логи
 void Telegram_OnLogError(Exception ex, long? id = null)

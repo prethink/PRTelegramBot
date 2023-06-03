@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using PRTelegramBot.Extensions;
 using Helpers = PRTelegramBot.Helpers;
-using Header = PRTelegramBot.Models.Enums.Header;
+using THeader = PRTelegramBot.Models.Enums.THeader;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Core;
@@ -46,7 +46,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Выбор года или месяца
         /// </summary>
-        [InlineCallbackHandler(Header.YearMonthPicker)]
+        [InlineCallbackHandler<THeader>(THeader.YearMonthPicker)]
         public static async Task PickYearMonth(ITelegramBotClient botClient, Update update)
         {
             try
@@ -69,7 +69,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Выбор месяца
         /// </summary>
-        [InlineCallbackHandler(Header.PickMonth)]
+        [InlineCallbackHandler<THeader>(THeader.PickMonth)]
         public static async Task PickMonth(ITelegramBotClient botClient, Update update)
         {
             try
@@ -94,7 +94,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Выбор года
         /// </summary>
-        [InlineCallbackHandler(Header.PickYear)]
+        [InlineCallbackHandler<THeader>(THeader.PickYear)]
         public static async Task PickYear(ITelegramBotClient botClient, Update update)
         {
             try
@@ -118,7 +118,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Перелистывание месяца
         /// </summary>
-        [InlineCallbackHandler(Header.ChangeTo)]
+        [InlineCallbackHandler<THeader>(THeader.ChangeTo)]
         public static async Task ChangeToHandler(ITelegramBotClient botClient, Update update)
         {
             try
@@ -142,7 +142,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Обработка выбраной даты
         /// </summary>
-        [InlineCallbackHandler(PRTelegramBot.Models.Enums.Header.PickDate)]
+        [InlineCallbackHandler<THeader>(THeader.PickDate)]
         public static async Task PickDate(ITelegramBotClient botClient, Update update)
         {
             try

@@ -5,16 +5,21 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Аттрибут для inline команд
     /// </summary>
-    public class InlineCallbackHandlerAttribute : Attribute
+    public class InlineCallbackHandlerAttribute<T> : Attribute where T : Enum
     {
         /// <summary>
         /// Коллекция inline команд
         /// </summary>
-        public List<Header> Commands { get; set; }
+        public List<Enum> Commands { get; set; }
 
-        public InlineCallbackHandlerAttribute(params Header[] commands)
+        public InlineCallbackHandlerAttribute(params T[] commands)
         {
-            Commands = commands.ToList();
+            Commands = new List<Enum>();
+            foreach (var command in commands) 
+            { 
+                Commands.Add(command);
+            }   
+
         }
     }
 }

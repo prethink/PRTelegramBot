@@ -10,7 +10,8 @@ using PRTelegramBot.Helpers;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types.ReplyMarkups;
 using Helpers = PRTelegramBot.Helpers;
-using Header = PRTelegramBot.Models.Enums.Header;
+using Header = PRTelegramBot.Models.Enums.THeader;
+using ConsoleExample.Models;
 
 namespace ConsoleExample.Examples
 {
@@ -108,18 +109,18 @@ namespace ConsoleExample.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), Header.ExampleOne);
+            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeader.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, Header.ExampleTwo, new EntityTCommand(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeader.ExampleTwo, new EntityTCommand(2));
             /* Создание новой кнопки с callback данными
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", Header.ExampleThree, new EntityTCommand(3));
+            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", CustomTHeader.ExampleThree, new EntityTCommand(3));
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
             // Создаем кнопку для работы с webApp

@@ -13,6 +13,7 @@ namespace PRTelegramBot.Core
         /// Клиент телеграм бота
         /// </summary>
         private ITelegramBotClient _botClient;
+        public List<long> WhiteList { get; set; }
 
         /// <summary>
         /// Маршрутизатор
@@ -23,6 +24,12 @@ namespace PRTelegramBot.Core
         {
             _botClient = botClient;
             Router = new Router(_botClient);
+            WhiteList = new();
+            var whitelist = ConfigApp.GetSettingsTelegram<TelegramConfig>().WhiteListUsers;
+            if(whitelist != null)
+            {
+                WhiteList.AddRange(whitelist);
+            }
         }
 
         /// <summary>
@@ -36,10 +43,9 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                var whitelist = ConfigApp.GetSettingsTelegram<TelegramConfig>().WhiteListUsers;
-                if(whitelist?.Count > 0)
+                if(WhiteList.Count > 0)
                 {
-                    if(!whitelist.Contains(update.GetChatId()))
+                    if(!WhiteList.Contains(update.GetChatId()))
                     {
                         await Router.OnAccessDeniedInvoke(_botClient, update);
                         return;

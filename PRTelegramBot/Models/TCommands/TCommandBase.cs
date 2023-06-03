@@ -12,8 +12,8 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Предыдушая команда
         /// </summary>
         [JsonProperty("0")]
-        public Header LastCommand { get; set; }
-        public TCommandBase(Header data = Header.None)
+        public THeader LastCommand { get; set; }
+        public TCommandBase(THeader data = THeader.None)
         {
             LastCommand = data;
         }

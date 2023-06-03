@@ -3,7 +3,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using PRTelegramBot.Extensions;
 using Helpers = PRTelegramBot.Helpers;
-using CallbackId = PRTelegramBot.Models.Enums.Header;
+using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 
 namespace ConsoleExample.Examples

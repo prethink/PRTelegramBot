@@ -42,12 +42,12 @@ namespace CalendarPicker.CalendarControl
             {
                 new InlineKeyboardButton[]
                 {
-                    MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(date.ToString("MMMM", dtfi), Header.PickMonth, new CallendarTCommand(date))),
-                    MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(date.ToString("yyyy", dtfi), Header.PickYear, new CallendarTCommand(date)))
+                    MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(date.ToString("MMMM", dtfi), THeader.PickMonth, new CallendarTCommand(date))),
+                    MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(date.ToString("yyyy", dtfi), THeader.PickYear, new CallendarTCommand(date)))
                 },
                 new InlineKeyboardButton[]
                 {
-                    MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<<", Header.ChangeTo, new CallendarTCommand(date))),
+                    MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>("<<", THeader.ChangeTo, new CallendarTCommand(date))),
                     " "
                 }
             };
@@ -72,7 +72,7 @@ namespace CalendarPicker.CalendarControl
                 {
                     var day = new DateTime(date.Year, month + 1, 1);
 
-                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(dtfi.MonthNames[month], Header.YearMonthPicker, new CallendarTCommand(day)));
+                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(dtfi.MonthNames[month], THeader.YearMonthPicker, new CallendarTCommand(day)));
                 }
 
                 keyboardRows[row] = keyboardRow;
@@ -100,7 +100,7 @@ namespace CalendarPicker.CalendarControl
                 for (var j = 0; j < 3; j++, i++)
                 {
                     var day = startYear.AddYears(i);
-                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(day.ToString("yyyy", dtfi), Header.YearMonthPicker, new CallendarTCommand(day)));
+                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CallendarTCommand>(day.ToString("yyyy", dtfi), THeader.YearMonthPicker, new CallendarTCommand(day)));
                 }
 
                 keyboardRows[row] = keyboardRow;

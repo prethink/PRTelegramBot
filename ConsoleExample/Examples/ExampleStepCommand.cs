@@ -8,7 +8,7 @@ using PRTelegramBot.Helpers.TG;
 using static PRTelegramBot.Models.StepTelegram;
 using PRTelegramBot.Helpers;
 using Helpers = PRTelegramBot.Helpers;
-using CallbackId = PRTelegramBot.Models.Enums.Header;
+using CallbackId = PRTelegramBot.Models.Enums.THeader;
 
 namespace ConsoleExample.Examples
 {

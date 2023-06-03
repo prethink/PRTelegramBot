@@ -8,10 +8,10 @@ namespace PRTelegramBot.Models.Enums
     /// <summary>
     /// Идентификаторы для callback команд
     /// </summary>
-    public enum Header
+    public enum THeader
     {
         [Description("Пустая команда")]
-        None = 594,
+        None,
         [Description("Выбрать месяц")]
         PickMonth,
         [Description("Выбрать год")]
@@ -28,21 +28,5 @@ namespace PRTelegramBot.Models.Enums
         CurrentPage,
         [Description("Предыдущая страница")]
         PreviousPage,
-        [Description("Бесплатный ВИП")]
-        GetFreeVIP,
-        [Description("Вип на 1 день")]
-        GetVipOneDay,
-        [Description("Вип на 1 неделю")]
-        GetVipOneWeek,
-        [Description("Вип на 1 месяц")]
-        GetVipOneMonth,
-        [Description("Вип навсегда")]
-        GetVipOneForever,
-        [Description("Пример 1")]
-        ExampleOne,
-        [Description("Пример 2")]
-        ExampleTwo,
-        [Description("Пример 3")]
-        ExampleThree,
     }
 }
