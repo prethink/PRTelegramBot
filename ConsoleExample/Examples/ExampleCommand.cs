@@ -17,6 +17,7 @@ namespace ConsoleExample.Examples
 {
     public class ExampleCommand
     {
+        static int count = 0;
         #region Reply команды
         /// <summary>
         /// Напишите в чате "Пример"
@@ -65,6 +66,30 @@ namespace ConsoleExample.Examples
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
             await Helpers.Message.Send(botClient, update, msg, option);
+        }
+
+        /// <summary>
+        /// Напишите в чате "Скобки"
+        /// Пример если в кнопки должно отображаться количество в скобках
+        /// </summary>
+        [ReplyMenuHandler(true, ReplyKeys.PR_EXAMPLE_BRACKETS)]
+        public static async Task ExampleBracket(ITelegramBotClient botClient, Update update)
+        {
+            
+            string msg = $"Значени {count}";
+            //Создаем настройки сообщения
+            var option = new OptionMessage();
+            //Создаем список для меню
+            var menuList = new List<KeyboardButton>();
+            //Добавляем кнопку с текстом
+            menuList.Add(new KeyboardButton(ReplyKeys.PR_EXAMPLE_BRACKETS+$" ({count})"));
+            //Генерируем reply меню
+            //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
+            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
+            //Добавляем в настройки меню
+            option.MenuReplyKeyboardMarkup = menu;
+            await Helpers.Message.Send(botClient, update, msg, option);
+            count++;
         }
 
         /// <summary>

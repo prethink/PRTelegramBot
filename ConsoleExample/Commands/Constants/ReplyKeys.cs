@@ -17,5 +17,6 @@
         public const string RP_EXAMPLE_INLINE_MENU      = "InlineMenu";
         public const string RP_EXAMPLE_FROM_JSON        = "1e";
         public const string RP_EXAMPLE_CALENDAR         = "Calendar";
+        public const string PR_EXAMPLE_BRACKETS         = "Скобки";
     }
 }
