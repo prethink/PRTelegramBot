@@ -49,7 +49,7 @@ telegram - хранит информацию о подключении к баз
     //Идентификаторы администраторов бота, 
     //Пример Admins": [5125555, 23542352, 32452352, 34534534],
     "Admins": [],
-    //Белый список пользователей которые могут пользоваться ботом, если список пустой ботом могут пользоваться все, 
+    //Белый список пользователей, которые могут пользоваться ботом, если список пустой ботом могут пользоваться все, 
     //Пример WhiteListUsers": [5125555, 23542352, 32452352, 34534534],
     "WhiteListUsers": [],
     //Показывать или нет что значение кнопок не найдено в словаре
@@ -132,7 +132,7 @@ if(telegram.Handler != null)
     //Обработка проверка привилегий
     telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
 
-    //Обработка пропущеной команды
+    //Обработка пропущенной  команды
     telegram.Handler.Router.OnMissingCommand        += ExampleEvent.OnMissingCommand;
 
     //Обработка не верного типа чата
@@ -150,7 +150,7 @@ if(telegram.Handler != null)
     //Обработка WebApps
     telegram.Handler.Router.OnWebAppsHandle         += ExampleEvent.OnWebAppsHandle;
 
-    //Обработка когда пользователю отказано в доступе
+    //Обработка, пользователю отказано в доступе
     telegram.Handler.Router.OnAccessDenied          += ExampleEvent.OnAccessDenied;
 
     //Обработка сообщения с документом
@@ -171,7 +171,7 @@ if(telegram.Handler != null)
     //Обработка сообщения с голосовым сообщением
     telegram.Handler.Router.OnVoiceHandle           += ExampleEvent.OnVoiceHandle;
 
-    //Обработка сообщения с незивестным типом
+    //Обработка сообщения с неизвестным типом
     telegram.Handler.Router.OnUnknownHandle         += ExampleEvent.OnUnknownHandle;
 
     //Обработка сообщения с местоположением
@@ -456,7 +456,7 @@ while (true)
         PreviousPage,
     }
 ```
-> В консольном примере используется ***Models/CustomTHeader.cs***, вы можете создать свой файл с перечеслением, важно только чтобы название файла имело в себе ***THeader***. Это нужно для того чтобы через рефлексию отработал определенный механизм.     
+> В консольном примере используется ***Models/CustomTHeader.cs***, вы можете создать свой файл с перечислением, важно только, чтобы название файла имело в себе ***THeader***. Это нужно для того, чтобы через рефлексию отработал определенный механизм.     
 > Кто знаком с asp.net mvc знают, что имя файла контроллеров должно содержать "Controller", здесь аналогичная история.
 ```csharp
     public enum CustomTHeader
@@ -728,7 +728,7 @@ while (true)
         }
 
         /// <summary>
-        /// Обработка выбраной даты
+        /// Обработка выбранной  даты
         /// </summary>
         [InlineCallbackHandler<THeader>(THeader.PickDate)]
         public static async Task PickDate(ITelegramBotClient botClient, Update update)
@@ -812,7 +812,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 ### Пример работы с кэшем пользователя
 
 > Класс для хранения временных данных пользователей ***/Models/TelegramCache.cs***      
-> В консольном примере используется класс ***UserCache*** который наследует TelegramCache. При желание вы можете создать свой класс любыми свойствами.   
+> В консольном примере используется класс ***UserCache*** который наследует TelegramCache. При желании вы можете создать свой класс любыми свойствами.   
 
 ```csharp
         /// <summary>
@@ -885,7 +885,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 
         /// <summary>
         /// При написание любого текста сообщения или нажатие на любую кнопку из reply для пользователя будет выполнен этот метод.
-        /// Метод регистрирует следующий шаг с максималным времение выполнения
+        /// Метод регистрирует следующий шаг с максимальным времени выполнения
         /// </summary>
         public static async Task StepOne(ITelegramBotClient botClient, Update update)
         {
