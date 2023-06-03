@@ -32,7 +32,7 @@ namespace ConsoleExample.Examples
 
         /// <summary>
         /// При написание любого текста сообщения или нажатие на любую кнопку из reply для пользователя будет выполнен этот метод.
-        /// Метод регистрирует следующий шаг с максималным времение выполнения
+        /// Метод регистрирует следующий шаг с максимальным времени выполнения
         /// </summary>
         public static async Task StepOne(ITelegramBotClient botClient, Update update)
         {

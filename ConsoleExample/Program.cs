@@ -39,7 +39,7 @@ if(telegram.Handler != null)
     //Обработка проверка привилегий
     telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
 
-    //Обработка пропущеной команды
+    //Обработка пропущенной  команды
     telegram.Handler.Router.OnMissingCommand        += ExampleEvent.OnMissingCommand;
 
     //Обработка не верного типа чата
@@ -57,7 +57,7 @@ if(telegram.Handler != null)
     //Обработка WebApps
     telegram.Handler.Router.OnWebAppsHandle         += ExampleEvent.OnWebAppsHandle;
 
-    //Обработка когда пользователю отказано в доступе
+    //Обработка, когда пользователю отказано в доступе
     telegram.Handler.Router.OnAccessDenied          += ExampleEvent.OnAccessDenied;
 
     //Обработка сообщения с документом
@@ -78,7 +78,7 @@ if(telegram.Handler != null)
     //Обработка сообщения с голосовым сообщением
     telegram.Handler.Router.OnVoiceHandle           += ExampleEvent.OnVoiceHandle;
 
-    //Обработка сообщения с незивестным типом
+    //Обработка сообщения с неизвестным типом
     telegram.Handler.Router.OnUnknownHandle         += ExampleEvent.OnUnknownHandle;
 
     //Обработка сообщения с местоположением
