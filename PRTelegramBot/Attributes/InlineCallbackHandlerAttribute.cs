@@ -17,7 +17,7 @@ namespace PRTelegramBot.Attributes
             Commands = new List<Enum>();
             foreach (var command in commands) 
             { 
-                Commands.Add(command);
+                Commands.Add((Enum)command);
             }   
 
         }

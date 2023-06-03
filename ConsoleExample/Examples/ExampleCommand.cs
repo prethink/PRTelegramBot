@@ -70,7 +70,7 @@ namespace ConsoleExample.Examples
 
         /// <summary>
         /// Напишите в чате "Скобки"
-        /// Пример если в кнопки должно отображаться количество в скобках
+        /// Пример если в кнопки должно отображаться количество в скобках (2)
         /// </summary>
         [ReplyMenuHandler(true, ReplyKeys.PR_EXAMPLE_BRACKETS)]
         public static async Task ExampleBracket(ITelegramBotClient botClient, Update update)
