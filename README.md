@@ -49,7 +49,7 @@ telegram - хранит информацию о подключении к баз
     //Идентификаторы администраторов бота, 
     //Пример Admins": [5125555, 23542352, 32452352, 34534534],
     "Admins": [],
-    //Белый список пользователей которые могут пользоваться ботом, если список пустой ботом могут пользоваться все, 
+    //Белый список пользователей, которые могут пользоваться ботом, если список пустой ботом могут пользоваться все, 
     //Пример WhiteListUsers": [5125555, 23542352, 32452352, 34534534],
     "WhiteListUsers": [],
     //Показывать или нет что значение кнопок не найдено в словаре
@@ -89,6 +89,190 @@ appconfig - хранит информацию настройки програм�
         }
 
 ```
+
+
+Пример запуска через ***Program.cs*** в консольном приложение   
+```csharp
+using NLog;
+using static PRTelegramBot.Core.TelegramService;
+using PRTelegramBot.Extensions;
+using PRTelegramBot.Core;
+using PRTelegramBot.Configs;
+using ConsoleExample.Examples;
+
+//Конфигурация NLog
+NLogConfigurate.Configurate();
+//Словарик для логгеров
+Dictionary<string, Logger> LoggersContainer = new Dictionary<string, Logger>();
+//Команда для завершения приложения
+const string EXIT_COMMAND = "exit";
+
+//Запуск программы
+Console.WriteLine("Запуск программы");
+Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
+
+#region запуск телеграм бота
+var telegram = TelegramService.GetInstance();
+
+//Подписка на простые логи
+telegram.OnLogCommon                += Telegram_OnLogCommon;
+//Подписка на логи с ошибками
+telegram.OnLogError                 += Telegram_OnLogError;
+//Запуск работы бота
+await telegram.Start();
+
+if(telegram.Handler != null)
+{
+    //Обработка не правильный тип сообщений
+    telegram.Handler.Router.OnWrongTypeMessage      += ExampleEvent.OnWrongTypeMessage;
+
+    //Обработка пользователь написал в чат start с deeplink
+    telegram.Handler.Router.OnUserStartWithArgs     += ExampleEvent.OnUserStartWithArgs;
+
+    //Обработка проверка привилегий
+    telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
+
+    //Обработка пропущенной  команды
+    telegram.Handler.Router.OnMissingCommand        += ExampleEvent.OnMissingCommand;
+
+    //Обработка не верного типа чата
+    telegram.Handler.Router.OnWrongTypeChat         += ExampleEvent.OnWrongTypeChat;
+
+    //Обработка локаций
+    telegram.Handler.Router.OnLocationHandle        += ExampleEvent.OnLocationHandle;
+
+    //Обработка контактных данных
+    telegram.Handler.Router.OnContactHandle         += ExampleEvent.OnContactHandle;
+
+    //Обработка голосований
+    telegram.Handler.Router.OnPollHandle            += ExampleEvent.OnPollHandle;
+
+    //Обработка WebApps
+    telegram.Handler.Router.OnWebAppsHandle         += ExampleEvent.OnWebAppsHandle;
+
+    //Обработка, пользователю отказано в доступе
+    telegram.Handler.Router.OnAccessDenied          += ExampleEvent.OnAccessDenied;
+
+    //Обработка сообщения с документом
+    telegram.Handler.Router.OnDocumentHandle        += ExampleEvent.OnDocumentHandle;
+
+    //Обработка сообщения с аудио
+    telegram.Handler.Router.OnAudioHandle           += ExampleEvent.OnAudioHandle;
+
+    //Обработка сообщения с видео
+    telegram.Handler.Router.OnVideoHandle           += ExampleEvent.OnVideoHandle;
+
+    //Обработка сообщения с фото
+    telegram.Handler.Router.OnPhotoHandle           += ExampleEvent.OnPhotoHandle;
+
+    //Обработка сообщения с стикером
+    telegram.Handler.Router.OnStickerHandle         += ExampleEvent.OnStickerHandle;
+
+    //Обработка сообщения с голосовым сообщением
+    telegram.Handler.Router.OnVoiceHandle           += ExampleEvent.OnVoiceHandle;
+
+    //Обработка сообщения с неизвестным типом
+    telegram.Handler.Router.OnUnknownHandle         += ExampleEvent.OnUnknownHandle;
+
+    //Обработка сообщения с местоположением
+    telegram.Handler.Router.OnVenueHandle           += ExampleEvent.OnVenueHandle;
+
+    //Обработка сообщения с игрой
+    telegram.Handler.Router.OnGameHandle            += ExampleEvent.OnGameHandle;
+
+    //Обработка сообщения с видеозаметкой
+    telegram.Handler.Router.OnVideoNoteHandle       += ExampleEvent.OnVideoNoteHandle;
+
+    //Обработка сообщения с игральной костью
+    telegram.Handler.Router.OnDiceHandle            += ExampleEvent.OnDiceHandle;
+
+}
+
+#endregion
+
+#region Работа фоновых задач
+var tasker = new Tasker(10);
+tasker.Start();
+#endregion
+
+
+
+#region Логи
+//Обработка ошибок
+void Telegram_OnLogError(Exception ex, long? id = null)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    string errorMsg = $"{DateTime.Now}: {ex.ToString()}";
+
+
+    if (ex is Telegram.Bot.Exceptions.ApiRequestException apiEx)
+    {
+        errorMsg = $"{DateTime.Now}: {apiEx.ToString()}";
+        if (apiEx.Message.Contains("Forbidden: bot was blocked by the user"))
+        {
+            string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
+            Telegram_OnLogCommon(msg, TelegramEvents.BlockedBot, ConsoleColor.Red);
+            return;
+        }
+        else if (apiEx.Message.Contains("BUTTON_USER_PRIVACY_RESTRICTED"))
+        {
+            string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
+            Telegram_OnLogCommon(msg, TelegramEvents.BlockedBot, ConsoleColor.Red);
+            return;
+        }
+        else if (apiEx.Message.Contains("group chat was upgraded to a supergroup chat"))
+        {
+            errorMsg += $"\n newChatId: {apiEx?.Parameters?.MigrateToChatId.GetValueOrDefault()}";
+        }
+
+    }
+
+    if (LoggersContainer.TryGetValue("Error", out var logger))
+    {
+        logger.Error(errorMsg);
+    }
+    else
+    {
+        var nextLogger = LogManager.GetLogger("Error");
+        nextLogger.Error(errorMsg);
+        LoggersContainer.Add("Error", nextLogger);
+    }
+    Console.WriteLine(errorMsg);
+    Console.ResetColor();
+}
+
+//Обработка общих логов
+void Telegram_OnLogCommon(string msg, TelegramEvents eventType, ConsoleColor color = ConsoleColor.Blue)
+{
+    Console.ForegroundColor = color;
+    string formatMsg = $"{DateTime.Now}: {msg}";
+    Console.WriteLine(formatMsg);
+    Console.ResetColor();
+
+    if (LoggersContainer.TryGetValue(eventType.GetDescription(), out var logger))
+    {
+        logger.Info(formatMsg);
+    }
+    else
+    {
+        var nextLogger = LogManager.GetLogger(eventType.GetDescription());
+        nextLogger.Info(formatMsg);
+        LoggersContainer.Add(eventType.GetDescription(), nextLogger);
+    }
+}
+#endregion
+
+//Ожидание ввода команды чтобы приложение не закрылось
+while (true)
+{
+    var result = Console.ReadLine();
+    if (result.ToLower() == EXIT_COMMAND)
+    {
+        Environment.Exit(0);
+    }
+}
+```
+
 Ниже будут приведены примеры как создавать свои команды обработки для телеграма.
 
 ## Примеры использования
@@ -272,7 +456,7 @@ appconfig - хранит информацию настройки програм�
         PreviousPage,
     }
 ```
-> В консольном примере используется ***Models/CustomTHeader.cs***, вы можете создать свой файл с перечеслением, важно только чтобы название файла имело в себе ***THeader***. Это нужно для того чтобы через рефлексию отработал определенный механизм.     
+> В консольном примере используется ***Models/CustomTHeader.cs***, вы можете создать свой файл с перечислением, важно только, чтобы название файла имело в себе ***THeader***. Это нужно для того, чтобы через рефлексию отработал определенный механизм.     
 > Кто знаком с asp.net mvc знают, что имя файла контроллеров должно содержать "Controller", здесь аналогичная история.
 ```csharp
     public enum CustomTHeader
@@ -544,7 +728,7 @@ appconfig - хранит информацию настройки програм�
         }
 
         /// <summary>
-        /// Обработка выбраной даты
+        /// Обработка выбранной  даты
         /// </summary>
         [InlineCallbackHandler<THeader>(THeader.PickDate)]
         public static async Task PickDate(ITelegramBotClient botClient, Update update)
@@ -628,7 +812,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 ### Пример работы с кэшем пользователя
 
 > Класс для хранения временных данных пользователей ***/Models/TelegramCache.cs***      
-> В консольном примере используется класс ***UserCache*** который наследует TelegramCache. При желание вы можете создать свой класс любыми свойствами.   
+> В консольном примере используется класс ***UserCache*** который наследует TelegramCache. При желании вы можете создать свой класс любыми свойствами.   
 
 ```csharp
         /// <summary>
@@ -701,7 +885,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 
         /// <summary>
         /// При написание любого текста сообщения или нажатие на любую кнопку из reply для пользователя будет выполнен этот метод.
-        /// Метод регистрирует следующий шаг с максималным времение выполнения
+        /// Метод регистрирует следующий шаг с максимальным времени выполнения
         /// </summary>
         public static async Task StepOne(ITelegramBotClient botClient, Update update)
         {
