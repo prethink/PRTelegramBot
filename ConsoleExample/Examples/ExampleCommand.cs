@@ -181,6 +181,10 @@ namespace ConsoleExample.Examples
         public static async Task SlashCommand(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Команда {SlashKeys.SL_EXAMPLE}";
+            msg += "\n /get_1 - команда 1" +
+                "\n /get_2 - команда 2" +
+                "\n /get_3 - команда 3" +
+                "\n /get_4 - команда 4";
             await Helpers.Message.Send(botClient, update, msg);
         }
 
