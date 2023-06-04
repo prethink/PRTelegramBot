@@ -19,7 +19,6 @@
 # 🔑 Зависимости
 
  - TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
- - NLog v5.1.1 https://github.com/NLog/NLog
  - Microsoft.Extensions.Configuration.Binder v7.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.Configuration.Json v7.0.0 https://github.com/dotnet/runtime
 # 🧱 Интегрированные пакеты
