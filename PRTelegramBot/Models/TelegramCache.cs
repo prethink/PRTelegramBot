@@ -18,8 +18,8 @@ namespace PRTelegramBot.Models
         /// </summary>
         public Message LastMessage { get; set; }
 
-        //TODO: Добавить свои временные данные
 
+        //TODO: Добавить свои временные данные
         /// <summary>
         /// Очищает данные кеша
         /// </summary>

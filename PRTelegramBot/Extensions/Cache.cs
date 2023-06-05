@@ -23,7 +23,7 @@ namespace PRTelegramBot.Extensions
         {
             long userId = update.GetChatId();
             update.ClearCacheData();
-            _userHandlerData.Add(userId, default(T));
+            _userHandlerData.Add(userId, Activator.CreateInstance<T>());
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace PRTelegramBot.Extensions
         {
             long userId = update.GetChatId();
             var data = _userHandlerData.FirstOrDefault(x => x.Key == userId);
-            if (data.Equals(default(KeyValuePair<long, Models.TelegramCache>)))
+            if (data.Equals(default(KeyValuePair<long, TelegramCache >)))
             {
                 update.CreateCacheData<T>();
                 return (T)_userHandlerData.FirstOrDefault(x => x.Key == userId).Value;
