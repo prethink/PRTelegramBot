@@ -876,7 +876,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         [ReplyMenuHandler(false, "stepstart")]
         public static async Task StepStart(ITelegramBotClient botClient, Update update)
         {
-            string msg = "Тестирование функции пошагового выполнения";
+            string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
             //Регистрация следующего шага пользователя
             update.RegisterNextStep(new StepTelegram(StepOne));
             await Helpers.Message.Send(botClient, update, msg);
@@ -888,7 +888,10 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         /// </summary>
         public static async Task StepOne(ITelegramBotClient botClient, Update update)
         {
-            string msg = "Шаг 1";
+            string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
+                        $"\nВведите дату рождения";
+            //Запись временных данных в кэщ пользователя
+            update.GetCacheData<UserCache>().Data = $"Имя: {update.Message.Text}\n";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
             await Helpers.Message.Send(botClient, update, msg);
@@ -899,7 +902,10 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         /// </summary>
         public static async Task StepTwo(ITelegramBotClient botClient, Update update)
         {
-            string msg = "Шаг 2";
+            string msg = $"Шаг 2 - дата рождения {update.Message.Text}" +
+                         $"\nНапиши любой текст, чтобы увидеть результат";
+            //Запись временных данных в кэщ пользователя
+            update.GetCacheData<UserCache>().Data += $"Дата рождения: {update.Message.Text}\n";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             update.RegisterNextStep(new StepTelegram(StepThree, DateTime.Now.AddMinutes(5)));
 
@@ -907,7 +913,7 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             var option = new OptionMessage();
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
-            option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, MessageKeys.GetValueButton(nameof(ReplyKeys.RP_MAIN_MENU)));
+            option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, DictionaryJSON.GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
             await Helpers.Message.Send(botClient, update, msg, option);
         }
 
@@ -917,7 +923,10 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         /// </summary>
         public static async Task StepThree(ITelegramBotClient botClient, Update update)
         {
-            string msg = "Шаг 3";
+            string msg = $"Шаг 3 - Результат:\n{update.GetCacheData<UserCache>().Data}" +
+                         $"\nПоследовательность шагов очищена.";
+            //Последний шаг
+            update.ClearStepUser();
             await Helpers.Message.Send(botClient, update, msg);
         }
 
