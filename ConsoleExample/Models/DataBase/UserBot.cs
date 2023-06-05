@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PRTelegramBot.Models.DataBase
+namespace ConsoleExample.Models.DataBase
 {
     /// <summary>
     /// Пользователь

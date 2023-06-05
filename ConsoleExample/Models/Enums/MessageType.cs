@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace PRTelegramBot.Models.Enums
+namespace ConsoleExample.Models.Enums
 {
     /// <summary>
     /// Типы сообщения для рекламы

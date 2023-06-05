@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 using PRTelegramBot.Core;
-using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Models.InlineButtons;
+using ConsoleExample.Models.Enums;
 
-namespace PRTelegramBot.Models.DataBase
+namespace ConsoleExample.Models.DataBase
 {
 
     /// <summary>
