@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
+using PRTelegramBot.Core;
 
 namespace PRTelegramBot.Models
 {
@@ -9,14 +10,9 @@ namespace PRTelegramBot.Models
     public class StepTelegram
     {
         /// <summary>
-        /// Делегат с сигнатурой метода
-        /// </summary>
-        public delegate Task Command(ITelegramBotClient botClient, Update update);
-
-        /// <summary>
         /// Ссылка на метод который должен быть выполнен
         /// </summary>
-        public Command CommandDelegate { get; set; }
+        public Router.TelegramCommand CommandDelegate { get; set; }
 
         /// <summary>
         /// Срок когда команда еще актуальна для выполнения
@@ -27,7 +23,7 @@ namespace PRTelegramBot.Models
         ///  Создает новый шаг
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
-        public StepTelegram(Command command)
+        public StepTelegram(Router.TelegramCommand command)
         {
             CommandDelegate = command;
         }
@@ -37,7 +33,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды</param>
-        public StepTelegram(Command command, DateTime expiriedTime)
+        public StepTelegram(Router.TelegramCommand command, DateTime expiriedTime)
         {
             CommandDelegate = command;
             ExpiriedTime = expiriedTime;

@@ -30,8 +30,7 @@ namespace PRTelegramBot.Core
         /// 
         /// </summary>
         public delegate Task TelegramCommandArgs(ITelegramBotClient botclient, Update update, string args);
-        public delegate Task TelegramCommandWithPrivilage(ITelegramBotClient botclient, Update update, UserPrivilege? requiredPrivilege);
-
+        public delegate Task TelegramCheckPrivilege(ITelegramBotClient botclient, Update update, TelegramCommand callback);
         /// <summary>
         /// Событие когда пользователь написал start с аргументом
         /// </summary>
@@ -40,7 +39,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Событие когда нужно проверить привелегии перед выполнением команды
         /// </summary>
-        public event TelegramCommandWithPrivilage? OnCheckPrivilege;
+        public event TelegramCheckPrivilege? OnCheckPrivilege;
 
         /// <summary>
         /// Событие когда указан не верный тип сообщения
@@ -290,9 +289,9 @@ namespace PRTelegramBot.Core
                             }
                         }
                         var privilages = commandExecute.Value.Method.GetCustomAttribute<AccessAttribute>();
-                        if (privilages != null && privilages.RequiredPrivilege != null)
+                        if (privilages != null)
                         {
-                            OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value);
                             return true;
                         }
                         else
@@ -376,9 +375,9 @@ namespace PRTelegramBot.Core
                                 return;
                             }
                         }
-                        if (privilages != null && privilages.RequiredPrivilege != null)
+                        if (privilages != null)
                         {
-                            OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value);
                             return;
                         }
 
@@ -422,9 +421,9 @@ namespace PRTelegramBot.Core
                                 }
                             }
                             var privilages = commandCallback.Value.Method.GetCustomAttribute<AccessAttribute>();
-                            if (privilages != null && privilages.RequiredPrivilege != null)
+                            if (privilages != null)
                             {
-                                OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                                OnCheckPrivilege?.Invoke(_botClient, update, commandCallback.Value);
                             }
                             else
                             {
@@ -494,9 +493,9 @@ namespace PRTelegramBot.Core
                             return true;
                         }
                     }
-                    if (privilages != null && privilages.RequiredPrivilege != null)
+                    if (privilages != null)
                     {
-                        OnCheckPrivilege?.Invoke(_botClient, update, privilages.RequiredPrivilege);
+                        OnCheckPrivilege?.Invoke(_botClient, update, cmd);
                         return true;
                     }
                     await cmd(_botClient, update);

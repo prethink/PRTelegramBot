@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
 using CallbackId = PRTelegramBot.Models.Enums.THeader;
+using PRTelegramBot.Core;
 
 namespace ConsoleExample.Examples
 {
@@ -112,7 +113,7 @@ namespace ConsoleExample.Examples
             await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
         }
 
-        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, PRTelegramBot.Models.Enums.UserPrivilege? requiredPrivilege)
+        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Router.TelegramCommand callback)
         {
             string msg = "Проверка привилегий";
             await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);

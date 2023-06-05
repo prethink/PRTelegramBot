@@ -5,14 +5,14 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.0.3</Version>
+    <Version>0.0.5</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/prethink/PRTelegramBot</RepositoryUrl>
     <PackageTags>Telegram, TelegramBot</PackageTags>
     <Description>Библиотека для быстрого и удобного создания телеграм ботов на C#</Description>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>PRTelegramBot</Title>
     <PackageIcon>LogoBot.png</PackageIcon>
     <NeutralLanguage>ru-RU</NeutralLanguage>
