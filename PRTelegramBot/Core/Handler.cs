@@ -69,7 +69,7 @@ namespace PRTelegramBot.Core
                 }
 
 
-                await OnUpdate(botClient, update);
+                await OnUpdate?.Invoke(botClient, update);
 
             }
             catch (Exception ex)
