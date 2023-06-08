@@ -124,6 +124,9 @@ await telegram.Start();
 
 if(telegram.Handler != null)
 {
+    //Обработка обновление кроме message и callback
+    telegram.Handler.OnUpdate                       += Handler_OnUpdate;
+
     //Обработка не правильный тип сообщений
     telegram.Handler.Router.OnWrongTypeMessage      += ExampleEvent.OnWrongTypeMessage;
 
