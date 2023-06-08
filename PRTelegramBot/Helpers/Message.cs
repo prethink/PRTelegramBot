@@ -35,6 +35,25 @@ namespace PRTelegramBot.Helpers
         }
 
         /// <summary>
+        /// Разбивает большое сообщение на блоки
+        /// </summary>
+        /// <param name="text">Текст</param>
+        /// <param name="chunkSize">Размер блока</param>
+        /// <returns>Коллекция сообщений</returns>
+        static IList<string> SplitIntoChunks(string text)
+        {
+            List<string> chunks = new List<string>();
+            int offset = 0;
+            while (offset < text.Length)
+            {
+                int size = Math.Min(MAX_MESSAGE_LENGTH, text.Length - offset);
+                chunks.Add(text.Substring(offset, size));
+                offset += size;
+            }
+            return chunks;
+        }
+
+        /// <summary>
         /// Копирует сообщение
         /// </summary>
         /// <param name="botClient">Клиент телеграм бота</param>
