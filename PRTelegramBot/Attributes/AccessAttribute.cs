@@ -5,8 +5,12 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Аттрибут для проверки прав доступа на запуск методов
     /// </summary>
-    internal class AccessAttribute : Attribute
+    public class AccessAttribute : Attribute
     {
-
+        public int? Flags { get; private set; }
+        public AccessAttribute(int flags)
+        {
+            Flags = flags;
+        }
     }
 }
