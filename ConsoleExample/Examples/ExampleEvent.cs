@@ -115,6 +115,11 @@ namespace ConsoleExample.Examples
             await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
         }
 
+        /// <summary>
+        /// Событие проверки привелегий пользователя
+        /// </summary>
+        /// <param name="callback">callback функция выполняется в случае успеха</param>
+        /// <param name="flags">Флаги которые должны присуствовать</param>
         public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Router.TelegramCommand callback, int? flags = null)
         {
             if(flags != null)
