@@ -955,6 +955,12 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
 
 ### Пример ограничения выполнение функции только определенной группой пользователей
 
+Если к некоторым функциям требуется ограничить доступ, можно воспользоваться атрибутом Access, он принимает в себя значение типа int.    
+
+Вариант использования либо через int либо через flags enum    
+
+> [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]     
+> [Access(11)]     
 
 
 ```csharp
@@ -971,10 +977,14 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
         }
 ```
 
+Обязательно нужно подписаться на событие OnCheckPrivilege   
+
 ```csharp
     //Обработка проверка привилегий
     telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
 ```
+
+Теперь в OnCheckPrivilege пишем свою логику проверки прав доступа к функции, пример использования приведен ниже.  
 
 ```csharp
         /// <summary>
