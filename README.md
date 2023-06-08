@@ -14,6 +14,7 @@
  - Работа со словарем;
  - Выполнение команд пошагово;
  - Хранение кэша данных пользователей;
+ - Возможность ограничить доступ к определенным функциям только выбранным пользователям;
  - Возможность добавления администраторов для управления телеграм-ботом;
  - Возможность использования белого списка пользователей, которые могут пользоваться ботом.
 
@@ -949,6 +950,63 @@ DictionaryJSON.GetMessage("MSG_EXAMPLE_TEXT");
             }
             
             await Helpers.Message.Send(botClient, update, msg);
+        }
+```
+
+### Пример ограничения выполнение функции только определенной группой пользователей
+
+
+
+```csharp
+        /// <summary>
+        /// Напишите в чате "Access"
+        /// Пример генерации reply меню
+        /// </summary>
+        [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]
+        [ReplyMenuHandler(true, "Access")]
+        public static async Task ExampleAccess(ITelegramBotClient botClient, Update update)
+        {
+            string msg = "Проверка привилегий";
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+```
+
+```csharp
+    //Обработка проверка привилегий
+    telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
+```
+
+```csharp
+        /// <summary>
+        /// Событие проверки привелегий пользователя
+        /// </summary>
+        /// <param name="callback">callback функция выполняется в случае успеха</param>
+        /// <param name="flags">Флаги которые должны присуствовать</param>
+        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Router.TelegramCommand callback, int? flags = null)
+        {
+            if(flags != null)
+            {
+                var flag = flags.Value;
+                //Проверяем флаги через int
+                if(update.GetIntPrivilege().Contains(flag))
+                {
+                    await callback(botclient, update);
+                    return;
+                }
+
+                //Проверяем флаги через enum UserPrivilage
+                if (((UserPrivilege)flag).HasFlag(update.GetFlagPrivilege()))
+                {
+                    await callback(botclient, update);
+                    return;
+                }
+
+                string errorMsg = "У вас нет доступа к данной функции";
+                await PRTelegramBot.Helpers.Message.Send(botclient, update, errorMsg);
+                return;
+            }
+            string msg = "Проверка привилегий";
+            await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
         }
 ```
 
