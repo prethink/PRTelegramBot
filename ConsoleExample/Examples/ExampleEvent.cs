@@ -124,15 +124,19 @@ namespace ConsoleExample.Examples
                 if(update.GetIntPrivilege().Contains(flag))
                 {
                     await callback(botclient, update);
+                    return;
                 }
 
                 //Проверяем флаги через enum UserPrivilage
                 if (((UserPrivilege)flag).HasFlag(update.GetFlagPrivilege()))
                 {
                     await callback(botclient, update);
+                    return;
                 }
 
-
+                string errorMsg = "У вас нет доступа к данной функции";
+                await PRTelegramBot.Helpers.Message.Send(botclient, update, errorMsg);
+                return;
             }
             string msg = "Проверка привилегий";
             await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
