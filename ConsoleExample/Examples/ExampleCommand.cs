@@ -12,6 +12,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using Helpers = PRTelegramBot.Helpers;
 using Header = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
+using PRTelegramBot.Models.Enums;
 
 namespace ConsoleExample.Examples
 {
@@ -66,6 +67,18 @@ namespace ConsoleExample.Examples
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
             await Helpers.Message.Send(botClient, update, msg, option);
+        }
+
+        /// <summary>
+        /// Напишите в чате "Access"
+        /// Пример генерации reply меню
+        /// </summary>
+        [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]
+        [ReplyMenuHandler(true, "Access")]
+        public static async Task ExampleAccess(ITelegramBotClient botClient, Update update)
+        {
+            string msg = "Проверка привилегий";
+            await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>

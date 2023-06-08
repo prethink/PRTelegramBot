@@ -30,7 +30,7 @@ namespace PRTelegramBot.Core
         /// 
         /// </summary>
         public delegate Task TelegramCommandArgs(ITelegramBotClient botclient, Update update, string args);
-        public delegate Task TelegramCheckPrivilege(ITelegramBotClient botclient, Update update, TelegramCommand callback);
+        public delegate Task TelegramCheckPrivilege(ITelegramBotClient botclient, Update update, TelegramCommand callback, int? flags = null);
         /// <summary>
         /// Событие когда пользователь написал start с аргументом
         /// </summary>
@@ -291,7 +291,7 @@ namespace PRTelegramBot.Core
                         var privilages = commandExecute.Value.Method.GetCustomAttribute<AccessAttribute>();
                         if (privilages != null)
                         {
-                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value);
+                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value, privilages.Flags);
                             return true;
                         }
                         else
@@ -377,7 +377,7 @@ namespace PRTelegramBot.Core
                         }
                         if (privilages != null)
                         {
-                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value);
+                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value, privilages.Flags);
                             return;
                         }
 
@@ -423,7 +423,7 @@ namespace PRTelegramBot.Core
                             var privilages = commandCallback.Value.Method.GetCustomAttribute<AccessAttribute>();
                             if (privilages != null)
                             {
-                                OnCheckPrivilege?.Invoke(_botClient, update, commandCallback.Value);
+                                OnCheckPrivilege?.Invoke(_botClient, update, commandCallback.Value, privilages.Flags);
                             }
                             else
                             {
@@ -495,7 +495,7 @@ namespace PRTelegramBot.Core
                     }
                     if (privilages != null)
                     {
-                        OnCheckPrivilege?.Invoke(_botClient, update, cmd);
+                        OnCheckPrivilege?.Invoke(_botClient, update, cmd, privilages.Flags);
                         return true;
                     }
                     await cmd(_botClient, update);

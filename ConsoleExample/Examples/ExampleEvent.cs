@@ -2,6 +2,8 @@
 using Helpers = PRTelegramBot.Helpers;
 using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using PRTelegramBot.Core;
+using PRTelegramBot.Models.Enums;
+using ConsoleExample.Extension;
 
 namespace ConsoleExample.Examples
 {
@@ -113,8 +115,25 @@ namespace ConsoleExample.Examples
             await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
         }
 
-        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Router.TelegramCommand callback)
+        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Router.TelegramCommand callback, int? flags = null)
         {
+            if(flags != null)
+            {
+                var flag = flags.Value;
+                //Проверяем флаги через int
+                if(update.GetIntPrivilege().Contains(flag))
+                {
+                    await callback(botclient, update);
+                }
+
+                //Проверяем флаги через enum UserPrivilage
+                if (((UserPrivilege)flag).HasFlag(update.GetFlagPrivilege()))
+                {
+                    await callback(botclient, update);
+                }
+
+
+            }
             string msg = "Проверка привилегий";
             await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
         }
