@@ -38,7 +38,6 @@ namespace PRTelegramBot.Helpers
         /// Разбивает большое сообщение на блоки
         /// </summary>
         /// <param name="text">Текст</param>
-        /// <param name="chunkSize">Размер блока</param>
         /// <returns>Коллекция сообщений</returns>
         static IList<string> SplitIntoChunks(string text)
         {
