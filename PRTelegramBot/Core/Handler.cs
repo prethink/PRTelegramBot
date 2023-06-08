@@ -4,6 +4,7 @@ using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
+using static PRTelegramBot.Core.Router;
 
 namespace PRTelegramBot.Core
 {
@@ -14,6 +15,9 @@ namespace PRTelegramBot.Core
         /// </summary>
         private ITelegramBotClient _botClient;
         public List<long> WhiteList { get; set; }
+
+
+        public event TelegramCommand? OnUpdate;
 
         /// <summary>
         /// Маршрутизатор
@@ -52,54 +56,21 @@ namespace PRTelegramBot.Core
                     }
                 }
 
-                switch (update.Type)
+                if(update.Type == UpdateType.Message)
                 {
-                    case UpdateType.Unknown:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.Message:
-                        await HandleMessage(update);
-                        break;
-                    case UpdateType.InlineQuery:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.ChosenInlineResult:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.CallbackQuery:
-                        await HandleCallbackQuery(update, cancellationToken);
-                        break;
-                    case UpdateType.EditedMessage:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.ChannelPost:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.EditedChannelPost:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.ShippingQuery:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.PreCheckoutQuery:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.Poll:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.PollAnswer:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.MyChatMember:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.ChatMember:
-                        //TODO: Доделать
-                        break;
-                    case UpdateType.ChatJoinRequest:
-                        //TODO: Доделать
-                        break;
+                    await HandleMessage(update);
+                    return;
                 }
+
+                if(update.Type == UpdateType.CallbackQuery)
+                {
+                    await HandleCallbackQuery(update, cancellationToken);
+                    return;
+                }
+
+
+                await OnUpdate(botClient, update);
+
             }
             catch (Exception ex)
             {

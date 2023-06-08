@@ -30,6 +30,9 @@ await telegram.Start();
 
 if(telegram.Handler != null)
 {
+    //Обработка обновление кроме message и callback
+    telegram.Handler.OnUpdate                       += Handler_OnUpdate;
+
     //Обработка не правильный тип сообщений
     telegram.Handler.Router.OnWrongTypeMessage      += ExampleEvent.OnWrongTypeMessage;
 
@@ -93,6 +96,11 @@ if(telegram.Handler != null)
     //Обработка сообщения с игральной костью
     telegram.Handler.Router.OnDiceHandle            += ExampleEvent.OnDiceHandle;
 
+}
+
+async Task Handler_OnUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
+    //Обработка обновление кроме message и callback
 }
 
 #endregion
