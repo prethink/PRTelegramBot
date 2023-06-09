@@ -2,6 +2,10 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Core;
+using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.TCommands;
+using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Helpers.TG
 {
@@ -236,6 +240,47 @@ namespace PRTelegramBot.Helpers.TG
             }
             InlineKeyboardMarkup Keyboard = new(buttons);
             return Keyboard;
+        }
+
+        /// <summary>
+        /// Генерирует меню для постраничного вывода
+        /// </summary>
+        /// <param name="currentPage">Текущая страница</param>
+        /// <param name="pageCount">Всего страниц</param>
+        /// <param name="nextPageMarker">Маркер nextpage</param>
+        /// <param name="previousPageMarker">Маркер prevpage</param>
+        /// <param name="currentPageMarker">Маркер currentPage</param>
+        /// <param name="addMenu">Дополнительное меню с которым требуется объединить данные</param>
+        /// <returns></returns>
+        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "", InlineKeyboardMarkup addMenu = null)
+        {
+            List<IInlineContent> buttons = new();
+
+            if (currentPage != 1)
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}" , THeader.PreviousPage, new PageTCommand(currentPage - 1)));
+            }
+
+            if(!string.IsNullOrEmpty(currentPageMarker))
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", THeader.NextPage, new PageTCommand(currentPage)));
+            }
+
+            if (currentPage != pageCount)
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", THeader.CurrentPage, new PageTCommand(currentPage + 1)));
+            }
+
+            var pagesMenu = InlineKeyboard(3, buttons);
+
+            if(addMenu != null)
+            {
+                return UnitInlineKeyboard(addMenu,pagesMenu);
+            }
+            else
+            {
+                return pagesMenu;
+            }
         }
     }
 }
