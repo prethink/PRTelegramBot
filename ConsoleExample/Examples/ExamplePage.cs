@@ -17,7 +17,7 @@ namespace ConsoleExample.Examples
 {
     public class ExamplePage
     {
-        //Тестовые данные
+        //Тестовые данные 1
         static List<string> pageData = new List<string>()
             {
                 "Данные страница 1",
@@ -27,6 +27,7 @@ namespace ConsoleExample.Examples
                 "Данные страница 5"
             };
 
+        //Тестовые данные 2
         static List<string> pageDataTwo = new List<string>()
             {
                 "TestДанные страница 1",
@@ -42,13 +43,15 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler(true, "pages")]
         public static async Task ExamplePages(ITelegramBotClient botClient, Update update)
         {
+            //Беру текст для первого сообщения
             string msg = pageData[0];
+            //Получаю контент с 1 страницы с размером страницы 1
             var data = await pageData.GetPaged<string>(1, 1);
+            //Генерирую меню постраничного вывода с заголовком
             var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
             var message = await Helpers.Message.Send(botClient, update, msg, option);
-            update.GetCacheData<UserCache>().LastMessage = message;
         }
 
         /// <summary>
@@ -57,13 +60,15 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler(true, "pagestwo")]
         public static async Task ExamplePagesTwo(ITelegramBotClient botClient, Update update)
         {
+            //Беру текст для первого сообщения
             string msg = pageDataTwo[0];
+            //Получаю контент с 1 страницы с размером страницы 1
             var data = await pageDataTwo.GetPaged<string>(1, 1);
+            //Генерирую меню постраничного вывода с заголовком
             var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader2);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
             var message = await Helpers.Message.Send(botClient, update, msg, option);
-            update.GetCacheData<UserCache>().LastMessage = message;
         }
 
         /// <summary>
@@ -81,11 +86,16 @@ namespace ConsoleExample.Examples
                     var command = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                     if (command != null)
                     {
+                        //Получаю заголовок из данных
                         CustomTHeader header = (CustomTHeader)command.Data.Header;
+                        //обрабатываю данные по заголовку
                         if(header == CustomTHeader.CustomPageHeader)
                         {
+                            //Получаю номер страницы и указываю размер страницы
                             var data = await pageData.GetPaged<string>(command.Data.Page, 1);
-                            var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader);
+                            //Генерирую постраничное меню
+                            var generateMenu = Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader);
+                            //Получаю результат из постраничного вывода
                             var pageResult = data.Results;
                             var option = new OptionMessage();
                             option.MenuInlineKeyboardMarkup = generateMenu;
@@ -98,12 +108,17 @@ namespace ConsoleExample.Examples
                             {
                                 msg = "Нечего не найдено";
                             }
+                            //Редактирую текущую страницу
                             await Helpers.Message.Edit(botClient, update, msg, option);
                         }
-                        else if(header == CustomTHeader.CustomPageHeader2)
+                        //обрабатываю данные по заголовку
+                        else if (header == CustomTHeader.CustomPageHeader2)
                         {
+                            //Получаю номер страницы и указываю размер страницы
                             var data = await pageDataTwo.GetPaged<string>(command.Data.Page, 1);
-                            var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader2);
+                            //Генерирую постраничное меню
+                            var generateMenu = Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader2);
+                            //Получаю результат из постраничного вывода
                             var pageResult = data.Results;
                             var option = new OptionMessage();
                             option.MenuInlineKeyboardMarkup = generateMenu;
@@ -116,9 +131,9 @@ namespace ConsoleExample.Examples
                             {
                                 msg = "Нечего не найдено";
                             }
+                            //Редактирую текущую страницу
                             await Helpers.Message.Edit(botClient, update, msg, option);
                         }
-
                     }
                 }
 
@@ -128,7 +143,5 @@ namespace ConsoleExample.Examples
                 TelegramService.GetInstance().InvokeErrorLog(ex);
             }
         }
-
-
     }
 }
