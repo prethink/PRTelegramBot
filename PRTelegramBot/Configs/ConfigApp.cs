@@ -93,6 +93,7 @@ namespace PRTelegramBot.Configs
         public List<long> WhiteListUsers { get; set; } 
         public List<long> Admins { get; set; }
         public bool ShowErrorNotFoundNameButton { get; set; }
+        public bool ClearUpdatesOnStart { get; set; }
     }
 
     /// <summary>

@@ -134,7 +134,13 @@ namespace PRTelegramBot.Core
                 _cts = new CancellationTokenSource();
                 _options = new ReceiverOptions { AllowedUpdates = { } };
 
-                await ClearUpdates();
+                bool isClearUpdate = ConfigApp.GetSettingsTelegram<TelegramConfig>().ClearUpdatesOnStart;
+
+                if(isClearUpdate)
+                {
+                    await ClearUpdates();
+                }
+
 
                 botClient.StartReceiving(
                             Handler.HandleUpdateAsync,
