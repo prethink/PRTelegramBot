@@ -252,9 +252,9 @@ namespace PRTelegramBot.Helpers.TG
         /// <param name="currentPageMarker">Маркер currentPage</param>
         /// <param name="addMenu">Дополнительное меню с которым требуется объединить данные</param>
         /// <returns>Постраничное inline menu</returns>
-        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, InlineKeyboardMarkup addMenu, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "")
+        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, InlineKeyboardMarkup addMenu, Enum enumToInt, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "")
         {
-            var pageMenu = GetPageMenu(currentPage,pageCount,nextPageMarker,previousPageMarker,currentPageMarker);
+            var pageMenu = GetPageMenu(enumToInt, currentPage, pageCount, nextPageMarker, previousPageMarker, currentPageMarker);
             return UnitInlineKeyboard(addMenu,pageMenu);
         }
 
@@ -268,40 +268,10 @@ namespace PRTelegramBot.Helpers.TG
         /// <param name="button">Кнопка обработчик в центре</param>
         /// <param name="addMenu">Дополнительное меню с которым требуется объединить данные</param>
         /// <returns>Постраничное inline menu</returns>
-        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, InlineKeyboardMarkup addMenu, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", IInlineContent button = null)
+        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, InlineKeyboardMarkup addMenu, Enum enumToInt, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", IInlineContent button = null)
         {
-            var pageMenu = GetPageMenu(currentPage, pageCount, nextPageMarker, previousPageMarker, button);
+            var pageMenu = GetPageMenu(currentPage, pageCount, enumToInt, nextPageMarker, previousPageMarker, button);
             return UnitInlineKeyboard(addMenu, pageMenu);
-        }
-
-        /// <summary>
-        /// Генерирует меню для постраничного вывода
-        /// </summary>
-        /// <param name="currentPage">Текущая страница</param>
-        /// <param name="pageCount">Всего страниц</param>
-        /// <param name="nextPageMarker">Маркер nextpage</param>
-        /// <param name="previousPageMarker">Маркер prevpage</param>
-        /// <param name="button">Кнопка обработчик в центре</param>
-        /// <returns>Постраничное inline menu</returns>
-        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", IInlineContent button = null)
-        {
-            List<IInlineContent> buttons = new();
-
-            if (currentPage != 1)
-            {
-                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", THeader.PreviousPage, new PageTCommand(currentPage - 1)));
-            }
-            if(button != null)
-            {
-                buttons.Add(button);
-            }
-
-            if (currentPage != pageCount)
-            {
-                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", THeader.CurrentPage, new PageTCommand(currentPage + 1)));
-            }
-
-            return InlineKeyboard(3, buttons);
         }
 
         /// <summary>
@@ -313,14 +283,44 @@ namespace PRTelegramBot.Helpers.TG
         /// <param name="previousPageMarker">Маркер prevpage</param>
         /// <param name="currentPageMarker">Маркер currentPage</param>
         /// <returns>Постраничное inline menu</returns>
-        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "")
+        public static InlineKeyboardMarkup GetPageMenu(Enum enumToInt, int currentPage, int pageCount, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "")
         {
             IInlineContent button = null;
             if(!string.IsNullOrEmpty(currentPageMarker))
             {
-                button = new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", THeader.NextPage, new PageTCommand(currentPage));
+                button = new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", THeader.NextPage, new PageTCommand(currentPage, enumToInt));
             }
-            return GetPageMenu(currentPage, pageCount, nextPageMarker, previousPageMarker, button);
+            return GetPageMenu(currentPage, pageCount, enumToInt, nextPageMarker, previousPageMarker, button);
+        }
+
+        /// <summary>
+        /// Генерирует меню для постраничного вывода
+        /// </summary>
+        /// <param name="currentPage">Текущая страница</param>
+        /// <param name="pageCount">Всего страниц</param>
+        /// <param name="nextPageMarker">Маркер nextpage</param>
+        /// <param name="previousPageMarker">Маркер prevpage</param>
+        /// <param name="button">Кнопка обработчик в центре</param>
+        /// <returns>Постраничное inline menu</returns>
+        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, Enum enumToInt, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", IInlineContent button = null)
+        {
+            List<IInlineContent> buttons = new();
+
+            if (currentPage != 1)
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", THeader.PreviousPage, new PageTCommand(currentPage - 1, enumToInt)));
+            }
+            if (button != null)
+            {
+                buttons.Add(button);
+            }
+
+            if (currentPage != pageCount)
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", THeader.CurrentPage, new PageTCommand(currentPage + 1, enumToInt)));
+            }
+
+            return InlineKeyboard(3, buttons);
         }
     }
 }

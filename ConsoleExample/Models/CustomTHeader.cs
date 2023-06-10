@@ -10,7 +10,7 @@ namespace ConsoleExample.Models
     public enum CustomTHeader
     {
         [Description("Бесплатный ВИП")]
-        GetFreeVIP,
+        GetFreeVIP = 500,
         [Description("Вип на 1 день")]
         GetVipOneDay,
         [Description("Вип на 1 неделю")]
@@ -25,5 +25,9 @@ namespace ConsoleExample.Models
         ExampleTwo,
         [Description("Пример 3")]
         ExampleThree,
+        [Description("Пример страниц")]
+        CustomPageHeader,
+        [Description("Пример страниц2")]
+        CustomPageHeader2,
     }
 }

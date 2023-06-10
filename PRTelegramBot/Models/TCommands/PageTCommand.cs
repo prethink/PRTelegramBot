@@ -12,9 +12,11 @@ namespace PRTelegramBot.Models.TCommands
     {
         [JsonProperty("1")]
         public int Page { get; set; }
-        public PageTCommand(int page) : base()
+        public int Header { get; set; }
+        public PageTCommand(int page, Enum enumValueInt) : base()
         {
             this.Page = page;
+            Header = Convert.ToInt32(enumValueInt);
         }
     }
 }
