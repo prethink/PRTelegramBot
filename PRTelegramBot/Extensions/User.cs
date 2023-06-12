@@ -57,7 +57,7 @@ namespace PRTelegramBot.Extensions
             try
             {
                 var telegramId = update.GetChatId();
-                var admins = ConfigApp.GetSettings<TelegramConfig>().Admins;
+                var admins = ConfigApp.GetSettingsTelegram<TelegramConfig>().Admins;
                 return admins != null ? admins.Contains(telegramId) : false;
             }
             catch (Exception ex)
