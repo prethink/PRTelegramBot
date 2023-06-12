@@ -10,7 +10,7 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Тип сообщения
         /// </summary>
-        public List<MessageType> TypeMessages { get; set; } = new List<MessageType>();
+        public List<MessageType> TypeMessages { get; private set; } = new List<MessageType>();
 
         public RequireTypeMessageAttribute(params MessageType[] typeData)
         {

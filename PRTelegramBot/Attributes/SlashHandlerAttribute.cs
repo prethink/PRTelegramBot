@@ -8,7 +8,7 @@
         /// <summary>
         /// Коллекция слеш команд
         /// </summary>
-        public List<string> Commands { get; set; }
+        public List<string> Commands { get; private set; }
 
         public SlashHandlerAttribute(params string[] commands)
         {

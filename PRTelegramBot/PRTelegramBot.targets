@@ -6,11 +6,11 @@
     </None>
     <None Include="$(MSBuildThisFileDirectory)telegram.json">
       <Link>Configs/telegram.json</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory Condition="!Exists('$(OutputPath)\Configs\telegram.json')">Always</CopyToOutputDirectory>
     </None>
     <None Include="$(MSBuildThisFileDirectory)\appconfig.json">
       <Link>Configs/appconfig.json</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory Condition="!Exists('$(OutputPath)\Configs\telegram.json')">Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Коллекция inline команд
         /// </summary>
-        public List<Enum> Commands { get; set; }
+        public List<Enum> Commands { get; private set; }
 
         public InlineCallbackHandlerAttribute(params T[] commands)
         {

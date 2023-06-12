@@ -10,7 +10,7 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Список reply команд
         /// </summary>
-        public List<string> Commands { get; set; }
+        public List<string> Commands { get; private set; }
 
         /// <summary>
         /// Приоритетная команда

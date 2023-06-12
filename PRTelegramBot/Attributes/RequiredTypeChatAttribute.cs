@@ -10,7 +10,7 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Коллекция допустимых чатов
         /// </summary>
-        public List<ChatType> TypeUpdate { get; set; } = new List<ChatType>();
+        public List<ChatType> TypeUpdate { get; private set; } = new List<ChatType>();
 
         public RequiredTypeChatAttribute(params ChatType[] types)
         {
