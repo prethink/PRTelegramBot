@@ -9,7 +9,7 @@ namespace PRTelegramBot.Models.CallbackCommands
     public class TCommandBase
     {
         /// <summary>
-        /// Предыдушая команда
+        /// Предыдущая команда
         /// </summary>
         [JsonProperty("0")]
         public THeader LastCommand { get; set; }

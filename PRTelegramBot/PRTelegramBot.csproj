@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>

@@ -131,8 +131,15 @@ namespace PRTelegramBot.Core
             try
             {
                 string command = update.Message.Text ?? update.Message.Type.ToString();
-
-                TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
+                if (update.Message.Type == MessageType.Text)
+                {
+                    TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
+                }
+                else
+                {
+                    TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} отправил команду {command}");
+                }
+                
                 
                 Router.ExecuteCommandByMessage(command, update);
             }
