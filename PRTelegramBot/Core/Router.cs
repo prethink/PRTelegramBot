@@ -23,117 +23,108 @@ namespace PRTelegramBot.Core
     public class Router
     {
         /// <summary>
-        /// Делегат с сигнатурой метода как должна выглядеть команда
-        /// </summary>
-        public delegate Task TelegramCommand(ITelegramBotClient botclient, Update update);
-        /// <summary>
-        /// 
-        /// </summary>
-        public delegate Task TelegramCommandArgs(ITelegramBotClient botclient, Update update, string args);
-        public delegate Task TelegramCheckPrivilege(ITelegramBotClient botclient, Update update, TelegramCommand callback, int? flags = null);
-        /// <summary>
         /// Событие когда пользователь написал start с аргументом
         /// </summary>
-        public event TelegramCommandArgs? OnUserStartWithArgs;
+        public event Func<ITelegramBotClient, Update,string, Task>? OnUserStartWithArgs;
 
         /// <summary>
         /// Событие когда нужно проверить привелегии перед выполнением команды
         /// </summary>
-        public event TelegramCheckPrivilege? OnCheckPrivilege;
+        public event Func<ITelegramBotClient, Update, Func<ITelegramBotClient, Update, Task>, int?, Task>? OnCheckPrivilege;
 
         /// <summary>
         /// Событие когда указан не верный тип сообщения
         /// </summary>
-        public event TelegramCommand? OnWrongTypeMessage;
+        public event Func<ITelegramBotClient, Update, Task>? OnWrongTypeMessage;
 
         /// <summary>
         /// Событие когда указан не верный тип чат
         /// </summary>
-        public event TelegramCommand? OnWrongTypeChat;
+        public event Func<ITelegramBotClient,Update,Task>? OnWrongTypeChat;
 
         /// <summary>
         /// Событие когда не найдена команда
         /// </summary>
-        public event TelegramCommand? OnMissingCommand;
+        public event Func<ITelegramBotClient,Update,Task>? OnMissingCommand;
 
         /// <summary>
         /// Событие Обработки контактных данных
         /// </summary>
-        public event TelegramCommand? OnContactHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnContactHandle;
 
         /// <summary>
         /// Событие обработки голосований
         /// </summary>
-        public event TelegramCommand? OnPollHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnPollHandle;
 
         /// <summary>
         /// Событие обработки локации
         /// </summary>
-        public event TelegramCommand? OnLocationHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnLocationHandle;
         /// <summary>
         /// Событие обработки WebApps
         /// </summary>
-        public event TelegramCommand? OnWebAppsHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnWebAppsHandle;
         
         /// <summary>
         /// Событие когда отказано в доступе
         /// </summary>
-        public event TelegramCommand? OnAccessDenied;
+        public event Func<ITelegramBotClient,Update,Task>? OnAccessDenied;
 
         /// <summary>
         /// Событие обработки сообщением с документом
         /// </summary>
-        public event TelegramCommand? OnDocumentHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnDocumentHandle;
 
         /// <summary>
         /// Событие обработки сообщением с аудио
         /// </summary>
-        public event TelegramCommand? OnAudioHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnAudioHandle;
 
         /// <summary>
         /// Событие обработки сообщением с видео
         /// </summary>
-        public event TelegramCommand? OnVideoHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnVideoHandle;
 
         /// <summary>
         /// Событие обработки сообщением с фото
         /// </summary>
-        public event TelegramCommand? OnPhotoHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnPhotoHandle;
 
         /// <summary>
         /// Событие обработки сообщением с стикером
         /// </summary>
-        public event TelegramCommand? OnStickerHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnStickerHandle;
 
         /// <summary>
         /// Событие обработки сообщением с голосовым сообщением
         /// </summary>
-        public event TelegramCommand? OnVoiceHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnVoiceHandle;
 
         /// <summary>
         /// Событие обработки сообщением с неизвестный типом сообщения
         /// </summary>
-        public event TelegramCommand? OnUnknownHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnUnknownHandle;
 
         /// <summary>
         /// Событие обработки сообщением с местом
         /// </summary>
-        public event TelegramCommand? OnVenueHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnVenueHandle;
 
         /// <summary>
         /// Событие обработки сообщением с игрой
         /// </summary>
-        public event TelegramCommand? OnGameHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnGameHandle;
 
         /// <summary>
         /// Событие обработки сообщением с видеозаметкой
         /// </summary>
-        public event TelegramCommand? OnVideoNoteHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnVideoNoteHandle;
 
         /// <summary>
         /// Событие обработки сообщением с игральной кости
         /// </summary>
-        public event TelegramCommand? OnDiceHandle;
+        public event Func<ITelegramBotClient,Update,Task>? OnDiceHandle;
 
 
         /// <summary>
@@ -144,41 +135,41 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Словарь слеш команд
         /// </summary>
-        private Dictionary<string, TelegramCommand> slashCommands;
+        private Dictionary<string, Func<ITelegramBotClient,Update,Task>> slashCommands;
 
         /// <summary>
         /// Словарь reply команд
         /// </summary>
-        private Dictionary<string, TelegramCommand> messageCommands;
+        private Dictionary<string, Func<ITelegramBotClient,Update,Task>> messageCommands;
 
         /// <summary>
         /// Словарь приоритетных reply команд
         /// </summary>
-        private Dictionary<string, TelegramCommand> messageCommandsPriority;
+        private Dictionary<string, Func<ITelegramBotClient,Update,Task>> messageCommandsPriority;
 
         /// <summary>
         /// Словарь Inline команд
         /// </summary>
-        private Dictionary<Enum, TelegramCommand> inlineCommands;
+        private Dictionary<Enum, Func<ITelegramBotClient,Update,Task>> inlineCommands;
 
 
         /// <summary>
         /// 
         /// </summary>
-        private Dictionary<Telegram.Bot.Types.Enums.MessageType, TelegramCommand> typeMessage;
+        private Dictionary<Telegram.Bot.Types.Enums.MessageType, Func<ITelegramBotClient,Update,Task>> typeMessage;
 
         public Router(ITelegramBotClient botClient)
         {
             _botClient                  = botClient;
-            messageCommands             = new Dictionary<string, TelegramCommand>();
-            messageCommandsPriority     = new Dictionary<string, TelegramCommand>();
-            inlineCommands              = new Dictionary<Enum, TelegramCommand>();
-            slashCommands               = new Dictionary<string, TelegramCommand>();
+            messageCommands             = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
+            messageCommandsPriority     = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
+            inlineCommands              = new Dictionary<Enum, Func<ITelegramBotClient,Update,Task>>();
+            slashCommands               = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
 
             RegisterCommnad();
         }
 
-        internal void UpdateEventLink()
+        private void UpdateEventLink()
         {
             typeMessage = new();
             typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Contact, OnContactHandle);
@@ -201,7 +192,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Автоматическая регистрация доступных команд для выполнения через рефлексию
         /// </summary>
-        internal void RegisterCommnad()
+        private void RegisterCommnad()
         {
             try
             {
@@ -217,11 +208,11 @@ namespace PRTelegramBot.Core
                     bool priority = method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Priority;
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(TelegramCommand), method, false);
-                        messageCommands.Add(command, (TelegramCommand)serverMessageHandler);
+                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
+                        messageCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
                         if (priority)
                         {
-                            messageCommandsPriority.Add(command, (TelegramCommand)serverMessageHandler);
+                            messageCommandsPriority.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
                         }
                     }
                 }
@@ -239,8 +230,8 @@ namespace PRTelegramBot.Core
 
                             foreach (var command in commands)
                             {
-                                var serverMessageHandler = Delegate.CreateDelegate(typeof(TelegramCommand), method, false);
-                                inlineCommands.Add(command, (TelegramCommand)serverMessageHandler);
+                                var serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
+                                inlineCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
                             }
                         }
                     }
@@ -251,8 +242,8 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<SlashHandlerAttribute>().Commands)
                     {
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(TelegramCommand), method, false);
-                        slashCommands.Add(command, (TelegramCommand)serverMessageHandler);
+                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
+                        slashCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
                     }
                 }
             }
@@ -268,7 +259,7 @@ namespace PRTelegramBot.Core
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
         /// <returns></returns>
-        internal async Task<bool> IsSlashCommand(string command, Update update)
+        private async Task<bool> IsSlashCommand(string command, Update update)
         {
             try
             {
@@ -447,7 +438,7 @@ namespace PRTelegramBot.Core
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
         /// <returns>True/false</returns>
-        internal async Task<bool> IsHaveNextStep(string command, Update update)
+        private async Task<bool> IsHaveNextStep(string command, Update update)
         {
             try
             {
@@ -517,7 +508,7 @@ namespace PRTelegramBot.Core
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
         /// <returns>True/false</returns>
-        internal async Task<bool> StartHasDeepLink(string command, Update update)
+        private async Task<bool> StartHasDeepLink(string command, Update update)
         {
             try
             {

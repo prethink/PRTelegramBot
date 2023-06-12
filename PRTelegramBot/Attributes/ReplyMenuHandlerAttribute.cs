@@ -37,7 +37,7 @@ namespace PRTelegramBot.Attributes
 
         private static string GetNameFromResourse(string command)
         {
-            return ConfigApp.GetSettings<CustomSettings>().GetButton(command);
+            return ConfigApp.GetSettings<TextConfig>().GetButton(command);
         }
     }
 }

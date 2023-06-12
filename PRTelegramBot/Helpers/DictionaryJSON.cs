@@ -14,7 +14,7 @@ namespace PRTelegramBot.Helpers
         /// <returns></returns>
         public static string GetMessage(string messagePattern)
         {
-            return ConfigApp.GetSettings<CustomSettings>().GetMessage(messagePattern);
+            return ConfigApp.GetSettings<TextConfig>().GetMessage(messagePattern);
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace PRTelegramBot.Helpers
         /// <returns></returns>
         public static string GetButton(string command)
         {
-            var result = ConfigApp.GetSettings<CustomSettings>().GetButton(command);
+            var result = ConfigApp.GetSettings<TextConfig>().GetButton(command);
             return result.Contains("NOT_FOUND") ? command : result;
         }
     }

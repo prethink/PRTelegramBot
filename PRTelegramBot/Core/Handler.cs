@@ -5,10 +5,11 @@ using Telegram.Bot.Exceptions;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
 using static PRTelegramBot.Core.Router;
+using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Core
 {
-    public class Handler
+    public class Handler : IUpdateHandler
     {
         /// <summary>
         /// Клиент телеграм бота
@@ -16,8 +17,7 @@ namespace PRTelegramBot.Core
         private ITelegramBotClient _botClient;
         public List<long> WhiteList { get; set; }
 
-
-        public event TelegramCommand? OnUpdate;
+        public event Func<ITelegramBotClient, Update, Task>? OnUpdate;
 
         /// <summary>
         /// Маршрутизатор
@@ -102,7 +102,7 @@ namespace PRTelegramBot.Core
         /// <param name="botClient">Телеграм бот</param>
         /// <param name="exception">Ошибка</param>
         /// <param name="cancellationToken">Токен</param>
-        public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+        public async Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             try
             {

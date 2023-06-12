@@ -142,11 +142,7 @@ namespace PRTelegramBot.Core
                 }
 
 
-                botClient.StartReceiving(
-                            Handler.HandleUpdateAsync,
-                            Handler.HandleErrorAsync,
-                            _options,
-                            cancellationToken: _cts.Token);
+                botClient.StartReceiving(Handler , _options);
 
 
                 var client = await botClient.GetMeAsync();

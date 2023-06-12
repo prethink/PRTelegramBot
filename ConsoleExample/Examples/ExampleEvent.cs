@@ -4,6 +4,8 @@ using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 using ConsoleExample.Extension;
+using Telegram.Bot;
+using PRTelegramBot.Configs;
 
 namespace ConsoleExample.Examples
 {
@@ -120,10 +122,10 @@ namespace ConsoleExample.Examples
         /// </summary>
         /// <param name="callback">callback функция выполняется в случае успеха</param>
         /// <param name="flags">Флаги которые должны присуствовать</param>
-        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Router.TelegramCommand callback, int? flags = null)
+        public static async Task OnCheckPrivilege(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, Func<ITelegramBotClient, Update, Task> callback, int? flags = null)
         {
             if(flags != null)
-            {
+            { 
                 var flag = flags.Value;
                 //Проверяем флаги через int
                 if(update.GetIntPrivilege().Contains(flag))

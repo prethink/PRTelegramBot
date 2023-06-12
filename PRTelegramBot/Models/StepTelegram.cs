@@ -12,8 +12,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Ссылка на метод который должен быть выполнен
         /// </summary>
-        public Router.TelegramCommand CommandDelegate { get; set; }
-
+        public Func<ITelegramBotClient, Update, Task> CommandDelegate { get; set; }
         /// <summary>
         /// Срок когда команда еще актуальна для выполнения
         /// </summary>
@@ -23,7 +22,7 @@ namespace PRTelegramBot.Models
         ///  Создает новый шаг
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
-        public StepTelegram(Router.TelegramCommand command)
+        public StepTelegram(Func<ITelegramBotClient,Update,Task> command)
         {
             CommandDelegate = command;
         }
@@ -33,7 +32,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды</param>
-        public StepTelegram(Router.TelegramCommand command, DateTime expiriedTime)
+        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime expiriedTime)
         {
             CommandDelegate = command;
             ExpiriedTime = expiriedTime;

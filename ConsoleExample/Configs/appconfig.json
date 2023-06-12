@@ -1,12 +1,17 @@
 //После изменения конфигурации обязательно перезапустите программу!!!
 {
+  /*
+  SettingsConfig позволяет добавлять свои переменные и работать с ними используя конфиг appconfig.json
+  Для создания новой переменной используйте класс SettingsConfig.cs название переменной в классе и в файле appconfig.json должны соотвествовать!
+  Пример как получиь доступ к переменным ConfigApp.GetSettings<Settings>().ShowNotifyNewUser
+  */
   "SettingsConfig": {
     //Уведомлять админинстратора о новом пользователе в боте
     "ShowNotifyNewUser": true,
     //Количество символов для персональной ссылки
-    "WordLength": 9,
+    "WordLength": 9
   },
-  "CustomSettings": {
+  "TextConfig": {
     "Messages": {
       "MSG_MAIN_MENU": "Главное меню",
       "MSG_EXAMPLE_TEXT": "Пример текста сообщения из appconfig.json"

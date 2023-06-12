@@ -99,7 +99,7 @@ namespace PRTelegramBot.Configs
     /// <summary>
     /// Кастомные настройки
     /// </summary>
-    public class CustomSettings
+    public class TextConfig
     {
         public Dictionary<string, string> Variables { get; set; }
         public Dictionary<string, string> Messages { get; set; }
