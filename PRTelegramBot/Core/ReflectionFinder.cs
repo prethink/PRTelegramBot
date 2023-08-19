@@ -78,18 +78,12 @@ namespace PRTelegramBot.Core
                 .FirstOrDefault(x => x.FullName.ToLower() == thisAssemblyName.ToLower())
                 .GetTypes()
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
-                ;
-
-            if(botId != 0)
-            {
-                return query
-                    .Where(m => m.GetCustomAttributes(type, false)
+                .Where(m => m.GetCustomAttributes(type, false)
                     .OfType<BaseQueryAttribute>()
                     .Any(attr => attr.BotId == botId))
                     .ToArray();
-            }
 
-            return query.Where(m => m.GetCustomAttributes(type, false).Any()).ToArray();
+            return query;
 
         }
     }

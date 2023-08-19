@@ -26,10 +26,6 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// 
         /// </summary>
-        public bool ShowErrorNotFoundNameButton { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
         public bool ClearUpdatesOnStart { get; set; }
         /// <summary>
         /// 

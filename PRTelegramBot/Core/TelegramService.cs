@@ -83,7 +83,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         public bool IsWork { get; private set; }
 
-        public TelegramConfig Config { get; init; }
+        public TelegramConfig Config { get; init; } = new TelegramConfig();
 
         public TelegramService(Action<TelegramConfig> configOptions)
         {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ConsoleExample.Models.DataBase
+namespace ConsoleExample.Models
 {
     /// <summary>
     /// Пользователь
@@ -65,7 +65,7 @@ namespace ConsoleExample.Models.DataBase
         /// </summary>
         [Column("is_active")]
         public bool IsActivate { get; set; }
-        
+
         /// <summary>
         /// Очки активности пользователя
         /// </summary>
@@ -104,8 +104,8 @@ namespace ConsoleExample.Models.DataBase
         /// <param name="activity">Очки активности</param>
         public void AddActivity(long activity)
         {
-            this.Activity += activity;
-            this.LastActivity = DateTime.Now;
+            Activity += activity;
+            LastActivity = DateTime.Now;
         }
     }
 }
