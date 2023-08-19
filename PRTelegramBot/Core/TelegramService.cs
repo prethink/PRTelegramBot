@@ -79,47 +79,15 @@ namespace PRTelegramBot.Core
         public event CommonEvent OnLogCommon;
 
         /// <summary>
-        /// Экземпляр для singleton
-        /// </summary>
-        public static TelegramService Instance { get; private set; }
-
-        /// <summary>
-        /// Токен бота
-        /// </summary>
-        public string Token { get; private set; }
-
-        /// <summary>
         /// Работает бот или нет
         /// </summary>
         public bool IsWork { get; private set; }
 
-        /// <summary>
-        /// Приватный конструктор
-        /// </summary>
-        /// <param name="token">Токен</param>
-        private TelegramService(string token)
-        {
-            Token = token;
-        }
+        public TelegramConfig Config { get; init; }
 
-        /// <summary>
-        /// Singleton получение экземпляров
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception">Эксепшн если нет токен</exception>
-        public static TelegramService GetInstance()
+        public TelegramService(Action<TelegramConfig> configOptions)
         {
-            if (Instance == null)
-            {
-                var telegramConfig = ConfigApp.GetSettingsTelegram<TelegramConfig>();
-                if (string.IsNullOrEmpty(telegramConfig.Token))
-                {
-                    throw new Exception($"Пустой {nameof(telegramConfig.Token)} при создание объекта {typeof(TelegramService)}\nПроверьте файл ../Configs/telegram.json");
-                }
-                Instance = new TelegramService(telegramConfig.Token);
-            }
-
-            return Instance;
+             configOptions.Invoke(Config);
         }
 
         /// <summary>
@@ -129,14 +97,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                botClient = new TelegramBotClient(Token);
-                Handler = new Handler(botClient);
+                botClient = new TelegramBotClient(Config.Token);
+                Handler = new Handler(this, Config);
                 _cts = new CancellationTokenSource();
                 _options = new ReceiverOptions { AllowedUpdates = { } };
 
-                bool isClearUpdate = ConfigApp.GetSettingsTelegram<TelegramConfig>().ClearUpdatesOnStart;
-
-                if(isClearUpdate)
+                if(Config.ClearUpdatesOnStart)
                 {
                     await ClearUpdates();
                 }
@@ -147,14 +113,14 @@ namespace PRTelegramBot.Core
 
                 var client = await botClient.GetMeAsync();
                 BotName = client.Username;
-                GetInstance().InvokeCommonLog($"Бот {client.Username} запущен.", TelegramEvents.Initialization, ConsoleColor.Yellow);
+                this.InvokeCommonLog($"Бот {client.Username} запущен.", TelegramEvents.Initialization, ConsoleColor.Yellow);
 
                 IsWork = true;
             }
             catch (Exception ex)
             {
                 IsWork = false;
-                GetInstance().InvokeErrorLog(ex);
+                this.InvokeErrorLog(ex);
             }
         }
 
@@ -172,19 +138,8 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                GetInstance().InvokeErrorLog(ex);
+                this.InvokeErrorLog(ex);
             }
-        }
-
-        /// <summary>
-        /// Смена токена
-        /// </summary>
-        /// <param name="token">Токен</param>
-        public async Task ChangeToken(string token)
-        {
-            await Stop();
-            Token = token;
-            await Start();
         }
 
         /// <summary>

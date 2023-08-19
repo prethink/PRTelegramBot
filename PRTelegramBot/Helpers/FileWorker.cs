@@ -24,26 +24,18 @@ namespace PRTelegramBot.Helpers
         /// <returns>Путь до файла</returns>
         public static async Task<string> DownloadFileFromTelegram(ITelegramBotClient botClient, long telegramId, string fileId, string fileName)
         {
-            try
+            string folder = $"/Uploads/Users/{telegramId}/";
+            string fullPath = BaseDir + folder + "/" +fileName;
+            string dbpath = folder + "/" +fileName;
+            if (!Directory.Exists(BaseDir + folder))
             {
-                string folder = $"/Uploads/Users/{telegramId}/";
-                string fullPath = BaseDir + folder + "/" +fileName;
-                string dbpath = folder + "/" +fileName;
-                if (!Directory.Exists(BaseDir + folder))
-                {
-                    Directory.CreateDirectory(BaseDir + folder);
-                }
-                await using Stream fileStream = System.IO.File.OpenWrite(fullPath);
-                var file = await botClient.GetInfoAndDownloadFileAsync(
-                    fileId: fileId,
-                    destination: fileStream);
-                return dbpath;
+                Directory.CreateDirectory(BaseDir + folder);
             }
-            catch (Exception ex)
-            {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
-                return "";
-            }
+            await using Stream fileStream = System.IO.File.OpenWrite(fullPath);
+            var file = await botClient.GetInfoAndDownloadFileAsync(
+                fileId: fileId,
+                destination: fileStream);
+            return dbpath;
         }
 
         /// <summary>
@@ -55,24 +47,15 @@ namespace PRTelegramBot.Helpers
         /// <returns></returns>
         public static string SaveFileToUser(long telegramId,MemoryStream stream, string fileName)
         {
-            try
+            string folder = $"/Uploads/Users/{telegramId}/";
+            string fullPath = BaseDir + folder + "/" + fileName;
+            string dbpath = folder + "/" + fileName;
+            if (!Directory.Exists(BaseDir + folder))
             {
-                string folder = $"/Uploads/Users/{telegramId}/";
-                string fullPath = BaseDir + folder + "/" + fileName;
-                string dbpath = folder + "/" + fileName;
-                if (!Directory.Exists(BaseDir + folder))
-                {
-                    Directory.CreateDirectory(BaseDir + folder);
-                }
-                File.WriteAllBytes(fullPath, stream.ToArray());
-                return fullPath;
+                Directory.CreateDirectory(BaseDir + folder);
             }
-            catch (Exception ex)
-            {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
-                return "";
-            }
+            File.WriteAllBytes(fullPath, stream.ToArray());
+            return fullPath;
         }
-
     }
 }

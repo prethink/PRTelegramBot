@@ -11,29 +11,32 @@ namespace PRTelegramBot.Core
     {
         /// <summary>
         /// Поиск методов в программе для выполнения reply команд
+        /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для reply команд</returns>
-        public static MethodInfo[] FindMessageMenuHandlers()
+        public static MethodInfo[] FindMessageMenuHandlers(long botId = 0)
         {
-            return FindMethods(typeof(ReplyMenuHandlerAttribute));
+            return FindMethods(typeof(ReplyMenuHandlerAttribute), botId);
         }
 
         /// <summary>
         /// Поиск методов в программе для выполнения inline команд
+        /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для inline команд</returns>
-        public static MethodInfo[] FindInlineMenuHandlers()
+        public static MethodInfo[] FindInlineMenuHandlers(long botId = 0)
         {
-            return FindMethods(typeof(InlineCallbackHandlerAttribute<>));
+            return FindMethods(typeof(InlineCallbackHandlerAttribute<>), botId);
         }
 
         /// <summary>
         /// Поиск методов в программе для выполнения слеш команд
+        /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для слеш команд</returns>
-        public static MethodInfo[] FindSlashCommandHandlers()
+        public static MethodInfo[] FindSlashCommandHandlers(long botId = 0)
         {
-            return FindMethods(typeof(SlashHandlerAttribute));
+            return FindMethods(typeof(SlashHandlerAttribute), botId);
         }
 
         public static void FindEnumHeaders()
@@ -68,17 +71,26 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="type">Тип атрибута</param>
         /// <returns>Массив найденных методов</returns>
-        public static MethodInfo[] FindMethods(Type type)
+        public static MethodInfo[] FindMethods(Type type, long botId = 0)
         {
             string thisAssemblyName = Assembly.GetEntryAssembly().GetName().FullName;
-            var result = AppDomain.CurrentDomain.GetAssemblies()
+            var query = AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(x => x.FullName.ToLower() == thisAssemblyName.ToLower())
                 .GetTypes()
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
-                .Where(m => m.GetCustomAttributes(type, false).Length > 0)
-                .ToArray();
+                ;
 
-            return result;
+            if(botId != 0)
+            {
+                return query
+                    .Where(m => m.GetCustomAttributes(type, false)
+                    .OfType<BaseQueryAttribute>()
+                    .Any(attr => attr.BotId == botId))
+                    .ToArray();
+            }
+
+            return query.Where(m => m.GetCustomAttributes(type, false).Any()).ToArray();
+
         }
     }
 }

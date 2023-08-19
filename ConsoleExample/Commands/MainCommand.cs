@@ -7,6 +7,7 @@ using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Models;
 using PRTelegramBot.Helpers;
+using PRTelegramBot.Extension.Dictionary;
 
 namespace PRTelegramBot.Commands
 {
@@ -22,7 +23,7 @@ namespace PRTelegramBot.Commands
             }
             catch(Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
 
@@ -34,7 +35,7 @@ namespace PRTelegramBot.Commands
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
 
@@ -54,7 +55,7 @@ namespace PRTelegramBot.Commands
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
 

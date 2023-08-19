@@ -18,8 +18,24 @@ const string EXIT_COMMAND = "exit";
 Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
+
+
 #region запуск телеграм бота
-var telegram = TelegramService.GetInstance();
+var telegram = new TelegramService(options =>
+{
+    //
+    options.Token = "";
+    //
+    options.ClearUpdatesOnStart = true;
+    //
+    options.WhiteListUsers = new List<long>() { 1234567, 12356236, 4125421512 };
+    //
+    options.Admins = new List<long>() { 12356236, 4125421512 };
+    //
+    options.BotId = 1;
+    //
+    options.ShowErrorNotFoundNameButton = true;
+});
 
 //Подписка на простые логи
 telegram.OnLogCommon                += Telegram_OnLogCommon;

@@ -105,7 +105,6 @@ namespace ConsoleExample.Models.DataBase
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return new List<InlineURL>();
             }
 
@@ -124,7 +123,6 @@ namespace ConsoleExample.Models.DataBase
             }
             catch(Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return "";
             }
         }

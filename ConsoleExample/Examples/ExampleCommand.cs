@@ -13,6 +13,7 @@ using Helpers = PRTelegramBot.Helpers;
 using Header = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Extension.Dictionary;
 
 namespace ConsoleExample.Examples
 {

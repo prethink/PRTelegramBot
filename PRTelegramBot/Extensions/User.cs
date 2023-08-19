@@ -2,6 +2,7 @@
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models;
+using Telegram.Bot;
 
 namespace PRTelegramBot.Extensions
 {
@@ -52,17 +53,16 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление полученное с телеграма</param>
         /// <returns>true/false</returns>
-        public static bool IsAdmin(this Update update)
+        public static bool IsAdmin(this Update update, TelegramService service)
         {
             try
             {
                 var telegramId = update.GetChatId();
-                var admins = ConfigApp.GetSettingsTelegram<TelegramConfig>().Admins;
+                var admins = service.Config.Admins;
                 return admins != null ? admins.Contains(telegramId) : false;
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return false;
             }
         }
@@ -95,15 +95,16 @@ namespace PRTelegramBot.Extensions
         /// <param name="update">Обновление полученное с телеграма</param>
         /// <param name="copy">использовать html разметку для возможности копирования ссылки</param>
         /// <returns>Реферальная ссылка</returns>
-        public static string GetRefLink(this Update update, bool copy = false)
+        public async static Task<string> GetRefLink(this Update update,ITelegramBotClient botClient, bool copy = false)
         {
+            var bot = await botClient.GetMeAsync();
             if (copy)
             {
-                return $"<code>https://t.me/{TelegramService.GetInstance().BotName}?start={update.GetChatId()}</code>";
+                return $"<code>https://t.me/{bot.Username}?start={update.GetChatId()}</code>";
             }
             else
             {
-                return $"https://t.me/{TelegramService.GetInstance().BotName}?start={update.GetChatId()}";
+                return $"https://t.me/{bot.Username}?start={update.GetChatId()}";
             }
 
         }

@@ -38,7 +38,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
 
         }
@@ -62,7 +62,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
 
@@ -87,7 +87,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
 
@@ -110,7 +110,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
 
@@ -134,7 +134,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
 
         }
@@ -156,7 +156,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
     }
