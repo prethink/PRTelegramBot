@@ -130,7 +130,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Клиент для телеграм бота
         /// </summary>
-        private ITelegramBotClient _botClient;
+        private TelegramService telegram;
 
         /// <summary>
         /// Словарь слеш команд
@@ -158,14 +158,16 @@ namespace PRTelegramBot.Core
         /// </summary>
         private Dictionary<Telegram.Bot.Types.Enums.MessageType, Func<ITelegramBotClient,Update,Task>> typeMessage;
 
-        public Router(ITelegramBotClient botClient)
+        public TelegramConfig Config { get; init; }
+
+        public Router(TelegramService botClient, TelegramConfig config)
         {
-            _botClient                  = botClient;
+            telegram                    = botClient;
             messageCommands             = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
             messageCommandsPriority     = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
             inlineCommands              = new Dictionary<Enum, Func<ITelegramBotClient,Update,Task>>();
             slashCommands               = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
-
+            Config = config;
             RegisterCommnad();
         }
 
@@ -197,9 +199,10 @@ namespace PRTelegramBot.Core
             try
             {
                 //Находим все методы которые используют наши атрибуты
-                var messageMethods = ReflectionFinder.FindMessageMenuHandlers();
-                var inlineMethods = ReflectionFinder.FindInlineMenuHandlers();
-                var slashCommandMethods = ReflectionFinder.FindSlashCommandHandlers();
+                var messageMethods          = ReflectionFinder.FindMessageMenuHandlers(Config.BotId);
+                var inlineMethods           = ReflectionFinder.FindInlineMenuHandlers(Config.BotId);
+                var slashCommandMethods     = ReflectionFinder.FindSlashCommandHandlers(Config.BotId);
+
                 ReflectionFinder.FindEnumHeaders();
 
                 //Регистрируем Reply команды
@@ -249,7 +252,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
         }
 
@@ -275,19 +278,19 @@ namespace PRTelegramBot.Core
                         {
                             if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
                             {
-                                OnWrongTypeChat?.Invoke(_botClient, update);
+                                OnWrongTypeChat?.Invoke(telegram.botClient, update);
                                 return true;
                             }
                         }
                         var privilages = commandExecute.Value.Method.GetCustomAttribute<AccessAttribute>();
                         if (privilages != null)
                         {
-                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value, privilages.Flags);
+                            OnCheckPrivilege?.Invoke(telegram.botClient, update, commandExecute.Value, privilages.Flags);
                             return true;
                         }
                         else
                         {
-                            await commandExecute.Value(_botClient, update);
+                            await commandExecute.Value(telegram.botClient, update);
                             return true;
                         }
                     }
@@ -296,7 +299,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
                 return false;
             }
 
@@ -335,7 +338,7 @@ namespace PRTelegramBot.Core
                 {
                     if (item.Key == update.Message.Type)
                     {
-                        item.Value?.Invoke(_botClient, update);
+                        item.Value?.Invoke(telegram.botClient, update);
                         return;
                     }
                 }
@@ -354,7 +357,7 @@ namespace PRTelegramBot.Core
                         {
                             if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
                             {
-                                OnWrongTypeChat?.Invoke(_botClient, update);
+                                OnWrongTypeChat?.Invoke(telegram.botClient, update);
                                 return;
                             }
                         }
@@ -362,26 +365,26 @@ namespace PRTelegramBot.Core
                         {
                             if (!requireDate.TypeMessages.Contains(update.Message.Type))
                             {
-                                OnWrongTypeMessage?.Invoke(_botClient, update);
+                                OnWrongTypeMessage?.Invoke(telegram.botClient, update);
                                 return;
                             }
                         }
                         if (privilages != null)
                         {
-                            OnCheckPrivilege?.Invoke(_botClient, update, commandExecute.Value, privilages.Flags);
+                            OnCheckPrivilege?.Invoke(telegram.botClient, update, commandExecute.Value, privilages.Flags);
                             return;
                         }
 
-                        await commandExecute.Value(_botClient, update);
+                        await commandExecute.Value(telegram.botClient, update);
                         return;
                     }
                 }
 
-                OnMissingCommand?.Invoke(_botClient, update);
+                OnMissingCommand?.Invoke(telegram.botClient, update);
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
         }
 
@@ -397,7 +400,7 @@ namespace PRTelegramBot.Core
                 if (command != null)
                 {
                     string msg = $"Пользователь {update.GetInfoUser()} вызвал команду {command.CommandType.GetDescription()}";
-                    TelegramService.GetInstance().InvokeCommonLog(msg, TelegramService.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
+                    telegram.InvokeCommonLog(msg, TelegramService.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
                     foreach (var commandCallback in inlineCommands)
                     {
                         if (((Enum)command.CommandType).Equals(commandCallback.Key) )
@@ -407,18 +410,18 @@ namespace PRTelegramBot.Core
                             {
                                 if (!requireUpdate.TypeUpdate.Contains(update.CallbackQuery.Message.Chat.Type))
                                 {
-                                    OnWrongTypeChat?.Invoke(_botClient, update);
+                                    OnWrongTypeChat?.Invoke(telegram.botClient, update);
                                     return;
                                 }
                             }
                             var privilages = commandCallback.Value.Method.GetCustomAttribute<AccessAttribute>();
                             if (privilages != null)
                             {
-                                OnCheckPrivilege?.Invoke(_botClient, update, commandCallback.Value, privilages.Flags);
+                                OnCheckPrivilege?.Invoke(telegram.botClient, update, commandCallback.Value, privilages.Flags);
                             }
                             else
                             {
-                                await commandCallback.Value(_botClient, update);
+                                await commandCallback.Value(telegram.botClient, update);
                             }
                             return;
                         }
@@ -428,7 +431,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
         }
 
@@ -453,11 +456,11 @@ namespace PRTelegramBot.Core
                             {
                                 if (!requireUpdatex.TypeUpdate.Contains(update.Message.Chat.Type))
                                 {
-                                    OnWrongTypeChat?.Invoke(_botClient, update);
+                                    OnWrongTypeChat?.Invoke(telegram.botClient, update);
                                     return true;
                                 }
                             }
-                            await commandExecute.Value(_botClient, update);
+                            await commandExecute.Value(telegram.botClient, update);
                             update.ClearStepUser();
                             return true;
                         }
@@ -472,7 +475,7 @@ namespace PRTelegramBot.Core
                     {
                         if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
                         {
-                            OnWrongTypeChat?.Invoke(_botClient, update);
+                            OnWrongTypeChat?.Invoke(telegram.botClient, update);
                             return true;
                         }
                     }
@@ -480,23 +483,23 @@ namespace PRTelegramBot.Core
                     {
                         if(!requireDate.TypeMessages.Contains(update.Message.Type))
                         {
-                            OnWrongTypeMessage?.Invoke(_botClient, update);
+                            OnWrongTypeMessage?.Invoke(telegram.botClient, update);
                             return true;
                         }
                     }
                     if (privilages != null)
                     {
-                        OnCheckPrivilege?.Invoke(_botClient, update, cmd, privilages.Flags);
+                        OnCheckPrivilege?.Invoke(telegram.botClient, update, cmd, privilages.Flags);
                         return true;
                     }
-                    await cmd(_botClient, update);
+                    await cmd(telegram.botClient, update);
                     return true;
                 }
                 return false;
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
                 return false;
             }
 
@@ -519,7 +522,7 @@ namespace PRTelegramBot.Core
                     {
                         if (update.Message.Chat.Type == Telegram.Bot.Types.Enums.ChatType.Private)
                         {
-                            OnUserStartWithArgs?.Invoke(_botClient, update, spl[1]);
+                            OnUserStartWithArgs?.Invoke(telegram.botClient, update, spl[1]);
                         }
                         return true;
                     }
@@ -530,7 +533,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
                 return false;
             }
         }

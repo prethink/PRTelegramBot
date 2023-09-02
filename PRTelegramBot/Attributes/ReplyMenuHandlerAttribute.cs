@@ -5,7 +5,7 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Атрибут для reply методов
     /// </summary>
-    public class ReplyMenuHandlerAttribute : Attribute
+    public class ReplyMenuHandlerAttribute : BaseQueryAttribute
     {
         /// <summary>
         /// Список reply команд
@@ -17,27 +17,40 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         public bool Priority { get; private set; }
 
-        /// <summary>
-        /// Создание новой команды
-        /// </summary>
-        /// <param name="priority">Будут проигнорированы следующие шаги да нет</param>
-        /// <param name="commands">Набор команд</param>
-        public ReplyMenuHandlerAttribute(bool priority, params string[] commands)
+
+        public ReplyMenuHandlerAttribute(bool priority, params string[] commands) : base(0)
         {
-            Commands = commands.Select(x => GetNameFromResourse(x)).ToList();
-            for (int i = 0; i < Commands.Count; i++)
-            {
-                if (Commands[i].Contains("NOT_FOUND"))
-                {
-                    Commands[i] = commands[i];
-                }
-            }
-            Priority = priority;
+            Init(priority, commands);
         }
 
-        private static string GetNameFromResourse(string command)
+        public ReplyMenuHandlerAttribute(bool priority,long botId, params string[] commands) : base(botId)
         {
-            return ConfigApp.GetSettings<TextConfig>().GetButton(command);
+            Init(priority, commands);
         }
+
+        private void Init(bool priority, params string[] commands)
+        {
+            Commands = commands.ToList();
+            for (int i = 0; i < Commands.Count; i++)
+            {
+                    Commands[i] = commands[i]; 
+            }
+            Priority = priority;
+
+            //Commands = commands.Select(x => GetNameFromResourse(x)).ToList();
+            //for (int i = 0; i < Commands.Count; i++)
+            //{
+            //    if (Commands[i].Contains("NOT_FOUND"))
+            //    {
+            //        Commands[i] = commands[i];
+            //    }
+            //}
+            //Priority = priority;
+        }
+
+        //private static string GetNameFromResourse(string command)
+        //{
+        //    return ConfigApp.GetSettings<TextConfig>().GetButton(command);
+        //}
     }
 }

@@ -1,6 +1,10 @@
-﻿using PRTelegramBot.Configs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PRTelegramBot.Helpers
+namespace PRTelegramBot.Extension.Dictionary
 {
     /// <summary>
     /// Позволяет редактировать текст сообщений не перекомпилируя программу,а используя json файл

@@ -5,7 +5,7 @@ using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Models.InlineButtons;
 using ConsoleExample.Models.Enums;
 
-namespace ConsoleExample.Models.DataBase
+namespace ConsoleExample.Models
 {
 
     /// <summary>
@@ -105,7 +105,6 @@ namespace ConsoleExample.Models.DataBase
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return new List<InlineURL>();
             }
 
@@ -122,9 +121,8 @@ namespace ConsoleExample.Models.DataBase
             {
                 return JsonConvert.SerializeObject(menu);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return "";
             }
         }

@@ -13,6 +13,7 @@ using Helpers = PRTelegramBot.Helpers;
 using Header = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Extension.Dictionary;
 
 namespace ConsoleExample.Examples
 {
@@ -28,6 +29,15 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler(true, ReplyKeys.RP_EXAMPLE)]
         [SlashHandler(SlashKeys.SL_EXAMPLE_WITH_REPLY)]
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
+        {
+            //Пример как получить текст сообщения из JSON файла
+            string msg = DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        [ReplyMenuHandler(true,1, ReplyKeys.RP_EXAMPLE)]
+        [SlashHandler(1,SlashKeys.SL_EXAMPLE_WITH_REPLY)]
+        public static async Task ExampleReplyX(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
             string msg = DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));

@@ -61,18 +61,10 @@ namespace PRTelegramBot.Helpers
         /// <returns>Идентификатор сообщения</returns>
         public static async Task<MessageId> CopyMessage(ITelegramBotClient botClient, Telegram.Bot.Types.Message message, long chatId)
         {
-            try
-            {
-                ChatId toMsg = new ChatId(chatId);
-                ChatId fromMsg = new ChatId(message.Chat.Id);
-                var rMessage = await botClient.CopyMessageAsync(toMsg, fromMsg, message.MessageId);
-                return rMessage;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
-            }
+            ChatId toMsg = new ChatId(chatId);
+            ChatId fromMsg = new ChatId(message.Chat.Id);
+            var rMessage = await botClient.CopyMessageAsync(toMsg, fromMsg, message.MessageId);
+            return rMessage;
         }
 
         /// <summary>
@@ -83,27 +75,12 @@ namespace PRTelegramBot.Helpers
         /// <param name="chatId">Идентификатор чата</param>
         public static async Task CopyMessage(ITelegramBotClient botClient, List<Telegram.Bot.Types.Message> messages, long chatId)
         {
-            try
-            {
                 ChatId toMsg = new ChatId(chatId);
                 foreach (var message in messages)
                 {
-
-                    try
-                    {
-                        ChatId fromMsg = new ChatId(message.Chat.Id);
-                        await botClient.CopyMessageAsync(toMsg, fromMsg, message.MessageId);
-                    }
-                    catch (Exception ex)
-                    {
-                        GetInstance().InvokeErrorLog(ex);
-                    }
+                    ChatId fromMsg = new ChatId(message.Chat.Id);
+                    await botClient.CopyMessageAsync(toMsg, fromMsg, message.MessageId);
                 }
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-            }
         }
 
         /// <summary>
@@ -500,41 +477,32 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Edit(ITelegramBotClient botClient, long chatId, int messageId, string msg, OptionMessage option = null)
         {
-            try
+            Telegram.Bot.Types.Message message;
+            if (string.IsNullOrWhiteSpace(msg))
             {
-                Telegram.Bot.Types.Message message;
-                if (string.IsNullOrWhiteSpace(msg))
-                {
-                    return null;
-                }
-
-                if (option == null || option.MenuInlineKeyboardMarkup == null)
-                {
-                    message = await botClient.EditMessageTextAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            text: msg,
-                            parseMode: ParseMode.Html);
-                }
-                else
-                {
-                    message = await botClient.EditMessageTextAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            text: msg,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: option.MenuInlineKeyboardMarkup);
-
-                }
-
-                return message;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
                 return null;
             }
 
+            if (option == null || option.MenuInlineKeyboardMarkup == null)
+            {
+                message = await botClient.EditMessageTextAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        text: msg,
+                        parseMode: ParseMode.Html);
+            }
+            else
+            {
+                message = await botClient.EditMessageTextAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        text: msg,
+                        parseMode: ParseMode.Html,
+                        replyMarkup: option.MenuInlineKeyboardMarkup);
+
+            }
+
+            return message;
         }
 
         /// <summary>
@@ -547,19 +515,11 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Edit(ITelegramBotClient botClient, Update update, string msg, OptionMessage option = null)
         {
-            try
-            {
-                long chatId = update.GetChatId();
-                int messageId = update.GetMessageId();
+            long chatId = update.GetChatId();
+            int messageId = update.GetMessageId();
 
-                var editmessage = await Edit(botClient, chatId, messageId, msg, option);
-                return editmessage;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
-            }
+            var editmessage = await Edit(botClient, chatId, messageId, msg, option);
+            return editmessage;
         }
 
         /// <summary>
@@ -573,40 +533,32 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditCaption(ITelegramBotClient botClient, long chatId, int messageId, string msg, OptionMessage option = null)
         {
-            try
+            Telegram.Bot.Types.Message message;
+            if (string.IsNullOrWhiteSpace(msg))
             {
-                Telegram.Bot.Types.Message message;
-                if (string.IsNullOrWhiteSpace(msg))
-                {
-                    return null;
-                }
-
-                if (option == null || option.MenuInlineKeyboardMarkup == null)
-                {
-                    message = await botClient.EditMessageCaptionAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            caption: msg,
-                            parseMode: ParseMode.Html);
-                }
-                else
-                {
-                    message = await botClient.EditMessageCaptionAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            caption: msg,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: option.MenuInlineKeyboardMarkup);
-
-                }
-
-                return message;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
                 return null;
             }
+
+            if (option == null || option.MenuInlineKeyboardMarkup == null)
+            {
+                message = await botClient.EditMessageCaptionAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        caption: msg,
+                        parseMode: ParseMode.Html);
+            }
+            else
+            {
+                message = await botClient.EditMessageCaptionAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        caption: msg,
+                        parseMode: ParseMode.Html,
+                        replyMarkup: option.MenuInlineKeyboardMarkup);
+
+            }
+
+            return message;
         }
 
         /// <summary>
@@ -619,24 +571,16 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditInline(ITelegramBotClient botClient, long chatId, int messageId, OptionMessage option)
         {
-            try
+            Telegram.Bot.Types.Message message = null;
+            if (option?.MenuInlineKeyboardMarkup != null)
             {
-                Telegram.Bot.Types.Message message = null;
-                if (option?.MenuInlineKeyboardMarkup != null)
-                {
-                    message = await botClient.EditMessageReplyMarkupAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            replyMarkup: option.MenuInlineKeyboardMarkup);
-                }
+                message = await botClient.EditMessageReplyMarkupAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        replyMarkup: option.MenuInlineKeyboardMarkup);
+            }
 
-                return message;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
-            }
+            return message;
         }
 
         /// <summary>
@@ -650,24 +594,16 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditPhoto(ITelegramBotClient botClient, long chatId, int messageId, string photoPath, OptionMessage option = null)
         {
-            try
+            Telegram.Bot.Types.Message message;
+            if (!System.IO.File.Exists(photoPath))
             {
-                Telegram.Bot.Types.Message message;
-                if (!System.IO.File.Exists(photoPath))
-                {
-                    return await EditInline(botClient, chatId, messageId, option);
-                }
-
-
-                using (var fileStream = new FileStream(photoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    return await EditPhoto(botClient, chatId, messageId, fileStream, option);
-                }
+                return await EditInline(botClient, chatId, messageId, option);
             }
-            catch (Exception ex)
+
+
+            using (var fileStream = new FileStream(photoPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
+                return await EditPhoto(botClient, chatId, messageId, fileStream, option);
             }
         }
 
@@ -682,34 +618,25 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщения</returns>
         public static async Task<Telegram.Bot.Types.Message> EditPhoto(ITelegramBotClient botClient, long chatId, int messageId, Stream stream, OptionMessage option = null)
         {
-            try
+            Telegram.Bot.Types.Message message;
+
+            if (option?.MenuInlineKeyboardMarkup != null)
             {
-                Telegram.Bot.Types.Message message;
-
-                if (option?.MenuInlineKeyboardMarkup != null)
-                {
-                    message = await botClient.EditMessageMediaAsync(
-                            chatId: chatId,
-                            media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
-                            messageId: messageId,
-                            replyMarkup: option.MenuInlineKeyboardMarkup);
-                }
-                else
-                {
-                    message = await botClient.EditMessageMediaAsync(
-                            chatId: chatId,
-                            media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
-                            messageId: messageId);
-                }
-
-                return message;
-
+                message = await botClient.EditMessageMediaAsync(
+                        chatId: chatId,
+                        media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
+                        messageId: messageId,
+                        replyMarkup: option.MenuInlineKeyboardMarkup);
             }
-            catch (Exception ex)
+            else
             {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
+                message = await botClient.EditMessageMediaAsync(
+                        chatId: chatId,
+                        media: new InputMediaPhoto(InputFile.FromStream(stream, "book")),
+                        messageId: messageId);
             }
+
+            return message;
         }
 
         /// <summary>
@@ -721,14 +648,7 @@ namespace PRTelegramBot.Helpers
         /// <returns></returns>
         public static async Task DeleteChat(ITelegramBotClient botClient, long chatId, int messageId)
         {
-            try
-            {
-                await botClient.DeleteMessageAsync(chatId: chatId, messageId: messageId);
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-            }
+            await botClient.DeleteMessageAsync(chatId: chatId, messageId: messageId);
         }
 
         /// <summary>
@@ -743,32 +663,24 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditWithPhoto(ITelegramBotClient botClient, long chatId, int messageId, string msg, InputMedia media, OptionMessage option)
         {
-            try
+            Telegram.Bot.Types.Message message = null;
+            if (option?.MenuInlineKeyboardMarkup != null)
             {
-                Telegram.Bot.Types.Message message = null;
-                if (option?.MenuInlineKeyboardMarkup != null)
-                {
-                    message = await botClient.EditMessageMediaAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            media: media,
-                            replyMarkup: option.MenuInlineKeyboardMarkup);
+                message = await botClient.EditMessageMediaAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        media: media,
+                        replyMarkup: option.MenuInlineKeyboardMarkup);
 
-                    message = await botClient.EditMessageCaptionAsync(
-                            chatId: chatId,
-                            messageId: messageId,
-                            caption: msg,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: option.MenuInlineKeyboardMarkup);
-                }
+                message = await botClient.EditMessageCaptionAsync(
+                        chatId: chatId,
+                        messageId: messageId,
+                        caption: msg,
+                        parseMode: ParseMode.Html,
+                        replyMarkup: option.MenuInlineKeyboardMarkup);
+            }
 
-                return message;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
-            }
+            return message;
         }
 
         /// <summary>
@@ -781,19 +693,11 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditCaption(ITelegramBotClient botClient, Update update, string msg, OptionMessage option = null)
         {
-            try
-            {
-                long chatId = update.GetChatId();
-                int messageId = update.GetMessageId();
+            long chatId = update.GetChatId();
+            int messageId = update.GetMessageId();
 
-                var editmessage = await EditCaption(botClient, chatId, messageId, msg, option);
-                return editmessage;
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-                return null;
-            }
+            var editmessage = await EditCaption(botClient, chatId, messageId, msg, option);
+            return editmessage;
         }
 
         /// <summary>
@@ -805,14 +709,9 @@ namespace PRTelegramBot.Helpers
         /// <param name="showAlert">Показывать уведомление</param>
         public static async Task NotifyFromCallBack(ITelegramBotClient botClient, string callbackQueryId, string msg, bool showAlert = true)
         {
-            try
-            {
+
                 await botClient.AnswerCallbackQueryAsync(callbackQueryId, msg, showAlert);
-            }
-            catch (Exception ex)
-            {
-                GetInstance().InvokeErrorLog(ex);
-            }
+ 
         }
     }
 }

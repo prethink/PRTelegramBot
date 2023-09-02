@@ -45,7 +45,8 @@ namespace PRTelegramBot.Helpers
             {
                 if (_uniqueValues.Contains(value))
                 {
-                    throw new ArgumentException("Value already exists in the dictionary.", nameof(value));
+                    //throw new ArgumentException("Value already exists in the dictionary.", nameof(value));
+                    return;
                 }
                 _headers.Add(key, value);
                 _uniqueValues.Add(value);

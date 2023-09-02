@@ -14,7 +14,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Клиент телеграм бота
         /// </summary>
-        private ITelegramBotClient _botClient;
+        private TelegramService telegram;
         public List<long> WhiteList { get; set; }
 
         public event Func<ITelegramBotClient, Update, Task>? OnUpdate;
@@ -23,17 +23,16 @@ namespace PRTelegramBot.Core
         /// Маршрутизатор
         /// </summary>
         public Router Router { get; private set; }
+        public TelegramConfig Config { get; init; }
 
-        public Handler(ITelegramBotClient botClient)
+        public Handler(TelegramService botClient, TelegramConfig config)
         {
-            _botClient = botClient;
-            Router = new Router(_botClient);
+            telegram = botClient;
             WhiteList = new();
-            var whitelist = ConfigApp.GetSettingsTelegram<TelegramConfig>().WhiteListUsers;
-            if(whitelist != null)
-            {
-                WhiteList.AddRange(whitelist);
-            }
+            Config = config;
+            Router = new Router(telegram, Config);
+            WhiteList.AddRange(Config.WhiteListUsers);
+            
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace PRTelegramBot.Core
                 {
                     if(!WhiteList.Contains(update.GetChatId()))
                     {
-                        await Router.OnAccessDeniedInvoke(_botClient, update);
+                        await Router.OnAccessDeniedInvoke(telegram.botClient, update);
                         return;
                     }
                 }
@@ -74,7 +73,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
         }
 
@@ -92,7 +91,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
         }
 
@@ -117,7 +116,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
 
         }
@@ -133,11 +132,11 @@ namespace PRTelegramBot.Core
                 string command = update.Message.Text ?? update.Message.Type.ToString();
                 if (update.Message.Type == MessageType.Text)
                 {
-                    TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
+                    telegram.InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
                 }
                 else
                 {
-                    TelegramService.GetInstance().InvokeCommonLog($"Пользователь :{update.GetInfoUser()} отправил команду {command}");
+                    telegram.InvokeCommonLog($"Пользователь :{update.GetInfoUser()} отправил команду {command}");
                 }
                 
                 
@@ -145,7 +144,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                telegram.InvokeErrorLog(ex);
             }
         }
     }

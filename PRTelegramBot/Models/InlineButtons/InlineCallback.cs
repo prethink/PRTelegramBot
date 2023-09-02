@@ -41,7 +41,6 @@ namespace PRTelegramBot.Models.InlineButtons
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return null;
             }
         }
@@ -110,7 +109,6 @@ namespace PRTelegramBot.Models.InlineButtons
             }
             catch (Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
                 return null;
             }
         }

@@ -39,7 +39,7 @@ namespace PRTelegramBot.Commands
             }
             catch(Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
 
         }
@@ -61,12 +61,12 @@ namespace PRTelegramBot.Commands
                 else
                 {
                     string msgUser = $"Регистрация группы или другого объекта {update.GetCacheData<UserCache>()}";
-                    TelegramService.GetInstance().InvokeCommonLog(msgUser, TelegramService.TelegramEvents.GroupAction, ConsoleColor.White);
+                    //TelegramService.GetInstance().InvokeCommonLog(msgUser, TelegramService.TelegramEvents.GroupAction, ConsoleColor.White);
                 }  
             }
             catch(Exception ex)
             {
-                TelegramService.GetInstance().InvokeErrorLog(ex);
+                //Обработка исключения
             }
         }
     }

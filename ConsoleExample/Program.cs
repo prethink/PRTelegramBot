@@ -18,85 +18,127 @@ const string EXIT_COMMAND = "exit";
 Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
+
+
 #region запуск телеграм бота
-var telegram = TelegramService.GetInstance();
+var telegram = new TelegramService(options =>
+{
+    // Токен телеграм бота берется из BotFather
+    options.Token = "";
+    // Перед запуском очищает список обновлений, которые накопились когда бот не работал.
+    options.ClearUpdatesOnStart = true;
+    // Если есть хоть 1 идентификатор телеграм пользователя, могут пользоваться только эти пользователи
+    options.WhiteListUsers = new List<long>() {  };
+    // Идентификатор телеграм пользователя
+    options.Admins = new List<long>() {  };
+    // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
+    options.BotId = 0;
+});
+var telegramTwo = new TelegramService(options =>
+{
+    // Токен телеграм бота берется из BotFather
+    options.Token = "";
+    //Перед запуском очищает список обновлений, которые накопились когда бот не работал.
+    options.ClearUpdatesOnStart = true;
+    // Если есть хоть 1 идентификатор телеграм пользователя, могут пользоваться только эти пользователи
+    options.WhiteListUsers = new List<long>() { };
+    // Идентификатор телеграм пользователя
+    options.Admins = new List<long>() { };
+    // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
+    options.BotId = 1;
+});
 
 //Подписка на простые логи
 telegram.OnLogCommon                += Telegram_OnLogCommon;
 //Подписка на логи с ошибками
 telegram.OnLogError                 += Telegram_OnLogError;
 //Запуск работы бота
+
+//Подписка на простые логи
+telegramTwo.OnLogCommon += Telegram_OnLogCommon;
+//Подписка на логи с ошибками
+telegramTwo.OnLogError += Telegram_OnLogError;
+//Запуск работы бота
 await telegram.Start();
+await telegramTwo.Start();
 
-if(telegram.Handler != null)
+HandlerInit(telegram);
+HandlerInit(telegramTwo);
+
+void HandlerInit(TelegramService tg)
 {
-    //Обработка обновление кроме message и callback
-    telegram.Handler.OnUpdate                       += Handler_OnUpdate;
+    if (tg.Handler != null)
+    {
+        //Обработка обновление кроме message и callback
+        tg.Handler.OnUpdate += Handler_OnUpdate;
 
-    //Обработка не правильный тип сообщений
-    telegram.Handler.Router.OnWrongTypeMessage      += ExampleEvent.OnWrongTypeMessage;
+        //Обработка не правильный тип сообщений
+        tg.Handler.Router.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
 
-    //Обработка пользователь написал в чат start с deeplink
-    telegram.Handler.Router.OnUserStartWithArgs     += ExampleEvent.OnUserStartWithArgs;
+        //Обработка пользователь написал в чат start с deeplink
+        tg.Handler.Router.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
 
-    //Обработка проверка привилегий
-    telegram.Handler.Router.OnCheckPrivilege        += ExampleEvent.OnCheckPrivilege;
+        //Обработка проверка привилегий
+        tg.Handler.Router.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
 
-    //Обработка пропущенной  команды
-    telegram.Handler.Router.OnMissingCommand        += ExampleEvent.OnMissingCommand;
+        //Обработка пропущенной  команды
+        tg.Handler.Router.OnMissingCommand += ExampleEvent.OnMissingCommand;
 
-    //Обработка не верного типа чата
-    telegram.Handler.Router.OnWrongTypeChat         += ExampleEvent.OnWrongTypeChat;
+        //Обработка не верного типа чата
+        tg.Handler.Router.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 
-    //Обработка локаций
-    telegram.Handler.Router.OnLocationHandle        += ExampleEvent.OnLocationHandle;
+        //Обработка локаций
+        tg.Handler.Router.OnLocationHandle += ExampleEvent.OnLocationHandle;
 
-    //Обработка контактных данных
-    telegram.Handler.Router.OnContactHandle         += ExampleEvent.OnContactHandle;
+        //Обработка контактных данных
+        tg.Handler.Router.OnContactHandle += ExampleEvent.OnContactHandle;
 
-    //Обработка голосований
-    telegram.Handler.Router.OnPollHandle            += ExampleEvent.OnPollHandle;
+        //Обработка голосований
+        tg.Handler.Router.OnPollHandle += ExampleEvent.OnPollHandle;
 
-    //Обработка WebApps
-    telegram.Handler.Router.OnWebAppsHandle         += ExampleEvent.OnWebAppsHandle;
+        //Обработка WebApps
+        tg.Handler.Router.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
 
-    //Обработка, когда пользователю отказано в доступе
-    telegram.Handler.Router.OnAccessDenied          += ExampleEvent.OnAccessDenied;
+        //Обработка, когда пользователю отказано в доступе
+        tg.Handler.Router.OnAccessDenied += ExampleEvent.OnAccessDenied;
 
-    //Обработка сообщения с документом
-    telegram.Handler.Router.OnDocumentHandle        += ExampleEvent.OnDocumentHandle;
+        //Обработка сообщения с документом
+        tg.Handler.Router.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
 
-    //Обработка сообщения с аудио
-    telegram.Handler.Router.OnAudioHandle           += ExampleEvent.OnAudioHandle;
+        //Обработка сообщения с аудио
+        tg.Handler.Router.OnAudioHandle += ExampleEvent.OnAudioHandle;
 
-    //Обработка сообщения с видео
-    telegram.Handler.Router.OnVideoHandle           += ExampleEvent.OnVideoHandle;
+        //Обработка сообщения с видео
+        tg.Handler.Router.OnVideoHandle += ExampleEvent.OnVideoHandle;
 
-    //Обработка сообщения с фото
-    telegram.Handler.Router.OnPhotoHandle           += ExampleEvent.OnPhotoHandle;
+        //Обработка сообщения с фото
+        tg.Handler.Router.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
 
-    //Обработка сообщения с стикером
-    telegram.Handler.Router.OnStickerHandle         += ExampleEvent.OnStickerHandle;
+        //Обработка сообщения с стикером
+        tg.Handler.Router.OnStickerHandle += ExampleEvent.OnStickerHandle;
 
-    //Обработка сообщения с голосовым сообщением
-    telegram.Handler.Router.OnVoiceHandle           += ExampleEvent.OnVoiceHandle;
+        //Обработка сообщения с голосовым сообщением
+        tg.Handler.Router.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
 
-    //Обработка сообщения с неизвестным типом
-    telegram.Handler.Router.OnUnknownHandle         += ExampleEvent.OnUnknownHandle;
+        //Обработка сообщения с неизвестным типом
+        tg.Handler.Router.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
 
-    //Обработка сообщения с местоположением
-    telegram.Handler.Router.OnVenueHandle           += ExampleEvent.OnVenueHandle;
+        //Обработка сообщения с местоположением
+        tg.Handler.Router.OnVenueHandle += ExampleEvent.OnVenueHandle;
 
-    //Обработка сообщения с игрой
-    telegram.Handler.Router.OnGameHandle            += ExampleEvent.OnGameHandle;
+        //Обработка сообщения с игрой
+        tg.Handler.Router.OnGameHandle += ExampleEvent.OnGameHandle;
 
-    //Обработка сообщения с видеозаметкой
-    telegram.Handler.Router.OnVideoNoteHandle       += ExampleEvent.OnVideoNoteHandle;
+        //Обработка сообщения с видеозаметкой
+        tg.Handler.Router.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
 
-    //Обработка сообщения с игральной костью
-    telegram.Handler.Router.OnDiceHandle            += ExampleEvent.OnDiceHandle;
+        //Обработка сообщения с игральной костью
+        tg.Handler.Router.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
+    }
 }
+ 
+
 
 async Task Handler_OnUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ConsoleExample.Models.DataBase
+namespace ConsoleExample.Models
 {
     /// <summary>
     /// Кастомные ссылка для регистрации
