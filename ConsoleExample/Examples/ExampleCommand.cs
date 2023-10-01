@@ -163,12 +163,12 @@ namespace ConsoleExample.Examples
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeader.ExampleTwo, new EntityTCommand(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeader.ExampleTwo, new EntityTCommand<long>(2));
             /* Создание новой кнопки с callback данными
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand>("Пример 3", CustomTHeader.ExampleThree, new EntityTCommand(3));
+            var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeader.ExampleThree, new EntityTCommand<long>(3));
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
             // Создаем кнопку для работы с webApp
