@@ -45,7 +45,7 @@ namespace ConsoleExample.Examples
             try
             {
                 //Попытка преобразовать callback данные к требуемому типу
-                var command = InlineCallback<EntityTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
                     string msg = $"Идентификатор который вы передали {command.Data.EntityId}";

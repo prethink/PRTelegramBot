@@ -18,8 +18,6 @@ const string EXIT_COMMAND = "exit";
 Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
-
-
 #region запуск телеграм бота
 var telegram = new TelegramService(options =>
 {

@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.3</Version>
+    <Version>0.2.2</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -41,11 +41,6 @@
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>
     </None>
-    <EmbeddedResource Include="Configs/appconfig.json">
-      <Pack>true</Pack>
-      <PackagePath>build</PackagePath>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="PRTelegramBot.targets">
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>

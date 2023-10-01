@@ -11,75 +11,33 @@ namespace PRTelegramBot.Extension.Dictionary
     public class ConfigApp
     {
         public IConfigurationRoot config { get; }
-        public IConfigurationRoot telegramConfig { get; }
 
-        private static ConfigApp Instance;
-
-        public static ConfigApp GetInstance()
+        public ConfigApp(string pathConfig, string baseDir = "")
         {
-            if (Instance == null)
-                Instance = new ConfigApp();
-            return Instance;
-        }
-
-        private ConfigApp()
-        {
-            string assemblyPath = Assembly.GetEntryAssembly().Location;
-            string basedir = Path.GetDirectoryName(assemblyPath);
-            string configJson = "Configs\\appconfig.json";
-            string telegramJson = "Configs\\telegram.json";
-
-            string fullPathAppConfig = Path.Combine(basedir, configJson);
-            string fullPathTelegramConfig = Path.Combine(basedir, telegramJson);
-
-            if (!File.Exists(fullPathAppConfig))
+            if(string.IsNullOrWhiteSpace(baseDir))
             {
-                CopyTemplate("PRTelegramBot.Configs.appconfig.json", fullPathAppConfig);
-            }
-
-            if (!File.Exists(fullPathTelegramConfig))
-            {
-                CopyTemplate("PRTelegramBot.Configs.telegram.json", fullPathTelegramConfig);
+                string assemblyPath = Assembly.GetEntryAssembly().Location;
+                baseDir = Path.GetDirectoryName(assemblyPath);
             }
 
             config = new ConfigurationBuilder()
-                     .SetBasePath(basedir)
-                     .AddJsonFile(configJson).Build();
-
-            telegramConfig = new ConfigurationBuilder()
-                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                     .AddJsonFile(telegramJson).Build();
+                     .SetBasePath(baseDir)
+                     .AddJsonFile(pathConfig).Build();
         }
 
-        public void CopyTemplate(string resourceName, string pathFile)
+        public T GetSettings<T>()
         {
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            {
-                if (stream == null)
-                {
-                    throw new Exception("Ресурсный файл не найден.");
-                }
-                Directory.CreateDirectory(Path.GetDirectoryName(pathFile));
-                using (FileStream fileStream = new FileStream(pathFile, FileMode.Create))
-                {
-                    stream.CopyTo(fileStream);
-                }
-            }
-        }
-
-        public static T GetSettings<T>()
-        {
-            var config = GetInstance().config;
             var section = config.GetSection(typeof(T).Name);
             return section.Get<T>();
         }
 
-        public static T GetSettingsTelegram<T>()
+        public static T GetSettings<T>(IConfigurationRoot config)
         {
-            var config = GetInstance().telegramConfig;
             var section = config.GetSection(typeof(T).Name);
             return section.Get<T>();
         }
+
+
     }
 
 
