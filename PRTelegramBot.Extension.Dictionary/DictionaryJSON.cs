@@ -11,6 +11,11 @@ namespace PRTelegramBot.Extension.Dictionary
     /// </summary>
     public class DictionaryJSON
     {
+        public static ConfigApp config { get; set; }
+        static DictionaryJSON()
+        {
+            config = new ConfigApp("Configs\\appconfig.json");
+        }
         /// <summary>
         /// Преобразует константу сообщения в текст из JSOON
         /// </summary>
@@ -18,7 +23,7 @@ namespace PRTelegramBot.Extension.Dictionary
         /// <returns></returns>
         public static string GetMessage(string messagePattern)
         {
-            return ConfigApp.GetSettings<TextConfig>().GetMessage(messagePattern);
+            return config.GetSettings<TextConfig>().GetMessage(messagePattern);
         }
 
         /// <summary>
@@ -28,7 +33,7 @@ namespace PRTelegramBot.Extension.Dictionary
         /// <returns></returns>
         public static string GetButton(string command)
         {
-            var result = ConfigApp.GetSettings<TextConfig>().GetButton(command);
+            var result = config.GetSettings<TextConfig>().GetButton(command);
             return result.Contains("NOT_FOUND") ? command : result;
         }
     }
