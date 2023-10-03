@@ -118,7 +118,7 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Событие проверки привелегий пользователя
+        /// Событие проверки привилегий пользователя
         /// </summary>
         /// <param name="callback">callback функция выполняется в случае успеха</param>
         /// <param name="flags">Флаги которые должны присуствовать</param>

@@ -299,6 +299,7 @@ namespace PRTelegramBot.Helpers.TG
         /// <param name="currentPage">Текущая страница</param>
         /// <param name="pageCount">Всего страниц</param>
         /// <param name="nextPageMarker">Маркер nextpage</param>
+        /// <param name="enumToInt">Заголовок команды</param>
         /// <param name="previousPageMarker">Маркер prevpage</param>
         /// <param name="button">Кнопка обработчик в центре</param>
         /// <returns>Постраничное inline menu</returns>

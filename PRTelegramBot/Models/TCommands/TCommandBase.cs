@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PRTelegramBot.Models.Enums;
+using System.Reflection.PortableExecutable;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {
@@ -12,10 +13,10 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Предыдущая команда
         /// </summary>
         [JsonProperty("0")]
-        public THeader LastCommand { get; set; }
+        public int LastCommand { get; set; }
         public TCommandBase(THeader data = THeader.None)
         {
-            LastCommand = data;
+            LastCommand  = Convert.ToInt32(data);
         }
     }
 }
