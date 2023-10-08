@@ -1,14 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Version>0.0.1</Version>
     <Nullable>enable</Nullable>
+    <Authors>Ilya Samarin</Authors>
+    <Company />
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/prethink/PRTelegramBot</RepositoryUrl>
+    <PackageTags>Telegram, TelegramBot, Dictionary</PackageTags>
+    <Description>Расширение для PRTelegramBot, позволяет менять название кнопок и сообщений внутри json файла.</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>PRTelegramBot.Extension.Dictionary</Title>
+    <PackageIcon>LogoBot.png</PackageIcon>
+    <NeutralLanguage>ru-RU</NeutralLanguage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.txt">
+      <Pack>true</Pack>
+      <PackagePath>build</PackagePath>
+    </None>
+    <None Include="PRTelegramBot.targets" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="LogoBot.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

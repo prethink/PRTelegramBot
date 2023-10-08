@@ -5,7 +5,7 @@ using PRTelegramBot.Configs;
 
 namespace PRTelegramBot.Core
 {
-    public class TelegramService
+    public class PRTelegramBot
     {
         /// <summary>
         /// События для логов
@@ -85,7 +85,7 @@ namespace PRTelegramBot.Core
 
         public TelegramConfig Config { get; init; } = new TelegramConfig();
 
-        public TelegramService(Action<TelegramConfig> configOptions)
+        public PRTelegramBot(Action<TelegramConfig> configOptions)
         {
              configOptions.Invoke(Config);
         }

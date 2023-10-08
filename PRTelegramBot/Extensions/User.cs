@@ -53,7 +53,7 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление полученное с телеграма</param>
         /// <returns>true/false</returns>
-        public static bool IsAdmin(this Update update, TelegramService service)
+        public static bool IsAdmin(this Update update, Core.PRTelegramBot service)
         {
             try
             {

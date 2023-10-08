@@ -14,7 +14,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Клиент телеграм бота
         /// </summary>
-        private TelegramService telegram;
+        private PRTelegramBot telegram;
         public List<long> WhiteList { get; set; }
 
         public event Func<ITelegramBotClient, Update, Task>? OnUpdate;
@@ -25,7 +25,7 @@ namespace PRTelegramBot.Core
         public Router Router { get; private set; }
         public TelegramConfig Config { get; init; }
 
-        public Handler(TelegramService botClient, TelegramConfig config)
+        public Handler(PRTelegramBot botClient, TelegramConfig config)
         {
             telegram = botClient;
             WhiteList = new();

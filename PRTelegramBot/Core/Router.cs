@@ -12,7 +12,7 @@ using static PRTelegramBot.Extensions.Step;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
-using static PRTelegramBot.Core.TelegramService;
+using static PRTelegramBot.Core.PRTelegramBot;
 using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Core
@@ -130,7 +130,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Клиент для телеграм бота
         /// </summary>
-        private TelegramService telegram;
+        private PRTelegramBot telegram;
 
         /// <summary>
         /// Словарь слеш команд
@@ -160,7 +160,7 @@ namespace PRTelegramBot.Core
 
         public TelegramConfig Config { get; init; }
 
-        public Router(TelegramService botClient, TelegramConfig config)
+        public Router(PRTelegramBot botClient, TelegramConfig config)
         {
             telegram                    = botClient;
             messageCommands             = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
@@ -400,7 +400,7 @@ namespace PRTelegramBot.Core
                 if (command != null)
                 {
                     string msg = $"Пользователь {update.GetInfoUser()} вызвал команду {command.CommandType.GetDescription()}";
-                    telegram.InvokeCommonLog(msg, TelegramService.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
+                    telegram.InvokeCommonLog(msg, PRTelegramBot.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
                     foreach (var commandCallback in inlineCommands)
                     {
                         if (((Enum)command.CommandType).Equals(commandCallback.Key) )
