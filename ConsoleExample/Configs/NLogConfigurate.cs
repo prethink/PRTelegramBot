@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using PRTelegramBot.Extensions;
-using static PRTelegramBot.Core.PRTelegramBot;
+using static PRTelegramBot.Core.PRBot;
 
 namespace PRTelegramBot.Configs
 {

@@ -2,7 +2,7 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using static PRTelegramBot.Core.PRTelegramBot;
+using static PRTelegramBot.Core.PRBot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 

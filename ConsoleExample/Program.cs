@@ -1,5 +1,5 @@
 ﻿using NLog;
-using static PRTelegramBot.Core.PRTelegramBot;
+using static PRTelegramBot.Core.PRBot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Configs;
@@ -19,7 +19,7 @@ Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
 #region запуск телеграм бота
-var telegram = new PRTelegramBot.Core.PRTelegramBot(options =>
+var telegram = new PRTelegramBot.Core.PRBot(options =>
 {
     // Токен телеграм бота берется из BotFather
     options.Token = "";
@@ -32,7 +32,7 @@ var telegram = new PRTelegramBot.Core.PRTelegramBot(options =>
     // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
     options.BotId = 0;
 });
-var telegramTwo = new PRTelegramBot.Core.PRTelegramBot(options =>
+var telegramTwo = new PRTelegramBot.Core.PRBot(options =>
 {
     // Токен телеграм бота берется из BotFather
     options.Token = "";
@@ -63,7 +63,7 @@ await telegramTwo.Start();
 HandlerInit(telegram);
 HandlerInit(telegramTwo);
 
-void HandlerInit(PRTelegramBot.Core.PRTelegramBot tg)
+void HandlerInit(PRTelegramBot.Core.PRBot tg)
 {
     if (tg.Handler != null)
     {
