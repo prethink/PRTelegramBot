@@ -15,7 +15,6 @@ namespace PRTelegramBot.Core
         /// Клиент телеграм бота
         /// </summary>
         private PRBot telegram;
-        public List<long> WhiteList { get; set; }
 
         public event Func<ITelegramBotClient, Update, Task>? OnUpdate;
 
@@ -28,10 +27,8 @@ namespace PRTelegramBot.Core
         public Handler(PRBot botClient, TelegramConfig config)
         {
             telegram = botClient;
-            WhiteList = new();
             Config = config;
             Router = new Router(telegram, Config);
-            WhiteList.AddRange(Config.WhiteListUsers);
             
         }
 
@@ -46,9 +43,9 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if(WhiteList.Count > 0)
+                if(Config.WhiteListUsers.Count > 0)
                 {
-                    if(!WhiteList.Contains(update.GetChatId()))
+                    if(!Config.WhiteListUsers.Contains(update.GetChatId()))
                     {
                         await Router.OnAccessDeniedInvoke(telegram.botClient, update);
                         return;

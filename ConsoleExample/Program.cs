@@ -19,7 +19,7 @@ Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
 #region запуск телеграм бота
-var telegram = new PRTelegramBot.Core.PRBot(options =>
+var telegram = new PRBot(options =>
 {
     // Токен телеграм бота берется из BotFather
     options.Token = "";
@@ -32,7 +32,9 @@ var telegram = new PRTelegramBot.Core.PRBot(options =>
     // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
     options.BotId = 0;
 });
-var telegramTwo = new PRTelegramBot.Core.PRBot(options =>
+
+
+var telegramTwo = new PRBot(options =>
 {
     // Токен телеграм бота берется из BotFather
     options.Token = "";
