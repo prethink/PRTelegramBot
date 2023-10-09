@@ -12,15 +12,16 @@ namespace PRTelegramBot.Models
     /// </summary>
     public class DictionaryJSON
     {
+        public const string PATH = "Configs\\appconfig.json";
         private ConfigApp _config { get; set; }
         public DictionaryJSON(ConfigApp config)
         {
             _config = config;
         }
 
-        public DictionaryJSON(string path)
+        public DictionaryJSON()
         {
-            _config = new ConfigApp(path);
+            _config = new ConfigApp(PATH);
         }
 
         /// <summary>

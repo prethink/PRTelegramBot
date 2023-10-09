@@ -63,7 +63,7 @@ namespace ConsoleExample.Examples
             var option = new OptionMessage();
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
-            option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
+            option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, new DictionaryJSON().GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
             await Helpers.Message.Send(botClient, update, msg, option);
         }
 
