@@ -16,7 +16,18 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для reply команд</returns>
         public static MethodInfo[] FindMessageMenuHandlers(long botId = 0)
         {
-            return FindMethods(typeof(ReplyMenuHandlerAttribute), botId);
+            var methods = FindMethods(typeof(ReplyMenuHandlerAttribute), botId);
+            return methods.Where(x => x.GetCustomAttributes(typeof(ReplyMenuDictionaryHandlerAttribute), true).Length == 0).ToArray();
+        }
+
+        /// <summary>
+        /// Поиск методов в программе для выполнения reply команд
+        /// <param name="botId">Уникальный идентификатор бота</param>
+        /// </summary>
+        /// <returns>Массив методов для reply команд</returns>
+        public static MethodInfo[] FindMessageMenuDictionaryHandlers(long botId = 0)
+        {
+            return FindMethods(typeof(ReplyMenuDictionaryHandlerAttribute), botId);
         }
 
         /// <summary>

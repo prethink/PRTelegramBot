@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PRTelegramBot.Extension.Dictionary\PRTelegramBot.Extension.Dictionary.csproj" />
     <ProjectReference Include="..\PRTelegramBot\PRTelegramBot.csproj" />
   </ItemGroup>
 

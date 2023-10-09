@@ -13,7 +13,7 @@ using Helpers = PRTelegramBot.Helpers;
 using Header = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Extension.Dictionary;
+using ConsoleExample.Commands.Constants;
 
 namespace ConsoleExample.Examples
 {
@@ -31,7 +31,7 @@ namespace ConsoleExample.Examples
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -40,7 +40,7 @@ namespace ConsoleExample.Examples
         public static async Task ExampleReplyX(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -134,7 +134,7 @@ namespace ConsoleExample.Examples
         /// [RequiredTypeUpdate] Пример того что метод будет обрабатывать обновление только приватного чата
         /// [RequireDate]Пример того что метод будет обрабатывать только текстовые сообщения
         /// </summary>
-        [ReplyMenuHandler(true, nameof(ReplyKeys.RP_EXAMPLE_FROM_JSON))]
+        [ReplyMenuDictionaryHandler(true, nameof(ReplyKeys.RP_EXAMPLE_FROM_JSON))]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
         public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
@@ -157,7 +157,7 @@ namespace ConsoleExample.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(DictionaryJSON.GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeader.ExampleOne);
+            var exampleItemOne = new InlineCallback(new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeader.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды

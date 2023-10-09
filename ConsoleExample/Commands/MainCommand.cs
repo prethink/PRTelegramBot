@@ -7,19 +7,19 @@ using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Models;
 using PRTelegramBot.Helpers;
-using PRTelegramBot.Extension.Dictionary;
+using ConsoleExample.Commands.Constants;
 
 namespace PRTelegramBot.Commands
 {
     internal class MainCommand
     {
-        [ReplyMenuHandler(true, nameof(ReplyKeys.RP_MENU), nameof(ReplyKeys.RP_MAIN_MENU))]
+        [ReplyMenuDictionaryHandler(true, nameof(ReplyKeys.RP_MENU), nameof(ReplyKeys.RP_MAIN_MENU))]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task MainMenu(ITelegramBotClient botClient, Update update)
         {
             try
             {
-                await MainMenu(botClient,  update.GetChatId(), DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
+                await MainMenu(botClient,  update.GetChatId(), new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
             }
             catch(Exception ex)
             {
@@ -31,7 +31,7 @@ namespace PRTelegramBot.Commands
         {
             try
             {
-                await MainMenu(botClient, telegramId, DictionaryJSON.GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
+                await MainMenu(botClient, telegramId, new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetMessage(nameof(MessageKeys.MSG_MAIN_MENU)));
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace PRTelegramBot.Commands
                 }
 
                 var option = new OptionMessage();
-                option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, DictionaryJSON.GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
+                option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, new DictionaryJSON(CommonConsts.JSON_DICTIONARY_PATH).GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
                 await Helpers.Message.Send(botClient, telegramId, message, option);
             }
             catch (Exception ex)

@@ -97,6 +97,10 @@ namespace PRTelegramBot.Core
         {
             try
             {
+                if(string.IsNullOrEmpty(Config.Token))
+                {
+                    throw new Exception("Не указан токен для бота!");
+                }
                 botClient = new TelegramBotClient(Config.Token);
                 Handler = new Handler(this, Config);
                 _cts = new CancellationTokenSource();

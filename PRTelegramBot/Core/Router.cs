@@ -199,9 +199,10 @@ namespace PRTelegramBot.Core
             try
             {
                 //Находим все методы которые используют наши атрибуты
-                var messageMethods          = ReflectionFinder.FindMessageMenuHandlers(Config.BotId);
-                var inlineMethods           = ReflectionFinder.FindInlineMenuHandlers(Config.BotId);
-                var slashCommandMethods     = ReflectionFinder.FindSlashCommandHandlers(Config.BotId);
+                var messageMethods              = ReflectionFinder.FindMessageMenuHandlers(Config.BotId);
+                var messageDictionaryMethods    = ReflectionFinder.FindMessageMenuDictionaryHandlers(Config.BotId);
+                var inlineMethods               = ReflectionFinder.FindInlineMenuHandlers(Config.BotId);
+                var slashCommandMethods         = ReflectionFinder.FindSlashCommandHandlers(Config.BotId);
 
                 ReflectionFinder.FindEnumHeaders();
 
@@ -216,6 +217,21 @@ namespace PRTelegramBot.Core
                         if (priority)
                         {
                             messageCommandsPriority.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
+                        }
+                    }
+                }
+
+                //Регистрируем Reply Dictionary команды
+                foreach (var method in messageDictionaryMethods)
+                {
+                    bool priority = method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Priority;
+                    foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
+                    {
+                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+                        messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                        if (priority)
+                        {
+                            messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         }
                     }
                 }
