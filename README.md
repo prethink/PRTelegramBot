@@ -1,4 +1,4 @@
-Уроки по PRTelegramBot - [prethink.ru](https://prethink.ru/category/uroki/)
+Описание как работать с библиотекой PRTelegramBot - [prethink.ru](https://prethink.ru/category/uroki/)
 
 # 📰 Описание
 Библиотека для быстрого и удобного создания telegram ботов.   
