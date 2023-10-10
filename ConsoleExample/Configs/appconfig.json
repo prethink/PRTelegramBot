@@ -12,9 +12,12 @@
     "WordLength": 9
   },
   "TextConfig": {
+    "Variables": {
+      "Promocode": "X-1sF2sX",
+    },
     "Messages": {
       "MSG_MAIN_MENU": "Главное меню",
-      "MSG_EXAMPLE_TEXT": "Пример текста сообщения из appconfig.json"
+      "MSG_EXAMPLE_TEXT": "(Изменения текста внутри json) Пример текста сообщения из appconfig.json и переменная {Promocode}"
     },
     "Buttons": {
       "RP_START": "/start",
