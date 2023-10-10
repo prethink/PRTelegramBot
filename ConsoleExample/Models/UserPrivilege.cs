@@ -9,10 +9,14 @@ namespace PRTelegramBot.Models.Enums
     public enum UserPrivilege
     {
         [Description("Гость")]
-        Guest = 0,
+        Guest = 1,
         [Description("Зарегистрированный")]
-        Registered = 1,
+        Registered = 2,
         [Description("Администратор")]
-        Admin = 2,
+        Admin = 4,
+        [Description("VIP")]
+        VIP = 8,
+        [Description("Модератор")]
+        Moderator = 16,
     }
 }

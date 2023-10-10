@@ -68,6 +68,7 @@ namespace ConsoleExample.Examples
             var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader2);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
+
             var message = await Helpers.Message.Send(botClient, update, msg, option);
         }
 

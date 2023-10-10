@@ -19,7 +19,5 @@ namespace ConsoleExample.Extension
         {
             return new List<int>() { 1, 2 };
         }
-
-
     }
 }
