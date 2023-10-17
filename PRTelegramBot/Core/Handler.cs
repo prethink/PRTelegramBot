@@ -135,8 +135,9 @@ namespace PRTelegramBot.Core
                 {
                     telegram.InvokeCommonLog($"Пользователь :{update.GetInfoUser()} отправил команду {command}");
                 }
-                
-                
+
+
+
                 Router.ExecuteCommandByMessage(command, update);
             }
             catch (Exception ex)

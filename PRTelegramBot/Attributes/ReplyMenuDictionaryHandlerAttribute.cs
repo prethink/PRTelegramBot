@@ -21,6 +21,16 @@ namespace PRTelegramBot.Attributes
             Init(priority, commands);
         }
 
+        public ReplyMenuDictionaryHandlerAttribute(params string[] commands) : base(true, commands)
+        {
+            Init(true, commands);
+        }
+
+        public ReplyMenuDictionaryHandlerAttribute(long botId, params string[] commands) : base(true, botId, commands)
+        {
+            Init(true, commands);
+        }
+
         public override void Init(bool priority, params string[] commands)
         {
             config = new ConfigApp("Configs\\appconfig.json");

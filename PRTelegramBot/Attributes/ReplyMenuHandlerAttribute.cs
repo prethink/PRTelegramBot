@@ -23,9 +23,19 @@ namespace PRTelegramBot.Attributes
             Init(priority, commands);
         }
 
+        public ReplyMenuHandlerAttribute(params string[] commands) : base(0)
+        {
+            Init(true, commands);
+        }
+
         public ReplyMenuHandlerAttribute(bool priority,long botId, params string[] commands) : base(botId)
         {
             Init(priority, commands);
+        }
+
+        public ReplyMenuHandlerAttribute(long botId, params string[] commands) : base(botId)
+        {
+            Init(true, commands);
         }
 
         public virtual void Init(bool priority, params string[] commands)
