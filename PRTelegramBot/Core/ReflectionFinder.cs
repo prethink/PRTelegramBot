@@ -85,17 +85,17 @@ namespace PRTelegramBot.Core
         public static MethodInfo[] FindMethods(Type type, long botId = 0)
         {
             string thisAssemblyName = Assembly.GetEntryAssembly().GetName().FullName;
+
             var query = AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(x => x.FullName.ToLower() == thisAssemblyName.ToLower())
                 .GetTypes()
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
-                .Where(m => m.GetCustomAttributes(type, false)
+                .Where(m => m.GetCustomAttributes()
                     .OfType<BaseQueryAttribute>()
-                    .Any(attr => attr.BotId == botId))
+                    .Any(attr => attr.BotId == botId && attr.GetType().GUID == type.GUID))
                     .ToArray();
 
             return query;
-
         }
     }
 }
