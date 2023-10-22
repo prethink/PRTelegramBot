@@ -5,7 +5,7 @@ namespace PRTelegramBot.Models.CallbackCommands
     /// <summary>
     /// Команда для передачи даты из календаря
     /// </summary>
-    public class CallendarTCommand : TCommandBase
+    public class CalendarTCommand : TCommandBase
     {
         /// <summary>
         /// Дата
@@ -13,7 +13,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         [JsonProperty("2")]
         public DateTime Date { get; set; }
 
-        public CallendarTCommand(DateTime date)
+        public CalendarTCommand(DateTime date)
         {
             Date = date;
         }

@@ -51,7 +51,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
                     var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi);
@@ -74,7 +74,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
                     var monthPickerMarkup = Markup.PickMonth(command.Data.Date, dtfi);
@@ -99,7 +99,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
                     var monthYearMarkup = Markup.PickYear(command.Data.Date, dtfi);
@@ -123,7 +123,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
                     var calendarMarkup = Markup.Calendar(command.Data.Date, dtfi);
@@ -147,7 +147,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var command = InlineCallback<CallendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
                     var data = command.Data.Date;
