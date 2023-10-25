@@ -12,6 +12,7 @@ using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
+using ConsoleExample.Models;
 
 namespace ConsoleExample.Examples
 {
@@ -31,7 +32,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var calendarMarkup = Markup.Calendar(DateTime.Today, dtfi);
+                var calendarMarkup = Markup.Calendar(DateTime.Today, dtfi,(int)CustomTHeader.ExampleThree);
                 var option = new OptionMessage();
                 option.MenuInlineKeyboardMarkup = calendarMarkup;
                 await Helpers.Message.Send(botClient, update.GetChatId(), $"Выберите дату:", option);
@@ -54,7 +55,7 @@ namespace ConsoleExample.Examples
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi);
+                    var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi,command.Data.LastCommand);
                     var option = new OptionMessage();
                     option.MenuInlineKeyboardMarkup = monthYearMarkup;
                     await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
@@ -77,7 +78,7 @@ namespace ConsoleExample.Examples
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    var monthPickerMarkup = Markup.PickMonth(command.Data.Date, dtfi);
+                    var monthPickerMarkup = Markup.PickMonth(command.Data.Date, dtfi, command.Data.LastCommand);
                     var option = new OptionMessage();
                     option.MenuInlineKeyboardMarkup = monthPickerMarkup;
                     await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
@@ -102,7 +103,7 @@ namespace ConsoleExample.Examples
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    var monthYearMarkup = Markup.PickYear(command.Data.Date, dtfi);
+                    var monthYearMarkup = Markup.PickYear(command.Data.Date, dtfi, command.Data.LastCommand);
                     var option = new OptionMessage();
                     option.MenuInlineKeyboardMarkup = monthYearMarkup;
                     await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
@@ -126,7 +127,7 @@ namespace ConsoleExample.Examples
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    var calendarMarkup = Markup.Calendar(command.Data.Date, dtfi);
+                    var calendarMarkup = Markup.Calendar(command.Data.Date, dtfi, command.Data.LastCommand);
                     var option = new OptionMessage();
                     option.MenuInlineKeyboardMarkup = calendarMarkup;
                     await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
@@ -150,8 +151,10 @@ namespace ConsoleExample.Examples
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
+                    var type = command.Data.GetLastCommandEnum<CustomTHeader>();
                     var data = command.Data.Date;
                     //Обработка данных даты;
+                    await Helpers.Message.Send(botClient, update, data.ToString());
                 }
             }
             catch (Exception ex)

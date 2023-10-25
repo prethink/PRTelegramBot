@@ -14,9 +14,19 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// </summary>
         [JsonProperty("0")]
         public int LastCommand { get; set; }
-        public TCommandBase(THeader data = THeader.None)
+        public TCommandBase(int command = 0)
         {
-            LastCommand  = Convert.ToInt32(data);
+            LastCommand  = command;
+        }
+
+        /// <summary>
+        /// получить команду нужнного типа Enum
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetLastCommandEnum<T>() where T : Enum
+        {
+            return (T)Enum.ToObject(typeof(T), LastCommand);
         }
     }
 }

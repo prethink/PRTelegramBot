@@ -11,7 +11,7 @@ namespace PRTelegramBot.Models.Enums
     public enum THeader
     {
         [Description("Пустая команда")]
-        None,
+        None = 0,
         [Description("Выбрать месяц")]
         PickMonth,
         [Description("Выбрать год")]

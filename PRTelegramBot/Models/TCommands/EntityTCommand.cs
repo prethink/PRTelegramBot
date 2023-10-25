@@ -13,7 +13,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         [JsonProperty("1")]
         public T EntityId { get; set; }
 
-        public EntityTCommand(T entityId)
+        public EntityTCommand(T entityId, int command = 0) : base(command)
         {
             EntityId = entityId;
         }
