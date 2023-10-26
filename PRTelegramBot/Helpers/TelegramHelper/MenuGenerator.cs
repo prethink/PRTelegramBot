@@ -323,5 +323,35 @@ namespace PRTelegramBot.Helpers.TG
 
             return InlineKeyboard(3, buttons);
         }
+
+        /// <summary>
+        /// Генерирует меню для постраничного вывода
+        /// </summary>
+        /// <param name="currentPage">Текущая страница</param>
+        /// <param name="pageCount">Всего страниц</param>
+        /// <param name="nextPageMarker">Маркер nextpage</param>
+        /// <param name="enumToInt">Заголовок команды</param>
+        /// <param name="previousPageMarker">Маркер prevpage</param>
+        /// <param name="customButtons">Кнопки обработчики</param>
+        /// <returns>Постраничное inline menu</returns>
+        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, Enum enumToInt, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", List<IInlineContent> customButtons)
+        {
+            List<IInlineContent> buttons = new();
+
+            if (currentPage != 1)
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", THeader.PreviousPage, new PageTCommand(currentPage - 1, enumToInt)));
+            }
+
+            if (currentPage != pageCount)
+            {
+                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", THeader.CurrentPage, new PageTCommand(currentPage + 1, enumToInt)));
+            }
+
+            var pageButtons = InlineButtons(2, buttons);
+            var customMenu = InlineButtons(1, customButtons);
+            pageButtons.AddRange(customMenu);
+            return InlineKeyboard(pageButtons);
+        }
     }
 }
