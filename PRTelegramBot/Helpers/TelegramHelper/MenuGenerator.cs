@@ -334,7 +334,7 @@ namespace PRTelegramBot.Helpers.TG
         /// <param name="previousPageMarker">Маркер prevpage</param>
         /// <param name="customButtons">Кнопки обработчики</param>
         /// <returns>Постраничное inline menu</returns>
-        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, Enum enumToInt, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", List<IInlineContent> customButtons)
+        public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, Enum enumToInt, List<IInlineContent> customButtons, string nextPageMarker = "➡️", string previousPageMarker = "⬅️")
         {
             List<IInlineContent> buttons = new();
 
