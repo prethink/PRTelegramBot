@@ -85,9 +85,36 @@ namespace PRTelegramBot.Core
 
         public TelegramConfig Config { get; init; } = new TelegramConfig();
 
+        public ReceiverOptions ReceiverOptions { get; set; }
+
+        public CancellationTokenSource CancellationTokenSource { get; set; }
+
         public PRBot(Action<TelegramConfig> configOptions)
         {
-             configOptions.Invoke(Config);
+            configOptions.Invoke(Config);
+            ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+
+        public PRBot(Action<TelegramConfig> configOptions, CancellationTokenSource cancellationToken)
+        {
+            configOptions.Invoke(Config);
+            ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
+            CancellationTokenSource = cancellationToken;
+        }
+
+        public PRBot(Action<TelegramConfig> configOptions, ReceiverOptions receiverOptions)
+        {
+            configOptions.Invoke(Config);
+            ReceiverOptions = receiverOptions;
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+
+        public PRBot(Action<TelegramConfig> configOptions, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
+        {
+            configOptions.Invoke(Config);
+            ReceiverOptions = receiverOptions;
+            CancellationTokenSource = cancellationToken;
         }
 
         /// <summary>
@@ -101,10 +128,11 @@ namespace PRTelegramBot.Core
                 {
                     throw new Exception("Не указан токен для бота!");
                 }
+
                 botClient = new TelegramBotClient(Config.Token);
                 Handler = new Handler(this, Config);
-                _cts = new CancellationTokenSource();
-                _options = new ReceiverOptions { AllowedUpdates = { } };
+                _cts = CancellationTokenSource;
+                _options = ReceiverOptions;
 
                 if(Config.ClearUpdatesOnStart)
                 {
@@ -116,7 +144,7 @@ namespace PRTelegramBot.Core
 
 
                 var client = await botClient.GetMeAsync();
-                BotName = client.Username;
+                BotName = client?.Username;
                 this.InvokeCommonLog($"Бот {client.Username} запущен.", TelegramEvents.Initialization, ConsoleColor.Yellow);
 
                 IsWork = true;
