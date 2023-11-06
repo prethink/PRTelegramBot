@@ -66,7 +66,7 @@ namespace PRTelegramBot.Core
                 // Ищем только перечисления
                 foreach (Type type in types)
                 {
-                    if (type.IsEnum && type.Name.Contains("THeader"))
+                    if (type.IsEnum && type.GetCustomAttributes(typeof(InlineCommandAttribute), false).Any())
                     {
                         Array enumValues = Enum.GetValues(type);
                         foreach (Enum item in enumValues)

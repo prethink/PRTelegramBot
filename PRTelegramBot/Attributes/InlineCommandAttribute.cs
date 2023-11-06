@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRTelegramBot.Models.Interface
+namespace PRTelegramBot.Attributes
 {
-    public interface IParams<T>
+    [AttributeUsage(AttributeTargets.Enum)]
+    public class InlineCommandAttribute : Attribute
     {
-        T GetParams<T>();
     }
 }
-    

@@ -41,7 +41,6 @@ namespace ConsoleExample.Examples
             {
                 //Обработка исключения
             }
-
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PRTelegramBot.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleExample.Models
 {
+    [InlineCommand]
     public enum CustomTHeader
     {
         [Description("Бесплатный ВИП")]
