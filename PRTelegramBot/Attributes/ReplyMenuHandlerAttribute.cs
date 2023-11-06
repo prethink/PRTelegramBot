@@ -43,7 +43,7 @@ namespace PRTelegramBot.Attributes
             Commands = commands.ToList();
             for (int i = 0; i < Commands.Count; i++)
             {
-                    Commands[i] = commands[i]; 
+                Commands[i] = commands[i]; 
             }
             Priority = priority;
         }

@@ -11,6 +11,7 @@ using Helpers = PRTelegramBot.Helpers;
 using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using ConsoleExample.Commands.Constants;
+using PRTelegramBot.Models.Interface;
 
 namespace ConsoleExample.Examples
 {
@@ -28,7 +29,7 @@ namespace ConsoleExample.Examples
         {
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
             //Регистрация следующего шага пользователя
-            update.RegisterNextStep(new StepTelegram(StepOne));
+            update.RegisterNextStep(new StepTelegram(StepOne, new TestParams()));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -36,12 +37,17 @@ namespace ConsoleExample.Examples
         /// При написание любого текста сообщения или нажатие на любую кнопку из reply для пользователя будет выполнен этот метод.
         /// Метод регистрирует следующий шаг с максимальным времени выполнения
         /// </summary>
-        public static async Task StepOne(ITelegramBotClient botClient, Update update)
+        public static async Task StepOne(ITelegramBotClient botClient, Update update, CustomParameters args)
         {
             string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
                         $"\nВведите дату рождения";
             //Запись временных данных в кэщ пользователя
             update.GetCacheData<UserCache>().Data = $"Имя: {update.Message.Text}\n";
+            if(args != null)
+            {
+                //Обработка дополнительных данных
+                var data = args as TestParams;
+            }
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
             await Helpers.Message.Send(botClient, update, msg);
@@ -50,7 +56,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Напишите в чат любой текст и будет выполнена эта команда если у пользователя был записан следующий шаг
         /// </summary>
-        public static async Task StepTwo(ITelegramBotClient botClient, Update update)
+        public static async Task StepTwo(ITelegramBotClient botClient, Update update, CustomParameters args)
         {
             string msg = $"Шаг 2 - дата рождения {update.Message.Text}" +
                          $"\nНапиши любой текст, чтобы увидеть результат";
@@ -71,7 +77,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Напишите в чат любой текст и будет выполнена эта команда если у пользователя был записан следующий шаг
         /// </summary>
-        public static async Task StepThree(ITelegramBotClient botClient, Update update)
+        public static async Task StepThree(ITelegramBotClient botClient, Update update, CustomParameters args)
         {
             string msg = $"Шаг 3 - Результат:\n{update.GetCacheData<UserCache>().Data}" +
                          $"\nПоследовательность шагов очищена.";

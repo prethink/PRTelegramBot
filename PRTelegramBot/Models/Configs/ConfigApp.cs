@@ -11,7 +11,6 @@ namespace PRTelegramBot.Models.Configs
     /// </summary>
     public class ConfigApp : BaseConfig
     {
-
         public ConfigApp(string pathConfig)
         {
             if (!File.Exists(pathConfig))
@@ -26,6 +25,11 @@ namespace PRTelegramBot.Models.Configs
                     Buttons = new Dictionary<string, string>
                     {
                         {"RP_MAIN_MENU", "🏠 Главное меню"},
+                    }
+                    ,
+                    Variables = new Dictionary<string, string> 
+                    {
+                        {"Promo", "Test"},
                     }
                 };
 

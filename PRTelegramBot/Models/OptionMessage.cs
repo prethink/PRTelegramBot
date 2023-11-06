@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models
 {
@@ -16,6 +17,11 @@ namespace PRTelegramBot.Models
         /// Добавляет Inline меню
         /// </summary>
         public InlineKeyboardMarkup MenuInlineKeyboardMarkup { get; set; }
+
+        /// <summary>
+        /// Тип парсинга
+        /// </summary>
+        public ParseMode ParseMode { get; set; } = ParseMode.Html;
 
         /// <summary>
         /// Очищает меню

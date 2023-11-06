@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Аттрибут для проверки прав доступа на запуск методов
+    /// Атрибут для проверки прав доступа на запуск методов
     /// </summary>
     public class AccessAttribute : Attribute
     {

@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Аттрибут для inline команд
+    /// Атрибут для inline команд
     /// </summary>
     public class InlineCallbackHandlerAttribute<T> : BaseQueryAttribute where T : Enum
     {

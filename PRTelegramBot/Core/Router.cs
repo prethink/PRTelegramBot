@@ -14,6 +14,8 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
 using static PRTelegramBot.Core.PRBot;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Models.Interface;
+using PRTelegramBot.Models;
 
 namespace PRTelegramBot.Core
 {
@@ -28,9 +30,14 @@ namespace PRTelegramBot.Core
         public event Func<ITelegramBotClient, Update,string, Task>? OnUserStartWithArgs;
 
         /// <summary>
-        /// Событие когда нужно проверить привелегии перед выполнением команды
+        /// Событие когда нужно проверить привилегии перед выполнением команды
         /// </summary>
         public event Func<ITelegramBotClient, Update, Func<ITelegramBotClient, Update, Task>, int?, Task>? OnCheckPrivilege;
+
+        /// <summary>
+        /// Событие когда нужно проверить привилегии перед выполнением команды
+        /// </summary>
+        public event Func<ITelegramBotClient, Update, Func<ITelegramBotClient, Update, CustomParameters, Task>, int?, Task>? OnCheckPrivilegeWithParams;
 
         /// <summary>
         /// Событие когда указан не верный тип сообщения
@@ -212,6 +219,12 @@ namespace PRTelegramBot.Core
                     bool priority = method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Priority;
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
+                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        if(!isValidMethod)
+                        {
+                            telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута ReplyMenuHandler"));
+                            continue;
+                        }
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
                         messageCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
                         if (priority)
@@ -227,6 +240,12 @@ namespace PRTelegramBot.Core
                     bool priority = method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Priority;
                     foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
                     {
+                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        if (!isValidMethod)
+                        {
+                            telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута ReplyMenuHandler. Метод будет проигнорирован."));
+                            continue;
+                        }
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
                         messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         if (priority)
@@ -244,6 +263,12 @@ namespace PRTelegramBot.Core
                         if (attribute.GetType().IsGenericType &&
                             attribute.GetType().GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
                         {
+                            bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                            if (!isValidMethod)
+                            {
+                                telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута InlineCallbackHandler. Метод будет проигнорирован."));
+                                continue;
+                            }
                             var commandsProperty = attribute.GetType().GetProperty("Commands");
                             var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
 
@@ -261,6 +286,12 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<SlashHandlerAttribute>().Commands)
                     {
+                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        if (!isValidMethod)
+                        {
+                            telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута SlashHandler. Метод будет проигнорирован."));
+                            continue;
+                        }
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
                         slashCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
                     }
@@ -482,11 +513,11 @@ namespace PRTelegramBot.Core
                         }
                     }
 
-                    var cmd = update.GetStepOrNull().CommandDelegate;
+                    var step = update.GetStepOrNull();
 
-                    var privilages = cmd.Method.GetCustomAttribute<AccessAttribute>();
-                    var requireDate = cmd.Method.GetCustomAttribute<RequireTypeMessageAttribute>();
-                    var requireUpdate = cmd.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
+                    var privilages = step.CommandDelegate.Method.GetCustomAttribute<AccessAttribute>();
+                    var requireDate = step.CommandDelegate.Method.GetCustomAttribute<RequireTypeMessageAttribute>();
+                    var requireUpdate = step.CommandDelegate.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
                     if (requireUpdate != null)
                     {
                         if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
@@ -505,10 +536,10 @@ namespace PRTelegramBot.Core
                     }
                     if (privilages != null)
                     {
-                        OnCheckPrivilege?.Invoke(telegram.botClient, update, cmd, privilages.Flags);
+                        OnCheckPrivilegeWithParams?.Invoke(telegram.botClient, update, step.CommandDelegate, privilages.Flags);
                         return true;
                     }
-                    await cmd(telegram.botClient, update);
+                    await step.CommandDelegate(telegram.botClient, update, step.Args);
                     return true;
                 }
                 return false;

@@ -1,6 +1,8 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Helpers;
 using System.Reflection;
+using Telegram.Bot.Types;
+using Telegram.Bot;
 
 namespace PRTelegramBot.Core
 {
@@ -96,6 +98,34 @@ namespace PRTelegramBot.Core
                     .ToArray();
 
             return query;
+        }
+
+        public static bool IsValidMethorForBaseBaseQueryAttribute(MethodInfo method)
+        {
+            try
+            {
+                Type expectedReturnType = typeof(Task);
+                Type expectedBotClientType = typeof(ITelegramBotClient);
+                Type expectedUpdateType = typeof(Update);
+
+                ParameterInfo[] parameters = method.GetParameters();
+
+                if (method.ReturnType == expectedReturnType &&
+                    parameters.Length == 2 &&
+                    parameters[0].ParameterType == expectedBotClientType &&
+                    parameters[1].ParameterType == expectedUpdateType)
+                {
+                   return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

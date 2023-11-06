@@ -13,20 +13,20 @@ namespace PRTelegramBot.Models.Enums
         [Description("Пустая команда")]
         None = 0,
         [Description("Выбрать месяц")]
-        PickMonth,
+        PickMonth = 1,
         [Description("Выбрать год")]
-        PickYear,
+        PickYear = 2,
         [Description("Изменение календаря")]
-        ChangeTo,
+        ChangeTo = 3,
         [Description("Выбор года месяца")]
-        YearMonthPicker,
+        YearMonthPicker = 4,
         [Description("Выбрать дату")]
-        PickDate,
+        PickDate = 5,
         [Description("Следующая страница")]
-        NextPage,
+        NextPage = 6,
         [Description("Текущая страница")]
-        CurrentPage,
+        CurrentPage = 7 ,
         [Description("Предыдущая страница")]
-        PreviousPage,
+        PreviousPage = 8,
     }
 }
