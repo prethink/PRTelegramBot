@@ -86,18 +86,21 @@ namespace PRTelegramBot.Core
         /// <returns>Массив найденных методов</returns>
         public static MethodInfo[] FindMethods(Type type, long botId = 0)
         {
-            string thisAssemblyName = Assembly.GetEntryAssembly().GetName().FullName;
+            var assemblyes = AppDomain.CurrentDomain.GetAssemblies();
+            var list = new List<MethodInfo>();
+            foreach (var item in assemblyes)
+            {
+                var tempMethods = item.GetTypes()
+                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+                 .Where(m => m.GetCustomAttributes()
+                     .OfType<BaseQueryAttribute>()
+                     .Any(attr => attr.BotId == botId && attr.GetType().GUID == type.GUID))
+                     .ToList();
 
-            var query = AppDomain.CurrentDomain.GetAssemblies()
-                .FirstOrDefault(x => x.FullName.ToLower() == thisAssemblyName.ToLower())
-                .GetTypes()
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
-                .Where(m => m.GetCustomAttributes()
-                    .OfType<BaseQueryAttribute>()
-                    .Any(attr => attr.BotId == botId && attr.GetType().GUID == type.GUID))
-                    .ToArray();
+                list.AddRange(tempMethods);
+            }
 
-            return query;
+            return list.ToArray();
         }
 
         public static bool IsValidMethorForBaseBaseQueryAttribute(MethodInfo method)
