@@ -117,6 +117,34 @@ namespace PRTelegramBot.Core
             CancellationTokenSource = cancellationToken;
         }
 
+        public PRBot(TelegramConfig config)
+        {
+            Config = config;
+            ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+
+        public PRBot(TelegramConfig config, CancellationTokenSource cancellationToken)
+        {
+            Config = config;
+            ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
+            CancellationTokenSource = cancellationToken;
+        }
+
+        public PRBot(TelegramConfig config, ReceiverOptions receiverOptions)
+        {
+            Config = config;
+            ReceiverOptions = receiverOptions;
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+
+        public PRBot(TelegramConfig config, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
+        {
+            Config = config;
+            ReceiverOptions = receiverOptions;
+            CancellationTokenSource = cancellationToken;
+        }
+            
         /// <summary>
         /// Запуск бота
         /// </summary>

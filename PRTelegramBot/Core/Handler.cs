@@ -17,6 +17,7 @@ namespace PRTelegramBot.Core
         private PRBot telegram;
 
         public event Func<ITelegramBotClient, Update, Task>? OnUpdate;
+        public event Func<ITelegramBotClient, Update, Task>? OnWithoutMessageUpdate;
 
         /// <summary>
         /// Маршрутизатор
@@ -43,7 +44,9 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if(Config.WhiteListUsers.Count > 0)
+                await OnUpdate?.Invoke(botClient, update);
+
+                if (Config.WhiteListUsers.Count > 0)
                 {
                     if(!Config.WhiteListUsers.Contains(update.GetChatId()))
                     {
@@ -65,7 +68,7 @@ namespace PRTelegramBot.Core
                 }
 
 
-                await OnUpdate?.Invoke(botClient, update);
+                await OnWithoutMessageUpdate?.Invoke(botClient, update);
 
             }
             catch (Exception ex)

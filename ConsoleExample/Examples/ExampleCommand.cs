@@ -102,6 +102,7 @@ namespace ConsoleExample.Examples
             string msg = $"Значени {count}";
             //Создаем настройки сообщения
             var option = new OptionMessage();
+            
             //Создаем список для меню
             var menuList = new List<KeyboardButton>();
             //Добавляем кнопку с текстом

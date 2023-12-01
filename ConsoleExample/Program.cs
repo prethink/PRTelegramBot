@@ -71,8 +71,11 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
 {
     if (tg.Handler != null)
     {
-        //Обработка обновление кроме message и callback
+        //Обработка обновление 
         tg.Handler.OnUpdate += Handler_OnUpdate;
+
+        //Обработка обновление кроме message и callback
+        tg.Handler.OnWithoutMessageUpdate += Handler_OnUpdate;
 
         //Обработка не правильный тип сообщений
         tg.Handler.Router.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
@@ -144,8 +147,14 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
 
 async Task Handler_OnUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
+
+}
+
+async Task Handler_OnWithoutMessageUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
+{
     //Обработка обновление кроме message и callback
 }
+
 
 #endregion
 
