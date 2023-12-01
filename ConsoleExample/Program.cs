@@ -75,7 +75,7 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
         tg.Handler.OnUpdate += Handler_OnUpdate;
 
         //Обработка обновление кроме message и callback
-        tg.Handler.OnWithoutMessageUpdate += Handler_OnUpdate;
+        tg.Handler.OnWithoutMessageUpdate += Handler_OnWithoutMessageUpdate;
 
         //Обработка не правильный тип сообщений
         tg.Handler.Router.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
