@@ -45,36 +45,35 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if(OnUpdate != null)
+                if (OnUpdate != null)
                 {
                     var resultUpdate = await OnUpdate?.Invoke(botClient, update);
 
                     if (resultUpdate == ResultUpdate.Stop) return;
                 }
 
-                
+
                 if (Config.WhiteListUsers.Count > 0)
                 {
-                    if(!Config.WhiteListUsers.Contains(update.GetChatId()))
+                    if (!Config.WhiteListUsers.Contains(update.GetChatId()))
                     {
                         await Router.OnAccessDeniedInvoke(telegram.botClient, update);
                         return;
                     }
                 }
 
-                if(update.Type == UpdateType.Message)
+                if (update.Type == UpdateType.Message)
                 {
                     await HandleMessage(update);
                     return;
                 }
 
-                if(update.Type == UpdateType.CallbackQuery)
+                if (update.Type == UpdateType.CallbackQuery)
                 {
                     await HandleCallbackQuery(update, cancellationToken);
                     return;
                 }
-
-                await OnWithoutMessageUpdate?.Invoke(botClient, update);
+                await (OnWithoutMessageUpdate?.Invoke(botClient, update) ?? Task.CompletedTask);
             }
             catch (Exception ex)
             {

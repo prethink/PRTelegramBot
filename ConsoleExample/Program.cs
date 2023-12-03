@@ -70,7 +70,7 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
     if (tg.Handler != null)
     {
         ////Обработка обновление 
-        //tg.Handler.OnUpdate += Handler_OnUpdate;
+        tg.Handler.OnUpdate += Handler_OnUpdate;
 
         //Обработка обновление кроме message и callback
         tg.Handler.OnWithoutMessageUpdate += Handler_OnWithoutMessageUpdate;
