@@ -45,9 +45,13 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                var resultUpdate = await OnUpdate?.Invoke(botClient, update);
+                if(OnUpdate != null)
+                {
+                    var resultUpdate = await OnUpdate?.Invoke(botClient, update);
 
-                if(resultUpdate == ResultUpdate.Stop) return;
+                    if (resultUpdate == ResultUpdate.Stop) return;
+                }
+
                 
                 if (Config.WhiteListUsers.Count > 0)
                 {

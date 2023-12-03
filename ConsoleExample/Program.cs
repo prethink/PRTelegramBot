@@ -34,9 +34,6 @@ var telegram = new PRBot(options =>
     options.BotId = 0;
 });
 
-
-
-
 var telegramTwo = new PRBot(options =>
 {
     // Токен телеграм бота берется из BotFather
@@ -72,8 +69,8 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
 {
     if (tg.Handler != null)
     {
-        //Обработка обновление 
-        tg.Handler.OnUpdate += Handler_OnUpdate;
+        ////Обработка обновление 
+        //tg.Handler.OnUpdate += Handler_OnUpdate;
 
         //Обработка обновление кроме message и callback
         tg.Handler.OnWithoutMessageUpdate += Handler_OnWithoutMessageUpdate;
