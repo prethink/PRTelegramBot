@@ -154,7 +154,7 @@ namespace PRTelegramBot.Core
             {
                 if(string.IsNullOrEmpty(Config.Token))
                 {
-                    throw new Exception("Не указан токен для бота!");
+                    throw new Exception("Bot token is empty");
                 }
 
                 botClient = new TelegramBotClient(Config.Token);
@@ -173,7 +173,7 @@ namespace PRTelegramBot.Core
 
                 var client = await botClient.GetMeAsync();
                 BotName = client?.Username;
-                this.InvokeCommonLog($"Бот {client.Username} запущен.", TelegramEvents.Initialization, ConsoleColor.Yellow);
+                this.InvokeCommonLog($"Bot {BotName} is running.", TelegramEvents.Initialization, ConsoleColor.Yellow);
 
                 IsWork = true;
             }

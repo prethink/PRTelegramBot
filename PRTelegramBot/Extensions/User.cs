@@ -77,14 +77,14 @@ namespace PRTelegramBot.Extensions
             string result = "";
 
             result += update?.Message?.Chat?.Id + " ";
-            result += update?.Message?.Chat?.FirstName + " " ?? "";
-            result += update?.Message?.Chat?.LastName + " " ?? "";
-            result += update?.Message?.Chat?.Username + " " ?? "";
+            result += string.IsNullOrEmpty(update?.Message?.Chat?.FirstName) ? "" : update.Message.Chat.FirstName + " ";
+            result += string.IsNullOrEmpty(update?.Message?.Chat?.LastName) ? "" : update.Message.Chat.LastName + " ";
+            result += string.IsNullOrEmpty(update?.Message?.Chat?.Username) ? "" : update.Message.Chat.Username + " ";
 
             result += update?.CallbackQuery?.Message?.Chat?.Id + " ";
-            result += update?.CallbackQuery?.Message?.Chat?.FirstName + " " ?? "";
-            result += update?.CallbackQuery?.Message?.Chat?.LastName + " " ?? "";
-            result += update?.CallbackQuery?.Message?.Chat?.Username + " " ?? "";
+            result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.FirstName) ? "" : update.CallbackQuery.Message.Chat.FirstName + " ";
+            result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.LastName) ? "" : update.CallbackQuery.Message.Chat.LastName + " ";
+            result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.Username) ? "" : update.CallbackQuery.Message.Chat.Username + " ";
 
             return result;
         }

@@ -243,14 +243,36 @@ namespace PRTelegramBot.Core
                         bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
-                            telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута ReplyMenuHandler. Метод будет проигнорирован."));
+                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute. The method will be ignored."));
                             continue;
                         }
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                        if (priority)
+
+                        if (method.IsStatic)
                         {
-                            messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+
+                            if (priority)
+                            {
+                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            }
+                            else
+                            {
+                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            }
+                        }
+                        else
+                        {
+                            var instance = Activator.CreateInstance(method.DeclaringType);
+                            var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+
+                            if (priority)
+                            {
+                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                            else
+                            {
+                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
                         }
                     }
                 }
@@ -266,7 +288,7 @@ namespace PRTelegramBot.Core
                             bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
                             if (!isValidMethod)
                             {
-                                telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута InlineCallbackHandler. Метод будет проигнорирован."));
+                                telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));
                                 continue;
                             }
                             var commandsProperty = attribute.GetType().GetProperty("Commands");
@@ -274,8 +296,18 @@ namespace PRTelegramBot.Core
 
                             foreach (var command in commands)
                             {
-                                var serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
-                                inlineCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
+                                if (method.IsStatic)
+                                {
+                                    Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+                                    inlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                                }
+                                else
+                                {
+                                    var instance = Activator.CreateInstance(method.DeclaringType);
+                                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+
+                                    inlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                                }
                             }
                         }
                     }
@@ -292,8 +324,18 @@ namespace PRTelegramBot.Core
                             telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута SlashHandler. Метод будет проигнорирован."));
                             continue;
                         }
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
-                        slashCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
+                        if (method.IsStatic)
+                        {
+                            Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+                            slashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                        }
+                        else
+                        {
+                            var instance = Activator.CreateInstance(method.DeclaringType);
+                            var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+
+                            slashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                        }
                     }
                 }
             }
@@ -446,7 +488,7 @@ namespace PRTelegramBot.Core
                 var command = InlineCallback.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    string msg = $"Пользователь {update.GetInfoUser()} вызвал команду {command.CommandType.GetDescription()}";
+                    string msg = $"The user {update.GetInfoUser()} invoked the command {command.CommandType.GetDescription()}";
                     telegram.InvokeCommonLog(msg, PRBot.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
                     foreach (var commandCallback in inlineCommands)
                     {
@@ -492,57 +534,57 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if (update.HasStep())
+                if (!update.HasStep())
                 {
-                    foreach (var commandExecute in messageCommandsPriority)
+                    return false;
+                }
+                foreach (var commandExecute in messageCommandsPriority)
+                {
+                    if (command.ToLower() == commandExecute.Key.ToLower())
                     {
-                        if (command.ToLower() == commandExecute.Key.ToLower())
+                        var requireUpdatex = commandExecute.Value.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
+                        if (requireUpdatex != null)
                         {
-                            var requireUpdatex = commandExecute.Value.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
-                            if (requireUpdatex != null)
+                            if (!requireUpdatex.TypeUpdate.Contains(update.Message.Chat.Type))
                             {
-                                if (!requireUpdatex.TypeUpdate.Contains(update.Message.Chat.Type))
-                                {
-                                    OnWrongTypeChat?.Invoke(telegram.botClient, update);
-                                    return true;
-                                }
+                                OnWrongTypeChat?.Invoke(telegram.botClient, update);
+                                return true;
                             }
-                            await commandExecute.Value(telegram.botClient, update);
-                            update.ClearStepUser();
-                            return true;
                         }
-                    }
-
-                    var step = update.GetStepOrNull();
-
-                    var privilages = step.CommandDelegate.Method.GetCustomAttribute<AccessAttribute>();
-                    var requireDate = step.CommandDelegate.Method.GetCustomAttribute<RequireTypeMessageAttribute>();
-                    var requireUpdate = step.CommandDelegate.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
-                    if (requireUpdate != null)
-                    {
-                        if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
-                        {
-                            OnWrongTypeChat?.Invoke(telegram.botClient, update);
-                            return true;
-                        }
-                    }
-                    if (requireDate != null)
-                    {
-                        if(!requireDate.TypeMessages.Contains(update.Message.Type))
-                        {
-                            OnWrongTypeMessage?.Invoke(telegram.botClient, update);
-                            return true;
-                        }
-                    }
-                    if (privilages != null)
-                    {
-                        OnCheckPrivilegeWithParams?.Invoke(telegram.botClient, update, step.CommandDelegate, privilages.Flags);
+                        await commandExecute.Value(telegram.botClient, update);
+                        update.ClearStepUser();
                         return true;
                     }
-                    await step.CommandDelegate(telegram.botClient, update, step.Args);
+                }
+
+                var step = update.GetStepOrNull();
+
+                var privilages = step.CommandDelegate.Method.GetCustomAttribute<AccessAttribute>();
+                var requireDate = step.CommandDelegate.Method.GetCustomAttribute<RequireTypeMessageAttribute>();
+                var requireUpdate = step.CommandDelegate.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
+                if (requireUpdate != null)
+                {
+                    if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
+                    {
+                        OnWrongTypeChat?.Invoke(telegram.botClient, update);
+                        return true;
+                    }
+                }
+                if (requireDate != null)
+                {
+                    if(!requireDate.TypeMessages.Contains(update.Message.Type))
+                    {
+                        OnWrongTypeMessage?.Invoke(telegram.botClient, update);
+                        return true;
+                    }
+                }
+                if (privilages != null)
+                {
+                    OnCheckPrivilegeWithParams?.Invoke(telegram.botClient, update, step.CommandDelegate, privilages.Flags);
                     return true;
                 }
-                return false;
+                await step.CommandDelegate(telegram.botClient, update, step.Args);
+                return true;
             }
             catch (Exception ex)
             {
