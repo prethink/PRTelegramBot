@@ -6,6 +6,7 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
 using static PRTelegramBot.Core.Router;
 using Telegram.Bot.Polling;
+using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Core
 {
@@ -16,7 +17,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         private PRBot telegram;
 
-        public event Func<ITelegramBotClient, Update, Task>? OnUpdate;
+        public event Func<ITelegramBotClient, Update, Task<ResultUpdate>>? OnUpdate;
         public event Func<ITelegramBotClient, Update, Task>? OnWithoutMessageUpdate;
 
         /// <summary>
@@ -44,8 +45,10 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                await OnUpdate?.Invoke(botClient, update);
+                var resultUpdate = await OnUpdate?.Invoke(botClient, update);
 
+                if(resultUpdate == ResultUpdate.Stop) return;
+                
                 if (Config.WhiteListUsers.Count > 0)
                 {
                     if(!Config.WhiteListUsers.Contains(update.GetChatId()))
@@ -67,9 +70,7 @@ namespace PRTelegramBot.Core
                     return;
                 }
 
-
                 await OnWithoutMessageUpdate?.Invoke(botClient, update);
-
             }
             catch (Exception ex)
             {

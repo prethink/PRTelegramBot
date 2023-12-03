@@ -6,6 +6,7 @@ using PRTelegramBot.Configs;
 using Telegram.Bot.Types;
 using ConsoleExample.Examples;
 using System.Reflection;
+using PRTelegramBot.Models.Enums;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -145,9 +146,9 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
  
 
 
-async Task Handler_OnUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
+async Task<ResultUpdate> Handler_OnUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
 {
-
+    return ResultUpdate.Continue;
 }
 
 async Task Handler_OnWithoutMessageUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)

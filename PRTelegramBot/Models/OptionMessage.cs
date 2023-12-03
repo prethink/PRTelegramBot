@@ -26,7 +26,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Очищает меню
         /// </summary>
-        public bool ClearMenu = false;
+        public bool ClearMenu { get; set; } = false;
 
         /// <summary>
         /// Текст сообщения

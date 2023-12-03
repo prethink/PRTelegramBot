@@ -23,7 +23,6 @@ namespace PRTelegramBot.Models
         /// Дополнительные параметры
         /// </summary>
         public CustomParameters Args { get; set; } 
-
         /// <summary>
         ///  Создает новый шаг
         /// </summary>

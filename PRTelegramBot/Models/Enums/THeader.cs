@@ -12,23 +12,23 @@ namespace PRTelegramBot.Models.Enums
     [InlineCommand]
     public enum THeader
     {
-        [Description("Пустая команда")]
+        [Description(nameof(None))]
         None = 0,
-        [Description("Выбрать месяц")]
+        [Description(nameof(PickMonth))]
         PickMonth = 1,
-        [Description("Выбрать год")]
+        [Description(nameof(PickYear))]
         PickYear = 2,
-        [Description("Изменение календаря")]
+        [Description(nameof(ChangeTo))]
         ChangeTo = 3,
-        [Description("Выбор года месяца")]
+        [Description(nameof(YearMonthPicker))]
         YearMonthPicker = 4,
-        [Description("Выбрать дату")]
+        [Description(nameof(PickDate))]
         PickDate = 5,
-        [Description("Следующая страница")]
+        [Description(nameof(NextPage))]
         NextPage = 6,
-        [Description("Текущая страница")]
+        [Description(nameof(CurrentPage))]
         CurrentPage = 7 ,
-        [Description("Предыдущая страница")]
+        [Description(nameof(PreviousPage))]
         PreviousPage = 8,
     }
 }
