@@ -132,11 +132,11 @@ namespace PRTelegramBot.Core
                 string command = update.Message.Text ?? update.Message.Type.ToString();
                 if (update.Message.Type == MessageType.Text)
                 {
-                    telegram.InvokeCommonLog($"Пользователь :{update.GetInfoUser()} написал {command}");
+                    telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} wrote {command}");
                 }
                 else
                 {
-                    telegram.InvokeCommonLog($"Пользователь :{update.GetInfoUser()} отправил команду {command}");
+                    telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} sent the command {command}");
                 }
 
 

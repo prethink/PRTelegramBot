@@ -222,7 +222,7 @@ namespace PRTelegramBot.Core
                         bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
                         if(!isValidMethod)
                         {
-                            telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута ReplyMenuHandler"));
+                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute."));
                             continue;
                         }
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
@@ -321,7 +321,7 @@ namespace PRTelegramBot.Core
                         bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
-                            telegram.InvokeErrorLog(new Exception($"Метод {method.Name} имеет не валидную сигнатуру для атрибута SlashHandler. Метод будет проигнорирован."));
+                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the SlashHandler attribute. The method will be ignored."));
                             continue;
                         }
                         if (method.IsStatic)
@@ -488,7 +488,7 @@ namespace PRTelegramBot.Core
                 var command = InlineCallback.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    string msg = $"The user {update.GetInfoUser()} invoked the command {command.CommandType.GetDescription()}";
+                    string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
                     telegram.InvokeCommonLog(msg, PRBot.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
                     foreach (var commandCallback in inlineCommands)
                     {
