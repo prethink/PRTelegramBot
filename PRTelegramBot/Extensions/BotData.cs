@@ -18,22 +18,16 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Создает или обновляет данные для бота
         /// </summary>
-        /// <param name="botClient">бот клиент</param>
-        /// <param name="botData">Экземпляр класса PRBot</param>
         public static void CreateOrUpdateBotData(this ITelegramBotClient botClient, PRBot botData) 
         {
-            if(botClient.BotId == null)
+            if(botClient.BotId == null) return;
+            
+            if (HasBotData(botClient))
             {
-                return;
-            }
-
-            if (!HasBotData(botClient))
-            {
-                _botHandlerData.Add(botClient.BotId.Value, botData);
+                _botHandlerData[botClient.BotId.Value] = botData; 
             }
             else
             {
-                _botHandlerData.Remove(botClient.BotId.Value);
                 _botHandlerData.Add(botClient.BotId.Value, botData);
             }
         }
@@ -41,35 +35,26 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Получает данные бота или null
         /// </summary>
-        public static PRBot GetBotDataOrNull(this ITelegramBotClient botClient)
+        public static PRBot? GetBotDataOrNull(this ITelegramBotClient botClient)
         {
-            if (botClient.BotId == null)
-            {
-                return null;
-            }
+            if (botClient.BotId == null) return null;
 
-            var data = _botHandlerData.FirstOrDefault(x => x.Key == botClient.BotId);
-            if (data.Equals(default(KeyValuePair<long, PRBot>)))
+            if (_botHandlerData.TryGetValue(botClient.BotId.Value, out var botData))
             {
-                return null;
+                return botData;
             }
             else
             {
-                return data.Value;
+                return null;
             }
         }
-
 
         /// <summary>
         /// Проверяет есть ли данные бота
         /// </summary>
         public static bool HasBotData(this ITelegramBotClient botClient)
         {
-            if(botClient.BotId == null)
-            {
-                return false;
-            }
-            return _botHandlerData.ContainsKey(botClient.BotId.Value);
+            return botClient.BotId.HasValue && _botHandlerData.ContainsKey(botClient.BotId.Value);
         }
 
         /// <summary>
@@ -86,12 +71,7 @@ namespace PRTelegramBot.Extensions
         public static bool IsAdmin(this ITelegramBotClient botClient, long userId)
         {
             var botData = GetBotDataOrNull(botClient);
-            if(botData == null)
-            {
-                return false;
-            }
-
-            return botData.Config.Admins.Contains(userId);
+            return botData != null && botData.Config.Admins.Contains(userId);
         }
     }
 }
