@@ -2,6 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using PRTelegramBot.Configs;
+using PRTelegramBot.Extensions;
 
 namespace PRTelegramBot.Core
 {
@@ -174,7 +175,7 @@ namespace PRTelegramBot.Core
                 var client = await botClient.GetMeAsync();
                 BotName = client?.Username;
                 this.InvokeCommonLog($"Bot {BotName} is running.", TelegramEvents.Initialization, ConsoleColor.Yellow);
-
+                botClient.CreateOrUpdateBotData(this);
                 IsWork = true;
             }
             catch (Exception ex)

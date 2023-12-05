@@ -14,6 +14,7 @@ using Header = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using PRTelegramBot.Models.Enums;
 using ConsoleExample.Commands.Constants;
+using PRTelegramBot.Extensions;
 
 namespace ConsoleExample.Examples
 {
@@ -30,6 +31,7 @@ namespace ConsoleExample.Examples
         [SlashHandler(SlashKeys.SL_EXAMPLE_WITH_REPLY)]
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
+            var isAdmin = botClient.IsAdmin(update);
             //Пример как получить текст сообщения из JSON файла
             string msg = new DictionaryJSON().GetMessage(nameof(MessageKeys.MSG_EXAMPLE_TEXT));
             await Helpers.Message.Send(botClient, update, msg);
