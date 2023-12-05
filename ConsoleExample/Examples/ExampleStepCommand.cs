@@ -41,15 +41,10 @@ namespace ConsoleExample.Examples
         {
             string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
                         $"\nВведите дату рождения";
-            //Запись временных данных в кэщ пользователя
-            update.GetCacheData<UserCache>().Data = $"Имя: {update.Message.Text}\n";
-            if(args != null)
-            {
-                //Обработка дополнительных данных
-                var data = args as TestParams;
-            }
+            var data = args as TestParams;
+            data.DataOne = $"Имя: {update.Message.Text}";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
+            update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5), data));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -60,10 +55,10 @@ namespace ConsoleExample.Examples
         {
             string msg = $"Шаг 2 - дата рождения {update.Message.Text}" +
                          $"\nНапиши любой текст, чтобы увидеть результат";
-            //Запись временных данных в кэщ пользователя
-            update.GetCacheData<UserCache>().Data += $"Дата рождения: {update.Message.Text}\n";
+            var data = args as TestParams;
+            data.DataTwo = $"дата рождения {update.Message.Text}";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            update.RegisterNextStep(new StepTelegram(StepThree, DateTime.Now.AddMinutes(5)));
+            update.RegisterNextStep(new StepTelegram(StepThree, DateTime.Now.AddMinutes(5), data));
 
             //Настройки для сообщения
             var option = new OptionMessage();
@@ -79,7 +74,8 @@ namespace ConsoleExample.Examples
         /// </summary>
         public static async Task StepThree(ITelegramBotClient botClient, Update update, CustomParameters args)
         {
-            string msg = $"Шаг 3 - Результат:\n{update.GetCacheData<UserCache>().Data}" +
+            var data = args as TestParams;
+            string msg = $"Шаг 3 - Результат:\n{data.DataOne}\n{data.DataTwo}" +
                          $"\nПоследовательность шагов очищена.";
             //Последний шаг
             update.ClearStepUser();

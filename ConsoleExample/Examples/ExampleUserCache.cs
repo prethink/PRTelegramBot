@@ -54,7 +54,7 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler(true, "clearcache")]
         public static async Task ClearCache(ITelegramBotClient botClient, Update update)
         {
-            string msg = "Тестирование функции пошагового выполнения";
+            string msg = "Очистка данных";
             //Очищаем кеш для пользователя
             update.GetCacheData<UserCache>().ClearData();
             await Helpers.Message.Send(botClient, update, msg);
