@@ -22,8 +22,11 @@ namespace PRTelegramBot.Extensions
         public static void CreateCacheData<T>(this Update update) where T : TelegramCache
         {
             long userId = update.GetChatId();
-            update.ClearCacheData();
-            if (!HasCacheData(update))
+            if (_userHandlerData.TryGetValue(userId, out var data))
+            {
+                data?.ClearData();
+            }
+            else
             {
                 _userHandlerData.Add(userId, Activator.CreateInstance<T>());
             }
@@ -52,9 +55,9 @@ namespace PRTelegramBot.Extensions
         public static void ClearCacheData(this Update update)
         {
             long userId = update.GetChatId();
-            if (update.HasCacheData())
+            if (_userHandlerData.TryGetValue(userId, out var data))
             {
-                _userHandlerData.FirstOrDefault(x => x.Key == userId).Value.ClearData();
+                data.ClearData();
             }
 
         }

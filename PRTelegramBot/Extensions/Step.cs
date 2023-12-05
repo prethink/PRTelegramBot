@@ -30,10 +30,14 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление полученное с телеграма</param>
         /// <returns>шаг или null</returns>
-        public static StepTelegram GetStepOrNull(this Update update)
+        public static StepTelegram? GetStepOrNull(this Update update)
         {
             long userId = update.GetChatId();
-            return _step.FirstOrDefault(x => x.Key == userId).Value;
+            if (_step.TryGetValue(userId, out var data))
+            {
+                return data;
+            }
+            return null;
         }
 
         /// <summary>
