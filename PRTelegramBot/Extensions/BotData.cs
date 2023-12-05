@@ -27,8 +27,7 @@ namespace PRTelegramBot.Extensions
                 return;
             }
 
-            var data = _botHandlerData.FirstOrDefault(x => x.Key == botClient.BotId);
-            if (data.Equals(default(KeyValuePair<long, PRBot>)))
+            if (!HasBotData(botClient))
             {
                 _botHandlerData.Add(botClient.BotId.Value, botData);
             }
@@ -39,7 +38,9 @@ namespace PRTelegramBot.Extensions
             }
         }
 
-
+        /// <summary>
+        /// Получает данные бота или null
+        /// </summary>
         public static PRBot GetBotDataOrNull(this ITelegramBotClient botClient)
         {
             if (botClient.BotId == null)
