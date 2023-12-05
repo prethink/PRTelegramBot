@@ -6,7 +6,7 @@ using Telegram.Bot;
 
 namespace PRTelegramBot.Extensions
 {
-    public static class User
+    public static class UpdateExtension
     {
         /// <summary>
         /// Получает ChatId в зависимости от типа сообщений
@@ -46,25 +46,6 @@ namespace PRTelegramBot.Extensions
             }
 
             throw new Exception("Не удалось получить ID чата");
-        }
-
-        /// <summary>
-        /// Проверка что пользователь администратор из конфига
-        /// </summary>
-        /// <param name="update">Обновление полученное с телеграма</param>
-        /// <returns>true/false</returns>
-        public static bool IsAdmin(this Update update, Core.PRBot service)
-        {
-            try
-            {
-                var telegramId = update.GetChatId();
-                var admins = service.Config.Admins;
-                return admins != null ? admins.Contains(telegramId) : false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
         }
 
         /// <summary>
