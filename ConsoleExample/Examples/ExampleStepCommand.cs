@@ -24,7 +24,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чате "stepstart"
         /// Метод регистрирует следующий шаг пользователя
         /// </summary>
-        [ReplyMenuHandler(false, "stepstart")]
+        [ReplyMenuHandler("stepstart")]
         public static async Task StepStart(ITelegramBotClient botClient, Update update)
         {
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
@@ -86,7 +86,7 @@ namespace ConsoleExample.Examples
         /// Если есть следующий шаг, он будет проигнорирован при выполнение данной команды
         /// Потому что в ReplyMenuHandler значение первого аргумента установлено в true, что значит приоритетная команда
         /// </summary>
-        [ReplyMenuHandler(true, "ignorestep")]
+        [ReplyMenuHandler("ignorestep")]
         public static async Task IngoreStep(ITelegramBotClient botClient, Update update)
         {
             string msg = "";

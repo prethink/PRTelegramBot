@@ -2,6 +2,7 @@
 using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace PRTelegramBot.Extensions
 {
     public static class BotData
     {
-        static Dictionary<long, PRBot> _botHandlerData = new();
+        static ConcurrentDictionary<long, PRBot> _botHandlerData = new();
 
         /// <summary>
         /// Создает или обновляет данные для бота
@@ -28,7 +29,7 @@ namespace PRTelegramBot.Extensions
             }
             else
             {
-                _botHandlerData.Add(botClient.BotId.Value, botData);
+                _botHandlerData.AddOrUpdate(botClient.BotId.Value, botData, (_, existingData) => botData);
             }
         }
 

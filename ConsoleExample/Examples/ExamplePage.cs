@@ -40,7 +40,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Напишите в чате "pages"
         /// </summary>
-        [ReplyMenuHandler(true, "pages")]
+        [ReplyMenuHandler("pages")]
         public static async Task ExamplePages(ITelegramBotClient botClient, Update update)
         {
             //Беру текст для первого сообщения
@@ -57,7 +57,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Напишите в чате "pagestwo"
         /// </summary>
-        [ReplyMenuHandler(true, "pagestwo")]
+        [ReplyMenuHandler("pagestwo")]
         public static async Task ExamplePagesTwo(ITelegramBotClient botClient, Update update)
         {
             //Беру текст для первого сообщения

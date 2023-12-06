@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Interface;
+using System.Collections.Concurrent;
 
 namespace PRTelegramBot.Extensions
 {
@@ -12,7 +13,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш
         /// </summary>
-        static Dictionary<long, TelegramCache> _userHandlerData = new();
+        static ConcurrentDictionary<long, TelegramCache> _userHandlerData = new();
 
 
         /// <summary>
@@ -28,7 +29,8 @@ namespace PRTelegramBot.Extensions
             }
             else
             {
-                _userHandlerData.Add(userId, Activator.CreateInstance<T>());
+                var newData = Activator.CreateInstance<T>();
+                _userHandlerData.AddOrUpdate(userId, newData, (_, existingData) => newData);
             }
         }
 

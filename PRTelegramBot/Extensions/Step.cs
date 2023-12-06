@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using PRTelegramBot.Models;
+using System.Collections.Concurrent;
 
 namespace PRTelegramBot.Extensions
 {
@@ -11,7 +12,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Список шагов для пользователя
         /// </summary>
-        static Dictionary<long, StepTelegram> _step = new();
+        static ConcurrentDictionary<long, StepTelegram> _step = new();
 
         /// <summary>
         /// Регистрация следующего шага
@@ -22,7 +23,7 @@ namespace PRTelegramBot.Extensions
         {
             long userId = update.GetChatId();
             update.ClearStepUser();
-            _step.Add(userId, command);
+            _step.AddOrUpdate(userId, command, (_, existingData) => command);
         }
 
         /// <summary>
@@ -49,7 +50,8 @@ namespace PRTelegramBot.Extensions
             long userId = update.GetChatId();
             if (update.HasStep())
             {
-                _step.Remove(userId);
+                StepTelegram deleteData;
+                _step.Remove(userId,out deleteData);
             }
 
         }
@@ -70,7 +72,8 @@ namespace PRTelegramBot.Extensions
                     if (DateTime.Now > data.ExpiriedTime)
                     {
                         data.ExpiriedTime = null;
-                        _step.Remove(userId);
+                        StepTelegram deleteData;
+                        _step.Remove(userId, out deleteData);
                         return false;
                     }
                     return true;
