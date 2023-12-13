@@ -94,7 +94,8 @@ namespace PRTelegramBot.Core
                  .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
                  .Where(m => m.GetCustomAttributes()
                      .OfType<BaseQueryAttribute>()
-                     .Any(attr => attr.BotId == botId && attr.GetType().GUID == type.GUID))
+                     .Any(attr => attr.BotId == botId && (attr.GetType().IsGenericType ? attr.GetType().GetGenericTypeDefinition() == type : attr.GetType() == type))
+                     )
                      .ToList();
 
                 list.AddRange(tempMethods);
