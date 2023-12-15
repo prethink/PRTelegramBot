@@ -12,42 +12,25 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         public List<string> Commands { get;  set; }
 
-        /// <summary>
-        /// Приоритетная команда
-        /// </summary>
-        public bool Priority { get;  set; }
 
-
-        public ReplyMenuHandlerAttribute(bool priority, params string[] commands) : base(0)
-        {
-            Init(priority, commands);
-        }
 
         public ReplyMenuHandlerAttribute(params string[] commands) : base(0)
         {
-            Init(true, commands);
-        }
-
-        public ReplyMenuHandlerAttribute(bool priority,long botId, params string[] commands) : base(botId)
-        {
-            Init(priority, commands);
+            Init(commands);
         }
 
         public ReplyMenuHandlerAttribute(long botId, params string[] commands) : base(botId)
         {
-            Init(true, commands);
+            Init(commands);
         }
 
-        public virtual void Init(bool priority, params string[] commands)
+        public virtual void Init(params string[] commands)
         {
             Commands = commands.ToList();
             for (int i = 0; i < Commands.Count; i++)
             {
                 Commands[i] = commands[i]; 
             }
-            Priority = priority;
         }
-
-
     }
 }

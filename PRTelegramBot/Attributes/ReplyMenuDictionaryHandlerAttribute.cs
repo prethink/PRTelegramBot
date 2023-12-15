@@ -11,30 +11,20 @@ namespace PRTelegramBot.Attributes
     public class ReplyMenuDictionaryHandlerAttribute : ReplyMenuHandlerAttribute
     {
         public ConfigApp config {get;private set;}
-        public ReplyMenuDictionaryHandlerAttribute(bool priority, params string[] commands) : base(priority, commands)
+        public ReplyMenuDictionaryHandlerAttribute( params string[] commands) : base(commands)
         {
-            Init(priority, commands);
+            Init(commands);
         }
 
-        public ReplyMenuDictionaryHandlerAttribute(bool priority, long botId, params string[] commands) : base(priority,botId, commands) 
+        public ReplyMenuDictionaryHandlerAttribute(long botId, params string[] commands) : base(botId, commands) 
         {
-            Init(priority, commands);
+            Init(commands);
         }
 
-        public ReplyMenuDictionaryHandlerAttribute(params string[] commands) : base(true, commands)
-        {
-            Init(true, commands);
-        }
-
-        public ReplyMenuDictionaryHandlerAttribute(long botId, params string[] commands) : base(true, botId, commands)
-        {
-            Init(true, commands);
-        }
-
-        public override void Init(bool priority, params string[] commands)
+        public override void Init( params string[] commands)
         {
             config = new ConfigApp("Configs\\appconfig.json");
-            base.Init(priority, commands);
+            base.Init(commands);
 
             Commands = commands.Select(x => GetNameFromResourse(x)).ToList();
             for (int i = 0; i < Commands.Count; i++)
@@ -44,7 +34,6 @@ namespace PRTelegramBot.Attributes
                     Commands[i] = commands[i];
                 }
             }
-            Priority = priority;
         }
 
         private string GetNameFromResourse(string command)

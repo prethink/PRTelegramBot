@@ -150,11 +150,6 @@ namespace PRTelegramBot.Core
         private Dictionary<string, Func<ITelegramBotClient,Update,Task>> messageCommands;
 
         /// <summary>
-        /// Словарь приоритетных reply команд
-        /// </summary>
-        private Dictionary<string, Func<ITelegramBotClient,Update,Task>> messageCommandsPriority;
-
-        /// <summary>
         /// Словарь Inline команд
         /// </summary>
         private Dictionary<Enum, Func<ITelegramBotClient,Update,Task>> inlineCommands;
@@ -171,7 +166,6 @@ namespace PRTelegramBot.Core
         {
             telegram                    = botClient;
             messageCommands             = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
-            messageCommandsPriority     = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
             inlineCommands              = new Dictionary<Enum, Func<ITelegramBotClient,Update,Task>>();
             slashCommands               = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
             Config = config;
@@ -217,7 +211,6 @@ namespace PRTelegramBot.Core
                 //Регистрируем Reply команды
                 foreach (var method in messageMethods)
                 {
-                    bool priority = method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Priority;
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
@@ -231,29 +224,15 @@ namespace PRTelegramBot.Core
                         if (method.IsStatic)
                         {
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-
-                            if (priority)
-                            {
-                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                            }
-                            else
-                            {
-                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                            }
+                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            
                         }
                         else
                         {
                             var instance = Activator.CreateInstance(method.DeclaringType);
                             var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
-                            if (priority)
-                            {
-                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
-                            else
-                            {
-                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
+                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
                         }
  
                     }
@@ -262,7 +241,6 @@ namespace PRTelegramBot.Core
                 //Регистрируем Reply Dictionary команды
                 foreach (var method in messageDictionaryMethods)
                 {
-                    bool priority = method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Priority;
                     foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
@@ -276,28 +254,16 @@ namespace PRTelegramBot.Core
                         {
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
 
-                            if (priority)
-                            {
-                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                            }
-                            else
-                            {
-                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                            }
+                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            
                         }
                         else
                         {
                             var instance = Activator.CreateInstance(method.DeclaringType);
                             var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
-                            if (priority)
-                            {
-                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
-                            else
-                            {
-                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
+                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            
                         }
                     }
                 }
@@ -372,11 +338,10 @@ namespace PRTelegramBot.Core
 
         public bool RegisterReplyCommand(string command, Func<ITelegramBotClient,Update,Task> method)
         {
-            if(messageCommandsPriority.ContainsKey(command))
+            if(messageCommands.ContainsKey(command))
                 return false;
 
-
-            messageCommandsPriority.Add(command, method);
+            messageCommands.Add(command, method);
             return true;
         }
 
@@ -573,7 +538,7 @@ namespace PRTelegramBot.Core
                 {
                     return false;
                 }
-                foreach (var commandExecute in messageCommandsPriority)
+                foreach (var commandExecute in messageCommands)
                 {
                     if (command.ToLower() == commandExecute.Key.ToLower())
                     {
