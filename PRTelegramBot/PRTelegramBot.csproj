@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.4.9</Version>
+    <Version>0.4.10</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>

@@ -210,10 +210,8 @@ namespace PRTelegramBot.Core
                 var messageDictionaryMethods    = ReflectionFinder.FindMessageMenuDictionaryHandlers(Config.BotId);
                 var inlineMethods               = ReflectionFinder.FindInlineMenuHandlers(Config.BotId);
                 var slashCommandMethods         = ReflectionFinder.FindSlashCommandHandlers(Config.BotId);
-                foreach (var item in messageMethods)
-                {
-                    Console.WriteLine(item.Name);
-                }
+
+
                 ReflectionFinder.FindEnumHeaders();
 
                 //Регистрируем Reply команды
