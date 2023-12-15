@@ -210,7 +210,10 @@ namespace PRTelegramBot.Core
                 var messageDictionaryMethods    = ReflectionFinder.FindMessageMenuDictionaryHandlers(Config.BotId);
                 var inlineMethods               = ReflectionFinder.FindInlineMenuHandlers(Config.BotId);
                 var slashCommandMethods         = ReflectionFinder.FindSlashCommandHandlers(Config.BotId);
-
+                foreach (var item in messageMethods)
+                {
+                    Console.WriteLine(item.Name);
+                }
                 ReflectionFinder.FindEnumHeaders();
 
                 //Регистрируем Reply команды
@@ -225,12 +228,36 @@ namespace PRTelegramBot.Core
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute."));
                             continue;
                         }
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient,Update,Task>), method, false);
-                        messageCommands.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
-                        if (priority)
+
+
+                        if (method.IsStatic)
                         {
-                            messageCommandsPriority.Add(command, (Func<ITelegramBotClient,Update,Task>)serverMessageHandler);
+                            Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+
+                            if (priority)
+                            {
+                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            }
+                            else
+                            {
+                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            }
                         }
+                        else
+                        {
+                            var instance = Activator.CreateInstance(method.DeclaringType);
+                            var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+
+                            if (priority)
+                            {
+                                messageCommandsPriority.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                            else
+                            {
+                                messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                        }
+ 
                     }
                 }
 
@@ -343,6 +370,16 @@ namespace PRTelegramBot.Core
             {
                 telegram.InvokeErrorLog(ex);
             }
+        }
+
+        public bool RegisterReplyCommand(string command, Func<ITelegramBotClient,Update,Task> method)
+        {
+            if(messageCommandsPriority.ContainsKey(command))
+                return false;
+
+
+            messageCommandsPriority.Add(command, method);
+            return true;
         }
 
         /// <summary>
