@@ -345,6 +345,15 @@ namespace PRTelegramBot.Core
             return true;
         }
 
+        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        {
+            if (slashCommands.ContainsKey(command))
+                return false;
+
+            slashCommands.Add(command, method);
+            return true;
+        }
+
         /// <summary>
         /// Проверяет это слеш команда или нет
         /// </summary>
