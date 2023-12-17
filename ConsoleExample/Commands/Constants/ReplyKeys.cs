@@ -10,7 +10,7 @@
         public const string RP_MAIN_MENU                = "3b";
         public const string RP_SETTINGS                 = "4b";
 
-        public const string RP_EXAMPLE                  = "Примерa";
+        public const string RP_EXAMPLE                  = "Пример";
         public const string RP_EXAMPLE_ONE              = "Пример 1";
         public const string RP_EXAMPLE_TWO              = "Пример 2";
         public const string RP_EXAMPLE_REPLY_MENU       = "ReplyMenu";

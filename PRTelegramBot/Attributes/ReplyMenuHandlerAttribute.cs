@@ -17,6 +17,11 @@ namespace PRTelegramBot.Attributes
             Init(commands);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="botId"></param>
+        /// <param name="commands"></param>
         public ReplyMenuHandlerAttribute(long botId, params string[] commands) : base(botId)
         {
             Init(commands);

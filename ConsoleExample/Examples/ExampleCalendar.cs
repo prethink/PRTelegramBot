@@ -27,7 +27,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чат Calendar
         /// Вызов команды календаря
         /// </summary>
-        [ReplyMenuHandler(ReplyKeys.RP_EXAMPLE_CALENDAR)]
+        [ReplyMenuHandler("Calendar")]
         public static async Task PickCalendar(ITelegramBotClient botClient, Update update)
         {
             try

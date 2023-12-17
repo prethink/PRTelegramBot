@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleExample.Models
 {
-    internal class TestParams : CustomParameters
+    public class TestParams : CustomParameters
     {
         public TestParams()
         {
