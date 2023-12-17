@@ -16,6 +16,7 @@ using static PRTelegramBot.Core.PRBot;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PRTelegramBot.Core
 {
@@ -24,10 +25,11 @@ namespace PRTelegramBot.Core
     /// </summary>
     public class Router
     {
+        #region Events
         /// <summary>
         /// Событие когда пользователь написал start с аргументом
         /// </summary>
-        public event Func<ITelegramBotClient, Update,string, Task>? OnUserStartWithArgs;
+        public event Func<ITelegramBotClient, Update, string, Task>? OnUserStartWithArgs;
 
         /// <summary>
         /// Событие когда нужно проверить привилегии перед выполнением команды
@@ -47,91 +49,92 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Событие когда указан не верный тип чат
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnWrongTypeChat;
+        public event Func<ITelegramBotClient, Update, Task>? OnWrongTypeChat;
 
         /// <summary>
         /// Событие когда не найдена команда
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnMissingCommand;
+        public event Func<ITelegramBotClient, Update, Task>? OnMissingCommand;
 
         /// <summary>
         /// Событие Обработки контактных данных
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnContactHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnContactHandle;
 
         /// <summary>
         /// Событие обработки голосований
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnPollHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnPollHandle;
 
         /// <summary>
         /// Событие обработки локации
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnLocationHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnLocationHandle;
         /// <summary>
         /// Событие обработки WebApps
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnWebAppsHandle;
-        
+        public event Func<ITelegramBotClient, Update, Task>? OnWebAppsHandle;
+
         /// <summary>
         /// Событие когда отказано в доступе
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnAccessDenied;
+        public event Func<ITelegramBotClient, Update, Task>? OnAccessDenied;
 
         /// <summary>
         /// Событие обработки сообщением с документом
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnDocumentHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnDocumentHandle;
 
         /// <summary>
         /// Событие обработки сообщением с аудио
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnAudioHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnAudioHandle;
 
         /// <summary>
         /// Событие обработки сообщением с видео
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnVideoHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnVideoHandle;
 
         /// <summary>
         /// Событие обработки сообщением с фото
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnPhotoHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnPhotoHandle;
 
         /// <summary>
         /// Событие обработки сообщением с стикером
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnStickerHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnStickerHandle;
 
         /// <summary>
         /// Событие обработки сообщением с голосовым сообщением
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnVoiceHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnVoiceHandle;
 
         /// <summary>
         /// Событие обработки сообщением с неизвестный типом сообщения
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnUnknownHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnUnknownHandle;
 
         /// <summary>
         /// Событие обработки сообщением с местом
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnVenueHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnVenueHandle;
 
         /// <summary>
         /// Событие обработки сообщением с игрой
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnGameHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnGameHandle;
 
         /// <summary>
         /// Событие обработки сообщением с видеозаметкой
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnVideoNoteHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnVideoNoteHandle;
 
         /// <summary>
         /// Событие обработки сообщением с игральной кости
         /// </summary>
-        public event Func<ITelegramBotClient,Update,Task>? OnDiceHandle;
+        public event Func<ITelegramBotClient, Update, Task>? OnDiceHandle;
+        #endregion
 
 
         /// <summary>
@@ -142,79 +145,163 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Словарь слеш команд
         /// </summary>
-        private Dictionary<string, Func<ITelegramBotClient,Update,Task>> slashCommands;
+        public Dictionary<string, Func<ITelegramBotClient, Update, Task>> SlashCommands { get; private set; } = new();
 
         /// <summary>
         /// Словарь reply команд
         /// </summary>
-        private Dictionary<string, Func<ITelegramBotClient,Update,Task>> messageCommands;
+        public Dictionary<string, Func<ITelegramBotClient, Update, Task>> MessageCommands { get; private set; } = new();
 
         /// <summary>
         /// Словарь Inline команд
         /// </summary>
-        private Dictionary<Enum, Func<ITelegramBotClient,Update,Task>> inlineCommands;
-
+        public Dictionary<Enum, Func<ITelegramBotClient,Update,Task>> InlineCommands { get; private set; } = new();
 
         /// <summary>
         /// 
         /// </summary>
-        private Dictionary<Telegram.Bot.Types.Enums.MessageType, Func<ITelegramBotClient,Update,Task>> typeMessage;
+        public Dictionary<Telegram.Bot.Types.Enums.MessageType, Func<ITelegramBotClient,Update,Task>> TypeMessage { get; private set; }
 
         public TelegramConfig Config { get; init; }
+        private IServiceProvider _serviceProvider;
 
-        public Router(PRBot botClient, TelegramConfig config)
+        public Router(PRBot botClient, TelegramConfig config, IServiceProvider serviceProvider)
         {
             telegram                    = botClient;
-            messageCommands             = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
-            inlineCommands              = new Dictionary<Enum, Func<ITelegramBotClient,Update,Task>>();
-            slashCommands               = new Dictionary<string, Func<ITelegramBotClient,Update,Task>>();
             Config = config;
-            RegisterCommnad();
+            _serviceProvider = serviceProvider;
+            RegisterCommands();
         }
 
         private void UpdateEventLink()
         {
-            typeMessage = new();
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Contact, OnContactHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Location, OnLocationHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.WebAppData, OnWebAppsHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Poll, OnPollHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Document, OnDocumentHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Audio, OnAudioHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Video, OnVideoHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Photo, OnPhotoHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Sticker, OnStickerHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Voice, OnVoiceHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Unknown, OnUnknownHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Venue, OnVenueHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Game, OnGameHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.VideoNote, OnVideoNoteHandle);
-            typeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Dice, OnDiceHandle);
+            TypeMessage = new();
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Contact, OnContactHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Location, OnLocationHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.WebAppData, OnWebAppsHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Poll, OnPollHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Document, OnDocumentHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Audio, OnAudioHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Video, OnVideoHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Photo, OnPhotoHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Sticker, OnStickerHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Voice, OnVoiceHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Unknown, OnUnknownHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Venue, OnVenueHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Game, OnGameHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.VideoNote, OnVideoNoteHandle);
+            TypeMessage.Add(Telegram.Bot.Types.Enums.MessageType.Dice, OnDiceHandle);
         }
 
         /// <summary>
         /// Автоматическая регистрация доступных команд для выполнения через рефлексию
         /// </summary>
-        private void RegisterCommnad()
+        private void RegisterCommands()
         {
+            ReflectionFinder.FindEnumHeaders();
+            RegisterCommandsViaDI();
+            RegisterStaticCommands();
+        }
+
+        private void RegisterCommandsViaDI()
+        {
+            if (_serviceProvider == null)
+                return;
+
+            Type[] servicesToRegistration = ReflectionFinder.FindServicesToRegistration();
+            
+            foreach (var di in servicesToRegistration)
+            {
+                foreach (var method in di.GetMethods().Where(x => !x.IsStatic))
+                {
+                    try
+                    {
+                        var attribute = method.GetCustomAttribute<BaseQueryAttribute>();
+                        if (attribute == null)
+                        {
+                            continue;
+                        }
+
+                        if (attribute.BotId != Config.BotId)
+                        {
+                            continue;
+                        }
+
+                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        if (!isValidMethod)
+                        {
+                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
+                                $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}"));
+                            continue;
+                        }
+
+                        var instance = _serviceProvider.GetRequiredService(method.DeclaringType);
+                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+
+                        if (attribute is ReplyMenuHandlerAttribute replyattr)
+                        {
+                            foreach (var command in replyattr.Commands)
+                            {
+                                MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                            continue;
+                        }
+
+                        if (attribute is ReplyMenuDictionaryHandlerAttribute replyDictionary)
+                        {
+                            foreach (var command in replyDictionary.Commands)
+                            {
+                                MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                            continue;
+                        }
+
+                        if (attribute is SlashHandlerAttribute slashAttribute)
+                        {
+                            foreach (var command in slashAttribute.Commands)
+                            {
+                                SlashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                            continue;
+
+                        }
+
+                        if (attribute.GetType().IsGenericType && attribute.GetType()?.GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
+                        {
+                            var commandsProperty = attribute.GetType().GetProperty("Commands");
+                            var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
+
+                            foreach (var command in commands)
+                            {
+                                InlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        telegram.InvokeErrorLog(ex);
+                    }
+                }
+            }
+        }
+
+        private void RegisterStaticCommands()
+        {
+            //Находим все методы которые используют наши атрибуты
+            MethodInfo[] messageMethods = ReflectionFinder.FindStaticMessageMenuHandlers(Config.BotId);
+            MethodInfo[] messageDictionaryMethods = ReflectionFinder.FindStaticMessageMenuDictionaryHandlers(Config.BotId);
+            MethodInfo[] inlineMethods = ReflectionFinder.FindStaticInlineMenuHandlers(Config.BotId);
+            MethodInfo[] slashCommandMethods = ReflectionFinder.FindStaticSlashCommandHandlers(Config.BotId);
+
             try
             {
-                //Находим все методы которые используют наши атрибуты
-                var messageMethods              = ReflectionFinder.FindMessageMenuHandlers(Config.BotId);
-                var messageDictionaryMethods    = ReflectionFinder.FindMessageMenuDictionaryHandlers(Config.BotId);
-                var inlineMethods               = ReflectionFinder.FindInlineMenuHandlers(Config.BotId);
-                var slashCommandMethods         = ReflectionFinder.FindSlashCommandHandlers(Config.BotId);
-
-
-                ReflectionFinder.FindEnumHeaders();
-
                 //Регистрируем Reply команды
                 foreach (var method in messageMethods)
                 {
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
-                        if(!isValidMethod)
+                        if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute."));
                             continue;
@@ -224,17 +311,19 @@ namespace PRTelegramBot.Core
                         if (method.IsStatic)
                         {
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                            
+                            MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         }
                         else
                         {
-                            var instance = Activator.CreateInstance(method.DeclaringType);
-                            var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+                            if (_serviceProvider == null)
+                            {
+                                var instance = Activator.CreateInstance(method.DeclaringType);
+                                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
-                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                                MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
                         }
- 
+
                     }
                 }
 
@@ -254,16 +343,20 @@ namespace PRTelegramBot.Core
                         {
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
 
-                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                            
+                            MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+
                         }
                         else
                         {
-                            var instance = Activator.CreateInstance(method.DeclaringType);
-                            var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+                            if (_serviceProvider == null)
+                            {
+                                var instance = Activator.CreateInstance(method.DeclaringType);
+                                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
-                            messageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            
+                                MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+
+
                         }
                     }
                 }
@@ -290,14 +383,17 @@ namespace PRTelegramBot.Core
                                 if (method.IsStatic)
                                 {
                                     Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                                    inlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                                    InlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                                 }
                                 else
                                 {
-                                    var instance = Activator.CreateInstance(method.DeclaringType);
-                                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+                                    if (_serviceProvider == null)
+                                    {
+                                        var instance = Activator.CreateInstance(method.DeclaringType);
+                                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
-                                    inlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                                        InlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                                    }
                                 }
                             }
                         }
@@ -318,14 +414,18 @@ namespace PRTelegramBot.Core
                         if (method.IsStatic)
                         {
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                            slashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                            SlashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         }
                         else
                         {
-                            var instance = Activator.CreateInstance(method.DeclaringType);
-                            var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+                            if (_serviceProvider == null)
+                            {
+                                var instance = Activator.CreateInstance(method.DeclaringType);
+                                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
-                            slashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                                SlashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                            }
+
                         }
                     }
                 }
@@ -338,20 +438,72 @@ namespace PRTelegramBot.Core
 
         public bool RegisterReplyCommand(string command, Func<ITelegramBotClient,Update,Task> method)
         {
-            if(messageCommands.ContainsKey(command))
+            try
+            {
+                MessageCommands.Add(command, method);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
                 return false;
+            }
+        }
 
-            messageCommands.Add(command, method);
-            return true;
+        public bool RemoveReplyCommand(string command)
+        {
+            try
+            {
+                MessageCommands.Remove(command);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
+                return false;
+            }
         }
 
         public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
-            if (slashCommands.ContainsKey(command))
+            try
+            {
+                SlashCommands.Add(command, method);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
                 return false;
+            }
+        }
 
-            slashCommands.Add(command, method);
-            return true;
+        public bool RemoveSlashCommand(string command)
+        {
+            try
+            {
+                SlashCommands.Remove(command);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
+                return false;
+            }
+        }
+
+        public bool RegisterInlineCommand(Enum @enum, Func<ITelegramBotClient, Update, Task> method)
+        {
+            try
+            {
+                InlineCommands.Add(@enum, method);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
+                return false;
+            }
         }
 
         /// <summary>
@@ -367,7 +519,7 @@ namespace PRTelegramBot.Core
                 if (!command.Contains("/"))
                     return false;
 
-                foreach (var commandExecute in slashCommands)
+                foreach (var commandExecute in SlashCommands)
                 {
                     if (command.ToLower().Contains(commandExecute.Key.ToLower()))
                     {
@@ -432,7 +584,7 @@ namespace PRTelegramBot.Core
 
                 UpdateEventLink();
                 //Вызываем свое событие для определенных типов сообщений
-                foreach (var item in typeMessage)
+                foreach (var item in TypeMessage)
                 {
                     if (item.Key == update.Message.Type)
                     {
@@ -442,7 +594,7 @@ namespace PRTelegramBot.Core
                 }
 
                 //
-                foreach (var commandExecute in messageCommands)
+                foreach (var commandExecute in MessageCommands)
                 {
 
                     if (command.ToLower() == commandExecute.Key.ToLower())
@@ -499,7 +651,7 @@ namespace PRTelegramBot.Core
                 {
                     string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
                     telegram.InvokeCommonLog(msg, PRBot.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
-                    foreach (var commandCallback in inlineCommands)
+                    foreach (var commandCallback in InlineCommands)
                     {
                         if (((Enum)command.CommandType).Equals(commandCallback.Key) )
                         {
@@ -547,7 +699,7 @@ namespace PRTelegramBot.Core
                 {
                     return false;
                 }
-                foreach (var commandExecute in messageCommands)
+                foreach (var commandExecute in MessageCommands)
                 {
                     if (command.ToLower() == commandExecute.Key.ToLower())
                     {

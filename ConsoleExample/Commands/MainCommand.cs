@@ -13,7 +13,7 @@ namespace PRTelegramBot.Commands
 {
     internal class MainCommand
     {
-        [ReplyMenuDictionaryHandler(true, nameof(ReplyKeys.RP_MENU), nameof(ReplyKeys.RP_MAIN_MENU))]
+        [ReplyMenuDictionaryHandler(nameof(ReplyKeys.RP_MENU), nameof(ReplyKeys.RP_MAIN_MENU))]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task MainMenu(ITelegramBotClient botClient, Update update)
         {

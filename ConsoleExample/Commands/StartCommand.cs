@@ -13,7 +13,7 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Обработка команды старт
         /// </summary>
-        [ReplyMenuDictionaryHandler(true, nameof(ReplyKeys.RP_START))]
+        [ReplyMenuDictionaryHandler(nameof(ReplyKeys.RP_START))]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task Start(ITelegramBotClient botClient, Update update)
         {

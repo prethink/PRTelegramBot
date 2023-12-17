@@ -26,11 +26,11 @@ namespace PRTelegramBot.Core
         public Router Router { get; private set; }
         public TelegramConfig Config { get; init; }
 
-        public Handler(PRBot botClient, TelegramConfig config)
+        public Handler(PRBot botClient, TelegramConfig config, IServiceProvider serviceProvider)
         {
             telegram = botClient;
             Config = config;
-            Router = new Router(telegram, Config);
+            Router = new Router(telegram, Config, serviceProvider);
             
         }
 

@@ -16,9 +16,18 @@ namespace PRTelegramBot.Core
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для reply команд</returns>
-        public static MethodInfo[] FindMessageMenuHandlers(long botId = 0)
+        public static Type[] FindServicesToRegistration()
         {
-            var methods = FindMethods(typeof(ReplyMenuHandlerAttribute), botId);
+            return FindUniqueClassesWithAttribute<TelegramBotHandlerAttribute>();
+        }
+        /// <summary>
+        /// Поиск методов в программе для выполнения reply команд
+        /// <param name="botId">Уникальный идентификатор бота</param>
+        /// </summary>
+        /// <returns>Массив методов для reply команд</returns>
+        public static MethodInfo[] FindStaticMessageMenuHandlers(long botId = 0)
+        {
+            var methods = FindMethods(typeof(ReplyMenuHandlerAttribute),(BindingFlags.Public | BindingFlags.Static), botId);
             return methods.Where(x => x.GetCustomAttributes(typeof(ReplyMenuDictionaryHandlerAttribute), true).Length == 0).ToArray();
         }
 
@@ -27,9 +36,9 @@ namespace PRTelegramBot.Core
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для reply команд</returns>
-        public static MethodInfo[] FindMessageMenuDictionaryHandlers(long botId = 0)
+        public static MethodInfo[] FindStaticMessageMenuDictionaryHandlers(long botId = 0)
         {
-            return FindMethods(typeof(ReplyMenuDictionaryHandlerAttribute), botId);
+            return FindMethods(typeof(ReplyMenuDictionaryHandlerAttribute), (BindingFlags.Public | BindingFlags.Static), botId);
         }
 
         /// <summary>
@@ -37,9 +46,9 @@ namespace PRTelegramBot.Core
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для inline команд</returns>
-        public static MethodInfo[] FindInlineMenuHandlers(long botId = 0)
+        public static MethodInfo[] FindStaticInlineMenuHandlers(long botId = 0)
         {
-            return FindMethods(typeof(InlineCallbackHandlerAttribute<>), botId);
+            return FindMethods(typeof(InlineCallbackHandlerAttribute<>), (BindingFlags.Public | BindingFlags.Static), botId);
         }
 
         /// <summary>
@@ -47,9 +56,9 @@ namespace PRTelegramBot.Core
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для слеш команд</returns>
-        public static MethodInfo[] FindSlashCommandHandlers(long botId = 0)
+        public static MethodInfo[] FindStaticSlashCommandHandlers(long botId = 0)
         {
-            return FindMethods(typeof(SlashHandlerAttribute), botId);
+            return FindMethods(typeof(SlashHandlerAttribute), (BindingFlags.Public | BindingFlags.Static), botId);
         }
 
         public static void FindEnumHeaders()
@@ -79,19 +88,36 @@ namespace PRTelegramBot.Core
             }
         }
 
+        public static Type[] FindUniqueClassesWithAttribute<TAttribute>() where TAttribute : TelegramBotHandlerAttribute
+        {
+            var assemblyes = AppDomain.CurrentDomain.GetAssemblies();
+
+            var uniqueClasses = assemblyes
+                .SelectMany(assembly => assembly.GetTypes()
+                    .Where(type => type.GetCustomAttributes(typeof(TAttribute), true)
+                                       .OfType<TAttribute>()
+                                       .Any())
+                )
+                .Distinct()
+                .ToArray();
+
+            return uniqueClasses;
+        }
+
+
         /// <summary>
         /// Поиск методов которые требуемый атрибут
         /// </summary>
         /// <param name="type">Тип атрибута</param>
         /// <returns>Массив найденных методов</returns>
-        public static MethodInfo[] FindMethods(Type type, long botId = 0)
+        public static MethodInfo[] FindMethods(Type type, BindingFlags flags, long botId = 0)
         {
             var assemblyes = AppDomain.CurrentDomain.GetAssemblies();
             var list = new List<MethodInfo>();
             foreach (var item in assemblyes)
             {
                 var tempMethods = item.GetTypes()
-                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+                 .SelectMany(t => t.GetMethods(flags))
                  .Where(m => m.GetCustomAttributes()
                      .OfType<BaseQueryAttribute>()
                      .Any(attr => attr.BotId == botId && (attr.GetType().IsGenericType ? attr.GetType().GetGenericTypeDefinition() == type : attr.GetType() == type))

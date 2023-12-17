@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PRTelegramBot.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method,Inherited = true)]
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public class BaseQueryAttribute : Attribute
     {
         public long BotId { get; set; }

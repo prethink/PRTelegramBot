@@ -3,6 +3,7 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
+using System;
 
 namespace PRTelegramBot.Core
 {
@@ -79,6 +80,8 @@ namespace PRTelegramBot.Core
         /// </summary>
         public event CommonEvent OnLogCommon;
 
+        private IServiceProvider _serviceProvider;
+
         /// <summary>
         /// Работает бот или нет
         /// </summary>
@@ -90,60 +93,68 @@ namespace PRTelegramBot.Core
 
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
-        public PRBot(Action<TelegramConfig> configOptions)
+        public PRBot(Action<TelegramConfig> configOptions, IServiceProvider serviceProvider = null)
         {
             configOptions.Invoke(Config);
             ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
             CancellationTokenSource = new CancellationTokenSource();
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(Action<TelegramConfig> configOptions, CancellationTokenSource cancellationToken)
+        public PRBot(Action<TelegramConfig> configOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider = null)
         {
             configOptions.Invoke(Config);
             ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
             CancellationTokenSource = cancellationToken;
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(Action<TelegramConfig> configOptions, ReceiverOptions receiverOptions)
+        public PRBot(Action<TelegramConfig> configOptions, ReceiverOptions receiverOptions, IServiceProvider serviceProvider = null)
         {
             configOptions.Invoke(Config);
             ReceiverOptions = receiverOptions;
             CancellationTokenSource = new CancellationTokenSource();
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(Action<TelegramConfig> configOptions, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
+        public PRBot(Action<TelegramConfig> configOptions, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider = null)
         {
             configOptions.Invoke(Config);
             ReceiverOptions = receiverOptions;
             CancellationTokenSource = cancellationToken;
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(TelegramConfig config)
+        public PRBot(TelegramConfig config, IServiceProvider serviceProvider = null)
         {
             Config = config;
             ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
             CancellationTokenSource = new CancellationTokenSource();
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(TelegramConfig config, CancellationTokenSource cancellationToken)
+        public PRBot(TelegramConfig config, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider = null)
         {
             Config = config;
             ReceiverOptions = new ReceiverOptions { AllowedUpdates = { } };
             CancellationTokenSource = cancellationToken;
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(TelegramConfig config, ReceiverOptions receiverOptions)
+        public PRBot(TelegramConfig config, ReceiverOptions receiverOptions, IServiceProvider serviceProvider = null)
         {
             Config = config;
             ReceiverOptions = receiverOptions;
             CancellationTokenSource = new CancellationTokenSource();
+            _serviceProvider = serviceProvider;
         }
 
-        public PRBot(TelegramConfig config, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
+        public PRBot(TelegramConfig config, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider = null)
         {
             Config = config;
             ReceiverOptions = receiverOptions;
             CancellationTokenSource = cancellationToken;
+            _serviceProvider = serviceProvider;
         }
             
         /// <summary>
@@ -159,7 +170,7 @@ namespace PRTelegramBot.Core
                 }
 
                 botClient = new TelegramBotClient(Config.Token);
-                Handler = new Handler(this, Config);
+                Handler = new Handler(this, Config, _serviceProvider);
                 _cts = CancellationTokenSource;
                 _options = ReceiverOptions;
 
