@@ -1,4 +1,4 @@
-Описание как работать с библиотекой PRTelegramBot - [prethink.ru](https://prethink.ru/category/uroki/)
+Актуальная документация - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)
 
 # 📰 Описание
 Библиотека для быстрого и удобного создания telegram ботов.   
