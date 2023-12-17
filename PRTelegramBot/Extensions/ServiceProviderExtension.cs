@@ -10,7 +10,7 @@ namespace PRTelegramBot.Extensions
 {
     public static class ServiceProviderExtension
     {
-        public static void AddBotHandlers(this IServiceCollection services)
+        public static IServiceCollection AddBotHandlers(this IServiceCollection services)
         {
             if (services == null)
             {
@@ -22,6 +22,8 @@ namespace PRTelegramBot.Extensions
             {
                 services.AddSingleton(type);
             }
+
+            return services;
         }
     }
 }
