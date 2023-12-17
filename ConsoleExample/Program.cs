@@ -24,7 +24,7 @@ Console.WriteLine($"Для закрытие программы напишите 
 var telegram = new PRBot(options =>
 {
     // Токен телеграм бота берется из BotFather
-    options.Token = "6475512965:AAGIvUv9S1quE9WwN29TSVwDFjgW-k2Nfck";
+    options.Token = "";
     // Перед запуском очищает список обновлений, которые накопились когда бот не работал.
     options.ClearUpdatesOnStart = true;
     // Если есть хоть 1 идентификатор телеграм пользователя, могут пользоваться только эти пользователи
