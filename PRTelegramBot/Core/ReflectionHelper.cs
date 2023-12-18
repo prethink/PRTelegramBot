@@ -9,8 +9,18 @@ namespace PRTelegramBot.Core
     /// <summary>
     /// Позволяет автоматически находить методы который помечены определенными атрибутами
     /// </summary>
-    public class ReflectionFinder
+    public class ReflectionHelper
     {
+        public static object CreateInstanceWithNullArguments(Type type)
+        {
+            var parameters = type
+                .GetConstructors()
+                .Single()
+                .GetParameters()
+                .Select(p => (object)null)
+                .ToArray();
+            return Activator.CreateInstance(type, parameters);
+        }
         /// <summary>
         /// Поиск методов в программе для выполнения reply команд
         /// <param name="botId">Уникальный идентификатор бота</param>
@@ -18,7 +28,7 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для reply команд</returns>
         public static Type[] FindServicesToRegistration()
         {
-            return FindUniqueClassesWithAttribute<TelegramBotHandlerAttribute>();
+            return FindClassesWithInstanceMethods();
         }
         /// <summary>
         /// Поиск методов в программе для выполнения reply команд
@@ -88,23 +98,6 @@ namespace PRTelegramBot.Core
             }
         }
 
-        public static Type[] FindUniqueClassesWithAttribute<TAttribute>() where TAttribute : TelegramBotHandlerAttribute
-        {
-            var assemblyes = AppDomain.CurrentDomain.GetAssemblies();
-
-            var uniqueClasses = assemblyes
-                .SelectMany(assembly => assembly.GetTypes()
-                    .Where(type => type.GetCustomAttributes(typeof(TAttribute), true)
-                                       .OfType<TAttribute>()
-                                       .Any())
-                )
-                .Distinct()
-                .ToArray();
-
-            return uniqueClasses;
-        }
-
-
         /// <summary>
         /// Поиск методов которые требуемый атрибут
         /// </summary>
@@ -129,6 +122,31 @@ namespace PRTelegramBot.Core
 
             return list.ToArray();
         }
+
+        public static Type[] FindClassesWithInstanceMethods()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var uniqueTypes = new HashSet<Type>();
+
+            foreach (var assembly in assemblies)
+            {
+                var typesWithMethods = assembly.GetTypes()
+                    .Where(t => t.GetMethods()
+                        .Any(m => !m.IsStatic && m.DeclaringType == t && // Фильтрация экземплярных методов
+                            m.GetCustomAttributes()
+                                .OfType<BaseQueryAttribute>()
+                                .Any())
+                    );
+
+                foreach (var type in typesWithMethods)
+                {
+                    uniqueTypes.Add(type);
+                }
+            }
+
+            return uniqueTypes.ToArray();
+        }
+
 
         public static bool IsValidMethorForBaseBaseQueryAttribute(MethodInfo method)
         {

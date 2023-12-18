@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models;
@@ -12,20 +13,19 @@ using TestDI.Controllers;
 namespace TestDI.BotController
 {
 
-    [TelegramBotHandler]
-    public class BotHandler
+    public class BotHandlerWithDependency
     {
-        private readonly ILogger<BotHandler> _logger;
+        private readonly ILogger<BotHandlerWithDependency> _logger;
 
-        public BotHandler(ILogger<BotHandler> logger)
+        public BotHandlerWithDependency(ILogger<BotHandlerWithDependency> logger)
         {
             _logger = logger;
         }
 
         [ReplyMenuHandler("Test")]
-        public async Task TestMethod(ITelegramBotClient botClient, Update update)
+        public async Task TestMethodWithDependency(ITelegramBotClient botClient, Update update)
         {
-            await PRTelegramBot.Helpers.Message.Send(botClient,update, $"{nameof(TestMethod)} {_logger != null}");
+            await PRTelegramBot.Helpers.Message.Send(botClient,update, $"{nameof(TestMethodWithDependency)} {_logger != null}");
         }
 
         [SlashHandler("/test")]
@@ -70,10 +70,6 @@ namespace TestDI.BotController
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(InlineHandlerStatic));
         }
 
-        [ReplyMenuHandler("Test1")]
-        public async static Task StaticTestMethod(ITelegramBotClient botClient, Update update)
-        {
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(StaticTestMethod));
-        }
+
     }
 }

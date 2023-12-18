@@ -198,21 +198,21 @@ namespace PRTelegramBot.Core
         /// </summary>
         private void RegisterCommands()
         {
-            ReflectionFinder.FindEnumHeaders();
-            RegisterCommandsViaDI();
+            ReflectionHelper.FindEnumHeaders();
+            RegisterCommandsViaInstanceClasses();
             RegisterStaticCommands();
         }
 
-        private void RegisterCommandsViaDI()
+        private void RegisterCommandsViaInstanceClasses()
         {
-            if (_serviceProvider == null)
-                return;
+  
 
-            Type[] servicesToRegistration = ReflectionFinder.FindServicesToRegistration();
+            Type[] servicesToRegistration = ReflectionHelper.FindServicesToRegistration();
             
-            foreach (var di in servicesToRegistration)
+            foreach (var Instance in servicesToRegistration)
             {
-                foreach (var method in di.GetMethods().Where(x => !x.IsStatic))
+                var instance = _serviceProvider != null ? _serviceProvider.GetRequiredService(Instance) : ReflectionHelper.CreateInstanceWithNullArguments(Instance) ;
+                foreach (var method in Instance.GetMethods().Where(x => !x.IsStatic))
                 {
                     try
                     {
@@ -227,7 +227,7 @@ namespace PRTelegramBot.Core
                             continue;
                         }
 
-                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
@@ -235,7 +235,7 @@ namespace PRTelegramBot.Core
                             continue;
                         }
 
-                        var instance = _serviceProvider.GetRequiredService(method.DeclaringType);
+                        
                         var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
 
                         if (attribute is ReplyMenuHandlerAttribute replyattr)
@@ -288,10 +288,10 @@ namespace PRTelegramBot.Core
         private void RegisterStaticCommands()
         {
             //Находим все методы которые используют наши атрибуты
-            MethodInfo[] messageMethods = ReflectionFinder.FindStaticMessageMenuHandlers(Config.BotId);
-            MethodInfo[] messageDictionaryMethods = ReflectionFinder.FindStaticMessageMenuDictionaryHandlers(Config.BotId);
-            MethodInfo[] inlineMethods = ReflectionFinder.FindStaticInlineMenuHandlers(Config.BotId);
-            MethodInfo[] slashCommandMethods = ReflectionFinder.FindStaticSlashCommandHandlers(Config.BotId);
+            MethodInfo[] messageMethods = ReflectionHelper.FindStaticMessageMenuHandlers(Config.BotId);
+            MethodInfo[] messageDictionaryMethods = ReflectionHelper.FindStaticMessageMenuDictionaryHandlers(Config.BotId);
+            MethodInfo[] inlineMethods = ReflectionHelper.FindStaticInlineMenuHandlers(Config.BotId);
+            MethodInfo[] slashCommandMethods = ReflectionHelper.FindStaticSlashCommandHandlers(Config.BotId);
 
             try
             {
@@ -300,7 +300,7 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute."));
@@ -313,16 +313,6 @@ namespace PRTelegramBot.Core
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
                             MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         }
-                        else
-                        {
-                            if (_serviceProvider == null)
-                            {
-                                var instance = Activator.CreateInstance(method.DeclaringType);
-                                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
-
-                                MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
-                        }
 
                     }
                 }
@@ -332,7 +322,7 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute. The method will be ignored."));
@@ -346,18 +336,6 @@ namespace PRTelegramBot.Core
                             MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
 
                         }
-                        else
-                        {
-                            if (_serviceProvider == null)
-                            {
-                                var instance = Activator.CreateInstance(method.DeclaringType);
-                                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
-
-                                MessageCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
-
-
-                        }
                     }
                 }
 
@@ -369,7 +347,7 @@ namespace PRTelegramBot.Core
                         if (attribute.GetType().IsGenericType &&
                             attribute.GetType().GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
                         {
-                            bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                            bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
                             if (!isValidMethod)
                             {
                                 telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));
@@ -385,16 +363,7 @@ namespace PRTelegramBot.Core
                                     Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
                                     InlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                                 }
-                                else
-                                {
-                                    if (_serviceProvider == null)
-                                    {
-                                        var instance = Activator.CreateInstance(method.DeclaringType);
-                                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
-
-                                        InlineCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                                    }
-                                }
+        
                             }
                         }
                     }
@@ -405,7 +374,7 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<SlashHandlerAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionFinder.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the SlashHandler attribute. The method will be ignored."));
@@ -416,17 +385,7 @@ namespace PRTelegramBot.Core
                             Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
                             SlashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         }
-                        else
-                        {
-                            if (_serviceProvider == null)
-                            {
-                                var instance = Activator.CreateInstance(method.DeclaringType);
-                                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
-
-                                SlashCommands.Add(command, (Func<ITelegramBotClient, Update, Task>)instanceMethod);
-                            }
-
-                        }
+    
                     }
                 }
             }

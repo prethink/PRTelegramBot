@@ -17,7 +17,7 @@ namespace PRTelegramBot.Extensions
                 throw new ArgumentNullException(nameof(services));
             }
 
-            var types = ReflectionFinder.FindServicesToRegistration();
+            var types = ReflectionHelper.FindClassesWithInstanceMethods();
             foreach ( var type in types) 
             {
                 services.AddSingleton(type);
