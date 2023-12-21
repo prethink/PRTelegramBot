@@ -74,5 +74,14 @@ namespace PRTelegramBot.Extensions
             var botData = GetBotDataOrNull(botClient);
             return botData != null && botData.Config.Admins.Contains(userId);
         }
+
+        /// <summary>
+        /// Возращает список администраторов бота
+        /// </summary>
+        public static List<long> GetBotAdminIds(this ITelegramBotClient botClient)
+        {
+            var botData = GetBotDataOrNull(botClient);
+            return botData != null ? botData.Config.Admins : new List<long>();
+        }
     }
 }

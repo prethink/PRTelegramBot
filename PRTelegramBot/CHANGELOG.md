@@ -1,6 +1,7 @@
 
 
 -- 2023.12.21 - V0.5.4
+- feat: botClient.GetBotAdminIds() возращает администраторов бота
 - fix: Метод SendPhoto не отправлял сообщения если optionmessage был не пустой
 
 -- 2023.12.18 - V0.5.3
