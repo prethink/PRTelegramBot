@@ -280,42 +280,39 @@ namespace PRTelegramBot.Helpers
 
             Telegram.Bot.Types.Message message;
 
-            if (option == null)
+ 
+            if (option.MenuReplyKeyboardMarkup != null)
             {
                 message = await botClient.SendPhotoAsync(
                                 chatId: chatId,
                                 photo: InputFile.FromStream(stream),
                                 caption: msg,
-                                parseMode: option.ParseMode
+                                parseMode: option.ParseMode,
+                                replyMarkup: option.MenuReplyKeyboardMarkup
                                 );
                 return message;
             }
-            else
+            else if (option.MenuInlineKeyboardMarkup != null)
             {
-                if (option.MenuReplyKeyboardMarkup != null)
-                {
-                    message = await botClient.SendPhotoAsync(
-                                    chatId: chatId,
-                                    photo: InputFile.FromStream(stream),
-                                    caption: msg,
-                                    parseMode: option.ParseMode,
-                                    replyMarkup: option.MenuReplyKeyboardMarkup
-                                    );
-                    return message;
-                }
-                else if (option.MenuInlineKeyboardMarkup != null)
-                {
-                    message = await botClient.SendPhotoAsync(
-                                chatId: chatId,
-                                photo: InputFile.FromStream(stream),
-                                caption: msg,
-                                parseMode: option.ParseMode,
-                                replyMarkup: option.MenuInlineKeyboardMarkup
-                                );
-                    return message;
-                }
-                return null;
+                message = await botClient.SendPhotoAsync(
+                            chatId: chatId,
+                            photo: InputFile.FromStream(stream),
+                            caption: msg,
+                            parseMode: option.ParseMode,
+                            replyMarkup: option.MenuInlineKeyboardMarkup
+                            );
+                return message;
             }
+
+            message = await botClient.SendPhotoAsync(
+                chatId: chatId,
+                photo: InputFile.FromStream(stream),
+                caption: msg,
+                parseMode: option.ParseMode
+                );
+            return message;
+
+
         }
 
         /// <summary>

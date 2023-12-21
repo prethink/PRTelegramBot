@@ -1,7 +1,11 @@
 
+
+-- 2023.12.21 - V0.5.4
+- fix: Метод SendPhoto не отправлял сообщения если optionmessage был не пустой
+
 -- 2023.12.18 - V0.5.3
 - delete: Удален атрибут TelegramBotHandler
-- fix поправлен поиск и создание классов для обработчиков telegram бота
+- fix: поправлен поиск и создание классов для обработчиков telegram бота
   
 -- 2023.12.17 - V0.5.2
 - fix: AddBotHandlers возращает IServiceProvaider
