@@ -1,10 +1,10 @@
 
 -- 2023.12.24 - V0.5.4
-- refatctoring: ReflectionUtils перенесен в пространство имен PRTelegramBot.Utils
-- refatctoring: ReflectionHelper переименован в ReflectionUtils
-- refatctoring: Calendar перенесен в пространство имен PRTelegramBot.Utils
-- refatctoring: MenuGenerator перенесен в пространство имен PRTelegramBot.Utils
-- refatctoring: Generator перенесен в пространство имен PRTelegramBot.Utils
+- refactoring: ReflectionUtils перенесен в пространство имен PRTelegramBot.Utils
+- refactoring: ReflectionHelper переименован в ReflectionUtils
+- refactoring: Calendar перенесен в пространство имен PRTelegramBot.Utils
+- refactoring: MenuGenerator перенесен в пространство имен PRTelegramBot.Utils
+- refactoring: Generator перенесен в пространство имен PRTelegramBot.Utils
 - feature: botClient позволяет вызывать методы простых и ошибочных логов.
 - feature: Возможность добавлять/удалять reply и slash команды через экземпляр класса PRBot
 - feature: botClient.GetBotAdminIds() возвращает администраторов бота
