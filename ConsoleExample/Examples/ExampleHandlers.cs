@@ -16,7 +16,7 @@ namespace ConsoleExample.Examples
         /// callback обработка
         /// Обрабатывает одну точку входа
         /// </summary>
-        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.ExampleOne)]
+        [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleOne)]
         public static async Task Inline(ITelegramBotClient botClient, Update update)
         {
             try
@@ -39,7 +39,7 @@ namespace ConsoleExample.Examples
         /// callback обработка
         /// Данный метод может обработать несколько точек входа
         /// </summary>
-        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.ExampleTwo, CustomTHeader.ExampleThree)]
+        [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleTwo, CustomTHeaderTwo.ExampleThree)]
         public static async Task InlineTwo(ITelegramBotClient botClient, Update update)
         {
             try

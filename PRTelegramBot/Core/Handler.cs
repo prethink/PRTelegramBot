@@ -17,8 +17,15 @@ namespace PRTelegramBot.Core
         /// </summary>
         private PRBot telegram;
 
-        public event Func<ITelegramBotClient, Update, Task<ResultUpdate>>? OnUpdate;
-        public event Func<ITelegramBotClient, Update, Task>? OnWithoutMessageUpdate;
+        /// <summary>
+        /// Событие вызывается до обработки update, может быть прекращено выполнение 
+        /// </summary>
+        public event Func<ITelegramBotClient, Update, Task<ResultUpdate>>? OnPreUpdate;
+
+        /// <summary>
+        /// Событие вызывается после обработки update типа Message и CallbackQuery
+        /// </summary>
+        public event Func<ITelegramBotClient, Update, Task>? OnPostMessageUpdate;
 
         /// <summary>
         /// Маршрутизатор
@@ -31,7 +38,6 @@ namespace PRTelegramBot.Core
             telegram = botClient;
             Config = config;
             Router = new Router(telegram, Config, serviceProvider);
-            
         }
 
         /// <summary>
@@ -45,13 +51,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if (OnUpdate != null)
+                if (OnPreUpdate != null)
                 {
-                    var resultUpdate = await OnUpdate?.Invoke(botClient, update);
+                    var resultUpdate = await OnPreUpdate?.Invoke(botClient, update);
 
                     if (resultUpdate == ResultUpdate.Stop) return;
                 }
-
 
                 if (Config.WhiteListUsers.Count > 0)
                 {
@@ -73,7 +78,7 @@ namespace PRTelegramBot.Core
                     await HandleCallbackQuery(update, cancellationToken);
                     return;
                 }
-                await (OnWithoutMessageUpdate?.Invoke(botClient, update) ?? Task.CompletedTask);
+                await (OnPostMessageUpdate?.Invoke(botClient, update) ?? Task.CompletedTask);
             }
             catch (Exception ex)
             {
@@ -136,14 +141,12 @@ namespace PRTelegramBot.Core
                 string command = update.Message.Text ?? update.Message.Type.ToString();
                 if (update.Message.Type == MessageType.Text)
                 {
-                    telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} wrote {command}");
+                    telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} sent {command}");
                 }
                 else
                 {
                     telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} sent the command {command}");
                 }
-
-
 
                 Router.ExecuteCommandByMessage(command, update);
             }

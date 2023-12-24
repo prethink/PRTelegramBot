@@ -7,6 +7,7 @@ using Telegram.Bot.Types;
 using ConsoleExample.Examples;
 using System.Reflection;
 using PRTelegramBot.Models.Enums;
+using ConsoleExample.Models;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -66,15 +67,15 @@ await telegramTwo.Start();
 HandlerInit(telegram);
 HandlerInit(telegramTwo);
 
-void HandlerInit(PRTelegramBot.Core.PRBot tg)
+void HandlerInit(PRBot tg)
 {
     if (tg.Handler != null)
     {
         ////Обработка обновление 
-        tg.Handler.OnUpdate += Handler_OnUpdate;
+        tg.Handler.OnPreUpdate += Handler_OnUpdate;
 
         //Обработка обновление кроме message и callback
-        tg.Handler.OnWithoutMessageUpdate += Handler_OnWithoutMessageUpdate;
+        tg.Handler.OnPostMessageUpdate += Handler_OnWithoutMessageUpdate;
 
         //Обработка не правильный тип сообщений
         tg.Handler.Router.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
@@ -140,6 +141,16 @@ void HandlerInit(PRTelegramBot.Core.PRBot tg)
         tg.Handler.Router.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
     }
+
+    tg.RegisterInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
+    {
+        PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommand");
+    });
+
+    tg.RegisterInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (botClient, update) =>
+    {
+        PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommandTwo");
+    });
 }
  
 

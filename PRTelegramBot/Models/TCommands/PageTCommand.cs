@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PRTelegramBot.Models.TCommands
 {
-    public class PageTCommand : TCommandBase
+    public class PageTCommand : TelegramCommandBase
     {
         [JsonProperty("1")]
         public int Page { get; set; }

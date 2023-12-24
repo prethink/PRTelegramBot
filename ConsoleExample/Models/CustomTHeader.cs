@@ -20,16 +20,6 @@ namespace ConsoleExample.Models
         [Description("Вип на 1 месяц")]
         GetVipOneMonth,
         [Description("Вип навсегда")]
-        GetVipOneForever,
-        [Description("Пример 1")]
-        ExampleOne,
-        [Description("Пример 2")]
-        ExampleTwo,
-        [Description("Пример 3")]
-        ExampleThree,
-        [Description("Пример страниц")]
-        CustomPageHeader,
-        [Description("Пример страниц2")]
-        CustomPageHeader2,
+        GetVipOneForever
     }
 }

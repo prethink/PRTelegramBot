@@ -1,11 +1,11 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
-using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.Interface;
+using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TestDI.Controllers;

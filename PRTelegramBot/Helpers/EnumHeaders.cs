@@ -53,6 +53,14 @@ namespace PRTelegramBot.Helpers
             }
         }
 
+        public bool ContainsKey(int key, Enum value)
+        {
+            lock (_lock)
+            {
+                return _headers.ContainsKey(key) && _uniqueValues.Contains(_headers[key]);
+            }
+        }
+
         public Enum Get(int key)
         {
             lock (_lock)

@@ -7,7 +7,7 @@ using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.TCommands;
 using PRTelegramBot.Models.Enums;
 
-namespace PRTelegramBot.Helpers.TG
+namespace PRTelegramBot.Utils
 {
     /// <summary>
     /// Класс для удобной генерации меню
@@ -129,7 +129,7 @@ namespace PRTelegramBot.Helpers.TG
         }
 
         /// <summary>
-        /// Объединяет reply кнокпи для бота
+        /// Объединяет reply кнопки для бота
         /// </summary>
         /// <param name="buttonsOne">Первая лист кнопок</param>
         /// <param name="buttonsTwo">Второй лист кнопок</param>
@@ -255,7 +255,7 @@ namespace PRTelegramBot.Helpers.TG
         public static InlineKeyboardMarkup GetPageMenu(int currentPage, int pageCount, InlineKeyboardMarkup addMenu, Enum enumToInt, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "")
         {
             var pageMenu = GetPageMenu(enumToInt, currentPage, pageCount, nextPageMarker, previousPageMarker, currentPageMarker);
-            return UnitInlineKeyboard(addMenu,pageMenu);
+            return UnitInlineKeyboard(addMenu, pageMenu);
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace PRTelegramBot.Helpers.TG
         public static InlineKeyboardMarkup GetPageMenu(Enum enumToInt, int currentPage, int pageCount, string nextPageMarker = "➡️", string previousPageMarker = "⬅️", string currentPageMarker = "")
         {
             IInlineContent button = null;
-            if(!string.IsNullOrEmpty(currentPageMarker))
+            if (!string.IsNullOrEmpty(currentPageMarker))
             {
                 button = new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", THeader.NextPage, new PageTCommand(currentPage, enumToInt));
             }

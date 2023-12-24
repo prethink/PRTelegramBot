@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
 using Telegram.Bot.Types.ReplyMarkups;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Utils;
 
-namespace CalendarPicker.CalendarControl
+namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
 {
     /// <summary>
     /// Генерация разметки календаря
@@ -106,7 +106,7 @@ namespace CalendarPicker.CalendarControl
                 keyboardRows[row] = keyboardRow;
             }
             keyboardRows[4] = Row.BackToMonthYearPicker(date, command);
-            keyboardRows[5] = Row.ChangeYear(date, command  );
+            keyboardRows[5] = Row.ChangeYear(date, command);
 
             return new InlineKeyboardMarkup(keyboardRows);
         }

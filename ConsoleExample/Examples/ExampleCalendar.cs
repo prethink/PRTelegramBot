@@ -1,5 +1,4 @@
-﻿using CalendarPicker.CalendarControl;
-using PRTelegramBot.Attributes;
+﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Models;
 using PRTelegramBot.Helpers;
 using System.Globalization;
@@ -13,6 +12,7 @@ using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
 using ConsoleExample.Models;
+using PRTelegramBot.Utils.Controls.CalendarControl.Common;
 
 namespace ConsoleExample.Examples
 {
@@ -32,7 +32,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var calendarMarkup = Markup.Calendar(DateTime.Today, dtfi,(int)CustomTHeader.ExampleThree);
+                var calendarMarkup = Markup.Calendar(DateTime.Today, dtfi,(int)CustomTHeaderTwo.ExampleThree);
                 var option = new OptionMessage();
                 option.MenuInlineKeyboardMarkup = calendarMarkup;
                 await Helpers.Message.Send(botClient, update.GetChatId(), $"Выберите дату:", option);

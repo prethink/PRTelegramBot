@@ -7,20 +7,20 @@ namespace PRTelegramBot.Models.CallbackCommands
     /// <summary>
     /// Базовая команда
     /// </summary>
-    public class TCommandBase
+    public class TelegramCommandBase
     {
         /// <summary>
         /// Предыдущая команда
         /// </summary>
         [JsonProperty("0")]
         public int LastCommand { get; set; }
-        public TCommandBase(int command = 0)
+        public TelegramCommandBase(int command = 0)
         {
             LastCommand  = command;
         }
 
         /// <summary>
-        /// получить команду нужнного типа Enum
+        /// получить команду нужного типа Enum
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>

@@ -12,6 +12,7 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Extensions;
 using ConsoleExample.Models;
 using System;
+using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples
 {
@@ -48,7 +49,7 @@ namespace ConsoleExample.Examples
             //Получаю контент с 1 страницы с размером страницы 1
             var data = await pageData.GetPaged<string>(1, 1);
             //Генерирую меню постраничного вывода с заголовком
-            var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader);
+            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
             var message = await Helpers.Message.Send(botClient, update, msg, option);
@@ -65,7 +66,7 @@ namespace ConsoleExample.Examples
             //Получаю контент с 1 страницы с размером страницы 1
             var data = await pageDataTwo.GetPaged<string>(1, 1);
             //Генерирую меню постраничного вывода с заголовком
-            var generateMenu = PRTelegramBot.Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader2);
+            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader2);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
 
@@ -88,14 +89,14 @@ namespace ConsoleExample.Examples
                     if (command != null)
                     {
                         //Получаю заголовок из данных
-                        CustomTHeader header = (CustomTHeader)command.Data.Header;
+                        CustomTHeaderTwo header = (CustomTHeaderTwo)command.Data.Header;
                         //обрабатываю данные по заголовку
-                        if(header == CustomTHeader.CustomPageHeader)
+                        if(header == CustomTHeaderTwo.CustomPageHeader)
                         {
                             //Получаю номер страницы и указываю размер страницы
                             var data = await pageData.GetPaged<string>(command.Data.Page, 1);
                             //Генерирую постраничное меню
-                            var generateMenu = Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader);
+                            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
                             //Получаю результат из постраничного вывода
                             var pageResult = data.Results;
                             var option = new OptionMessage();
@@ -113,12 +114,12 @@ namespace ConsoleExample.Examples
                             await Helpers.Message.Edit(botClient, update, msg, option);
                         }
                         //обрабатываю данные по заголовку
-                        else if (header == CustomTHeader.CustomPageHeader2)
+                        else if (header == CustomTHeaderTwo.CustomPageHeader2)
                         {
                             //Получаю номер страницы и указываю размер страницы
                             var data = await pageDataTwo.GetPaged<string>(command.Data.Page, 1);
                             //Генерирую постраничное меню
-                            var generateMenu = Helpers.TG.MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeader.CustomPageHeader2);
+                            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader2);
                             //Получаю результат из постраничного вывода
                             var pageResult = data.Results;
                             var option = new OptionMessage();

@@ -4,7 +4,6 @@ using Telegram.Bot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Commands.Constants;
-using PRTelegramBot.Helpers.TG;
 using static PRTelegramBot.Models.StepTelegram;
 using PRTelegramBot.Helpers;
 using Helpers = PRTelegramBot.Helpers;
@@ -12,6 +11,7 @@ using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using ConsoleExample.Commands.Constants;
 using PRTelegramBot.Models.Interface;
+using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples
 {

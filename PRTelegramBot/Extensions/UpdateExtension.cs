@@ -22,8 +22,7 @@ namespace PRTelegramBot.Extensions
             if (update.CallbackQuery != null)
                 return update.CallbackQuery.Message.Chat.Id;
 
-
-            throw new Exception("Не удалось получить чат ID");
+            throw new Exception("Failed to obtain chat id");
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace PRTelegramBot.Extensions
                 return messageId;
             }
 
-            throw new Exception("Не удалось получить ID чата");
+            throw new Exception("Failed to obtain message id");
         }
 
         /// <summary>

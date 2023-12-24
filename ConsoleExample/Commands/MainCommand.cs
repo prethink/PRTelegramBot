@@ -2,12 +2,12 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using PRTelegramBot.Extensions;
-using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Core;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Models;
 using PRTelegramBot.Helpers;
 using ConsoleExample.Commands.Constants;
+using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Commands
 {

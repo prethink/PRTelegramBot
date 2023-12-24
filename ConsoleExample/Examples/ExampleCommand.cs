@@ -4,7 +4,6 @@ using PRTelegramBot.Attributes;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Helpers;
 using PRTelegramBot.Models.InlineButtons;
@@ -15,6 +14,7 @@ using ConsoleExample.Models;
 using PRTelegramBot.Models.Enums;
 using ConsoleExample.Commands.Constants;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples
 {
@@ -159,18 +159,23 @@ namespace ConsoleExample.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(new DictionaryJSON().GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeader.ExampleOne);
+            var exampleItemOne = new InlineCallback(new DictionaryJSON().GetButton(nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeaderTwo.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeader.ExampleTwo, new EntityTCommand<long>(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2));
             /* Создание новой кнопки с callback данными
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeader.ExampleThree, new EntityTCommand<long>(3));
+            var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3));
+
+            //Команды который добавлены после запуска бота
+            var exampleAddCommand= new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand);
+            var exampleAddCommandTwo= new InlineCallback("Команда добавленная динамически 2", AddCustomTHeader.TestAddCommandTwo);
+
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
             // Создаем кнопку для работы с webApp
@@ -182,6 +187,8 @@ namespace ConsoleExample.Examples
             menu.Add(exampleItemOne);
             menu.Add(exampleItemTwo);
             menu.Add(exampleItemThree);
+            menu.Add(exampleAddCommand);
+            menu.Add(exampleAddCommandTwo);
             menu.Add(url);
             menu.Add(webdata);
 

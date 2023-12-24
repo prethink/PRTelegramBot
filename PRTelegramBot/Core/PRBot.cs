@@ -4,6 +4,7 @@ using Telegram.Bot.Polling;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
 using System;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core
 {
@@ -14,19 +15,19 @@ namespace PRTelegramBot.Core
         /// </summary>
         public enum TelegramEvents
         {
-            [Description("Initialization")]
+            [Description(nameof(Initialization))]
             Initialization,
-            [Description("Register")]
+            [Description(nameof(Register))]
             Register,
-            [Description("Message")]
+            [Description(nameof(Message))]
             Message,
-            [Description("Server")]
+            [Description(nameof(Server))]
             Server,
-            [Description("BlockedBot")]
+            [Description(nameof(BlockedBot))]
             BlockedBot,
-            [Description("CommandExecute")]
+            [Description(nameof(CommandExecute))]
             CommandExecute,
-            [Description("GroupAction")]
+            [Description(nameof(GroupAction))]
             GroupAction,
         }
 
@@ -36,12 +37,12 @@ namespace PRTelegramBot.Core
         public string BotName { get; private set; }
 
         /// <summary>
-        /// Клиент для телеграм бота
+        /// Клиент для telegram бота
         /// </summary>
         public ITelegramBotClient botClient { get; private set; }
-        
+
         /// <summary>
-        /// Обработчик для телеграм бота
+        /// Обработчик для telegram бота
         /// </summary>
         public Handler Handler;
 
@@ -51,7 +52,7 @@ namespace PRTelegramBot.Core
         private CancellationTokenSource _cts;
 
         /// <summary>
-        /// Настройки телеграм бота
+        /// Настройки telegram бота
         /// </summary>
         private ReceiverOptions _options;
 
@@ -59,7 +60,7 @@ namespace PRTelegramBot.Core
         /// Сигнатура для записи ошибок
         /// </summary>
         /// <param name="ex">Эксекшен</param>
-        /// <param name="id">Идентиификатор пользователе</param>
+        /// <param name="id">Идентификатор пользователя</param>
         public delegate void ErrorEvent(Exception ex, long? id);
 
         /// <summary>
@@ -80,6 +81,9 @@ namespace PRTelegramBot.Core
         /// </summary>
         public event CommonEvent OnLogCommon;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private IServiceProvider _serviceProvider;
 
         /// <summary>
@@ -165,7 +169,7 @@ namespace PRTelegramBot.Core
             InitBot();
         }
 
-        public void InitBot()
+        private void InitBot()
         {
             Handler = new Handler(this, Config, _serviceProvider);
             _cts = CancellationTokenSource;
@@ -265,6 +269,69 @@ namespace PRTelegramBot.Core
         public void InvokeErrorLog(Exception ex, long? id = null)
         {
             OnLogError?.Invoke(ex, id);
+        }
+
+        /// <summary>
+        /// Регистрация Slash command
+        /// </summary>
+        /// <param name="command">Команда</param>
+        /// <param name="method">Метод</param>
+        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
+        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        {
+            return Handler.Router.RegisterSlashCommand(command,method);
+        }
+
+        /// <summary>
+        /// Регистрация Reply command
+        /// </summary>
+        /// <param name="command">Команда</param>
+        /// <param name="method">Метод</param>
+        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
+        public bool RegisterReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        {
+            return Handler.Router.RegisterReplyCommand(command, method);
+        }
+
+        /// <summary>
+        /// Регистрация inline command
+        /// </summary>
+        /// <param name="command">Команда</param>
+        /// <param name="method">Метод</param>
+        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
+        public bool RegisterInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method)
+        {
+            return Handler.Router.RegisterInlineCommand(command, method);
+        }
+
+        /// <summary>
+        /// Удаление Reply команды
+        /// </summary>
+        /// <param name="command">Название команды</param>
+        /// <returns>True - метод удален, false - ошибка</returns>
+        public bool RemoveReplyCommand(string command)
+        {
+            return Handler.Router.RemoveReplyCommand(command);
+        }
+
+        /// <summary>
+        /// Удаление slash команды
+        /// </summary>
+        /// <param name="command">Название команды</param>
+        /// <returns>True - метод удален, false - ошибка</returns>
+        public bool RemoveSlashCommand(string command)
+        {
+            return Handler.Router.RemoveSlashCommand(command);
+        }
+
+        /// <summary>
+        /// Удаление inline команды
+        /// </summary>
+        /// <param name="command">перечисление команды</param>
+        /// <returns>True - метод удален, false - ошибка</returns>
+        public bool RemoveInlineCommand(Enum command)
+        {
+            return Handler.Router.RemoveInlineCommand(command);
         }
     }
 }

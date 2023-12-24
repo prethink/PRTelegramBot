@@ -15,7 +15,6 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         static ConcurrentDictionary<long, TelegramCache> _userHandlerData = new();
 
-
         /// <summary>
         /// Создает кеш для пользователя
         /// </summary>

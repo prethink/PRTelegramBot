@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using static PRTelegramBot.Core.PRBot;
 
 namespace PRTelegramBot.Extensions
 {
@@ -76,12 +77,31 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Возращает список администраторов бота
+        /// Возвращает список администраторов бота
         /// </summary>
         public static List<long> GetBotAdminIds(this ITelegramBotClient botClient)
         {
             var botData = GetBotDataOrNull(botClient);
             return botData != null ? botData.Config.Admins : new List<long>();
         }
+
+        /// <summary>
+        /// Логирование простых логов
+        /// </summary>
+        public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, TelegramEvents typeEvent = TelegramEvents.Message, ConsoleColor color = ConsoleColor.Blue)
+        {
+            GetBotDataOrNull(botClient)?.InvokeCommonLog(msg, typeEvent, color);
+        }
+
+
+        /// <summary>
+        /// Логирование ошибок
+        /// </summary>
+        public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, long? id = null)
+        {
+            GetBotDataOrNull(botClient)?.InvokeErrorLog(ex, id);
+        }
+
+
     }
 }

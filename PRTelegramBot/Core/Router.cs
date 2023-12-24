@@ -17,6 +17,7 @@ using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Models;
 using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Core
 {
@@ -138,7 +139,7 @@ namespace PRTelegramBot.Core
 
 
         /// <summary>
-        /// Клиент для телеграм бота
+        /// Клиент для telegram бота
         /// </summary>
         private PRBot telegram;
 
@@ -161,9 +162,14 @@ namespace PRTelegramBot.Core
         /// 
         /// </summary>
         public Dictionary<Telegram.Bot.Types.Enums.MessageType, Func<ITelegramBotClient,Update,Task>> TypeMessage { get; private set; }
-
-        public TelegramConfig Config { get; init; }
+        /// <summary>
+        /// 
+        /// </summary>
         private IServiceProvider _serviceProvider;
+        /// <summary>
+        /// 
+        /// </summary>
+        private TelegramConfig Config { get; init; }
 
         public Router(PRBot botClient, TelegramConfig config, IServiceProvider serviceProvider)
         {
@@ -198,7 +204,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         private void RegisterCommands()
         {
-            ReflectionHelper.FindEnumHeaders();
+            ReflectionUtils.FindEnumHeaders();
             RegisterCommandsViaInstanceClasses();
             RegisterStaticCommands();
         }
@@ -207,11 +213,11 @@ namespace PRTelegramBot.Core
         {
   
 
-            Type[] servicesToRegistration = ReflectionHelper.FindServicesToRegistration();
+            Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();
             
             foreach (var Instance in servicesToRegistration)
             {
-                var instance = _serviceProvider != null ? _serviceProvider.GetRequiredService(Instance) : ReflectionHelper.CreateInstanceWithNullArguments(Instance) ;
+                var instance = _serviceProvider != null ? _serviceProvider.GetRequiredService(Instance) : ReflectionUtils.CreateInstanceWithNullArguments(Instance) ;
                 foreach (var method in Instance.GetMethods().Where(x => !x.IsStatic))
                 {
                     try
@@ -227,7 +233,7 @@ namespace PRTelegramBot.Core
                             continue;
                         }
 
-                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
@@ -288,10 +294,10 @@ namespace PRTelegramBot.Core
         private void RegisterStaticCommands()
         {
             //Находим все методы которые используют наши атрибуты
-            MethodInfo[] messageMethods = ReflectionHelper.FindStaticMessageMenuHandlers(Config.BotId);
-            MethodInfo[] messageDictionaryMethods = ReflectionHelper.FindStaticMessageMenuDictionaryHandlers(Config.BotId);
-            MethodInfo[] inlineMethods = ReflectionHelper.FindStaticInlineMenuHandlers(Config.BotId);
-            MethodInfo[] slashCommandMethods = ReflectionHelper.FindStaticSlashCommandHandlers(Config.BotId);
+            MethodInfo[] messageMethods             = ReflectionUtils.FindStaticMessageMenuHandlers(Config.BotId);
+            MethodInfo[] messageDictionaryMethods   = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(Config.BotId);
+            MethodInfo[] inlineMethods              = ReflectionUtils.FindStaticInlineMenuHandlers(Config.BotId);
+            MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(Config.BotId);
 
             try
             {
@@ -300,13 +306,12 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute."));
                             continue;
                         }
-
 
                         if (method.IsStatic)
                         {
@@ -322,7 +327,7 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute. The method will be ignored."));
@@ -347,7 +352,7 @@ namespace PRTelegramBot.Core
                         if (attribute.GetType().IsGenericType &&
                             attribute.GetType().GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
                         {
-                            bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
+                            bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                             if (!isValidMethod)
                             {
                                 telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));
@@ -374,7 +379,7 @@ namespace PRTelegramBot.Core
                 {
                     foreach (var command in method.GetCustomAttribute<SlashHandlerAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionHelper.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the SlashHandler attribute. The method will be ignored."));
@@ -395,11 +400,58 @@ namespace PRTelegramBot.Core
             }
         }
 
+        /// <summary>
+        /// Добавляет Reply команду
+        /// </summary>
+        /// <param name="command">Название команды</param>
+        /// <param name="method">Метод обработки</param>
+        /// <returns>True - команда добавлена / False - ошибка при добавление или команда не добавлена</returns>
         public bool RegisterReplyCommand(string command, Func<ITelegramBotClient,Update,Task> method)
         {
             try
             {
                 MessageCommands.Add(command, method);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Добавляет Slash команду
+        /// </summary>
+        /// <param name="command">Название команды</param>
+        /// <param name="method">Метод обработки</param>
+        /// <returns>True - команда добавлена / False - ошибка при добавление или команда не добавлена</returns>
+        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        {
+            try
+            {
+                SlashCommands.Add(command, method);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                telegram.InvokeErrorLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Добавляет inline команду
+        /// </summary>
+        /// <param name="@enum">Заголовок команды</param>
+        /// <param name="method">Метод обработки</param>
+        /// <returns>True - команда добавлена / False - ошибка при добавление или команда не добавлена</returns>
+        public bool RegisterInlineCommand(Enum @enum, Func<ITelegramBotClient, Update, Task> method)
+        {
+            try
+            {
+                ReflectionUtils.AddEnumsHeader(@enum);
+                InlineCommands.Add(@enum, method);
                 return true;
             }
             catch (Exception ex)
@@ -423,20 +475,6 @@ namespace PRTelegramBot.Core
             }
         }
 
-        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
-        {
-            try
-            {
-                SlashCommands.Add(command, method);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                telegram.InvokeErrorLog(ex);
-                return false;
-            }
-        }
-
         public bool RemoveSlashCommand(string command)
         {
             try
@@ -451,19 +489,21 @@ namespace PRTelegramBot.Core
             }
         }
 
-        public bool RegisterInlineCommand(Enum @enum, Func<ITelegramBotClient, Update, Task> method)
+        public bool RemoveInlineCommand(Enum @enum)
         {
             try
             {
-                InlineCommands.Add(@enum, method);
+                InlineCommands.Remove(@enum);
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 telegram.InvokeErrorLog(ex);
                 return false;
             }
         }
+
+
 
         /// <summary>
         /// Проверяет это слеш команда или нет
@@ -552,7 +592,6 @@ namespace PRTelegramBot.Core
                     }
                 }
 
-                //
                 foreach (var commandExecute in MessageCommands)
                 {
 
@@ -737,7 +776,6 @@ namespace PRTelegramBot.Core
                     }
                     return false;
                 }
-
                 return false;
             }
             catch (Exception ex)

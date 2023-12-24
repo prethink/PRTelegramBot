@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace PRTelegramBot.Configs
 {
     /// <summary>
-    /// Конфигурация телеграм бота
+    /// Конфигурация telegram бота
     /// </summary>
     public class TelegramConfig
     {
         /// <summary>
-        /// Токен телеграм бота берется из BotFather
+        /// Токен telegram бота берется из BotFather
         /// </summary>
         public string Token { get; set; }
         /// <summary>

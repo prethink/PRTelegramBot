@@ -3,13 +3,14 @@ using PRTelegramBot.Helpers;
 using System.Reflection;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using System;
 
-namespace PRTelegramBot.Core
+namespace PRTelegramBot.Utils
 {
     /// <summary>
     /// Позволяет автоматически находить методы который помечены определенными атрибутами
     /// </summary>
-    public class ReflectionHelper
+    public class ReflectionUtils
     {
         public static object CreateInstanceWithNullArguments(Type type)
         {
@@ -37,7 +38,7 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для reply команд</returns>
         public static MethodInfo[] FindStaticMessageMenuHandlers(long botId = 0)
         {
-            var methods = FindMethods(typeof(ReplyMenuHandlerAttribute),(BindingFlags.Public | BindingFlags.Static), botId);
+            var methods = FindMethods(typeof(ReplyMenuHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
             return methods.Where(x => x.GetCustomAttributes(typeof(ReplyMenuDictionaryHandlerAttribute), true).Length == 0).ToArray();
         }
 
@@ -48,7 +49,7 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для reply команд</returns>
         public static MethodInfo[] FindStaticMessageMenuDictionaryHandlers(long botId = 0)
         {
-            return FindMethods(typeof(ReplyMenuDictionaryHandlerAttribute), (BindingFlags.Public | BindingFlags.Static), botId);
+            return FindMethods(typeof(ReplyMenuDictionaryHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для inline команд</returns>
         public static MethodInfo[] FindStaticInlineMenuHandlers(long botId = 0)
         {
-            return FindMethods(typeof(InlineCallbackHandlerAttribute<>), (BindingFlags.Public | BindingFlags.Static), botId);
+            return FindMethods(typeof(InlineCallbackHandlerAttribute<>), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>
@@ -68,32 +69,64 @@ namespace PRTelegramBot.Core
         /// <returns>Массив методов для слеш команд</returns>
         public static MethodInfo[] FindStaticSlashCommandHandlers(long botId = 0)
         {
-            return FindMethods(typeof(SlashHandlerAttribute), (BindingFlags.Public | BindingFlags.Static), botId);
+            return FindMethods(typeof(SlashHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         public static void FindEnumHeaders()
         {
             EnumHeaders enums = EnumHeaders.Instance;
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            int count = 0;
             // Обходим все сборки
             foreach (Assembly assembly in assemblies)
             {
-                // Получаем все типы из сборки
-                Type[] types = assembly.GetTypes();
+                // Получаем все типы из сборки и ищем только перечисления
+                var types = assembly.GetTypes().Where(type => type.IsEnum && type.GetCustomAttributes(typeof(InlineCommandAttribute), true).Any()).ToList();
 
-                // Ищем только перечисления
                 foreach (Type type in types)
                 {
-                    if (type.IsEnum && type.GetCustomAttributes(typeof(InlineCommandAttribute), false).Any())
+                    ValidateEnumIsInt(type);
+                    Array enumValues = Enum.GetValues(type);
+                    foreach (Enum item in enumValues)
                     {
-                        Array enumValues = Enum.GetValues(type);
-                        foreach (Enum item in enumValues)
-                        {
-                            enums.Add(count, item);
-                            count++;
-                        }
+                        var valint = Convert.ToInt32(item);
+                        enums.Add(valint, item);
                     }
+                }
+            }
+        }
+
+        public static bool AddEnumsHeader(Enum @enum)
+        {
+            ValidateEnumIsInt(@enum);
+            EnumHeaders enums = EnumHeaders.Instance;
+            var valint = Convert.ToInt32(@enum);
+            if(!enums.ContainsKey(valint, @enum))
+            {
+                enums.Add(valint, @enum);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void ValidateEnumIsInt(Enum @enum)
+        {
+            Type enumType = @enum.GetType();
+            ValidateEnumIsInt(enumType);
+        }
+
+        public static void ValidateEnumIsInt(Type enumType)
+        {
+            if (!enumType.IsEnum)
+            {
+                throw new ArgumentException($"{enumType} is not an Enum type.");
+            }
+
+            foreach (var value in Enum.GetValues(enumType))
+            {
+                if (!(Convert.ChangeType(value, enumType.GetEnumUnderlyingType()) is int))
+                {
+                    throw new ArgumentException($"{enumType}.{value} is not of type int.");
                 }
             }
         }
@@ -147,7 +180,6 @@ namespace PRTelegramBot.Core
             return uniqueTypes.ToArray();
         }
 
-
         public static bool IsValidMethorForBaseBaseQueryAttribute(MethodInfo method)
         {
             try
@@ -163,14 +195,14 @@ namespace PRTelegramBot.Core
                     parameters[0].ParameterType == expectedBotClientType &&
                     parameters[1].ParameterType == expectedUpdateType)
                 {
-                   return true;
+                    return true;
                 }
                 else
                 {
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }

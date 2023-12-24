@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PRTelegramBot.Core;
+using PRTelegramBot.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace PRTelegramBot.Extensions
                 throw new ArgumentNullException(nameof(services));
             }
 
-            var types = ReflectionHelper.FindClassesWithInstanceMethods();
+            var types = ReflectionUtils.FindClassesWithInstanceMethods();
             foreach ( var type in types) 
             {
                 services.AddSingleton(type);

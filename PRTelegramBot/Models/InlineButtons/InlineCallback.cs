@@ -12,7 +12,7 @@ namespace PRTelegramBot.Models.InlineButtons
     /// Создает кнопку обработкой данных
     /// </summary>
     /// <typeparam name="T">Данные которые должны быть переданы</typeparam>
-    public class InlineCallback<T> : InlineCallback where T : TCommandBase
+    public class InlineCallback<T> : InlineCallback where T : TelegramCommandBase
     {
         /// <summary>
         /// Данные для обработки
@@ -73,7 +73,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Данные для обработки
         /// </summary>
         [JsonProperty("d")]
-        public TCommandBase Data { get; set; }
+        public TelegramCommandBase Data { get; set; }
 
         /// <summary>
         /// Создание нового объекта
@@ -82,7 +82,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="commandType">Заголовок команды</param>
         /// <param name="data">Данные</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
+        public InlineCallback(string buttonName, Enum commandType, TelegramCommandBase data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
@@ -98,7 +98,7 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             ButtonName = buttonName;
             CommandType = commandType;
-            Data = new TCommandBase();
+            Data = new TelegramCommandBase();
         }
 
         public static InlineCallback GetCommandByCallbackOrNull(string data)
@@ -124,7 +124,7 @@ namespace PRTelegramBot.Models.InlineButtons
             var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
             {
-                throw new Exception($"Превышен лимит для callback_data {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Попробуйте уменьшить количество данных в команде");
+                throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
             }
             return result;
         }

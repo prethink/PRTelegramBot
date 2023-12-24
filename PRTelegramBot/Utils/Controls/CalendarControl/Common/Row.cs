@@ -1,12 +1,12 @@
 ﻿using System.Globalization;
 using Telegram.Bot.Types.ReplyMarkups;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Helpers.TG;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Utils;
 
-namespace CalendarPicker.CalendarControl
+namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
 {
     /// <summary>
     /// Создает inline строки для календаря
@@ -63,7 +63,7 @@ namespace CalendarPicker.CalendarControl
 
                 for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
                 {
-                    if ((weekNum == 0 && dayOfWeek < FirstDayOfWeek())
+                    if (weekNum == 0 && dayOfWeek < FirstDayOfWeek()
                        ||
                        dayOfMonth > lastDayOfMonth
                     )
@@ -72,7 +72,7 @@ namespace CalendarPicker.CalendarControl
                         continue;
                     }
 
-                    week[dayOfWeek] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(dayOfMonth.ToString(), THeader.PickDate, new CalendarTCommand(new DateTime(date.Year, date.Month, dayOfMonth), command))); 
+                    week[dayOfWeek] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(dayOfMonth.ToString(), THeader.PickDate, new CalendarTCommand(new DateTime(date.Year, date.Month, dayOfMonth), command)));
                     dayOfMonth++;
                 }
                 return week;

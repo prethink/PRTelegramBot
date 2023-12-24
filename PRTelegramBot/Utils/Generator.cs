@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace PRTelegramBot.Helpers
+namespace PRTelegramBot.Utils
 {
     /// <summary>
     /// Генератор разных данных
@@ -18,7 +18,7 @@ namespace PRTelegramBot.Helpers
             Alphabet = 0b0010,
             Symbols = 0b0100
         }
-        
+
         /// <summary>
         /// Генериурет случайный набор символов
         /// </summary>
@@ -30,7 +30,7 @@ namespace PRTelegramBot.Helpers
         {
             var random = new Random();
             var resultPassword = new StringBuilder(length);
-            var passwordCharSet = String.Empty;
+            var passwordCharSet = string.Empty;
             resultPassword.Append(prefix);
             if (chars.HasFlag(Chars.Alphabet))
             {
@@ -56,9 +56,10 @@ namespace PRTelegramBot.Helpers
         /// Можно использовать для разных акций или промо кодов
         /// </summary>
         /// <param name="segmentLength">Длина сегмента кода</param>
-        /// <param name="countSplit">Количество разделителей -</param>
+        /// <param name="countSplit">Количество разделителей</param>
+        /// <param name="symbolSplit">Символ разделителя, по умолчанию - </param>
         /// <returns>Сгенерированный купон</returns>
-        public static string Coupon(int segmentLength = 6, int countSplit = 1)
+        public static string Coupon(int segmentLength = 6, int countSplit = 1, char symbolSplit = '-')
         {
             var random = new Random((int)DateTime.Now.Ticks);
             var couponCharSet = Alphabet.ToUpper() + Digits;
@@ -71,7 +72,7 @@ namespace PRTelegramBot.Helpers
                     result.Append(couponCharSet[random.Next(0, couponCharSet.Length)]);
                 }
                 if (i < countSplit)
-                    result.Append('-');
+                    result.Append(symbolSplit);
             }
 
             return result.ToString();
