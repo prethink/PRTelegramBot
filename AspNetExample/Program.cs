@@ -16,7 +16,7 @@ void PrBotInstance_OnLogError(Exception ex, long? id)
     Console.WriteLine(ex.ToString());
 }
 
-void PrBotInstance_OnLogCommon(string msg, PRBot.TelegramEvents typeEvent, ConsoleColor color)
+void PrBotInstance_OnLogCommon(string msg, Enum typeEvent, ConsoleColor color)
 {
     Console.WriteLine(msg);
 }

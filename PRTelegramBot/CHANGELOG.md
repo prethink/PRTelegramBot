@@ -1,4 +1,8 @@
 
+-- 2023.12.25 - V0.5.5
+- feature: Добавлена возможность подставлять свой enum в common logs
+
+
 -- 2023.12.24 - V0.5.4
 - refactoring: ReflectionUtils перенесен в пространство имен PRTelegramBot.Utils
 - refactoring: ReflectionHelper переименован в ReflectionUtils

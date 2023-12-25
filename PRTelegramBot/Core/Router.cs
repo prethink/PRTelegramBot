@@ -648,7 +648,7 @@ namespace PRTelegramBot.Core
                 if (command != null)
                 {
                     string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
-                    telegram.InvokeCommonLog(msg, PRBot.TelegramEvents.CommandExecute, ConsoleColor.Magenta);
+                    telegram.InvokeCommonLog(msg, BaseEventTelegram.CallBackCommand, ConsoleColor.Magenta);
                     foreach (var commandCallback in InlineCommands)
                     {
                         if (((Enum)command.CommandType).Equals(commandCallback.Key) )

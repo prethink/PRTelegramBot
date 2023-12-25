@@ -8,6 +8,7 @@ using ConsoleExample.Examples;
 using System.Reflection;
 using PRTelegramBot.Models.Enums;
 using ConsoleExample.Models;
+using ConsoleExample.Models.Enums;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -218,7 +219,7 @@ void Telegram_OnLogError(Exception ex, long? id = null)
     Console.ResetColor();
 }
 
-void Telegram_OnLogCommon(string msg, TelegramEvents eventType, ConsoleColor color = ConsoleColor.Blue)
+void Telegram_OnLogCommon(string msg, Enum? eventType, ConsoleColor color = ConsoleColor.Blue)
 {
     Console.ForegroundColor = color;
     string formatMsg = $"{DateTime.Now}: {msg}";

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using ConsoleExample.Models.Enums;
 using PRTelegramBot.Extensions;
 using static PRTelegramBot.Core.PRBot;
 

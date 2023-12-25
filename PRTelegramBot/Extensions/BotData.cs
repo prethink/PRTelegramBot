@@ -88,7 +88,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Логирование простых логов
         /// </summary>
-        public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, TelegramEvents typeEvent = TelegramEvents.Message, ConsoleColor color = ConsoleColor.Blue)
+        public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, Enum? typeEvent = null, ConsoleColor color = ConsoleColor.Blue)
         {
             GetBotDataOrNull(botClient)?.InvokeCommonLog(msg, typeEvent, color);
         }

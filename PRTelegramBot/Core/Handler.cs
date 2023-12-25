@@ -133,7 +133,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Обработчик текстовый сообщений Reply
         /// </summary>
-        /// <param name="update">Обновление телеграма</param>
+        /// <param name="update">Обновление telegram</param>
         async Task HandleMessage(Update update)
         {
             try

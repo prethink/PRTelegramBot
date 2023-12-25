@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
+using PRTelegramBot.Helpers;
 
-
-
-namespace PRTelegramBot.Helpers
+namespace PRTelegramBot.Utils.Converters
 {
     public class HeaderConverter : JsonConverter<Enum>
     {
