@@ -22,16 +22,16 @@ Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
 
-#region запуск телеграм бота
+#region запуск telegram бота
 var telegram = new PRBot(options =>
 {
-    // Токен телеграм бота берется из BotFather
+    // Токен telegram бота берется из BotFather
     options.Token = "";
     // Перед запуском очищает список обновлений, которые накопились когда бот не работал.
     options.ClearUpdatesOnStart = true;
-    // Если есть хоть 1 идентификатор телеграм пользователя, могут пользоваться только эти пользователи
+    // Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи
     options.WhiteListUsers = new List<long>() {  };
-    // Идентификатор телеграм пользователя
+    // Идентификатор telegram пользователя
     options.Admins = new List<long>() {  };
     // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
     options.BotId = 0;
@@ -39,13 +39,13 @@ var telegram = new PRBot(options =>
 
 var telegramTwo = new PRBot(options =>
 {
-    // Токен телеграм бота берется из BotFather
+    // Токен telegram бота берется из BotFather
     options.Token = "";
     //Перед запуском очищает список обновлений, которые накопились когда бот не работал.
     options.ClearUpdatesOnStart = true;
-    // Если есть хоть 1 идентификатор телеграм пользователя, могут пользоваться только эти пользователи
+    // Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи
     options.WhiteListUsers = new List<long>() { };
-    // Идентификатор телеграм пользователя
+    // Идентификатор telegram пользователя
     options.Admins = new List<long>() { };
     // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
     options.BotId = 1;
@@ -226,16 +226,21 @@ void Telegram_OnLogCommon(string msg, Enum? eventType, ConsoleColor color = Cons
     Console.WriteLine(formatMsg);
     Console.ResetColor();
 
-    if (LoggersContainer.TryGetValue(eventType.GetDescription(), out var logger))
+    if(eventType != null)
     {
-        logger.Info(formatMsg);
+        if (LoggersContainer.TryGetValue(eventType.GetDescription(), out var logger))
+        {
+            logger.Info(formatMsg);
+        }
+        else
+        {
+            var nextLogger = LogManager.GetLogger(eventType.GetDescription());
+            nextLogger.Info(formatMsg);
+            LoggersContainer.Add(eventType.GetDescription(), nextLogger);
+        }
     }
-    else
-    {
-        var nextLogger = LogManager.GetLogger(eventType.GetDescription());
-        nextLogger.Info(formatMsg);
-        LoggersContainer.Add(eventType.GetDescription(), nextLogger);
-    }
+
+
 }
 #endregion
 

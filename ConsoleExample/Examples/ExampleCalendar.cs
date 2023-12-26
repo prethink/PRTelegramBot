@@ -39,7 +39,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                Console.WriteLine(ex);
             }
         }
 
@@ -62,7 +62,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                Console.WriteLine(ex);
             }
         }
 
@@ -87,7 +87,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                Console.WriteLine(ex);
             }
         }
 
@@ -110,7 +110,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                Console.WriteLine(ex);
             }
         }
 
@@ -134,7 +134,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                Console.WriteLine(ex);
             }
 
         }
@@ -158,7 +158,7 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                Console.WriteLine(ex);
             }
         }
     }

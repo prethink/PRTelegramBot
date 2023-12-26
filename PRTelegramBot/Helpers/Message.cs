@@ -5,6 +5,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using static PRTelegramBot.Core.PRBot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
+using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Helpers
 {
@@ -75,7 +76,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Send(ITelegramBotClient botClient, Update update, string msg, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             var message = await Send(botClient, update.GetChatId(), msg, option);
             return message;
@@ -89,7 +90,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> AwaitAnswerBot(ITelegramBotClient botClient, long chatId, string message = "⏳ Генерирую ответ...", OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             var sentMessage = await botClient.SendTextMessageAsync(
              chatId: chatId,
@@ -110,7 +111,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Send(ITelegramBotClient botClient, long chatId, string msg, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message;
             if (string.IsNullOrWhiteSpace(msg))
@@ -227,7 +228,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> SendPhoto(ITelegramBotClient botClient, long chatId, string msg, string filePath, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             if (!System.IO.File.Exists(filePath))
             {
@@ -253,11 +254,10 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> SendPhoto(ITelegramBotClient botClient, long chatId, string msg, Stream stream, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message;
 
- 
             if (option.MenuReplyKeyboardMarkup != null)
             {
                 message = await botClient.SendPhotoAsync(
@@ -303,7 +303,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> SendPhotoWithUrl(ITelegramBotClient botClient, long chatId, string msg, string url, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message = null;
 
@@ -351,7 +351,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> SendMediaWithUrl(ITelegramBotClient botClient, long chatId, string msg, string url, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message = null;
 
@@ -425,7 +425,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Edit(ITelegramBotClient botClient, long chatId, int messageId, string msg, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message;
             if (string.IsNullOrWhiteSpace(msg))
@@ -465,7 +465,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> Edit(ITelegramBotClient botClient, Update update, string msg, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             long chatId = update.GetChatId();
             int messageId = update.GetMessageId();
@@ -485,7 +485,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditCaption(ITelegramBotClient botClient, long chatId, int messageId, string msg, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message;
             if (string.IsNullOrWhiteSpace(msg))
@@ -525,7 +525,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditInline(ITelegramBotClient botClient, long chatId, int messageId, OptionMessage option)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message = null;
             if (option?.MenuInlineKeyboardMarkup != null)
@@ -550,7 +550,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditPhoto(ITelegramBotClient botClient, long chatId, int messageId, string photoPath, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message;
             if (!System.IO.File.Exists(photoPath))
@@ -576,7 +576,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщения</returns>
         public static async Task<Telegram.Bot.Types.Message> EditPhoto(ITelegramBotClient botClient, long chatId, int messageId, Stream stream, string filename = "file", OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message;
 
@@ -623,7 +623,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditWithPhoto(ITelegramBotClient botClient, long chatId, int messageId, string msg, InputMedia media, OptionMessage option)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message = null;
             if (option?.MenuInlineKeyboardMarkup != null)
@@ -655,7 +655,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Сообщение</returns>
         public static async Task<Telegram.Bot.Types.Message> EditCaption(ITelegramBotClient botClient, Update update, string msg, OptionMessage option = null)
         {
-            option = CreateOptionsIfNull(option);
+            option = MessageUtils.CreateOptionsIfNull(option);
 
             long chatId = update.GetChatId();
             int messageId = update.GetMessageId();
@@ -674,15 +674,6 @@ namespace PRTelegramBot.Helpers
         public static async Task NotifyFromCallBack(ITelegramBotClient botClient, string callbackQueryId, string msg, bool showAlert = true)
         {
              await botClient.AnswerCallbackQueryAsync(callbackQueryId, msg, showAlert);
-        }
-
-        private static OptionMessage CreateOptionsIfNull(OptionMessage option)
-        {
-            if (option == null)
-            {
-                option = new OptionMessage();
-            }
-            return option;
         }
     }
 }
