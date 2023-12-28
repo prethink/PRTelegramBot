@@ -1,14 +1,12 @@
-﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Core;
-using PRTelegramBot.Extensions;
+﻿using AspNetExample.Services;
+using PRTelegramBot.Attributes;
+using PRTelegramBot.Interface;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using TestDI.Controllers;
 
 namespace TestDI.BotController
 {
@@ -16,9 +14,16 @@ namespace TestDI.BotController
     public class BotHandlerWithDependency
     {
         private readonly ILogger<BotHandlerWithDependency> _logger;
+        private readonly ServiceScoped serviceScoped;
+        private readonly ServiceSingleton serviceSingleton;
+        private readonly ServiceTransient serviceTransient;
 
-        public BotHandlerWithDependency(ILogger<BotHandlerWithDependency> logger)
+        public BotHandlerWithDependency(ServiceScoped serviceScoped, ServiceTransient serviceTransient, ServiceSingleton serviceSingleton, ILogger<BotHandlerWithDependency> logger)
         {
+
+            this.serviceScoped = serviceScoped;
+            this.serviceTransient = serviceTransient;
+            this.serviceSingleton = serviceSingleton;
             _logger = logger;
         }
 

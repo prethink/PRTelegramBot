@@ -1,3 +1,4 @@
+using AspNetExample.Services;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
@@ -8,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 //Инициализация классов для работы ботов с DI
+builder.Services.AddTransient<ServiceTransient>();
+builder.Services.AddScoped<ServiceScoped>();
+builder.Services.AddSingleton<ServiceSingleton>();
 builder.Services.AddBotHandlers();
 
 

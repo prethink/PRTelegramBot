@@ -4,7 +4,6 @@ using PRTelegramBot.Attributes;
 using PRTelegramBot.Commands.Constants;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Helpers;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -15,6 +14,8 @@ using PRTelegramBot.Models.Enums;
 using ConsoleExample.Commands.Constants;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Utils;
+using PRTelegramBot.Interface;
+using PRTelegramBot.InlineButtons;
 
 namespace ConsoleExample.Examples
 {

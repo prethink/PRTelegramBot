@@ -1,8 +1,9 @@
 
--- 2023.12.27 - V0.5.5
+-- 2023.12.28 - V0.5.5
 - feature: Добавлена возможность подставлять свой enum в common logs
 - feature: Добавлена GroupUtils в котором есть метод IsGroupMember, IsGroupAdmin, IsGroupCreator
 - refactoring: Рефакторинг Router
+- refactoring: Типы для DI теперь создаются с жизненным циклом Transient а не Singleton
 - fix: IsSlashCommand теперь проверяет первый символ /
 
 

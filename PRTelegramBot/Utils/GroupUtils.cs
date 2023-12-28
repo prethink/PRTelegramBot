@@ -7,7 +7,7 @@ using Telegram.Bot;
 
 namespace PRTelegramBot.Utils
 {
-    public class GroupUtils
+    public static class GroupUtils
     {
         /// <summary>
         /// Проверяет находится ли пользователь в группе.

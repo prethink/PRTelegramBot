@@ -1,11 +1,12 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.TCommands;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Interface;
+using PRTelegramBot.InlineButtons;
 
 namespace PRTelegramBot.Utils
 {
@@ -14,13 +15,14 @@ namespace PRTelegramBot.Utils
     /// </summary>
     public static class MenuGenerator
     {
+        #region Reply кнопки и меню
         /// <summary>
         /// Генерирует reply меню для бота
         /// </summary>
         /// <param name="maxColumn">Максимальное количество столбцов</param>
         /// <param name="menu">Коллекция меню</param>
         /// <param name="resizeKeyboard">Изменяет размер по вертикали</param>
-        /// <param name="mainMenu">Есть не пусто, добавляет главное меню</param>
+        /// <param name="mainMenu">Если значение не пустое добавляет пункт в самый конец меню</param>
         /// <returns>Готовое меню</returns>
         public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<string> menu, bool resizeKeyboard = true, string mainMenu = "")
         {
@@ -139,7 +141,9 @@ namespace PRTelegramBot.Utils
             buttonsOne.AddRange(buttonsTwo);
             return buttonsOne;
         }
+        #endregion
 
+        #region Inline кнопки и меню
         /// <summary>
         /// Создает Inline меню для бота
         /// </summary>
@@ -353,5 +357,6 @@ namespace PRTelegramBot.Utils
             pageButtons.AddRange(customMenu);
             return InlineKeyboard(pageButtons);
         }
+        #endregion
     }
 }

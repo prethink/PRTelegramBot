@@ -68,25 +68,5 @@ namespace PRTelegramBot.Extensions
 
             return result;
         }
-
-        /// <summary>
-        /// Получает реферальную ссылку пользователя по его ID
-        /// </summary>
-        /// <param name="update">Обновление полученное с телеграма</param>
-        /// <param name="copy">использовать html разметку для возможности копирования ссылки</param>
-        /// <returns>Реферальная ссылка</returns>
-        public async static Task<string> GetRefLink(this Update update,ITelegramBotClient botClient, bool copy = false)
-        {
-            var bot = await botClient.GetMeAsync();
-            if (copy)
-            {
-                return $"<code>https://t.me/{bot.Username}?start={update.GetChatId()}</code>";
-            }
-            else
-            {
-                return $"https://t.me/{bot.Username}?start={update.GetChatId()}";
-            }
-
-        }
     }
 }

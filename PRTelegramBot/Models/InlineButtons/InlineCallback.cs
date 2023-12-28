@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PRTelegramBot.Core;
+using PRTelegramBot.Interface;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Utils.Converters;
 
 namespace PRTelegramBot.Models.InlineButtons

@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot.Types;
-using PRTelegramBot.Models.Interface;
+using PRTelegramBot.Interface;
+
 
 namespace PRTelegramBot.Models.InlineButtons
 {

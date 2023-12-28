@@ -10,7 +10,6 @@ using Helpers = PRTelegramBot.Helpers;
 using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
 using ConsoleExample.Commands.Constants;
-using PRTelegramBot.Models.Interface;
 using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples

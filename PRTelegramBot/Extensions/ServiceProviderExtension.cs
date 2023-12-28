@@ -20,7 +20,7 @@ namespace PRTelegramBot.Extensions
             var types = ReflectionUtils.FindClassesWithInstanceMethods();
             foreach ( var type in types) 
             {
-                services.AddSingleton(type);
+                services.AddTransient(type);
             }
 
             return services;
