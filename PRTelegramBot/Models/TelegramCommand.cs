@@ -18,6 +18,7 @@ namespace PRTelegramBot.Models
         public bool IsStatic { get; set; }
         public MethodInfo Method { get; set; }
         public Func<ITelegramBotClient, Update, Task> Command { get; set; }
+        public Func<ITelegramBotClient, Update, CustomParameters, Task> CommandWithCustomParams { get; set; }
         public IServiceProvider ServiceProvider { get; set; }
 
         public Func<ITelegramBotClient, Update, Task> GetExecuteMethod()
@@ -49,8 +50,13 @@ namespace PRTelegramBot.Models
             throw new NotImplementedException();
         }
 
-        public async Task Execute(ITelegramBotClient botClient, Update update)
+        public async Task Execute(ITelegramBotClient botClient, Update update, CustomParameters param = null)
         {
+            if(CommandWithCustomParams != null)
+            {
+                CommandWithCustomParams.Invoke(botClient, update, param);
+                return;
+            }
             var method = GetExecuteMethod();
             if(method != null)
             {
