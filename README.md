@@ -28,6 +28,8 @@
  - TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
  - Microsoft.Extensions.Configuration.Binder v7.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.Configuration.Json v7.0.0 https://github.com/dotnet/runtime
+ - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
+
 # 🧱 Интегрированные пакеты
  - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker
 
