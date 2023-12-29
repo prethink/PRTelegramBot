@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using PRTelegramBot.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -73,7 +74,12 @@ namespace PRTelegramBot.Helpers
         {
             lock (_lock)
             {
-                return _headers.First(x => x.Value.Equals(key)).Key;
+                var @enum = _headers.FirstOrDefault(x => x.Value.Equals(key));
+                if(@enum.Value == null)
+                {
+                    throw new InlineCommandNotFoundException(key);
+                }
+                return @enum.Key;
             }
         }
     }

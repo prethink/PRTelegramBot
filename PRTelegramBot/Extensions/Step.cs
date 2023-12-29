@@ -34,11 +34,7 @@ namespace PRTelegramBot.Extensions
         public static StepTelegram? GetStepOrNull(this Update update)
         {
             long userId = update.GetChatId();
-            if (_step.TryGetValue(userId, out var data))
-            {
-                return data;
-            }
-            return null;
+            return (_step.TryGetValue(userId, out var data)) ? data : null;
         }
 
         /// <summary>
@@ -53,7 +49,6 @@ namespace PRTelegramBot.Extensions
                 StepTelegram deleteData;
                 _step.Remove(userId,out deleteData);
             }
-
         }
 
         /// <summary>
@@ -64,26 +59,21 @@ namespace PRTelegramBot.Extensions
         public static bool HasStep(this Update update)
         {
             long userId = update.GetChatId();
-            if (_step.ContainsKey(userId))
+            if (!_step.ContainsKey(userId))
+                return false;
+
+            var data = update.GetStepOrNull();
+            if (data.ExpiriedTime == null)
+                return true;
+
+            if (DateTime.Now > data.ExpiriedTime)
             {
-                var data = update.GetStepOrNull();
-                if (data.ExpiriedTime != null)
-                {
-                    if (DateTime.Now > data.ExpiriedTime)
-                    {
-                        data.ExpiriedTime = null;
-                        StepTelegram deleteData;
-                        _step.Remove(userId, out deleteData);
-                        return false;
-                    }
-                    return true;
-                }
-                else
-                {
-                    return true;
-                }
+                data.ExpiriedTime = null;
+                StepTelegram deleteData;
+                _step.Remove(userId, out deleteData);
+                return false;
             }
-            return false;
+            return true;
         }
     }
 

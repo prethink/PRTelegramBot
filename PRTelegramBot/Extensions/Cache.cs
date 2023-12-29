@@ -73,6 +73,4 @@ namespace PRTelegramBot.Extensions
             return _userHandlerData.ContainsKey(userId);
         }
     }
-
-
 }

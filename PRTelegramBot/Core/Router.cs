@@ -220,14 +220,12 @@ namespace PRTelegramBot.Core
                     {
                         var attribute = method.GetCustomAttribute<BaseQueryAttribute>();
                         if (attribute == null)
-                        {
                             continue;
-                        }
+
 
                         if (attribute.BotId != Config.BotId)
-                        {
                             continue;
-                        }
+
 
                         bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
@@ -406,13 +404,13 @@ namespace PRTelegramBot.Core
         /// Добавляет Reply команду
         /// </summary>
         /// <param name="command">Название команды</param>
-        /// <param name="method">Метод обработки</param>
+        /// <param name="delegate">Метод обработки</param>
         /// <returns>True - команда добавлена / False - ошибка при добавление или команда не добавлена</returns>
-        public bool RegisterReplyCommand(string command, Func<ITelegramBotClient,Update,Task> method)
+        public bool RegisterReplyCommand(string command, Func<ITelegramBotClient,Update,Task> @delegate)
         {
             try
             {
-                MessageCommands.Add(command, new TelegramCommand { Command = method });
+                MessageCommands.Add(command, new TelegramCommand { Command = @delegate, Method = @delegate.Method });
                 return true;
             }
             catch (Exception ex)
@@ -426,13 +424,13 @@ namespace PRTelegramBot.Core
         /// Добавляет Slash команду
         /// </summary>
         /// <param name="command">Название команды</param>
-        /// <param name="method">Метод обработки</param>
+        /// <param name="delegate">Метод обработки</param>
         /// <returns>True - команда добавлена / False - ошибка при добавление или команда не добавлена</returns>
-        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> @delegate)
         {
             try
             {
-                SlashCommands.Add(command, new TelegramCommand { Command = method});
+                SlashCommands.Add(command, new TelegramCommand { Command = @delegate, Method = @delegate.Method });
                 return true;
             }
             catch (Exception ex)
@@ -446,14 +444,14 @@ namespace PRTelegramBot.Core
         /// Добавляет inline команду
         /// </summary>
         /// <param name="@enum">Заголовок команды</param>
-        /// <param name="method">Метод обработки</param>
+        /// <param name="delegate">Метод обработки</param>
         /// <returns>True - команда добавлена / False - ошибка при добавление или команда не добавлена</returns>
-        public bool RegisterInlineCommand(Enum @enum, Func<ITelegramBotClient, Update, Task> method)
+        public bool RegisterInlineCommand(Enum @enum, Func<ITelegramBotClient, Update, Task> @delegate)
         {
             try
             {
                 ReflectionUtils.AddEnumsHeader(@enum);
-                InlineCommands.Add(@enum, new TelegramCommand { Command = method });
+                InlineCommands.Add(@enum, new TelegramCommand { Command = @delegate , Method = @delegate.Method});
                 return true;
             }
             catch (Exception ex)

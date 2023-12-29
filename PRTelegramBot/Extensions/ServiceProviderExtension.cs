@@ -13,9 +13,7 @@ namespace PRTelegramBot.Extensions
         public static IServiceCollection AddBotHandlers(this IServiceCollection services)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             var types = ReflectionUtils.FindClassesWithInstanceMethods();
             foreach ( var type in types) 

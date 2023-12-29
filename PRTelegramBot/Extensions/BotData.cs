@@ -23,15 +23,10 @@ namespace PRTelegramBot.Extensions
         public static void CreateOrUpdateBotData(this ITelegramBotClient botClient, PRBot botData) 
         {
             if(botClient.BotId == null) return;
-            
-            if (HasBotData(botClient))
-            {
-                _botHandlerData[botClient.BotId.Value] = botData; 
-            }
-            else
-            {
-                _botHandlerData.AddOrUpdate(botClient.BotId.Value, botData, (_, existingData) => botData);
-            }
+
+            _ = HasBotData(botClient) 
+                ? _botHandlerData[botClient.BotId.Value] = botData 
+                : _botHandlerData.AddOrUpdate(botClient.BotId.Value, botData, (_, existingData) => botData);
         }
 
         /// <summary>
@@ -41,14 +36,9 @@ namespace PRTelegramBot.Extensions
         {
             if (botClient.BotId == null) return null;
 
-            if (_botHandlerData.TryGetValue(botClient.BotId.Value, out var botData))
-            {
-                return botData;
-            }
-            else
-            {
-                return null;
-            }
+            return (_botHandlerData.TryGetValue(botClient.BotId.Value, out var botData)) 
+                ?  botData 
+                : null;
         }
 
         /// <summary>
