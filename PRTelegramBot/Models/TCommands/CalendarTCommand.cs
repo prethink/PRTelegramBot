@@ -17,7 +17,5 @@ namespace PRTelegramBot.Models.CallbackCommands
         {
             Date = date;
         }
-
-
     }
 }

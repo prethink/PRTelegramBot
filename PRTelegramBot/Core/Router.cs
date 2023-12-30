@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using static PRTelegramBot.Extensions.Step;
+using static PRTelegramBot.Extensions.StepService;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Configs;
@@ -35,11 +35,6 @@ namespace PRTelegramBot.Core
         /// Событие когда нужно проверить привилегии перед выполнением команды
         /// </summary>
         public event Func<ITelegramBotClient, Update, Func<ITelegramBotClient, Update, Task>, int?, Task>? OnCheckPrivilege;
-
-        /// <summary>
-        /// Событие когда нужно проверить привилегии перед выполнением команды
-        /// </summary>
-        public event Func<ITelegramBotClient, Update, Func<ITelegramBotClient, Update, CustomParameters, Task>, int?, Task>? OnCheckPrivilegeWithParams;
 
         /// <summary>
         /// Событие когда указан не верный тип сообщения
@@ -235,7 +230,7 @@ namespace PRTelegramBot.Core
                             continue;
                         }
 
-                        var telegramCommand = new TelegramCommand { ServiceProvider = _serviceProvider, Type = serviceType , Method = method };
+                        var telegramCommand = new TelegramCommand(method, _serviceProvider);
 
                         
 
@@ -302,7 +297,6 @@ namespace PRTelegramBot.Core
                     if (!method.IsStatic)
                         continue;
 
-                    var telegramCommand = new TelegramCommand { ServiceProvider = _serviceProvider, IsStatic = method.IsStatic, Method = method };
                     foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
@@ -313,7 +307,7 @@ namespace PRTelegramBot.Core
                         }
 
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        telegramCommand.Command = (Func<ITelegramBotClient, Update, Task>)serverMessageHandler;
+                        var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         MessageCommands.Add(command, telegramCommand);
                     }
                 }
@@ -324,7 +318,7 @@ namespace PRTelegramBot.Core
                     if (!method.IsStatic)
                         continue;
 
-                    var telegramCommand = new TelegramCommand {ServiceProvider = _serviceProvider, IsStatic = method.IsStatic, Method = method };
+
                     foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
@@ -335,7 +329,7 @@ namespace PRTelegramBot.Core
                         }
 
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        telegramCommand.Command = (Func<ITelegramBotClient, Update, Task>)serverMessageHandler;
+                        var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         MessageCommands.Add(command, telegramCommand);
                     }
                 }
@@ -363,9 +357,8 @@ namespace PRTelegramBot.Core
 
                             foreach (var command in commands)
                             {
-                                var telegramCommand = new TelegramCommand { ServiceProvider = _serviceProvider, IsStatic = method.IsStatic, Method = method };
                                 Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                                telegramCommand.Command = (Func<ITelegramBotClient, Update, Task>)serverMessageHandler;
+                                var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                                 InlineCommands.Add(command, telegramCommand); 
                             }
                         }
@@ -378,7 +371,6 @@ namespace PRTelegramBot.Core
                     if (!method.IsStatic)
                         continue;
 
-                    var telegramCommand = new TelegramCommand { ServiceProvider = _serviceProvider, IsStatic = method.IsStatic, Method = method };
                     foreach (var command in method.GetCustomAttribute<SlashHandlerAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
@@ -389,7 +381,7 @@ namespace PRTelegramBot.Core
                         }
 
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        telegramCommand.Command = (Func<ITelegramBotClient, Update, Task>)serverMessageHandler;
+                        var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
                         SlashCommands.Add(command, telegramCommand);
                     }
                 }
@@ -410,7 +402,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                MessageCommands.Add(command, new TelegramCommand { Command = @delegate, Method = @delegate.Method });
+                MessageCommands.Add(command, new TelegramCommand(@delegate));
                 return true;
             }
             catch (Exception ex)
@@ -430,7 +422,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                SlashCommands.Add(command, new TelegramCommand { Command = @delegate, Method = @delegate.Method });
+                SlashCommands.Add(command, new TelegramCommand(@delegate));
                 return true;
             }
             catch (Exception ex)
@@ -451,7 +443,7 @@ namespace PRTelegramBot.Core
             try
             {
                 ReflectionUtils.AddEnumsHeader(@enum);
-                InlineCommands.Add(@enum, new TelegramCommand { Command = @delegate , Method = @delegate.Method});
+                InlineCommands.Add(@enum, new TelegramCommand(@delegate));
                 return true;
             }
             catch (Exception ex)
@@ -613,47 +605,22 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if (!update.HasStep())
+                if (!update.HasStepHandler())
                 {
                     return false;
                 }
 
-                var resultExecute = await ExecuteCommand(command, update, MessageCommands);
+                var resultPriorityCommandExecute = await ExecuteCommand(command, update, MessageCommands);
 
-                if (resultExecute != ResultCommand.NotFound)
+                if (resultPriorityCommandExecute != ResultCommand.NotFound)
                 {
-                    update.ClearStepUser();
+                    update.ClearStepUserHandler();
                     return true;
                 }
 
-                var step = update.GetStepOrNull();
-
-                var privilages = step.CommandDelegate.Method.GetCustomAttribute<AccessAttribute>();
-                var requireDate = step.CommandDelegate.Method.GetCustomAttribute<RequireTypeMessageAttribute>();
-                var requireUpdate = step.CommandDelegate.Method.GetCustomAttribute<RequiredTypeChatAttribute>();
-                if (requireUpdate != null)
-                {
-                    if (!requireUpdate.TypeUpdate.Contains(update.Message.Chat.Type))
-                    {
-                        OnWrongTypeChat?.Invoke(telegram.botClient, update);
-                        return true;
-                    }
-                }
-                if (requireDate != null)
-                {
-                    if(!requireDate.TypeMessages.Contains(update.Message.Type))
-                    {
-                        OnWrongTypeMessage?.Invoke(telegram.botClient, update);
-                        return true;
-                    }
-                }
-                if (privilages != null)
-                {
-                    OnCheckPrivilegeWithParams?.Invoke(telegram.botClient, update, step.CommandDelegate, privilages.Flags);
-                    return true;
-                }
-                await step.CommandDelegate(telegram.botClient, update, step.Args);
-                return true;
+                var step = update.GetStepHandler().GetExecuteMethod();
+                var result = await ExecuteMethod(update, new TelegramCommand (step));
+                return result == ResultCommand.Executed;
             }
             catch (Exception ex)
             {
@@ -715,7 +682,7 @@ namespace PRTelegramBot.Core
                     throw new NotImplementedException();
                 }
 
-                var result = await ExecuteMethod(commandExecute.Value.Method, update, commandExecute.Value);
+                var result = await ExecuteMethod(update, commandExecute.Value);
                 return result;
             }
             return ResultCommand.NotFound;
@@ -729,19 +696,20 @@ namespace PRTelegramBot.Core
                 if (!command.Equals(commandExecute.Key))
                         continue;
 
-                var result = await ExecuteMethod(commandExecute.Value.Method, update, commandExecute.Value);
+                var result = await ExecuteMethod(update, commandExecute.Value);
                 return result;
             }
             return ResultCommand.NotFound;
         }
 
 
-        private async Task<ResultCommand> ExecuteMethod(MethodInfo method, Update update, TelegramCommand command)
+        private async Task<ResultCommand> ExecuteMethod( Update update, TelegramCommand command)
         {
+            var method = command.Command.Method ;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
             var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
             var requireUpdate = method.GetCustomAttribute<RequiredTypeChatAttribute>();
-
+            var @delegate = command.Command;
             if (requireUpdate != null)
             {
                 if (!requireUpdate.TypeUpdate.Contains(update!.Message!.Chat.Type))
@@ -760,12 +728,11 @@ namespace PRTelegramBot.Core
             }
             if (privilages != null)
             {
-                var @delegate = command.GetExecuteMethod();
+                
                 OnCheckPrivilege?.Invoke(telegram.botClient, update, @delegate, privilages.Flags);
                 return ResultCommand.PrivilegeCheck;
             }
-
-            await command.Execute(telegram.botClient, update);
+            await @delegate(telegram.botClient, update);
             return ResultCommand.Executed;
         }
         internal async Task OnAccessDeniedInvoke(ITelegramBotClient botClient, Update update)

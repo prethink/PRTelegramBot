@@ -1,10 +1,13 @@
 
--- 2023.12.28 - V0.5.5
+-- 2023.12.30 - V0.5.5
 - feature: Добавлена возможность подставлять свой enum в common logs
 - feature: Добавлен InlineCommandNotFoundException
 - feature: Добавлена GroupUtils в котором есть метод IsGroupMember, IsGroupAdmin, IsGroupCreator
+- feature: Заместо StepCommand теперь используется абстракция в виде интерфейса IExecuteStep
 - refactoring: Рефакторинг Router
 - refactoring: Типы для DI теперь создаются с жизненным циклом Transient а не Singleton
+- refactoring: Класс Step переименован в StepService
+- refactoring: Step.RegisterNextStep переименован в RegisterStepHandler
 - fix: IsSlashCommand теперь проверяет первый символ /
 
 

@@ -28,7 +28,7 @@ namespace ConsoleExample.Examples
         {
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
             //Регистрация следующего шага пользователя
-            update.RegisterNextStep(new StepTelegram(StepOne, new TestParams()));
+            update.RegisterStepHandler(new StepTelegram(StepOne));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -36,28 +36,27 @@ namespace ConsoleExample.Examples
         /// При написание любого текста сообщения или нажатие на любую кнопку из reply для пользователя будет выполнен этот метод.
         /// Метод регистрирует следующий шаг с максимальным времени выполнения
         /// </summary>
-        public static async Task StepOne(ITelegramBotClient botClient, Update update, CustomParameters args)
+        public static async Task StepOne(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
                         $"\nВведите дату рождения";
-            var data = args as TestParams;
-            data.DataOne = $"Имя: {update.Message.Text}";
+            //data.DataOne = $"Имя: {update.Message.Text}";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            update.RegisterNextStep(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5), data));
+            update.RegisterStepHandler(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
         /// Напишите в чат любой текст и будет выполнена эта команда если у пользователя был записан следующий шаг
         /// </summary>
-        public static async Task StepTwo(ITelegramBotClient botClient, Update update, CustomParameters args)
+        public static async Task StepTwo(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Шаг 2 - дата рождения {update.Message.Text}" +
                          $"\nНапиши любой текст, чтобы увидеть результат";
-            var data = args as TestParams;
-            data.DataTwo = $"дата рождения {update.Message.Text}";
+            //var data = args as TestParams;
+            //data.DataTwo = $"дата рождения {update.Message.Text}";
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            update.RegisterNextStep(new StepTelegram(StepThree, DateTime.Now.AddMinutes(5), data));
+            update.RegisterStepHandler(new StepTelegram(StepThree, DateTime.Now.AddMinutes(5)));
 
             //Настройки для сообщения
             var option = new OptionMessage();
@@ -71,13 +70,12 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Напишите в чат любой текст и будет выполнена эта команда если у пользователя был записан следующий шаг
         /// </summary>
-        public static async Task StepThree(ITelegramBotClient botClient, Update update, CustomParameters args)
+        public static async Task StepThree(ITelegramBotClient botClient, Update update)
         {
-            var data = args as TestParams;
-            string msg = $"Шаг 3 - Результат:\n{data.DataOne}\n{data.DataTwo}" +
+            string msg = $"Шаг 3 - Результат:" +
                          $"\nПоследовательность шагов очищена.";
             //Последний шаг
-            update.ClearStepUser();
+            update.ClearStepUserHandler();
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -89,7 +87,7 @@ namespace ConsoleExample.Examples
         public static async Task IngoreStep(ITelegramBotClient botClient, Update update)
         {
             string msg = "";
-            if (update.HasStep())
+            if (update.HasStepHandler())
             {
                 msg = "Следующий шаг проигнорирован";
             }

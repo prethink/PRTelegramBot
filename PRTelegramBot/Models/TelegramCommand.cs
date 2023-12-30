@@ -14,59 +14,41 @@ namespace PRTelegramBot.Models
 {
     public class TelegramCommand
     {
-        public Type Type { get; set; }
-        public bool IsStatic { get; set; }
-        public MethodInfo Method { get; set; }
         public Func<ITelegramBotClient, Update, Task> Command { get; set; }
-        public Func<ITelegramBotClient, Update, CustomParameters, Task> CommandWithCustomParams { get; set; }
         public IServiceProvider ServiceProvider { get; set; }
 
-        public Func<ITelegramBotClient, Update, Task> GetExecuteMethod()
+        public TelegramCommand(MethodInfo method, IServiceProvider ServiceProvider = null)
         {
-            if(Command != null)
-            {
-                return Command;
-            }
+            this.ServiceProvider = ServiceProvider;
 
-            if (!IsStatic && Type != null)
+            if (method.IsStatic)
+            {
+                Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+                Command = (Func<ITelegramBotClient, Update, Task>)serverMessageHandler;
+            }
+            else
             {
                 object instance = null;
-                if(ServiceProvider != null)
+                if (ServiceProvider != null)
                 {
                     using (var scope = ServiceProvider.CreateScope())
                     {
-                        instance = scope.ServiceProvider.GetRequiredService(Type);
+                        instance = scope.ServiceProvider.GetRequiredService(method.DeclaringType);
                     }
                 }
                 else
                 {
-                    instance = ReflectionUtils.CreateInstanceWithNullArguments(Type);
+                    instance = ReflectionUtils.CreateInstanceWithNullArguments(method.DeclaringType);
                 }
-                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, Method);
-                return ((Func<ITelegramBotClient, Update, Task>)instanceMethod);
+                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
+                Command = ((Func<ITelegramBotClient, Update, Task>)instanceMethod);
             }
-
-
-            throw new NotImplementedException();
         }
 
-        public async Task Execute(ITelegramBotClient botClient, Update update, CustomParameters param = null)
+        public TelegramCommand(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider = null)
         {
-            if(CommandWithCustomParams != null)
-            {
-                CommandWithCustomParams.Invoke(botClient, update, param);
-                return;
-            }
-            var method = GetExecuteMethod();
-            if(method != null)
-            {
-                await method(botClient, update);
-                return;
-            }
-
-            throw new NotImplementedException();    
-         
+            this.ServiceProvider = ServiceProvider;
+            this.Command = command;
         }
-
     }
 }
