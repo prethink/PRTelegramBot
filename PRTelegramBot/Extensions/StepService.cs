@@ -32,10 +32,21 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление полученное с телеграма</param>
         /// <returns>шаг или null</returns>
-        public static IExecuteStep? GetStepHandler(this Update update)
+        public static T? GetStepHandler<T>(this Update update) where T :  IExecuteStep
         {
             long userId = update.GetChatId();
-            return (_step.TryGetValue(userId, out var data)) ? data : null;
+
+            if (_step.TryGetValue(userId, out var data) && data is T stepHandler)
+            {
+                return stepHandler;
+            }
+
+            return default(T);
+        }
+
+        public static IExecuteStep? GetStepHandler(this Update update)
+        {
+            return GetStepHandler<IExecuteStep>(update);
         }
 
         /// <summary>
@@ -59,7 +70,7 @@ namespace PRTelegramBot.Extensions
         public static bool HasStepHandler(this Update update)
         {
             long userId = update.GetChatId();
-            return _step.ContainsKey(userId);
+            return _step.ContainsKey(userId) ;
         }
     }
 

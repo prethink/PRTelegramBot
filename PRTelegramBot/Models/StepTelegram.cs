@@ -23,12 +23,18 @@ namespace PRTelegramBot.Models
         public DateTime? ExpiredTime { get; set; }
 
         /// <summary>
+        /// Кэш данных
+        /// </summary>
+        private ITelegramCache cache { get; set; }
+
+        /// <summary>
         ///  Создает новый шаг
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
-        public StepTelegram(Func<ITelegramBotClient,Update, Task> command)
+        public StepTelegram(Func<ITelegramBotClient,Update, Task> command, ITelegramCache cache = null)
         {
             CommandDelegate = command;
+            this.cache = cache;
         }
 
         /// <summary>
@@ -36,10 +42,11 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
         /// <param name="steps">Коллекция шагов</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, List<StepTelegram> steps)
+        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, List<StepTelegram> steps, ITelegramCache cache = null)
         {
             CommandDelegate = command;
             Steps = steps;
+            this.cache = cache;
         }
 
         /// <summary>
@@ -47,10 +54,11 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime expiriedTime)
+        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime expiriedTime, ITelegramCache cache = null)
         {
             CommandDelegate = command;
             ExpiredTime = expiriedTime;
+            this.cache = cache;
         }
 
         /// <summary>
@@ -81,7 +89,7 @@ namespace PRTelegramBot.Models
             }
             catch(Exception ex) 
             {
-                botClient.GetBotDataOrNull().InvokeErrorLog(ex);
+                botClient.GetBotDataOrNull()!.InvokeErrorLog(ex);
                 return ResultExecuteStep.Failure;
             }
         }
@@ -89,6 +97,17 @@ namespace PRTelegramBot.Models
         public Func<ITelegramBotClient, Update, Task> GetExecuteMethod()
         {
             return CommandDelegate;
+        }
+
+        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime expiriedTime)
+        {
+            CommandDelegate = nextStep;
+            ExpiredTime = expiriedTime;
+        }
+
+        public T GetCache<T>() where T : ITelegramCache
+        {
+            return cache is T resultCache ? resultCache : default(T);
         }
     }
 }

@@ -1,18 +1,20 @@
-﻿using PRTelegramBot.Models;
+﻿using PRTelegramBot.Interface;
+using PRTelegramBot.Models;
 
 namespace ConsoleExample.Models
 {
-    public class UserCache : TelegramCache
+    public class UserCache : ITelegramCache
     {
+        public long Id { get; set; }
         /// <summary>
         /// Временные данные
         /// </summary>
         public string Data { get; set; }
 
-        public override void ClearData()
+        public bool ClearData()
         {
-            base.ClearData();
             Data = "";
+            return true;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace PRTelegramBot.Models.Enums
         Executed,
         PrivilegeCheck,
         WrongMessageType,
-        WrongChatType
+        WrongChatType,
     }
 }

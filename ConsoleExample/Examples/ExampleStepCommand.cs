@@ -28,7 +28,7 @@ namespace ConsoleExample.Examples
         {
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
             //Регистрация следующего шага пользователя
-            update.RegisterStepHandler(new StepTelegram(StepOne));
+            update.RegisterStepHandler(new StepTelegram(StepOne, new StepCache()));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -40,9 +40,10 @@ namespace ConsoleExample.Examples
         {
             string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
                         $"\nВведите дату рождения";
-            //data.DataOne = $"Имя: {update.Message.Text}";
+            var handler = update.GetStepHandler<StepTelegram>();
+            handler!.GetCache<StepCache>().Name = update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            update.RegisterStepHandler(new StepTelegram(StepTwo, DateTime.Now.AddMinutes(5)));
+            handler.RegisterNextStep(StepTwo, DateTime.Now.AddMinutes(5));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -52,12 +53,11 @@ namespace ConsoleExample.Examples
         public static async Task StepTwo(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Шаг 2 - дата рождения {update.Message.Text}" +
-                         $"\nНапиши любой текст, чтобы увидеть результат";
-            //var data = args as TestParams;
-            //data.DataTwo = $"дата рождения {update.Message.Text}";
+                         $"\nНапиши любой текст, чтобы увидеть результат";;
+            var handler = update.GetStepHandler<StepTelegram>();
+            handler!.GetCache<StepCache>().BirthDay = update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            update.RegisterStepHandler(new StepTelegram(StepThree, DateTime.Now.AddMinutes(5)));
-
+            handler.RegisterNextStep(StepThree, DateTime.Now.AddMinutes(5));
             //Настройки для сообщения
             var option = new OptionMessage();
             //Добавление пустого reply меню с кнопкой "Главное меню"
@@ -72,7 +72,9 @@ namespace ConsoleExample.Examples
         /// </summary>
         public static async Task StepThree(ITelegramBotClient botClient, Update update)
         {
-            string msg = $"Шаг 3 - Результат:" +
+            var handler = update.GetStepHandler<StepTelegram>();
+            var cache = handler!.GetCache<StepCache>(); ;
+            string msg = $"Шаг 3 - Результат: Имя:{cache.Name} дата рождения:{cache.BirthDay}" +
                          $"\nПоследовательность шагов очищена.";
             //Последний шаг
             update.ClearStepUserHandler();

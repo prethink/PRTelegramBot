@@ -33,16 +33,16 @@ namespace PRTelegramBot.Extensions
         /// <exception cref="Exception">Не найден тип сообщения</exception>
         public static int GetMessageId(this Update update)
         {
-            var data = update.GetCacheData<TelegramCache>();
+            //var data = update.GetCacheData<TelegramCache>();
 
             if (update.CallbackQuery != null)
                 return update.CallbackQuery.Message.MessageId;
 
-            if (data?.LastMessage?.MessageId > 0)
-            {
-                var messageId = data.LastMessage.MessageId;
-                return messageId;
-            }
+            //if (data?.LastMessage?.MessageId > 0)
+            //{
+            //    var messageId = data.LastMessage.MessageId;
+            //    return messageId;
+            //}
 
             throw new Exception("Failed to obtain message id");
         }

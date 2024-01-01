@@ -17,6 +17,7 @@ using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models;
 using Microsoft.Extensions.DependencyInjection;
 using PRTelegramBot.Utils;
+using PRTelegramBot.Interface;
 
 namespace PRTelegramBot.Core
 {
@@ -710,6 +711,7 @@ namespace PRTelegramBot.Core
             var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
             var requireUpdate = method.GetCustomAttribute<RequiredTypeChatAttribute>();
             var @delegate = command.Command;
+
             if (requireUpdate != null)
             {
                 if (!requireUpdate.TypeUpdate.Contains(update!.Message!.Chat.Type))
@@ -718,6 +720,7 @@ namespace PRTelegramBot.Core
                     return ResultCommand.WrongChatType;
                 }
             }
+
             if (requireDate != null)
             {
                 if (!requireDate.TypeMessages.Contains(update!.Message!.Type))
@@ -726,12 +729,14 @@ namespace PRTelegramBot.Core
                     return ResultCommand.WrongMessageType;
                 }
             }
+
             if (privilages != null)
             {
                 
                 OnCheckPrivilege?.Invoke(telegram.botClient, update, @delegate, privilages.Flags);
                 return ResultCommand.PrivilegeCheck;
             }
+
             await @delegate(telegram.botClient, update);
             return ResultCommand.Executed;
         }

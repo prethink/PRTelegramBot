@@ -8,6 +8,6 @@ namespace PRTelegramBot.Interface
 {
     public interface ITelegramCache
     {
-
+        public bool ClearData();
     }
 }
