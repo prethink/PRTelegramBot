@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleExample.Models
 {
-    internal class StepCache : ITelegramCache
+    public class StepCache : ITelegramCache
     {
         public string Name { get; set; }
         public string BirthDay { get; set; }

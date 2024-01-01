@@ -4,11 +4,8 @@ using Telegram.Bot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Commands.Constants;
-using static PRTelegramBot.Models.StepTelegram;
 using Helpers = PRTelegramBot.Helpers;
-using CallbackId = PRTelegramBot.Models.Enums.THeader;
 using ConsoleExample.Models;
-using ConsoleExample.Commands.Constants;
 using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples
@@ -26,7 +23,7 @@ namespace ConsoleExample.Examples
         public static async Task StepStart(ITelegramBotClient botClient, Update update)
         {
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
-            //Регистрация следующего шага пользователя
+            //Регистрация обработчика для последовательной обработки шагов и сохранение данных
             update.RegisterStepHandler(new StepTelegram(StepOne, new StepCache()));
             await Helpers.Message.Send(botClient, update, msg);
         }
@@ -39,7 +36,9 @@ namespace ConsoleExample.Examples
         {
             string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
                         $"\nВведите дату рождения";
+            //Получаем текущий обработчик
             var handler = update.GetStepHandler<StepTelegram>();
+            //Записываем имя пользователя в кэш 
             handler!.GetCache<StepCache>().Name = update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             handler.RegisterNextStep(StepTwo, DateTime.Now.AddMinutes(5));
@@ -52,8 +51,10 @@ namespace ConsoleExample.Examples
         public static async Task StepTwo(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Шаг 2 - дата рождения {update.Message.Text}" +
-                         $"\nНапиши любой текст, чтобы увидеть результат";;
+                         $"\nНапиши любой текст, чтобы увидеть результат";
+            //Получаем текущий обработчик
             var handler = update.GetStepHandler<StepTelegram>();
+            //Записываем дату рождения
             handler!.GetCache<StepCache>().BirthDay = update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             handler.RegisterNextStep(StepThree, DateTime.Now.AddMinutes(5));
@@ -71,7 +72,9 @@ namespace ConsoleExample.Examples
         /// </summary>
         public static async Task StepThree(ITelegramBotClient botClient, Update update)
         {
+            //Получение текущего обработчика
             var handler = update.GetStepHandler<StepTelegram>();
+            //Получение текущего кэша
             var cache = handler!.GetCache<StepCache>(); ;
             string msg = $"Шаг 3 - Результат: Имя:{cache.Name} дата рождения:{cache.BirthDay}" +
                          $"\nПоследовательность шагов очищена.";
@@ -87,15 +90,9 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler("ignorestep")]
         public static async Task IngoreStep(ITelegramBotClient botClient, Update update)
         {
-            string msg = "";
-            if (update.HasStepHandler())
-            {
-                msg = "Следующий шаг проигнорирован";
-            }
-            else
-            {
-                msg = "Следующий шаг отсутствовал";
-            }
+            string msg = update.HasStepHandler() 
+                ? "Следующий шаг проигнорирован" 
+                : "Следующий шаг отсутствовал";
             
             await Helpers.Message.Send(botClient, update, msg);
         }

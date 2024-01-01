@@ -12,11 +12,16 @@ namespace PRTelegramBot.Models
     /// </summary>
     public class StepTelegram : IExecuteStep
     {
+        /// <summary>
+        /// Дочерние шаги
+        /// </summary>
         public List<StepTelegram> Steps { get; private set; } = new List<StepTelegram>();
+
         /// <summary>
         /// Ссылка на метод который должен быть выполнен
         /// </summary>
         public Func<ITelegramBotClient, Update, Task> CommandDelegate { get; set; }
+
         /// <summary>
         /// Срок когда команда еще актуальна для выполнения
         /// </summary>
@@ -74,6 +79,12 @@ namespace PRTelegramBot.Models
             Steps = steps;
         }
 
+        /// <summary>
+        /// Выполнение шага
+        /// </summary>
+        /// <param name="botClient">telegram клиент</param>
+        /// <param name="update">Update пользователя</param>
+        /// <returns>Результат обработки</returns>
         public async Task<ResultExecuteStep> ExecuteStep(ITelegramBotClient botClient, Update update)
         {
             if (ExpiredTime != null && DateTime.Now > ExpiredTime)
@@ -94,17 +105,42 @@ namespace PRTelegramBot.Models
             }
         }
 
+        /// <summary>
+        /// Получение текущей команды
+        /// </summary>
+        /// <returns>Ссылка на метод обработки</returns>
         public Func<ITelegramBotClient, Update, Task> GetExecuteMethod()
         {
             return CommandDelegate;
         }
 
-        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime expiriedTime)
+        /// <summary>
+        /// Регистрация следующего шага
+        /// </summary>
+        /// <param name="nextStep">Метод для следующей обработки</param>
+        /// <param name="expiriedTime">До какого времени команду можно выполнить</param>
+        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime? expiriedTime = null)
         {
             CommandDelegate = nextStep;
             ExpiredTime = expiriedTime;
         }
 
+        /// <summary>
+        /// Регистрация следующего шага
+        /// </summary>
+        /// <param name="nextStep">Метод для следующей обработки</param>
+        /// <param name="addTime">До какого времени команду можно выполнить</param>
+        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, TimeSpan addTime)
+        {
+            CommandDelegate = nextStep;
+            ExpiredTime = DateTime.Now.Add(addTime);
+        }
+
+        /// <summary>
+        /// Получение текущего кэша
+        /// </summary>
+        /// <typeparam name="T">Класс для хранения кэша</typeparam>
+        /// <returns>Кэш</returns>
         public T GetCache<T>() where T : ITelegramCache
         {
             return cache is T resultCache ? resultCache : default(T);
