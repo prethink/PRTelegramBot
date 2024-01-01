@@ -170,7 +170,7 @@ namespace PRTelegramBot.Helpers
                         text: msg,
                         parseMode: option.ParseMode);
             }
-            
+
             return message;
         }
 
@@ -336,7 +336,7 @@ namespace PRTelegramBot.Helpers
                             parseMode: option.ParseMode
                             );
             }
-            
+
             return message;
         }
 
@@ -384,7 +384,7 @@ namespace PRTelegramBot.Helpers
                             parseMode: option.ParseMode
                             );
             }
-            
+
             return message;
         }
 
@@ -673,7 +673,7 @@ namespace PRTelegramBot.Helpers
         /// <param name="showAlert">Показывать уведомление</param>
         public static async Task NotifyFromCallBack(ITelegramBotClient botClient, string callbackQueryId, string msg, bool showAlert = true)
         {
-             await botClient.AnswerCallbackQueryAsync(callbackQueryId, msg, showAlert);
+            await botClient.AnswerCallbackQueryAsync(callbackQueryId, msg, showAlert);
         }
     }
 }

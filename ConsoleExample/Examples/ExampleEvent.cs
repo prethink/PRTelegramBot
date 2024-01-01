@@ -108,13 +108,13 @@ namespace ConsoleExample.Examples
         public static async Task OnWrongTypeChat(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
         {
             string msg = "Неверный тип чата";
-            await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
+            await Helpers.Message.Send(botclient, update, msg);
         }
 
         public static async Task OnMissingCommand(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
         {
             string msg = "Не найдена команда";
-            await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
+            await Helpers.Message.Send(botclient, update, msg);
         }
 
         /// <summary>
@@ -142,22 +142,22 @@ namespace ConsoleExample.Examples
                 }
 
                 string errorMsg = "У вас нет доступа к данной функции";
-                await PRTelegramBot.Helpers.Message.Send(botclient, update, errorMsg);
+                await Helpers.Message.Send(botclient, update, errorMsg);
                 return;
             }
             string msg = "Проверка привилегий";
-            await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
+            await Helpers.Message.Send(botclient, update, msg);
         }
 
         public static async Task OnUserStartWithArgs(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update, string args)
         {
             string msg = "Пользователь отправил старт с аргументом";
-            await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
+            await Helpers.Message.Send(botclient, update, msg);
         }
         public static async Task OnWrongTypeMessage(Telegram.Bot.ITelegramBotClient botclient, Telegram.Bot.Types.Update update)
         {
             string msg = "Неверный тип сообщения";
-            await PRTelegramBot.Helpers.Message.Send(botclient, update, msg);
+            await Helpers.Message.Send(botclient, update, msg);
         }
     }
 }
