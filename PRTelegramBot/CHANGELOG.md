@@ -1,5 +1,5 @@
 
--- 2023.12.30 - V0.5.5
+-- 2024.01.02 - V0.5.5
 - feature: Добавлена возможность подставлять свой enum в common logs
 - feature: Добавлен InlineCommandNotFoundException
 - feature: Добавлена GroupUtils в котором есть метод IsGroupMember, IsGroupAdmin, IsGroupCreator

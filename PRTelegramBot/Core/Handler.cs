@@ -55,7 +55,8 @@ namespace PRTelegramBot.Core
                 {
                     var resultUpdate = await OnPreUpdate?.Invoke(botClient, update);
 
-                    if (resultUpdate == ResultUpdate.Stop) return;
+                    if (resultUpdate == ResultUpdate.Stop) 
+                        return;
                 }
 
                 if (Config.WhiteListUsers.Count > 0)
@@ -69,15 +70,16 @@ namespace PRTelegramBot.Core
 
                 if (update.Type == UpdateType.Message)
                 {
-                    await HandleMessage(update);
+                    await HandleMessage(update); 
                     return;
                 }
 
                 if (update.Type == UpdateType.CallbackQuery)
                 {
-                    await HandleCallbackQuery(update, cancellationToken);
+                    await HandleCallbackQuery(update, cancellationToken);  
                     return;
                 }
+
                 await (OnPostMessageUpdate?.Invoke(botClient, update) ?? Task.CompletedTask);
             }
             catch (Exception ex)

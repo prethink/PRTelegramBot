@@ -607,9 +607,7 @@ namespace PRTelegramBot.Core
             try
             {
                 if (!update.HasStepHandler())
-                {
                     return false;
-                }
 
                 var resultPriorityCommandExecute = await ExecuteCommand(command, update, MessageCommands);
 
