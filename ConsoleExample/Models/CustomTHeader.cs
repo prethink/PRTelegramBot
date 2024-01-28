@@ -20,6 +20,8 @@ namespace ConsoleExample.Models
         [Description("Вип на 1 месяц")]
         GetVipOneMonth,
         [Description("Вип навсегда")]
-        GetVipOneForever
+        GetVipOneForever,
+        [Description("Шаг из Inline")]
+        InlineWithStepp
     }
 }

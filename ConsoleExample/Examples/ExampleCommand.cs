@@ -172,6 +172,8 @@ namespace ConsoleExample.Examples
              */
             var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3));
 
+            var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStepp);
+
             //Команды который добавлены после запуска бота
             var exampleAddCommand= new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand);
             var exampleAddCommandTwo= new InlineCallback("Команда добавленная динамически 2", AddCustomTHeader.TestAddCommandTwo);
@@ -189,6 +191,7 @@ namespace ConsoleExample.Examples
             menu.Add(exampleItemThree);
             menu.Add(exampleAddCommand);
             menu.Add(exampleAddCommandTwo);
+            menu.Add(inlineStep);
             menu.Add(url);
             menu.Add(webdata);
 

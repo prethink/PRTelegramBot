@@ -7,6 +7,8 @@ using PRTelegramBot.Commands.Constants;
 using Helpers = PRTelegramBot.Helpers;
 using ConsoleExample.Models;
 using PRTelegramBot.Utils;
+using PRTelegramBot.Models.InlineButtons;
+using System.Globalization;
 
 namespace ConsoleExample.Examples
 {
@@ -95,6 +97,40 @@ namespace ConsoleExample.Examples
                 : "Следующий шаг отсутствовал";
             
             await Helpers.Message.Send(botClient, update, msg);
+        }
+
+
+        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.InlineWithStepp)]
+        public static async Task InlineStepp(ITelegramBotClient botClient, Update update)
+        {
+            try
+            {
+                //Попытка преобразовать callback данные к требуемому типу
+                var command = InlineCallback.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                if (command != null)
+                {
+                    string msg = "Регистрация следующего шага, напишите что-нибудь";
+                    await Helpers.Message.Send(botClient, update, msg);
+                    update.RegisterStepHandler(new StepTelegram(InlineStep, new StepCache()));
+                }
+            }
+            catch (Exception ex)
+            {
+                //Обработка исключения
+            }
+        }
+
+        public static async Task InlineStep(ITelegramBotClient botClient, Update update)
+        {
+            string msg = $"Вы ввели данные {update.Message.Text}";
+            //Получаем текущий обработчик
+            var handler = update.GetStepHandler<StepTelegram>();
+            //Записываем имя пользователя в кэш 
+            handler!.GetCache<StepCache>().Name = update.Message.Text;
+            //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
+            update.ClearStepUserHandler();
+            await Helpers.Message.Send(botClient, update, msg);
+            await ExampleCalendar.PickCalendar(botClient, update);
         }
     }
 }
