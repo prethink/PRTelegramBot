@@ -1,4 +1,6 @@
-Актуальная документация - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)
+Актуальная документация - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
+Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
+
 
 # 📰 Описание
 Библиотека для быстрого создания telegram ботов.   
