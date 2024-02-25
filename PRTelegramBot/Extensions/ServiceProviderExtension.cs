@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PRTelegramBot.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRTelegramBot.Extensions
 {
@@ -19,6 +14,48 @@ namespace PRTelegramBot.Extensions
             foreach ( var type in types) 
             {
                 services.AddTransient(type);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddScopedBotHandlers(this IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            var types = ReflectionUtils.FindClassesWithInstanceMethods();
+            foreach (var type in types)
+            {
+                services.AddScoped(type);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddTransientBotHandlers(this IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            var types = ReflectionUtils.FindClassesWithInstanceMethods();
+            foreach (var type in types)
+            {
+                services.AddTransient(type);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddSingletonBotHandlers(this IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            var types = ReflectionUtils.FindClassesWithInstanceMethods();
+            foreach (var type in types)
+            {
+                services.AddSingleton(type);
             }
 
             return services;
