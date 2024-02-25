@@ -3,7 +3,6 @@ using static PRTelegramBot.Core.PRBot;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Configs;
-using Telegram.Bot.Types;
 using ConsoleExample.Examples;
 using System.Reflection;
 using PRTelegramBot.Models.Enums;
