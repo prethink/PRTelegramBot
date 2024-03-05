@@ -43,7 +43,7 @@ namespace ConsoleExample.Examples
             //Записываем имя пользователя в кэш 
             handler!.GetCache<StepCache>().Name = update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            handler.RegisterNextStep(StepTwo, DateTime.Now.AddMinutes(5));
+            handler.RegisterNextStep(StepTwo);
             await Helpers.Message.Send(botClient, update, msg);
         }
 

@@ -8,6 +8,8 @@ using System.Reflection;
 using PRTelegramBot.Models.Enums;
 using ConsoleExample.Models;
 using ConsoleExample.Models.Enums;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 
 //Конфигурация NLog
 NLogConfigurate.Configurate();
@@ -152,10 +154,8 @@ void HandlerInit(PRBot tg)
         PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommandTwo");
     });
 }
- 
 
-
-async Task<ResultUpdate> Handler_OnUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
+async Task<ResultUpdate> Handler_OnUpdate(ITelegramBotClient client, Update update)
 {
     return ResultUpdate.Continue;
 }
