@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using PRTelegramBot.Exceptions;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PRTelegramBot.Exceptions;
 
 namespace PRTelegramBot.Helpers
 {

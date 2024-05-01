@@ -4,9 +4,7 @@ namespace PRTelegramBot.Extensions
 {
     public static class Descriptions
     {
-        public static TAttribute GetAttribute<TAttribute>(this Enum value)
-
-        where TAttribute : Attribute
+        public static TAttribute GetAttribute<TAttribute>(this Enum value) where TAttribute : Attribute
         {
             var enumType = value.GetType();
             var name = Enum.GetName(enumType, value);

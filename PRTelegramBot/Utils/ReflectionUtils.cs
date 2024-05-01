@@ -1,9 +1,9 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Helpers;
+using PRTelegramBot.Interfaces;
 using System.Reflection;
-using Telegram.Bot.Types;
 using Telegram.Bot;
-using System;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Utils
 {
@@ -29,7 +29,7 @@ namespace PRTelegramBot.Utils
         /// <returns>Массив методов для reply команд</returns>
         public static Type[] FindServicesToRegistration()
         {
-            return FindClassesWithInstanceMethods();
+            return FindClassesWithBotHandlerAttribute();
         }
         /// <summary>
         /// Поиск методов в программе для выполнения reply команд
@@ -145,7 +145,7 @@ namespace PRTelegramBot.Utils
                 var tempMethods = item.GetTypes()
                  .SelectMany(t => t.GetMethods(flags))
                  .Where(m => m.GetCustomAttributes()
-                     .OfType<BaseQueryAttribute>()
+                     .OfType<IBotIdentifier>()
                      .Any(attr => attr.BotId == botId && (attr.GetType().IsGenericType ? attr.GetType().GetGenericTypeDefinition() == type : attr.GetType() == type))
                      )
                      .ToList();
@@ -156,27 +156,20 @@ namespace PRTelegramBot.Utils
             return list.ToArray();
         }
 
-        public static Type[] FindClassesWithInstanceMethods()
+        public static Type[] FindClassesWithBotHandlerAttribute()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var uniqueTypes = new HashSet<Type>();
 
             foreach (var assembly in assemblies)
             {
-                var typesWithMethods = assembly.GetTypes()
-                    .Where(t => t.GetMethods()
-                        .Any(m => !m.IsStatic && m.DeclaringType == t && // Фильтрация экземплярных методов
-                            m.GetCustomAttributes()
-                                .OfType<BaseQueryAttribute>()
-                                .Any())
-                    );
+                var types = assembly
+                    .GetTypes()
+                    .Where(t => t.IsClass && t.GetCustomAttribute(typeof(BotHandlerAttribute)) != null);
 
-                foreach (var type in typesWithMethods)
-                {
-                    uniqueTypes.Add(type);
-                }
+                foreach (var type in types)
+                    uniqueTypes.Add(type); 
             }
-
             return uniqueTypes.ToArray();
         }
 

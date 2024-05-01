@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ServiceTransient>();
 builder.Services.AddScoped<ServiceScoped>();
 builder.Services.AddSingleton<ServiceSingleton>();
-builder.Services.AddBotHandlers();
+builder.Services.AddTransientBotHandlers();
 
 
 void PrBotInstance_OnLogError(Exception ex, long? id)
@@ -49,7 +49,7 @@ app.MapControllerRoute(
 
 
 //Создание и запуск бота
-var prBotInstance = new PRBot(new TelegramConfig
+var prBotInstance = new PRBot(new TelegramOptions
 {
     Token = "",
     ClearUpdatesOnStart = true,

@@ -1,8 +1,4 @@
 ﻿using Telegram.Bot.Types;
-using PRTelegramBot.Configs;
-using PRTelegramBot.Core;
-using PRTelegramBot.Models;
-using Telegram.Bot;
 
 namespace PRTelegramBot.Extensions
 {

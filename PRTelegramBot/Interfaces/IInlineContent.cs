@@ -1,4 +1,4 @@
-﻿namespace PRTelegramBot.Interface
+﻿namespace PRTelegramBot.Interfaces
 {
     /// <summary>
     /// Общий интерфейс для Inline кнопок

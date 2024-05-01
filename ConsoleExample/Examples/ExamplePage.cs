@@ -1,18 +1,15 @@
-﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Core;
+﻿using ConsoleExample.Models;
+using PRTelegramBot.Attributes;
 using PRTelegramBot.Helpers;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.TCommands;
-using Telegram.Bot.Types;
-using Telegram.Bot;
-using Helpers = PRTelegramBot.Helpers;
-using PRTelegramBot.Commands.Constants;
-using PRTelegramBot.Models;
-using PRTelegramBot.Extensions;
-using ConsoleExample.Models;
-using System;
 using PRTelegramBot.Utils;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
+using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples
 {
@@ -96,7 +93,8 @@ namespace ConsoleExample.Examples
                             //Получаю номер страницы и указываю размер страницы
                             var data = await pageData.GetPaged<string>(command.Data.Page, 1);
                             //Генерирую постраничное меню
-                            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
+                            var button = new InlineCallback("⭐", CustomTHeader.CustomButton);
+                            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader,button: button);
                             //Получаю результат из постраничного вывода
                             var pageResult = data.Results;
                             var option = new OptionMessage();
@@ -144,6 +142,37 @@ namespace ConsoleExample.Examples
             {
                 //Обработка исключения
             }
+        }
+
+        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.CustomButton)]
+        public static async Task FavoriteMessage(ITelegramBotClient botClient, Update update)
+        {
+            string msg = "Меню";
+            //Создаем настройки сообщения
+            var option = new OptionMessage();
+            //Создаем список для меню
+            var menuList = new List<KeyboardButton>();
+            //Добавляем кнопку с текстом
+            menuList.Add(new KeyboardButton("Кнопка 1"));
+            //Добавляем кнопку с запросом на контакт пользователя
+            menuList.Add(KeyboardButton.WithRequestContact("Отправить свой контакт"));
+            //Добавляем кнопку с запросом на локацию пользователя
+            menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
+            //Добавляем кнопку с запросом отправки чата боту
+            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat() { RequestId = 2 }));
+            //Добавляем кнопку с запросом отправки пользователя боту
+            menuList.Add(KeyboardButton.WithRequestUser("Отправить пользователя боту", new KeyboardButtonRequestUser() { RequestId = 1 }));
+            //Добавляем кнопку с отправкой опроса
+            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование"));
+            //Добавляем кнопку с запросом работы с WebApp
+            menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html" }));
+
+            //Генерируем reply меню
+            //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
+            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
+            //Добавляем в настройки меню
+            option.MenuReplyKeyboardMarkup = menu;
+            await Helpers.Message.Send(botClient, update, msg, option);
         }
     }
 }

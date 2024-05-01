@@ -1,11 +1,8 @@
-﻿using Telegram.Bot.Types;
-using Helpers = PRTelegramBot.Helpers;
-using CallbackId = PRTelegramBot.Models.Enums.THeader;
-using PRTelegramBot.Core;
+﻿using ConsoleExample.Extension;
 using PRTelegramBot.Models.Enums;
-using ConsoleExample.Extension;
 using Telegram.Bot;
-using PRTelegramBot.Configs;
+using Telegram.Bot.Types;
+using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples
 {

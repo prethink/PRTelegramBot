@@ -1,4 +1,4 @@
-﻿using PRTelegramBot.Interface;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.InlineButtons
 {

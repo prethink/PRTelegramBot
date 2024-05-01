@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
-using PRTelegramBot.Core;
-using PRTelegramBot.Models.InlineButtons;
-using ConsoleExample.Models.Enums;
-using PRTelegramBot.Interface;
+﻿using ConsoleExample.Models.Enums;
+using Newtonsoft.Json;
 using PRTelegramBot.InlineButtons;
+using PRTelegramBot.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConsoleExample.Models
 {

@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PRTelegramBot.Attributes
+﻿namespace PRTelegramBot.Attributes
 {
 
     [AttributeUsage(AttributeTargets.Enum)]
-    public class InlineCommandAttribute : Attribute
-    {
-    }
+    public class InlineCommandAttribute : Attribute { }
 }

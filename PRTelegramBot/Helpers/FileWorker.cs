@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Telegram.Bot;
-using PRTelegramBot.Core;
 
 namespace PRTelegramBot.Helpers
 {

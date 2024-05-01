@@ -1,6 +1,7 @@
 ﻿using AspNetExample.Services;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using PRTelegramBot.Attributes;
-using PRTelegramBot.Interface;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
@@ -8,9 +9,9 @@ using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace TestDI.BotController
+namespace AspNetExample.BotController
 {
-
+    [BotHandler]
     public class BotHandlerWithDependency
     {
         private readonly ILogger<BotHandlerWithDependency> _logger;
@@ -30,7 +31,7 @@ namespace TestDI.BotController
         [ReplyMenuHandler("Test")]
         public async Task TestMethodWithDependency(ITelegramBotClient botClient, Update update)
         {
-            await PRTelegramBot.Helpers.Message.Send(botClient,update, $"{nameof(TestMethodWithDependency)} {_logger != null}");
+            await PRTelegramBot.Helpers.Message.Send(botClient, update, $"{nameof(TestMethodWithDependency)} {_logger != null}");
         }
 
         [SlashHandler("/test")]
@@ -43,11 +44,11 @@ namespace TestDI.BotController
         public async Task InlineTest(ITelegramBotClient botClient, Update update)
         {
             var options = new OptionMessage();
-            var menuItemns = MenuGenerator.InlineButtons(1, new List<IInlineContent> { 
-                new InlineCallback("Test", THeader.CurrentPage), 
-                new InlineCallback("TestStatic", THeader.NextPage) 
+            var menuItemns = MenuGenerator.InlineButtons(1, new List<IInlineContent> {
+                new InlineCallback("Test", THeader.CurrentPage),
+                new InlineCallback("TestStatic", THeader.NextPage)
             });
-            options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns );
+            options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(InlineTest), options);
         }
 

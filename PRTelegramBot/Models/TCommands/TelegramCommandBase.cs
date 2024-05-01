@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PRTelegramBot.Models.Enums;
-using System.Reflection.PortableExecutable;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {

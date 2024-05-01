@@ -1,30 +1,22 @@
 ﻿using PRTelegramBot.Attributes;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using PRTelegramBot.Configs;
+using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
+using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Utils;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using static PRTelegramBot.Extensions.StepService;
-using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Extensions;
-using PRTelegramBot.Configs;
-using static PRTelegramBot.Core.PRBot;
-using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models;
-using Microsoft.Extensions.DependencyInjection;
-using PRTelegramBot.Utils;
-using PRTelegramBot.Interface;
 
 namespace PRTelegramBot.Core
 {
     /// <summary>
     /// Маршрутизация команд
     /// </summary>
-    public class Router
+    public class Router : IExecuteCommand
     {
         #region Events
         /// <summary>
@@ -132,26 +124,27 @@ namespace PRTelegramBot.Core
         public event Func<ITelegramBotClient, Update, Task>? OnDiceHandle;
         #endregion
 
+        private const string PropertyCommandsName = "Commands";
 
         /// <summary>
         /// Клиент для telegram бота
         /// </summary>
-        private PRBot telegram;
+        private PRBot bot;
 
         /// <summary>
         /// Словарь слеш команд
         /// </summary>
-        public Dictionary<string, TelegramCommand> SlashCommands { get; private set; } = new();
+        private Dictionary<string, TelegramHandler> slashCommands { get; set; } = new();
 
         /// <summary>
         /// Словарь reply команд
         /// </summary>
-        public Dictionary<string, TelegramCommand> MessageCommands { get; private set; } = new();
+        private Dictionary<string, TelegramHandler> replyCommands { get; set; } = new();
 
         /// <summary>
         /// Словарь Inline команд
         /// </summary>
-        public Dictionary<Enum, TelegramCommand> InlineCommands { get; private set; } = new();
+        private Dictionary<Enum, TelegramHandler> inlineCommands { get; set; } = new();
 
         /// <summary>
         /// 
@@ -161,16 +154,12 @@ namespace PRTelegramBot.Core
         /// 
         /// </summary>
         private IServiceProvider _serviceProvider;
-        /// <summary>
-        /// 
-        /// </summary>
-        private TelegramConfig Config { get; init; }
 
-        public Router(PRBot botClient, TelegramConfig config, IServiceProvider serviceProvider)
+        public Router(PRBot botClient, IServiceProvider serviceProvider)
         {
-            telegram            = botClient;
-            Config              = config;
+            bot            = botClient;
             _serviceProvider    = serviceProvider;
+
             RegisterCommands();
         }
 
@@ -214,69 +203,59 @@ namespace PRTelegramBot.Core
                 {
                     try
                     {
-                        var attribute = method.GetCustomAttribute<BaseQueryAttribute>();
-                        if (attribute == null)
+                        var attribute = method.GetCustomAttribute(typeof(IBotIdentifier)) as IBotIdentifier;
+
+                        if (attribute == null || attribute.BotId != bot.Options.BotId)
                             continue;
-
-
-                        if (attribute.BotId != Config.BotId)
-                            continue;
-
 
                         bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
-                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
+                            bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
                                 $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}"));
                             continue;
                         }
 
-                        var telegramCommand = new TelegramCommand(method, _serviceProvider);
-
-                        
+                        var telegramhandler = new TelegramHandler(method, _serviceProvider);
 
                         if (attribute is ReplyMenuHandlerAttribute replyattr)
                         {
                             foreach (var command in replyattr.Commands)
-                            {
-                                MessageCommands.Add(command, telegramCommand);
-                            }
+                                replyCommands.Add(command, telegramhandler);
+
                             continue;
                         }
 
                         if (attribute is ReplyMenuDictionaryHandlerAttribute replyDictionary)
                         {
                             foreach (var command in replyDictionary.Commands)
-                            {
-                                MessageCommands.Add(command, telegramCommand);
-                            }
+                                replyCommands.Add(command, telegramhandler);
+
                             continue;
                         }
 
                         if (attribute is SlashHandlerAttribute slashAttribute)
                         {
                             foreach (var command in slashAttribute.Commands)
-                            {
-                                SlashCommands.Add(command, telegramCommand);
-                            }
+                                slashCommands.Add(command, telegramhandler);
+
                             continue;
 
                         }
 
                         if (attribute.GetType().IsGenericType && attribute.GetType()?.GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
                         {
-                            var commandsProperty = attribute.GetType().GetProperty("Commands");
+                            var commandsProperty = attribute.GetType().GetProperty(PropertyCommandsName);
                             var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
 
                             foreach (var command in commands)
-                            {
-                                InlineCommands.Add(command, telegramCommand);
-                            }
+                                inlineCommands.Add(command, telegramhandler);
+
                         }
                     }
                     catch(Exception ex)
                     {
-                        telegram.InvokeErrorLog(ex);
+                        bot.InvokeErrorLog(ex);
                     }
                 }
             }
@@ -285,111 +264,75 @@ namespace PRTelegramBot.Core
         private void RegisterStaticCommands()
         {
             //Находим все методы которые используют наши атрибуты
-            MethodInfo[] messageMethods             = ReflectionUtils.FindStaticMessageMenuHandlers(Config.BotId);
-            MethodInfo[] messageDictionaryMethods   = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(Config.BotId);
-            MethodInfo[] inlineMethods              = ReflectionUtils.FindStaticInlineMenuHandlers(Config.BotId);
-            MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(Config.BotId);
+            MethodInfo[] messageMethods             = ReflectionUtils.FindStaticMessageMenuHandlers(bot.Options.BotId);
+            MethodInfo[] messageDictionaryMethods   = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(bot.Options.BotId);
+            MethodInfo[] inlineMethods              = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
+            MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
 
-            try
+            RegisterStringCommand<ReplyMenuHandlerAttribute>(messageMethods, replyCommands);
+            RegisterStringCommand<ReplyMenuDictionaryHandlerAttribute>(messageDictionaryMethods, replyCommands);
+            RegisterStringCommand<SlashHandlerAttribute>(slashCommandMethods, slashCommands);
+            RegisterEnumCommand(inlineMethods, inlineCommands);
+        }
+
+        private void RegisterStringCommand<TAttribute>(MethodInfo[] methods, Dictionary<string, TelegramHandler> collectionCommands) where TAttribute : BaseQueryAttribute<string>
+        {
+            foreach (var method in methods)
             {
-                //Регистрируем Reply команды
-                foreach (var method in messageMethods)
+                try
                 {
                     if (!method.IsStatic)
                         continue;
 
-                    foreach (var command in method.GetCustomAttribute<ReplyMenuHandlerAttribute>().Commands)
+                    foreach (var command in method.GetCustomAttribute<TAttribute>().Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
-                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute."));
+                            bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the {typeof(TAttribute)} attribute. The method will be ignored."));
                             continue;
                         }
 
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                        MessageCommands.Add(command, telegramCommand);
+                        var telegramCommand = new TelegramHandler((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                        collectionCommands.Add(command, telegramCommand);
                     }
                 }
-
-                //Регистрируем Reply Dictionary команды
-                foreach (var method in messageDictionaryMethods)
+                catch(Exception ex)
                 {
-                    if (!method.IsStatic)
-                        continue;
-
-
-                    foreach (var command in method.GetCustomAttribute<ReplyMenuDictionaryHandlerAttribute>().Commands)
-                    {
-                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
-                        if (!isValidMethod)
-                        {
-                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the ReplyMenuHandler attribute. The method will be ignored."));
-                            continue;
-                        }
-
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                        MessageCommands.Add(command, telegramCommand);
-                    }
-                }
-
-                //Регистрируем Inline команды
-                foreach (var method in inlineMethods)
-                {
-                    if (!method.IsStatic)
-                        continue;
-
-                    
-                    foreach (var attribute in method.GetCustomAttributes(true))
-                    {
-                        if (attribute.GetType().IsGenericType &&
-                            attribute.GetType().GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
-                        {
-                            bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
-                            if (!isValidMethod)
-                            {
-                                telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));
-                                continue;
-                            }
-                            var commandsProperty = attribute.GetType().GetProperty("Commands");
-                            var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
-
-                            foreach (var command in commands)
-                            {
-                                Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                                var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                                InlineCommands.Add(command, telegramCommand); 
-                            }
-                        }
-                    }
-                }
-
-                //Регистрируем слеш команды
-                foreach (var method in slashCommandMethods)
-                {
-                    if (!method.IsStatic)
-                        continue;
-
-                    foreach (var command in method.GetCustomAttribute<SlashHandlerAttribute>().Commands)
-                    {
-                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
-                        if (!isValidMethod)
-                        {
-                            telegram.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the SlashHandler attribute. The method will be ignored."));
-                            continue;
-                        }
-
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        var telegramCommand = new TelegramCommand((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                        SlashCommands.Add(command, telegramCommand);
-                    }
+                    bot.InvokeErrorLog(ex);
                 }
             }
-            catch (Exception ex)
+        }
+
+        private void RegisterEnumCommand(MethodInfo[] methods, Dictionary<Enum, TelegramHandler> collectionCommands)
+        {
+            foreach (var method in methods)
             {
-                telegram.InvokeErrorLog(ex);
+                if (!method.IsStatic)
+                    continue;
+
+                foreach (var attribute in method.GetCustomAttributes(true))
+                {
+                    if (!attribute.GetType().IsGenericType || attribute.GetType().GetGenericTypeDefinition() != typeof(InlineCallbackHandlerAttribute<>))
+                        continue;
+
+                    bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
+                    if (!isValidMethod)
+                    {
+                        bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));
+                        continue;
+                    }
+                    var commandsProperty = attribute.GetType().GetProperty(PropertyCommandsName);
+                    var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
+
+                    foreach (var command in commands)
+                    {
+                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
+                        var telegramCommand = new TelegramHandler((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
+                        inlineCommands.Add(command, telegramCommand);
+                    }
+                }
             }
         }
 
@@ -403,12 +346,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                MessageCommands.Add(command, new TelegramCommand(@delegate));
+                replyCommands.Add(command, new TelegramHandler(@delegate));
                 return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
         }
@@ -423,12 +366,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                SlashCommands.Add(command, new TelegramCommand(@delegate));
+                slashCommands.Add(command, new TelegramHandler(@delegate));
                 return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
         }
@@ -444,12 +387,12 @@ namespace PRTelegramBot.Core
             try
             {
                 ReflectionUtils.AddEnumsHeader(@enum);
-                InlineCommands.Add(@enum, new TelegramCommand(@delegate));
+                inlineCommands.Add(@enum, new TelegramHandler(@delegate));
                 return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
         }
@@ -458,12 +401,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                MessageCommands.Remove(command);
+                replyCommands.Remove(command);
                 return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
         }
@@ -472,12 +415,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                SlashCommands.Remove(command);
+                slashCommands.Remove(command);
                 return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
         }
@@ -486,41 +429,14 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                InlineCommands.Remove(@enum);
+                inlineCommands.Remove(@enum);
                 return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
-        }
-
-
-
-        /// <summary>
-        /// Проверяет это слеш команда или нет
-        /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="update">Обновление с телеграма</param>
-        /// <returns></returns>
-        private async Task<bool> IsSlashCommand(string command, Update update)
-        {
-            try
-            {
-                if (!command.StartsWith("/"))
-                    return false;
-
-                var resultExecute = await ExecuteCommand(command, update, SlashCommands, TypeCheckCommand.Contains);
-                return resultExecute != ResultCommand.NotFound;
-
-            }
-            catch (Exception ex)
-            {
-                telegram.InvokeErrorLog(ex);
-                return false;
-            }
-
         }
 
         /// <summary>
@@ -528,15 +444,13 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="command">Команда</param>
         /// <param name="update">Обновление с телеграма</param>
-        internal async Task ExecuteCommandByMessage(string command, Update update)
+        public async Task ExecuteCommandByMessage(string command, Update update)
         {
             try
             {
                 //
                 if (command.Contains("(") && command.Contains(")"))
-                {
                     command = command.Remove(command.LastIndexOf("(") - 1);
-                }
 
                 //
                 if (await StartHasDeepLink(command, update))
@@ -556,19 +470,19 @@ namespace PRTelegramBot.Core
                 {
                     if (item.Key == update!.Message!.Type)
                     {
-                        item.Value?.Invoke(telegram.botClient, update);
+                        item.Value?.Invoke(bot.botClient, update);
                         return;
                     }
                 }
 
-                var resultExecute = await ExecuteCommand(command, update, MessageCommands); 
+                var resultExecute = await ExecuteCommand(command, update, replyCommands); 
 
                 if(resultExecute == ResultCommand.NotFound)
-                    OnMissingCommand?.Invoke(telegram.botClient, update);
+                    OnMissingCommand?.Invoke(bot.botClient, update);
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
             }
         }
 
@@ -576,7 +490,7 @@ namespace PRTelegramBot.Core
         /// Выполняет inline команду
         /// </summary>
         /// <param name="update">Обновление с телеграма</param>
-        internal async Task ExecuteCommandByCallBack(Update update)
+        public async Task ExecuteCommandByCallBack(Update update)
         {
             try
             {
@@ -584,15 +498,14 @@ namespace PRTelegramBot.Core
                 if (command != null)
                 {
                     string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
-                    telegram.InvokeCommonLog(msg, BaseEventTelegram.CallBackCommand, ConsoleColor.Magenta);
+                    bot.InvokeCommonLog(msg, BaseEventTelegram.CallBackCommand, ConsoleColor.Magenta);
 
-                    var resultExecute = await ExecuteCommand(command.CommandType, update, InlineCommands);
+                    var resultExecute = await ExecuteCommand(command.CommandType, update, inlineCommands);
                 }
-
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
             }
         }
 
@@ -609,7 +522,7 @@ namespace PRTelegramBot.Core
                 if (!update.HasStepHandler())
                     return false;
 
-                var resultPriorityCommandExecute = await ExecuteCommand(command, update, MessageCommands);
+                var resultPriorityCommandExecute = await ExecuteCommand(command, update, replyCommands);
 
                 if (resultPriorityCommandExecute != ResultCommand.NotFound)
                 {
@@ -618,12 +531,37 @@ namespace PRTelegramBot.Core
                 }
 
                 var step = update.GetStepHandler().GetExecuteMethod();
-                var result = await ExecuteMethod(update, new TelegramCommand (step));
+                var result = await ExecuteMethod(update, new TelegramHandler(step));
                 return result == ResultCommand.Executed;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// Проверяет это слеш команда или нет
+        /// </summary>
+        /// <param name="command">Команда</param>
+        /// <param name="update">Обновление с телеграма</param>
+        /// <returns></returns>
+        private async Task<bool> IsSlashCommand(string command, Update update)
+        {
+            try
+            {
+                if (!command.StartsWith("/"))
+                    return false;
+
+                var resultExecute = await ExecuteCommand(command, update, slashCommands, TypeCheckCommand.Contains);
+                return resultExecute != ResultCommand.NotFound;
+
+            }
+            catch (Exception ex)
+            {
+                bot.InvokeErrorLog(ex);
                 return false;
             }
 
@@ -639,29 +577,27 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if (command.ToLower().Contains("start") && command.Contains(" "))
-                {
-                    var spl = command.Split(' ');
-                    if (!string.IsNullOrEmpty(spl[1]))
-                    {
-                        if (update.Message.Chat.Type == Telegram.Bot.Types.Enums.ChatType.Private)
-                        {
-                            OnUserStartWithArgs?.Invoke(telegram.botClient, update, spl[1]);
-                        }
-                        return true;
-                    }
+                if (!command.ToLower().Contains("start") && command.Contains(" "))
                     return false;
-                }
-                return false;
+
+                var spl = command.Split(' ');
+                if (string.IsNullOrEmpty(spl[1]))
+                    return false;
+
+                if (update.Message.Chat.Type != Telegram.Bot.Types.Enums.ChatType.Private)
+                    return false;
+
+                OnUserStartWithArgs?.Invoke(bot.botClient, update, spl[1]);
+                return true;
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
                 return false;
             }
         }
 
-        private async Task<ResultCommand> ExecuteCommand(string command, Update update, Dictionary<string, TelegramCommand> commandList, TypeCheckCommand typeCheck = TypeCheckCommand.Equals)
+        private async Task<ResultCommand> ExecuteCommand(string command, Update update, Dictionary<string, TelegramHandler> commandList, TypeCheckCommand typeCheck = TypeCheckCommand.Equals)
         {
 
             foreach (var commandExecute in commandList)
@@ -687,13 +623,13 @@ namespace PRTelegramBot.Core
             return ResultCommand.NotFound;
         }
 
-        private async Task<ResultCommand> ExecuteCommand(Enum command, Update update, Dictionary<Enum, TelegramCommand> commandList)
+        private async Task<ResultCommand> ExecuteCommand(Enum command, Update update, Dictionary<Enum, TelegramHandler> commandList)
         {
 
             foreach (var commandExecute in commandList)
             {
                 if (!command.Equals(commandExecute.Key))
-                        continue;
+                    continue;
 
                 var result = await ExecuteMethod(update, commandExecute.Value);
                 return result;
@@ -701,8 +637,7 @@ namespace PRTelegramBot.Core
             return ResultCommand.NotFound;
         }
 
-
-        private async Task<ResultCommand> ExecuteMethod( Update update, TelegramCommand command)
+        private async Task<ResultCommand> ExecuteMethod( Update update, TelegramHandler command)
         {
             var method = command.Command.Method ;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
@@ -714,7 +649,7 @@ namespace PRTelegramBot.Core
             {
                 if (!requireUpdate.TypeUpdate.Contains(update!.Message!.Chat.Type))
                 {
-                    OnWrongTypeChat?.Invoke(telegram.botClient, update);
+                    OnWrongTypeChat?.Invoke(bot.botClient, update);
                     return ResultCommand.WrongChatType;
                 }
             }
@@ -723,7 +658,7 @@ namespace PRTelegramBot.Core
             {
                 if (!requireDate.TypeMessages.Contains(update!.Message!.Type))
                 {
-                    OnWrongTypeMessage?.Invoke(telegram.botClient, update);
+                    OnWrongTypeMessage?.Invoke(bot.botClient, update);
                     return ResultCommand.WrongMessageType;
                 }
             }
@@ -731,11 +666,11 @@ namespace PRTelegramBot.Core
             if (privilages != null)
             {
                 
-                OnCheckPrivilege?.Invoke(telegram.botClient, update, @delegate, privilages.Flags);
+                OnCheckPrivilege?.Invoke(bot.botClient, update, @delegate, privilages.Flags);
                 return ResultCommand.PrivilegeCheck;
             }
 
-            await @delegate(telegram.botClient, update);
+            await @delegate(bot.botClient, update);
             return ResultCommand.Executed;
         }
         internal async Task OnAccessDeniedInvoke(ITelegramBotClient botClient, Update update)

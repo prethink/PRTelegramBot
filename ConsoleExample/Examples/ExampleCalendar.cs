@@ -1,17 +1,15 @@
-﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Models;
-using System.Globalization;
-using Telegram.Bot.Types;
-using Telegram.Bot;
+﻿using ConsoleExample.Models;
+using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Models;
+using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Utils.Controls.CalendarControl.Common;
+using System.Globalization;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
 using THeader = PRTelegramBot.Models.Enums.THeader;
-using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Core;
-using PRTelegramBot.Commands.Constants;
-using ConsoleExample.Models;
-using PRTelegramBot.Utils.Controls.CalendarControl.Common;
 
 namespace ConsoleExample.Examples
 {

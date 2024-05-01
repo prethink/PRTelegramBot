@@ -1,21 +1,12 @@
-﻿using PRTelegramBot.Configs;
-
-namespace PRTelegramBot.Attributes
+﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Атрибут для reply методов
     /// </summary>
-    public class ReplyMenuHandlerAttribute : BaseQueryAttribute
+    public class ReplyMenuHandlerAttribute : BaseQueryAttribute<string>
     {
-        /// <summary>
-        /// Список reply команд
-        /// </summary>
-        public List<string> Commands { get;  set; }
-
-        public ReplyMenuHandlerAttribute(params string[] commands) : base(0)
-        {
-            Init(commands);
-        }
+        public ReplyMenuHandlerAttribute(params string[] commands) 
+            : this(0, commands) { }
 
         /// <summary>
         /// 
@@ -24,16 +15,7 @@ namespace PRTelegramBot.Attributes
         /// <param name="commands"></param>
         public ReplyMenuHandlerAttribute(long botId, params string[] commands) : base(botId)
         {
-            Init(commands);
-        }
-
-        public virtual void Init(params string[] commands)
-        {
-            Commands = commands.ToList();
-            for (int i = 0; i < Commands.Count; i++)
-            {
-                Commands[i] = commands[i]; 
-            }
+            Commands.AddRange(commands);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace ConsoleExample.Models
         [Description("Вип навсегда")]
         GetVipOneForever,
         [Description("Шаг из Inline")]
-        InlineWithStepp
+        InlineWithStepp,
+        [Description("Кастомная кнопка")]
+        CustomButton
     }
 }

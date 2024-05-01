@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
 using PRTelegramBot.Models.CallbackCommands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRTelegramBot.Models.TCommands
 {

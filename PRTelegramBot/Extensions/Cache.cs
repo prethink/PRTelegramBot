@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using PRTelegramBot.Models;
 using System.Collections.Concurrent;
-using PRTelegramBot.Interface;
+using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Extensions
 {
@@ -57,9 +57,7 @@ namespace PRTelegramBot.Extensions
         {
             long userId = update.GetChatId();
             if (_userHandlerData.TryGetValue(userId, out var data))
-            {
                 data.ClearData();
-            }
 
         }
 

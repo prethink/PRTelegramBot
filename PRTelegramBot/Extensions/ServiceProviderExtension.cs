@@ -5,57 +5,47 @@ namespace PRTelegramBot.Extensions
 {
     public static class ServiceProviderExtension
     {
+        public enum LifeCycle
+        {
+            Singleton,
+            Scoped,
+            Transient
+        }
         public static IServiceCollection AddBotHandlers(this IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            var types = ReflectionUtils.FindClassesWithInstanceMethods();
-            foreach ( var type in types) 
-            {
-                services.AddTransient(type);
-            }
-
-            return services;
+            return AddTransientBotHandlers(services);
         }
 
         public static IServiceCollection AddScopedBotHandlers(this IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            var types = ReflectionUtils.FindClassesWithInstanceMethods();
-            foreach (var type in types)
-            {
-                services.AddScoped(type);
-            }
-
-            return services;
+            return AddBotHandlersInDI(services, LifeCycle.Scoped);
         }
 
         public static IServiceCollection AddTransientBotHandlers(this IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            var types = ReflectionUtils.FindClassesWithInstanceMethods();
-            foreach (var type in types)
-            {
-                services.AddTransient(type);
-            }
-
-            return services;
+            return AddBotHandlersInDI(services, LifeCycle.Transient);
         }
 
         public static IServiceCollection AddSingletonBotHandlers(this IServiceCollection services)
         {
+            return AddBotHandlersInDI(services, LifeCycle.Singleton);
+        }
+
+        private static IServiceCollection AddBotHandlersInDI(this IServiceCollection services, LifeCycle lifeCycle)
+        {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            var types = ReflectionUtils.FindClassesWithInstanceMethods();
+            var types = ReflectionUtils.FindClassesWithBotHandlerAttribute();
             foreach (var type in types)
             {
-                services.AddSingleton(type);
+                _ = lifeCycle switch
+                {
+                    LifeCycle.Singleton => services.AddSingleton(type),
+                    LifeCycle.Scoped => services.AddScoped(type),
+                    LifeCycle.Transient => services.AddTransient(type),
+                    _ => throw new NotImplementedException()
+                };
             }
 
             return services;

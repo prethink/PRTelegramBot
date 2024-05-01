@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PRTelegramBot.Configs
+﻿namespace PRTelegramBot.Configs
 {
     /// <summary>
     /// Конфигурация telegram бота
     /// </summary>
-    public class TelegramConfig
+    public class TelegramOptions
     {
         /// <summary>
-        /// Токен telegram бота берется из BotFather
+        /// Токен telegram бота.
         /// </summary>
         public string Token { get; set; }
 
@@ -37,5 +31,10 @@ namespace PRTelegramBot.Configs
         /// Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
         /// </summary>
         public long BotId { get; set; }
+
+        /// <summary>
+        /// Путь для конфигурационного файла
+        /// </summary>
+        public string ConfigPath { get; set; }
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRTelegramBot.Interface
+namespace PRTelegramBot.Interfaces
 {
-    public interface ITelegramCache
+    internal interface IBotIdentifier
     {
-        public bool ClearData();
+        public long BotId { get; }
     }
 }

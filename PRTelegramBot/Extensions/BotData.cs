@@ -1,78 +1,129 @@
-﻿using Microsoft.VisualBasic;
-using PRTelegramBot.Core;
-using PRTelegramBot.Models;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PRTelegramBot.Core;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using static PRTelegramBot.Core.PRBot;
 
 namespace PRTelegramBot.Extensions
 {
     public static class BotData
     {
-        static ConcurrentDictionary<long, PRBot> _botHandlerData = new();
-
         /// <summary>
-        /// Создает или обновляет данные для бота
+        /// Проверяет пользователя, является ли он администратором бота.
         /// </summary>
-        public static void CreateOrUpdateBotData(this ITelegramBotClient botClient, PRBot botData) 
-        {
-            if(botClient.BotId == null) return;
-
-            _ = HasBotData(botClient) 
-                ? _botHandlerData[botClient.BotId.Value] = botData 
-                : _botHandlerData.AddOrUpdate(botClient.BotId.Value, botData, (_, existingData) => botData);
-        }
-
-        /// <summary>
-        /// Получает данные бота или null
-        /// </summary>
-        public static PRBot? GetBotDataOrNull(this ITelegramBotClient botClient)
-        {
-            if (botClient.BotId == null) return null;
-
-            return (_botHandlerData.TryGetValue(botClient.BotId.Value, out var botData)) 
-                ?  botData 
-                : null;
-        }
-
-        /// <summary>
-        /// Проверяет есть ли данные бота
-        /// </summary>
-        public static bool HasBotData(this ITelegramBotClient botClient)
-        {
-            return botClient.BotId.HasValue && _botHandlerData.ContainsKey(botClient.BotId.Value);
-        }
-
-        /// <summary>
-        /// Проверяет является ли админом данного бота пользователь по update
-        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="update">Обновление из telegram.</param>
+        /// <returns>True - администратор, False - не администратор.</returns>
         public static bool IsAdmin(this ITelegramBotClient botClient, Update update)
         {
             return IsAdmin(botClient, update.GetChatId());
         }
 
         /// <summary>
-        /// Проверяет является ли админом данного бота пользователь по userId
+        /// Проверяет пользователя, является ли он администратором бота.
         /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <returns>True - администратор, False - не администратор.</returns>
         public static bool IsAdmin(this ITelegramBotClient botClient, long userId)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null && botData.Config.Admins.Contains(userId);
+            return botData != null && botData.Options.Admins.Contains(userId);
         }
 
         /// <summary>
-        /// Возвращает список администраторов бота
+        /// Проверяет пользователя, является ли он администратором бота.
         /// </summary>
-        public static List<long> GetBotAdminIds(this ITelegramBotClient botClient)
+        /// <param name="botClient">Бот.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <returns>True - администратор, False - не администратор.</returns>
+        public static bool IsAdmin(this PRBot botClient, long userId)
+        {
+            return botClient.Options.Admins.Contains(userId);
+        }
+
+        /// <summary>
+        /// Проверяет пользователя, присутствует ли в белом списке бота.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="update">Обновление из telegram.</param>
+        /// <returns>True - есть в списке, False - нет в списке.</returns>
+        public static bool InWhiteList(this ITelegramBotClient botClient, Update update)
+        {
+            return InWhiteList(botClient, update.GetChatId());
+        }
+
+        /// <summary>
+        /// Проверяет пользователя, присутствует ли в белом списке бота.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <returns>True - есть в списке, False - нет в списке.</returns>
+        public static bool InWhiteList(this ITelegramBotClient botClient, long userId)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null ? botData.Config.Admins : new List<long>();
+            return botData != null && botData.Options.WhiteListUsers.Contains(userId);
+        }
+
+        /// <summary>
+        /// Проверяет пользователя, присутствует ли в белом списке бота.
+        /// </summary>
+        /// <param name="botClient">Бот.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <returns>True - есть в списке, False - нет в списке.</returns>
+        public static bool InWhiteList(this PRBot botClient, long userId)
+        {
+            return botClient.Options.WhiteListUsers.Contains(userId);
+        }
+
+        /// <summary>
+        /// Возращает список администраторов бота.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <returns>Список идентификаторов.</returns>
+        public static List<long> GetAdminsIds(this ITelegramBotClient botClient)
+        {
+            var botData = GetBotDataOrNull(botClient);
+            return botData != null ? botData.Options.Admins : new List<long>();
+        }
+
+        /// <summary>
+        /// Возращает список администраторов бота.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <returns>Список идентификаторов.</returns>
+        public static List<long> GetAdminsIds(this PRBot botClient)
+        {
+            return botClient.Options.Admins;
+        }
+
+        /// <summary>
+        /// Возращает белый список пользователей.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <returns>Список идентификаторов.</returns>
+        public static List<long> GetWhiteList(this ITelegramBotClient botClient)
+        {
+            var botData = GetBotDataOrNull(botClient);
+            return botData != null ? botData.Options.Admins : new List<long>();
+        }
+
+        /// <summary>
+        /// Возращает белый список пользователей.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <returns>Список идентификаторов.</returns>
+        public static List<long> GetWhiteList(this PRBot botClient)
+        {
+            return botClient.Options.Admins;
+        }
+
+        /// <summary>
+        /// Получить экземпляр класса бота.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <returns>Экземпляр класса или null.</returns>
+        public static PRBot GetBotDataOrNull(this ITelegramBotClient botClient)
+        {
+            return BotCollection.Instance.GetBotByTelegramIdOrNull(botClient.BotId);
         }
 
         /// <summary>
@@ -80,18 +131,21 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, Enum? typeEvent = null, ConsoleColor color = ConsoleColor.Blue)
         {
-            GetBotDataOrNull(botClient)?.InvokeCommonLog(msg, typeEvent, color);
-        }
+            var bot = GetBotDataOrNull(botClient);
 
+            if (bot != null)
+                bot?.InvokeCommonLog(msg, typeEvent, color);
+        }
 
         /// <summary>
         /// Логирование ошибок
         /// </summary>
         public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, long? id = null)
         {
-            GetBotDataOrNull(botClient)?.InvokeErrorLog(ex, id);
+            var bot = GetBotDataOrNull(botClient);
+
+            if (bot != null)
+                bot?.InvokeErrorLog(ex, id);
         }
-
-
     }
 }

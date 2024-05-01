@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-using Telegram.Bot.Types.ReplyMarkups;
-using PRTelegramBot.Models.CallbackCommands;
+﻿using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Utils;
+using System.Globalization;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
 {

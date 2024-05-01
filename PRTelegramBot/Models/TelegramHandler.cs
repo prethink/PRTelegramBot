@@ -12,14 +12,20 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
-    public class TelegramCommand
+    public class TelegramHandler
     {
-        public Func<ITelegramBotClient, Update, Task> Command { get; set; }
-        public IServiceProvider ServiceProvider { get; set; }
+        #region Свойства и константы
 
-        public TelegramCommand(MethodInfo method, IServiceProvider ServiceProvider = null)
+        public Func<ITelegramBotClient, Update, Task> Command { get; set; }
+        private IServiceProvider serviceProvider { get; set; }
+
+        #endregion
+
+        #region Конструкторы класса
+
+        public TelegramHandler(MethodInfo method, IServiceProvider ServiceProvider = null)
         {
-            this.ServiceProvider = ServiceProvider;
+            this.serviceProvider = ServiceProvider;
 
             if (method.IsStatic)
             {
@@ -45,10 +51,15 @@ namespace PRTelegramBot.Models
             }
         }
 
-        public TelegramCommand(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider = null)
+        public TelegramHandler(Func<ITelegramBotClient, Update, Task> command) 
+            : this (command, null) { }
+
+        public TelegramHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider = null)
         {
-            this.ServiceProvider = ServiceProvider;
+            this.serviceProvider = ServiceProvider;
             this.Command = command;
         }
+
+        #endregion
     }
 }

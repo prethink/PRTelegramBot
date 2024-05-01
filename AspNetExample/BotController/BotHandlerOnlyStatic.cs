@@ -1,9 +1,10 @@
 ﻿using PRTelegramBot.Attributes;
-using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace AspNetExample.BotController
 {
+    [BotHandler]
     public class BotHandlerOnlyStatic
     {
         [ReplyMenuHandler("TestStatic")]

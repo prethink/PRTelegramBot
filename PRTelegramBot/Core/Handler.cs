@@ -1,12 +1,12 @@
-﻿using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
-using PRTelegramBot.Extensions;
-using PRTelegramBot.Configs;
-using static PRTelegramBot.Core.Router;
 using Telegram.Bot.Polling;
-using PRTelegramBot.Models.Enums;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core
 {
@@ -15,7 +15,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Клиент телеграм бота
         /// </summary>
-        private PRBot telegram;
+        private PRBot bot;
 
         /// <summary>
         /// Событие вызывается до обработки update, может быть прекращено выполнение 
@@ -31,13 +31,11 @@ namespace PRTelegramBot.Core
         /// Маршрутизатор
         /// </summary>
         public Router Router { get; private set; }
-        public TelegramConfig Config { get; init; }
 
-        public Handler(PRBot botClient, TelegramConfig config, IServiceProvider serviceProvider)
+        public Handler(PRBot botClient, IServiceProvider serviceProvider)
         {
-            telegram = botClient;
-            Config = config;
-            Router = new Router(telegram, Config, serviceProvider);
+            bot = botClient;
+            Router = new Router(bot, serviceProvider);
         }
 
         /// <summary>
@@ -59,11 +57,11 @@ namespace PRTelegramBot.Core
                         return;
                 }
 
-                if (Config.WhiteListUsers.Count > 0)
+                if (bot.Options.WhiteListUsers.Count > 0)
                 {
-                    if (!Config.WhiteListUsers.Contains(update.GetChatId()))
+                    if (!bot.Options.WhiteListUsers.Contains(update.GetChatId()))
                     {
-                        await Router.OnAccessDeniedInvoke(telegram.botClient, update);
+                        await Router.OnAccessDeniedInvoke(bot.botClient, update);
                         return;
                     }
                 }
@@ -84,7 +82,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
             }
         }
 
@@ -102,7 +100,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
             }
         }
 
@@ -127,7 +125,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
             }
 
         }
@@ -141,20 +139,11 @@ namespace PRTelegramBot.Core
             try
             {
                 string command = update.Message.Text ?? update.Message.Type.ToString();
-                if (update.Message.Type == MessageType.Text)
-                {
-                    telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} sent {command}");
-                }
-                else
-                {
-                    telegram.InvokeCommonLog($"The user {update.GetInfoUser().Trim()} sent the command {command}");
-                }
-
                 Router.ExecuteCommandByMessage(command, update);
             }
             catch (Exception ex)
             {
-                telegram.InvokeErrorLog(ex);
+                bot.InvokeErrorLog(ex);
             }
         }
     }

@@ -17,9 +17,7 @@ namespace PRTelegramBot.Utils
         public static OptionMessage CreateOptionsIfNull(OptionMessage option = null)
         {
             if (option == null)
-            {
                 option = new OptionMessage();
-            }
             return option;
         }
     }
