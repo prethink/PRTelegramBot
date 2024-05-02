@@ -78,22 +78,5 @@ namespace PRTelegramBot.Utils
 
             return result.ToString();
         }
-
-        /// <summary>
-        /// Генерирует реферальную ссылку
-        /// </summary>
-        /// <param name="update">Обновление полученное с телеграма</param>
-        /// <param name="refLink">реферальная ссылка</param>
-        /// <returns>Реферальная ссылка пример https://t.me/{bot.Username}?start={refLink}</returns>
-        public async static Task<string> GenerateRefLink(this ITelegramBotClient botClient, string refLink)
-        {
-            if (string.IsNullOrEmpty(refLink))
-            {
-                throw new ArgumentNullException(nameof(refLink));
-            }
-
-            var bot = await botClient.GetMeAsync();
-            return $"https://t.me/{bot.Username}?start={refLink}";
-        }
     }
 }

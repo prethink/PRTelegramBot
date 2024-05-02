@@ -96,7 +96,7 @@ namespace PRTelegramBot.Models
         /// <returns>Кэш</returns>
         public T GetCache<T>()
         {
-            return cache is T resultCache ? resultCache : default(T);
+            return cache is T resultCache ? resultCache : default;
         }
 
         #region Конструкторы класса

@@ -4,7 +4,7 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Extensions
 {
-    public static class BotData
+    public static class BotExtension
     {
         /// <summary>
         /// Проверяет пользователя, является ли он администратором бота.
@@ -82,7 +82,7 @@ namespace PRTelegramBot.Extensions
         public static List<long> GetAdminsIds(this ITelegramBotClient botClient)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null ? botData.Options.Admins : new List<long>();
+            return botData != null ? botData.Options.Admins.ToList() : new List<long>();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>Список идентификаторов.</returns>
         public static List<long> GetAdminsIds(this PRBot botClient)
         {
-            return botClient.Options.Admins;
+            return botClient.Options.Admins.ToList();
         }
 
         /// <summary>
@@ -100,10 +100,10 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static List<long> GetWhiteList(this ITelegramBotClient botClient)
+        public static List<long> GetWhiteListIds(this ITelegramBotClient botClient)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null ? botData.Options.Admins : new List<long>();
+            return botData != null ? botData.Options.WhiteListUsers.ToList() : new List<long>();
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static List<long> GetWhiteList(this PRBot botClient)
+        public static List<long> GetWhiteListIds(this PRBot botClient)
         {
-            return botClient.Options.Admins;
+            return botClient.Options.WhiteListUsers.ToList();
         }
 
         /// <summary>
@@ -127,8 +127,12 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Логирование простых логов
+        /// Вызов события простого лога.
         /// </summary>
+        /// <param name="botClient">Бот.</param>
+        /// <param name="msg">Сообщение.</param>
+        /// <param name="typeEvent">Тип события.</param>
+        /// <param name="color">Цвет.</param>
         public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, Enum? typeEvent = null, ConsoleColor color = ConsoleColor.Blue)
         {
             var bot = GetBotDataOrNull(botClient);
@@ -138,14 +142,33 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Логирование ошибок
+        /// Вызов события логирование ошибок.
         /// </summary>
+        /// <param name="botClient">Бот.</param>
+        /// <param name="ex">Исключение.</param>
+        /// <param name="id">Идентификатор пользователя.</param>
         public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, long? id = null)
         {
             var bot = GetBotDataOrNull(botClient);
 
             if (bot != null)
                 bot?.InvokeErrorLog(ex, id);
+        }
+
+        /// <summary>
+        /// Генерация реферальной ссылки.
+        /// </summary>
+        /// <param name="botClient">Бот.</param>
+        /// <param name="refLink">Текст реферальной ссылки.</param>
+        /// <returns>Сгенерированная реферальная ссылка.</returns>
+        /// <exception cref="ArgumentNullException">Вызывается в случае пустого текста.</exception>
+        public async static Task<string> GetGeneratedRefLink(this ITelegramBotClient botClient, string refLink)
+        {
+            if (string.IsNullOrEmpty(refLink))
+                throw new ArgumentNullException(nameof(refLink));
+
+            var bot = await botClient.GetMeAsync();
+            return $"https://t.me/{bot.Username}?start={refLink}";
         }
     }
 }

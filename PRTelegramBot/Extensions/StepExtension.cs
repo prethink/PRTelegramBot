@@ -8,7 +8,7 @@ namespace PRTelegramBot.Extensions
     /// <summary>
     /// Позволяет пользователю выполнять команды пошагово
     /// </summary>
-    public static class StepService
+    public static class StepExtension
     {
         /// <summary>
         /// Список шагов для пользователя

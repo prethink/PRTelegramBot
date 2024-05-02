@@ -1,10 +1,14 @@
--- 2024.05.01 - V0.6
+-- 2024.05.02 - V0.6
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: Unit тесты
 - feature: AccessUtil для работы с флагами доступа и масками
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов
+- refactoring: StepService переименован в StepExtension
+- refactoring: Descriptions переименован в DescriptionExtension
+- refactoring: Cache переименован в CacheExtension
 - refactoring: В TelegramOptions добавлен параметр configPath
 - refactoring: TelegramConfig заменен TelegramOptions
+- refactoring: Рефакторинг ServiceProviderExtension
 - refactoring: Рефакторинг
 
 -- 2024.01.02 - V0.5.5

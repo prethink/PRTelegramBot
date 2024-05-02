@@ -9,7 +9,7 @@ using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using static PRTelegramBot.Extensions.StepService;
+using static PRTelegramBot.Extensions.StepExtension;
 
 namespace PRTelegramBot.Core
 {
@@ -19,6 +19,7 @@ namespace PRTelegramBot.Core
     public class Router : IExecuteCommand
     {
         #region Events
+
         /// <summary>
         /// Событие когда пользователь написал start с аргументом
         /// </summary>
@@ -122,6 +123,7 @@ namespace PRTelegramBot.Core
         /// Событие обработки сообщением с игральной кости
         /// </summary>
         public event Func<ITelegramBotClient, Update, Task>? OnDiceHandle;
+
         #endregion
 
         private const string PropertyCommandsName = "Commands";
@@ -150,6 +152,7 @@ namespace PRTelegramBot.Core
         /// 
         /// </summary>
         public Dictionary<Telegram.Bot.Types.Enums.MessageType, Func<ITelegramBotClient,Update,Task>> TypeMessage { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -208,7 +211,7 @@ namespace PRTelegramBot.Core
                         if (attribute == null || attribute.BotId != bot.Options.BotId)
                             continue;
 
-                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
@@ -286,7 +289,7 @@ namespace PRTelegramBot.Core
 
                     foreach (var command in method.GetCustomAttribute<TAttribute>().Commands)
                     {
-                        bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
                             bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the {typeof(TAttribute)} attribute. The method will be ignored."));
@@ -317,7 +320,7 @@ namespace PRTelegramBot.Core
                     if (!attribute.GetType().IsGenericType || attribute.GetType().GetGenericTypeDefinition() != typeof(InlineCallbackHandlerAttribute<>))
                         continue;
 
-                    bool isValidMethod = ReflectionUtils.IsValidMethorForBaseBaseQueryAttribute(method);
+                    bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                     if (!isValidMethod)
                     {
                         bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));

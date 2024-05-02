@@ -8,7 +8,7 @@ namespace PRTelegramBot.Extensions
     /// <summary>
     /// Класс для работы с временными данными
     /// </summary>
-    public static class Cache
+    public static class CacheExtension
     {
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш

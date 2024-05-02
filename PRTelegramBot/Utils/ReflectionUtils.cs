@@ -173,7 +173,7 @@ namespace PRTelegramBot.Utils
             return uniqueTypes.ToArray();
         }
 
-        public static bool IsValidMethorForBaseBaseQueryAttribute(MethodInfo method)
+        public static bool IsValidMethodForBaseBaseQueryAttribute(MethodInfo method)
         {
             try
             {

@@ -19,7 +19,6 @@ namespace PRTelegramBot.Core
         /// </summary>
         public ITelegramBotClient botClient { get; private set; }
 
-
         #region IBotIdentifier
 
         public long BotId
@@ -31,7 +30,6 @@ namespace PRTelegramBot.Core
         }
 
         #endregion
-
 
         /// <summary>
         /// 

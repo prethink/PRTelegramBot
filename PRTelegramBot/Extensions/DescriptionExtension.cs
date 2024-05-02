@@ -2,7 +2,7 @@
 
 namespace PRTelegramBot.Extensions
 {
-    public static class Descriptions
+    public static class DescriptionExtension
     {
         public static TAttribute GetAttribute<TAttribute>(this Enum value) where TAttribute : Attribute
         {
