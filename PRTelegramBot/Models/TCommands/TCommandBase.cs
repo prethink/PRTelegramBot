@@ -5,17 +5,13 @@ namespace PRTelegramBot.Models.CallbackCommands
     /// <summary>
     /// Базовая команда
     /// </summary>
-    public class TelegramCommandBase
+    public class TCommandBase
     {
         /// <summary>
         /// Предыдущая команда
         /// </summary>
         [JsonProperty("0")]
         public int LastCommand { get; set; }
-        public TelegramCommandBase(int command = 0)
-        {
-            LastCommand  = command;
-        }
 
         /// <summary>
         /// получить команду нужного типа Enum
@@ -26,5 +22,14 @@ namespace PRTelegramBot.Models.CallbackCommands
         {
             return (T)Enum.ToObject(typeof(T), LastCommand);
         }
+
+        #region Конструкторы класса
+
+        public TCommandBase(int command = 0)
+        {
+            LastCommand = command;
+        }
+
+        #endregion
     }
 }

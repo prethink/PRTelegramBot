@@ -57,9 +57,9 @@ namespace PRTelegramBot.Tests.CoreTests
         [Test]
         public void FindBotFromBotCollectionFromId()
         {
-            var botOne = new PRBot(config => { config.Token = BotOneToken; });
-            var botTwo = new PRBot(config => { config.Token = BotTwoToken; });
-            var botThree = new PRBot(config => { config.Token = BotThreeToken; });
+            var botOne      = new PRBotBuilder(BotOneToken).SetBotId(0).Build();
+            var botTwo      = new PRBotBuilder(BotTwoToken).SetBotId(1).Build();
+            var botThree    = new PRBotBuilder(BotThreeToken).SetBotId(2).Build();
 
             var botFromCollection = BotCollection.Instance.GetBotByTelegramIdOrNull(BotTwoId);
             Assert.IsNotNull(botFromCollection);
@@ -68,9 +68,9 @@ namespace PRTelegramBot.Tests.CoreTests
         [Test]
         public void GetAllBotsFromBotCollection()
         {
-            var botOne = new PRBot(config => { config.Token = BotOneToken; });
-            var botTwo = new PRBot(config => { config.Token = BotTwoToken; });
-            var botThree = new PRBot(config => { config.Token = BotThreeToken; });
+            var botOne = new PRBotBuilder(BotOneToken).SetBotId(0).Build();
+            var botTwo = new PRBotBuilder(BotTwoToken).SetBotId(1).Build();
+            var botThree = new PRBotBuilder(BotThreeToken).SetBotId(2).Build();
 
             var botFromCollection = BotCollection.Instance.GetBots();
             var exceptedBotCount = 3;

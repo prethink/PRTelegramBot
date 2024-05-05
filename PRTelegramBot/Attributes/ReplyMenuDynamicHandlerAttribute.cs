@@ -10,6 +10,9 @@ namespace PRTelegramBot.Attributes
         public ReplyMenuDynamicHandlerAttribute(long botId, params string[] commands) : base(botId, commands)
         {
             var bot = BotCollection.Instance.GetBotOrNull(botId);
+            if (bot == null)
+                return;
+
             var dynamicCommand = bot.Options.ReplyDynamicCommands;
             foreach (var command in commands) 
             {

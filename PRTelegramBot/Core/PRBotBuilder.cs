@@ -8,6 +8,9 @@ using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Core
 {
+    /// <summary>
+    /// Билдер для создания нового экземпляра класса PRBot.
+    /// </summary>
     public class PRBotBuilder
     {
         #region Поля и свойства
@@ -27,7 +30,7 @@ namespace PRTelegramBot.Core
         /// <returns>Экземпляр класса PRBot.</returns>
         public PRBot Build()
         {
-            return new PRBot(options, recevierOptions, cancellationToken, serviceProvider);
+            return new PRBot((TelegramOptions)options.Clone(), recevierOptions, cancellationToken, serviceProvider);
         }
 
         /// <summary>

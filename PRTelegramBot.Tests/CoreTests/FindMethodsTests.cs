@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
@@ -8,6 +9,18 @@ namespace PRTelegramBot.Tests.CoreTests
 {
     internal class FindMethodsTests
     {
+        [TearDown]
+        public void Cleanup()
+        {
+            BotCollection.Instance.ClearBots();
+        }
+
+        private const string KEY_DYNAMIC_REPLY_ONE      = "";
+        private const string KEY_DYNAMIC_REPLY_TWO      = "";
+        private const string KEY_DYNAMIC_REPLY_THREE    = "dynamic three";
+        private const string KEY_DYNAMIC_REPLY_FOUR    = "dynamic four";
+        private const string KEY_DYNAMIC_REPLY_FIVE    = "dynamic five";
+
         public enum TestTHeader
         {
             One,
@@ -17,12 +30,13 @@ namespace PRTelegramBot.Tests.CoreTests
             Five,
             Six,
             Seven,
+            Eight,
         }
 
         [Test]
-        [TestCase(0, 2)]
-        [TestCase(1, 1)]
-        [TestCase(2, 2)]
+        [TestCase(0, 3)]
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
         public void FindReplyMethods(int botId, int exceptedMethodsCount)
         {
             MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
@@ -30,17 +44,29 @@ namespace PRTelegramBot.Tests.CoreTests
         }
 
         [Test]
-        [TestCase(0, 0)]
+        [TestCase(0, 3)]
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
         public void FindReplyDictionaryMethods(int botId, int exceptedMethodsCount)
         {
+            var botBuilder = new PRBotBuilder("55555:Token")
+                            .AddReplyDynamicCommand(nameof(KEY_DYNAMIC_REPLY_ONE), "dynamic one")
+                            .AddReplyDynamicCommand(nameof(KEY_DYNAMIC_REPLY_TWO), "dynamic two")
+                            .AddReplyDynamicCommand(KEY_DYNAMIC_REPLY_THREE, "dynamic three example")
+                            .AddReplyDynamicCommand(KEY_DYNAMIC_REPLY_ONE, "dynamic foure example");
+
+            var bot = botBuilder.Build();
+            var botWithIdOne = botBuilder.SetBotId(1).Build();
+            var botWithIdTwo = botBuilder.SetBotId(2).Build();
+
             MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(botId);
             Assert.AreEqual(exceptedMethodsCount, replyMethods.Length);
         }
 
         [Test]
-        [TestCase(0, 2)]
-        [TestCase(1, 1)]
-        [TestCase(2, 2)]
+        [TestCase(0, 3)]
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
         public void FindInlineMethods(int botId, int exceptedMethodsCount)
         {
             MethodInfo[] inlineMethods = ReflectionUtils.FindStaticInlineMenuHandlers(botId);
@@ -48,9 +74,9 @@ namespace PRTelegramBot.Tests.CoreTests
         }
 
         [Test]
-        [TestCase(0, 2)]
-        [TestCase(1, 1)]
-        [TestCase(2, 2)]
+        [TestCase(0, 3)]
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
         public void FindSlashMethods(int botId, int exceptedMethodsCount)
         {
             MethodInfo[] slashCommandMethods = ReflectionUtils.FindStaticSlashCommandHandlers(botId);
@@ -62,12 +88,21 @@ namespace PRTelegramBot.Tests.CoreTests
         [SlashHandler(nameof(TestCommonMethod), "TestTwoArgs")]
         [ReplyMenuHandler(nameof(TestCommonMethod), "TestTwoArgs")]
         [InlineCallbackHandler<TestTHeader>(TestTHeader.One, TestTHeader.Two)]
+        [ReplyMenuDynamicHandler(nameof(KEY_DYNAMIC_REPLY_FOUR))]
         public static async Task TestCommonMethod(ITelegramBotClient botClient, Update update) { }
 
         [SlashHandler(2, nameof(TestCommonMethodTwo))]
         [ReplyMenuHandler(2, nameof(TestCommonMethodTwo))]
         [InlineCallbackHandler<TestTHeader>(2, TestTHeader.Three)]
+        [ReplyMenuDynamicHandler(2, nameof(KEY_DYNAMIC_REPLY_FOUR))]
         public static async Task TestCommonMethodTwo(ITelegramBotClient botClient, Update update) { }
+
+        [SlashHandler(-1, nameof(TestCommonMethodForAllBot))]
+        [ReplyMenuHandler(-1, nameof(TestCommonMethodForAllBot))]
+        [InlineCallbackHandler<TestTHeader>(-1, TestTHeader.Eight)]
+        [ReplyMenuDynamicHandler(-1, nameof(KEY_DYNAMIC_REPLY_FIVE))]
+        public static async Task TestCommonMethodForAllBot(ITelegramBotClient botClient, Update update) { }
+
 
         #endregion
 
@@ -81,6 +116,19 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [ReplyMenuHandler(2, nameof(TestReplyWithCustomIdTwo))]
         public static async Task TestReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
+
+        #endregion
+
+        #region Reply dynamic methods
+
+        [ReplyMenuDynamicHandler(nameof(KEY_DYNAMIC_REPLY_ONE))]
+        public static async Task TestDynamicReplyOne(ITelegramBotClient botClient, Update update) { }
+
+        [ReplyMenuDynamicHandler(1, nameof(KEY_DYNAMIC_REPLY_TWO))]
+        public static async Task TestDynamicReplyWithCustomId(ITelegramBotClient botClient, Update update) { }
+
+        [ReplyMenuDynamicHandler(2, KEY_DYNAMIC_REPLY_THREE)]
+        public static async Task TestDynamicReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
 
         #endregion
 

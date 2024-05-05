@@ -2,12 +2,33 @@
 {
     public interface IBotConfigProvider
     {
-        public void SetConfigPath(string  configPath);  
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configPath"></param>
+        public void SetConfigPath(string configPath);  
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T GetSettings<T>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string GetValueByKey<T>(string key) where T : class;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="section"></param>
+        /// <returns></returns>
         public TReturn GetValue<TReturn>(string section);
     }
 }

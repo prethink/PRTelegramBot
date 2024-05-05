@@ -208,7 +208,7 @@ namespace PRTelegramBot.Core
                     {
                         var attribute = method.GetCustomAttribute(typeof(IBotIdentifier)) as IBotIdentifier;
 
-                        if (attribute == null || attribute.BotId != bot.Options.BotId)
+                        if (attribute == null || attribute.BotId != bot.Options.BotId && attribute.BotId != -1)
                             continue;
 
                         bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
@@ -669,7 +669,7 @@ namespace PRTelegramBot.Core
             if (privilages != null)
             {
                 
-                OnCheckPrivilege?.Invoke(bot.botClient, update, @delegate, privilages.Flags);
+                OnCheckPrivilege?.Invoke(bot.botClient, update, @delegate, privilages.Mask);
                 return ResultCommand.PrivilegeCheck;
             }
 

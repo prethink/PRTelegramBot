@@ -2,9 +2,8 @@
 using Newtonsoft.Json;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
-using System.Linq.Expressions;
 
-namespace PRTelegramBot.Core
+namespace PRTelegramBot.Configs
 {
     public class BotConfigJsonProvider : IBotConfigProvider
     {
@@ -36,36 +35,6 @@ namespace PRTelegramBot.Core
 
         public void SetConfigPath(string configPath)
         {
-            if (!File.Exists(configPath))
-            {
-                // Создаем экземпляр класса TextConfig и заполняем его значениями
-                TextConfig config = new TextConfig
-                {
-                    Messages = new Dictionary<string, string>
-                    {
-                        {"MSG_MAIN_MENU", "Главное меню"},
-                    },
-                    Buttons = new Dictionary<string, string>
-                    {
-                        {"RP_MAIN_MENU", "🏠 Главное меню"},
-                    }
-                    ,
-                    Variables = new Dictionary<string, string>
-                    {
-                        {"Promo", "Test"},
-                    }
-                };
-
-                // Сериализуем объект TextConfig в JSON
-                string json = JsonConvert.SerializeObject(new { TextConfig = config }, Formatting.Indented);
-                string directoryPath = Path.GetDirectoryName(configPath);
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-                File.WriteAllText(configPath, json);
-            }
-
             config = new ConfigurationBuilder()
                 .AddJsonFile(configPath).Build();
         }

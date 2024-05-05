@@ -5,7 +5,7 @@ namespace PRTelegramBot.Models.CallbackCommands
     /// <summary>
     /// Команда для передачи даты из календаря
     /// </summary>
-    public class CalendarTCommand : TelegramCommandBase
+    public class CalendarTCommand : TCommandBase
     {
         /// <summary>
         /// Дата

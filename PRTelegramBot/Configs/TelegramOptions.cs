@@ -3,7 +3,7 @@
     /// <summary>
     /// Конфигурация telegram бота
     /// </summary>
-    public class TelegramOptions
+    public class TelegramOptions : ICloneable
     {
         /// <summary>
         /// Токен telegram бота.
@@ -41,5 +41,18 @@
         /// Дополнительные конфигурационные файлы.
         /// </summary>
         public Dictionary<string, string> ConfigPaths { get; set; } = new();
+
+        public object Clone()
+        {
+            var cloneOptions = new TelegramOptions();
+            cloneOptions.Token = Token;
+            cloneOptions.ClearUpdatesOnStart = ClearUpdatesOnStart;
+            cloneOptions.BotId = BotId;
+            cloneOptions.WhiteListUsers = WhiteListUsers.ToList();
+            cloneOptions.Admins = Admins.ToList();
+            cloneOptions.ReplyDynamicCommands = new Dictionary<string, string>(ReplyDynamicCommands);
+            cloneOptions.ConfigPaths = new Dictionary<string, string>(ConfigPaths);
+            return cloneOptions;
+        }
     }
 }

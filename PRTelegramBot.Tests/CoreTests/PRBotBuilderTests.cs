@@ -11,6 +11,12 @@ namespace PRTelegramBot.Tests.CoreTests
     {
         private const string TOKEN = "555555:tokensfasfasfasfasfasfasfaza";
 
+        [TearDown]
+        public void Cleanup()
+        {
+            BotCollection.Instance.ClearBots();
+        }
+
         [Test]
         public void BuildInstancePRBot()
         {

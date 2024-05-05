@@ -9,7 +9,7 @@ using ConsoleExample.Models;
 using PRTelegramBot.Utils;
 using PRTelegramBot.Models.InlineButtons;
 using System.Globalization;
-using PRTelegramBot.Core;
+using PRTelegramBot.Configs;
 
 namespace ConsoleExample.Examples
 {

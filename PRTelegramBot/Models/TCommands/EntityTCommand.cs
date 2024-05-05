@@ -5,7 +5,7 @@ namespace PRTelegramBot.Models.CallbackCommands
     /// <summary>
     /// Команда для передачи данных о идентификаторе сущности
     /// </summary>
-    public class EntityTCommand<T> : TelegramCommandBase
+    public class EntityTCommand<T> : TCommandBase
     {
         /// <summary>
         /// Идентификатор сущности

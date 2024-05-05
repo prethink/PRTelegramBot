@@ -3,7 +3,7 @@ using PRTelegramBot.Models.CallbackCommands;
 
 namespace PRTelegramBot.Models.TCommands
 {
-    public class PageTCommand : TelegramCommandBase
+    public class PageTCommand : TCommandBase
     {
         [JsonProperty("1")]
         public int Page { get; set; }

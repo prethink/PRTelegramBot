@@ -5,7 +5,7 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using PRTelegramBot.Core;
+using PRTelegramBot.Configs;
 
 namespace PRTelegramBot.Commands
 {

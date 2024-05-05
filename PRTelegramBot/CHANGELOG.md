@@ -1,15 +1,17 @@
--- 2024.05.03 - V0.6
+-- 2024.05.05 - V0.6
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: Unit тесты
 - feature: AccessUtil для работы с флагами доступа и масками
 - feature: PRBotBuilder добавлен класс, который позволяет создавать бота через Fluent Builder
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов
+- feature: Добавлена возможность указать в атрибутах команд идентификатор бота -1, эти методы будут доступны из всех ботов
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension
 - refactoring: В TelegramOptions добавлен параметр configPath
 - refactoring: TelegramConfig заменен TelegramOptions
 - refactoring: Рефакторинг ServiceProviderExtension
+- refactoring: Удален класс TextConfig
 - refactoring: Рефакторинг
 
 -- 2024.01.02 - V0.5.5

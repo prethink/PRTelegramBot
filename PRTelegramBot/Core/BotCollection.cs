@@ -6,9 +6,7 @@ namespace PRTelegramBot.Core
     {
         private static BotCollection instance;
 
-        private List<PRBot> BotList { get; set; } = new List<PRBot>();
-
-        public int nextBotId { get; private set; }
+        private Dictionary<long, PRBot> BotList = new Dictionary<long, PRBot>();
 
         private BotCollection() { }
 
@@ -25,23 +23,21 @@ namespace PRTelegramBot.Core
             }
         }
 
-        public int GetNextBotId()
+        public void AddBot(PRBot bot) 
         {
-            return nextBotId++;
+            BotList.Add(bot.BotId, bot);
         }
 
-        public void AddBot(PRBot bot) => BotList.Add(bot);
-
-        public void RemoveBot(PRBot bot) => BotList.Remove(bot);
+        public void RemoveBot(PRBot bot) => BotList.Remove(bot.BotId);
 
         public void ClearBots() => BotList.Clear();
 
-        public PRBot GetBotByTelegramIdOrNull(long? telegramId) => BotList.SingleOrDefault(x => x.TelegramId == telegramId);
+        public PRBot GetBotByTelegramIdOrNull(long? telegramId) => BotList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
 
-        public PRBot GetBotOrNull(long? botId) => BotList.SingleOrDefault(x => x.BotId == botId);
+        public PRBot GetBotOrNull(long? botId) => BotList.Values.SingleOrDefault(x => x.BotId == botId);
 
-        public List<PRBot> GetBots() => BotList.ToList();
+        public List<PRBot> GetBots() => BotList.Select(x => x.Value).ToList();
 
-        public PRBot GetBotOrNull(string botName) => BotList.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
+        public PRBot GetBotOrNull(string botName) => BotList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
     }
 }

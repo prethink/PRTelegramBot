@@ -5,11 +5,11 @@
     /// </summary>
     public class AccessAttribute : Attribute
     {
-        public int Flags { get; private set; }
+        public int Mask { get; private set; }
 
-        public AccessAttribute(int flags)
+        public AccessAttribute(int mask)
         {
-            Flags = flags;
+            Mask = mask;
         }
     }
 }

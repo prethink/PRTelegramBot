@@ -26,13 +26,9 @@ namespace PRTelegramBot.Utils.Converters
         {
             // Обработка сериализации типа Enum в JSON
             if (value != null)
-            {
                 writer.WriteValue(EnumHeaders.Instance.Get(value));
-            }
             else
-            {
                 writer.WriteNull();
-            }
         }
     }
 }

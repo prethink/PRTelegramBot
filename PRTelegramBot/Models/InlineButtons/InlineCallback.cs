@@ -10,7 +10,7 @@ namespace PRTelegramBot.Models.InlineButtons
     /// Создает кнопку обработкой данных
     /// </summary>
     /// <typeparam name="T">Данные которые должны быть переданы</typeparam>
-    public class InlineCallback<T> : InlineCallback where T : TelegramCommandBase
+    public class InlineCallback<T> : InlineCallback where T : TCommandBase
     {
         /// <summary>
         /// Данные для обработки
@@ -71,7 +71,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Данные для обработки
         /// </summary>
         [JsonProperty("d")]
-        public TelegramCommandBase Data { get; set; }
+        public TCommandBase Data { get; set; }
 
         /// <summary>
         /// Создание нового объекта
@@ -80,7 +80,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="commandType">Заголовок команды</param>
         /// <param name="data">Данные</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, Enum commandType, TelegramCommandBase data)
+        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
@@ -96,7 +96,7 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             ButtonName = buttonName;
             CommandType = commandType;
-            Data = new TelegramCommandBase();
+            Data = new TCommandBase();
         }
 
         public static InlineCallback GetCommandByCallbackOrNull(string data)

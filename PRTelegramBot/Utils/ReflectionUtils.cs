@@ -38,8 +38,7 @@ namespace PRTelegramBot.Utils
         /// <returns>Массив методов для reply команд</returns>
         public static MethodInfo[] FindStaticMessageMenuHandlers(long botId = 0)
         {
-            var methods = FindMethods(typeof(ReplyMenuHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
-            return methods.Where(x => x.GetCustomAttributes(typeof(ReplyMenuDynamicHandlerAttribute), true).Length == 0).ToArray();
+            return FindMethods(typeof(ReplyMenuHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>
@@ -118,16 +117,12 @@ namespace PRTelegramBot.Utils
         public static void ValidateEnumIsInt(Type enumType)
         {
             if (!enumType.IsEnum)
-            {
                 throw new ArgumentException($"{enumType} is not an Enum type.");
-            }
 
             foreach (var value in Enum.GetValues(enumType))
             {
                 if (!(Convert.ChangeType(value, enumType.GetEnumUnderlyingType()) is int))
-                {
                     throw new ArgumentException($"{enumType}.{value} is not of type int.");
-                }
             }
         }
 
@@ -146,7 +141,7 @@ namespace PRTelegramBot.Utils
                  .SelectMany(t => t.GetMethods(flags))
                  .Where(m => m.GetCustomAttributes()
                      .OfType<IBotIdentifier>()
-                     .Any(attr => attr.BotId == botId && (attr.GetType().IsGenericType ? attr.GetType().GetGenericTypeDefinition() == type : attr.GetType() == type))
+                     .Any(attr => (attr.BotId == botId || attr.BotId == -1) && (attr.GetType().IsGenericType ? attr.GetType().GetGenericTypeDefinition() == type : attr.GetType() == type))
                      )
                      .ToList();
 
