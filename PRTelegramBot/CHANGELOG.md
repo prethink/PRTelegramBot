@@ -1,7 +1,8 @@
--- 2024.05.02 - V0.6
+-- 2024.05.03 - V0.6
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: Unit тесты
 - feature: AccessUtil для работы с флагами доступа и масками
+- feature: PRBotBuilder добавлен класс, который позволяет создавать бота через Fluent Builder
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension

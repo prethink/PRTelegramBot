@@ -1,7 +1,6 @@
-﻿using System.Reflection;
-using ConsoleExample.Models.Enums;
+﻿using ConsoleExample.Models.Enums;
 using PRTelegramBot.Extensions;
-using static PRTelegramBot.Core.PRBot;
+using System.Reflection;
 
 namespace PRTelegramBot.Configs
 {

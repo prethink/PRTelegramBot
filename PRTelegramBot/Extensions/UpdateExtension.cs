@@ -1,4 +1,8 @@
-﻿using Telegram.Bot.Types;
+﻿using PRTelegramBot.InlineButtons;
+using PRTelegramBot.Models.InlineButtons;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Extensions
 {
@@ -12,13 +16,12 @@ namespace PRTelegramBot.Extensions
         /// <exception cref="Exception">Не найден тип сообщения</exception>
         public static long GetChatId(this Update update)
         {
-            if (update.Message != null)
-                return update.Message.Chat.Id;
-
-            if (update.CallbackQuery != null)
-                return update.CallbackQuery.Message.Chat.Id;
-
-            throw new Exception("Failed to obtain chat id");
+            return update.Type switch
+            {
+                UpdateType.Message => update.Message.Chat.Id,
+                UpdateType.CallbackQuery => update.CallbackQuery.Message.Chat.Id,
+                _ => throw new Exception("Failed to obtain chat id")
+            }; 
         }
 
         /// <summary>

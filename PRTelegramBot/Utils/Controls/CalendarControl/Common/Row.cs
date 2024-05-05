@@ -20,8 +20,8 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, DateTimeFormatInfo dtfi, int command = 0) =>
         new InlineKeyboardButton[]
         {
-                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>($"» {date.ToString("Y", dtfi)} «", THeader.YearMonthPicker, new CalendarTCommand(date, command)))
-            };
+            MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>($"» {date.ToString("Y", dtfi)} «", THeader.YearMonthPicker, new CalendarTCommand(date, command)))
+        };
 
         /// <summary>
         /// Коллекция дней недели

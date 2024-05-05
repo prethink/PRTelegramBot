@@ -4,8 +4,8 @@ namespace PRTelegramBot.Helpers
 {
     public class EnumHeaders
     {
-        private static EnumHeaders _instance;
         private static readonly object _lock = new object();
+        private static EnumHeaders _instance;
         private HashSet<Enum> _uniqueValues;
         private Dictionary<int, Enum> _headers;
 
@@ -63,15 +63,22 @@ namespace PRTelegramBot.Helpers
             }
         }
 
+        public List<Enum> GetAll()
+        {
+            lock (_lock)
+            {
+                return _headers.Select(x => x.Value).ToList();
+            }
+        }
+
         public int Get(Enum key)
         {
             lock (_lock)
             {
                 var @enum = _headers.FirstOrDefault(x => x.Value.Equals(key));
                 if(@enum.Value == null)
-                {
                     throw new InlineCommandNotFoundException(key);
-                }
+
                 return @enum.Key;
             }
         }

@@ -33,8 +33,13 @@
         public long BotId { get; set; }
 
         /// <summary>
-        /// Путь для конфигурационного файла
+        /// Дополнительные конфигурационные файлы.
         /// </summary>
-        public string ConfigPath { get; set; }
+        public Dictionary<string, string> ReplyDynamicCommands { get; set; } = new();
+
+        /// <summary>
+        /// Дополнительные конфигурационные файлы.
+        /// </summary>
+        public Dictionary<string, string> ConfigPaths { get; set; } = new();
     }
 }

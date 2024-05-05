@@ -42,9 +42,6 @@ namespace PRTelegramBot.Models
         /// Проверят что сообщение есть
         /// </summary>
         /// <returns>True/False</returns>
-        public bool HasMessage()
-        {
-            return !string.IsNullOrWhiteSpace(Message);
-        }
+        public bool HasMessage => !string.IsNullOrWhiteSpace(Message);
     }
 }

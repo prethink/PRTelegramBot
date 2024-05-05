@@ -39,7 +39,7 @@ namespace PRTelegramBot.Utils
         public static MethodInfo[] FindStaticMessageMenuHandlers(long botId = 0)
         {
             var methods = FindMethods(typeof(ReplyMenuHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
-            return methods.Where(x => x.GetCustomAttributes(typeof(ReplyMenuDictionaryHandlerAttribute), true).Length == 0).ToArray();
+            return methods.Where(x => x.GetCustomAttributes(typeof(ReplyMenuDynamicHandlerAttribute), true).Length == 0).ToArray();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace PRTelegramBot.Utils
         /// <returns>Массив методов для reply команд</returns>
         public static MethodInfo[] FindStaticMessageMenuDictionaryHandlers(long botId = 0)
         {
-            return FindMethods(typeof(ReplyMenuDictionaryHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
+            return FindMethods(typeof(ReplyMenuDynamicHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>

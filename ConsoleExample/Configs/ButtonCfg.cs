@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRTelegramBot.Models.Configs
+namespace ConsoleExample.Configs
 {
-    public class CustomConfig : BaseConfig
+    internal class ButtonCfg
     {
-
+        
     }
 }

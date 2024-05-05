@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -136,9 +137,7 @@ namespace PRTelegramBot.Extensions
         public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, Enum? typeEvent = null, ConsoleColor color = ConsoleColor.Blue)
         {
             var bot = GetBotDataOrNull(botClient);
-
-            if (bot != null)
-                bot?.InvokeCommonLog(msg, typeEvent, color);
+            bot?.InvokeCommonLog(msg, typeEvent, color);
         }
 
         /// <summary>
@@ -150,9 +149,7 @@ namespace PRTelegramBot.Extensions
         public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, long? id = null)
         {
             var bot = GetBotDataOrNull(botClient);
-
-            if (bot != null)
-                bot?.InvokeErrorLog(ex, id);
+            bot?.InvokeErrorLog(ex, id);
         }
 
         /// <summary>
@@ -169,6 +166,41 @@ namespace PRTelegramBot.Extensions
 
             var bot = await botClient.GetMeAsync();
             return $"https://t.me/{bot.Username}?start={refLink}";
+        }
+
+        public static TReturn GetConfigValue<TBotProvider, TReturn>(this ITelegramBotClient botClient, string configKey, string key)
+            where TBotProvider : IBotConfigProvider
+        {
+            string configPath = botClient.GetBotDataOrNull().Options.ConfigPaths[configKey];
+            var botConfiguration = Activator.CreateInstance(typeof(TBotProvider)) as IBotConfigProvider;
+            botConfiguration.SetConfigPath(configPath);
+            return botConfiguration.GetValue<TReturn>(key);
+        }
+
+        public static bool TryGetConfigValue<TBotProvider, TReturn>(this ITelegramBotClient botClient, string configKey, string key, out TReturn result)
+            where TBotProvider : IBotConfigProvider, new()
+        {
+            result = default(TReturn);
+            try
+            {
+                var botConfiguration = new TBotProvider(); // Создание экземпляра поставщика конфигурации
+                string configPath = botClient.GetBotDataOrNull()?.Options?.ConfigPaths?.GetValueOrDefault(configKey);
+
+                if (configPath == null)
+                {
+                    // Если путь конфигурации не найден, возвращаем false
+                    return false;
+                }
+
+                botConfiguration.SetConfigPath(configPath); // Установка пути конфигурации
+                result = botConfiguration.GetValue<TReturn>(key); // Получение значения конфигурации
+                return true; // Успешно получили значение конфигурации
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибки и возврат false
+                return false;
+            }
         }
     }
 }

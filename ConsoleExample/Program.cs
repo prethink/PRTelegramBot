@@ -1,13 +1,11 @@
-﻿using NLog;
-using static PRTelegramBot.Core.PRBot;
-using PRTelegramBot.Extensions;
-using PRTelegramBot.Core;
-using PRTelegramBot.Configs;
-using ConsoleExample.Examples;
-using System.Reflection;
-using PRTelegramBot.Models.Enums;
+﻿using ConsoleExample.Examples;
 using ConsoleExample.Models;
 using ConsoleExample.Models.Enums;
+using NLog;
+using PRTelegramBot.Configs;
+using PRTelegramBot.Core;
+using PRTelegramBot.Extensions;
+using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -38,19 +36,9 @@ var telegram = new PRBot(options =>
     options.BotId = 0;
 });
 
-var telegramTwo = new PRBot(options =>
-{
-    // Токен telegram бота берется из BotFather
-    options.Token = "";
-    //Перед запуском очищает список обновлений, которые накопились когда бот не работал.
-    options.ClearUpdatesOnStart = true;
-    // Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи
-    options.WhiteListUsers = new List<long>() { };
-    // Идентификатор telegram пользователя
-    options.Admins = new List<long>() { };
-    // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
-    options.BotId = 1;
-});
+var telegramTwo = new PRBotBuilder("Token")
+                        .SetBotId(1)
+                        .Build();
 
 //Подписка на простые логи
 telegram.OnLogCommon                += Telegram_OnLogCommon;

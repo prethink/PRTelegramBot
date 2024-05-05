@@ -229,7 +229,7 @@ namespace PRTelegramBot.Core
                             continue;
                         }
 
-                        if (attribute is ReplyMenuDictionaryHandlerAttribute replyDictionary)
+                        if (attribute is ReplyMenuDynamicHandlerAttribute replyDictionary)
                         {
                             foreach (var command in replyDictionary.Commands)
                                 replyCommands.Add(command, telegramhandler);
@@ -273,7 +273,7 @@ namespace PRTelegramBot.Core
             MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
 
             RegisterStringCommand<ReplyMenuHandlerAttribute>(messageMethods, replyCommands);
-            RegisterStringCommand<ReplyMenuDictionaryHandlerAttribute>(messageDictionaryMethods, replyCommands);
+            RegisterStringCommand<ReplyMenuDynamicHandlerAttribute>(messageDictionaryMethods, replyCommands);
             RegisterStringCommand<SlashHandlerAttribute>(slashCommandMethods, slashCommands);
             RegisterEnumCommand(inlineMethods, inlineCommands);
         }

@@ -43,7 +43,7 @@ namespace PRTelegramBot.Tests.UtilsTests
         public void AccessUtils_WriteFlags(TestAccess flag, int exceptedMask)
         {
             var mask = AccessUtils.WriteFlags(flag);
-            Assert.IsTrue(mask == exceptedMask);
+            Assert.AreEqual(exceptedMask, mask);
         }
     }
 }

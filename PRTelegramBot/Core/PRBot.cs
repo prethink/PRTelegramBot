@@ -112,6 +112,9 @@ namespace PRTelegramBot.Core
         public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
             : this(options, null, receiverOptions, cancellationToken, null) { }
 
+        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+            : this(options, null, receiverOptions, cancellationToken, serviceProvider) { }
+
         public PRBot(TelegramOptions options)
             : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), null) { }
 
@@ -133,6 +136,9 @@ namespace PRTelegramBot.Core
         public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
             : this(null, options, receiverOptions, cancellationToken, null) { }
 
+        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+            : this(null, options, receiverOptions, cancellationToken, serviceProvider) { }
+
         private PRBot(Action<TelegramOptions> optionsBuilder, TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
         {
             if (optionsBuilder != null)
@@ -144,12 +150,12 @@ namespace PRTelegramBot.Core
                 throw new Exception("Bot token is empty");
 
             botClient = new TelegramBotClient(Options.Token);
-
+            BotCollection.Instance.AddBot(this);
             receiverOptions = receiverOptions;
             _serviceProvider = serviceProvider;
+            
             Handler = new Handler(this, _serviceProvider);
             cts = cancellationToken;
-            BotCollection.Instance.AddBot(this);
         }
 
         /// <summary>
