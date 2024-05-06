@@ -23,21 +23,28 @@ namespace PRTelegramBot.Core
             }
         }
 
+        public static long GetNextId()
+            => Instance.BotList.LastOrDefault().Key + 1;
+
         public void AddBot(PRBot bot) 
-        {
-            BotList.Add(bot.BotId, bot);
-        }
+            => BotList.Add(bot.BotId, bot);
 
-        public void RemoveBot(PRBot bot) => BotList.Remove(bot.BotId);
+        public void RemoveBot(PRBot bot) 
+            => BotList.Remove(bot.BotId);
 
-        public void ClearBots() => BotList.Clear();
+        public void ClearBots() 
+            => BotList.Clear();
 
-        public PRBot GetBotByTelegramIdOrNull(long? telegramId) => BotList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
+        public PRBot GetBotByTelegramIdOrNull(long? telegramId) 
+            => BotList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
 
-        public PRBot GetBotOrNull(long? botId) => BotList.Values.SingleOrDefault(x => x.BotId == botId);
+        public PRBot GetBotOrNull(long? botId) 
+            => BotList.Values.SingleOrDefault(x => x.BotId == botId);
 
-        public List<PRBot> GetBots() => BotList.Select(x => x.Value).ToList();
+        public List<PRBot> GetBots() 
+            => BotList.Select(x => x.Value).ToList();
 
-        public PRBot GetBotOrNull(string botName) => BotList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
+        public PRBot GetBotOrNull(string botName) 
+            => BotList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
     }
 }

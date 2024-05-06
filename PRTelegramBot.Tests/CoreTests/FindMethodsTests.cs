@@ -18,8 +18,8 @@ namespace PRTelegramBot.Tests.CoreTests
         private const string KEY_DYNAMIC_REPLY_ONE      = "";
         private const string KEY_DYNAMIC_REPLY_TWO      = "";
         private const string KEY_DYNAMIC_REPLY_THREE    = "dynamic three";
-        private const string KEY_DYNAMIC_REPLY_FOUR    = "dynamic four";
-        private const string KEY_DYNAMIC_REPLY_FIVE    = "dynamic five";
+        private const string KEY_DYNAMIC_REPLY_FOUR     = "dynamic four";
+        private const string KEY_DYNAMIC_REPLY_FIVE     = "dynamic five";
 
         public enum TestTHeader
         {
@@ -56,8 +56,8 @@ namespace PRTelegramBot.Tests.CoreTests
                             .AddReplyDynamicCommand(KEY_DYNAMIC_REPLY_ONE, "dynamic foure example");
 
             var bot = botBuilder.Build();
-            var botWithIdOne = botBuilder.SetBotId(1).Build();
-            var botWithIdTwo = botBuilder.SetBotId(2).Build();
+            var botWithIdOne = botBuilder.SetBotId(BotCollection.GetNextId()).Build();
+            var botWithIdTwo = botBuilder.SetBotId(BotCollection.GetNextId()).Build();
 
             MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(botId);
             Assert.AreEqual(exceptedMethodsCount, replyMethods.Length);
