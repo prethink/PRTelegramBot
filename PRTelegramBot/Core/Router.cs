@@ -5,6 +5,7 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
+using System.Data.SqlTypes;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -17,6 +18,10 @@ namespace PRTelegramBot.Core
     /// </summary>
     public class Router : IExecuteCommand
     {
+        public long SlashCommandCount => slashCommands.Count;
+        public long ReplyCommandCount => replyCommands.Count;
+        public long InlineCommandCount => inlineCommands.Count;
+
         #region Events
 
         /// <summary>
@@ -157,14 +162,6 @@ namespace PRTelegramBot.Core
         /// </summary>
         private IServiceProvider _serviceProvider;
 
-        public Router(PRBot botClient, IServiceProvider serviceProvider)
-        {
-            bot            = botClient;
-            _serviceProvider    = serviceProvider;
-
-            RegisterCommands();
-        }
-
         private void UpdateEventLink()
         {
             TypeMessage = new();
@@ -271,13 +268,13 @@ namespace PRTelegramBot.Core
             MethodInfo[] inlineMethods              = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
             MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
 
-            RegisterCommand<ReplyMenuHandlerAttribute, string>(messageMethods, replyCommands);
-            RegisterCommand<ReplyMenuDynamicHandlerAttribute, string>(messageDictionaryMethods, replyCommands);
-            RegisterCommand<SlashHandlerAttribute, string>(slashCommandMethods, slashCommands);
-            RegisterCommand<InlineCallbackHandlerAttribute<Enum>, Enum>(inlineMethods, inlineCommands);
+            RegisterCommand<string>(typeof(ReplyMenuHandlerAttribute), messageMethods, replyCommands);
+            RegisterCommand<string>(typeof(ReplyMenuDynamicHandlerAttribute), messageDictionaryMethods, replyCommands);
+            RegisterCommand<string>(typeof(SlashHandlerAttribute), slashCommandMethods, slashCommands);
+            RegisterCommand<Enum>(typeof(InlineCallbackHandlerAttribute<>), inlineMethods, inlineCommands);
         }
 
-        private void RegisterCommand<TAttribute, T>(MethodInfo[] methods, Dictionary<T, TelegramHandler> collectionCommands) where TAttribute : BaseQueryAttribute<T>
+        private void RegisterCommand<T>(Type attributetype , MethodInfo[] methods, Dictionary<T, TelegramHandler> collectionCommands)
         {
             foreach (var method in methods)
             {
@@ -286,12 +283,16 @@ namespace PRTelegramBot.Core
                     if (!method.IsStatic)
                         continue;
 
-                    foreach (var command in method.GetCustomAttribute<BaseQueryAttribute<T>>().Commands)
+                    var attribute = method.GetCustomAttribute(attributetype);
+                    if (attribute == null) 
+                        continue;
+
+                    foreach (var command in ((ICommandStore<T>)attribute).Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
-                            bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the {typeof(TAttribute)} attribute. The method will be ignored."));
+                            bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored."));
                             continue;
                         }
 
@@ -552,7 +553,7 @@ namespace PRTelegramBot.Core
                     return false;
 
                 var spl = command.Split(' ');
-                if (string.IsNullOrEmpty(spl[1]))
+                if (spl.Length < 2 || string.IsNullOrEmpty(spl[1]))
                     return false;
 
                 if (update.Message.Chat.Type != Telegram.Bot.Types.Enums.ChatType.Private)
@@ -648,5 +649,17 @@ namespace PRTelegramBot.Core
         {
             OnAccessDenied?.Invoke(botClient, update);
         }
+
+        #region Конструкторы
+
+        public Router(PRBot botClient, IServiceProvider serviceProvider)
+        {
+            bot = botClient;
+            _serviceProvider = serviceProvider;
+
+            RegisterCommands();
+        }
+
+        #endregion
     }
 }

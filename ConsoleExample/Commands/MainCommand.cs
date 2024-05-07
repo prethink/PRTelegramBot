@@ -6,6 +6,7 @@ using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using PRTelegramBot.Configs;
+using ConsoleExample;
 
 namespace PRTelegramBot.Commands
 {
@@ -17,7 +18,7 @@ namespace PRTelegramBot.Commands
         {
             try
             {
-                await MainMenu(botClient,  update.GetChatId(), botClient.GetConfigValue<BotConfigJsonProvider, string>("main", nameof(MessageKeys.MSG_MAIN_MENU)));
+                await MainMenu(botClient,  update.GetChatId(), botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, nameof(MessageKeys.MSG_MAIN_MENU)));
             }
             catch(Exception ex)
             {
@@ -29,7 +30,7 @@ namespace PRTelegramBot.Commands
         {
             try
             {
-                await MainMenu(botClient, telegramId, botClient.GetConfigValue<BotConfigJsonProvider, string>("main", nameof(MessageKeys.MSG_MAIN_MENU)));
+                await MainMenu(botClient, telegramId, botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, nameof(MessageKeys.MSG_MAIN_MENU)));
             }
             catch (Exception ex)
             {
@@ -48,7 +49,7 @@ namespace PRTelegramBot.Commands
                 }
 
                 var option = new OptionMessage();
-                option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, botClient.GetConfigValue<BotConfigJsonProvider, string>("main", nameof(ReplyKeys.RP_MAIN_MENU)));
+                option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, nameof(ReplyKeys.RP_MAIN_MENU)));
                 await Helpers.Message.Send(botClient, telegramId, message, option);
             }
             catch (Exception ex)

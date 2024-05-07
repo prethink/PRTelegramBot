@@ -1,4 +1,5 @@
-﻿using ConsoleExample.Examples;
+﻿using ConsoleExample;
+using ConsoleExample.Examples;
 using ConsoleExample.Models;
 using ConsoleExample.Models.Enums;
 using NLog;
@@ -22,23 +23,28 @@ Console.WriteLine($"Для закрытие программы напишите 
 
 
 #region запуск telegram бота
-var telegram = new PRBot(options =>
+
+var telegram = new PRBotBuilder("")
+                    .SetBotId(0)
+                    .AddConfigPath(ExampleConstants.BUTTONS_FILE_KEY, ".\\Configs\\buttons.json")
+                    .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
+                    .AddAdmin(1111111)
+                    .SetClearUpdatesOnStart(true)
+                    .Build();
+
+var telegramTwo = new PRBot(options =>
 {
     // Токен telegram бота берется из BotFather
-    options.Token = "";
+    options.Token = "555555:TestToken";
     // Перед запуском очищает список обновлений, которые накопились когда бот не работал.
     options.ClearUpdatesOnStart = true;
     // Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи
-    options.WhiteListUsers = new List<long>() {  };
+    options.WhiteListUsers = new List<long>() { };
     // Идентификатор telegram пользователя
-    options.Admins = new List<long>() {  };
+    options.Admins = new List<long>() { };
     // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
-    options.BotId = 0;
+    options.BotId = 1;
 });
-
-var telegramTwo = new PRBotBuilder("Token")
-                        .SetBotId(1)
-                        .Build();
 
 //Подписка на простые логи
 telegram.OnLogCommon                += Telegram_OnLogCommon;

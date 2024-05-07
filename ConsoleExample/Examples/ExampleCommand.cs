@@ -31,7 +31,7 @@ namespace ConsoleExample.Examples
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>("main", nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, nameof(MessageKeys.MSG_EXAMPLE_TEXT));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -40,7 +40,7 @@ namespace ConsoleExample.Examples
         public static async Task ExampleReplyX(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>("main", nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, nameof(MessageKeys.MSG_EXAMPLE_TEXT));
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -158,7 +158,7 @@ namespace ConsoleExample.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(botClient.GetConfigValue<BotConfigJsonProvider, string>("main", nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeaderTwo.ExampleOne);
+            var exampleItemOne = new InlineCallback(botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeaderTwo.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды

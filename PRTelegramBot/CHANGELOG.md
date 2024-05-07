@@ -1,4 +1,4 @@
--- 2024.05.07 - V0.6
+-- 2024.05.08 - V0.6
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: Unit тесты
 - feature: AccessUtil для работы с флагами доступа и масками

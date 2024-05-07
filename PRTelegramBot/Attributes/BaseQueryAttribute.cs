@@ -3,12 +3,12 @@
 namespace PRTelegramBot.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-    public class BaseQueryAttribute<T> : Attribute, IBotIdentifier
+    public class BaseQueryAttribute<T> : Attribute, IBotIdentifier, ICommandStore<T>
     {
         /// <summary>
         /// Коллекция команд.
         /// </summary>
-        public List<T> Commands { get; private set; } = new List<T>();
+        public List<T> Commands { get; set; } = new List<T>();
 
         #region IBotIdentifier
 

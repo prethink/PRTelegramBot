@@ -16,6 +16,7 @@ namespace PRTelegramBot.Commands
         /// </summary>
         [ReplyMenuDynamicHandler(nameof(ReplyKeys.RP_START))]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
+        [SlashHandler("/start")]
         public static async Task Start(ITelegramBotClient botClient, Update update)
         {
             await CheckRegister(botClient, update, true);
