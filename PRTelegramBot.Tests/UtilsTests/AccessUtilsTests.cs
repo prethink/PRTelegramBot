@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Extensions;
+﻿using FluentAssertions;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Tests.UtilsTests
@@ -23,7 +24,7 @@ namespace PRTelegramBot.Tests.UtilsTests
         [TestCase(READ_FLAG, TestAccess.Read)]
         public void AccessUtils_ReadFlags_HasFlag(int mask, TestAccess exceptedFlag)
         {
-            Assert.IsTrue(mask.HasFlag(exceptedFlag));
+            mask.HasFlag(exceptedFlag).Should().BeTrue();
         }
 
         [Test]
@@ -33,7 +34,7 @@ namespace PRTelegramBot.Tests.UtilsTests
         [TestCase(READ_FLAG, TestAccess.ReadWrite)]
         public void AccessUtils_ReadFlags_NotHasFlag(int mask, TestAccess exceptedFlag)
         {
-            Assert.IsTrue(!mask.HasFlag(exceptedFlag));
+            mask.HasFlag(exceptedFlag).Should().BeFalse();
         }
 
         [Test]

@@ -86,7 +86,7 @@ namespace PRTelegramBot.Core
         public PRBotBuilder AddReplyDynamicCommands(Dictionary<string, string> dynamicCommands)
         {
             foreach (var command in dynamicCommands)
-                dynamicCommands.Add(command.Key, command.Value);
+                options.ReplyDynamicCommands.Add(command.Key, command.Value);
             return this;
         }
 
@@ -151,7 +151,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="configPaths">Коллекция путей.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder AdditionalConfigPaths(Dictionary<string, string> configPaths)
+        public PRBotBuilder AddConfigPaths(Dictionary<string, string> configPaths)
         {
             foreach (var configPath in configPaths)
                 options.ConfigPaths.Add(configPath.Key, configPath.Value);
