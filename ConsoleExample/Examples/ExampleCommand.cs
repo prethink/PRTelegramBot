@@ -26,8 +26,8 @@ namespace ConsoleExample.Examples
         /// Напишите в чате /reply
         /// Пример с использование одновременно слеш команды и reply
         /// </summary>
-        [ReplyMenuHandler(ReplyKeys.RP_EXAMPLE)]
-        [SlashHandler(SlashKeys.SL_EXAMPLE_WITH_REPLY)]
+        [ReplyMenuHandler("Пример")]
+        [SlashHandler("/reply")]
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
@@ -35,8 +35,8 @@ namespace ConsoleExample.Examples
             await Helpers.Message.Send(botClient, update, msg);
         }
 
-        [ReplyMenuHandler(1, ReplyKeys.RP_EXAMPLE)]
-        [SlashHandler(1,SlashKeys.SL_EXAMPLE_WITH_REPLY)]
+        [ReplyMenuHandler(1, "Пример")]
+        [SlashHandler(1, "/reply")]
         public static async Task ExampleReplyX(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
@@ -48,7 +48,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чате "ReplyMenu"
         /// Пример генерации reply меню
         /// </summary>
-        [ReplyMenuHandler(ReplyKeys.RP_EXAMPLE_REPLY_MENU)]
+        [ReplyMenuHandler("ReplyMenu")]
         public static async Task ExampleReplyMenu(ITelegramBotClient botClient, Update update)
         {
             string msg = "Меню";
@@ -95,7 +95,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чате "Скобки"
         /// Пример если в кнопки должно отображаться количество в скобках (2)
         /// </summary>
-        [ReplyMenuHandler(ReplyKeys.PR_EXAMPLE_BRACKETS)]
+        [ReplyMenuHandler("Скобки")]
         public static async Task ExampleBracket(ITelegramBotClient botClient, Update update)
         {
             
@@ -120,7 +120,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чате "Пример 1" или "Пример 2"
         /// Пример с использованием разных reply команд для вывода одной и той же функции
         /// </summary>
-        [ReplyMenuHandler(ReplyKeys.RP_EXAMPLE_ONE, ReplyKeys.RP_EXAMPLE_TWO)]
+        [ReplyMenuHandler("Пример 1", "Пример 2")]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
         {
@@ -151,7 +151,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чате "InlineMenu"
         /// Пример с генерацией inline меню
         /// </summary>
-        [ReplyMenuHandler(ReplyKeys.RP_EXAMPLE_INLINE_MENU)]
+        [ReplyMenuHandler("InlineMenu")]
         public static async Task InlineMenu(ITelegramBotClient botClient, Update update)
         {
             /* Создание новой кнопки с callback данными
@@ -211,7 +211,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// напиши команду в чате /example
         /// </summary>
-        [SlashHandler(SlashKeys.SL_EXAMPLE)]
+        [SlashHandler("/example")]
         public static async Task SlashCommand(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Команда {SlashKeys.SL_EXAMPLE}";
@@ -225,7 +225,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// напиши команду в чате /get_1
         /// </summary>
-        [SlashHandler(SlashKeys.SL_EXAMPLE_GET)]
+        [SlashHandler("/get")]
         public static async Task SlashCommandGet(ITelegramBotClient botClient, Update update)
         {
             if (update.Message.Text.Contains("_"))

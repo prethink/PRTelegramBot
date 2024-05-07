@@ -271,13 +271,13 @@ namespace PRTelegramBot.Core
             MethodInfo[] inlineMethods              = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
             MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
 
-            RegisterStringCommand<ReplyMenuHandlerAttribute>(messageMethods, replyCommands);
-            RegisterStringCommand<ReplyMenuDynamicHandlerAttribute>(messageDictionaryMethods, replyCommands);
-            RegisterStringCommand<SlashHandlerAttribute>(slashCommandMethods, slashCommands);
-            RegisterEnumCommand(inlineMethods, inlineCommands);
+            RegisterCommand<ReplyMenuHandlerAttribute, string>(messageMethods, replyCommands);
+            RegisterCommand<ReplyMenuDynamicHandlerAttribute, string>(messageDictionaryMethods, replyCommands);
+            RegisterCommand<SlashHandlerAttribute, string>(slashCommandMethods, slashCommands);
+            RegisterCommand<InlineCallbackHandlerAttribute<Enum>, Enum>(inlineMethods, inlineCommands);
         }
 
-        private void RegisterStringCommand<TAttribute>(MethodInfo[] methods, Dictionary<string, TelegramHandler> collectionCommands) where TAttribute : BaseQueryAttribute<string>
+        private void RegisterCommand<TAttribute, T>(MethodInfo[] methods, Dictionary<T, TelegramHandler> collectionCommands) where TAttribute : BaseQueryAttribute<T>
         {
             foreach (var method in methods)
             {
@@ -286,7 +286,7 @@ namespace PRTelegramBot.Core
                     if (!method.IsStatic)
                         continue;
 
-                    foreach (var command in method.GetCustomAttribute<TAttribute>().Commands)
+                    foreach (var command in method.GetCustomAttribute<BaseQueryAttribute<T>>().Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
@@ -300,40 +300,9 @@ namespace PRTelegramBot.Core
                         collectionCommands.Add(command, telegramCommand);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     bot.InvokeErrorLog(ex);
-                }
-            }
-        }
-
-        private void RegisterEnumCommand(MethodInfo[] methods, Dictionary<Enum, TelegramHandler> collectionCommands)
-        {
-            foreach (var method in methods)
-            {
-                if (!method.IsStatic)
-                    continue;
-
-                foreach (var attribute in method.GetCustomAttributes(true))
-                {
-                    if (!attribute.GetType().IsGenericType || attribute.GetType().GetGenericTypeDefinition() != typeof(InlineCallbackHandlerAttribute<>))
-                        continue;
-
-                    bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
-                    if (!isValidMethod)
-                    {
-                        bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the InlineCallbackHandler attribute. The method will be ignored."));
-                        continue;
-                    }
-                    var commandsProperty = attribute.GetType().GetProperty(PropertyCommandsName);
-                    var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
-
-                    foreach (var command in commands)
-                    {
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        var telegramCommand = new TelegramHandler((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                        collectionCommands.Add(command, telegramCommand);
-                    }
                 }
             }
         }

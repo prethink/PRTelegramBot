@@ -1,4 +1,6 @@
-﻿namespace PRTelegramBot.Attributes
+﻿using System.Collections.Generic;
+
+namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Атрибут для работы слэш (/) команд
