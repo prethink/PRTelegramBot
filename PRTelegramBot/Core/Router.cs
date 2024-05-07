@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
@@ -333,7 +332,7 @@ namespace PRTelegramBot.Core
                     {
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
                         var telegramCommand = new TelegramHandler((Func<ITelegramBotClient, Update, Task>)serverMessageHandler);
-                        inlineCommands.Add(command, telegramCommand);
+                        collectionCommands.Add(command, telegramCommand);
                     }
                 }
             }

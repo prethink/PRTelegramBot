@@ -1,17 +1,24 @@
-﻿using PRTelegramBot.Interfaces;
-
-namespace PRTelegramBot.Core
+﻿namespace PRTelegramBot.Core
 {
-    public class BotCollection : IBotCollection
+    /// <summary>
+    /// Класс хранящий всех ботов.
+    /// </summary>
+    public class BotCollection 
     {
-        private static BotCollection instance;
-
-        private Dictionary<long, PRBot> BotList = new Dictionary<long, PRBot>();
-
-        private BotCollection() { }
+        #region Поля и свойства
 
         /// <summary>
-        /// 
+        /// Экземпляр класса.
+        /// </summary>
+        private static BotCollection instance;
+
+        /// <summary>
+        /// Коллекция ботов.
+        /// </summary>
+        private Dictionary<long, PRBot> BotList = new Dictionary<long, PRBot>();
+
+        /// <summary>
+        /// Singleton экземпляр.
         /// </summary>
         public static BotCollection Instance
         {
@@ -23,28 +30,74 @@ namespace PRTelegramBot.Core
             }
         }
 
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Получить следующий идентификатор для бота.
+        /// </summary>
+        /// <returns>Идентификатор бота.</returns>
         public static long GetNextId()
             => Instance.BotList.LastOrDefault().Key + 1;
 
-        public void AddBot(PRBot bot) 
+        /// <summary>
+        /// Добавить бота в коллекцию.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        public void AddBot(PRBot bot)
             => BotList.Add(bot.BotId, bot);
 
-        public void RemoveBot(PRBot bot) 
+        /// <summary>
+        /// Удалить бота из коллекции.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        public void RemoveBot(PRBot bot)
             => BotList.Remove(bot.BotId);
 
-        public void ClearBots() 
+        /// <summary>
+        /// Очистить всех ботов.
+        /// </summary>
+        public void ClearBots()
             => BotList.Clear();
 
-        public PRBot GetBotByTelegramIdOrNull(long? telegramId) 
+        /// <summary>
+        /// Получить бота по telegram id.
+        /// </summary>
+        /// <param name="telegramId">Идентификатор telegram.</param>
+        /// <returns>Экземпляр класса бота или null.</returns>
+        public PRBot GetBotByTelegramIdOrNull(long? telegramId)
             => BotList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
 
-        public PRBot GetBotOrNull(long? botId) 
+        /// <summary>
+        /// Получить экземпляр бота.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <returns>Экземпляр класса бота или null.</returns>
+        public PRBot GetBotOrNull(long? botId)
             => BotList.Values.SingleOrDefault(x => x.BotId == botId);
 
-        public List<PRBot> GetBots() 
+        /// <summary>
+        /// Получить всех ботов.
+        /// </summary>
+        /// <returns>Коллекция ботов.</returns>
+        public List<PRBot> GetBots()
             => BotList.Select(x => x.Value).ToList();
 
-        public PRBot GetBotOrNull(string botName) 
+        /// <summary>
+        /// Получить экземпляр бота.
+        /// </summary>
+        /// <param name="botName">Название/логин бота.</param>
+        /// <returns>Экземпляр класса бота или null.</returns>
+        public PRBot GetBotOrNull(string botName)
             => BotList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
+
+        #endregion
+
+        #region Конструкторы
+
+        private BotCollection() { }
+
+        #endregion
     }
 }

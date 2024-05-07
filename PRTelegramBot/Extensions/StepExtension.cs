@@ -1,7 +1,6 @@
-﻿using Telegram.Bot.Types;
-using PRTelegramBot.Models;
+﻿using PRTelegramBot.Interfaces;
 using System.Collections.Concurrent;
-using PRTelegramBot.Interfaces;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Extensions
 {

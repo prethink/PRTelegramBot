@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Привилегии пользователей
+    /// Пример привилегии пользователя.
     /// </summary>
     [Flags]
     public enum UserPrivilege
