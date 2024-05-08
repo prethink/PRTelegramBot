@@ -1,6 +1,7 @@
 ﻿using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
-using PRTelegramBot.Commands.Constants;
+using PRTelegramBot.Configs;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.InlineButtons;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
@@ -11,9 +12,7 @@ using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using PRTelegramBot.Extensions;
 using Helpers = PRTelegramBot.Helpers;
-using PRTelegramBot.Configs;
 
 namespace ConsoleExample.Examples
 {
@@ -31,7 +30,7 @@ namespace ConsoleExample.Examples
         public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -40,7 +39,7 @@ namespace ConsoleExample.Examples
         public static async Task ExampleReplyX(ITelegramBotClient botClient, Update update)
         {
             //Пример как получить текст сообщения из JSON файла
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, nameof(MessageKeys.MSG_EXAMPLE_TEXT));
+            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
             await Helpers.Message.Send(botClient, update, msg);
         }
 
@@ -106,7 +105,7 @@ namespace ConsoleExample.Examples
             //Создаем список для меню
             var menuList = new List<KeyboardButton>();
             //Добавляем кнопку с текстом
-            menuList.Add(new KeyboardButton(ReplyKeys.PR_EXAMPLE_BRACKETS+$" ({count})"));
+            menuList.Add(new KeyboardButton($"Скобки ({count})"));
             //Генерируем reply меню
             //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
@@ -135,7 +134,7 @@ namespace ConsoleExample.Examples
         /// [RequiredTypeUpdate] Пример того что метод будет обрабатывать обновление только приватного чата
         /// [RequireDate]Пример того что метод будет обрабатывать только текстовые сообщения
         /// </summary>
-        [ReplyMenuDynamicHandler(nameof(ReplyKeys.RP_EXAMPLE_FROM_JSON))]
+        [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
         public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
@@ -158,13 +157,13 @@ namespace ConsoleExample.Examples
              * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, nameof(InlineKeys.IN_EXAMPLE_ONE)), CustomTHeaderTwo.ExampleOne);
+            var exampleItemOne = new InlineCallback(botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE"), CustomTHeaderTwo.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>(InlineKeys.IN_EXAMPLE_TWO, CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>("Пример 2", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2));
             /* Создание новой кнопки с callback данными
              * Models.Enums.CallbackId.ExampleOne - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
@@ -214,7 +213,7 @@ namespace ConsoleExample.Examples
         [SlashHandler("/example")]
         public static async Task SlashCommand(ITelegramBotClient botClient, Update update)
         {
-            string msg = $"Команда {SlashKeys.SL_EXAMPLE}";
+            string msg = $"Команда /example";
             msg += "\n /get_1 - команда 1" +
                 "\n /get_2 - команда 2" +
                 "\n /get_3 - команда 3" +
@@ -233,18 +232,18 @@ namespace ConsoleExample.Examples
                 var spl = update.Message.Text.Split("_");
                 if (spl.Length > 1)
                 {
-                    string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET} со значением {spl[1]}";
+                    string msg = $"Команда /get со значением {spl[1]}";
                     await Helpers.Message.Send(botClient, update, msg);
                 }
                 else
                 {
-                    string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET}";
+                    string msg = $"Команда /get";
                     await Helpers.Message.Send(botClient, update, msg);
                 }
             }
             else
             {
-                string msg = $"Команда {SlashKeys.SL_EXAMPLE_GET}";
+                string msg = $"Команда /get";
                 await Helpers.Message.Send(botClient, update, msg);
             }
         }

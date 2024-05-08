@@ -1,42 +1,32 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models;
 
 namespace PRTelegramBot.Configs
 {
     public class BotConfigJsonProvider : IBotConfigProvider
     {
+        #region Поля и свойства
+
         private IConfigurationRoot config { get; set; }
 
-        public BotConfigJsonProvider() { }
+        private string configPath { get; set; }
 
-        public BotConfigJsonProvider(string configPath)
-        {
-            SetConfigPath(configPath);
-        }
+        #endregion
 
-        public TReturn GetValue<TReturn>(string section)
+        #region IBotConfigProvider
+
+        public void SetConfigPath(string configPath)
         {
-            return config.GetSection(section).Get<TReturn>();
+            this.configPath = configPath;
+            config = new ConfigurationBuilder()
+                .AddJsonFile(configPath).Build();
         }
 
         public T GetSettings<T>()
         {
             var section = config.GetSection(typeof(T).Name);
             return section.Get<T>();
-        }
-
-        public T GetSettings<T>(IConfigurationRoot config)
-        {
-            var section = config.GetSection(typeof(T).Name);
-            return section.Get<T>();
-        }
-
-        public void SetConfigPath(string configPath)
-        {
-            config = new ConfigurationBuilder()
-                .AddJsonFile(configPath).Build();
         }
 
         public string GetValueByKey<T>(string key) where T : class
@@ -46,5 +36,36 @@ namespace PRTelegramBot.Configs
             var value = propertyInfo.GetValue(sectionData);
             return (string)value;
         }
+
+        public TReturn GetValue<TReturn>(string section)
+        {
+            return config.GetSection(section).Get<TReturn>();
+        }
+
+        public Dictionary<string, string> GetKeysAndValues()
+        {
+            string json = File.ReadAllText(configPath);
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        }
+
+        public Dictionary<string, string> GetKeysAndValuesBySection<T>()
+        {
+            return config.GetSection(typeof(T).Name).AsEnumerable()
+                .Where(x => !string.IsNullOrEmpty(x.Value))
+                .ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        #endregion
+
+        #region Конструкторы
+
+        public BotConfigJsonProvider() { }
+
+        public BotConfigJsonProvider(string configPath)
+        {
+            SetConfigPath(configPath);
+        }
+
+        #endregion
     }
 }

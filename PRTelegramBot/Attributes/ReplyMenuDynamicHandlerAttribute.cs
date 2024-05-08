@@ -2,13 +2,14 @@
 
 namespace PRTelegramBot.Attributes
 {
-    public class ReplyMenuDynamicHandlerAttribute : ReplyMenuHandlerAttribute 
+    public class ReplyMenuDynamicHandlerAttribute : BaseQueryAttribute<string>
     {
         public ReplyMenuDynamicHandlerAttribute(params string[] commands)
             : this(0, commands) { }
 
-        public ReplyMenuDynamicHandlerAttribute(long botId, params string[] commands) : base(botId, commands)
+        public ReplyMenuDynamicHandlerAttribute(long botId, params string[] commands) : base(botId)
         {
+            this.commands.AddRange(commands);
             var bot = BotCollection.Instance.GetBotOrNull(botId);
             if (bot == null)
                 return;
@@ -21,7 +22,7 @@ namespace PRTelegramBot.Attributes
                     //bot.InvokeErrorLog();
                     continue;
                 }
-                Commands.Add(dynamicCommand[command]);
+                this.commands.Add(dynamicCommand[command]);
             }
         }
     }

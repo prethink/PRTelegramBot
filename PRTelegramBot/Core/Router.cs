@@ -5,7 +5,6 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
-using System.Data.SqlTypes;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -20,6 +19,7 @@ namespace PRTelegramBot.Core
     {
         public long SlashCommandCount => slashCommands.Count;
         public long ReplyCommandCount => replyCommands.Count;
+        public long ReplyDynamicCommandCount => replyDynamicCommands.Count;
         public long InlineCommandCount => inlineCommands.Count;
 
         #region Events
@@ -148,6 +148,11 @@ namespace PRTelegramBot.Core
         private Dictionary<string, TelegramHandler> replyCommands { get; set; } = new();
 
         /// <summary>
+        /// Словарь reply dynamic команд
+        /// </summary>
+        private Dictionary<string, TelegramHandler> replyDynamicCommands { get; set; } = new();
+
+        /// <summary>
         /// Словарь Inline команд
         /// </summary>
         private Dictionary<Enum, TelegramHandler> inlineCommands { get; set; } = new();
@@ -228,7 +233,7 @@ namespace PRTelegramBot.Core
                         if (attribute is ReplyMenuDynamicHandlerAttribute replyDictionary)
                         {
                             foreach (var command in replyDictionary.Commands)
-                                replyCommands.Add(command, telegramhandler);
+                                replyDynamicCommands.Add(command, telegramhandler);
 
                             continue;
                         }
@@ -269,7 +274,7 @@ namespace PRTelegramBot.Core
             MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
 
             RegisterCommand<string>(typeof(ReplyMenuHandlerAttribute), messageMethods, replyCommands);
-            RegisterCommand<string>(typeof(ReplyMenuDynamicHandlerAttribute), messageDictionaryMethods, replyCommands);
+            RegisterCommand<string>(typeof(ReplyMenuDynamicHandlerAttribute), messageDictionaryMethods, replyDynamicCommands);
             RegisterCommand<string>(typeof(SlashHandlerAttribute), slashCommandMethods, slashCommands);
             RegisterCommand<Enum>(typeof(InlineCallbackHandlerAttribute<>), inlineMethods, inlineCommands);
         }
@@ -447,9 +452,9 @@ namespace PRTelegramBot.Core
                     }
                 }
 
-                var resultExecute = await ExecuteCommand(command, update, replyCommands); 
+                var resultExecute = await ExecuteCommand(command, update, GetAllReplyCommands()); 
 
-                if(resultExecute == ResultCommand.NotFound)
+                if (resultExecute == ResultCommand.NotFound)
                     OnMissingCommand?.Invoke(bot.botClient, update);
             }
             catch (Exception ex)
@@ -494,7 +499,7 @@ namespace PRTelegramBot.Core
                 if (!update.HasStepHandler())
                     return false;
 
-                var resultPriorityCommandExecute = await ExecuteCommand(command, update, replyCommands);
+                var resultPriorityCommandExecute = await ExecuteCommand(command, update, GetAllReplyCommands());
 
                 if (resultPriorityCommandExecute != ResultCommand.NotFound)
                 {
@@ -648,6 +653,14 @@ namespace PRTelegramBot.Core
         internal async Task OnAccessDeniedInvoke(ITelegramBotClient botClient, Update update)
         {
             OnAccessDenied?.Invoke(botClient, update);
+        }
+
+        private Dictionary<string, TelegramHandler> GetAllReplyCommands()
+        {
+            var dict = replyCommands.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value);
+           
+            return dict.Union(replyDynamicCommands).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
         #region Конструкторы

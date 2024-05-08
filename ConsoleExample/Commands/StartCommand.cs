@@ -1,11 +1,8 @@
-﻿using PRTelegramBot.Attributes;
+﻿using ConsoleExample.Models;
+using PRTelegramBot.Attributes;
+using PRTelegramBot.Extensions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using PRTelegramBot.Extensions;
-using PRTelegramBot.Core;
-using PRTelegramBot.Commands.Constants;
-using ConsoleExample.Models;
-using PRTelegramBot.Models;
 
 namespace PRTelegramBot.Commands
 {
@@ -14,7 +11,7 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Обработка команды старт
         /// </summary>
-        [ReplyMenuDynamicHandler(nameof(ReplyKeys.RP_START))]
+        [ReplyMenuDynamicHandler("RP_START")]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         [SlashHandler("/start")]
         public static async Task Start(ITelegramBotClient botClient, Update update)

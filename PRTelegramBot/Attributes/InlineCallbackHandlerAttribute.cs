@@ -11,7 +11,7 @@
         public InlineCallbackHandlerAttribute(long botId, params T[] commands) : base(botId)
         {
             foreach (var command in commands)
-                Commands.Add((Enum)command);
+                this.commands.Add((Enum)command);
         }
     }
 }

@@ -5,10 +5,11 @@ namespace PRTelegramBot.Attributes
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public class BaseQueryAttribute<T> : Attribute, IBotIdentifier, ICommandStore<T>
     {
+        protected List<T> commands = new List<T>();
         /// <summary>
         /// Коллекция команд.
         /// </summary>
-        public List<T> Commands { get; set; } = new List<T>();
+        public IEnumerable<T> Commands { get { return commands.ToList(); } }
 
         #region IBotIdentifier
 

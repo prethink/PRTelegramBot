@@ -1,15 +1,13 @@
-﻿using PRTelegramBot.Attributes;
-using Telegram.Bot.Types;
-using Telegram.Bot;
+﻿using ConsoleExample.Models;
+using PRTelegramBot.Attributes;
+using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
-using PRTelegramBot.Commands.Constants;
-using Helpers = PRTelegramBot.Helpers;
-using ConsoleExample.Models;
-using PRTelegramBot.Utils;
 using PRTelegramBot.Models.InlineButtons;
-using System.Globalization;
-using PRTelegramBot.Configs;
+using PRTelegramBot.Utils;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples
 {
@@ -65,7 +63,7 @@ namespace ConsoleExample.Examples
             var option = new OptionMessage();
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
-            option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, nameof(ReplyKeys.RP_MAIN_MENU)));
+            option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "RP_MAIN_MENU"));
             await Helpers.Message.Send(botClient, update, msg, option);
         }
 

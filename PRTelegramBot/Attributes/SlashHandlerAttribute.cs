@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PRTelegramBot.Attributes
+﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Атрибут для работы слэш (/) команд
@@ -21,7 +19,7 @@ namespace PRTelegramBot.Attributes
             foreach (var command in commands)
             {
                 var formatedCommand = command.StartsWith("/") ? command : "/" + command;
-                Commands.Add(formatedCommand);
+                this.commands.Add(formatedCommand);
             }
         }
     }

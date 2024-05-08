@@ -30,5 +30,18 @@
         /// <param name="section"></param>
         /// <returns></returns>
         public TReturn GetValue<TReturn>(string section);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> GetKeysAndValues();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Dictionary<string, string> GetKeysAndValuesBySection<T>();
     }
 }

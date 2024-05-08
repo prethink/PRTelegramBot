@@ -1,5 +1,4 @@
-﻿using ConsoleExample;
-using ConsoleExample.Examples;
+﻿using ConsoleExample.Examples;
 using ConsoleExample.Models;
 using ConsoleExample.Models.Enums;
 using NLog;
@@ -22,6 +21,9 @@ Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
 
+
+var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
+var dynamicCommands = botJsonProvider.GetKeysAndValues();
 #region запуск telegram бота
 
 var telegram = new PRBotBuilder("")
@@ -30,6 +32,7 @@ var telegram = new PRBotBuilder("")
                     .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
                     .AddAdmin(1111111)
                     .SetClearUpdatesOnStart(true)
+                    .AddReplyDynamicCommands(dynamicCommands)
                     .Build();
 
 var telegramTwo = new PRBot(options =>

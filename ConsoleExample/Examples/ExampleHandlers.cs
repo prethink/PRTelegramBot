@@ -1,12 +1,10 @@
-﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Core;
+﻿using ConsoleExample.Models;
+using PRTelegramBot.Attributes;
 using PRTelegramBot.Models.CallbackCommands;
-using Telegram.Bot.Types;
-using Telegram.Bot;
 using PRTelegramBot.Models.InlineButtons;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
-using Header = PRTelegramBot.Models.Enums.THeader;
-using ConsoleExample.Models;
 
 namespace ConsoleExample.Examples
 {

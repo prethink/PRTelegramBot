@@ -15,7 +15,7 @@
         /// <param name="commands"></param>
         public ReplyMenuHandlerAttribute(long botId, params string[] commands) : base(botId)
         {
-            Commands.AddRange(commands);
+            this.commands.AddRange(commands);
         }
     }
 }
