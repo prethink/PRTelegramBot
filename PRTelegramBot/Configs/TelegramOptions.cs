@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Configs
 {
     /// <summary>
-    /// Конфигурация telegram бота
+    /// Параметры telegram бота.
     /// </summary>
     public class TelegramOptions : ICloneable
     {
@@ -11,14 +11,14 @@
         public string Token { get; set; }
 
         /// <summary>
-        /// Список администраторов бота
-        /// Идентификатор telegram пользователя
+        /// Список администраторов бота.
+        /// Идентификатор telegram пользователя.
         /// </summary>
         public List<long> Admins { get; set; } = new List<long>();
 
         /// <summary>
         /// Список разрешенных пользователей бота
-        /// Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи
+        /// Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи.
         /// </summary>
         public List<long> WhiteListUsers { get; set; } = new List<long>();
 
@@ -28,7 +28,7 @@
         public bool ClearUpdatesOnStart { get; set; }
 
         /// <summary>
-        /// Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
+        /// Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов.
         /// </summary>
         public long BotId { get; set; }
 

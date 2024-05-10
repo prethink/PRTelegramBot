@@ -134,7 +134,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="msg">Сообщение.</param>
         /// <param name="typeEvent">Тип события.</param>
         /// <param name="color">Цвет.</param>
-        public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, Enum? typeEvent = null, ConsoleColor color = ConsoleColor.Blue)
+        public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
         {
             var bot = GetBotDataOrNull(botClient);
             bot?.InvokeCommonLog(msg, typeEvent, color);

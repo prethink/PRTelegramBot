@@ -198,16 +198,10 @@ namespace PRTelegramBot.Helpers
             option = MessageUtils.CreateOptionsIfNull(option);
 
             if (!System.IO.File.Exists(filePath))
-            {
                 return await Send(botClient, chatId, msg, option);
-            }
-
-            Telegram.Bot.Types.Message message;
 
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
                 return await SendPhoto(botClient, chatId, msg, fileStream, option);
-            }
         }
 
         /// <summary>

@@ -475,7 +475,7 @@ namespace PRTelegramBot.Core
                 if (command != null)
                 {
                     string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
-                    bot.InvokeCommonLog(msg, BaseEventTelegram.CallBackCommand, ConsoleColor.Magenta);
+                    bot.InvokeCommonLog(msg, "CallBackCommand", ConsoleColor.Magenta);
 
                     var resultExecute = await ExecuteCommand(command.CommandType, update, inlineCommands);
                 }
@@ -624,7 +624,7 @@ namespace PRTelegramBot.Core
 
             if (requireUpdate != null)
             {
-                if (!requireUpdate.TypeUpdate.Contains(update!.Message!.Chat.Type))
+                if (!requireUpdate.TypesChat.Contains(update!.Message!.Chat.Type))
                 {
                     OnWrongTypeChat?.Invoke(bot.botClient, update);
                     return ResultCommand.WrongChatType;

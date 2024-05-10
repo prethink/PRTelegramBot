@@ -1,4 +1,4 @@
--- 2024.05.08 - V0.6
+-- 2024.05.10 - V0.6
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: Unit тесты
 - feature: AccessUtil для работы с флагами доступа и масками
@@ -8,10 +8,13 @@
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension
+- refactoring: PageHelper переименован в PageExtension
 - refactoring: В TelegramOptions добавлен параметр configPath
 - refactoring: TelegramConfig заменен TelegramOptions
 - refactoring: Рефакторинг ServiceProviderExtension
 - refactoring: Удален класс TextConfig
+- refactoring: Удален enum BaseEventTelegram
+- refactoring: В логирование заменен Enum на string
 - refactoring: Рефакторинг
 
 -- 2024.01.02 - V0.5.5

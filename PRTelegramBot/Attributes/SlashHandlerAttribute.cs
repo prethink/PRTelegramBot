@@ -1,19 +1,24 @@
 ﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут для работы слэш (/) команд
+    /// Атрибут для работы слэш (/) команд.
     /// </summary>
     public class SlashHandlerAttribute : BaseQueryAttribute<string>
     {
+        #region Конструкторы
 
-        public SlashHandlerAttribute(params string[] commands) 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="commands">Команды.</param>
+        public SlashHandlerAttribute(params string[] commands)
             : this(0, commands) { }
 
         /// <summary>
-        /// 
+        /// Конструктор.
         /// </summary>
-        /// <param name="botId"></param>
-        /// <param name="commands"></param>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(long botId, params string[] commands) : base(botId)
         {
             foreach (var command in commands)
@@ -22,5 +27,7 @@
                 this.commands.Add(formatedCommand);
             }
         }
+
+        #endregion
     }
 }

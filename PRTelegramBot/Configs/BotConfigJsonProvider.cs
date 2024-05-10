@@ -4,12 +4,18 @@ using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Configs
 {
+    /// <summary>
+    /// Провайдер работы с конфигурационными json файлами.
+    /// </summary>
     public class BotConfigJsonProvider : IBotConfigProvider
     {
         #region Поля и свойства
 
-        private IConfigurationRoot config { get; set; }
+        private IConfigurationRoot configuration { get; set; }
 
+        /// <summary>
+        /// Путь до json файла.
+        /// </summary>
         private string configPath { get; set; }
 
         #endregion
@@ -19,27 +25,20 @@ namespace PRTelegramBot.Configs
         public void SetConfigPath(string configPath)
         {
             this.configPath = configPath;
-            config = new ConfigurationBuilder()
+            configuration = new ConfigurationBuilder()
                 .AddJsonFile(configPath).Build();
         }
 
-        public T GetSettings<T>()
+        public TOptions GetOptions<TOptions>() 
+            where TOptions : class
         {
-            var section = config.GetSection(typeof(T).Name);
-            return section.Get<T>();
-        }
-
-        public string GetValueByKey<T>(string key) where T : class
-        {
-            var sectionData = GetSettings<T>();
-            var propertyInfo = typeof(T).GetProperty(key);
-            var value = propertyInfo.GetValue(sectionData);
-            return (string)value;
+            var section = configuration.GetSection(typeof(TOptions).Name);
+            return section.Get<TOptions>();
         }
 
         public TReturn GetValue<TReturn>(string section)
         {
-            return config.GetSection(section).Get<TReturn>();
+            return configuration.GetSection(section).Get<TReturn>();
         }
 
         public Dictionary<string, string> GetKeysAndValues()
@@ -48,9 +47,10 @@ namespace PRTelegramBot.Configs
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
         }
 
-        public Dictionary<string, string> GetKeysAndValuesBySection<T>()
+        public Dictionary<string, string> GetKeysAndValuesByOptions<T>() 
+            where T : class
         {
-            return config.GetSection(typeof(T).Name).AsEnumerable()
+            return configuration.GetSection(typeof(T).Name).AsEnumerable()
                 .Where(x => !string.IsNullOrEmpty(x.Value))
                 .ToDictionary(x => x.Key, x => x.Value);
         }
@@ -59,8 +59,15 @@ namespace PRTelegramBot.Configs
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         public BotConfigJsonProvider() { }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="configPath">Путь до json файла.</param>
         public BotConfigJsonProvider(string configPath)
         {
             SetConfigPath(configPath);

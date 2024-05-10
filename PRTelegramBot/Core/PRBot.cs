@@ -64,7 +64,7 @@ namespace PRTelegramBot.Core
         /// <param name="msg">Сообщение</param>
         /// <param name="typeEvent">Тип событий</param>
         /// <param name="color">Цвет</param>
-        public delegate void CommonEvent(string msg, Enum typeEvent, ConsoleColor color);
+        public delegate void CommonEvent(string msg, string type, ConsoleColor color);
 
         /// <summary>
         /// События записи ошибок
@@ -172,7 +172,7 @@ namespace PRTelegramBot.Core
 
                 var client = await botClient.GetMeAsync();
                 BotName = client?.Username;
-                this.InvokeCommonLog($"Bot {BotName} is running.", BaseEventTelegram.Initialization, ConsoleColor.Yellow);
+                this.InvokeCommonLog($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;
             }
             catch (Exception ex)
@@ -226,7 +226,7 @@ namespace PRTelegramBot.Core
         /// <param name="msg">Текст</param>
         /// <param name="typeEvent">Тип события</param>
         /// <param name="color">Цвет</param>
-        public void InvokeCommonLog(string msg, Enum? typeEvent = null, ConsoleColor color = ConsoleColor.Blue)
+        public void InvokeCommonLog(string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
         {
             OnLogCommon?.Invoke(msg, typeEvent, color);
         }

@@ -170,8 +170,6 @@ var tasker = new Tasker(10);
 tasker.Start();
 #endregion
 
-
-
 #region Логи
 void Telegram_OnLogError(Exception ex, long? id = null)
 {
@@ -185,13 +183,13 @@ void Telegram_OnLogError(Exception ex, long? id = null)
         if (apiEx.Message.Contains("Forbidden: bot was blocked by the user"))
         {
             string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
-            Telegram_OnLogCommon(msg, TelegramEvents.BlockedBot, ConsoleColor.Red);
+            Telegram_OnLogCommon(msg, "BlockedBot", ConsoleColor.Red);
             return;
         }
         else if (apiEx.Message.Contains("BUTTON_USER_PRIVACY_RESTRICTED"))
         {
             string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
-            Telegram_OnLogCommon(msg, TelegramEvents.BlockedBot, ConsoleColor.Red);
+            Telegram_OnLogCommon(msg, "BlockedBot", ConsoleColor.Red);
             return;
         }
         else if (apiEx.Message.Contains("group chat was upgraded to a supergroup chat"))
@@ -215,7 +213,7 @@ void Telegram_OnLogError(Exception ex, long? id = null)
     Console.ResetColor();
 }
 
-void Telegram_OnLogCommon(string msg, Enum? eventType, ConsoleColor color = ConsoleColor.Blue)
+void Telegram_OnLogCommon(string msg, string eventType, ConsoleColor color = ConsoleColor.Blue)
 {
     Console.ForegroundColor = color;
     string formatMsg = $"{DateTime.Now}: {msg}";
@@ -224,15 +222,15 @@ void Telegram_OnLogCommon(string msg, Enum? eventType, ConsoleColor color = Cons
 
     if(eventType != null)
     {
-        if (LoggersContainer.TryGetValue(eventType.GetDescription(), out var logger))
+        if (LoggersContainer.TryGetValue(eventType, out var logger))
         {
             logger.Info(formatMsg);
         }
         else
         {
-            var nextLogger = LogManager.GetLogger(eventType.GetDescription());
+            var nextLogger = LogManager.GetLogger(eventType);
             nextLogger.Info(formatMsg);
-            LoggersContainer.Add(eventType.GetDescription(), nextLogger);
+            LoggersContainer.Add(eventType, nextLogger);
         }
     }
 

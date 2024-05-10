@@ -29,18 +29,12 @@ namespace PRTelegramBot.Extensions
         /// <exception cref="Exception">Не найден тип сообщения</exception>
         public static int GetMessageId(this Update update)
         {
-            //var data = update.GetCacheData<TelegramCache>();
-
-            if (update.CallbackQuery != null)
-                return update.CallbackQuery.Message.MessageId;
-
-            //if (data?.LastMessage?.MessageId > 0)
-            //{
-            //    var messageId = data.LastMessage.MessageId;
-            //    return messageId;
-            //}
-
-            throw new Exception("Failed to obtain message id");
+            return update.Type switch
+            {
+                UpdateType.Message => update.Message.MessageId,
+                UpdateType.CallbackQuery => update.CallbackQuery.Message.MessageId,
+                _ => throw new Exception("Failed to obtain message id")
+            };
         }
 
         /// <summary>
