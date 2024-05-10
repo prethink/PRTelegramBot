@@ -121,9 +121,8 @@ namespace PRTelegramBot.Models.InlineButtons
             var result = JsonConvert.SerializeObject(this);
             var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
-            {
                 throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
-            }
+
             return result;
         }
     }

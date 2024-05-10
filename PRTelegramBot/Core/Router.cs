@@ -5,6 +5,7 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
+using System;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -203,83 +204,58 @@ namespace PRTelegramBot.Core
             
             foreach (var serviceType in servicesToRegistration)
             {
-                foreach (var method in serviceType.GetMethods().Where(x => !x.IsStatic))
-                {
-                    try
-                    {
-                        var attribute = method.GetCustomAttribute(typeof(IBotIdentifier)) as IBotIdentifier;
-
-                        if (attribute == null || attribute.BotId != bot.Options.BotId && attribute.BotId != -1)
-                            continue;
-
-                        bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
-                        if (!isValidMethod)
-                        {
-                            bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
-                                $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}"));
-                            continue;
-                        }
-
-                        var telegramhandler = new TelegramHandler(method, _serviceProvider);
-
-                        if (attribute is ReplyMenuHandlerAttribute replyattr)
-                        {
-                            foreach (var command in replyattr.Commands)
-                                replyCommands.Add(command, telegramhandler);
-
-                            continue;
-                        }
-
-                        if (attribute is ReplyMenuDynamicHandlerAttribute replyDictionary)
-                        {
-                            foreach (var command in replyDictionary.Commands)
-                                replyDynamicCommands.Add(command, telegramhandler);
-
-                            continue;
-                        }
-
-                        if (attribute is SlashHandlerAttribute slashAttribute)
-                        {
-                            foreach (var command in slashAttribute.Commands)
-                                slashCommands.Add(command, telegramhandler);
-
-                            continue;
-
-                        }
-
-                        if (attribute.GetType().IsGenericType && attribute.GetType()?.GetGenericTypeDefinition() == typeof(InlineCallbackHandlerAttribute<>))
-                        {
-                            var commandsProperty = attribute.GetType().GetProperty(PropertyCommandsName);
-                            var commands = (IEnumerable<Enum>)commandsProperty.GetValue(attribute);
-
-                            foreach (var command in commands)
-                                inlineCommands.Add(command, telegramhandler);
-
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        bot.InvokeErrorLog(ex);
-                    }
-                }
+                var methods = serviceType.GetMethods().Where(x => !x.IsStatic).ToArray();
+                RegisterMethodFromClass(typeof(ReplyMenuHandlerAttribute), methods, replyCommands);
+                RegisterMethodFromClass(typeof(ReplyMenuDynamicHandlerAttribute), methods, replyDynamicCommands);
+                RegisterMethodFromClass(typeof(SlashHandlerAttribute), methods, slashCommands);
+                RegisterMethodFromClass(typeof(InlineCallbackHandlerAttribute<>), methods, inlineCommands);
             }
         }
 
         private void RegisterStaticCommands()
         {
-            //Находим все методы которые используют наши атрибуты
-            MethodInfo[] messageMethods             = ReflectionUtils.FindStaticMessageMenuHandlers(bot.Options.BotId);
-            MethodInfo[] messageDictionaryMethods   = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(bot.Options.BotId);
-            MethodInfo[] inlineMethods              = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
-            MethodInfo[] slashCommandMethods        = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
+            MethodInfo[] messageMethods = ReflectionUtils.FindStaticMessageMenuHandlers(bot.Options.BotId);
+            MethodInfo[] messageDictionaryMethods = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(bot.Options.BotId);
+            MethodInfo[] inlineMethods = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
+            MethodInfo[] slashCommandMethods = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
 
-            RegisterCommand<string>(typeof(ReplyMenuHandlerAttribute), messageMethods, replyCommands);
-            RegisterCommand<string>(typeof(ReplyMenuDynamicHandlerAttribute), messageDictionaryMethods, replyDynamicCommands);
-            RegisterCommand<string>(typeof(SlashHandlerAttribute), slashCommandMethods, slashCommands);
-            RegisterCommand<Enum>(typeof(InlineCallbackHandlerAttribute<>), inlineMethods, inlineCommands);
+            RegisterCommand(typeof(ReplyMenuHandlerAttribute), messageMethods, replyCommands);
+            RegisterCommand(typeof(ReplyMenuDynamicHandlerAttribute), messageDictionaryMethods, replyDynamicCommands);
+            RegisterCommand(typeof(SlashHandlerAttribute), slashCommandMethods, slashCommands);
+            RegisterCommand(typeof(InlineCallbackHandlerAttribute<>), inlineMethods, inlineCommands);
         }
 
-        private void RegisterCommand<T>(Type attributetype , MethodInfo[] methods, Dictionary<T, TelegramHandler> collectionCommands)
+        private void RegisterMethodFromClass<T>(Type attributetype, MethodInfo[] methods, Dictionary<T, TelegramHandler> collectionCommands)
+        {
+            foreach (var method in methods)
+            {
+                try
+                {
+                    var attribute = method.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == attributetype.Name);
+
+                    if (attribute == null || ((IBotIdentifier)attribute).BotId != bot.Options.BotId && ((IBotIdentifier)attribute).BotId != -1)
+                        continue;
+
+                    bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
+                    if (!isValidMethod)
+                    {
+                        bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
+                            $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}"));
+                        continue;
+                    }
+
+                    var telegramhandler = new TelegramHandler(method, _serviceProvider);
+                    foreach (var command in ((ICommandStore<T>)attribute).Commands)
+                        collectionCommands.Add(command, telegramhandler);
+                }
+                catch(Exception ex)
+                {
+                    bot.InvokeErrorLog(ex);
+                }
+            }
+        }
+
+        private void RegisterCommand<T>(Type attributetype, MethodInfo[] methods, Dictionary<T, TelegramHandler> collectionCommands)
         {
             foreach (var method in methods)
             {
@@ -288,7 +264,7 @@ namespace PRTelegramBot.Core
                     if (!method.IsStatic)
                         continue;
 
-                    var attribute = method.GetCustomAttribute(attributetype);
+                    var attribute = method.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == attributetype.Name);
                     if (attribute == null) 
                         continue;
 

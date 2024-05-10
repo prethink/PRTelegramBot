@@ -49,15 +49,11 @@ app.MapControllerRoute(
 
 
 //Создание и запуск бота
-var prBotInstance = new PRBot(new TelegramOptions
-{
-    Token = "",
-    ClearUpdatesOnStart = true,
-    BotId = 0,
-},
-app.Services.GetService<IServiceProvider>()
-);
-
+var serviceProvaider = app.Services.GetService<IServiceProvider>();
+var prBotInstance = new PRBotBuilder("")
+    .SetClearUpdatesOnStart(true)
+    .SetServiceProvider(serviceProvaider)
+    .Build();
 
 prBotInstance.OnLogCommon += PrBotInstance_OnLogCommon;
 prBotInstance.OnLogError += PrBotInstance_OnLogError;

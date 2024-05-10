@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Exceptions;
 
-namespace PRTelegramBot.Helpers
+namespace PRTelegramBot.Utils
 {
     public class EnumHeaders
     {
@@ -35,7 +35,7 @@ namespace PRTelegramBot.Helpers
 
         public void Add(int key, Enum value)
         {
-            lock(_lock)
+            lock (_lock)
             {
                 if (_uniqueValues.Contains(value))
                 {
@@ -76,7 +76,7 @@ namespace PRTelegramBot.Helpers
             lock (_lock)
             {
                 var @enum = _headers.FirstOrDefault(x => x.Value.Equals(key));
-                if(@enum.Value == null)
+                if (@enum.Value == null)
                     throw new InlineCommandNotFoundException(key);
 
                 return @enum.Key;

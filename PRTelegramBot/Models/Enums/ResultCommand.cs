@@ -3,7 +3,7 @@
     /// <summary>
     /// Результат выполнения команды.
     /// </summary>
-    internal enum ResultCommand
+    public enum ResultCommand
     {
         /// <summary>
         /// Не найдено.

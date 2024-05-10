@@ -1,6 +1,5 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -9,6 +8,8 @@ namespace PRTelegramBot.Core
 {
     public class PRBot : IBotIdentifier
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Имя бота
         /// </summary>
@@ -18,18 +19,6 @@ namespace PRTelegramBot.Core
         /// Клиент для telegram бота
         /// </summary>
         public ITelegramBotClient botClient { get; private set; }
-
-        #region IBotIdentifier
-
-        public long BotId
-        {
-            get
-            {
-                return Options.BotId;
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// 
@@ -91,72 +80,21 @@ namespace PRTelegramBot.Core
         /// </summary>
         public TelegramOptions Options { get; init; } = new TelegramOptions();
 
-        public PRBot(Action<TelegramOptions> options)
-            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), null) { }
+        #endregion
 
-        public PRBot(Action<TelegramOptions> options, IServiceProvider serviceProvider)
-            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), serviceProvider) { }
+        #region IBotIdentifier
 
-        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions)
-            : this(options, null, receiverOptions, new CancellationTokenSource(), null) { }
-
-        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, IServiceProvider serviceProvider)
-            : this(options, null, receiverOptions, new CancellationTokenSource(), serviceProvider) { }
-
-        public PRBot(Action<TelegramOptions> options, CancellationTokenSource cancellationToken)
-            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, null) { }
-
-        public PRBot(Action<TelegramOptions> options, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
-            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, serviceProvider) { }
-
-        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
-            : this(options, null, receiverOptions, cancellationToken, null) { }
-
-        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
-            : this(options, null, receiverOptions, cancellationToken, serviceProvider) { }
-
-        public PRBot(TelegramOptions options)
-            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), null) { }
-
-        public PRBot(TelegramOptions options, IServiceProvider serviceProvider)
-            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), serviceProvider) { }
-
-        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions)
-            : this(null, options, receiverOptions, new CancellationTokenSource(), null) { }
-
-        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, IServiceProvider serviceProvider)
-            : this(null, options, receiverOptions, new CancellationTokenSource(), serviceProvider) { }
-
-        public PRBot(TelegramOptions options, CancellationTokenSource cancellationToken)
-            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, null) { }
-
-        public PRBot(TelegramOptions options, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
-            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, serviceProvider) { }
-
-        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
-            : this(null, options, receiverOptions, cancellationToken, null) { }
-
-        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
-            : this(null, options, receiverOptions, cancellationToken, serviceProvider) { }
-
-        private PRBot(Action<TelegramOptions> optionsBuilder, TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+        public long BotId
         {
-            if (optionsBuilder != null)
-                optionsBuilder.Invoke(Options);
-            else
-                Options = options;
-
-            if (string.IsNullOrEmpty(Options.Token))
-                throw new Exception("Bot token is empty");
-
-            botClient = new TelegramBotClient(Options.Token);
-            BotCollection.Instance.AddBot(this);
-            receiverOptions = receiverOptions;
-            _serviceProvider = serviceProvider;
-            
-            Handler = new Handler(this, _serviceProvider);
-            cts = cancellationToken;
+            get
+            {
+                return Options.BotId;
+            }
         }
+
+        #endregion
+
+        #region Методы
 
         /// <summary>
         /// Запуск бота
@@ -303,5 +241,78 @@ namespace PRTelegramBot.Core
         {
             return Handler.Router.RemoveInlineCommand(command);
         }
+
+        #endregion
+
+        #region Конструкторы
+
+        public PRBot(Action<TelegramOptions> options)
+            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), null) { }
+
+        public PRBot(Action<TelegramOptions> options, IServiceProvider serviceProvider)
+            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), serviceProvider) { }
+
+        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions)
+            : this(options, null, receiverOptions, new CancellationTokenSource(), null) { }
+
+        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, IServiceProvider serviceProvider)
+            : this(options, null, receiverOptions, new CancellationTokenSource(), serviceProvider) { }
+
+        public PRBot(Action<TelegramOptions> options, CancellationTokenSource cancellationToken)
+            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, null) { }
+
+        public PRBot(Action<TelegramOptions> options, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+            : this(options, null, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, serviceProvider) { }
+
+        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
+            : this(options, null, receiverOptions, cancellationToken, null) { }
+
+        public PRBot(Action<TelegramOptions> options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+            : this(options, null, receiverOptions, cancellationToken, serviceProvider) { }
+
+        public PRBot(TelegramOptions options)
+            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), null) { }
+
+        public PRBot(TelegramOptions options, IServiceProvider serviceProvider)
+            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, new CancellationTokenSource(), serviceProvider) { }
+
+        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions)
+            : this(null, options, receiverOptions, new CancellationTokenSource(), null) { }
+
+        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, IServiceProvider serviceProvider)
+            : this(null, options, receiverOptions, new CancellationTokenSource(), serviceProvider) { }
+
+        public PRBot(TelegramOptions options, CancellationTokenSource cancellationToken)
+            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, null) { }
+
+        public PRBot(TelegramOptions options, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+            : this(null, options, new ReceiverOptions { AllowedUpdates = { } }, cancellationToken, serviceProvider) { }
+
+        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken)
+            : this(null, options, receiverOptions, cancellationToken, null) { }
+
+        public PRBot(TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+            : this(null, options, receiverOptions, cancellationToken, serviceProvider) { }
+
+        private PRBot(Action<TelegramOptions> optionsBuilder, TelegramOptions options, ReceiverOptions receiverOptions, CancellationTokenSource cancellationToken, IServiceProvider serviceProvider)
+        {
+            if (optionsBuilder != null)
+                optionsBuilder.Invoke(Options);
+            else
+                Options = options;
+
+            if (string.IsNullOrEmpty(Options.Token))
+                throw new Exception("Bot token is empty");
+
+            botClient = new TelegramBotClient(Options.Token);
+            BotCollection.Instance.AddBot(this);
+            receiverOptions = receiverOptions;
+            _serviceProvider = serviceProvider;
+
+            Handler = new Handler(this, _serviceProvider);
+            cts = cancellationToken;
+        }
+
+        #endregion
     }
 }

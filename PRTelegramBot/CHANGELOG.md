@@ -1,6 +1,8 @@
 -- 2024.05.10 - V0.6
+- update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
+- update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
+- test: Unit тесты
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
-- feature: Unit тесты
 - feature: AccessUtil для работы с флагами доступа и масками
 - feature: PRBotBuilder добавлен класс, который позволяет создавать бота через Fluent Builder
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов

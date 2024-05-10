@@ -175,10 +175,25 @@ namespace PRTelegramBot.Core
             return this;
         }
 
+        /// <summary>
+        /// Добавить сервис провайдер.
+        /// </summary>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetServiceProvider(IServiceProvider serviceProvider)
+        {
+            this.serviceProvider = serviceProvider;
+            return this;
+        }
+
         #endregion
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="token">Токен.</param>
         public PRBotBuilder(string token)
         {
             options = new TelegramOptions();
