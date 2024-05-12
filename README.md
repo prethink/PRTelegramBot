@@ -28,8 +28,8 @@
 # 🔑 Зависимости
 
  - TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
- - Microsoft.Extensions.Configuration.Binder v7.0.0 https://github.com/dotnet/runtime
- - Microsoft.Extensions.Configuration.Json v7.0.0 https://github.com/dotnet/runtime
+ - Microsoft.Extensions.Configuration.Binder v8.0.0 https://github.com/dotnet/runtime
+ - Microsoft.Extensions.Configuration.Json v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
 
 # 🧱 Интегрированные пакеты
