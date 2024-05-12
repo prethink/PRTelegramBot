@@ -23,7 +23,6 @@ namespace PRTelegramBot.Utils
         }
         /// <summary>
         /// Поиск методов в программе для выполнения reply команд
-        /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для reply команд</returns>
         public static Type[] FindServicesToRegistration()

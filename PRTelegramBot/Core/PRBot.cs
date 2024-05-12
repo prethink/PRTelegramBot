@@ -141,7 +141,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Очистка очереди команд перед запуском
         /// </summary>
-        public async Task ClearUpdates()
+        private async Task ClearUpdates()
         {
             try
             {

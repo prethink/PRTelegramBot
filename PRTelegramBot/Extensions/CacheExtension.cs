@@ -1,7 +1,6 @@
-﻿using Telegram.Bot.Types;
-using PRTelegramBot.Models;
+﻿using PRTelegramBot.Interfaces;
 using System.Collections.Concurrent;
-using PRTelegramBot.Interfaces;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Extensions
 {
@@ -10,10 +9,16 @@ namespace PRTelegramBot.Extensions
     /// </summary>
     public static class CacheExtension
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш
         /// </summary>
         static ConcurrentDictionary<long, ITelegramCache> _userHandlerData = new();
+
+        #endregion
+
+        #region Методы
 
         /// <summary>
         /// Создает кеш для пользователя
@@ -71,5 +76,7 @@ namespace PRTelegramBot.Extensions
             long userId = update.GetChatId();
             return _userHandlerData.ContainsKey(userId);
         }
+
+        #endregion
     }
 }

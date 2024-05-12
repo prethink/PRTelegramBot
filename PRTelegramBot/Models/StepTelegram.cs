@@ -59,6 +59,8 @@ namespace PRTelegramBot.Models
 
         #endregion
 
+        #region Методы
+
         /// <summary>
         /// Регистрация следующего шага.
         /// </summary>
@@ -98,6 +100,8 @@ namespace PRTelegramBot.Models
         {
             return cache is T resultCache ? resultCache : default;
         }
+
+        #endregion
 
         #region Конструкторы класса
 

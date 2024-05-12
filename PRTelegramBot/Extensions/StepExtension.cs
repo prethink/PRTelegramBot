@@ -9,10 +9,16 @@ namespace PRTelegramBot.Extensions
     /// </summary>
     public static class StepExtension
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Список шагов для пользователя
         /// </summary>
         static ConcurrentDictionary<long, IExecuteStep> _step = new();
+
+        #endregion
+
+        #region Методы
 
         /// <summary>
         /// Регистрация следующего шага
@@ -31,12 +37,12 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление полученное с telegram</param>
         /// <returns>обработчик или null</returns>
-        public static T? GetStepHandler<T>(this Update update) where T :  IExecuteStep
+        public static T? GetStepHandler<T>(this Update update) where T : IExecuteStep
         {
             long userId = update.GetChatId();
 
-            return _step.TryGetValue(userId, out var data) && data is T stepHandler 
-                ? stepHandler 
+            return _step.TryGetValue(userId, out var data) && data is T stepHandler
+                ? stepHandler
                 : default(T);
         }
 
@@ -70,9 +76,9 @@ namespace PRTelegramBot.Extensions
         public static bool HasStepHandler(this Update update)
         {
             long userId = update.GetChatId();
-            return _step.ContainsKey(userId) ;
+            return _step.ContainsKey(userId);
         }
+
+        #endregion
     }
-
-
 }

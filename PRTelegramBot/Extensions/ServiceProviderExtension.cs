@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Extensions
 {
     public static class ServiceProviderExtension
     {
-        public enum LifeCycle
-        {
-            Singleton,
-            Scoped,
-            Transient
-        }
+        #region Методы
+
         public static IServiceCollection AddBotHandlers(this IServiceCollection services)
         {
             return AddTransientBotHandlers(services);
@@ -50,5 +47,7 @@ namespace PRTelegramBot.Extensions
 
             return services;
         }
+
+        #endregion
     }
 }

@@ -7,6 +7,8 @@ namespace PRTelegramBot.Extensions
 {
     public static class BotExtension
     {
+        #region Методы
+
         /// <summary>
         /// Проверяет пользователя, является ли он администратором бота.
         /// </summary>
@@ -202,5 +204,7 @@ namespace PRTelegramBot.Extensions
                 return false;
             }
         }
+
+        #endregion
     }
 }

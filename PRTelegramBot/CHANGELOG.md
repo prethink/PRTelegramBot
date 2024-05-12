@@ -1,4 +1,4 @@
--- 2024.05.10 - V0.6
+-- 2024.05.11 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
@@ -7,6 +7,7 @@
 - feature: PRBotBuilder добавлен класс, который позволяет создавать бота через Fluent Builder
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов
 - feature: Добавлена возможность указать в атрибутах команд идентификатор бота -1, эти методы будут доступны из всех ботов
+- feature: OptionMessage добавленны свойства из Telegram.Bot.Net
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension

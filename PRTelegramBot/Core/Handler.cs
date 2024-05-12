@@ -10,10 +10,21 @@ namespace PRTelegramBot.Core
 {
     public class Handler : IUpdateHandler
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Клиент телеграм бота
         /// </summary>
         private PRBot bot;
+
+        /// <summary>
+        /// Маршрутизатор
+        /// </summary>
+        public Router Router { get; private set; }
+
+        #endregion
+
+        #region События
 
         /// <summary>
         /// Событие вызывается до обработки update, может быть прекращено выполнение 
@@ -25,16 +36,9 @@ namespace PRTelegramBot.Core
         /// </summary>
         public event Func<ITelegramBotClient, Update, Task>? OnPostMessageUpdate;
 
-        /// <summary>
-        /// Маршрутизатор
-        /// </summary>
-        public Router Router { get; private set; }
+        #endregion
 
-        public Handler(PRBot botClient, IServiceProvider serviceProvider)
-        {
-            bot = botClient;
-            Router = new Router(bot, serviceProvider);
-        }
+        #region Методы
 
         /// <summary>
         /// Обработчик обновлений
@@ -51,7 +55,7 @@ namespace PRTelegramBot.Core
                 {
                     var resultUpdate = await OnPreUpdate?.Invoke(botClient, update);
 
-                    if (resultUpdate == ResultUpdate.Stop) 
+                    if (resultUpdate == ResultUpdate.Stop)
                         return;
                 }
 
@@ -66,13 +70,13 @@ namespace PRTelegramBot.Core
 
                 if (update.Type == UpdateType.Message)
                 {
-                    await HandleMessage(update); 
+                    await HandleMessage(update);
                     return;
                 }
 
                 if (update.Type == UpdateType.CallbackQuery)
                 {
-                    await HandleCallbackQuery(update, cancellationToken);  
+                    await HandleCallbackQuery(update, cancellationToken);
                     return;
                 }
 
@@ -132,7 +136,7 @@ namespace PRTelegramBot.Core
         /// Обработчик текстовый сообщений Reply
         /// </summary>
         /// <param name="update">Обновление telegram</param>
-        async Task HandleMessage(Update update)
+        private async Task HandleMessage(Update update)
         {
             try
             {
@@ -144,7 +148,18 @@ namespace PRTelegramBot.Core
                 bot.InvokeErrorLog(ex);
             }
         }
+
+        #endregion
+
+        #region Конструкторы
+
+
+        public Handler(PRBot botClient, IServiceProvider serviceProvider)
+        {
+            bot = botClient;
+            Router = new Router(bot, serviceProvider);
+        }
+
+        #endregion
     }
-
-
 }

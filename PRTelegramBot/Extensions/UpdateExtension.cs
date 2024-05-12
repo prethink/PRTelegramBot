@@ -3,8 +3,13 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Extensions
 {
+    /// <summary>
+    /// Методы расширения для update в телеграм.
+    /// </summary>
     public static class UpdateExtension
     {
+        #region Методы
+
         /// <summary>
         /// Получает ChatId в зависимости от типа сообщений
         /// </summary>
@@ -18,7 +23,7 @@ namespace PRTelegramBot.Extensions
                 UpdateType.Message => update.Message.Chat.Id,
                 UpdateType.CallbackQuery => update.CallbackQuery.Message.Chat.Id,
                 _ => throw new Exception("Failed to obtain chat id")
-            }; 
+            };
         }
 
         /// <summary>
@@ -58,5 +63,7 @@ namespace PRTelegramBot.Extensions
 
             return result;
         }
+
+        #endregion
     }
 }

@@ -3,10 +3,12 @@
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Помогает разбить данные постранично
+    /// Помогает разбить данные постранично.
     /// </summary>
     public static class PageExtension
     {
+        #region Методы
+
         /// <summary>
         /// Вывод данных постранично.
         /// </summary>
@@ -15,7 +17,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="page">Страница</param>
         /// <param name="pageSize">Размер страницы</param>
         /// <returns>Страница данных с доп информацией</returns>
-        public static async Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize) 
+        public static async Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize)
             where T : class
         {
             var result = new PagedResult<T>();
@@ -31,5 +33,7 @@ namespace PRTelegramBot.Extensions
 
             return result;
         }
+
+        #endregion
     }
 }

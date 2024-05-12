@@ -1,10 +1,8 @@
 ﻿using ConsoleExample.Examples;
 using ConsoleExample.Models;
-using ConsoleExample.Models.Enums;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
-using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Types;
