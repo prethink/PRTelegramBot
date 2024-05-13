@@ -5,6 +5,8 @@
     /// </summary>
     public class TelegramOptions : ICloneable
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Токен telegram бота.
         /// </summary>
@@ -42,6 +44,10 @@
         /// </summary>
         public Dictionary<string, string> ConfigPaths { get; set; } = new();
 
+        #endregion
+
+        #region ICloneable
+
         public object Clone()
         {
             var cloneOptions = new TelegramOptions();
@@ -54,5 +60,7 @@
             cloneOptions.ConfigPaths = new Dictionary<string, string>(ConfigPaths);
             return cloneOptions;
         }
+
+        #endregion
     }
 }

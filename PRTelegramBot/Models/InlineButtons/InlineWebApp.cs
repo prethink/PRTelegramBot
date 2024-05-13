@@ -4,25 +4,25 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку для обработки WebApp
+    /// Создает кнопку для обработки WebApp.
     /// </summary>
     public class InlineWebApp : IInlineContent
     {
+        #region Поля и свойства
+
         /// <summary>
-        /// Название кнопки
+        /// Название кнопки.
         /// </summary>
         public string ButtonName { get; set; }
 
         /// <summary>
-        /// Данные для WebApp
+        /// Данные для WebApp.
         /// </summary>
         public string WebAppUrl { get; set; }
 
-        public InlineWebApp(string buttonName, string webAppUrl)
-        {
-            ButtonName = buttonName;
-            WebAppUrl = webAppUrl;
-        }
+        #endregion
+
+        #region IInlineContent
 
         public object GetContent()
         {
@@ -35,5 +35,22 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             return ButtonName;
         }
+
+        #endregion
+
+        #region Конструктор
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="webAppUrl">Ссылка на webApp.</param>
+        public InlineWebApp(string buttonName, string webAppUrl)
+        {
+            ButtonName = buttonName;
+            WebAppUrl = webAppUrl;
+        }
+
+        #endregion
     }
 }

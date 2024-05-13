@@ -9,6 +9,8 @@ namespace PRTelegramBot.Models
     /// </summary>
     public class OptionMessage
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Добавляет Reply меню.
         /// </summary>
@@ -73,7 +75,12 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// 
         /// </summary>
-        public bool? DisableNotification { get; set; }
+        public bool? DisableNotification { get; set; }        
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool? DisableContentTypeDetection { get; set; }
 
         /// <summary>
         /// 
@@ -89,5 +96,17 @@ namespace PRTelegramBot.Models
         /// 
         /// </summary>
         public string? Caption { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public InputFile? thumbnail { get; set; } 
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool? HasSpoiler { get; set; }
+
+        #endregion
     }
 }

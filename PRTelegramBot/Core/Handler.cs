@@ -41,6 +41,46 @@ namespace PRTelegramBot.Core
         #region Методы
 
         /// <summary>
+        /// Обработчик inline callback
+        /// </summary>
+        /// <param name="update">Обновление телеграма</param>
+        /// <param name="cancellationToken">Токен</param>
+        /// <returns></returns>
+        private async Task HandleCallbackQuery(Update update, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Router.ExecuteCommandByCallBack(update);
+            }
+            catch (Exception ex)
+            {
+                bot.InvokeErrorLog(ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Обработчик текстовый сообщений Reply
+        /// </summary>
+        /// <param name="update">Обновление telegram</param>
+        private async Task HandleMessage(Update update)
+        {
+            try
+            {
+                string command = update.Message.Text ?? update.Message.Type.ToString();
+                Router.ExecuteCommandByMessage(command, update);
+            }
+            catch (Exception ex)
+            {
+                bot.InvokeErrorLog(ex);
+            }
+        }
+
+        #endregion
+
+        #region IUpdateHandler
+
+        /// <summary>
         /// Обработчик обновлений
         /// </summary>
         /// <param name="botClient">Клиент телеграм бота</param>
@@ -89,24 +129,6 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Обработчик inline callback
-        /// </summary>
-        /// <param name="update">Обновление телеграма</param>
-        /// <param name="cancellationToken">Токен</param>
-        /// <returns></returns>
-        private async Task HandleCallbackQuery(Update update, CancellationToken cancellationToken)
-        {
-            try
-            {
-                Router.ExecuteCommandByCallBack(update);
-            }
-            catch (Exception ex)
-            {
-                bot.InvokeErrorLog(ex);
-            }
-        }
-
-        /// <summary>
         /// Обработчик ошибок
         /// </summary>
         /// <param name="botClient">Телеграм бот</param>
@@ -124,24 +146,6 @@ namespace PRTelegramBot.Core
                 };
                 //TODO Logging exception
                 //return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                bot.InvokeErrorLog(ex);
-            }
-
-        }
-
-        /// <summary>
-        /// Обработчик текстовый сообщений Reply
-        /// </summary>
-        /// <param name="update">Обновление telegram</param>
-        private async Task HandleMessage(Update update)
-        {
-            try
-            {
-                string command = update.Message.Text ?? update.Message.Type.ToString();
-                Router.ExecuteCommandByMessage(command, update);
             }
             catch (Exception ex)
             {

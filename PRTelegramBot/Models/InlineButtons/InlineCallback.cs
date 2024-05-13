@@ -5,32 +5,29 @@ using PRTelegramBot.Utils.Converters;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
-
     /// <summary>
-    /// Создает кнопку обработкой данных
+    /// Создает кнопку обработкой данных.
     /// </summary>
-    /// <typeparam name="T">Данные которые должны быть переданы</typeparam>
+    /// <typeparam name="T">Тип данных.</typeparam>
     public class InlineCallback<T> : InlineCallback where T : TCommandBase
     {
+        #region Поля и свойства
+
         /// <summary>
-        /// Данные для обработки
+        /// Данные для обработки.
         /// </summary>
         [JsonProperty("d")]
         public new T Data { get; set; }
 
-        [JsonConstructor]
-        public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
-        {
-            ButtonName = buttonName;
-            CommandType = commandType;
-            Data = data;
-        }
+        #endregion
+
+        #region Методы
 
         /// <summary>
-        /// Преобразует в команду из callback данных
+        /// Преобразовать данные в команду.
         /// </summary>
-        /// <param name="data">Данные</param>
-        /// <returns>Команда или null</returns>
+        /// <param name="data">Данные.</param>
+        /// <returns>InlineCallback или null.</returns>
         public new static InlineCallback<T> GetCommandByCallbackOrNull(string data)
         {
             try
@@ -42,63 +39,68 @@ namespace PRTelegramBot.Models.InlineButtons
                 return null;
             }
         }
-    }
 
-    /// <summary>
-    /// Создает кнопку обработкой данных
-    /// </summary>
-    public class InlineCallback : IInlineContent
-    {
-        /// <summary>
-        /// Максимальный допустимый размер данных для обработки
-        /// </summary>
-        public const int MAX_SIZE_CALLBACK_DATA = 128;
+        #endregion
+
+        #region Конструкторы
 
         /// <summary>
-        /// Название кнопки
+        /// Конструктор.
         /// </summary>
-        [JsonIgnore]
-        public string ButtonName { get; set; }
-
-        /// <summary>
-        /// Тип команды
-        /// </summary>
-        [JsonProperty("c")]
-        [JsonConverter(typeof(HeaderConverter))]
-        public Enum CommandType { get; set; }
-
-        /// <summary>
-        /// Данные для обработки
-        /// </summary>
-        [JsonProperty("d")]
-        public TCommandBase Data { get; set; }
-
-        /// <summary>
-        /// Создание нового объекта
-        /// </summary>
-        /// <param name="buttonName">Название кнопки</param>
-        /// <param name="commandType">Заголовок команды</param>
-        /// <param name="data">Данные</param>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="commandType">Заголовок команды.</param>
+        /// <param name="data">Данные.</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
+        public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
         {
             ButtonName = buttonName;
             CommandType = commandType;
             Data = data;
         }
 
-        /// <summary>
-        /// Создание нового объекта
-        /// </summary>
-        /// <param name="buttonName">Название кнопки</param>
-        /// <param name="commandType">Заголовок команды</param>
-        public InlineCallback(string buttonName, Enum commandType)
-        {
-            ButtonName = buttonName;
-            CommandType = commandType;
-            Data = new TCommandBase();
-        }
+        #endregion
+    }
 
+    /// <summary>
+    /// Создает кнопку обработкой данных.
+    /// </summary>
+    public class InlineCallback : IInlineContent
+    {
+        #region Поля и свойства
+
+        /// <summary>
+        /// Максимальный допустимый размер данных для обработки.
+        /// </summary>
+        public const int MAX_SIZE_CALLBACK_DATA = 128;
+
+        /// <summary>
+        /// Название кнопки.
+        /// </summary>
+        [JsonIgnore]
+        public string ButtonName { get; set; }
+
+        /// <summary>
+        /// Тип команды.
+        /// </summary>
+        [JsonProperty("c")]
+        [JsonConverter(typeof(HeaderConverter))]
+        public Enum CommandType { get; set; }
+
+        /// <summary>
+        /// Данные для обработки.
+        /// </summary>
+        [JsonProperty("d")]
+        public TCommandBase Data { get; set; }
+
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>InlineCallback или null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(string data)
         {
             try
@@ -110,6 +112,10 @@ namespace PRTelegramBot.Models.InlineButtons
                 return null;
             }
         }
+
+        #endregion
+
+        #region IInlineContent
 
         public string GetTextButton()
         {
@@ -125,5 +131,37 @@ namespace PRTelegramBot.Models.InlineButtons
 
             return result;
         }
+
+        #endregion
+
+        #region Конструкторы
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="commandType">Заголовок команды.</param>
+        /// <param name="data">Данные.</param>
+        [JsonConstructor]
+        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
+        {
+            ButtonName = buttonName;
+            CommandType = commandType;
+            Data = data;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="commandType">Заголовок команды.</param>
+        public InlineCallback(string buttonName, Enum commandType)
+        {
+            ButtonName = buttonName;
+            CommandType = commandType;
+            Data = new TCommandBase();
+        }
+
+        #endregion
     }
 }
