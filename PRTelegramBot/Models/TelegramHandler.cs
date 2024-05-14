@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
-    public class TelegramHandler
+    public sealed class TelegramHandler
     {
         #region Свойства и константы
         public StringComparison Comparison { get; set; }

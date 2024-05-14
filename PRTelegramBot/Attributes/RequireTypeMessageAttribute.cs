@@ -5,7 +5,7 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Метод сможет обработать только определенный тип сообщений.
     /// </summary>
-    public class RequireTypeMessageAttribute : Attribute
+    public sealed class RequireTypeMessageAttribute : Attribute
     {
         #region Поля и свойства
 

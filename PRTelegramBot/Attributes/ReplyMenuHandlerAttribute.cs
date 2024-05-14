@@ -3,17 +3,8 @@
     /// <summary>
     /// Атрибут для обработки reply методов.
     /// </summary>
-    public class ReplyMenuHandlerAttribute : BaseQueryAttribute<string>
+    public sealed class ReplyMenuHandlerAttribute : StringQueryAttribute
     {
-        #region Поля и свойства
-
-        /// <summary>
-        /// Тип сравнения команд.
-        /// </summary>
-        public Dictionary<string, StringComparison> CompareCommands { get; private set; } = new Dictionary<string, StringComparison>();
-
-        #endregion
-
         #region Конструкторы
 
         /// <summary>

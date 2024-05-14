@@ -2,10 +2,19 @@
 
 namespace PRTelegramBot.Utils.Converters
 {
+    /// <summary>
+    /// Конвертер enum в json.
+    /// </summary>
     public class HeaderConverter : JsonConverter<Enum>
     {
+        #region Поля и свойства
+
         public override bool CanRead => true;
         public override bool CanWrite => true;
+
+        #endregion
+
+        #region Методы
 
         public override Enum ReadJson(JsonReader reader, Type objectType, Enum existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
@@ -29,5 +38,7 @@ namespace PRTelegramBot.Utils.Converters
             else
                 writer.WriteNull();
         }
+
+        #endregion
     }
 }

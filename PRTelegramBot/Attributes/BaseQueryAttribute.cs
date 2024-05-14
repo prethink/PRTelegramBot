@@ -7,7 +7,7 @@ namespace PRTelegramBot.Attributes
     /// </summary>
     /// <typeparam name="T">Тип параметра.</typeparam>
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-    public class BaseQueryAttribute<T> : Attribute, IBotIdentifier, ICommandStore<T>
+    public abstract class BaseQueryAttribute<T> : Attribute, IBotIdentifier, ICommandStore<T>
     {
         #region Поля и свойства
 

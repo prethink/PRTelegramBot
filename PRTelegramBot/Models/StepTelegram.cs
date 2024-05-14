@@ -9,7 +9,7 @@ namespace PRTelegramBot.Models
     /// <summary>
     /// Позволяет выполнить пользователю команды пошагово
     /// </summary>
-    public class StepTelegram : IExecuteStep
+    public sealed class StepTelegram : IExecuteStep
     {
         #region Свойства и константы
 

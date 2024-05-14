@@ -5,17 +5,8 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Атрибут для обработки dynamic reply методов.
     /// </summary>
-    public class ReplyMenuDynamicHandlerAttribute : BaseQueryAttribute<string>
+    public sealed class ReplyMenuDynamicHandlerAttribute : StringQueryAttribute
     {
-        #region Поля и свойства
-
-        /// <summary>
-        /// Тип сравнения команд.
-        /// </summary>
-        public Dictionary<string, StringComparison> CompareCommands { get; private set; } = new Dictionary<string, StringComparison>();
-
-        #endregion
-
         #region Конструкторы
 
         /// <summary>

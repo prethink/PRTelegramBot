@@ -170,6 +170,15 @@ namespace PRTelegramBot.Extensions
             return $"https://t.me/{bot.Username}?start={refLink}";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TBotProvider"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="botClient"></param>
+        /// <param name="configKey"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static TReturn GetConfigValue<TBotProvider, TReturn>(this ITelegramBotClient botClient, string configKey, string key)
             where TBotProvider : IBotConfigProvider
         {
@@ -179,6 +188,16 @@ namespace PRTelegramBot.Extensions
             return botConfiguration.GetValue<TReturn>(key);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TBotProvider"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="botClient"></param>
+        /// <param name="configKey"></param>
+        /// <param name="key"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public static bool TryGetConfigValue<TBotProvider, TReturn>(this ITelegramBotClient botClient, string configKey, string key, out TReturn result)
             where TBotProvider : IBotConfigProvider, new()
         {

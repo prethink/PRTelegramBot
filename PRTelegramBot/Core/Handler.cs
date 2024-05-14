@@ -8,7 +8,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core
 {
-    public class Handler : IUpdateHandler
+    public sealed class Handler : IUpdateHandler
     {
         #region Поля и свойства
 

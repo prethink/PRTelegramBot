@@ -4,6 +4,8 @@ namespace PRTelegramBot.Utils
 {
     public static class GroupUtils
     {
+        #region Методы
+
         /// <summary>
         /// Проверяет находится ли пользователь в группе.
         /// </summary>
@@ -44,5 +46,7 @@ namespace PRTelegramBot.Utils
             var data = await botClient.GetChatMemberAsync(groupId, userId);
             return data.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Creator;
         }
+
+        #endregion
     }
 }

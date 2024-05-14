@@ -5,7 +5,7 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Метод сможет обработать только определенный тип чата.
     /// </summary>
-    public class RequiredTypeChatAttribute : Attribute
+    public sealed class RequiredTypeChatAttribute : Attribute
     {
         #region Поля и свойства
 

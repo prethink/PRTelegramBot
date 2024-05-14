@@ -7,7 +7,7 @@ namespace PRTelegramBot.Configs
     /// <summary>
     /// Провайдер работы с конфигурационными json файлами.
     /// </summary>
-    public class BotConfigJsonProvider : IBotConfigProvider
+    public sealed class BotConfigJsonProvider : IBotConfigProvider
     {
         #region Поля и свойства
 

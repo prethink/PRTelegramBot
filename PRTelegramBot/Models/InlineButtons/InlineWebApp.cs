@@ -6,7 +6,7 @@ namespace PRTelegramBot.Models.InlineButtons
     /// <summary>
     /// Создает кнопку для обработки WebApp.
     /// </summary>
-    public class InlineWebApp : IInlineContent
+    public sealed class InlineWebApp : IInlineContent
     {
         #region Поля и свойства
 
@@ -38,7 +38,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструктор
+        #region Конструкторы
 
         /// <summary>
         /// Конструктор.

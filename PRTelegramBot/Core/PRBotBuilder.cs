@@ -6,7 +6,7 @@ namespace PRTelegramBot.Core
     /// <summary>
     /// Билдер для создания нового экземпляра класса PRBot.
     /// </summary>
-    public class PRBotBuilder
+    public sealed class PRBotBuilder
     {
         #region Поля и свойства
 

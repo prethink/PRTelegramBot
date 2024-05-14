@@ -3,7 +3,7 @@
     /// <summary>
     /// Атрибут для inline команд.
     /// </summary>
-    public class InlineCallbackHandlerAttribute<T> : BaseQueryAttribute<Enum> where T : Enum
+    public sealed class InlineCallbackHandlerAttribute<T> : BaseQueryAttribute<Enum> where T : Enum
     {
         #region Конструкторы
 

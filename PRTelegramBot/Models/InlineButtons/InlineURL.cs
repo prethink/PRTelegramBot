@@ -6,7 +6,7 @@ namespace PRTelegramBot.InlineButtons
     /// <summary>
     /// Создает кнопку с ссылкой.
     /// </summary>
-    public class InlineURL : IInlineContent
+    public sealed class InlineURL : IInlineContent
     {
         #region Поля и свойства
 
@@ -36,7 +36,7 @@ namespace PRTelegramBot.InlineButtons
 
         #endregion
 
-        #region Конструктор
+        #region Конструкторы
 
         /// <summary>
         /// Конструктор.

@@ -7,7 +7,7 @@ namespace PRTelegramBot.Models
     /// <summary>
     /// Вспомогательный класс который хранит настройки для отправки сообщений в телеграме.
     /// </summary>
-    public class OptionMessage
+    public sealed class OptionMessage
     {
         #region Поля и свойства
 

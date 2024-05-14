@@ -4,5 +4,5 @@
     /// Атрибут для работы с DI и экземплярами классов.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class BotHandlerAttribute : Attribute { }
+    public sealed class BotHandlerAttribute : Attribute { }
 }

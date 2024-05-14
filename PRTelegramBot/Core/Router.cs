@@ -15,7 +15,7 @@ namespace PRTelegramBot.Core
     /// <summary>
     /// Маршрутизация команд.
     /// </summary>
-    public class Router : IExecuteCommand
+    public sealed class Router : IExecuteCommand
     {
         #region Поля и свойства
 

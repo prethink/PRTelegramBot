@@ -9,7 +9,7 @@ namespace PRTelegramBot.Helpers
 {
     public class Message
     {
-        #region Поля и свойства
+        #region Константы
 
         /// <summary>
         /// Максимальный размер сообщения.

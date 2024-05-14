@@ -3,17 +3,8 @@
     /// <summary>
     /// Атрибут для работы слэш (/) команд.
     /// </summary>
-    public class SlashHandlerAttribute : BaseQueryAttribute<string>
+    public sealed class SlashHandlerAttribute : StringQueryAttribute
     {
-        #region Поля и свойства
-
-        /// <summary>
-        /// Тип сравнения команд.
-        /// </summary>
-        public Dictionary<string, StringComparison> CompareCommands { get; private set; } = new Dictionary<string, StringComparison>();
-
-        #endregion
-
         #region Конструкторы
 
         /// <summary>

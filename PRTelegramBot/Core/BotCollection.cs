@@ -3,7 +3,7 @@
     /// <summary>
     /// Класс хранящий всех ботов.
     /// </summary>
-    public class BotCollection 
+    public sealed class BotCollection 
     {
         #region Поля и свойства
 

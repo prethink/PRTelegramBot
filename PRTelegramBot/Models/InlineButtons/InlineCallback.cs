@@ -66,12 +66,16 @@ namespace PRTelegramBot.Models.InlineButtons
     /// </summary>
     public class InlineCallback : IInlineContent
     {
-        #region Поля и свойства
+        #region Константы
 
         /// <summary>
         /// Максимальный допустимый размер данных для обработки.
         /// </summary>
         public const int MAX_SIZE_CALLBACK_DATA = 128;
+
+        #endregion
+
+        #region Поля и свойства
 
         /// <summary>
         /// Название кнопки.

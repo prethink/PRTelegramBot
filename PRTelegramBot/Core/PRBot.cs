@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core
 {
-    public class PRBot : IBotIdentifier
+    public sealed class PRBot : IBotIdentifier
     {
         #region Поля и свойства
 

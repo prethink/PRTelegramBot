@@ -3,7 +3,7 @@
     /// <summary>
     /// Параметры telegram бота.
     /// </summary>
-    public class TelegramOptions : ICloneable
+    public sealed class TelegramOptions : ICloneable
     {
         #region Поля и свойства
 
