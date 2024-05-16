@@ -1,6 +1,7 @@
 Актуальная документация - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
 Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
-
+# ⚛️ Ядро библиотеки
+TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека для быстрого создания telegram ботов.   
