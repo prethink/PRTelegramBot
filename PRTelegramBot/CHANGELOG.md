@@ -1,4 +1,4 @@
--- 2024.05.14 - V0.6
+-- 2024.05.18 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
@@ -8,6 +8,7 @@
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов
 - feature: Добавлена возможность указать в атрибутах команд идентификатор бота -1, эти методы будут доступны из всех ботов
 - feature: OptionMessage добавленны свойства из Telegram.Bot.Net
+- feature: Добавлена возможность в командах указывать параметры сравнения
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension
@@ -19,6 +20,7 @@
 - refactoring: Удален enum BaseEventTelegram
 - refactoring: В логирование заменен Enum на string
 - refactoring: Рефакторинг
+- fix: исправлены проблемы с командой /start
 
 -- 2024.01.02 - V0.5.5
 - feature: Добавлена возможность подставлять свой enum в common logs

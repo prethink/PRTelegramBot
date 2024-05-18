@@ -1,9 +1,8 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
-    internal enum TypeCheckCommand
+    public enum CommandComparison
     {
         Equals = 0,
-        Contains,
-        Enum
+        Contains
     }
 }

@@ -21,7 +21,12 @@ namespace PRTelegramBot.Tests.CoreTests
         [Test]
         public void ReplyDynamicCommand()
         {
-            var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
+            var bot = new PRBotBuilder("55555:Token")
+                .SetBotId(0)
+                .AddReplyDynamicCommand(nameof(FindMethodsTests.KEY_DYNAMIC_REPLY_ONE), "TestDynamicOne")
+                .AddReplyDynamicCommand(nameof(FindMethodsTests.KEY_DYNAMIC_REPLY_FOUR), "TestDynamicTwo")
+                .AddReplyDynamicCommand(nameof(FindMethodsTests.KEY_DYNAMIC_REPLY_FIVE), "TestDynamicThree")
+                .Build();
             var replyDymanicCommandCount = bot.Handler.Router.ReplyDynamicCommandCount;
             Assert.AreEqual(3, replyDymanicCommandCount);
         }

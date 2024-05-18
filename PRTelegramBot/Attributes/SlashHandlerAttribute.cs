@@ -1,4 +1,7 @@
-﻿namespace PRTelegramBot.Attributes
+﻿using PRTelegramBot.Models.Enums;
+using System;
+
+namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Атрибут для работы слэш (/) команд.
@@ -12,15 +15,7 @@
         /// </summary>
         /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(params string[] commands)
-            : this(0, StringComparison.OrdinalIgnoreCase, commands) { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="comparison">Тип сравнения команды.</param>
-        /// <param name="commands">Команды.</param>
-        public SlashHandlerAttribute(StringComparison comparison, params string[] commands)
-            : this(0, comparison, commands) { }
+            : this(0, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
         /// Конструктор.
@@ -28,21 +23,56 @@
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(long botId, params string[] commands)
-            : this(botId, StringComparison.OrdinalIgnoreCase, commands) { }
+            : this(botId, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="commands">Команды.</param>
+        public SlashHandlerAttribute(CommandComparison commandComparison, params string[] commands)
+            : this(0, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="comparison">Тип сравнения команды.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
         /// <param name="commands">Команды.</param>
-        public SlashHandlerAttribute(long botId, StringComparison comparison, params string[] commands) : base(botId)
+        public SlashHandlerAttribute(long botId, CommandComparison commandComparison, params string[] commands)
+            : this(botId, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public SlashHandlerAttribute(StringComparison stringComparison, params string[] commands)
+            : this(0, CommandComparison.Equals, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public SlashHandlerAttribute(long botId, StringComparison stringComparison, params string[] commands)
+            : this(botId, CommandComparison.Equals, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public SlashHandlerAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
+            : base(botId, commandComparison, stringComparison)
         {
             foreach (var command in commands)
             {
                 var formatedCommand = command.StartsWith("/") ? command : "/" + command;
                 this.commands.Add(formatedCommand);
-                this.CompareCommands.Add(command, comparison);
             }
         }
 

@@ -1,4 +1,6 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Models.Enums;
+using System;
 
 namespace PRTelegramBot.Attributes
 {
@@ -14,15 +16,7 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         /// <param name="commands">Команды.</param>
         public ReplyMenuDynamicHandlerAttribute(params string[] commands)
-            : this(0, StringComparison.OrdinalIgnoreCase, commands) { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="comparison">Тип сравнения команды.</param>
-        /// <param name="commands">Команды.</param>
-        public ReplyMenuDynamicHandlerAttribute(StringComparison comparison, params string[] commands)
-            : this(0, comparison, commands) { }
+            : this(0, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
         /// Конструктор.
@@ -30,7 +24,41 @@ namespace PRTelegramBot.Attributes
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commands">Команды.</param>
         public ReplyMenuDynamicHandlerAttribute(long botId, params string[] commands)
-            : this(botId, StringComparison.OrdinalIgnoreCase, commands) { }
+            : this(botId, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuDynamicHandlerAttribute(CommandComparison commandComparison, params string[] commands)
+            : this(0, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuDynamicHandlerAttribute(long botId, CommandComparison commandComparison, params string[] commands)
+            : this(botId, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuDynamicHandlerAttribute(StringComparison stringComparison, params string[] commands)
+            : this(0, CommandComparison.Equals, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuDynamicHandlerAttribute(long botId, StringComparison stringComparison, params string[] commands)
+            : this(botId, CommandComparison.Equals, stringComparison, commands) { }
 
 
         /// <summary>
@@ -38,24 +66,26 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commands">Команды.</param>
-        public ReplyMenuDynamicHandlerAttribute(long botId, StringComparison comparison, params string[] commands) : base(botId)
+        public ReplyMenuDynamicHandlerAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison, params string[] commands) 
+            : base(botId, commandComparison, stringComparison)
         {
-            this.commands.AddRange(commands);
-            var bot = BotCollection.Instance.GetBotOrNull(botId);
-            if (bot == null)
-                return;
+            var bots = BotCollection.Instance.GetBots();
+            if(botId != -1)
+                bots = bots.Where(bot => bot.BotId == botId).ToList();
 
-            var dynamicCommand = bot.Options.ReplyDynamicCommands;
-            foreach (var command in commands)
+            foreach(var bot in bots)
             {
-                if (!dynamicCommand.ContainsKey(command))
+                var dynamicCommand = bot.Options.ReplyDynamicCommands;
+                foreach (var command in commands)
                 {
-                    //bot.InvokeErrorLog();
-                    continue;
+                    if (!dynamicCommand.ContainsKey(command))
+                    {
+                        //bot.InvokeErrorLog();
+                        continue;
+                    }
+                    this.commands.Add(dynamicCommand[command]);
                 }
-                this.commands.Add(dynamicCommand[command]);
-                this.CompareCommands.Add(dynamicCommand[command], comparison);
-            }
+            }    
         }
 
         #endregion

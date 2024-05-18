@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
@@ -6,30 +7,30 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
-    public sealed class TelegramHandler
+    public class CommandHandler 
     {
         #region Свойства и константы
-        public StringComparison Comparison { get; set; }
-        public Func<ITelegramBotClient, Update, Task> Command { get; set; }
+        public CommandComparison CommandComparison { get;}
+        public Func<ITelegramBotClient, Update, Task> Command { get; }
         private IServiceProvider serviceProvider { get; set; }
 
         #endregion
 
         #region Конструкторы класса
 
-        public TelegramHandler(MethodInfo method)
-            : this(method, null, StringComparison.OrdinalIgnoreCase) { }
+        public CommandHandler(MethodInfo method)
+            : this(method, null , CommandComparison.Equals) { }
 
-        public TelegramHandler(MethodInfo method, StringComparison comparison)
-            : this(method, null, comparison) { }
+        public CommandHandler(MethodInfo method, CommandComparison commandComparison)
+            : this(method, null, commandComparison) { }
 
-        public TelegramHandler(MethodInfo method, IServiceProvider ServiceProvider)
-            : this(method, ServiceProvider, StringComparison.OrdinalIgnoreCase) { }
+        public CommandHandler(MethodInfo method, IServiceProvider ServiceProvider)
+            : this(method, ServiceProvider , CommandComparison.Equals) { }
 
-        public TelegramHandler(MethodInfo method, IServiceProvider ServiceProvider, StringComparison comparison)
+        public CommandHandler(MethodInfo method, IServiceProvider ServiceProvider, CommandComparison commandComparison)
         {
             this.serviceProvider = ServiceProvider;
-            this.Comparison = comparison;
+            this.CommandComparison = commandComparison;
 
             if (method.IsStatic)
             {
@@ -53,23 +54,23 @@ namespace PRTelegramBot.Models
                 var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
                 Command = ((Func<ITelegramBotClient, Update, Task>)instanceMethod);
             }
-            Comparison = comparison;
+            CommandComparison = commandComparison;
         }
 
-        public TelegramHandler(Func<ITelegramBotClient, Update, Task> command) 
-            : this (command, null, StringComparison.OrdinalIgnoreCase) { }
+        public CommandHandler(Func<ITelegramBotClient, Update, Task> command) 
+            : this (command, null, CommandComparison.Equals) { }
 
-        public TelegramHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider)
-            : this(command, ServiceProvider, StringComparison.OrdinalIgnoreCase) { }
+        public CommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider)
+            : this(command, ServiceProvider, CommandComparison.Equals) { }
 
-        public TelegramHandler(Func<ITelegramBotClient, Update, Task> command, StringComparison comparison)
-            : this(command, null, comparison) { }
+        public CommandHandler(Func<ITelegramBotClient, Update, Task> command, CommandComparison commandComparison)
+            : this(command, null, commandComparison) { }
 
-        public TelegramHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider, StringComparison comparison)
+        public CommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison)
         {
             this.serviceProvider = ServiceProvider;
             this.Command = command;
-            this.Comparison = comparison;
+            this.CommandComparison = commandComparison;
         }
 
         #endregion

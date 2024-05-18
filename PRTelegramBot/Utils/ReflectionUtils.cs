@@ -138,8 +138,10 @@ namespace PRTelegramBot.Utils
                 var tempMethods = item.GetTypes()
                  .SelectMany(t => t.GetMethods(flags))
                  .Where(m => m.GetCustomAttributes()
-                     .OfType<IBotIdentifier>()
-                     .Any(attr => (attr.BotId == botId || attr.BotId == -1) && (attr.GetType().IsGenericType ? attr.GetType().GetGenericTypeDefinition() == type : attr.GetType() == type))
+                     .OfType<IBaseQueryAttribute>()
+                     .Any(attr => (attr.BotId == botId || attr.BotId == -1) && (attr.GetType().IsGenericType 
+                     ? attr.GetType().GetGenericTypeDefinition() == type 
+                     : attr.GetType() == type))
                      )
                      .ToList();
 

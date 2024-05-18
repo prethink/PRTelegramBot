@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Attributes
 {
@@ -7,7 +8,8 @@ namespace PRTelegramBot.Attributes
     /// </summary>
     /// <typeparam name="T">Тип параметра.</typeparam>
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-    public abstract class BaseQueryAttribute<T> : Attribute, IBotIdentifier, ICommandStore<T>
+    public abstract class BaseQueryAttribute<T> 
+        : Attribute, IBaseQueryAttribute, ICommandStore<T>
     {
         #region Поля и свойства
 
@@ -15,6 +17,11 @@ namespace PRTelegramBot.Attributes
         /// Команды для методов.
         /// </summary>
         protected List<T> commands = new List<T>();
+
+        /// <summary>
+        /// Как сравнивать команды.
+        /// </summary>
+        public CommandComparison CommandComparison { get; protected set; }
 
         #endregion
 
@@ -42,8 +49,12 @@ namespace PRTelegramBot.Attributes
         #region Конструкторы
 
         public BaseQueryAttribute(long botId = 0)
+            :this (botId, CommandComparison.Equals) { }
+
+        public BaseQueryAttribute(long botId, CommandComparison commandComparison)
         {
             BotId = botId;
+            this.CommandComparison = CommandComparison;
         }
 
         #endregion

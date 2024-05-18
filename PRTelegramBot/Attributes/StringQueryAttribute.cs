@@ -1,23 +1,30 @@
-﻿namespace PRTelegramBot.Attributes
+﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.Enums;
+
+namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Общий атрибут для команд с типом string.
     /// </summary>
-    public abstract class StringQueryAttribute : BaseQueryAttribute<string> 
+    public abstract class StringQueryAttribute 
+        : BaseQueryAttribute<string> , IStringQueryAttribute
     {
         #region Поля и свойства
 
         /// <summary>
-        /// Тип сравнения команд.
+        /// Как сравнивать строку.
         /// </summary>
-        public Dictionary<string, StringComparison> CompareCommands { get; private set; } = new Dictionary<string, StringComparison>();
+        public StringComparison StringComparison { get; protected set; }
 
         #endregion
 
         #region Конструкторы
 
-        public StringQueryAttribute(long botId) 
-            : base(botId) { }
+        public StringQueryAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison) 
+            : base(botId, commandComparison) 
+        {
+            this.StringComparison = stringComparison;
+        }
 
         #endregion
     }

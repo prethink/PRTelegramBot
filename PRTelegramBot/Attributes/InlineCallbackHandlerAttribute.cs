@@ -1,4 +1,6 @@
-﻿namespace PRTelegramBot.Attributes
+﻿using PRTelegramBot.Models.Enums;
+
+namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Атрибут для inline команд.
@@ -19,7 +21,8 @@
         /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commands">Команды.</param>
-        public InlineCallbackHandlerAttribute(long botId, params T[] commands) : base(botId)
+        public InlineCallbackHandlerAttribute(long botId, params T[] commands) 
+            : base(botId, CommandComparison.Equals)
         {
             foreach (var command in commands)
                 this.commands.Add((Enum)command);

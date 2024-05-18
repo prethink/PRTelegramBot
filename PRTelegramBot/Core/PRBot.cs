@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core
 {
-    public sealed class PRBot : IBotIdentifier
+    public sealed class PRBot
     {
         #region Поля и свойства
 
@@ -79,10 +79,6 @@ namespace PRTelegramBot.Core
         /// 
         /// </summary>
         public TelegramOptions Options { get; init; } = new TelegramOptions();
-
-        #endregion
-
-        #region IBotIdentifier
 
         public long BotId
         {
