@@ -33,7 +33,6 @@
 - refactoring: Step.RegisterNextStep переименован в RegisterStepHandler
 - fix: IsSlashCommand теперь проверяет первый символ /
 
-
 -- 2023.12.24 - V0.5.4
 - refactoring: ReflectionUtils перенесен в пространство имен PRTelegramBot.Utils
 - refactoring: ReflectionHelper переименован в ReflectionUtils
@@ -56,7 +55,6 @@
 
 -- 2023.12.17 - V0.5.1
 - fix: Изменен url проекта на https://prtelegrambot.gitbook.io/prtelegrambot/obrabotka-komand/obrabotka-inline-komand
-
 
 -- 2023.12.17 - V0.5.0
 - feature: Добавлена динамическая регистрация команд reply и slash

@@ -20,6 +20,24 @@ namespace ConsoleExample.Examples
     {
         static int count = 0;
         #region Reply команды
+
+        /// <summary>
+        /// Команда отработает для любого бота с любым botid.
+        /// </summary>
+        [ReplyMenuHandler(-1, "Команда для всех ботов")]
+        public static async Task ReplyExampleAllBots(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ReplyExampleOne);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        [ReplyMenuHandler(CommandComparison.Contains ,StringComparison.OrdinalIgnoreCase, "Команда содержит текст")]
+        public static async Task ReplyExampleOne(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ReplyExampleOne);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
         /// <summary>
         /// Напишите в чате "Пример"
         /// Напишите в чате /reply

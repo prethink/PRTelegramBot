@@ -46,9 +46,5 @@ namespace PRTelegramBot.Tests.CoreTests
             var inlineCommandsCount = bot.Handler.Router.InlineCommandCount;
             Assert.AreEqual(5, inlineCommandsCount);
         }
-
-
-
-
     }
 }

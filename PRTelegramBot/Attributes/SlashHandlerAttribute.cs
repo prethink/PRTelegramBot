@@ -15,7 +15,7 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(params string[] commands)
-            : this(0, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
+            : this(0, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
         /// Конструктор.
@@ -23,7 +23,7 @@ namespace PRTelegramBot.Attributes
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(long botId, params string[] commands)
-            : this(botId, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
+            : this(botId, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
         /// Конструктор.
@@ -48,7 +48,7 @@ namespace PRTelegramBot.Attributes
         /// <param name="stringComparison">Как сравнивать строку.</param>
         /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(StringComparison stringComparison, params string[] commands)
-            : this(0, CommandComparison.Equals, stringComparison, commands) { }
+            : this(0, CommandComparison.Contains, stringComparison, commands) { }
 
         /// <summary>
         /// Конструктор.
@@ -57,7 +57,16 @@ namespace PRTelegramBot.Attributes
         /// <param name="stringComparison">Как сравнивать строку.</param>
         /// <param name="commands">Команды.</param>
         public SlashHandlerAttribute(long botId, StringComparison stringComparison, params string[] commands)
-            : this(botId, CommandComparison.Equals, stringComparison, commands) { }
+            : this(botId, CommandComparison.Contains, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public SlashHandlerAttribute(CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
+            : this(0, commandComparison, stringComparison, commands) { }
 
         /// <summary>
         /// Конструктор.

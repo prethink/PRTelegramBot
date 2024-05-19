@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Core;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
@@ -83,12 +84,64 @@ namespace PRTelegramBot.Tests.CoreTests
             Assert.AreEqual(exceptedMethodsCount, slashCommandMethods.Length);
         }
 
+        [Test]
+        [TestCase(0, nameof(TestCommonMethod), CommandComparison.Contains, StringComparison.Ordinal)]
+        [TestCase(2, nameof(TestCommonMethodTwo), CommandComparison.Equals, StringComparison.OrdinalIgnoreCase)]
+        public void ReplyComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
+        {
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
+            var attribute = method.GetCustomAttribute<ReplyMenuHandlerAttribute>();
+
+            Assert.AreEqual(exceptedCommandComparison, attribute.CommandComparison);
+            Assert.AreEqual(exceptedStringComparison, attribute.StringComparison);
+        }
+
+        [Test]
+        [TestCase(0, nameof(TestCommonMethod), CommandComparison.Contains, StringComparison.Ordinal)]
+        [TestCase(2, nameof(TestCommonMethodTwo), CommandComparison.Equals, StringComparison.OrdinalIgnoreCase)]
+        public void ReplyDynamicComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
+        {
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
+            var attribute = method.GetCustomAttribute<ReplyMenuDynamicHandlerAttribute>();
+
+            Assert.AreEqual(exceptedCommandComparison, attribute.CommandComparison);
+            Assert.AreEqual(exceptedStringComparison, attribute.StringComparison);
+        }
+
+        [Test]
+        [TestCase(0, nameof(TestCommonMethod), CommandComparison.Equals, StringComparison.Ordinal)]
+        [TestCase(2, nameof(TestCommonMethodTwo), CommandComparison.Contains, StringComparison.OrdinalIgnoreCase)]
+        public void SlashComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
+        {
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
+            var attribute = method.GetCustomAttribute<SlashHandlerAttribute>();
+
+            Assert.AreEqual(exceptedCommandComparison, attribute.CommandComparison);
+            Assert.AreEqual(exceptedStringComparison, attribute.StringComparison);
+        }
+
+        //[Test]
+        //[TestCase(0, nameof(TestCommonMethod), CommandComparison.Contains, StringComparison.Ordinal)]
+        //[TestCase(2, nameof(TestCommonMethodTwo), CommandComparison.Equals, StringComparison.OrdinalIgnoreCase)]
+        //public void InlineComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
+        //{
+        //    MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+        //    var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
+        //    var attribute = method.GetCustomAttribute<Inli>();
+
+        //    Assert.AreEqual(exceptedCommandComparison, attribute.CommandComparison);
+        //    Assert.AreEqual(exceptedStringComparison, attribute.StringComparison);
+        //}
+
         #region Common methods
 
-        [SlashHandler(nameof(TestCommonMethod), "TestTwoArgs")]
-        [ReplyMenuHandler(nameof(TestCommonMethod), "TestTwoArgs")]
+        [SlashHandler(CommandComparison.Equals, StringComparison.Ordinal, nameof(TestCommonMethod), "TestTwoArgs")]
+        [ReplyMenuHandler(CommandComparison.Contains, StringComparison.Ordinal, nameof(TestCommonMethod), "TestTwoArgs")]
         [InlineCallbackHandler<TestTHeader>(TestTHeader.One, TestTHeader.Two)]
-        [ReplyMenuDynamicHandler(nameof(KEY_DYNAMIC_REPLY_FOUR))]
+        [ReplyMenuDynamicHandler(CommandComparison.Contains, StringComparison.Ordinal, nameof(KEY_DYNAMIC_REPLY_FOUR))]
         public static async Task TestCommonMethod(ITelegramBotClient botClient, Update update) { }
 
         [SlashHandler(2, nameof(TestCommonMethodTwo))]

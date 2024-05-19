@@ -54,7 +54,7 @@ namespace PRTelegramBot.Attributes
         public BaseQueryAttribute(long botId, CommandComparison commandComparison)
         {
             BotId = botId;
-            this.CommandComparison = CommandComparison;
+            this.CommandComparison = commandComparison;
         }
 
         #endregion

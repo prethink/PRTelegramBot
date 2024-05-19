@@ -60,6 +60,14 @@ namespace PRTelegramBot.Attributes
         public ReplyMenuDynamicHandlerAttribute(long botId, StringComparison stringComparison, params string[] commands)
             : this(botId, CommandComparison.Equals, stringComparison, commands) { }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuDynamicHandlerAttribute(CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
+            : this(0, commandComparison, stringComparison, commands) { }
 
         /// <summary>
         /// Конструктор.

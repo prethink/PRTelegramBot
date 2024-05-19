@@ -36,13 +36,13 @@ namespace PRTelegramBot.Models
         public StringCommandHandler(MethodInfo method, IServiceProvider ServiceProvider, CommandComparison commandComparison, StringComparison stringComparison) 
             : base(method, ServiceProvider, commandComparison)
         {
-            this.StringComparison = StringComparison;
+            this.StringComparison = stringComparison;
         }
 
         public StringCommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison, StringComparison stringComparison)
             : base(command, ServiceProvider, commandComparison)
         {
-            this.StringComparison = StringComparison;
+            this.StringComparison = stringComparison;
         }
 
         #endregion

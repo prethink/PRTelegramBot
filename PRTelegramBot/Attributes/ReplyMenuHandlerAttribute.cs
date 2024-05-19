@@ -63,6 +63,15 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuHandlerAttribute(CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
+            : this(0, commandComparison, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commandComparison">Как сравнивать команду.</param>
         /// <param name="stringComparison">Как сравнивать строку.</param>
