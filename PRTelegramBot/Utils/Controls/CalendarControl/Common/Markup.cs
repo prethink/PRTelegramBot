@@ -45,12 +45,12 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
             {
                 new InlineKeyboardButton[]
                 {
-                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("MMMM", dtfi), THeader.PickMonth, new CalendarTCommand(date, command))),
-                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("yyyy", dtfi), THeader.PickYear, new CalendarTCommand(date, command)))
+                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("MMMM", dtfi), PRTelegramBotCommand.PickMonth, new CalendarTCommand(date, command))),
+                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("yyyy", dtfi), PRTelegramBotCommand.PickYear, new CalendarTCommand(date, command)))
                 },
                 new InlineKeyboardButton[]
                 {
-                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<<", THeader.ChangeTo, new CalendarTCommand(date, command))),
+                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<<", PRTelegramBotCommand.ChangeTo, new CalendarTCommand(date, command))),
                     " "
                 }
             };
@@ -76,7 +76,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
                 {
                     var day = new DateTime(date.Year, month + 1, 1);
 
-                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(dtfi.MonthNames[month], THeader.YearMonthPicker, new CalendarTCommand(day, command)));
+                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(dtfi.MonthNames[month], PRTelegramBotCommand.YearMonthPicker, new CalendarTCommand(day, command)));
                 }
 
                 keyboardRows[row] = keyboardRow;
@@ -105,7 +105,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
                 for (var j = 0; j < 3; j++, i++)
                 {
                     var day = startYear.AddYears(i);
-                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(day.ToString("yyyy", dtfi), THeader.YearMonthPicker, new CalendarTCommand(day, command)));
+                    keyboardRow[j] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(day.ToString("yyyy", dtfi), PRTelegramBotCommand.YearMonthPicker, new CalendarTCommand(day, command)));
                 }
 
                 keyboardRows[row] = keyboardRow;

@@ -20,7 +20,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, DateTimeFormatInfo dtfi, int command = 0) =>
         new InlineKeyboardButton[]
         {
-            MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>($"» {date.ToString("Y", dtfi)} «", THeader.YearMonthPicker, new CalendarTCommand(date, command)))
+            MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>($"» {date.ToString("Y", dtfi)} «", PRTelegramBotCommand.YearMonthPicker, new CalendarTCommand(date, command)))
         };
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
                         continue;
                     }
 
-                    week[dayOfWeek] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(dayOfMonth.ToString(), THeader.PickDate, new CalendarTCommand(new DateTime(date.Year, date.Month, dayOfMonth), command)));
+                    week[dayOfWeek] = MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(dayOfMonth.ToString(), PRTelegramBotCommand.PickDate, new CalendarTCommand(new DateTime(date.Year, date.Month, dayOfMonth), command)));
                     dayOfMonth++;
                 }
                 return week;
@@ -88,9 +88,9 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         public static IEnumerable<InlineKeyboardButton> Controls(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[]
             {
-                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<", THeader.ChangeTo, new CalendarTCommand(date.AddMonths(-1), command))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<", PRTelegramBotCommand.ChangeTo, new CalendarTCommand(date.AddMonths(-1), command))),
                 " ",
-                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(">", THeader.ChangeTo, new CalendarTCommand(date.AddMonths(1), command))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(">", PRTelegramBotCommand.ChangeTo, new CalendarTCommand(date.AddMonths(1), command))),
             };
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         public static InlineKeyboardButton[] BackToMonthYearPicker(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[3]
             {
-                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<<", THeader.YearMonthPicker, new CalendarTCommand(date, command))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<<", PRTelegramBotCommand.YearMonthPicker, new CalendarTCommand(date, command))),
                 " ",
                 " "
             };
@@ -114,9 +114,9 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         public static InlineKeyboardButton[] ChangeYear(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[3]
             {
-                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<", THeader.PickYear, new CalendarTCommand(date.AddYears(-12), command))),
+                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>("<", PRTelegramBotCommand.PickYear, new CalendarTCommand(date.AddYears(-12), command))),
                 " ",
-                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(">", THeader.PickYear, new CalendarTCommand(date.AddYears(12), command)))
+                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(">", PRTelegramBotCommand.PickYear, new CalendarTCommand(date.AddYears(12), command)))
             };
     }
 }

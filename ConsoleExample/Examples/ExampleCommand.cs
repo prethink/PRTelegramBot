@@ -1,6 +1,7 @@
 ﻿using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Configs;
+using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.InlineButtons;
 using PRTelegramBot.Interfaces;
@@ -22,16 +23,11 @@ namespace ConsoleExample.Examples
         #region Reply команды
 
         /// <summary>
-        /// Команда отработает для любого бота с любым botid.
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает если 'Команда содержит текст' будет содержаться в тексте сообщения.
+        /// Так же при проверки будет проигнорирован регистр команды.
         /// </summary>
-        [ReplyMenuHandler(-1, "Команда для всех ботов")]
-        public static async Task ReplyExampleAllBots(ITelegramBotClient botClient, Update update)
-        {
-            string msg = nameof(ReplyExampleOne);
-            await Helpers.Message.Send(botClient, update, msg);
-        }
-
-        [ReplyMenuHandler(CommandComparison.Contains ,StringComparison.OrdinalIgnoreCase, "Команда содержит текст")]
+        [ReplyMenuHandler(CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, "Команда содержит текст")]
         public static async Task ReplyExampleOne(ITelegramBotClient botClient, Update update)
         {
             string msg = nameof(ReplyExampleOne);
@@ -39,33 +35,34 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Напишите в чате "Пример"
-        /// Напишите в чате /reply
-        /// Пример с использование одновременно слеш команды и reply
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает если 'Точное совпадение команды' будет точное совпадения текста сообщения.
         /// </summary>
-        [ReplyMenuHandler("Пример")]
-        [SlashHandler("/reply")]
-        public static async Task ExampleReply(ITelegramBotClient botClient, Update update)
+        [ReplyMenuHandler("Точное совпадение команды")]
+        public static async Task ReplyExampleTwo(ITelegramBotClient botClient, Update update)
         {
-            //Пример как получить текст сообщения из JSON файла
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
-            await Helpers.Message.Send(botClient, update, msg);
-        }
-
-        [ReplyMenuHandler(1, "Пример")]
-        [SlashHandler(1, "/reply")]
-        public static async Task ExampleReplyX(ITelegramBotClient botClient, Update update)
-        {
-            //Пример как получить текст сообщения из JSON файла
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
+            string msg = nameof(ReplyExampleTwo);
             await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
-        /// Напишите в чате "ReplyMenu"
-        /// Пример генерации reply меню
+        /// Команда отработает для бота с botId 0.
+        /// Напишите в чате "Пример 1" или "Пример 2".
+        /// Пример с использованием разных reply команд для работы с 1 функцией.
         /// </summary>
-        [ReplyMenuHandler("ReplyMenu")]
+        [ReplyMenuHandler("Пример 1", "Пример 2")]
+        public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ExampleReplyMany);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "Меню".
+        /// В результате сгенерируется меню.
+        /// </summary>
+        [ReplyMenuHandler("Reply Меню")]
         public static async Task ExampleReplyMenu(ITelegramBotClient botClient, Update update)
         {
             string msg = "Меню";
@@ -80,14 +77,14 @@ namespace ConsoleExample.Examples
             //Добавляем кнопку с запросом на локацию пользователя
             menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
             //Добавляем кнопку с запросом отправки чата боту
-            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat() { RequestId = 2}));
+            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat() { RequestId = 2 }));
             //Добавляем кнопку с запросом отправки пользователя боту
-            menuList.Add(KeyboardButton.WithRequestUser("Отправить пользователя боту", new KeyboardButtonRequestUser() { RequestId = 1}));
+            menuList.Add(KeyboardButton.WithRequestUser("Отправить пользователя боту", new KeyboardButtonRequestUser() { RequestId = 1 }));
             //Добавляем кнопку с отправкой опроса
             menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование"));
             //Добавляем кнопку с запросом работы с WebApp
-            menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html"}));
- 
+            menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html" }));
+
             //Генерируем reply меню
             //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
@@ -97,29 +94,52 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Напишите в чате "Access"
-        /// Пример генерации reply меню
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "Пример динамического текста сообщения".
+        /// Пример работы с текстом из json файла.
+        /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
         /// </summary>
-        [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]
-        [ReplyMenuHandler("Access")]
-        public static async Task ExampleAccess(ITelegramBotClient botClient, Update update)
+        [ReplyMenuHandler("Пример динамического текста сообщения")]
+        public static async Task ExampleDynamicReply(ITelegramBotClient botClient, Update update)
         {
-            string msg = "Проверка привилегий";
+            /*
+             *  В program.cs создается экземпляр бота:
+             *   
+             *  var telegram = new PRBotBuilder("")
+             *      .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
+             *      .Build();
+             *  
+             *  AddConfigPath - добавляет путь для конфигурационного файла.
+             *  ExampleConstants.MESSAGES_FILE_KEY - ключ 
+             *  ".\\Configs\\messages.json" - путь до конфигурационного файла.
+             *  
+             */
+
+            /*
+             *  botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT")
+             *  BotConfigJsonProvider - провайдер который работает с json файлами.
+             *  string - возращаемый тип.
+             *  ExampleConstants.MESSAGES_FILE_KEY - ключ конфига.
+             *  MSG_EXAMPLE_TEXT - ключ текста сообщения из json файла messages.json
+             * 
+             */
+
+            // Получаем текст сообщения по ключу из json файла.
+            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
             await Helpers.Message.Send(botClient, update, msg);
         }
 
         /// <summary>
-        /// Напишите в чате "Скобки"
-        /// Пример если в кнопки должно отображаться количество в скобках (2)
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "Скобки".
+        /// Пример работы меню со скобками.
         /// </summary>
         [ReplyMenuHandler("Скобки")]
         public static async Task ExampleBracket(ITelegramBotClient botClient, Update update)
         {
-            
             string msg = $"Значени {count}";
             //Создаем настройки сообщения
             var option = new OptionMessage();
-            
             //Создаем список для меню
             var menuList = new List<KeyboardButton>();
             //Добавляем кнопку с текстом
@@ -134,65 +154,151 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Напишите в чате "Пример 1" или "Пример 2"
-        /// Пример с использованием разных reply команд для вывода одной и той же функции
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "Проверка доступа".
+        /// Перед выполнение метода срабатывает событие проверки привилегий <see cref="ExampleEvent.OnCheckPrivilege"/>
         /// </summary>
-        [ReplyMenuHandler("Пример 1", "Пример 2")]
-        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
-        public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
+        [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]
+        [ReplyMenuHandler("Проверка доступа")]
+        public static async Task ExampleAccess(ITelegramBotClient botClient, Update update)
         {
-            string msg = $"Вы написали в чате {update.Message.Text}";
+            string msg = nameof(ExampleAccess);
             await Helpers.Message.Send(botClient, update, msg);
         }
 
-
         /// <summary>
-        /// Напишите в чате "AppConfig Кнопка" - значение можно поменять в appconfig.json
-        /// Пример работы с кнопкой из JSON файла
-        /// [RequiredTypeUpdate] Пример того что метод будет обрабатывать обновление только приватного чата
-        /// [RequireDate]Пример того что метод будет обрабатывать только текстовые сообщения
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат значения по ключу "DYNAMIC_COMMANT_EXAMPLE" из файла commands.json.
+        /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
+        /// "DYNAMIC_COMMANT_EXAMPLE": "Динамическая команда"
         /// </summary>
         [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))]
-        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
-        [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
-        public static async Task ExampleReplyJsonConfig(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyDynamicCommand(ITelegramBotClient botClient, Update update)
         {
-            string msg = $"Вы написали в чате {update.Message.Text} можете изменить значение команды в настройке appconfig.json";
+            /*
+             *  Создание провайдера работы с json файлом commands.json
+             *  var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
+             *  
+             *  Выгрузка всех команд в формате ключ:значение
+             *  var dynamicCommands = botJsonProvider.GetKeysAndValues();
+             *
+             *  var telegram = new PRBotBuilder("")
+             *                      .AddReplyDynamicCommands(dynamicCommands)
+             *                      .Build();
+             * 
+             * .AddReplyDynamicCommands(dynamicCommands) - добавляет в список все динамические команды.
+             * 
+             * [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))] - работа динамической команды по ключу DYNAMIC_COMMANT_EXAMPLE
+             */
+
+            string msg = nameof(ExampleReplyDynamicCommand);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        /// <summary>
+        /// Напишите в чате "Приватная команда"
+        /// Требуемый чат должнен быть приватным.
+        /// </summary>
+        [ReplyMenuHandler("Приватная команда")]
+        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
+        public static async Task ExampleReplyRequeretPrivate(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ExampleReplyRequeretPrivate);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        /// <summary>
+        /// Напишите в чате "Сообщение только из текста"
+        /// Требуемый тип сообщения должен содержать только текст.
+        /// </summary>
+        [ReplyMenuHandler("Сообщение только из текста")]
+        [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
+        public static async Task ExampleReplyRequiredText(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ExampleReplyRequiredText);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 1.
+        /// Команда отработает при написание в чат "Пример команды для бота id 1".
+        /// Пример работы с текстом из json файла.
+        /// </summary>
+        [ReplyMenuHandler(1, "Пример команды для бота id 1")]
+        public static async Task ExampleReplyBotIdOne(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ExampleReplyBotIdOne);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        /// <summary>
+        /// Команда отработает для любого бота с любым botid.
+        /// Команда отработает при написание в чат "Команда для всех ботов".
+        /// </summary>
+        [ReplyMenuHandler(-1, "Команда для всех ботов")]
+        public static async Task ReplyExampleAllBots(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ReplyExampleAllBots);
             await Helpers.Message.Send(botClient, update, msg);
         }
 
         #endregion
 
         #region Inline команды
+
         /// <summary>
-        /// Напишите в чате "InlineMenu"
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "InlineMenu".
         /// Пример с генерацией inline меню
+        /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
         /// </summary>
         [ReplyMenuHandler("InlineMenu")]
         public static async Task InlineMenu(ITelegramBotClient botClient, Update update)
         {
+            /*
+             *  В program.cs создается экземпляр бота:
+             *   
+             *  var telegram = new PRBotBuilder("")
+                    .AddConfigPath(ExampleConstants.BUTTONS_FILE_KEY, ".\\Configs\\buttons.json")
+             *      .Build();
+             *  
+             *  AddConfigPath - добавляет путь для конфигурационного файла.
+             *  ExampleConstants.BUTTONS_FILE_KEY - ключ 
+             *  ".\\Configs\\buttons.json" - путь до конфигурационного файла.
+             *  
+             */
+
+            /*
+             *  botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE")
+             *  BotConfigJsonProvider - провайдер который работает с json файлами.
+             *  string - возращаемый тип.
+             *  ExampleConstants.BUTTONS_FILE_KEY - ключ конфига.
+             *  IN_EXAMPLE_ONE - ключ текста кнопки из json файла buttons.json
+             * 
+             */
+
             /* Создание новой кнопки с callback данными
-             * MessageKeys.GetValueButton(nameof(InlineKeys.IN_EXAMPLE_ONE)) - Название кнопки из JSON
-             * Models.Enums.CallbackId.ExampleOne - Заголовок команды
+             * botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE") - Название кнопки из json
+             * CustomTHeaderTwo.ExampleOne - Заголовок команды
              */
             var exampleItemOne = new InlineCallback(botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE"), CustomTHeaderTwo.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
-             * Models.Enums.CallbackId.ExampleOne - Заголовок команды
+             * CustomTHeaderTwo.ExampleTwo - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
             var exampleItemTwo = new InlineCallback<EntityTCommand<long>>("Пример 2", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2));
             /* Создание новой кнопки с callback данными
-             * Models.Enums.CallbackId.ExampleOne - Заголовок команды
-             * new EntityTCommand(2) - Данные которые требуется передать
+             * CustomTHeaderTwo.ExampleThree - Заголовок команды
+             * new EntityTCommand(3) - Данные которые требуется передать
              */
             var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3));
 
             var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStepp);
 
             //Команды который добавлены после запуска бота
-            var exampleAddCommand= new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand);
-            var exampleAddCommandTwo= new InlineCallback("Команда добавленная динамически 2", AddCustomTHeader.TestAddCommandTwo);
+            var exampleAddCommand = new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand);
+            var exampleAddCommandTwo = new InlineCallback("Команда добавленная динамически 2", AddCustomTHeader.TestAddCommandTwo);
 
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
@@ -222,14 +328,17 @@ namespace ConsoleExample.Examples
             //Отправка сообщение с меню
             await Helpers.Message.Send(botClient, update, msg, option);
         }
+
         #endregion
 
-        #region Слеш команды
+        #region Slash команды
+
         /// <summary>
-        /// напиши команду в чате /example
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/example".
         /// </summary>
         [SlashHandler("/example")]
-        public static async Task SlashCommand(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleSlashCommand(ITelegramBotClient botClient, Update update)
         {
             string msg = $"Команда /example";
             msg += "\n /get_1 - команда 1" +
@@ -240,10 +349,12 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// напиши команду в чате /get_1
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/get".
+        /// Команда отработает при написание в чат "/get_1", значение 1 можно обработать.
         /// </summary>
         [SlashHandler("/get")]
-        public static async Task SlashCommandGet(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleSlashCommandGet(ITelegramBotClient botClient, Update update)
         {
             if (update.Message.Text.Contains("_"))
             {
@@ -265,6 +376,31 @@ namespace ConsoleExample.Examples
                 await Helpers.Message.Send(botClient, update, msg);
             }
         }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/equals", сработает только если текст сообщения будет /equals но при этом регистро не зависимо.
+        /// /equals_1 не сработает.
+        /// </summary>
+        [SlashHandler(CommandComparison.Equals, "/equals")]
+        public static async Task ExampleSlashEqualsCommand(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ExampleSlashEqualsCommand);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/equalsreg", сработает только если текст сообщения будет /equalsreg но при этом регистро зависимо.
+        /// Не сработает/equals_1, /equalsreG, /Equalsreg.
+        /// </summary>
+        [SlashHandler(CommandComparison.Equals, StringComparison.Ordinal, "/equalsreg")]
+        public static async Task ExampleSlashEqualsRegisterCommand(ITelegramBotClient botClient, Update update)
+        {
+            string msg = nameof(ExampleSlashEqualsRegisterCommand);
+            await Helpers.Message.Send(botClient, update, msg);
+        }
+
         #endregion
     }
 }

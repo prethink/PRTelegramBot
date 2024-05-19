@@ -2,7 +2,6 @@
 using Telegram.Bot;
 using PRTelegramBot.Attributes;
 
-
 namespace PRTelegramBot.Commands
 {
     public class AccessCommand

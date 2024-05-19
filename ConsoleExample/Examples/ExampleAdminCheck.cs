@@ -8,9 +8,11 @@ namespace ConsoleExample.Examples
     public class ExampleAdminCheck
     {
         /// <summary>
-        /// Пример проверки пользователя на администратора
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "Админ".
+        /// Проверка текущего пользователя на привилегии администратора.
         /// </summary>
-        [ReplyMenuHandler("Admin")]
+        [ReplyMenuHandler("Админ")]
         public static async Task AdminExample(ITelegramBotClient botClient, Update update)
         {
             bool isAdminUpdate = botClient.IsAdmin(update);

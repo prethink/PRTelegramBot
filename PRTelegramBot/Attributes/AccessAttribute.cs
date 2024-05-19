@@ -3,7 +3,7 @@
     /// <summary>
     /// Атрибут для проверки прав доступа на запуск методов.
     /// </summary>
-    public sealed class AccessAttribute : Attribute
+    public class AccessAttribute : Attribute
     {
         #region Поля и свойства
 

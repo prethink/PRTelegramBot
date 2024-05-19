@@ -9,14 +9,14 @@ using System.Globalization;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
-using THeader = PRTelegramBot.Models.Enums.THeader;
+using PRTelegramBotCommand = PRTelegramBot.Models.Enums.PRTelegramBotCommand;
 
 namespace ConsoleExample.Examples
 {
     public class ExampleCalendar
     {
         /// <summary>
-        /// Русский формат даты
+        /// Устанавливаем русский формат даты.
         /// </summary>
         public static DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("ru-RU", false).DateTimeFormat;
 
@@ -43,7 +43,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Выбор года или месяца
         /// </summary>
-        [InlineCallbackHandler<THeader>(THeader.YearMonthPicker)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.YearMonthPicker)]
         public static async Task PickYearMonth(ITelegramBotClient botClient, Update update)
         {
             try
@@ -66,7 +66,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Выбор месяца
         /// </summary>
-        [InlineCallbackHandler<THeader>(THeader.PickMonth)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickMonth)]
         public static async Task PickMonth(ITelegramBotClient botClient, Update update)
         {
             try
@@ -91,7 +91,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Выбор года
         /// </summary>
-        [InlineCallbackHandler<THeader>(THeader.PickYear)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickYear)]
         public static async Task PickYear(ITelegramBotClient botClient, Update update)
         {
             try
@@ -115,7 +115,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Перелистывание месяца
         /// </summary>
-        [InlineCallbackHandler<THeader>(THeader.ChangeTo)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.ChangeTo)]
         public static async Task ChangeToHandler(ITelegramBotClient botClient, Update update)
         {
             try
@@ -139,7 +139,7 @@ namespace ConsoleExample.Examples
         /// <summary>
         /// Обработка выбраной даты
         /// </summary>
-        [InlineCallbackHandler<THeader>(THeader.PickDate)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickDate)]
         public static async Task PickDate(ITelegramBotClient botClient, Update update)
         {
             try

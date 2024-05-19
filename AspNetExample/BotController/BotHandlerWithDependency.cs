@@ -45,8 +45,8 @@ namespace AspNetExample.BotController
         {
             var options = new OptionMessage();
             var menuItemns = MenuGenerator.InlineButtons(1, new List<IInlineContent> {
-                new InlineCallback("Test", THeader.CurrentPage),
-                new InlineCallback("TestStatic", THeader.NextPage)
+                new InlineCallback("Test", PRTelegramBotCommand.CurrentPage),
+                new InlineCallback("TestStatic", PRTelegramBotCommand.NextPage)
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(InlineTest), options);
@@ -57,20 +57,20 @@ namespace AspNetExample.BotController
         {
             var options = new OptionMessage();
             var menuItemns = MenuGenerator.InlineButtons(1, new List<IInlineContent> {
-                new InlineCallback("Test", THeader.CurrentPage),
-                new InlineCallback("TestStatic", THeader.NextPage)
+                new InlineCallback("Test", PRTelegramBotCommand.CurrentPage),
+                new InlineCallback("TestStatic", PRTelegramBotCommand.NextPage)
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(StaticInlineTest), options);
         }
 
-        [InlineCallbackHandler<THeader>(THeader.CurrentPage)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.CurrentPage)]
         public async Task InlineHandler(ITelegramBotClient botClient, Update update)
         {
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(InlineHandler));
         }
 
-        [InlineCallbackHandler<THeader>(THeader.NextPage)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.NextPage)]
         public async static Task InlineHandlerStatic(ITelegramBotClient botClient, Update update)
         {
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(InlineHandlerStatic));

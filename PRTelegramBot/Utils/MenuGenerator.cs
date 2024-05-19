@@ -299,7 +299,7 @@ namespace PRTelegramBot.Utils
         {
             IInlineContent button = null;
             if (!string.IsNullOrEmpty(currentPageMarker))
-                button = new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", THeader.NextPage, new PageTCommand(currentPage, enumToInt));
+                button = new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", PRTelegramBotCommand.NextPage, new PageTCommand(currentPage, enumToInt));
 
             return GetPageMenu(currentPage, pageCount, enumToInt, nextPageMarker, previousPageMarker, button);
         }
@@ -325,12 +325,12 @@ namespace PRTelegramBot.Utils
             List<IInlineContent> buttons = new();
 
             if (currentPage != 1)
-                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", THeader.PreviousPage, new PageTCommand(currentPage - 1, enumToInt)));
+                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", PRTelegramBotCommand.PreviousPage, new PageTCommand(currentPage - 1, enumToInt)));
             if (button != null)
                 buttons.Add(button);
 
             if (currentPage != pageCount)
-                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", THeader.CurrentPage, new PageTCommand(currentPage + 1, enumToInt)));
+                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", PRTelegramBotCommand.CurrentPage, new PageTCommand(currentPage + 1, enumToInt)));
 
             return InlineKeyboard(3, buttons);
         }
@@ -356,10 +356,10 @@ namespace PRTelegramBot.Utils
             List<IInlineContent> buttons = new();
 
             if (currentPage != 1)
-                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", THeader.PreviousPage, new PageTCommand(currentPage - 1, enumToInt)));
+                buttons.Add(new InlineCallback<PageTCommand>($"({pageCount - (pageCount - currentPage + 1)}) {previousPageMarker}", PRTelegramBotCommand.PreviousPage, new PageTCommand(currentPage - 1, enumToInt)));
 
             if (currentPage != pageCount)
-                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", THeader.CurrentPage, new PageTCommand(currentPage + 1, enumToInt)));
+                buttons.Add(new InlineCallback<PageTCommand>($"{nextPageMarker} ({pageCount - currentPage})", PRTelegramBotCommand.CurrentPage, new PageTCommand(currentPage + 1, enumToInt)));
 
             var pageButtons = InlineButtons(2, buttons);
             var customMenu = InlineButtons(1, customButtons);

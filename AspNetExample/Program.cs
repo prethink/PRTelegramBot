@@ -1,5 +1,4 @@
 using AspNetExample.Services;
-using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 

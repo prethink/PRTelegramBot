@@ -74,7 +74,7 @@ namespace ConsoleExample.Examples
         /// callback обработка постраничного вывода
         /// Обрабатывает одну точку входа
         /// </summary>
-        [InlineCallbackHandler<THeader>(THeader.NextPage, THeader.PreviousPage, THeader.CurrentPage)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.NextPage, PRTelegramBotCommand.PreviousPage, PRTelegramBotCommand.CurrentPage)]
         public static async Task InlinenPage(ITelegramBotClient botClient, Update update)
         {
             try

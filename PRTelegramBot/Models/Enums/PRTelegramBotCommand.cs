@@ -7,7 +7,7 @@ namespace PRTelegramBot.Models.Enums
     /// Идентификаторы для callback команд
     /// </summary>
     [InlineCommand]
-    public enum THeader
+    public enum PRTelegramBotCommand
     {
         [Description(nameof(None))]
         None = 0,

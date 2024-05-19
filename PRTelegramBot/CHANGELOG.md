@@ -13,6 +13,7 @@
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension
 - refactoring: PageHelper переименован в PageExtension
+- refactoring: THeader переименован в PRTelegramBotCommand
 - refactoring: В TelegramOptions добавлен параметр configPath
 - refactoring: TelegramConfig заменен TelegramOptions
 - refactoring: Рефакторинг ServiceProviderExtension
