@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Models.Enums;
-using System;
 
 namespace PRTelegramBot.Attributes
 {

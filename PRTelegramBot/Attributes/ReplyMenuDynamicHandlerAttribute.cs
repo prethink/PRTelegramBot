@@ -88,7 +88,7 @@ namespace PRTelegramBot.Attributes
                 {
                     if (!dynamicCommand.ContainsKey(command))
                     {
-                        //bot.InvokeErrorLog();
+                        //TODO: bot.InvokeErrorLog();
                         continue;
                     }
                     this.commands.Add(dynamicCommand[command]);

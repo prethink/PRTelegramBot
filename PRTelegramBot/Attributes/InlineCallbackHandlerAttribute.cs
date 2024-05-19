@@ -5,7 +5,8 @@ namespace PRTelegramBot.Attributes
     /// <summary>
     /// Атрибут для inline команд.
     /// </summary>
-    public sealed class InlineCallbackHandlerAttribute<T> : BaseQueryAttribute<Enum> where T : Enum
+    public sealed class InlineCallbackHandlerAttribute<T> : BaseQueryAttribute<Enum>
+        where T : Enum
     {
         #region Конструкторы
 

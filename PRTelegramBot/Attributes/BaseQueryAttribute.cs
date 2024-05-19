@@ -18,11 +18,6 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         protected List<T> commands = new List<T>();
 
-        /// <summary>
-        /// Как сравнивать команды.
-        /// </summary>
-        public CommandComparison CommandComparison { get; protected set; }
-
         #endregion
 
         #region ICommandStore
@@ -37,20 +32,34 @@ namespace PRTelegramBot.Attributes
 
         #endregion
 
-        #region IBotIdentifier
+        #region IBaseQueryAttribute
 
         /// <summary>
         /// Идентификатор бота
         /// </summary>
         public long BotId { get; set; }
 
+        /// <summary>
+        /// Как сравнивать команды.
+        /// </summary>
+        public CommandComparison CommandComparison { get; protected set; }
+
         #endregion
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
         public BaseQueryAttribute(long botId = 0)
             :this (botId, CommandComparison.Equals) { }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="commandComparison">Сравнение команд.</param>
         public BaseQueryAttribute(long botId, CommandComparison commandComparison)
         {
             BotId = botId;

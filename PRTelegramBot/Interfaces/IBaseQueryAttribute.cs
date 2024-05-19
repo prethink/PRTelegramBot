@@ -10,7 +10,7 @@ namespace PRTelegramBot.Interfaces
         public long BotId { get; }
 
         /// <summary>
-        /// 
+        /// Сравнение команды.
         /// </summary>
         public CommandComparison CommandComparison { get; }
     }

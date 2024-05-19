@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Как сравнивать команду.
+    /// Сравнение команд.
     /// </summary>
     public enum CommandComparison
     {

@@ -7,7 +7,7 @@ namespace PRTelegramBot.Models
 {
     internal class StringCommandHandler : CommandHandler
     {
-        #region Свойства и константы
+        #region Поля и свойства
 
         public StringComparison StringComparison { get; private set; }
 

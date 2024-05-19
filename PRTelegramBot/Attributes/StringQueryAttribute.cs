@@ -9,7 +9,7 @@ namespace PRTelegramBot.Attributes
     public abstract class StringQueryAttribute 
         : BaseQueryAttribute<string> , IStringQueryAttribute
     {
-        #region Поля и свойства
+        #region IStringQueryAttribute
 
         /// <summary>
         /// Как сравнивать строку.
@@ -20,6 +20,12 @@ namespace PRTelegramBot.Attributes
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
         public StringQueryAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison) 
             : base(botId, commandComparison) 
         {

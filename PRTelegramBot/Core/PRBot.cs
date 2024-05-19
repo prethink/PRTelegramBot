@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Configs;
-using PRTelegramBot.Interfaces;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -11,17 +10,17 @@ namespace PRTelegramBot.Core
         #region Поля и свойства
 
         /// <summary>
-        /// Имя бота
+        /// Имя бота.
         /// </summary>
         public string BotName { get; private set; }
 
         /// <summary>
-        /// Клиент для telegram бота
+        /// Клиент для telegram бота.
         /// </summary>
         public ITelegramBotClient botClient { get; private set; }
 
         /// <summary>
-        /// 
+        /// Идетификатор бота в telegram.
         /// </summary>
         public long? TelegramId => botClient.BotId;
 

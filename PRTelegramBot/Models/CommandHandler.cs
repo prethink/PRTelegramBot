@@ -9,7 +9,7 @@ namespace PRTelegramBot.Models
 {
     public class CommandHandler 
     {
-        #region Свойства и константы
+        #region Поля и свойства
         public CommandComparison CommandComparison { get;}
         public Func<ITelegramBotClient, Update, Task> Command { get; }
         private IServiceProvider serviceProvider { get; set; }
