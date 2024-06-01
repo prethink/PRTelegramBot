@@ -17,11 +17,10 @@ namespace PRTelegramBot.Models
 
         public static CommandHandler CreateHandler(IBaseQueryAttribute attr, Func<ITelegramBotClient, Update, Task> command, IServiceProvider serviceProvider)
         {
-                if (attr is IStringQueryAttribute stringAttribute)
-                    return CreateStringHandler(stringAttribute, command, serviceProvider);
-                else
-                    return new CommandHandler(command);
-
+            if (attr is IStringQueryAttribute stringAttribute)
+                return CreateStringHandler(stringAttribute, command, serviceProvider);
+            else
+                return new CommandHandler(command);
         }
 
         private static CommandHandler CreateStringHandler(IStringQueryAttribute attribute, MethodInfo method, IServiceProvider serviceProvider)

@@ -14,7 +14,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Список шагов для пользователя
         /// </summary>
-        static ConcurrentDictionary<long, IExecuteStep> _step = new();
+        static ConcurrentDictionary<string, IExecuteStep> _step = new();
 
         #endregion
 
@@ -27,9 +27,9 @@ namespace PRTelegramBot.Extensions
         /// <param name="command">Следующая команда которая должна быть выполнена</param>
         public static void RegisterStepHandler(this Update update, IExecuteStep command)
         {
-            long userId = update.GetChatId();
+            string userKey = update.GetKeyMappingUserTelegram();
             update.ClearStepUserHandler();
-            _step.AddOrUpdate(userId, command, (_, existingData) => command);
+            _step.AddOrUpdate(userKey, command, (_, existingData) => command);
         }
 
         /// <summary>
@@ -39,9 +39,8 @@ namespace PRTelegramBot.Extensions
         /// <returns>обработчик или null</returns>
         public static T? GetStepHandler<T>(this Update update) where T : IExecuteStep
         {
-            long userId = update.GetChatId();
-
-            return _step.TryGetValue(userId, out var data) && data is T stepHandler
+            string userKey = update.GetKeyMappingUserTelegram();
+            return _step.TryGetValue(userKey, out var data) && data is T stepHandler
                 ? stepHandler
                 : default(T);
         }
@@ -62,10 +61,9 @@ namespace PRTelegramBot.Extensions
         /// <param name="update">Обновление полученное с telegram</param>
         public static void ClearStepUserHandler(this Update update)
         {
-            long userId = update.GetChatId();
-
+            string userKey = update.GetKeyMappingUserTelegram();
             if (update.HasStepHandler())
-                _step.Remove(userId, out _);
+                _step.Remove(userKey, out _);
         }
 
         /// <summary>
@@ -75,8 +73,8 @@ namespace PRTelegramBot.Extensions
         /// <returns>True/false</returns>
         public static bool HasStepHandler(this Update update)
         {
-            long userId = update.GetChatId();
-            return _step.ContainsKey(userId);
+            string userKey = update.GetKeyMappingUserTelegram();
+            return _step.ContainsKey(userKey);
         }
 
         #endregion

@@ -13,6 +13,9 @@ namespace PRTelegramBot.Models
     {
         #region Свойства и константы
 
+        public bool LastStepExecuted { get; set; }
+
+        public bool IgnoreBasicCommands { get; set; }
         /// <summary>
         /// Ссылка на метод который должен быть выполнен.
         /// </summary>
@@ -87,8 +90,20 @@ namespace PRTelegramBot.Models
         /// <param name="expiriedTime"> До какого времени команду можно выполнить.</param>
         public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime? expiriedTime)
         {
+            RegisterNextStep(nextStep, expiriedTime, false);
+        }
+
+        /// <summary>
+        /// Регистрация следующего шага.
+        /// </summary>
+        /// <param name="nextStep">Метод для следующей обработки.</param>
+        /// <param name="expiriedTime"> До какого времени команду можно выполнить.</param>
+        /// <param name="ignoreBasicCommands">Игнорировать базовые команды при выполнение шагов.</param>
+        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime? expiriedTime, bool ignoreBasicCommands)
+        {
             CommandDelegate = nextStep;
             ExpiredTime = expiriedTime;
+            IgnoreBasicCommands = ignoreBasicCommands;
         }
 
         /// <summary>
@@ -118,7 +133,7 @@ namespace PRTelegramBot.Models
         /// <param name="command">Команда для выполнения.</param>
         /// <param name="cache">Кэш.</param>
         public StepTelegram(Func<ITelegramBotClient, Update, Task> command, ITelegramCache cache)
-            : this(command, null, cache) { }
+            : this(command, null, cache, false) { }
 
         /// <summary>
         /// Создать новый следующий шаг.
@@ -126,7 +141,7 @@ namespace PRTelegramBot.Models
         /// <param name="command">Команда для выполнения.</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
         public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime expiriedTime)
-            : this(command, expiriedTime, null) { }
+            : this(command, expiriedTime, null, false) { }
 
         /// <summary>
         /// Создать новый следующий шаг.
@@ -134,9 +149,20 @@ namespace PRTelegramBot.Models
         /// <param name="command">Команда для выполнения.</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
         /// <param name="cache">Кэш.</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime? expiriedTime, ITelegramCache cache = null)
+        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime? expiriedTime, ITelegramCache cache)
+            : this(command, expiriedTime, cache, false) { }
+
+        /// <summary>
+        /// Создать новый следующий шаг.
+        /// </summary>
+        /// <param name="command">Команда для выполнения.</param>
+        /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
+        /// <param name="cache">Кэш.</param>
+        /// <param name="ignoreBasicCommands">Игнорировать базовые команды при выполнение шагов.</param>
+        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime? expiriedTime, ITelegramCache cache, bool ignoreBasicCommands)
         {
             this.cache = cache;
+            IgnoreBasicCommands = ignoreBasicCommands;
             CommandDelegate = command;
             ExpiredTime = expiriedTime;
         }

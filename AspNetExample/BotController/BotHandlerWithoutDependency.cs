@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -18,7 +19,7 @@ namespace AspNetExample.BotController
             await PRTelegramBot.Helpers.Message.Send(botClient, update, $"{nameof(TestMethodWithoutDependency)}");
         }
 
-        [SlashHandler("/Testnodi")]
+        [SlashHandler(CommandComparison.Equals, "/Testnodi")]
         public async Task SlashNoDi(ITelegramBotClient botClient, Update update)
         {
             await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(SlashNoDi));

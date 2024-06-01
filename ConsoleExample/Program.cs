@@ -4,6 +4,7 @@ using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -69,73 +70,73 @@ void HandlerInit(PRBot tg)
     if (tg.Handler != null)
     {
         ////Обработка обновление 
-        tg.Handler.OnPreUpdate += Handler_OnUpdate;
+        tg.Events.OnPreUpdate += Handler_OnUpdate;
 
         //Обработка обновление кроме message и callback
-        tg.Handler.OnPostMessageUpdate += Handler_OnWithoutMessageUpdate;
+        tg.Events.OnPostMessageUpdate += Handler_OnWithoutMessageUpdate;
 
         //Обработка не правильный тип сообщений
-        tg.Handler.Router.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
+        tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
 
         //Обработка пользователь написал в чат start с deeplink
-        tg.Handler.Router.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
+        tg.Events.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
 
         //Обработка проверка привилегий
-        tg.Handler.Router.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
+        tg.Events.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
 
         //Обработка пропущенной  команды
-        tg.Handler.Router.OnMissingCommand += ExampleEvent.OnMissingCommand;
+        tg.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
 
         //Обработка не верного типа чата
-        tg.Handler.Router.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
+        tg.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 
         //Обработка локаций
-        tg.Handler.Router.OnLocationHandle += ExampleEvent.OnLocationHandle;
+        tg.Events.OnLocationHandle += ExampleEvent.OnLocationHandle;
 
         //Обработка контактных данных
-        tg.Handler.Router.OnContactHandle += ExampleEvent.OnContactHandle;
+        tg.Events.OnContactHandle += ExampleEvent.OnContactHandle;
 
         //Обработка голосований
-        tg.Handler.Router.OnPollHandle += ExampleEvent.OnPollHandle;
+        tg.Events.OnPollHandle += ExampleEvent.OnPollHandle;
 
         //Обработка WebApps
-        tg.Handler.Router.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
+        tg.Events.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
 
         //Обработка, когда пользователю отказано в доступе
-        tg.Handler.Router.OnAccessDenied += ExampleEvent.OnAccessDenied;
+        tg.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
 
         //Обработка сообщения с документом
-        tg.Handler.Router.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
+        tg.Events.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
 
         //Обработка сообщения с аудио
-        tg.Handler.Router.OnAudioHandle += ExampleEvent.OnAudioHandle;
+        tg.Events.OnAudioHandle += ExampleEvent.OnAudioHandle;
 
         //Обработка сообщения с видео
-        tg.Handler.Router.OnVideoHandle += ExampleEvent.OnVideoHandle;
+        tg.Events.OnVideoHandle += ExampleEvent.OnVideoHandle;
 
         //Обработка сообщения с фото
-        tg.Handler.Router.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
+        tg.Events.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
 
         //Обработка сообщения с стикером
-        tg.Handler.Router.OnStickerHandle += ExampleEvent.OnStickerHandle;
+        tg.Events.OnStickerHandle += ExampleEvent.OnStickerHandle;
 
         //Обработка сообщения с голосовым сообщением
-        tg.Handler.Router.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
+        tg.Events.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
 
         //Обработка сообщения с неизвестным типом
-        tg.Handler.Router.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
+        tg.Events.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
 
         //Обработка сообщения с местоположением
-        tg.Handler.Router.OnVenueHandle += ExampleEvent.OnVenueHandle;
+        tg.Events.OnVenueHandle += ExampleEvent.OnVenueHandle;
 
         //Обработка сообщения с игрой
-        tg.Handler.Router.OnGameHandle += ExampleEvent.OnGameHandle;
+        tg.Events.OnGameHandle += ExampleEvent.OnGameHandle;
 
         //Обработка сообщения с видеозаметкой
-        tg.Handler.Router.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
+        tg.Events.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
 
         //Обработка сообщения с игральной костью
-        tg.Handler.Router.OnDiceHandle += ExampleEvent.OnDiceHandle;
+        tg.Events.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
     }
 
@@ -150,12 +151,12 @@ void HandlerInit(PRBot tg)
     });
 }
 
-async Task<ResultUpdate> Handler_OnUpdate(ITelegramBotClient client, Update update)
+async Task<ResultUpdate> Handler_OnUpdate(BotEventArgs e)
 {
     return ResultUpdate.Continue;
 }
 
-async Task Handler_OnWithoutMessageUpdate(Telegram.Bot.ITelegramBotClient botclient, Update update)
+async Task Handler_OnWithoutMessageUpdate(BotEventArgs e)
 {
     //Обработка обновление кроме message и callback
 }

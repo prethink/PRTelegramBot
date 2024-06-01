@@ -1,5 +1,8 @@
-﻿using PRTelegramBot.Extensions;
+﻿using PRTelegramBot.Core.UpdateHandlers;
+using PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -12,69 +15,13 @@ namespace PRTelegramBot.Core
     {
         #region Поля и свойства
 
+        public MessageFacade MessageFacade { get; private set; }
+        public InlineUpdateHandler InlineUpdateHandler { get; private set; }
+
         /// <summary>
         /// Клиент телеграм бота
         /// </summary>
         private PRBot bot;
-
-        /// <summary>
-        /// Маршрутизатор
-        /// </summary>
-        public Router Router { get; private set; }
-
-        #endregion
-
-        #region События
-
-        /// <summary>
-        /// Событие вызывается до обработки update, может быть прекращено выполнение 
-        /// </summary>
-        public event Func<ITelegramBotClient, Update, Task<ResultUpdate>>? OnPreUpdate;
-
-        /// <summary>
-        /// Событие вызывается после обработки update типа Message и CallbackQuery
-        /// </summary>
-        public event Func<ITelegramBotClient, Update, Task>? OnPostMessageUpdate;
-
-        #endregion
-
-        #region Методы
-
-        /// <summary>
-        /// Обработчик inline callback
-        /// </summary>
-        /// <param name="update">Обновление телеграма</param>
-        /// <param name="cancellationToken">Токен</param>
-        /// <returns></returns>
-        private async Task HandleCallbackQuery(Update update, CancellationToken cancellationToken)
-        {
-            try
-            {
-                Router.ExecuteCommandByCallBack(update);
-            }
-            catch (Exception ex)
-            {
-                bot.InvokeErrorLog(ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Обработчик текстовый сообщений Reply
-        /// </summary>
-        /// <param name="update">Обновление telegram</param>
-        private async Task HandleMessage(Update update)
-        {
-            try
-            {
-                string command = update.Message.Text ?? update.Message.Type.ToString();
-                Router.ExecuteCommandByMessage(command, update);
-            }
-            catch (Exception ex)
-            {
-                bot.InvokeErrorLog(ex);
-            }
-        }
 
         #endregion
 
@@ -91,9 +38,12 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if (OnPreUpdate != null)
+                //Связь update вместе ITelegramBotClient
+                update.AddTelegramClient(bot);
+
+                if (bot.Events.HasEventOnPreUpdate())
                 {
-                    var resultUpdate = await OnPreUpdate?.Invoke(botClient, update);
+                    var resultUpdate = await bot.Events.OnPreUpdateInvoke(new BotEventArgs(bot, update));
 
                     if (resultUpdate == ResultUpdate.Stop)
                         return;
@@ -103,24 +53,24 @@ namespace PRTelegramBot.Core
                 {
                     if (!bot.Options.WhiteListUsers.Contains(update.GetChatId()))
                     {
-                        await Router.OnAccessDeniedInvoke(bot.botClient, update);
+                        bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
                         return;
                     }
                 }
 
                 if (update.Type == UpdateType.Message)
                 {
-                    await HandleMessage(update);
+                    await MessageFacade.Handle(update);
                     return;
                 }
 
                 if (update.Type == UpdateType.CallbackQuery)
                 {
-                    await HandleCallbackQuery(update, cancellationToken);
+                    await InlineUpdateHandler.Handle(update);
                     return;
                 }
 
-                await (OnPostMessageUpdate?.Invoke(botClient, update) ?? Task.CompletedTask);
+                bot.Events.OnPostMessageUpdateInvoke(new BotEventArgs(bot, update));
             }
             catch (Exception ex)
             {
@@ -157,11 +107,11 @@ namespace PRTelegramBot.Core
 
         #region Конструкторы
 
-
         public Handler(PRBot botClient, IServiceProvider serviceProvider)
         {
             bot = botClient;
-            Router = new Router(bot, serviceProvider);
+            MessageFacade = new MessageFacade(bot, serviceProvider);
+            InlineUpdateHandler = new InlineUpdateHandler(bot, serviceProvider);
         }
 
         #endregion

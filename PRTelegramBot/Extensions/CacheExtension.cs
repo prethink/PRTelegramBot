@@ -1,5 +1,8 @@
 ﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Extensions
@@ -14,7 +17,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш
         /// </summary>
-        static ConcurrentDictionary<long, ITelegramCache> _userHandlerData = new();
+        static ConcurrentDictionary<string, ITelegramCache> _userHandlerData = new();
 
         #endregion
 
@@ -26,15 +29,15 @@ namespace PRTelegramBot.Extensions
         /// <param name="update">Обновление данных telegram</param>
         public static void CreateCacheData<T>(this Update update) where T : ITelegramCache
         {
-            long userId = update.GetChatId();
-            if (_userHandlerData.TryGetValue(userId, out var data))
+            string userKey = update.GetKeyMappingUserTelegram();
+            if (_userHandlerData.TryGetValue(userKey, out var data))
             {
                 data?.ClearData();
             }
             else
             {
                 var newData = Activator.CreateInstance<T>();
-                _userHandlerData.AddOrUpdate(userId, newData, (_, existingData) => newData);
+                _userHandlerData.AddOrUpdate(userKey, newData, (_, existingData) => newData);
             }
         }
 
@@ -43,13 +46,13 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="update">Обновление данных telegram</param>
         /// <returns>Кеш пользователя</returns>
-        public static T GetCacheData<T>(this Update update) where T : ITelegramCache
+        public static T GetCacheData<T>(this Update update, [CallerMemberName] string propertyName = null) where T : ITelegramCache
         {
-            long userId = update.GetChatId();
-            if (!_userHandlerData.TryGetValue(userId, out var data))
+            string userKey = update.GetKeyMappingUserTelegram();
+            if (!_userHandlerData.TryGetValue(userKey, out var data))
             {
                 update.CreateCacheData<T>();
-                return (T)_userHandlerData[userId];
+                return (T)_userHandlerData[userKey];
             }
             return (T)data;
         }
@@ -60,8 +63,8 @@ namespace PRTelegramBot.Extensions
         /// <param name="update">Обновление данных telegram</param>
         public static void ClearCacheData(this Update update)
         {
-            long userId = update.GetChatId();
-            if (_userHandlerData.TryGetValue(userId, out var data))
+            string userKey = update.GetKeyMappingUserTelegram();
+            if (_userHandlerData.TryGetValue(userKey, out var data))
                 data.ClearData();
 
         }
@@ -73,8 +76,8 @@ namespace PRTelegramBot.Extensions
         /// <returns>true/false</returns>
         public static bool HasCacheData(this Update update)
         {
-            long userId = update.GetChatId();
-            return _userHandlerData.ContainsKey(userId);
+            string userKey = update.GetKeyMappingUserTelegram();
+            return _userHandlerData.ContainsKey(userKey);
         }
 
         #endregion

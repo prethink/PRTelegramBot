@@ -80,7 +80,7 @@ namespace ConsoleExample.Examples
             string msg = $"Шаг 3 - Результат: Имя:{cache.Name} дата рождения:{cache.BirthDay}" +
                          $"\nПоследовательность шагов очищена.";
             //Последний шаг
-            update.ClearStepUserHandler();
+            handler.LastStepExecuted = true;
             await Helpers.Message.Send(botClient, update, msg);
         }
 

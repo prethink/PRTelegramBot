@@ -1,4 +1,10 @@
-﻿using Telegram.Bot.Types;
+﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Extensions
@@ -8,6 +14,15 @@ namespace PRTelegramBot.Extensions
     /// </summary>
     public static class UpdateExtension
     {
+        #region Поля и свойства
+
+        /// <summary>
+        /// Словарь для работы который хранит идентификатор пользователя и его кеш
+        /// </summary>
+        static ConcurrentDictionary<long, PRBot> botLink = new();
+
+        #endregion
+
         #region Методы
 
         /// <summary>
@@ -62,6 +77,41 @@ namespace PRTelegramBot.Extensions
             result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.Username) ? "" : update.CallbackQuery.Message.Chat.Username + " ";
 
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="update"></param>
+        /// <param name="telegramBot"></param>
+        /// <returns></returns>
+        public static bool AddTelegramClient(this Update update, PRBot bot)
+        {
+            return botLink.TryAdd(update.Id, bot);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="update"></param>
+        /// <returns></returns>
+        /// <exception cref="KeyNotFoundException"></exception>
+        public static string GetKeyMappingUserTelegram(this Update update)
+        {
+            if (botLink.TryGetValue(update.Id, out PRBot bot))
+                return new UserBotMapping(bot.BotId, update.GetChatId()).GetKey;
+
+            throw new KeyNotFoundException($"Key update {update.Id} not mapped with prbot.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="update"></param>
+        /// <returns></returns>
+        public static bool ClearTelegramClient(this Update update)
+        {
+            return botLink.TryRemove(update.Id, out PRBot _);
         }
 
         #endregion

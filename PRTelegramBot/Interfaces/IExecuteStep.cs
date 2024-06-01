@@ -7,6 +7,16 @@ namespace PRTelegramBot.Interfaces
     public interface IExecuteStep
     {
         /// <summary>
+        /// Игнорировать базовые команды при выполнение шагов.
+        /// </summary>
+        public bool IgnoreBasicCommands { get; set; }
+
+        /// <summary>
+        /// Это последний шаг завершен.
+        /// </summary>
+        public bool LastStepExecuted { get; set; }
+
+        /// <summary>
         /// Получить ссылку на метод, который нужно выполнить.
         /// </summary>
         /// <returns>Метод для выполнения.</returns>

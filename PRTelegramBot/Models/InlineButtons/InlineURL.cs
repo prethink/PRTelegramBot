@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Interfaces;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.InlineButtons
 {
@@ -48,7 +47,7 @@ namespace PRTelegramBot.InlineButtons
             ButtonName = buttonName;
             URL = url;
         }
-
+        
         #endregion
     }
 }

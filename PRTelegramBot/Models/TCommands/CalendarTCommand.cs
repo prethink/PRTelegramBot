@@ -8,11 +8,16 @@ namespace PRTelegramBot.Models.CallbackCommands
     public class CalendarTCommand : TCommandBase
     {
         /// <summary>
-        /// Дата
+        /// Дата.
         /// </summary>
         [JsonProperty("1")]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; private set; }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="date">Дата.</param>
+        /// <param name="command">Команда.</param>
         public CalendarTCommand(DateTime date, int command = 0) : base(command) 
         {
             Date = date;

@@ -67,7 +67,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// 
         /// </summary>
-        private IServiceProvider _serviceProvider;
+        private IServiceProvider serviceProvider;
 
         /// <summary>
         /// Работает бот или нет
@@ -86,6 +86,8 @@ namespace PRTelegramBot.Core
                 return Options.BotId;
             }
         }
+
+        public TEvents Events { get; private set; }
 
         #endregion
 
@@ -182,7 +184,7 @@ namespace PRTelegramBot.Core
         /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
         public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
-            return Handler.Router.RegisterSlashCommand(command, method);
+            return Handler.MessageFacade.SlashHandler.AddCommand(command, method);
         }
 
         /// <summary>
@@ -193,7 +195,7 @@ namespace PRTelegramBot.Core
         /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
         public bool RegisterReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
-            return Handler.Router.RegisterReplyCommand(command, method);
+            return Handler.MessageFacade.ReplyHandler.AddCommand(command, method);
         }
 
         /// <summary>
@@ -204,7 +206,7 @@ namespace PRTelegramBot.Core
         /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
         public bool RegisterInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method)
         {
-            return Handler.Router.RegisterInlineCommand(command, method);
+            return Handler.InlineUpdateHandler.AddCommand(command, method);
         }
 
         /// <summary>
@@ -214,7 +216,7 @@ namespace PRTelegramBot.Core
         /// <returns>True - метод удален, false - ошибка</returns>
         public bool RemoveReplyCommand(string command)
         {
-            return Handler.Router.RemoveReplyCommand(command);
+            return Handler.MessageFacade.ReplyHandler.RemoveCommand(command);
         }
 
         /// <summary>
@@ -224,7 +226,7 @@ namespace PRTelegramBot.Core
         /// <returns>True - метод удален, false - ошибка</returns>
         public bool RemoveSlashCommand(string command)
         {
-            return Handler.Router.RemoveSlashCommand(command);
+            return Handler.MessageFacade.SlashHandler.RemoveCommand(command);
         }
 
         /// <summary>
@@ -234,7 +236,7 @@ namespace PRTelegramBot.Core
         /// <returns>True - метод удален, false - ошибка</returns>
         public bool RemoveInlineCommand(Enum command)
         {
-            return Handler.Router.RemoveInlineCommand(command);
+            return Handler.InlineUpdateHandler.RemoveCommand(command);
         }
 
         #endregion
@@ -299,13 +301,17 @@ namespace PRTelegramBot.Core
             if (string.IsNullOrEmpty(Options.Token))
                 throw new Exception("Bot token is empty");
 
+            if (Options.BotId < 0)
+                throw new Exception("Bot ID cannot be less than zero");
+
             botClient = new TelegramBotClient(Options.Token);
             BotCollection.Instance.AddBot(this);
-            receiverOptions = receiverOptions;
-            _serviceProvider = serviceProvider;
-
-            Handler = new Handler(this, _serviceProvider);
+            this.receiverOptions = receiverOptions;
+            this.serviceProvider = serviceProvider;
+            Events = new TEvents();
+            Handler = new Handler(this, this.serviceProvider);
             cts = cancellationToken;
+
         }
 
         #endregion

@@ -35,7 +35,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
-        public void BuilderShouldCreateInstanceWithBotId(int exceptedBotId)
+        public void BuilderShouldCreateInstanceWithBotId(long exceptedBotId)
         {
             var builder = new PRBotBuilder(TOKEN)
                             .SetBotId(exceptedBotId);

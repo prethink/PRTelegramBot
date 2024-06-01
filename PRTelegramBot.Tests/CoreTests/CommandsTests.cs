@@ -14,7 +14,7 @@ namespace PRTelegramBot.Tests.CoreTests
         public void ReplyCommand()
         {
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
-            var replyCommandCount = bot.Handler.Router.ReplyCommandCount;
+            var replyCommandCount = bot.Handler.MessageFacade.ReplyHandler.CommandCount;
             Assert.AreEqual(4, replyCommandCount);
         }
 
@@ -27,7 +27,7 @@ namespace PRTelegramBot.Tests.CoreTests
                 .AddReplyDynamicCommand(nameof(FindMethodsTests.KEY_DYNAMIC_REPLY_FOUR), "TestDynamicTwo")
                 .AddReplyDynamicCommand(nameof(FindMethodsTests.KEY_DYNAMIC_REPLY_FIVE), "TestDynamicThree")
                 .Build();
-            var replyDymanicCommandCount = bot.Handler.Router.ReplyDynamicCommandCount;
+            var replyDymanicCommandCount = bot.Handler.MessageFacade.ReplyDynamicHandler.CommandCount;
             Assert.AreEqual(3, replyDymanicCommandCount);
         }
 
@@ -35,7 +35,7 @@ namespace PRTelegramBot.Tests.CoreTests
         public void SlashCommand()
         {
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
-            var slashCommandCounts = bot.Handler.Router.SlashCommandCount;
+            var slashCommandCounts = bot.Handler.MessageFacade.SlashHandler.CommandCount;
             Assert.AreEqual(4, slashCommandCounts);
         }
 
@@ -43,7 +43,7 @@ namespace PRTelegramBot.Tests.CoreTests
         public void InlineCommand()
         {
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
-            var inlineCommandsCount = bot.Handler.Router.InlineCommandCount;
+            var inlineCommandsCount = bot.Handler.InlineUpdateHandler.CommandCount;
             Assert.AreEqual(5, inlineCommandsCount);
         }
     }

@@ -6,13 +6,17 @@
     public enum ResultCommand
     {
         /// <summary>
-        /// Не найдено.
+        /// Продолжить выполенение.
         /// </summary>
-        NotFound = 0,
+        Continue = 0,
         /// <summary>
         /// Выполнено.
         /// </summary>
         Executed,
+        /// <summary>
+        /// Ошибка.
+        /// </summary>
+        Error,
         /// <summary>
         /// Проверка привилегий.
         /// </summary>

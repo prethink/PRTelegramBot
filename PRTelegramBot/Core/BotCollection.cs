@@ -74,7 +74,7 @@
         /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
         /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBot GetBotOrNull(long? botId)
+        public PRBot GetBotOrNull(long botId)
             => BotList.Values.SingleOrDefault(x => x.BotId == botId);
 
         /// <summary>

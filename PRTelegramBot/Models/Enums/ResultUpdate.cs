@@ -10,12 +10,20 @@
         /// </summary>
         Continue = 0,
         /// <summary>
+        /// Не найдено.
+        /// </summary>
+        NotFound = 1,
+        /// <summary>
         /// Обработан.
         /// </summary>
-        Handled = 1,
+        Handled = 2,
         /// <summary>
         /// Остановить обработку.
         /// </summary>
-        Stop = 2,
+        Stop = 3,
+        /// <summary>
+        /// Ошибка при обработке.
+        /// </summary>
+        Error = 4,
     }
 }

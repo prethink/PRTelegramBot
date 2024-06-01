@@ -3,28 +3,40 @@
 namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
-    /// Базовая команда
+    /// Базовая команда.
     /// </summary>
     public class TCommandBase
     {
+        #region Свойства и поля
+
         /// <summary>
         /// Предыдущая команда.
         /// </summary>
         [JsonProperty("0")]
         public int LastCommand { get; set; }
 
+        #endregion
+
+        #region Методы
+
         /// <summary>
-        /// получить команду нужного типа Enum
+        /// получить команду нужного типа enum.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public T GetLastCommandEnum<T>() where T : Enum
+        /// <typeparam name="TEnum">Тип перечисления.</typeparam>
+        /// <returns>Команда в enum типе.</returns>
+        public TEnum GetLastCommandEnum<TEnum>() where TEnum : Enum
         {
-            return (T)Enum.ToObject(typeof(T), LastCommand);
+            return (TEnum)Enum.ToObject(typeof(TEnum), LastCommand);
         }
 
-        #region Конструкторы класса
+        #endregion
 
+        #region Конструкторы
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="command">Команда.</param>
         public TCommandBase(int command = 0)
         {
             LastCommand = command;
