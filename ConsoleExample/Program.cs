@@ -62,83 +62,79 @@ telegramTwo.OnLogError += Telegram_OnLogError;
 await telegram.Start();
 await telegramTwo.Start();
 
-HandlerInit(telegram);
-HandlerInit(telegramTwo);
+InitEventsAndCommands(telegram);
+InitEventsAndCommands(telegramTwo);
 
-void HandlerInit(PRBot tg)
+void InitEventsAndCommands(PRBot tg)
 {
-    if (tg.Handler != null)
-    {
-        ////Обработка обновление 
-        tg.Events.OnPreUpdate += Handler_OnUpdate;
+    ////Обработка обновление 
+    tg.Events.OnPreUpdate += Handler_OnUpdate;
 
-        //Обработка обновление кроме message и callback
-        tg.Events.OnPostMessageUpdate += Handler_OnWithoutMessageUpdate;
+    //Обработка обновление кроме message и callback
+    tg.Events.OnPostMessageUpdate += Handler_OnWithoutMessageUpdate;
 
-        //Обработка не правильный тип сообщений
-        tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
+    //Обработка не правильный тип сообщений
+    tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
 
-        //Обработка пользователь написал в чат start с deeplink
-        tg.Events.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
+    //Обработка пользователь написал в чат start с deeplink
+    tg.Events.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
 
-        //Обработка проверка привилегий
-        tg.Events.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
+    //Обработка проверка привилегий
+    tg.Events.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
 
-        //Обработка пропущенной  команды
-        tg.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
+    //Обработка пропущенной  команды
+    tg.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
 
-        //Обработка не верного типа чата
-        tg.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
+    //Обработка не верного типа чата
+    tg.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 
-        //Обработка локаций
-        tg.Events.OnLocationHandle += ExampleEvent.OnLocationHandle;
+    //Обработка локаций
+    tg.Events.OnLocationHandle += ExampleEvent.OnLocationHandle;
 
-        //Обработка контактных данных
-        tg.Events.OnContactHandle += ExampleEvent.OnContactHandle;
+    //Обработка контактных данных
+    tg.Events.OnContactHandle += ExampleEvent.OnContactHandle;
 
-        //Обработка голосований
-        tg.Events.OnPollHandle += ExampleEvent.OnPollHandle;
+    //Обработка голосований
+    tg.Events.OnPollHandle += ExampleEvent.OnPollHandle;
 
-        //Обработка WebApps
-        tg.Events.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
+    //Обработка WebApps
+    tg.Events.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
 
-        //Обработка, когда пользователю отказано в доступе
-        tg.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
+    //Обработка, когда пользователю отказано в доступе
+    tg.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
 
-        //Обработка сообщения с документом
-        tg.Events.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
+    //Обработка сообщения с документом
+    tg.Events.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
 
-        //Обработка сообщения с аудио
-        tg.Events.OnAudioHandle += ExampleEvent.OnAudioHandle;
+    //Обработка сообщения с аудио
+    tg.Events.OnAudioHandle += ExampleEvent.OnAudioHandle;
 
-        //Обработка сообщения с видео
-        tg.Events.OnVideoHandle += ExampleEvent.OnVideoHandle;
+    //Обработка сообщения с видео
+    tg.Events.OnVideoHandle += ExampleEvent.OnVideoHandle;
 
-        //Обработка сообщения с фото
-        tg.Events.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
+    //Обработка сообщения с фото
+    tg.Events.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
 
-        //Обработка сообщения с стикером
-        tg.Events.OnStickerHandle += ExampleEvent.OnStickerHandle;
+    //Обработка сообщения с стикером
+    tg.Events.OnStickerHandle += ExampleEvent.OnStickerHandle;
 
-        //Обработка сообщения с голосовым сообщением
-        tg.Events.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
+    //Обработка сообщения с голосовым сообщением
+    tg.Events.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
 
-        //Обработка сообщения с неизвестным типом
-        tg.Events.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
+    //Обработка сообщения с неизвестным типом
+    tg.Events.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
 
-        //Обработка сообщения с местоположением
-        tg.Events.OnVenueHandle += ExampleEvent.OnVenueHandle;
+    //Обработка сообщения с местоположением
+    tg.Events.OnVenueHandle += ExampleEvent.OnVenueHandle;
 
-        //Обработка сообщения с игрой
-        tg.Events.OnGameHandle += ExampleEvent.OnGameHandle;
+    //Обработка сообщения с игрой
+    tg.Events.OnGameHandle += ExampleEvent.OnGameHandle;
 
-        //Обработка сообщения с видеозаметкой
-        tg.Events.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
+    //Обработка сообщения с видеозаметкой
+    tg.Events.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
 
-        //Обработка сообщения с игральной костью
-        tg.Events.OnDiceHandle += ExampleEvent.OnDiceHandle;
-
-    }
+    //Обработка сообщения с игральной костью
+    tg.Events.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
     tg.RegisterInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
     {
