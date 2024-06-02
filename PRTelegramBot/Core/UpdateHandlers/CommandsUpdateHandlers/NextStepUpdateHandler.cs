@@ -6,36 +6,55 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
-    public sealed class NextStepUpdateHandler : ExecuteHandler<string>
+    /// <summary>
+    /// Обработчик пошагового выполнение команд.
+    /// </summary>
+    public sealed class NextStepUpdateHandler : ExecuteHandler
     {
-        public NextStepUpdateHandler(PRBot bot) 
-            : base(bot) { }
+        #region Поля и свойства
 
         public override UpdateType TypeUpdate => UpdateType.Message;
 
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Игнорировать базовые команды.
+        /// </summary>
+        /// <param name="update">Обновление.</param>
+        /// <returns>True - игнорировать основные команды, False - не игнорировать.</returns>
         public bool IgnoreBasicCommand(Update update)
         {
-            if(!update.HasStepHandler())
+            if (!update.HasStepHandler())
                 return false;
 
-            return update!.GetStepHandler().IgnoreBasicCommands;
+            return update?.GetStepHandler()?.IgnoreBasicCommands ?? false;
         }
 
+        /// <summary>
+        /// Последний шаг выполненен.
+        /// </summary>
+        /// <param name="update">Обновление.</param>
+        /// <returns>True - последний шаг выполнен, False - не выполнен или это не последний шаг.</returns>
         public bool LastStepExecuted(Update update)
         {
             if (!update.HasStepHandler())
                 return false;
 
-            return update!.GetStepHandler().LastStepExecuted;
+            return update.GetStepHandler().LastStepExecuted;
         }
 
-        public bool ClearSteps(Update update)
+        /// <summary>
+        /// Очистить шаги.
+        /// </summary>
+        /// <param name="update">Обновление.</param>
+        public void ClearSteps(Update update)
         {
             if (!update.HasStepHandler())
-                return false;
+                return;
 
             update.ClearStepUserHandler();
-            return true;
         }
 
         public override async Task<ResultUpdate> Handle(Update update)
@@ -62,14 +81,22 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-        //public bool IsChangeStep(Update update)
-        //{
-
-        //}
-
         protected override ResultCommand InternalCheck(Update update, CommandHandler handler)
         {
             return ResultCommand.Continue;
         }
+
+        #endregion
+
+        #region Конструкторы
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        public NextStepUpdateHandler(PRBot bot)
+            : base(bot) { }
+
+        #endregion
     }
 }

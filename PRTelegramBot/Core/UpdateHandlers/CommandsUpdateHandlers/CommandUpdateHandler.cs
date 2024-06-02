@@ -6,71 +6,54 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
-    public abstract class CommandUpdateHandler<TKey> : ExecuteHandler<TKey>
+    /// <summary>
+    /// Обработчик выполнение команд обновления.
+    /// </summary>
+    /// <typeparam name="TKey">Тип команды.</typeparam>
+    public abstract class CommandUpdateHandler<TKey> : ExecuteHandler
     {
         #region Поля и свойства
 
         /// <summary>
-        /// 
+        /// Количество команд.
         /// </summary>
         public long CommandCount => commands.Count;
 
         /// <summary>
-        /// 
+        /// Сервия провайдер.
         /// </summary>
         protected IServiceProvider serviceProvider;
 
         /// <summary>
-        /// 
+        /// Команды.
         /// </summary>
         protected Dictionary<TKey, CommandHandler> commands { get; set; } = new();
 
-        protected RegisterCommandService registerService = new RegisterCommandService();
-
-        #endregion
-
-        #region События
-
         /// <summary>
-        /// Событие когда нужно проверить привилегии перед выполнением команды
+        /// Сервис регистрации команд.
         /// </summary>
-        public event Func<ITelegramBotClient, Update, Func<ITelegramBotClient, Update, Task>, int?, Task>? OnCheckPrivilege;
+        protected RegisterCommandService registerService = new RegisterCommandService();
 
         #endregion
 
         #region Методы
 
-
         /// <summary>
-        /// 
+        /// Выполнить команды.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="update"></param>
-        /// <param name="commandList"></param>
-        /// <returns></returns>
-        protected async Task<ResultCommand> ExecuteCommand(TKey command, Update update, Dictionary<TKey, CommandHandler> commandList)
+        /// <param name="command">Команда для выполения.</param>
+        /// <param name="update">Обновление.</param>
+        /// <param name="commands">Команды.</param>
+        /// <returns>Результат выполнения команды.</returns>
+        protected async Task<ResultCommand> ExecuteCommand(TKey command, Update update, Dictionary<TKey, CommandHandler> commands)
         {
-            foreach (var commandExecute in commandList.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
+            foreach (var commandExecute in commands.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
             {
                 if (CanExecute(command, commandExecute.Key, commandExecute.Value))
                     return await ExecuteMethod(update, commandExecute.Value);
             }
             return ResultCommand.Continue;
         }
-
-        /// <summary>
-        /// Можно ли выполнить команду.
-        /// </summary>
-        /// <param name="currentCommand">Текущая команда.</param>
-        /// <param name="commandFromCollection">Команда из коллекции.</param>
-        /// <param name="handler">Обработчик команды.</param>
-        /// <returns>True - можно выполнить команду, False - нельзя выполнить команду.</returns>
-        protected abstract bool CanExecute(TKey currentCommand, TKey commandFromCollection, CommandHandler handler);
-
-        /// <summary>
-        /// Регистрация команд.
-        /// </summary>
-        protected abstract void RegisterCommands();
 
         /// <summary>
         /// Добавить новую команду.
@@ -86,6 +69,20 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// <param name="command">Команда.</param>
         /// <returns>True - команда удалена, False - не удалось удалить команду.</returns>
         public abstract bool RemoveCommand(TKey command);
+
+        /// <summary>
+        /// Можно ли выполнить команду.
+        /// </summary>
+        /// <param name="currentCommand">Текущая команда.</param>
+        /// <param name="commandFromCollection">Команда из коллекции.</param>
+        /// <param name="handler">Обработчик команды.</param>
+        /// <returns>True - можно выполнить команду, False - нельзя выполнить команду.</returns>
+        protected abstract bool CanExecute(TKey currentCommand, TKey commandFromCollection, CommandHandler handler);
+
+        /// <summary>
+        /// Регистрация команд.
+        /// </summary>
+        protected abstract void RegisterCommands();
 
         #endregion
 

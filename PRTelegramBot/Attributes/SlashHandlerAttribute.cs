@@ -79,7 +79,7 @@ namespace PRTelegramBot.Attributes
         {
             foreach (var command in commands)
             {
-                var formatedCommand = command.StartsWith("/") ? command : "/" + command;
+                var formatedCommand = command.StartsWith('/') ? command : "/" + command;
                 this.commands.Add(formatedCommand);
             }
         }

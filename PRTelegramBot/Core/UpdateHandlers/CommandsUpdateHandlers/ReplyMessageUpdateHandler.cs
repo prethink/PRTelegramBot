@@ -2,7 +2,6 @@
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
-using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot.Types;
@@ -10,6 +9,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
+    /// <summary>
+    /// Обработчик reply команд.
+    /// </summary>
     public class ReplyMessageUpdateHandler : MessageCommandUpdateHandler
     {
         #region Поля и свойства
@@ -52,7 +54,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         protected override void RegisterCommands()
         {
             MethodInfo[] methods = ReflectionUtils.FindStaticMessageMenuHandlers(bot.Options.BotId);
-            registerService.RegisterCommand(bot, typeof(ReplyMenuHandlerAttribute), methods, commands);
+            registerService.RegisterStaticCommand(bot, typeof(ReplyMenuHandlerAttribute), methods, commands);
 
             Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();
             foreach (var serviceType in servicesToRegistration)
@@ -100,6 +102,11 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
         public ReplyMessageUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
             : base(bot, serviceProvider)
         {

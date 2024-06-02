@@ -30,7 +30,7 @@ namespace PRTelegramBot.Core
         public Handler Handler;
 
         /// <summary>
-        /// Токен 
+        /// Токен.
         /// </summary>
         private CancellationTokenSource cts;
 
@@ -75,18 +75,18 @@ namespace PRTelegramBot.Core
         public bool IsWork { get; private set; }
 
         /// <summary>
-        /// 
+        /// Параметры бота.
         /// </summary>
         public TelegramOptions Options { get; init; } = new TelegramOptions();
 
-        public long BotId
-        {
-            get
-            {
-                return Options.BotId;
-            }
-        }
+        /// <summary>
+        /// Идентификатор бота.
+        /// </summary>
+        public long BotId => Options.BotId;
 
+        /// <summary>
+        /// События.
+        /// </summary>
         public TEvents Events { get; private set; }
 
         #endregion

@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
+    /// <summary>
+    /// Обработчик для динамических reply команд.
+    /// </summary>
     public sealed class ReplyDynamicMessageUpdateHandler : ReplyMessageUpdateHandler
     {
         #region Методы
@@ -11,7 +14,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         protected override void RegisterCommands()
         {
             MethodInfo[] methods = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(bot.Options.BotId);
-            registerService.RegisterCommand(bot, typeof(ReplyMenuDynamicHandlerAttribute), methods, commands);
+            registerService.RegisterStaticCommand(bot, typeof(ReplyMenuDynamicHandlerAttribute), methods, commands);
 
             Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();
             foreach (var serviceType in servicesToRegistration)

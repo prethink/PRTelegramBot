@@ -1,10 +1,12 @@
-﻿using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models.Enums;
+﻿using PRTelegramBot.Models.Enums;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers
 {
+    /// <summary>
+    /// Базовый обработчик update.
+    /// </summary>
     public abstract class UpdateHandler
     {
         #region Поля и свойства

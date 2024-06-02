@@ -3,6 +3,9 @@ using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Core
 {
+    /// <summary>
+    /// События для бота.
+    /// </summary>
     public sealed class TEvents
     {
         #region События

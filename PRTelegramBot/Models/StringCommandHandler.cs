@@ -5,7 +5,7 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
-    internal class StringCommandHandler : CommandHandler
+    public sealed class StringCommandHandler : CommandHandler
     {
         #region Поля и свойства
 

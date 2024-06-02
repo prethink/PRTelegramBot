@@ -11,6 +11,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
+    /// <summary>
+    /// Обработчик для inline команд.
+    /// </summary>
     public sealed class InlineUpdateHandler : CommandUpdateHandler<Enum>
     {
         #region Поля и свойств
@@ -92,7 +95,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         {
             ReflectionUtils.FindEnumHeaders();
             MethodInfo[] methods = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
-            registerService.RegisterCommand(bot, typeof(InlineCallbackHandlerAttribute<>), methods, commands);
+            registerService.RegisterStaticCommand(bot, typeof(InlineCallbackHandlerAttribute<>), methods, commands);
 
             Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();
             foreach (var serviceType in servicesToRegistration)
@@ -111,6 +114,11 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
         public InlineUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
             : base(bot, serviceProvider)
         {

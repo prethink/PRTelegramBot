@@ -13,15 +13,15 @@ namespace PRTelegramBot.Services
         #region Методы
 
         /// <summary>
-        /// 
+        /// Регистрация методов из классов.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bot"></param>
-        /// <param name="attributetype"></param>
-        /// <param name="methods"></param>
-        /// <param name="commands"></param>
-        /// <param name="serviceProvider"></param>
-        public void RegisterMethodFromClass<T>(PRBot bot, Type attributetype, MethodInfo[] methods, Dictionary<T, CommandHandler> commands, IServiceProvider serviceProvider)
+        /// <typeparam name="Tkey">Тип для команды.</typeparam>
+        /// <param name="bot">Бот.</param>
+        /// <param name="attributetype">Тип атрибута.</param>
+        /// <param name="methods">Методы.</param>
+        /// <param name="commands">Команды.</param>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
+        public void RegisterMethodFromClass<Tkey>(PRBot bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands, IServiceProvider serviceProvider)
         {
             foreach (var method in methods)
             {
@@ -40,8 +40,8 @@ namespace PRTelegramBot.Services
                         continue;
                     }
 
-                    var telegramhandler = HandlerFactory.CreateHandler((IBaseQueryAttribute)attribute, method, serviceProvider);
-                    foreach (var command in ((ICommandStore<T>)attribute).Commands)
+                    var telegramhandler = new HandlerFactory().CreateHandler((IBaseQueryAttribute)attribute, method, serviceProvider);
+                    foreach (var command in ((ICommandStore<Tkey>)attribute).Commands)
                         commands.Add(command, telegramhandler);
                 }
                 catch (Exception ex)
@@ -52,14 +52,14 @@ namespace PRTelegramBot.Services
         }
 
         /// <summary>
-        /// 
+        /// Регистрация статических команд.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bot"></param>
-        /// <param name="attributetype"></param>
-        /// <param name="methods"></param>
-        /// <param name="commands"></param>
-        public void RegisterCommand<T>(PRBot bot, Type attributetype, MethodInfo[] methods, Dictionary<T, CommandHandler> commands)
+        /// <typeparam name="Tkey">Тип для команды.</typeparam>
+        /// <param name="bot">Бот.</param>
+        /// <param name="attributetype">Тип атрибута.</param>
+        /// <param name="methods">Методы.</param>
+        /// <param name="commands">Команды.</param>
+        public void RegisterStaticCommand<Tkey>(PRBot bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands)
         {
             foreach (var method in methods)
             {
@@ -72,7 +72,7 @@ namespace PRTelegramBot.Services
                     if (attribute == null)
                         continue;
 
-                    foreach (var command in ((ICommandStore<T>)attribute).Commands)
+                    foreach (var command in ((ICommandStore<Tkey>)attribute).Commands)
                     {
                         bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
@@ -82,7 +82,7 @@ namespace PRTelegramBot.Services
                         }
 
                         Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        var telegramCommand = HandlerFactory.CreateHandler((IBaseQueryAttribute)attribute, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler, null);
+                        var telegramCommand = new HandlerFactory().CreateHandler((IBaseQueryAttribute)attribute, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler, null);
                         commands.Add(command, telegramCommand);
                     }
                 }

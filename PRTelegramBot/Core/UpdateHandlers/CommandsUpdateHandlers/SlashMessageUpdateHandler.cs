@@ -10,6 +10,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
+    /// <summary>
+    /// Обработчик slash команд.
+    /// </summary>
     public sealed class SlashMessageUpdateHandler : MessageCommandUpdateHandler
     {
         #region Поля и свойства
@@ -25,9 +28,13 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             try
             {
                 string command = update.Message.Text;
-                if (command.StartsWith("/"))
+                if (command.StartsWith('/'))
                 {
-                    var resultExecute = await ExecuteCommand(command, update, commands);
+                    var resultExecute = await StartHasDeepLink(command, update);
+                    if (resultExecute == ResultCommand.Executed)
+                        return ResultUpdate.Handled;
+
+                    resultExecute = await ExecuteCommand(command, update, commands);
                     if (resultExecute != ResultCommand.Continue)
                         return ResultUpdate.Handled;
                 }
@@ -42,7 +49,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         public override bool AddCommand(string command, Func<ITelegramBotClient, Update, Task> @delegate)
         {
-            if (!command.StartsWith("/"))
+            if (!command.StartsWith('/'))
                 command = "/" + command;
 
             return base.AddCommand(command, @delegate);
@@ -51,7 +58,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         protected override void RegisterCommands()
         {
             MethodInfo[] methods = ReflectionUtils.FindStaticSlashCommandHandlers(bot.Options.BotId);
-            registerService.RegisterCommand(bot, typeof(SlashHandlerAttribute), methods, commands);
+            registerService.RegisterStaticCommand(bot, typeof(SlashHandlerAttribute), methods, commands);
 
             Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();
             foreach (var serviceType in servicesToRegistration)
@@ -66,24 +73,30 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             return ResultCommand.Continue;
         }
 
-        private async Task<ResultUpdate> StartHasDeepLink(string command, Update update)
+        /// <summary>
+        /// Проверка является ли команда start с аргументом.
+        /// </summary>
+        /// <param name="command">Команда.</param>
+        /// <param name="update">Обновление.</param>
+        /// <returns>Результат выполнение команд.</returns>
+        private async Task<ResultCommand> StartHasDeepLink(string command, Update update)
         {
             try
             {
                 if (!command.ToLower().Contains("start") && command.Contains(" "))
-                    return ResultUpdate.NotFound;
+                    return ResultCommand.Continue;
 
                 var spl = command.Split(' ');
                 if (spl.Length < 2 || string.IsNullOrEmpty(spl[1]))
-                    return ResultUpdate.Continue;
+                    return ResultCommand.Continue;
 
                 bot.Events.OnUserStartWithArgsInvoke(new StartEventArgs(bot, update, spl[1]));
-                return ResultUpdate.Handled;
+                return ResultCommand.Executed;
             }
             catch (Exception ex)
             {
                 bot.InvokeErrorLog(ex);
-                return ResultUpdate.Error;
+                return ResultCommand.Error;
             }
         }
 
@@ -91,6 +104,11 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
         public SlashMessageUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
             : base(bot, serviceProvider)
         {

@@ -6,26 +6,19 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
+    /// <summary>
+    /// Обработчик сообщений. 
+    /// </summary>
     public abstract class MessageCommandUpdateHandler : CommandUpdateHandler<string>
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Тип сообщения.
         /// </summary>
         public abstract MessageType TypeMessage { get; }
 
         public override UpdateType TypeUpdate => UpdateType.Message;
-
-        #region События
-
-        /// <summary>
-        /// Событие когда не найдена команда
-        /// </summary>
-        public event Func<ITelegramBotClient, Update, Task>? OnMissingCommand;
-
-        /// <summary>
-        /// Событие когда указан не верный тип сообщения
-        /// </summary>
-        public event Func<ITelegramBotClient, Update, Task>? OnWrongTypeMessage;
 
         #endregion
 
@@ -80,13 +73,15 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #endregion
 
-
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
         protected MessageCommandUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot, serviceProvider)
-        {
-        }
+            : base(bot, serviceProvider) { }
 
         #endregion
 

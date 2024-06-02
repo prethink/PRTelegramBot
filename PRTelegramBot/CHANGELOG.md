@@ -1,4 +1,4 @@
--- 2024.05.31 - V0.6
+-- 2024.06.02 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
@@ -7,10 +7,10 @@
 - feature: PRBotBuilder добавлен класс, который позволяет создавать бота через Fluent Builder
 - feature: Добавлен класс BotCollection, который хранит в себе все экземпляры ботов
 - feature: Добавлена возможность указать в атрибутах команд идентификатор бота -1, эти методы будут доступны из всех ботов
-- feature: OptionMessage добавленны свойства из Telegram.Bot.Net
+- feature: OptionMessage добавлены свойства из Telegram.Bot.Net
 - feature: Добавлена возможность в командах указывать параметры сравнения
 - feature: При пошаговом выполнение команд добавлена возможность игнорировать обычные (приоритетные) команды
-- feature: В интерфейс IExecuteStep добавленые свойства для игнорирование основых команд и указания последнего шага
+- feature: В интерфейс IExecuteStep добавленные свойства для игнорирования основных команд и указания последнего шага
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension
@@ -22,7 +22,7 @@
 - refactoring: Удален класс TextConfig
 - refactoring: Удален enum BaseEventTelegram
 - refactoring: В логирование заменен Enum на string
-- refactoring: Переработанны события
+- refactoring: Переработаны события, добавлены отдельные классы для аргументов.
 - refactoring: Рефакторинг Router, разделен на несколько классов
 - refactoring: Рефакторинг
 - fix: исправлены проблемы с командой /start

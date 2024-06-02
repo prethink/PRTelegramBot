@@ -1,15 +1,15 @@
-﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Models;
+﻿using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using System.Reflection;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers
 {
-    public abstract class ExecuteHandler<TKey> : UpdateHandler
+    /// <summary>
+    /// Обработчик выполнения обновление.
+    /// </summary>
+    public abstract class ExecuteHandler : UpdateHandler
     {
-
         #region Поля и свойства
 
         public override UpdateType TypeUpdate => UpdateType.Message;
@@ -19,11 +19,11 @@ namespace PRTelegramBot.Core.UpdateHandlers
         #region Методы
 
         /// <summary>
-        /// 
+        /// Выполнить метод.
         /// </summary>
-        /// <param name="update"></param>
-        /// <param name="handler"></param>
-        /// <returns></returns>
+        /// <param name="update">Обновление.</param>
+        /// <param name="handler">Обработчик.</param>
+        /// <returns>Результат выполнения команды.</returns>
         protected virtual async Task<ResultCommand> ExecuteMethod(Update update, CommandHandler handler)
         {
             var @delegate = handler.Command;
@@ -37,11 +37,11 @@ namespace PRTelegramBot.Core.UpdateHandlers
         }
 
         /// <summary>
-        /// 
+        /// Внутрення проверка для <see cref="ExecuteMethod"/>
         /// </summary>
-        /// <param name="update"></param>
-        /// <param name="handler"></param>
-        /// <returns></returns>
+        /// <param name="update">Обновление.</param>
+        /// <param name="handler">Обработчик.</param>
+        /// <returns>Результат выполнения проверки.</returns>
         protected abstract ResultCommand InternalCheck(Update update, CommandHandler handler);
 
         #endregion
