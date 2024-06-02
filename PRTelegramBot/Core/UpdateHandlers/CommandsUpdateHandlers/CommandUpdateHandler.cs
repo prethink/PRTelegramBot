@@ -45,14 +45,14 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// <param name="update">Обновление.</param>
         /// <param name="commands">Команды.</param>
         /// <returns>Результат выполнения команды.</returns>
-        protected async Task<ResultCommand> ExecuteCommand(TKey command, Update update, Dictionary<TKey, CommandHandler> commands)
+        protected async Task<CommandResult> ExecuteCommand(TKey command, Update update, Dictionary<TKey, CommandHandler> commands)
         {
             foreach (var commandExecute in commands.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
             {
                 if (CanExecute(command, commandExecute.Key, commandExecute.Value))
                     return await ExecuteMethod(update, commandExecute.Value);
             }
-            return ResultCommand.Continue;
+            return CommandResult.Continue;
         }
 
         /// <summary>

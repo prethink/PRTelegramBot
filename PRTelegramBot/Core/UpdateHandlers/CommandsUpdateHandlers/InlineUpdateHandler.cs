@@ -24,7 +24,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Методы
 
-        public override async Task<ResultUpdate> Handle(Update update)
+        public override async Task<UpdateResult> Handle(Update update)
         {
             try
             {
@@ -35,16 +35,16 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                     bot.InvokeCommonLog(msg, "CallBackCommand", ConsoleColor.Magenta);
 
                     var resultExecute = await ExecuteCommand(command.CommandType, update, commands);
-                    if (resultExecute == ResultCommand.Executed)
-                        return ResultUpdate.Handled;
+                    if (resultExecute == CommandResult.Executed)
+                        return UpdateResult.Handled;
 
                 }
-                return ResultUpdate.Continue;
+                return UpdateResult.Continue;
             }
             catch (Exception ex)
             {
                 bot.InvokeErrorLog(ex);
-                return ResultUpdate.Error;
+                return UpdateResult.Error;
             }
         }
 
@@ -105,9 +105,9 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-        protected override ResultCommand InternalCheck(Update update, CommandHandler handler)
+        protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
         {
-            return ResultCommand.Continue;
+            return InternalCheckResult.Passed;
         }
 
         #endregion

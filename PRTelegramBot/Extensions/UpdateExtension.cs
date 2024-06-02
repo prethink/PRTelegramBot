@@ -1,9 +1,6 @@
 ﻿using PRTelegramBot.Core;
-using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -105,7 +102,7 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Очистить маппинг update и telegram bot.
         /// </summary>
         /// <param name="update"></param>
         /// <returns></returns>

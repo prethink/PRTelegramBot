@@ -49,13 +49,16 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// </summary>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнения.</returns>
-        public override async Task<ResultUpdate> Handle(Update update)
+        public override async Task<UpdateResult> Handle(Update update)
         {
             var eventResult = EventHandler(update);
-            if (eventResult == ResultUpdate.Handled)
+            if (eventResult == UpdateResult.Handled)
                 return eventResult;
-
-            return await UpdateMessageCommands(update);
+ 
+            if(update.Message.Type.Equals(MessageType.Text))
+                return await UpdateMessageCommands(update);
+            
+            return UpdateResult.NotFound;
         }
 
         /// <summary>
@@ -63,37 +66,35 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// </summary>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнения.</returns>
-        private async Task<ResultUpdate> UpdateMessageCommands(Update update)
+        private async Task<UpdateResult> UpdateMessageCommands(Update update)
         {
-            var result = ResultUpdate.Continue;
+            var result = UpdateResult.Continue;
 
             if (!nextStepHandler.IgnoreBasicCommand(update))
             {
                 result = await SlashHandler.Handle(update);
-                if (result == ResultUpdate.Handled)
+                if (result == UpdateResult.Handled)
                     return result;
 
                 result = await ReplyHandler.Handle(update);
-                if (result == ResultUpdate.Handled)
+                if (result == UpdateResult.Handled)
                     return result;
 
                 result = await ReplyDynamicHandler.Handle(update);
-                if (result == ResultUpdate.Handled)
+                if (result == UpdateResult.Handled)
                     return result;
             }
 
             result = await nextStepHandler.Handle(update);
-            if (result == ResultUpdate.Handled)
+            if (result == UpdateResult.Handled)
             {
                 if (nextStepHandler.LastStepExecuted(update))
                     nextStepHandler.ClearSteps(update);
                 return result;
             }
 
-            if (result == ResultUpdate.Continue)
-                bot.Events.OnMissingCommandInvoke(new BotEventArgs(bot, update));
-
-            return ResultUpdate.Handled;
+            bot.Events.OnMissingCommandInvoke(new BotEventArgs(bot, update));
+            return UpdateResult.NotFound;
         }
 
         /// <summary>
@@ -101,17 +102,17 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// </summary>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнения.</returns>
-        private ResultUpdate EventHandler(Update update)
+        private UpdateResult EventHandler(Update update)
         {
             foreach (var item in TypeMessage)
             {
                 if (item.Key == update!.Message!.Type)
                 {
                     item.Value.Invoke(new BotEventArgs(bot, update));
-                    return ResultUpdate.Handled;
+                    return UpdateResult.Handled;
                 }
             }
-            return ResultUpdate.Continue;
+            return UpdateResult.Continue;
         }
 
         /// <summary>
@@ -120,21 +121,51 @@ namespace PRTelegramBot.Core.UpdateHandlers
         private void UpdateEventLink()
         {
             TypeMessage = new();
-            TypeMessage.Add(MessageType.Contact, bot.Events.OnContactHandleInvoke);
-            TypeMessage.Add(MessageType.Location, bot.Events.OnLocationHandleInvoke);
-            TypeMessage.Add(MessageType.WebAppData, bot.Events.OnWebAppsHandleInvoke);
-            TypeMessage.Add(MessageType.Poll, bot.Events.OnPollHandleInvoke);
-            TypeMessage.Add(MessageType.Document, bot.Events.OnDocumentHandleInvoke);
+            TypeMessage.Add(MessageType.Animation, bot.Events.OnAnimationHandleInvoke);
             TypeMessage.Add(MessageType.Audio, bot.Events.OnAudioHandleInvoke);
-            TypeMessage.Add(MessageType.Video, bot.Events.OnVideoHandleInvoke);
-            TypeMessage.Add(MessageType.Photo, bot.Events.OnPhotoHandleInvoke);
-            TypeMessage.Add(MessageType.Sticker, bot.Events.OnStickerHandleInvoke);
-            TypeMessage.Add(MessageType.Voice, bot.Events.OnVoiceHandleInvoke);
-            TypeMessage.Add(MessageType.Unknown, bot.Events.OnUnknownHandleInvoke);
-            TypeMessage.Add(MessageType.Venue, bot.Events.OnVenueHandleInvoke);
-            TypeMessage.Add(MessageType.Game, bot.Events.OnGameHandleInvoke);
-            TypeMessage.Add(MessageType.VideoNote, bot.Events.OnVideoNoteHandleInvoke);
+            TypeMessage.Add(MessageType.ChannelCreated, bot.Events.OnChannelCreatedHandleInvoke);
+            TypeMessage.Add(MessageType.ChatMemberLeft, bot.Events.OnChatMemberLeftHandleInvoke);
+            TypeMessage.Add(MessageType.ChatMembersAdded, bot.Events.OnChatMembersAddedHandleInvoke);
+            TypeMessage.Add(MessageType.ChatPhotoChanged, bot.Events.OnChatPhotoChangedHandleInvoke);
+            TypeMessage.Add(MessageType.ChatPhotoDeleted, bot.Events.OnChatPhotoDeletedHandleInvoke);
+            TypeMessage.Add(MessageType.ChatShared, bot.Events.OnChatSharedHandleInvoke);
+            TypeMessage.Add(MessageType.ChatTitleChanged, bot.Events.OnChatTitleChangedHandleInvoke);
+            TypeMessage.Add(MessageType.Contact, bot.Events.OnContactHandleInvoke);
             TypeMessage.Add(MessageType.Dice, bot.Events.OnDiceHandleInvoke);
+            TypeMessage.Add(MessageType.Document, bot.Events.OnDocumentHandleInvoke);
+            TypeMessage.Add(MessageType.ForumTopicClosed, bot.Events.OnForumTopicClosedHandleInvoke);
+            TypeMessage.Add(MessageType.ForumTopicCreated, bot.Events.OnForumTopicCreatedHandleInvoke);
+            TypeMessage.Add(MessageType.ForumTopicEdited, bot.Events.OnForumTopicEditedHandleInvoke);
+            TypeMessage.Add(MessageType.ForumTopicReopened, bot.Events.OnForumTopicReopenedHandleInvoke);
+            TypeMessage.Add(MessageType.Game, bot.Events.OnGameHandleInvoke);
+            TypeMessage.Add(MessageType.GeneralForumTopicHidden, bot.Events.OnGeneralForumTopicHiddenHandleInvoke);
+            TypeMessage.Add(MessageType.GeneralForumTopicUnhidden, bot.Events.OnGeneralForumTopicUnhiddenHandleInvoke);
+            TypeMessage.Add(MessageType.GroupCreated, bot.Events.OnGroupCreatedHandleInvoke);
+            TypeMessage.Add(MessageType.Invoice, bot.Events.OnInvoiceHandleInvoke);
+            TypeMessage.Add(MessageType.Location, bot.Events.OnLocationHandleInvoke);
+            TypeMessage.Add(MessageType.MessageAutoDeleteTimerChanged, bot.Events.OnMessageAutoDeleteTimerChangedHandleInvoke);
+            TypeMessage.Add(MessageType.MessagePinned, bot.Events.OnMessagePinnedHandleInvoke);
+            TypeMessage.Add(MessageType.MigratedFromGroup, bot.Events.OnMigratedFromGroupHandleInvoke);
+            TypeMessage.Add(MessageType.MigratedToSupergroup, bot.Events.OnMigratedToSupergroupHandleInvoke);
+            TypeMessage.Add(MessageType.Photo, bot.Events.OnPhotoHandleInvoke);
+            TypeMessage.Add(MessageType.Poll, bot.Events.OnPollHandleInvoke);
+            TypeMessage.Add(MessageType.ProximityAlertTriggered, bot.Events.OnProximityAlertTriggeredHandleHandleInvoke);
+            TypeMessage.Add(MessageType.Sticker, bot.Events.OnStickerHandleInvoke);
+            TypeMessage.Add(MessageType.SuccessfulPayment, bot.Events.OnSuccessfulPaymentHandleInvoke);
+            TypeMessage.Add(MessageType.SupergroupCreated, bot.Events.OnSupergroupCreatedHandleInvoke);
+            TypeMessage.Add(MessageType.UserShared, bot.Events.OnUserSharedHandleInvoke);
+            TypeMessage.Add(MessageType.Unknown, bot.Events.OnUnknownHandleInvoke);
+            TypeMessage.Add(MessageType.VideoChatEnded, bot.Events.OnVideoChatEndedHandleInvoke);
+            TypeMessage.Add(MessageType.VideoChatParticipantsInvited, bot.Events.OnVideoChatParticipantsInvitedHandleInvoke);
+            TypeMessage.Add(MessageType.VideoChatScheduled, bot.Events.OnVideoChatScheduledHandleInvoke);
+            TypeMessage.Add(MessageType.VideoChatStarted, bot.Events.OnVideoChatStartedHandleInvoke);
+            TypeMessage.Add(MessageType.Video, bot.Events.OnVideoHandleInvoke);
+            TypeMessage.Add(MessageType.Voice, bot.Events.OnVoiceHandleInvoke);
+            TypeMessage.Add(MessageType.Venue, bot.Events.OnVenueHandleInvoke);
+            TypeMessage.Add(MessageType.VideoNote, bot.Events.OnVideoNoteHandleInvoke);
+            TypeMessage.Add(MessageType.WebAppData, bot.Events.OnWebAppsHandleInvoke);
+            TypeMessage.Add(MessageType.WebsiteConnected, bot.Events.OnWebsiteConnectedHandleInvoke);
+            TypeMessage.Add(MessageType.WriteAccessAllowed, bot.Events.OnWriteAccessAllowedHandleInvoke);
         }
 
         #endregion

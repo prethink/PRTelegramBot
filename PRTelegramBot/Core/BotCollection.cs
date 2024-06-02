@@ -96,6 +96,9 @@
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         private BotCollection() { }
 
         #endregion

@@ -23,27 +23,27 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Методы
 
-        public override async Task<ResultUpdate> Handle(Update update)
+        public override async Task<UpdateResult> Handle(Update update)
         {
             try
             {
                 string command = update.Message.Text;
                 if (command.StartsWith('/'))
                 {
-                    var resultExecute = await StartHasDeepLink(command, update);
-                    if (resultExecute == ResultCommand.Executed)
-                        return ResultUpdate.Handled;
+                    var resultExecute = StartHasDeepLink(command, update);
+                    if (resultExecute == CommandResult.Executed)
+                        return UpdateResult.Handled;
 
                     resultExecute = await ExecuteCommand(command, update, commands);
-                    if (resultExecute != ResultCommand.Continue)
-                        return ResultUpdate.Handled;
+                    if (resultExecute != CommandResult.Continue)
+                        return UpdateResult.Handled;
                 }
-                return ResultUpdate.Continue;
+                return UpdateResult.Continue;
             }
             catch (Exception ex)
             {
                 bot.InvokeErrorLog(ex);
-                return ResultUpdate.Error;
+                return UpdateResult.Error;
             }
         }
 
@@ -68,9 +68,9 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-        protected override ResultCommand InternalCheck(Update update, CommandHandler handler)
+        protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
         {
-            return ResultCommand.Continue;
+            return InternalCheckResult.Passed;
         }
 
         /// <summary>
@@ -79,24 +79,24 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// <param name="command">Команда.</param>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнение команд.</returns>
-        private async Task<ResultCommand> StartHasDeepLink(string command, Update update)
+        private CommandResult StartHasDeepLink(string command, Update update)
         {
             try
             {
                 if (!command.ToLower().Contains("start") && command.Contains(" "))
-                    return ResultCommand.Continue;
+                    return CommandResult.Continue;
 
                 var spl = command.Split(' ');
                 if (spl.Length < 2 || string.IsNullOrEmpty(spl[1]))
-                    return ResultCommand.Continue;
+                    return CommandResult.Continue;
 
                 bot.Events.OnUserStartWithArgsInvoke(new StartEventArgs(bot, update, spl[1]));
-                return ResultCommand.Executed;
+                return CommandResult.Executed;
             }
             catch (Exception ex)
             {
                 bot.InvokeErrorLog(ex);
-                return ResultCommand.Error;
+                return CommandResult.Error;
             }
         }
 

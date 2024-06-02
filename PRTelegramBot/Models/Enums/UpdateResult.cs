@@ -3,7 +3,7 @@
     /// <summary>
     /// Результат выполнения update.
     /// </summary>
-    public enum ResultUpdate
+    public enum UpdateResult
     {
         /// <summary>
         /// Продолжить выполнение.

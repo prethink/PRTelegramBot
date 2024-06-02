@@ -3,7 +3,7 @@
     /// <summary>
     /// Результат выполнение шага.
     /// </summary>
-    public enum ResultExecuteStep
+    public enum ExecuteStepResult
     {
         /// <summary>
         /// Шаг выполнен удачно.

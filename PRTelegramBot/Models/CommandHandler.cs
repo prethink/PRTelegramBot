@@ -42,7 +42,8 @@ namespace PRTelegramBot.Models
                 object instance = null;
                 if (ServiceProvider != null)
                 {
-                    using (var scope = ServiceProvider.CreateScope())
+                    var factory = ServiceProvider.GetRequiredService<IServiceScopeFactory>();
+                    using (var scope = factory.CreateScope())
                     {
                         instance = scope.ServiceProvider.GetRequiredService(method.DeclaringType);
                     }

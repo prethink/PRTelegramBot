@@ -35,23 +35,23 @@ namespace PRTelegramBot.Models
 
         #region IExecuteStep
 
-        public async Task<ResultExecuteStep> ExecuteStep(ITelegramBotClient botClient, Update update)
+        public async Task<ExecuteStepResult> ExecuteStep(ITelegramBotClient botClient, Update update)
         {
             if (ExpiredTime != null && DateTime.Now > ExpiredTime)
             {
                 update.ClearStepUserHandler();
-                return ResultExecuteStep.ExpiredTime;
+                return ExecuteStepResult.ExpiredTime;
             }
 
             try
             {
                 await CommandDelegate.Invoke(botClient, update);
-                return ResultExecuteStep.Success;
+                return ExecuteStepResult.Success;
             }
             catch (Exception ex)
             {
                 botClient.GetBotDataOrNull()!.InvokeErrorLog(ex);
-                return ResultExecuteStep.Failure;
+                return ExecuteStepResult.Failure;
             }
         }
 

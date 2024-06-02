@@ -1,22 +1,11 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
-    /// <summary>
-    /// Результат выполнения команды.
-    /// </summary>
-    public enum ResultCommand
+    public enum InternalCheckResult
     {
         /// <summary>
-        /// Продолжить выполенение.
+        /// Проверка пройдена.
         /// </summary>
-        Continue = 0,
-        /// <summary>
-        /// Выполнено.
-        /// </summary>
-        Executed,
-        /// <summary>
-        /// Ошибка.
-        /// </summary>
-        Error,
+        Passed = 0,
         /// <summary>
         /// Проверка привилегий.
         /// </summary>

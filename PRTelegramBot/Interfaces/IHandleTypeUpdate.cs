@@ -5,6 +5,6 @@ namespace PRTelegramBot.Interfaces
 {
     internal interface IHandleTypeUpdate
     {
-        public Task<ResultUpdate> Handle(Update update);
+        public Task<UpdateResult> Handle(Update update);
     }
 }

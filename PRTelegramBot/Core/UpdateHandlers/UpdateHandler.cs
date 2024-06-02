@@ -29,7 +29,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// Обработка update.
         /// </summary>
         /// <param name="update">Update telegram.</param>
-        public abstract Task<ResultUpdate> Handle(Update update);
+        public abstract Task<UpdateResult> Handle(Update update);
 
         #endregion
 

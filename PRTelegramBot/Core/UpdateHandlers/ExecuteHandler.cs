@@ -24,16 +24,16 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <param name="update">Обновление.</param>
         /// <param name="handler">Обработчик.</param>
         /// <returns>Результат выполнения команды.</returns>
-        protected virtual async Task<ResultCommand> ExecuteMethod(Update update, CommandHandler handler)
+        protected virtual async Task<CommandResult> ExecuteMethod(Update update, CommandHandler handler)
         {
             var @delegate = handler.Command;
 
             var result = InternalCheck(update, handler);
-            if (result != ResultCommand.Continue)
-                return result;
+            if (result != InternalCheckResult.Passed)
+                return CommandResult.InternalCheck;
 
             await @delegate(bot.botClient, update);
-            return ResultCommand.Executed;
+            return CommandResult.Executed;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <param name="update">Обновление.</param>
         /// <param name="handler">Обработчик.</param>
         /// <returns>Результат выполнения проверки.</returns>
-        protected abstract ResultCommand InternalCheck(Update update, CommandHandler handler);
+        protected abstract InternalCheckResult InternalCheck(Update update, CommandHandler handler);
 
         #endregion
 

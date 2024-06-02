@@ -22,22 +22,22 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Методы
 
-        public override async Task<ResultUpdate> Handle(Update update)
+        public override async Task<UpdateResult> Handle(Update update)
         {
             try
             {
                 string command = update.Message.Text;
                 RemoveBracketsIfExists(ref command);
                 var resultExecute = await ExecuteCommand(command, update, commands);
-                if (resultExecute != ResultCommand.Continue)
-                    return ResultUpdate.Handled;
+                if (resultExecute != CommandResult.Continue)
+                    return UpdateResult.Handled;
 
-                return ResultUpdate.Continue;
+                return UpdateResult.Continue;
             }
             catch (Exception ex)
             {
                 bot.InvokeErrorLog(ex);
-                return ResultUpdate.Error;
+                return UpdateResult.Error;
             }
         }
 
@@ -64,7 +64,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-        protected override ResultCommand InternalCheck(Update update, CommandHandler handler)
+        protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
         {
             var method = handler.Command.Method;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
@@ -77,7 +77,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 if (!requireUpdate.TypesChat.Contains(update!.Message!.Chat.Type))
                 {
                     bot.Events.OnWrongTypeChatInvoke(new BotEventArgs(bot, update));
-                    return ResultCommand.WrongChatType;
+                    return InternalCheckResult.WrongChatType;
                 }
             }
 
@@ -86,16 +86,16 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 if (!requireDate.TypeMessages.Contains(update!.Message!.Type))
                 {
                     bot.Events.OnWrongTypeMessageInvoke(new BotEventArgs(bot, update));
-                    return ResultCommand.WrongMessageType;
+                    return InternalCheckResult.WrongMessageType;
                 }
             }
 
             if (privilages != null)
             {
                 bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
-                return ResultCommand.PrivilegeCheck;
+                return InternalCheckResult.PrivilegeCheck;
             }
-            return ResultCommand.Continue;
+            return InternalCheckResult.Passed;
         }
 
         #endregion

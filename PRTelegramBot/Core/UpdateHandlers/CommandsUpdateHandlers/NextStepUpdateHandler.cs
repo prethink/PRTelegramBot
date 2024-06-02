@@ -57,33 +57,33 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             update.ClearStepUserHandler();
         }
 
-        public override async Task<ResultUpdate> Handle(Update update)
+        public override async Task<UpdateResult> Handle(Update update)
         {
             try
             {
                 if (!update.HasStepHandler())
-                    return ResultUpdate.Continue;
+                    return UpdateResult.Continue;
 
                 var step = update.GetStepHandler()?.GetExecuteMethod();
                 if (step is null)
-                    return ResultUpdate.NotFound;
+                    return UpdateResult.NotFound;
 
                 var resultExecute = await ExecuteMethod(update, new CommandHandler(step));
-                if (resultExecute == ResultCommand.Executed)
-                    return ResultUpdate.Handled;
+                if (resultExecute == CommandResult.Executed)
+                    return UpdateResult.Handled;
 
-                return ResultUpdate.Continue;
+                return UpdateResult.Continue;
             }
             catch (Exception ex)
             {
                 bot.InvokeErrorLog(ex);
-                return ResultUpdate.Error;
+                return UpdateResult.Error;
             }
         }
 
-        protected override ResultCommand InternalCheck(Update update, CommandHandler handler)
+        protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
         {
-            return ResultCommand.Continue;
+            return InternalCheckResult.Passed;
         }
 
         #endregion
