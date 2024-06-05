@@ -1,4 +1,4 @@
-Актуальная документация - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
+Актуальная документация для версии в nuget - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
 nuget - [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/)    
 Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
 # ⚛️ Ядро библиотеки
