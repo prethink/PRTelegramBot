@@ -2,6 +2,7 @@
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
 using System.Reflection;
@@ -107,7 +108,18 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
         {
-            return InternalCheckResult.Passed;
+            {
+                var method = handler.Command.Method;
+                var privilages = method.GetCustomAttribute<AccessAttribute>();
+                var @delegate = handler.Command;
+
+                if (privilages != null)
+                {
+                    bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
+                    return InternalCheckResult.PrivilegeCheck;
+                }
+                return InternalCheckResult.Passed;
+            }
         }
 
         #endregion

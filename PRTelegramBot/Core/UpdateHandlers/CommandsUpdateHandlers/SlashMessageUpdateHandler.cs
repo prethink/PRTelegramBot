@@ -68,11 +68,6 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-        protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
-        {
-            return InternalCheckResult.Passed;
-        }
-
         /// <summary>
         /// Проверка является ли команда start с аргументом.
         /// </summary>

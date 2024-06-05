@@ -55,7 +55,7 @@ namespace PRTelegramBot.Core
                 {
                     var resultUpdate = await bot.Events.OnPreUpdateInvoke(new BotEventArgs(bot, update));
 
-                    if (resultUpdate == UpdateResult.Stop)
+                    if (resultUpdate == UpdateResult.Stop || resultUpdate == UpdateResult.Handled)
                         return;
                 }
 
@@ -68,15 +68,15 @@ namespace PRTelegramBot.Core
                     }
                 }
 
-                if (update.Type == UpdateType.Message)
-                {
-                    await MessageFacade.Handle(update);
-                    return;
-                }
-
                 if (update.Type == UpdateType.CallbackQuery)
                 {
                     await InlineUpdateHandler.Handle(update);
+                    return;
+                }
+
+                if (update.Type == UpdateType.Message)
+                {
+                    await MessageFacade.Handle(update);
                     return;
                 }
 
