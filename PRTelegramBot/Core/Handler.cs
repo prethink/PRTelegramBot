@@ -84,7 +84,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex, update);
             }
         }
 
@@ -109,7 +109,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex);
             }
         }
 
@@ -121,12 +121,11 @@ namespace PRTelegramBot.Core
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        public Handler(PRBot bot, IServiceProvider serviceProvider)
+        public Handler(PRBot bot)
         {
             this.bot = bot;
-            MessageFacade = new MessageFacade(this.bot, serviceProvider);
-            InlineUpdateHandler = new InlineUpdateHandler(this.bot, serviceProvider);
+            MessageFacade = new MessageFacade(this.bot);
+            InlineUpdateHandler = new InlineUpdateHandler(this.bot);
         }
 
         #endregion

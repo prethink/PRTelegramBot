@@ -1,11 +1,12 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core
 {
-    public sealed class PRBot
+    public sealed class PRBot : IPRBot
     {
         #region Поля и свойства
 
@@ -22,52 +23,12 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Идетификатор бота в telegram.
         /// </summary>
-        public long? TelegramId => botClient.BotId;
+        public long? TelegramId { get { return botClient.BotId; } }
 
         /// <summary>
         /// Обработчик для telegram бота
         /// </summary>
-        public Handler Handler;
-
-        /// <summary>
-        /// Токен.
-        /// </summary>
-        private CancellationTokenSource cts;
-
-        /// <summary>
-        /// Настройки telegram бота
-        /// </summary>
-        private ReceiverOptions receiverOptions;
-
-        /// <summary>
-        /// Сигнатура для записи ошибок
-        /// </summary>
-        /// <param name="ex">Эксекшен</param>
-        /// <param name="id">Идентификатор пользователя</param>
-        public delegate void ErrorEvent(Exception ex, long? id);
-
-        /// <summary>
-        /// Сигнатура для записи обычных логов
-        /// </summary>
-        /// <param name="msg">Сообщение</param>
-        /// <param name="typeEvent">Тип событий</param>
-        /// <param name="color">Цвет</param>
-        public delegate void CommonEvent(string msg, string type, ConsoleColor color);
-
-        /// <summary>
-        /// События записи ошибок
-        /// </summary>
-        public event ErrorEvent OnLogError;
-
-        /// <summary>
-        /// Событие записи обычного лога
-        /// </summary>
-        public event CommonEvent OnLogCommon;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private IServiceProvider serviceProvider;
+        public Handler Handler {  get; private set; }
 
         /// <summary>
         /// Работает бот или нет
@@ -89,6 +50,11 @@ namespace PRTelegramBot.Core
         /// </summary>
         public TEvents Events { get; private set; }
 
+        /// <summary>
+        /// Регистрация команд.
+        /// </summary>
+        public RegisterCommands Register { get ; private set; }
+
         #endregion
 
         #region Методы
@@ -103,17 +69,17 @@ namespace PRTelegramBot.Core
                 if (Options.ClearUpdatesOnStart)
                     await ClearUpdates();
 
-                botClient.StartReceiving(Handler, receiverOptions);
+                botClient.StartReceiving(Handler, Options.ReceiverOptions);
 
                 var client = await botClient.GetMeAsync();
                 BotName = client?.Username;
-                this.InvokeCommonLog($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
+                this.Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;
             }
             catch (Exception ex)
             {
                 IsWork = false;
-                this.InvokeErrorLog(ex);
+                this.Events.OnErrorLogInvoke(ex);
             }
         }
 
@@ -124,14 +90,14 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                cts.Cancel();
+                Options. cts.Cancel();
 
                 await Task.Delay(3000);
                 IsWork = false;
             }
             catch (Exception ex)
             {
-                this.InvokeErrorLog(ex);
+                this.Events.OnErrorLogInvoke(ex);
             }
         }
 
@@ -151,92 +117,8 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                InvokeErrorLog(ex);
+                this.Events.OnErrorLogInvoke(ex);
             }
-        }
-
-        /// <summary>
-        /// Вызов события записи в обычный лог
-        /// </summary>
-        /// <param name="msg">Текст</param>
-        /// <param name="typeEvent">Тип события</param>
-        /// <param name="color">Цвет</param>
-        public void InvokeCommonLog(string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
-        {
-            OnLogCommon?.Invoke(msg, typeEvent, color);
-        }
-
-        /// <summary>
-        /// Вызов события записи в лог ошибок
-        /// </summary>
-        /// <param name="ex">Exception</param>
-        /// <param name="id">Идентификатор</param>
-        public void InvokeErrorLog(Exception ex, long? id = null)
-        {
-            OnLogError?.Invoke(ex, id);
-        }
-
-        /// <summary>
-        /// Регистрация Slash command
-        /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="method">Метод</param>
-        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
-        public bool RegisterSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
-        {
-            return Handler.MessageFacade.SlashHandler.AddCommand(command, method);
-        }
-
-        /// <summary>
-        /// Регистрация Reply command
-        /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="method">Метод</param>
-        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
-        public bool RegisterReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method)
-        {
-            return Handler.MessageFacade.ReplyHandler.AddCommand(command, method);
-        }
-
-        /// <summary>
-        /// Регистрация inline command
-        /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="method">Метод</param>
-        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
-        public bool RegisterInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method)
-        {
-            return Handler.InlineUpdateHandler.AddCommand(command, method);
-        }
-
-        /// <summary>
-        /// Удаление Reply команды
-        /// </summary>
-        /// <param name="command">Название команды</param>
-        /// <returns>True - метод удален, false - ошибка</returns>
-        public bool RemoveReplyCommand(string command)
-        {
-            return Handler.MessageFacade.ReplyHandler.RemoveCommand(command);
-        }
-
-        /// <summary>
-        /// Удаление slash команды
-        /// </summary>
-        /// <param name="command">Название команды</param>
-        /// <returns>True - метод удален, false - ошибка</returns>
-        public bool RemoveSlashCommand(string command)
-        {
-            return Handler.MessageFacade.SlashHandler.RemoveCommand(command);
-        }
-
-        /// <summary>
-        /// Удаление inline команды
-        /// </summary>
-        /// <param name="command">перечисление команды</param>
-        /// <returns>True - метод удален, false - ошибка</returns>
-        public bool RemoveInlineCommand(Enum command)
-        {
-            return Handler.InlineUpdateHandler.RemoveCommand(command);
         }
 
         #endregion
@@ -306,12 +188,9 @@ namespace PRTelegramBot.Core
 
             botClient = new TelegramBotClient(Options.Token);
             BotCollection.Instance.AddBot(this);
-            this.receiverOptions = receiverOptions;
-            this.serviceProvider = serviceProvider;
-            Events = new TEvents();
-            Handler = new Handler(this, this.serviceProvider);
-            cts = cancellationToken;
-
+            Events = new TEvents(this);
+            Handler = new Handler(this);
+            Register = new RegisterCommands(Handler);
         }
 
         #endregion

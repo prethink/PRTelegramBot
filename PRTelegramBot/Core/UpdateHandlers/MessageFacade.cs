@@ -176,12 +176,11 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        public MessageFacade(PRBot bot, IServiceProvider serviceProvider) : base(bot)
+        public MessageFacade(PRBot bot) : base(bot)
         {
-            ReplyHandler = new ReplyMessageUpdateHandler(bot, serviceProvider);
-            ReplyDynamicHandler = new ReplyDynamicMessageUpdateHandler(bot, serviceProvider);
-            SlashHandler = new SlashMessageUpdateHandler(bot, serviceProvider);
+            ReplyHandler = new ReplyMessageUpdateHandler(bot);
+            ReplyDynamicHandler = new ReplyDynamicMessageUpdateHandler(bot);
+            SlashHandler = new SlashMessageUpdateHandler(bot);
             nextStepHandler = new NextStepUpdateHandler(bot);
 
             UpdateEventLink();

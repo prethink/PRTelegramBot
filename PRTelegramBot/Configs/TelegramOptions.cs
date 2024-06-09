@@ -1,4 +1,6 @@
-﻿namespace PRTelegramBot.Configs
+﻿using Telegram.Bot.Polling;
+
+namespace PRTelegramBot.Configs
 {
     /// <summary>
     /// Параметры telegram бота.
@@ -43,6 +45,21 @@
         /// Дополнительные конфигурационные файлы.
         /// </summary>
         public Dictionary<string, string> ConfigPaths { get; set; } = new();
+
+        /// <summary>
+        /// Токен отмены.
+        /// </summary>
+        public CancellationTokenSource cts { get; set; } = new CancellationTokenSource();
+
+        /// <summary>
+        /// Настройки telegram бота.
+        /// </summary>
+        public ReceiverOptions ReceiverOptions { get; set; } = new ReceiverOptions { AllowedUpdates = { } } ;
+
+        /// <summary>
+        /// Сервис провайдер.
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; set; }
 
         #endregion
 

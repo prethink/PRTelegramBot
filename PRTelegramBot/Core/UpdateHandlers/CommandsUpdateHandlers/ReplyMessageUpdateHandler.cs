@@ -36,7 +36,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex, update);
                 return UpdateResult.Error;
             }
         }
@@ -60,7 +60,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             foreach (var serviceType in servicesToRegistration)
             {
                 var methodsInClass = serviceType.GetMethods().Where(x => !x.IsStatic).ToArray();
-                registerService.RegisterMethodFromClass(bot, typeof(ReplyMenuHandlerAttribute), methodsInClass, commands, serviceProvider);
+                registerService.RegisterMethodFromClass(bot, typeof(ReplyMenuHandlerAttribute), methodsInClass, commands, bot.Options.ServiceProvider);
             }
         }
 
@@ -72,9 +72,8 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        public ReplyMessageUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot, serviceProvider)
+        public ReplyMessageUpdateHandler(PRBot bot)
+            : base(bot)
         {
             RegisterCommands();
         }

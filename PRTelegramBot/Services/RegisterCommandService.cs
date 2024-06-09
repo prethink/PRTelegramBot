@@ -35,7 +35,7 @@ namespace PRTelegramBot.Services
                     bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                     if (!isValidMethod)
                     {
-                        bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature. " +
+                        bot.Events.OnErrorLogInvoke(new Exception($"The method {method.Name} has an invalid signature. " +
                             $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}"));
                         continue;
                     }
@@ -46,7 +46,7 @@ namespace PRTelegramBot.Services
                 }
                 catch (Exception ex)
                 {
-                    bot.InvokeErrorLog(ex);
+                    bot.Events.OnErrorLogInvoke(ex);
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace PRTelegramBot.Services
                         bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
                         if (!isValidMethod)
                         {
-                            bot.InvokeErrorLog(new Exception($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored."));
+                            bot.Events.OnErrorLogInvoke(new Exception($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored."));
                             continue;
                         }
 
@@ -88,7 +88,7 @@ namespace PRTelegramBot.Services
                 }
                 catch (Exception ex)
                 {
-                    bot.InvokeErrorLog(ex);
+                    bot.Events.OnErrorLogInvoke(ex);
                 }
             }
         }

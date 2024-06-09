@@ -1,5 +1,7 @@
 ﻿using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
+using Telegram.Bot.Types;
+using ErrorLogEventArgs = PRTelegramBot.Models.EventsArgs.ErrorLogEventArgs;
 
 namespace PRTelegramBot.Core
 {
@@ -8,6 +10,11 @@ namespace PRTelegramBot.Core
     /// </summary>
     public sealed class TEvents
     {
+        #region Поля и свойства
+
+        public PRBot Bot { get; private set; }
+
+        #endregion
         #region События
 
         /// <summary>
@@ -273,6 +280,16 @@ namespace PRTelegramBot.Core
         /// Событие
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWriteAccessAllowedHandle;
+
+        /// <summary>
+        /// Событие ошибки.
+        /// </summary>
+        public event Func<ErrorLogEventArgs, Task>? OnErrorLog;
+
+        /// <summary>
+        /// Событие общих логов.
+        /// </summary>
+        public event Func<CommonLogEventArgs, Task>? OnCommonLog;
 
         #endregion
 
@@ -548,6 +565,59 @@ namespace PRTelegramBot.Core
         public void OnProximityAlertTriggeredHandleHandleInvoke(BotEventArgs e)
         {
             OnProximityAlertTriggeredHandle?.Invoke(e);
+        }
+
+        public void OnErrorLogInvoke(ErrorLogEventArgsCreator e)
+        {
+            OnErrorLog?.Invoke(new ErrorLogEventArgs(Bot, e));
+        }
+
+        public void OnErrorLogInvoke(Exception exception, Update update)
+        {
+            OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception, update));
+        }
+
+        public void OnErrorLogInvoke(Exception exception)
+        {
+            OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception));
+        }
+
+        public void OnCommonLogInvoke(CommonLogEventArgsCreator e)
+        {
+            OnCommonLog?.Invoke(new CommonLogEventArgs(Bot, e));
+        }
+
+        public void OnCommonLogInvoke(string message, string type, Update update)
+        {
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, update));
+        }
+
+        public void OnCommonLogInvoke(string message, string type, ConsoleColor color)
+        {
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color));
+        }
+
+        public void OnCommonLogInvoke(string message, string type, ConsoleColor color, Update update)
+        {
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, update));
+        }
+
+        public void OnErrorOnCommonLogInvokeInvoke(string message, string type)
+        {
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
+        }
+
+        #endregion
+
+        #region Конструкторы
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        public TEvents(PRBot bot)
+        {
+            this.Bot = bot;
         }
 
         #endregion

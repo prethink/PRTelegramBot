@@ -20,11 +20,6 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         public long CommandCount => commands.Count;
 
         /// <summary>
-        /// Сервия провайдер.
-        /// </summary>
-        protected IServiceProvider serviceProvider;
-
-        /// <summary>
         /// Команды.
         /// </summary>
         protected Dictionary<TKey, CommandHandler> commands { get; set; } = new();
@@ -92,12 +87,8 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Telegram bot.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        protected CommandUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot)
-        {
-            this.serviceProvider = serviceProvider;
-        }
+        protected CommandUpdateHandler(PRBot bot)
+            : base(bot) {}
 
         #endregion
     }

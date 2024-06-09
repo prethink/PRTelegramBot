@@ -33,7 +33,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 if (command != null)
                 {
                     string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
-                    bot.InvokeCommonLog(msg, "CallBackCommand", ConsoleColor.Magenta);
+                    bot.Events.OnCommonLogInvoke(msg, "CallBackCommand", ConsoleColor.Magenta);
 
                     var resultExecute = await ExecuteCommand(command.CommandType, update, commands);
                     if (resultExecute == CommandResult.Executed)
@@ -44,7 +44,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex, update);
                 return UpdateResult.Error;
             }
         }
@@ -59,7 +59,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }
@@ -73,7 +73,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }
@@ -102,7 +102,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             foreach (var serviceType in servicesToRegistration)
             {
                 var methodsInClass = serviceType.GetMethods().Where(x => !x.IsStatic).ToArray();
-                registerService.RegisterMethodFromClass(bot, typeof(InlineCallbackHandlerAttribute<>), methodsInClass, commands, serviceProvider);
+                registerService.RegisterMethodFromClass(bot, typeof(InlineCallbackHandlerAttribute<>), methodsInClass, commands, bot.Options.ServiceProvider);
             }
         }
 
@@ -130,9 +130,8 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        public InlineUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot, serviceProvider)
+        public InlineUpdateHandler(PRBot bot)
+            : base(bot)
         {
             RegisterCommands();
         }

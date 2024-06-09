@@ -20,7 +20,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             foreach (var serviceType in servicesToRegistration)
             {
                 var methodsInClass = serviceType.GetMethods().Where(x => !x.IsStatic).ToArray();
-                registerService.RegisterMethodFromClass(bot, typeof(ReplyMenuDynamicHandlerAttribute), methodsInClass, commands, serviceProvider);
+                registerService.RegisterMethodFromClass(bot, typeof(ReplyMenuDynamicHandlerAttribute), methodsInClass, commands, bot.Options.ServiceProvider);
             }
         }
 
@@ -28,8 +28,12 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         #region Конструкторы
 
-        public ReplyDynamicMessageUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot, serviceProvider)
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Бот.</param>
+        public ReplyDynamicMessageUpdateHandler(PRBot bot)
+            : base(bot)
         {
             RegisterCommands();
         }

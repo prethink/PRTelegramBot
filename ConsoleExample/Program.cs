@@ -3,6 +3,7 @@ using ConsoleExample.Models;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -47,15 +48,18 @@ var telegramTwo = new PRBot(options =>
 });
 
 //Подписка на простые логи
-telegram.OnLogCommon                += Telegram_OnLogCommon;
+telegram.Events.OnCommonLog += Telegram_OnLogCommon;
 //Подписка на логи с ошибками
-telegram.OnLogError                 += Telegram_OnLogError;
+telegram.Events.OnErrorLog += Telegram_OnLogError;
+
+
+
 //Запуск работы бота
 
 //Подписка на простые логи
-telegramTwo.OnLogCommon += Telegram_OnLogCommon;
+telegramTwo.Events.OnCommonLog += Telegram_OnLogCommon;
 //Подписка на логи с ошибками
-telegramTwo.OnLogError += Telegram_OnLogError;
+telegramTwo.Events.OnErrorLog += Telegram_OnLogError;
 //Запуск работы бота
 await telegram.Start();
 await telegramTwo.Start();
@@ -63,7 +67,7 @@ await telegramTwo.Start();
 InitEventsAndCommands(telegram);
 InitEventsAndCommands(telegramTwo);
 
-void InitEventsAndCommands(PRBot tg)
+void InitEventsAndCommands(IPRBot tg)
 {
     ////Обработка обновление 
     tg.Events.OnPreUpdate += Handler_OnUpdate;
@@ -134,12 +138,12 @@ void InitEventsAndCommands(PRBot tg)
     //Обработка сообщения с игральной костью
     tg.Events.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
-    tg.RegisterInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
+    tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
     {
         PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommand");
     });
 
-    tg.RegisterInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (botClient, update) =>
+    tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (botClient, update) =>
     {
         PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommandTwo");
     });
@@ -164,33 +168,33 @@ tasker.Start();
 #endregion
 
 #region Логи
-void Telegram_OnLogError(Exception ex, long? id = null)
+
+async Task Telegram_OnLogError(ErrorLogEventArgs e)
 {
     Console.ForegroundColor = ConsoleColor.Red;
-    string errorMsg = $"{DateTime.Now}: {ex.ToString()}";
+    string errorMsg = $"{DateTime.Now}: {e.Exception.ToString()}";
 
 
-    if (ex is Telegram.Bot.Exceptions.ApiRequestException apiEx)
-    {
-        errorMsg = $"{DateTime.Now}: {apiEx.ToString()}";
-        if (apiEx.Message.Contains("Forbidden: bot was blocked by the user"))
-        {
-            string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
-            Telegram_OnLogCommon(msg, "BlockedBot", ConsoleColor.Red);
-            return;
-        }
-        else if (apiEx.Message.Contains("BUTTON_USER_PRIVACY_RESTRICTED"))
-        {
-            string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
-            Telegram_OnLogCommon(msg, "BlockedBot", ConsoleColor.Red);
-            return;
-        }
-        else if (apiEx.Message.Contains("group chat was upgraded to a supergroup chat"))
-        {
-            errorMsg += $"\n newChatId: {apiEx?.Parameters?.MigrateToChatId.GetValueOrDefault()}";
-        }
-
-    }
+    //if (e.Exception is Telegram.Bot.Exceptions.ApiRequestException apiEx)
+    //{
+    //    errorMsg = $"{DateTime.Now}: {apiEx.ToString()}";
+    //    if (apiEx.Message.Contains("Forbidden: bot was blocked by the user"))
+    //    {
+    //        string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
+    //        Telegram_OnLogCommon(msg, "BlockedBot", ConsoleColor.Red);
+    //        return;
+    //    }
+    //    else if (apiEx.Message.Contains("BUTTON_USER_PRIVACY_RESTRICTED"))
+    //    {
+    //        string msg = $"Пользователь {id.GetValueOrDefault()} заблокировал бота - " + apiEx.ToString();
+    //        Telegram_OnLogCommon(msg, "BlockedBot", ConsoleColor.Red);
+    //        return;
+    //    }
+    //    else if (apiEx.Message.Contains("group chat was upgraded to a supergroup chat"))
+    //    {
+    //        errorMsg += $"\n newChatId: {apiEx?.Parameters?.MigrateToChatId.GetValueOrDefault()}";
+    //    }
+    //}
 
     if (LoggersContainer.TryGetValue("Error", out var logger))
     {
@@ -206,24 +210,24 @@ void Telegram_OnLogError(Exception ex, long? id = null)
     Console.ResetColor();
 }
 
-void Telegram_OnLogCommon(string msg, string eventType, ConsoleColor color = ConsoleColor.Blue)
+async Task Telegram_OnLogCommon(CommonLogEventArgs e)
 {
-    Console.ForegroundColor = color;
-    string formatMsg = $"{DateTime.Now}: {msg}";
+    Console.ForegroundColor = e.Color;
+    string formatMsg = $"{DateTime.Now}: {e.Message}";
     Console.WriteLine(formatMsg);
     Console.ResetColor();
 
-    if(eventType != null)
+    if(e.Type != null)
     {
-        if (LoggersContainer.TryGetValue(eventType, out var logger))
+        if (LoggersContainer.TryGetValue(e.Type, out var logger))
         {
             logger.Info(formatMsg);
         }
         else
         {
-            var nextLogger = LogManager.GetLogger(eventType);
+            var nextLogger = LogManager.GetLogger(e.Type);
             nextLogger.Info(formatMsg);
-            LoggersContainer.Add(eventType, nextLogger);
+            LoggersContainer.Add(e.Type, nextLogger);
         }
     }
 

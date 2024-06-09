@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Utils;
@@ -42,7 +41,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex, update);
                 return UpdateResult.Error;
             }
         }
@@ -64,7 +63,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             foreach (var serviceType in servicesToRegistration)
             {
                 var methodsInClass = serviceType.GetMethods().Where(x => !x.IsStatic).ToArray();
-                registerService.RegisterMethodFromClass(bot, typeof(SlashHandlerAttribute), methodsInClass, commands, serviceProvider);
+                registerService.RegisterMethodFromClass(bot, typeof(SlashHandlerAttribute), methodsInClass, commands, bot.Options.ServiceProvider);
             }
         }
 
@@ -90,7 +89,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex, update);
                 return CommandResult.Error;
             }
         }
@@ -103,9 +102,8 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        public SlashMessageUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot, serviceProvider)
+        public SlashMessageUpdateHandler(PRBot bot)
+            : base(bot)
         {
             RegisterCommands();
         }

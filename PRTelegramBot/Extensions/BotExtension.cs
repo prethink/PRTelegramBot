@@ -124,7 +124,7 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Экземпляр класса или null.</returns>
-        public static PRBot GetBotDataOrNull(this ITelegramBotClient botClient)
+        public static IPRBot GetBotDataOrNull(this ITelegramBotClient botClient)
         {
             return BotCollection.Instance.GetBotByTelegramIdOrNull(botClient.BotId);
         }
@@ -139,7 +139,7 @@ namespace PRTelegramBot.Extensions
         public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
         {
             var bot = GetBotDataOrNull(botClient);
-            bot?.InvokeCommonLog(msg, typeEvent, color);
+            bot?.Events.OnCommonLogInvoke(msg, typeEvent, color);
         }
 
         /// <summary>
@@ -147,11 +147,22 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот.</param>
         /// <param name="ex">Исключение.</param>
-        /// <param name="id">Идентификатор пользователя.</param>
-        public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, long? id = null)
+        public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex)
         {
             var bot = GetBotDataOrNull(botClient);
-            bot?.InvokeErrorLog(ex, id);
+            bot?.Events.OnErrorLogInvoke(ex);
+        }
+
+        /// <summary>
+        /// Вызов события логирование ошибок.
+        /// </summary>
+        /// <param name="botClient">Бот.</param>
+        /// <param name="ex">Исключение.</param>
+        /// <param name="update">обновление.</param>
+        public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, Update update)
+        {
+            var bot = GetBotDataOrNull(botClient);
+            bot?.Events.OnErrorLogInvoke(ex, update);
         }
 
         /// <summary>

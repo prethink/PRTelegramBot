@@ -76,7 +76,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex, update);
                 return UpdateResult.Error;
             }
         }

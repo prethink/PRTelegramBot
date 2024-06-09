@@ -1,4 +1,6 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Core.Factory;
+using PRTelegramBot.Interfaces;
 using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Core
@@ -11,9 +13,7 @@ namespace PRTelegramBot.Core
         #region Поля и свойства
 
         private TelegramOptions options;
-        private ReceiverOptions recevierOptions;
-        private IServiceProvider serviceProvider;
-        private CancellationTokenSource cancellationToken;
+        private PRBotFactory factory;
 
         #endregion
 
@@ -23,9 +23,10 @@ namespace PRTelegramBot.Core
         /// Сбилдить новый экземпляр класса PRBot.
         /// </summary>
         /// <returns>Экземпляр класса PRBot.</returns>
-        public PRBot Build()
+        public IPRBot Build()
         {
-            return new PRBot((TelegramOptions)options.Clone(), recevierOptions, cancellationToken, serviceProvider);
+            var createOptions = (TelegramOptions)options.Clone();
+            return factory.CreateBot(createOptions);
         }
 
         /// <summary>
@@ -158,9 +159,9 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="serviceProvider">Сервис провайдер для DI.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder AddServiceProvider(IServiceProvider serviceProvider)
+        public PRBotBuilder SetServiceProvider(IServiceProvider serviceProvider)
         {
-            this.serviceProvider = serviceProvider;
+            this.options.ServiceProvider = serviceProvider;
             return this;
         }
 
@@ -171,18 +172,18 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddRecevingOptions(ReceiverOptions recevierOptions)
         {
-            this.recevierOptions = recevierOptions;
+            this.options.ReceiverOptions = recevierOptions;
             return this;
         }
 
         /// <summary>
-        /// Добавить сервис провайдер.
+        /// Использовать фабрику для создания бота.
         /// </summary>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
+        /// <param name="factory">Фабрика.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetServiceProvider(IServiceProvider serviceProvider)
+        public PRBotBuilder UseFactory(PRBotFactory factory)
         {
-            this.serviceProvider = serviceProvider;
+            this.factory = factory;
             return this;
         }
 
@@ -199,6 +200,7 @@ namespace PRTelegramBot.Core
             options = new TelegramOptions();
             SetToken(token);
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
+            factory = new PRBotFactory();
         }
 
         #endregion

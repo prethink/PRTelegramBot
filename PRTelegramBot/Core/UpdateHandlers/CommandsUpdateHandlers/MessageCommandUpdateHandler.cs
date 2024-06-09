@@ -52,7 +52,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }
@@ -66,7 +66,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
             catch (Exception ex)
             {
-                bot.InvokeErrorLog(ex);
+                bot.Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }
@@ -79,9 +79,8 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
-        protected MessageCommandUpdateHandler(PRBot bot, IServiceProvider serviceProvider)
-            : base(bot, serviceProvider) { }
+        protected MessageCommandUpdateHandler(PRBot bot)
+            : base(bot) { }
 
         #endregion
 

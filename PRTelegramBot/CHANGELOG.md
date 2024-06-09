@@ -23,6 +23,7 @@
 - refactoring: Удален enum BaseEventTelegram
 - refactoring: В логирование заменен Enum на string
 - refactoring: Переработаны события, добавлены отдельные классы для аргументов.
+- refactoring: Все события перенесены в свойство Events. bot.Events
 - refactoring: Рефакторинг Router, разделен на несколько классов
 - refactoring: Рефакторинг
 - fix: Исправлены проблемы с командой /start

@@ -1,6 +1,7 @@
 using AspNetExample.Services;
 using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Models.EventsArgs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,14 +15,14 @@ builder.Services.AddSingleton<ServiceSingleton>();
 builder.Services.AddTransientBotHandlers();
 
 
-void PrBotInstance_OnLogError(Exception ex, long? id)
+async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)
 {
-    Console.WriteLine(ex.ToString());
+    Console.WriteLine(e.Exception.ToString());
 }
 
-void PrBotInstance_OnLogCommon(string msg, string typeEvent, ConsoleColor color)
+async Task PrBotInstance_OnLogCommon(CommonLogEventArgs e)
 {
-    Console.WriteLine(msg);
+    Console.WriteLine(e.Message);
 }
 
 var app = builder.Build();
@@ -54,8 +55,8 @@ var prBotInstance = new PRBotBuilder("")
     .SetServiceProvider(serviceProvaider)
     .Build();
 
-prBotInstance.OnLogCommon += PrBotInstance_OnLogCommon;
-prBotInstance.OnLogError += PrBotInstance_OnLogError;
+prBotInstance.Events.OnCommonLog += PrBotInstance_OnLogCommon;
+prBotInstance.Events.OnErrorLog += PrBotInstance_OnLogError;
 await prBotInstance.Start();
 
 

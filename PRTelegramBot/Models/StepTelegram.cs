@@ -50,7 +50,7 @@ namespace PRTelegramBot.Models
             }
             catch (Exception ex)
             {
-                botClient.GetBotDataOrNull()!.InvokeErrorLog(ex);
+                botClient.GetBotDataOrNull()!.Events.OnErrorLogInvoke(ex);
                 return ExecuteStepResult.Failure;
             }
         }
