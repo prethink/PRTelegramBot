@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
-using ErrorLogEventArgs = PRTelegramBot.Models.EventsArgs.ErrorLogEventArgs;
 
 namespace PRTelegramBot.Core
 {
@@ -15,6 +14,7 @@ namespace PRTelegramBot.Core
         public PRBot Bot { get; private set; }
 
         #endregion
+
         #region События
 
         /// <summary>

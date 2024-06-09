@@ -1,36 +1,51 @@
 ﻿using PRTelegramBot.Configs;
-using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models;
+using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 
 namespace PRTelegramBot.Core
 {
-    public class PBBotWebHook : IPRBot
+    public sealed class PBBotWebHook : PRBotBase
     {
-        public TelegramOptions Options => throw new NotImplementedException();
+        #region Базовый класс
 
-        public TEvents Events => throw new NotImplementedException();
+        public new TelegramOptions Options { get; private set; } = new WebHookTelegramOptions();
 
-        public RegisterCommands Register => throw new NotImplementedException();
-
-        public Handler Handler => throw new NotImplementedException();
-
-        public ITelegramBotClient botClient => throw new NotImplementedException();
-
-        public string BotName => throw new NotImplementedException();
-
-        public long? TelegramId => throw new NotImplementedException();
-
-        public long BotId => throw new NotImplementedException();
-
-        public Task Start()
+        public override DataRetrievalMethod DataRetrieval
         {
-            throw new NotImplementedException();
+            get
+            {
+                return DataRetrievalMethod.WebHook;
+            }
         }
 
-        public Task Stop()
+        public override async Task Start()
         {
-            throw new NotImplementedException();
+            var webHookOptions = Options as WebHookTelegramOptions;
+            await botClient.SetWebhookAsync(
+                url: webHookOptions.Url,
+                certificate: webHookOptions.Certificate,
+                ipAddress: webHookOptions.IpAddress,
+                maxConnections: webHookOptions.MaxConnections,
+                allowedUpdates: webHookOptions.ReceiverOptions.AllowedUpdates,
+                dropPendingUpdates: webHookOptions.DropPendingUpdates,
+                secretToken: webHookOptions.SecretToken,
+                cancellationToken: webHookOptions.CancellationToken.Token);
         }
+
+        public override async Task Stop()
+        {
+            await botClient.DeleteWebhookAsync(cancellationToken: Options.CancellationToken.Token);
+        }
+
+        #endregion
+
+        #region Конструкторы
+
+        public PBBotWebHook(TelegramOptions options)
+        {
+            Options = new WebHookTelegramOptions();
+        }
+
+        #endregion
     }
 }

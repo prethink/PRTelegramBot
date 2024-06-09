@@ -124,7 +124,7 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Экземпляр класса или null.</returns>
-        public static IPRBot GetBotDataOrNull(this ITelegramBotClient botClient)
+        public static PRBotBase GetBotDataOrNull(this ITelegramBotClient botClient)
         {
             return BotCollection.Instance.GetBotByTelegramIdOrNull(botClient.BotId);
         }

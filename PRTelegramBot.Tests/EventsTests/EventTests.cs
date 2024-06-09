@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Core;
-using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Tests.Common;
 
@@ -7,7 +6,7 @@ namespace PRTelegramBot.Tests.EventsTests
 {
     internal class EventTests
     {
-        private IPRBot bot { get; set; }
+        private PRBotBase bot { get; set; }
 
         [OneTimeSetUp]
         public void SetUP()

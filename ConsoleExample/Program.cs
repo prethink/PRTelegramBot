@@ -67,7 +67,7 @@ await telegramTwo.Start();
 InitEventsAndCommands(telegram);
 InitEventsAndCommands(telegramTwo);
 
-void InitEventsAndCommands(IPRBot tg)
+void InitEventsAndCommands(PRBotBase tg)
 {
     ////Обработка обновление 
     tg.Events.OnPreUpdate += Handler_OnUpdate;

@@ -1,6 +1,5 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.Factory;
-using PRTelegramBot.Interfaces;
 using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Core
@@ -12,8 +11,8 @@ namespace PRTelegramBot.Core
     {
         #region Поля и свойства
 
-        private TelegramOptions options;
-        private PRBotFactory factory;
+        private WebHookTelegramOptions options;
+        private PRBotFactoryBase factory;
 
         #endregion
 
@@ -23,7 +22,7 @@ namespace PRTelegramBot.Core
         /// Сбилдить новый экземпляр класса PRBot.
         /// </summary>
         /// <returns>Экземпляр класса PRBot.</returns>
-        public IPRBot Build()
+        public PRBotBase Build()
         {
             var createOptions = (TelegramOptions)options.Clone();
             return factory.CreateBot(createOptions);
@@ -181,7 +180,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="factory">Фабрика.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder UseFactory(PRBotFactory factory)
+        public PRBotBuilder UseFactory(PRBotFactoryBase factory)
         {
             this.factory = factory;
             return this;
@@ -197,7 +196,7 @@ namespace PRTelegramBot.Core
         /// <param name="token">Токен.</param>
         public PRBotBuilder(string token)
         {
-            options = new TelegramOptions();
+            options = new WebHookTelegramOptions();
             SetToken(token);
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
             factory = new PRBotFactory();

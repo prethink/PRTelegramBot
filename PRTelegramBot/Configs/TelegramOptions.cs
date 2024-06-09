@@ -5,7 +5,7 @@ namespace PRTelegramBot.Configs
     /// <summary>
     /// Параметры telegram бота.
     /// </summary>
-    public sealed class TelegramOptions : ICloneable
+    public class TelegramOptions : ICloneable
     {
         #region Поля и свойства
 
@@ -49,7 +49,7 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Токен отмены.
         /// </summary>
-        public CancellationTokenSource cts { get; set; } = new CancellationTokenSource();
+        public CancellationTokenSource CancellationToken { get; set; } = new CancellationTokenSource();
 
         /// <summary>
         /// Настройки telegram бота.
