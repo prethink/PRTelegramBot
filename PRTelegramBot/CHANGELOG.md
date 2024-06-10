@@ -1,4 +1,4 @@
--- 2024.06.09 - V0.6
+-- 2024.06.10 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
@@ -11,6 +11,7 @@
 - feature: Добавлена возможность в командах указывать параметры сравнения
 - feature: При пошаговом выполнение команд добавлена возможность игнорировать обычные (приоритетные) команды
 - feature: В интерфейс IExecuteStep добавленные свойства для игнорирования основных команд и указания последнего шага
+- feature: При создание бота можно выставить свой клиент. Позволяет использовать собственные сервера, а не сервера telegram
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension

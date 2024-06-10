@@ -102,7 +102,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public SlashMessageUpdateHandler(PRBot bot)
+        public SlashMessageUpdateHandler(PRBotBase bot)
             : base(bot)
         {
             RegisterCommands();

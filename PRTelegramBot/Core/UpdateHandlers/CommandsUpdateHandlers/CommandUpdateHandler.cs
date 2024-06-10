@@ -87,7 +87,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Telegram bot.</param>
-        protected CommandUpdateHandler(PRBot bot)
+        protected CommandUpdateHandler(PRBotBase bot)
             : base(bot) {}
 
         #endregion

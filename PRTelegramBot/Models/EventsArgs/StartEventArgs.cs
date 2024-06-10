@@ -7,7 +7,7 @@ namespace PRTelegramBot.Models.EventsArgs
     {
         public string Data;
 
-        public StartEventArgs(PRBot bot, Update update, string data)
+        public StartEventArgs(PRBotBase bot, Update update, string data)
             : base(bot, update)
         {
             Data = data;

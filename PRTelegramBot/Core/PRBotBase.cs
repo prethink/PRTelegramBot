@@ -98,9 +98,27 @@ namespace PRTelegramBot.Core
 
         #region Конструкторы
 
-        protected PRBotBase()
+        protected PRBotBase(Action<TelegramOptions> optionsBuilder, TelegramOptions options)
+            : base()
         {
             Options = new TelegramOptions();
+            if (optionsBuilder != null)
+                optionsBuilder.Invoke(Options);
+            else
+                Options = options;
+
+            if (string.IsNullOrEmpty(Options.Token))
+                throw new Exception("Bot token is empty");
+
+            if (Options.BotId < 0)
+                throw new Exception("Bot ID cannot be less than zero");
+
+            BotCollection.Instance.AddBot(this);
+
+            botClient = Options.Client ?? new TelegramBotClient(Options.Token);
+            Events = new TEvents(this);
+            Handler = new Handler(this);
+            Register = new RegisterCommands(Handler);
         }
 
         #endregion

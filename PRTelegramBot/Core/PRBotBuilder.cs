@@ -1,6 +1,8 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.Factory;
+using Telegram.Bot;
 using Telegram.Bot.Polling;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core
 {
@@ -186,6 +188,83 @@ namespace PRTelegramBot.Core
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetUrlWebHook(string url)
+        {
+            this.options.Url = url;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="secretToken"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetSecretTokenWebHook(string secretToken)
+        {
+            this.options.SecretToken = secretToken;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ipAddres"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetIpAddresWebHook(string ipAddres)
+        {
+            this.options.IpAddress = ipAddres;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetIpAddresWebHook(bool flag)
+        {
+            this.options.DropPendingUpdates = flag;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="maxConnections"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetMaxConnectionsWebHook(int maxConnections)
+        {
+            this.options.MaxConnections = maxConnections;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetTelegramClient(TelegramBotClient client)
+        {
+            this.options.Client = client;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetCertificateWebHook(InputFileStream certificate)
+        {
+            this.options.Certificate = certificate;
+            return this;
+        }
+
         #endregion
 
         #region Конструкторы
@@ -198,6 +277,18 @@ namespace PRTelegramBot.Core
         {
             options = new WebHookTelegramOptions();
             SetToken(token);
+            AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
+            factory = new PRBotFactory();
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="client">Клиент.</param>
+        public PRBotBuilder(TelegramBotClient client)
+        {
+            options = new WebHookTelegramOptions();
+            options.Client = client;
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
             factory = new PRBotFactory();
         }

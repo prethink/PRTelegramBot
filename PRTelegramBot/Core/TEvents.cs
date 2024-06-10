@@ -11,7 +11,7 @@ namespace PRTelegramBot.Core
     {
         #region Поля и свойства
 
-        public PRBot Bot { get; private set; }
+        public PRBotBase Bot { get; private set; }
 
         #endregion
 
@@ -615,7 +615,7 @@ namespace PRTelegramBot.Core
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public TEvents(PRBot bot)
+        public TEvents(PRBotBase bot)
         {
             this.Bot = bot;
         }

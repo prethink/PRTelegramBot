@@ -7,7 +7,7 @@ namespace PRTelegramBot.Models.EventsArgs
     public class PrivilegeEventArgs : CommandEventsArgs
     {
         public int? Mask { get; private set; }
-        public PrivilegeEventArgs(PRBot bot, Update update, Func<ITelegramBotClient, Update, Task> executeMethod, int? mask)
+        public PrivilegeEventArgs(PRBotBase bot, Update update, Func<ITelegramBotClient, Update, Task> executeMethod, int? mask)
             : base(bot, update, executeMethod)
         {
             Mask = mask;

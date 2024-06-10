@@ -8,7 +8,7 @@ namespace PRTelegramBot.Core
     {
         #region Базовый класс
 
-        public new TelegramOptions Options { get; private set; } = new WebHookTelegramOptions();
+        public new TelegramOptions Options { get; protected set; } = new WebHookTelegramOptions();
 
         public override DataRetrievalMethod DataRetrieval
         {
@@ -41,10 +41,11 @@ namespace PRTelegramBot.Core
 
         #region Конструкторы
 
-        public PBBotWebHook(TelegramOptions options)
-        {
-            Options = new WebHookTelegramOptions();
-        }
+        //public PBBotWebHook(Action<WebHookTelegramOptions> options)
+        //    : base(options, null) { }
+
+        public PBBotWebHook(WebHookTelegramOptions options)
+            : base(null, options) { }
 
         #endregion
     }

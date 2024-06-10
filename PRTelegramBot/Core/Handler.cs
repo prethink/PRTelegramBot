@@ -31,7 +31,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Бот.
         /// </summary>
-        private PRBot bot;
+        private PRBotBase bot;
 
         #endregion
 
@@ -121,7 +121,7 @@ namespace PRTelegramBot.Core
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public Handler(PRBot bot)
+        public Handler(PRBotBase bot)
         {
             this.bot = bot;
             MessageFacade = new MessageFacade(this.bot);

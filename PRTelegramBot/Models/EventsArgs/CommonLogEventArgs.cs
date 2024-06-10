@@ -8,7 +8,7 @@ namespace PRTelegramBot.Models.EventsArgs
         public string Type { get; private set; }
         public ConsoleColor Color { get; private set; }
 
-        public CommonLogEventArgs(PRBot bot, CommonLogEventArgsCreator e) : base(bot, e.Update)
+        public CommonLogEventArgs(PRBotBase bot, CommonLogEventArgsCreator e) : base(bot, e.Update)
         {
             this.Message = e.Message;
             this.Type = e.Type;

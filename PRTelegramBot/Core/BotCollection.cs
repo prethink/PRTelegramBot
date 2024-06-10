@@ -20,6 +20,11 @@ namespace PRTelegramBot.Core
         private Dictionary<long, PRBotBase> BotList = new Dictionary<long, PRBotBase>();
 
         /// <summary>
+        /// Количество ботов.
+        /// </summary>
+        public long BotCount => BotList.Count;
+
+        /// <summary>
         /// Singleton экземпляр.
         /// </summary>
         public static BotCollection Instance

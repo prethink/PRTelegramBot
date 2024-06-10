@@ -21,7 +21,7 @@ namespace PRTelegramBot.Services
         /// <param name="methods">Методы.</param>
         /// <param name="commands">Команды.</param>
         /// <param name="serviceProvider">Сервис провайдер.</param>
-        public void RegisterMethodFromClass<Tkey>(PRBot bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands, IServiceProvider serviceProvider)
+        public void RegisterMethodFromClass<Tkey>(PRBotBase bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands, IServiceProvider serviceProvider)
         {
             foreach (var method in methods)
             {
@@ -59,7 +59,7 @@ namespace PRTelegramBot.Services
         /// <param name="attributetype">Тип атрибута.</param>
         /// <param name="methods">Методы.</param>
         /// <param name="commands">Команды.</param>
-        public void RegisterStaticCommand<Tkey>(PRBot bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands)
+        public void RegisterStaticCommand<Tkey>(PRBotBase bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands)
         {
             foreach (var method in methods)
             {

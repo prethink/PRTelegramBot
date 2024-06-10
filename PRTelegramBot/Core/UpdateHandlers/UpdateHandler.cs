@@ -14,7 +14,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <summary>
         /// Telegram bot.
         /// </summary>
-        protected PRBot bot;
+        protected PRBotBase bot;
 
         /// <summary>
         /// Тип обновления.
@@ -39,7 +39,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Telegram bot.</param>
-        public UpdateHandler(PRBot bot)
+        public UpdateHandler(PRBotBase bot)
         {
             this.bot = bot;
         }

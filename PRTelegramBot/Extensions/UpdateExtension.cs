@@ -16,7 +16,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш
         /// </summary>
-        static ConcurrentDictionary<long, PRBot> botLink = new();
+        static ConcurrentDictionary<long, PRBotBase> botLink = new();
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="update"></param>
         /// <param name="telegramBot"></param>
         /// <returns></returns>
-        public static bool AddTelegramClient(this Update update, PRBot bot)
+        public static bool AddTelegramClient(this Update update, PRBotBase bot)
         {
             return botLink.TryAdd(update.Id, bot);
         }
@@ -95,7 +95,7 @@ namespace PRTelegramBot.Extensions
         /// <exception cref="KeyNotFoundException"></exception>
         public static string GetKeyMappingUserTelegram(this Update update)
         {
-            if (botLink.TryGetValue(update.Id, out PRBot bot))
+            if (botLink.TryGetValue(update.Id, out PRBotBase bot))
                 return new UserBotMapping(bot.BotId, update.GetChatId()).GetKey;
 
             throw new KeyNotFoundException($"Key update {update.Id} not mapped with prbot.");
@@ -108,7 +108,7 @@ namespace PRTelegramBot.Extensions
         /// <returns></returns>
         public static bool ClearTelegramClient(this Update update)
         {
-            return botLink.TryRemove(update.Id, out PRBot _);
+            return botLink.TryRemove(update.Id, out PRBotBase _);
         }
 
         #endregion

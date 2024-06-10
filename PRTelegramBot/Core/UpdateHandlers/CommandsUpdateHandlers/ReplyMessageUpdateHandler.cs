@@ -72,7 +72,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public ReplyMessageUpdateHandler(PRBot bot)
+        public ReplyMessageUpdateHandler(PRBotBase bot)
             : base(bot)
         {
             RegisterCommands();

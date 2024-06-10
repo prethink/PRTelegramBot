@@ -176,7 +176,8 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public MessageFacade(PRBot bot) : base(bot)
+        public MessageFacade(PRBotBase bot)
+            : base(bot)
         {
             ReplyHandler = new ReplyMessageUpdateHandler(bot);
             ReplyDynamicHandler = new ReplyDynamicMessageUpdateHandler(bot);

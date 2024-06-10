@@ -33,7 +33,7 @@ namespace AspNetWebHook.Filter
             {
                 if (!IsValidRequest(context.HttpContext.Request))
                 {
-                    context.Result = new ObjectResult("\"X-Telegram-Bot-Api-Secret-Token\" is invalid")
+                    context.Result = new ObjectResult($"\"{Constants.TELEGRAM_SECRET_TOKEN_HEADER}\" is invalid")
                     {
                         StatusCode = 403
                     };
@@ -42,7 +42,7 @@ namespace AspNetWebHook.Filter
 
             private bool IsValidRequest(HttpRequest request)
             {
-                var isSecretTokenProvided = request.Headers.TryGetValue("X-Telegram-Bot-Api-Secret-Token", out var secretTokenHeader);
+                var isSecretTokenProvided = request.Headers.TryGetValue(Constants.TELEGRAM_SECRET_TOKEN_HEADER, out var secretTokenHeader);
                 if (!isSecretTokenProvided) return false;
 
                 return string.Equals(secretTokenHeader, _secretToken, StringComparison.Ordinal);

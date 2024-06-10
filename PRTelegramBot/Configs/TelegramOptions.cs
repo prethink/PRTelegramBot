@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Polling;
+﻿using Telegram.Bot;
+using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Configs
 {
@@ -8,6 +9,11 @@ namespace PRTelegramBot.Configs
     public class TelegramOptions : ICloneable
     {
         #region Поля и свойства
+
+        /// <summary>
+        /// Клиент телеграма.
+        /// </summary>
+        public TelegramBotClient? Client { get; set; }
 
         /// <summary>
         /// Токен telegram бота.
