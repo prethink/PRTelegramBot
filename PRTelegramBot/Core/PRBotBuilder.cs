@@ -274,8 +274,8 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="token">Токен.</param>
         public PRBotBuilder(string token)
+            : this()
         {
-            options = new WebHookTelegramOptions();
             SetToken(token);
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
             factory = new PRBotFactory();
@@ -286,11 +286,17 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="client">Клиент.</param>
         public PRBotBuilder(TelegramBotClient client)
+            : this()
         {
-            options = new WebHookTelegramOptions();
+
             options.Client = client;
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
             factory = new PRBotFactory();
+        }
+
+        private PRBotBuilder()
+        {
+            options = new WebHookTelegramOptions();
         }
 
         #endregion

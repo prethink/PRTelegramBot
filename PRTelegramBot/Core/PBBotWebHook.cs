@@ -44,7 +44,7 @@ namespace PRTelegramBot.Core
         //public PBBotWebHook(Action<WebHookTelegramOptions> options)
         //    : base(options, null) { }
 
-        public PBBotWebHook(WebHookTelegramOptions options)
+        public PBBotWebHook(TelegramOptions options)
             : base(null, options) { }
 
         #endregion
