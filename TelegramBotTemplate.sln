@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetExample", "AspNetExam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PRTelegramBot.Tests", "PRTelegramBot.Tests\PRTelegramBot.Tests.csproj", "{509D982E-83FE-4FF1-AAD6-0C093391B90D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetWebHook", "AspNetWebHook\AspNetWebHook.csproj", "{7B2E8E2A-C9B6-47C3-86B2-458FA528E8A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetWebHookExample", "AspNetWebHook\AspNetWebHookExample.csproj", "{7B2E8E2A-C9B6-47C3-86B2-458FA528E8A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -84,6 +84,9 @@ namespace PRTelegramBot.Extensions
         /// <returns></returns>
         public static bool AddTelegramClient(this Update update, PRBotBase bot)
         {
+            if(update == null) 
+                return false;
+
             return botLink.TryAdd(update.Id, bot);
         }
 

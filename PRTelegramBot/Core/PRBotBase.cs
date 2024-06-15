@@ -64,6 +64,25 @@ namespace PRTelegramBot.Core
         #region Методы
 
         /// <summary>
+        /// Перезагрузить обработчики.
+        /// </summary>
+        /// <returns>True - удачно, False - не удачно.</returns>
+        public bool ReloadHandlers()
+        {
+            try
+            {
+                Handler = new Handler(this);
+                Register = new RegisterCommands(Handler);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                this.Events.OnErrorLogInvoke(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Очистка очереди команд перед запуском.
         /// </summary>
         protected async Task ClearUpdates()

@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Configs;
-using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Core.Factory
 {
@@ -7,7 +6,7 @@ namespace PRTelegramBot.Core.Factory
     {
         public override PRBotBase CreateBot(TelegramOptions options)
         {
-            return new PBBotWebHook(options);
+            return new PRBotWebHook(options);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace PRTelegramBot.Core
         /// <returns>Экземпляр класса PRBot.</returns>
         public PRBotBase Build()
         {
-            var createOptions = (TelegramOptions)options.Clone();
+            var createOptions = (WebHookTelegramOptions)options.Clone();
             return factory.CreateBot(createOptions);
         }
 

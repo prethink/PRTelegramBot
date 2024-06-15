@@ -71,7 +71,7 @@ namespace PRTelegramBot.Configs
 
         #region ICloneable
 
-        public object Clone()
+        public virtual object Clone()
         {
             var cloneOptions = new TelegramOptions();
             cloneOptions.Token = Token;

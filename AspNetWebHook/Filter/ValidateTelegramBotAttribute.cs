@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using PRTelegramBot.Configs;
+using PRTelegramBot.Core;
+using PRTelegramBot.Models.Enums;
 
 namespace AspNetWebHook.Filter
 {
@@ -17,12 +20,8 @@ namespace AspNetWebHook.Filter
 
         private class ValidateTelegramBotFilter : IActionFilter
         {
-            private readonly string _secretToken;
-
             public ValidateTelegramBotFilter()
             {
-                //var botConfiguration = options.Value;
-                //_secretToken = botConfiguration.SecretToken;
             }
 
             public void OnActionExecuted(ActionExecutedContext context)
@@ -42,10 +41,21 @@ namespace AspNetWebHook.Filter
 
             private bool IsValidRequest(HttpRequest request)
             {
+                var bots = BotCollection.Instance.GetBots().Where(x => x.DataRetrieval == DataRetrievalMethod.WebHook);
+                if (!bots.Any())
+                    return false;
+
                 var isSecretTokenProvided = request.Headers.TryGetValue(Constants.TELEGRAM_SECRET_TOKEN_HEADER, out var secretTokenHeader);
                 if (!isSecretTokenProvided) return false;
 
-                return string.Equals(secretTokenHeader, _secretToken, StringComparison.Ordinal);
+
+                foreach (var bot in bots)
+                {
+                    var secretToken = ((WebHookTelegramOptions)bot.Options).SecretToken;
+                    if (string.Equals(secretTokenHeader, secretToken, StringComparison.Ordinal));
+                        return true;
+                }
+                return false;
             }
         }
     }

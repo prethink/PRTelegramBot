@@ -48,6 +48,9 @@ namespace PRTelegramBot.Core
         {
             try
             {
+                if (update == null)
+                    return;
+
                 //Связь update вместе ITelegramBotClient
                 update.AddTelegramClient(bot);
 

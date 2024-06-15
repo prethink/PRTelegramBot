@@ -1,10 +1,36 @@
+using AspNetWebHook;
+using AspNetWebHook.Controllers;
+using AspNetWebHook.Services;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factory;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+//Для работы webhook нужны контроллеры и newtonsoftJson!!!
+builder.Services.AddControllers().AddNewtonsoftJson();
+
+#region Добавляем ботов
+
+new PRBotBuilder("5623652365:Token")
+    .UseFactory(new PRBotWebHookFactory())
+    .SetUrlWebHook("https://domain.ru/botendpoint")
+    .SetClearUpdatesOnStart(true)
+    .Build();
+
+new PRBotBuilder("555555:Token")
+    .UseFactory(new PRBotWebHookFactory())
+    .SetUrlWebHook("https://domain.ru/botendpoint")
+    .SetClearUpdatesOnStart(true)
+    .SetBotId(1)
+    .Build();
+
+#endregion
+
+#region Сервис запуска ботов
+
+builder.Services.AddHostedService<BotHostedService>();
+
+#endregion
 
 var app = builder.Build();
 
@@ -27,11 +53,11 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-var serviceProvaider = app.Services.GetService<IServiceProvider>();
-var prBotInstance = new PRBotBuilder("5555:Token")
-    .UseFactory(new PRBotWebHookFactory())
-    .SetClearUpdatesOnStart(true)
-    .SetServiceProvider(serviceProvaider)
-    .Build();
+#region создание маршрута для webhook
+
+app.MapBotWebhookRoute<BotController>("/botendpoint");
+app.MapControllers();
+
+#endregion
 
 app.Run();
