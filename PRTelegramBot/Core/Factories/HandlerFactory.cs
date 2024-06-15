@@ -1,9 +1,10 @@
 ﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Models
+namespace PRTelegramBot.Core.Factories
 {
     public class HandlerFactory
     {

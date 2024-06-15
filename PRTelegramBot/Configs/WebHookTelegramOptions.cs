@@ -45,6 +45,7 @@ namespace PRTelegramBot.Configs
 
         public override object Clone()
         {
+            //TODO: Перепроверить
             var cloneOptions = new WebHookTelegramOptions();
             cloneOptions.Token = Token;
             cloneOptions.ClearUpdatesOnStart = ClearUpdatesOnStart;

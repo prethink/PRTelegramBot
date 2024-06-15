@@ -34,14 +34,8 @@ namespace PRTelegramBot.Attributes
 
         #region IBaseQueryAttribute
 
-        /// <summary>
-        /// Идентификатор бота
-        /// </summary>
         public long BotId { get; set; }
 
-        /// <summary>
-        /// Как сравнивать команды.
-        /// </summary>
         public CommandComparison CommandComparison { get; protected set; }
 
         #endregion

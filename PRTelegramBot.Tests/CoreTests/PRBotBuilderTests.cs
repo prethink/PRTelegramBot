@@ -1,5 +1,8 @@
 ﻿using FluentAssertions;
+using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
+using PRTelegramBot.Core.Factory;
+using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Tests.CoreTests
 {
@@ -163,5 +166,30 @@ namespace PRTelegramBot.Tests.CoreTests
 
             Assert.IsTrue(bot.Options.ClearUpdatesOnStart == exceptedFlag);
         }
+
+        #region WebHook
+
+        [Test]
+        public void PRBuilderShouldCreateBotWithDataRetrievalMethodWebhook()
+        {
+            var bot = new PRBotBuilder(TOKEN).UseFactory(new PRBotWebHookFactory()).Build();
+            Assert.AreEqual(DataRetrievalMethod.WebHook, bot.DataRetrieval);
+        }
+
+        [Test]
+        public void PRBuilderShouldCreateWebhookInstance()
+        {
+            var bot = new PRBotBuilder(TOKEN).UseFactory(new PRBotWebHookFactory()).Build();
+            Assert.IsTrue(bot.GetType().Equals(typeof(PRBotWebHook)));
+        }
+
+        [Test]
+        public void PRBuilderShouldCreateWebhookInstanceWithWebHookOptions()
+        {
+            var bot = new PRBotBuilder(TOKEN).UseFactory(new PRBotWebHookFactory()).Build();
+            Assert.IsTrue(bot.Options.GetType().Equals(typeof(WebHookTelegramOptions)));
+        }
+
+        #endregion
     }
 }

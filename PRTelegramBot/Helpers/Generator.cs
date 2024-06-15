@@ -3,12 +3,23 @@
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Генератор разных данных
+    /// Генератор разных данных.
     /// </summary>
     public static class Generator
     {
+        /// <summary>
+        /// Цифры.
+        /// </summary>
         const string Digits = "0123456789";
+
+        /// <summary>
+        /// Алфавит.
+        /// </summary>
         const string Alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+        /// <summary>
+        /// Символы.
+        /// </summary>
         const string Symbols = " ~`@#$%^&*()_+-=[]{};'\\:\"|,./<>?";
 
         [Flags]

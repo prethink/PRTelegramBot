@@ -16,6 +16,7 @@ namespace PRTelegramBot.Models
         public bool LastStepExecuted { get; set; }
 
         public bool IgnoreBasicCommands { get; set; }
+
         /// <summary>
         /// Ссылка на метод который должен быть выполнен.
         /// </summary>

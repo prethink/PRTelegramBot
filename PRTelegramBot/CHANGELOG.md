@@ -1,7 +1,8 @@
--- 2024.06.10 - V0.6
+-- 2024.06.15 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
+- feature: Добавлена возможность работать с webhook
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: AccessUtil для работы с флагами доступа и масками
 - feature: PRBotBuilder добавлен класс, который позволяет создавать бота через Fluent Builder
@@ -11,7 +12,7 @@
 - feature: Добавлена возможность в командах указывать параметры сравнения
 - feature: При пошаговом выполнение команд добавлена возможность игнорировать обычные (приоритетные) команды
 - feature: В интерфейс IExecuteStep добавленные свойства для игнорирования основных команд и указания последнего шага
-- feature: При создание бота можно выставить свой клиент. Позволяет использовать собственные сервера, а не сервера telegram
+- feature: При создание бота можно выставить свой клиент. Позволяет использовать собственные локальные сервера, а не сервера telegram
 - refactoring: StepService переименован в StepExtension
 - refactoring: Descriptions переименован в DescriptionExtension
 - refactoring: Cache переименован в CacheExtension

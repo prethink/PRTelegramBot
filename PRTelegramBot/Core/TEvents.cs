@@ -11,6 +11,9 @@ namespace PRTelegramBot.Core
     {
         #region Поля и свойства
 
+        /// <summary>
+        /// Бот для событий.
+        /// </summary>
         public PRBotBase Bot { get; private set; }
 
         #endregion
@@ -152,132 +155,132 @@ namespace PRTelegramBot.Core
         public event Func<BotEventArgs, Task>? OnChatMembersAddedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие изменения фото чата.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatPhotoChangedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие удаления фото чата.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatPhotoDeletedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие общего доступа к чату.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatSharedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие изменения названия чата.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatTitleChangedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие закрытия темы форума.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicClosedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие создания темы форума.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicCreatedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие редактирования темы форума.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicEditedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие повторного открытия темы форума.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicReopenedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие скрытия общей темы форума.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGeneralForumTopicHiddenHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие отмены скрытия общей темы форума.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGeneralForumTopicUnhiddenHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие создания группы.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGroupCreatedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие обработки счета.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnInvoiceHandle;
-        
+
         /// <summary>
-        /// Событие
+        /// Событие изменения таймера автоудаления сообщений.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessageAutoDeleteTimerChangedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие закрепления сообщения.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessagePinnedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие миграции из группы
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMigratedFromGroupHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие миграции в супергруппу.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMigratedToSupergroupHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие срабатывания оповещения о приближении.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnProximityAlertTriggeredHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие успешного платежа.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuccessfulPaymentHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие создания супергруппы.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSupergroupCreatedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие общего доступа пользователя.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUserSharedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие завершения видеочата.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatEndedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие приглашения участников в видеочат.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatParticipantsInvitedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие планирования видеочата.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatScheduledHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие начала видеочата.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatStartedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие подключения веб-сайта.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWebsiteConnectedHandle;
 
         /// <summary>
-        /// Событие
+        /// Событие разрешения записи.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWriteAccessAllowedHandle;
 
@@ -295,36 +298,36 @@ namespace PRTelegramBot.Core
 
         #region Методы
 
-        public void OnUserStartWithArgsInvoke(StartEventArgs e)
+        internal void OnUserStartWithArgsInvoke(StartEventArgs e)
         {
             OnUserStartWithArgs?.Invoke(e);
-        }        
-        
-        public void OnMissingCommandInvoke(BotEventArgs e)
+        }
+
+        internal void OnMissingCommandInvoke(BotEventArgs e)
         {
             OnMissingCommand?.Invoke(e);
         }
 
-        public void OnAccessDeniedInvoke(BotEventArgs e)
+        internal void OnAccessDeniedInvoke(BotEventArgs e)
         {
             OnAccessDenied?.Invoke(e);
         }
 
-        public void OnCheckPrivilegeInvoke(PrivilegeEventArgs e)
+        internal void OnCheckPrivilegeInvoke(PrivilegeEventArgs e)
         {
             OnCheckPrivilege?.Invoke(e);
         }
 
-        public void OnWrongTypeMessageInvoke(BotEventArgs e)
+        internal void OnWrongTypeMessageInvoke(BotEventArgs e)
         {
             OnWrongTypeMessage?.Invoke(e);
         }
-        public void OnWrongTypeChatInvoke(BotEventArgs e)
+        internal void OnWrongTypeChatInvoke(BotEventArgs e)
         {
             OnWrongTypeChat?.Invoke(e);
         }
 
-        public async Task<UpdateResult> OnPreUpdateInvoke(BotEventArgs e)
+        internal async Task<UpdateResult> OnPreUpdateInvoke(BotEventArgs e)
         {
             if (HasEventOnPreUpdate())
                 return await OnPreUpdate.Invoke(e);
@@ -332,242 +335,242 @@ namespace PRTelegramBot.Core
             return UpdateResult.Continue;
         }
 
-        public bool HasEventOnPreUpdate()
+        internal bool HasEventOnPreUpdate()
         {
             return OnPreUpdate != null;
         }
-        
-        public void OnPostMessageUpdateInvoke(BotEventArgs e)
+
+        internal void OnPostMessageUpdateInvoke(BotEventArgs e)
         {
             OnPostMessageUpdate?.Invoke(e);
         }
 
-        public void OnContactHandleInvoke(BotEventArgs e)
+        internal void OnContactHandleInvoke(BotEventArgs e)
         {
             OnContactHandle?.Invoke(e);    
         }
 
-        public void OnAudioHandleInvoke(BotEventArgs e)
+        internal void OnAudioHandleInvoke(BotEventArgs e)
         {
             OnAudioHandle?.Invoke(e);
         }
 
-        public void OnLocationHandleInvoke(BotEventArgs e)
+        internal void OnLocationHandleInvoke(BotEventArgs e)
         {
             OnLocationHandle?.Invoke(e);
         }
 
-        public void OnDiceHandleInvoke(BotEventArgs e)
+        internal void OnDiceHandleInvoke(BotEventArgs e)
         {
             OnDiceHandle?.Invoke(e);
         }
 
-        public void OnDocumentHandleInvoke(BotEventArgs e)
+        internal void OnDocumentHandleInvoke(BotEventArgs e)
         {
             OnDocumentHandle?.Invoke(e);
         }
 
-        public void OnWebAppsHandleInvoke(BotEventArgs e)
+        internal void OnWebAppsHandleInvoke(BotEventArgs e)
         {
             OnWebAppsHandle?.Invoke(e);
         }
 
-        public void OnPollHandleInvoke(BotEventArgs e)
+        internal void OnPollHandleInvoke(BotEventArgs e)
         {
             OnPollHandle?.Invoke(e);
         }
 
-        public void OnGameHandleInvoke(BotEventArgs e)
+        internal void OnGameHandleInvoke(BotEventArgs e)
         {
             OnGameHandle?.Invoke(e);
-        }        
-        
-        public void OnVideoHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnVideoHandleInvoke(BotEventArgs e)
         {
             OnVideoHandle?.Invoke(e);
-        }        
-        
-        public void OnPhotoHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnPhotoHandleInvoke(BotEventArgs e)
         {
             OnPhotoHandle?.Invoke(e);
-        }        
-        
-        public void OnStickerHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnStickerHandleInvoke(BotEventArgs e)
         {
             OnStickerHandle?.Invoke(e);
-        }        
-        
-        public void OnVoiceHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnVoiceHandleInvoke(BotEventArgs e)
         {
             OnVoiceHandle?.Invoke(e);
-        }        
-        
-        public void OnVenueHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnVenueHandleInvoke(BotEventArgs e)
         {
             OnVenueHandle?.Invoke(e);
-        }        
-        
-        public void OnUnknownHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnUnknownHandleInvoke(BotEventArgs e)
         {
             OnUnknownHandle?.Invoke(e);
-        }        
-        
-        public void OnVideoNoteHandleInvoke(BotEventArgs e)
+        }
+
+        internal void OnVideoNoteHandleInvoke(BotEventArgs e)
         {
             OnVideoNoteHandle?.Invoke(e);
         }
 
-        public void OnAnimationHandleInvoke(BotEventArgs e)
+        internal void OnAnimationHandleInvoke(BotEventArgs e)
         {
             OnAnimationHandle?.Invoke(e);
         }
 
-        public void OnChannelCreatedHandleInvoke(BotEventArgs e)
+        internal void OnChannelCreatedHandleInvoke(BotEventArgs e)
         {
             OnChannelCreatedHandle?.Invoke(e);
         }
 
-        public void OnChatMemberLeftHandleInvoke(BotEventArgs e)
+        internal void OnChatMemberLeftHandleInvoke(BotEventArgs e)
         {
             OnChatMemberLeftHandle?.Invoke(e);
         }
 
-        public void OnChatMembersAddedHandleInvoke(BotEventArgs e)
+        internal void OnChatMembersAddedHandleInvoke(BotEventArgs e)
         {
             OnChatMembersAddedHandle?.Invoke(e);
         }
 
-        public void OnChatPhotoChangedHandleInvoke(BotEventArgs e)
+        internal void OnChatPhotoChangedHandleInvoke(BotEventArgs e)
         {
             OnChatPhotoChangedHandle?.Invoke(e);
         }
 
-        public void OnChatPhotoDeletedHandleInvoke(BotEventArgs e)
+        internal void OnChatPhotoDeletedHandleInvoke(BotEventArgs e)
         {
             OnChatPhotoDeletedHandle?.Invoke(e);
         }
 
-        public void OnChatSharedHandleInvoke(BotEventArgs e)
+        internal void OnChatSharedHandleInvoke(BotEventArgs e)
         {
             OnChatSharedHandle?.Invoke(e);
         }
 
-        public void OnChatTitleChangedHandleInvoke(BotEventArgs e)
+        internal void OnChatTitleChangedHandleInvoke(BotEventArgs e)
         {
             OnChatTitleChangedHandle?.Invoke(e);
         }
 
-        public void OnForumTopicClosedHandleInvoke(BotEventArgs e)
+        internal void OnForumTopicClosedHandleInvoke(BotEventArgs e)
         {
             OnForumTopicClosedHandle?.Invoke(e);
         }
 
-        public void OnForumTopicCreatedHandleInvoke(BotEventArgs e)
+        internal void OnForumTopicCreatedHandleInvoke(BotEventArgs e)
         {
             OnForumTopicCreatedHandle?.Invoke(e);
         }
 
-        public void OnForumTopicEditedHandleInvoke(BotEventArgs e)
+        internal void OnForumTopicEditedHandleInvoke(BotEventArgs e)
         {
             OnForumTopicEditedHandle?.Invoke(e);
         }
 
-        public void OnForumTopicReopenedHandleInvoke(BotEventArgs e)
+        internal void OnForumTopicReopenedHandleInvoke(BotEventArgs e)
         {
             OnForumTopicReopenedHandle?.Invoke(e);
         }
 
-        public void OnGeneralForumTopicHiddenHandleInvoke(BotEventArgs e)
+        internal void OnGeneralForumTopicHiddenHandleInvoke(BotEventArgs e)
         {
             OnGeneralForumTopicHiddenHandle?.Invoke(e);
         }
 
-        public void OnGeneralForumTopicUnhiddenHandleInvoke(BotEventArgs e)
+        internal void OnGeneralForumTopicUnhiddenHandleInvoke(BotEventArgs e)
         {
             OnGeneralForumTopicUnhiddenHandle?.Invoke(e);
         }
 
-        public void OnGroupCreatedHandleInvoke(BotEventArgs e)
+        internal void OnGroupCreatedHandleInvoke(BotEventArgs e)
         {
             OnGroupCreatedHandle?.Invoke(e);
         }
 
-        public void OnInvoiceHandleInvoke(BotEventArgs e)
+        internal void OnInvoiceHandleInvoke(BotEventArgs e)
         {
             OnInvoiceHandle?.Invoke(e);
         }
 
-        public void OnMessageAutoDeleteTimerChangedHandleInvoke(BotEventArgs e)
+        internal void OnMessageAutoDeleteTimerChangedHandleInvoke(BotEventArgs e)
         {
             OnMessageAutoDeleteTimerChangedHandle?.Invoke(e);
         }
 
-        public void OnMessagePinnedHandleInvoke(BotEventArgs e)
+        internal void OnMessagePinnedHandleInvoke(BotEventArgs e)
         {
             OnMessagePinnedHandle?.Invoke(e);
         }
 
-        public void OnMigratedFromGroupHandleInvoke(BotEventArgs e)
+        internal void OnMigratedFromGroupHandleInvoke(BotEventArgs e)
         {
             OnMigratedFromGroupHandle?.Invoke(e);
         }
 
-        public void OnMigratedToSupergroupHandleInvoke(BotEventArgs e)
+        internal void OnMigratedToSupergroupHandleInvoke(BotEventArgs e)
         {
             OnMigratedToSupergroupHandle?.Invoke(e);
         }
 
-        public void OnSuccessfulPaymentHandleInvoke(BotEventArgs e)
+        internal void OnSuccessfulPaymentHandleInvoke(BotEventArgs e)
         {
             OnSuccessfulPaymentHandle?.Invoke(e);
         }
 
-        public void OnSupergroupCreatedHandleInvoke(BotEventArgs e)
+        internal void OnSupergroupCreatedHandleInvoke(BotEventArgs e)
         {
             OnSupergroupCreatedHandle?.Invoke(e);
         }
 
-        public void OnUserSharedHandleInvoke(BotEventArgs e)
+        internal void OnUserSharedHandleInvoke(BotEventArgs e)
         {
             OnUserSharedHandle?.Invoke(e);
         }
 
-        public void OnVideoChatEndedHandleInvoke(BotEventArgs e)
+        internal void OnVideoChatEndedHandleInvoke(BotEventArgs e)
         {
             OnVideoChatEndedHandle?.Invoke(e);
         }
 
-        public void OnVideoChatParticipantsInvitedHandleInvoke(BotEventArgs e)
+        internal void OnVideoChatParticipantsInvitedHandleInvoke(BotEventArgs e)
         {
             OnVideoChatParticipantsInvitedHandle?.Invoke(e);
         }
 
-        public void OnVideoChatScheduledHandleInvoke(BotEventArgs e)
+        internal void OnVideoChatScheduledHandleInvoke(BotEventArgs e)
         {
             OnVideoChatScheduledHandle?.Invoke(e);
         }
 
-        public void OnVideoChatStartedHandleInvoke(BotEventArgs e)
+        internal void OnVideoChatStartedHandleInvoke(BotEventArgs e)
         {
             OnVideoChatStartedHandle?.Invoke(e);
         }
 
-        public void OnWebsiteConnectedHandleInvoke(BotEventArgs e)
+        internal void OnWebsiteConnectedHandleInvoke(BotEventArgs e)
         {
             OnWebsiteConnectedHandle?.Invoke(e);
         }
 
-        public void OnWriteAccessAllowedHandleInvoke(BotEventArgs e)
+        internal void OnWriteAccessAllowedHandleInvoke(BotEventArgs e)
         {
             OnWriteAccessAllowedHandle?.Invoke(e);
         }
-        
-        public void OnProximityAlertTriggeredHandleHandleInvoke(BotEventArgs e)
+
+        internal void OnProximityAlertTriggeredHandleHandleInvoke(BotEventArgs e)
         {
             OnProximityAlertTriggeredHandle?.Invoke(e);
         }
 
-        public void OnErrorLogInvoke(ErrorLogEventArgsCreator e)
+        internal void OnErrorLogInvoke(ErrorLogEventArgsCreator e)
         {
             OnErrorLog?.Invoke(new ErrorLogEventArgs(Bot, e));
         }

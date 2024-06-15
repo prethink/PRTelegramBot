@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Configs;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 

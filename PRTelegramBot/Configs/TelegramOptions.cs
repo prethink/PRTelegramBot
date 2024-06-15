@@ -73,6 +73,7 @@ namespace PRTelegramBot.Configs
 
         public virtual object Clone()
         {
+            //TODO: Перепроверить
             var cloneOptions = new TelegramOptions();
             cloneOptions.Token = Token;
             cloneOptions.ClearUpdatesOnStart = ClearUpdatesOnStart;
