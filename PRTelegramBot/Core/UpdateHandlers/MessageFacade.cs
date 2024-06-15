@@ -69,7 +69,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         private async Task<UpdateResult> UpdateMessageCommands(Update update)
         {
             var result = UpdateResult.Continue;
-
+            
             if (!nextStepHandler.IgnoreBasicCommand(update))
             {
                 result = await SlashHandler.Handle(update);

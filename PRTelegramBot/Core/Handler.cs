@@ -50,7 +50,7 @@ namespace PRTelegramBot.Core
             {
                 if (update == null)
                     return;
-
+ 
                 //Связь update вместе ITelegramBotClient
                 update.AddTelegramClient(bot);
 
@@ -72,16 +72,49 @@ namespace PRTelegramBot.Core
                 }
 
                 if (update.Type == UpdateType.CallbackQuery)
-                {
                     await InlineUpdateHandler.Handle(update);
-                    return;
-                }
 
                 if (update.Type == UpdateType.Message)
-                {
                     await MessageFacade.Handle(update);
-                    return;
-                }
+
+                if (update.Type == UpdateType.ChannelPost)
+                    bot.Events.OnUpdateChannelPostHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.ChatJoinRequest)
+                    bot.Events.OnUpdateChatJoinRequestHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.ChatMember)
+                    bot.Events.OnUpdateChatMemberHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.ChosenInlineResult)
+                    bot.Events.OnUpdateChosenInlineResultHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.EditedChannelPost)
+                    bot.Events.OnUpdateEditedChannelPostHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.EditedMessage)
+                    bot.Events.OnUpdateEditedMessageHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.InlineQuery)
+                    bot.Events.OnUpdateInlineQueryHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.MyChatMember)
+                    bot.Events.OnUpdateMyChatMemberHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.Poll)
+                    bot.Events.OnUpdatePollHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.PollAnswer)
+                    bot.Events.OnUpdatePollAnswerHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.PreCheckoutQuery)
+                    bot.Events.OnUpdatePreCheckoutQueryHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.ShippingQuery)
+                    bot.Events.OnUpdateShippingQuerHandler(new BotEventArgs(bot, update));
+
+                if (update.Type == UpdateType.Unknown)
+                    bot.Events.OnUpdateUnknownHandler(new BotEventArgs(bot, update));
 
                 bot.Events.OnPostMessageUpdateInvoke(new BotEventArgs(bot, update));
             }
