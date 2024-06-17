@@ -160,5 +160,30 @@ namespace ConsoleExample.Examples
             string msg = "Неверный тип сообщения";
             await Helpers.Message.Send(e.BotClient, e.Update, msg);
         }
+
+        internal static async Task OnUpdateMyChatMember(BotEventArgs args)
+        {
+            //Обработка информации из myChatHandle
+            var myChatHandle = args.Update.MyChatMember;
+            try
+            {
+                if(myChatHandle.NewChatMember.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                {
+                    if(myChatHandle.NewChatMember.User.Id == args.BotClient.BotId) 
+                    {
+                        await Helpers.Message.Send(args.BotClient, myChatHandle.Chat.Id, "Hello world");
+                    }
+                    else
+                    {
+                        //Другие персонажи
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                args.Bot.Events.OnErrorLogInvoke(ex);
+            }
+
+        }
     }
 }

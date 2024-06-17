@@ -7,6 +7,7 @@ namespace PRTelegramBot.Services
     public class RegisterCommands
     {
         private Handler handler;
+
         /// <summary>
         /// Регистрация Slash command
         /// </summary>

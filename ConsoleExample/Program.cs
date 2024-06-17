@@ -3,7 +3,6 @@ using ConsoleExample.Models;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
-using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -137,6 +136,9 @@ void InitEventsAndCommands(PRBotBase tg)
 
     //Обработка сообщения с игральной костью
     tg.Events.OnDiceHandle += ExampleEvent.OnDiceHandle;
+
+    //Обработка обновления изменения группы/чата
+    tg.Events.OnUpdateMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
 
     tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
     {
