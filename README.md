@@ -1,3 +1,5 @@
+Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐    
+
 Актуальная документация для версии в nuget - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
 nuget - [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/)    
 Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
