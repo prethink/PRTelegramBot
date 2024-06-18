@@ -72,6 +72,8 @@ namespace PRTelegramBot.Attributes
         /// Конструктор.
         /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
         /// <param name="commands">Команды.</param>
         public ReplyMenuDynamicHandlerAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison, params string[] commands) 
             : base(botId, commandComparison, stringComparison)

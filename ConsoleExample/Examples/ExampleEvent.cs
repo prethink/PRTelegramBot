@@ -136,7 +136,7 @@ namespace ConsoleExample.Examples
             // Здесь вы на свое усмотрение реализываете логику получение флагов, например можно из базы данных получить.
             var userFlags = e.Update.LoadExampleFlagPrivilege();
 
-            if(requiredAccess.HasFlag<UserPrivilege>(userFlags))
+            if(requiredAccess.HasFlag(userFlags))
             {
                 // Доступ есть, выполняем метод.
                 await e.ExecuteMethod(e.BotClient, e.Update);
@@ -183,7 +183,6 @@ namespace ConsoleExample.Examples
             {
                 args.Bot.Events.OnErrorLogInvoke(ex);
             }
-
         }
     }
 }

@@ -26,8 +26,28 @@ namespace PRTelegramBot.Core
         /// <returns>Экземпляр класса PRBot.</returns>
         public PRBotBase Build()
         {
-            var createOptions = (WebHookTelegramOptions)options.Clone();
+            var createOptions = options;
             return factory.CreateBot(createOptions);
+        }
+
+        /// <summary>
+        /// Сбросить параметры.
+        /// </summary>
+        /// <param name="token">Токен.</param>
+        public void ClearOptions(string token)
+        {
+            options = new WebHookTelegramOptions();
+            SetToken(token);
+        }
+
+        /// <summary>
+        /// Сбросить параметры.
+        /// </summary>
+        /// <param name="client">Клиент телеграм бота.</param>
+        public void ClearOptions(TelegramBotClient client)
+        {
+            options = new WebHookTelegramOptions();
+            SetTelegramClient(client);
         }
 
         /// <summary>
@@ -189,9 +209,9 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// 
+        /// Установить URL для вебхука.
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="url">URL вебхука.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder SetUrlWebHook(string url)
         {
@@ -200,9 +220,9 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// 
+        /// Установить секретный токен для вебхука.
         /// </summary>
-        /// <param name="secretToken"></param>
+        /// <param name="secretToken">Секретный токен.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder SetSecretTokenWebHook(string secretToken)
         {
@@ -211,9 +231,9 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// 
+        /// Установить IP-адрес для вебхука.
         /// </summary>
-        /// <param name="ipAddres"></param>
+        /// <param name="ipAddres">IP-адрес.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder SetIpAddresWebHook(string ipAddres)
         {
@@ -222,20 +242,20 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// 
+        /// Установить флаг сброса отложенных обновлений для вебхука.
         /// </summary>
-        /// <param name="flag"></param>
+        /// <param name="flag">Флаг сброса отложенных обновлений.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetIpAddresWebHook(bool flag)
+        public PRBotBuilder SetDropPendingUpdates(bool flag)
         {
             this.options.DropPendingUpdates = flag;
             return this;
         }
 
         /// <summary>
-        /// 
+        /// Установить максимальное количество подключений для вебхука.
         /// </summary>
-        /// <param name="maxConnections"></param>
+        /// <param name="maxConnections">Максимальное количество подключений.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder SetMaxConnectionsWebHook(int maxConnections)
         {
@@ -244,9 +264,9 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// 
+        /// Установить клиент Telegram.
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client">Клиент Telegram.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder SetTelegramClient(TelegramBotClient client)
         {
@@ -255,9 +275,9 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// 
+        ///  Установить сертификат для вебхука.
         /// </summary>
-        /// <param name="certificate"></param>
+        /// <param name="certificate">Сертификат.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder SetCertificateWebHook(InputFileStream certificate)
         {
@@ -294,6 +314,9 @@ namespace PRTelegramBot.Core
             factory = new PRBotFactory();
         }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         private PRBotBuilder()
         {
             options = new WebHookTelegramOptions();

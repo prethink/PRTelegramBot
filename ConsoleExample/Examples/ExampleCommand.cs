@@ -36,7 +36,7 @@ namespace ConsoleExample.Examples
 
         /// <summary>
         /// Команда отработает для бота с botId 0.
-        /// Команда отработает если 'Точное совпадение команды' будет точное совпадения текста сообщения.
+        /// Команда отработает если 'Точное совпадение команды' будет точное совпадения текста сообщения за исключением регистра.
         /// </summary>
         [ReplyMenuHandler("Точное совпадение команды")]
         public static async Task ReplyExampleTwo(ITelegramBotClient botClient, Update update)
