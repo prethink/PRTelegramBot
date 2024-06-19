@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ServiceTransient>();
 builder.Services.AddScoped<ServiceScoped>();
 builder.Services.AddSingleton<ServiceSingleton>();
-builder.Services.AddTransientBotHandlers();
+builder.Services.AddBotHandlers();
 
 
 async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)

@@ -1,23 +1,24 @@
-﻿namespace AspNetWebHook
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace AspNetWebHook
 {
     /// <summary>
-    /// 
+    /// Статический класс, содержащий методы расширения для маршрутизации webhook'ов.
     /// </summary>
     public static class WebHookExtensions
     {
         /// <summary>
-        /// 
+        /// Сопоставляет маршрут webhook с указанным действием контроллера.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="endpoints"></param>
-        /// <param name="route"></param>
-        /// <returns></returns>
-        public static ControllerActionEndpointConventionBuilder MapBotWebhookRoute<T>(
-             this IEndpointRouteBuilder endpoints,
-             string route)
+        /// <typeparam name="TContoller">Тип контроллера.</typeparam>
+        /// <param name="endpoints">Объект для добавления маршрута.</param>
+        /// <param name="route">Шаблон маршрута.</param>
+        /// <returns>Строитель для настройки конечной точки действия контроллера.</returns>
+        public static ControllerActionEndpointConventionBuilder MapBotWebhookRoute<TContoller>(this IEndpointRouteBuilder endpoints, string route)
+            where TContoller : Controller
         {
-            var controllerName = typeof(T).Name.Replace("Controller", "", StringComparison.Ordinal);
-            var actionName = typeof(T).GetMethods()[0].Name;
+            var controllerName = typeof(TContoller).Name.Replace("Controller", "", StringComparison.Ordinal);
+            var actionName = typeof(TContoller).GetMethods()[0].Name;
 
             return endpoints.MapControllerRoute(
                 name: "bot_webhook",

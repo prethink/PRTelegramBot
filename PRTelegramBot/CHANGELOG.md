@@ -1,4 +1,4 @@
--- 2024.06.15 - V0.6
+-- 2024.06.19 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
