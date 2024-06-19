@@ -14,7 +14,7 @@ namespace PRTelegramBot.Extensions
         #region Поля и свойства
 
         /// <summary>
-        /// Словарь для работы который хранит идентификатор пользователя и его кеш
+        /// Словарь для связи update и бота.
         /// </summary>
         static ConcurrentDictionary<long, PRBotBase> botLink = new();
 
@@ -23,42 +23,42 @@ namespace PRTelegramBot.Extensions
         #region Методы
 
         /// <summary>
-        /// Получает ChatId в зависимости от типа сообщений
+        /// Получает идентификатор чата в зависимости от типа сообщений.
         /// </summary>
-        /// <param name="update">Обновление полученное с телеграма</param>
-        /// <returns>ChatId</returns>
-        /// <exception cref="Exception">Не найден тип сообщения</exception>
+        /// <param name="update">Обновление telegram.</param>
+        /// <returns>Идентификатор чата.</returns>
+        /// <exception cref="NotImplementedException">Выбрасывается если не реализована обработка обновления.</exception>
         public static long GetChatId(this Update update)
         {
             return update.Type switch
             {
                 UpdateType.Message => update.Message.Chat.Id,
                 UpdateType.CallbackQuery => update.CallbackQuery.Message.Chat.Id,
-                _ => throw new Exception("Failed to obtain chat id")
+                _ => throw new NotImplementedException($"Not implemented get chatId for {update.Type}")
             };
         }
 
         /// <summary>
-        /// Получает идентификатор сообщения
+        /// Получает идентификатор сообщения.
         /// </summary>
-        /// <param name="update">Обновление полученное с телеграма</param>
-        /// <returns>Идентификатор сообщения</returns>
-        /// <exception cref="Exception">Не найден тип сообщения</exception>
+        /// <param name="update">Обновление telegram.</param>
+        /// <returns>Идентификатор сообщения.</returns>
+        /// <exception cref="NotImplementedException">Выбрасывается если не реализована обработка обновления.</exception>
         public static int GetMessageId(this Update update)
         {
             return update.Type switch
             {
                 UpdateType.Message => update.Message.MessageId,
                 UpdateType.CallbackQuery => update.CallbackQuery.Message.MessageId,
-                _ => throw new Exception("Failed to obtain message id")
+                _ => throw new NotImplementedException($"Not implemented get messageId for {update.Type}")
             };
         }
 
         /// <summary>
-        /// Информация о пользователе
+        /// Информация о пользователе.
         /// </summary>
-        /// <param name="update">Обновление полученное с телеграма</param>
-        /// <returns>Информация о пользователе</returns>
+        /// <param name="update">Обновление telegram.</param>
+        /// <returns>Информация о пользователе.</returns>
         public static string GetInfoUser(this Update update)
         {
             string result = "";
@@ -77,12 +77,12 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Связать update с PRBotBase.
         /// </summary>
-        /// <param name="update"></param>
-        /// <param name="telegramBot"></param>
-        /// <returns></returns>
-        public static bool AddTelegramClient(this Update update, PRBotBase bot)
+        /// <param name="update">Обновление telegram.</param>
+        /// <param name="bot">Экзпляр PRBotBase.</param>
+        /// <returns>True - удалось добавить, False - не удалось.</returns>
+        internal static bool AddTelegramClient(this Update update, PRBotBase bot)
         {
             if(update == null) 
                 return false;
@@ -91,12 +91,12 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Получить маппинг пользователя и бота.
         /// </summary>
-        /// <param name="update"></param>
-        /// <returns></returns>
-        /// <exception cref="KeyNotFoundException"></exception>
-        public static string GetKeyMappingUserTelegram(this Update update)
+        /// <param name="update">Обновление telegram.</param>
+        /// <returns>Сгенерированное значение id+botkey</returns>
+        /// <exception cref="KeyNotFoundException">Выбрасывается если ее найден ключ для бота.</exception>
+        internal static string GetKeyMappingUserTelegram(this Update update)
         {
             if (botLink.TryGetValue(update.Id, out PRBotBase bot))
                 return new UserBotMapping(bot.BotId, update.GetChatId()).GetKey;
@@ -107,9 +107,9 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Очистить маппинг update и telegram bot.
         /// </summary>
-        /// <param name="update"></param>
-        /// <returns></returns>
-        public static bool ClearTelegramClient(this Update update)
+        /// <param name="update">Обновление telegram.</param>
+        /// <returns>True - удалось очистить, False - не удалось.</returns>
+        internal static bool ClearTelegramClient(this Update update)
         {
             return botLink.TryRemove(update.Id, out PRBotBase _);
         }

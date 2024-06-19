@@ -10,26 +10,26 @@ namespace PRTelegramBot.Extensions
         #region Методы
 
         /// <summary>
-        /// 
+        /// Получить атрибут из перечисления.
         /// </summary>
-        /// <typeparam name="TAttribute"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static TAttribute GetAttribute<TAttribute>(this Enum value) where TAttribute : Attribute
+        /// <typeparam name="TAttribute">Тип атрибута.</typeparam>
+        /// <param name="enum">Значение из перечесления.</param>
+        /// <returns>Атрибут.</returns>
+        internal static TAttribute GetAttribute<TAttribute>(this Enum @enum) where TAttribute : Attribute
         {
-            var enumType = value.GetType();
-            var name = Enum.GetName(enumType, value);
+            var enumType = @enum.GetType();
+            var name = Enum.GetName(enumType, @enum);
             return enumType.GetField(name).GetCustomAttributes(false).OfType<TAttribute>().SingleOrDefault();
         }
 
         /// <summary>
-        /// Позволяет получить описание у Enum
+        /// Позволяет получить описание у Enum.
         /// </summary>
-        /// <param name="command">enum</param>
-        /// <returns>Описание</returns>
-        public static string GetDescription(this Enum command)
+        /// <param name="enum">Значение из перечесления.</param>
+        /// <returns>Описание.</returns>
+        public static string GetDescription(this Enum @enum)
         {
-            return command.GetAttribute<DescriptionAttribute>()?.Description ?? "";
+            return @enum.GetAttribute<DescriptionAttribute>()?.Description ?? "";
         }
 
         #endregion
