@@ -22,6 +22,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
+                await base.Start();
                 if (Options.ClearUpdatesOnStart)
                     await ClearUpdates();
 

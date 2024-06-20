@@ -105,7 +105,10 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Запустить бота.
         /// </summary>
-        public abstract Task Start();
+        public virtual async Task Start()
+        {
+            ReloadHandlers();
+        }
 
 
         /// <summary>
@@ -136,8 +139,6 @@ namespace PRTelegramBot.Core
 
             botClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);
-            Handler = new Handler(this);
-            Register = new RegisterCommands(Handler);
         }
 
         #endregion

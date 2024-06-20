@@ -33,10 +33,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// </summary>
         /// <param name="bot">Бот.</param>
         public ReplyDynamicMessageUpdateHandler(PRBotBase bot)
-            : base(bot)
-        {
-            RegisterCommands();
-        }
+            : base(bot) { }
 
         #endregion
     }

@@ -12,6 +12,7 @@ namespace PRTelegramBot.Tests.EventsTests
         public void SetUP()
         {
             bot = new PRBotBuilder("5555:Token").Build();
+            bot.ReloadHandlers();
         }
 
         [OneTimeTearDown]

@@ -23,6 +23,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
+                await base.Start();
                 var webHookOptions = Options as WebHookTelegramOptions;
                 if(string.IsNullOrEmpty(webHookOptions.SecretToken))
                     webHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
