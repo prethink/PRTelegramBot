@@ -5,7 +5,7 @@ namespace PRTelegramBot.Utils.Converters
     /// <summary>
     /// Конвертер enum в json.
     /// </summary>
-    public class HeaderConverter : JsonConverter<Enum>
+    internal class HeaderConverter : JsonConverter<Enum>
     {
         #region Поля и свойства
 

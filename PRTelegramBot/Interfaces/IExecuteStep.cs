@@ -4,6 +4,9 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Interfaces
 {
+    /// <summary>
+    /// Интерфейс пошагового выполнения команд.
+    /// </summary>
     public interface IExecuteStep
     {
         /// <summary>

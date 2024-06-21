@@ -7,9 +7,9 @@ using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Services
+namespace PRTelegramBot.Registrars
 {
-    public sealed class RegisterCommandService
+    public sealed class MethodRegistrar
     {
         #region Методы
 

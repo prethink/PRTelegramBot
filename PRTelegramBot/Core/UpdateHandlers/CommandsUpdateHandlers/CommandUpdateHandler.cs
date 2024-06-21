@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Services;
+using PRTelegramBot.Registrars;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -27,7 +27,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// <summary>
         /// Сервис регистрации команд.
         /// </summary>
-        protected RegisterCommandService registerService = new RegisterCommandService();
+        protected MethodRegistrar registerService = new MethodRegistrar();
 
         #endregion
 

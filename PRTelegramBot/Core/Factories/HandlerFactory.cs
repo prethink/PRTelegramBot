@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Factories
 {
-    public class HandlerFactory
+    internal class HandlerFactory
     {
         public CommandHandler CreateHandler(IBaseQueryAttribute attr, MethodInfo method, IServiceProvider serviceProvider)
         {

@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Services;
+using PRTelegramBot.Registrars;
 using Telegram.Bot;
 
 namespace PRTelegramBot.Core

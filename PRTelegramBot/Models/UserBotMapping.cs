@@ -3,7 +3,7 @@
     /// <summary>
     /// Маппинг бота и пользователя.
     /// </summary>
-    public sealed class UserBotMapping
+    internal sealed class UserBotMapping
     {
         #region Поля и свойства
 

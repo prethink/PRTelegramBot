@@ -100,6 +100,14 @@ namespace PRTelegramBot.Core
             => BotList.Select(x => x.Value).ToList();
 
         /// <summary>
+        /// Получить всех ботов.
+        /// </summary>
+        /// <param name="predicate">Выражение для фильтрации.</param>
+        /// <returns>Коллекция ботов.</returns>
+        public List<PRBotBase> GetBots(Func<PRBotBase, bool> predicate)
+            => BotList.Values.Where(predicate).ToList();
+
+        /// <summary>
         /// Получить экземпляр бота.
         /// </summary>
         /// <param name="botName">Название/логин бота.</param>

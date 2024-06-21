@@ -2,7 +2,7 @@
 using Telegram.Bot.Types;
 using Telegram.Bot;
 
-namespace PRTelegramBot.Services
+namespace PRTelegramBot.Registrars
 {
     public class RegisterCommands
     {
