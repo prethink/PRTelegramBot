@@ -1,11 +1,11 @@
 ﻿using PRTelegramBot.Core.UpdateHandlers;
 using PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
-using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -14,7 +14,7 @@ namespace PRTelegramBot.Core
     /// <summary>
     /// Обработчик.
     /// </summary>
-    public sealed class Handler : IUpdateHandler
+    public sealed class Handler : IPRUpdateHandler
     {
         #region Поля и свойства
 
@@ -149,6 +149,12 @@ namespace PRTelegramBot.Core
             }
         }
 
+        public void HotReload()
+        {
+            MessageFacade = new MessageFacade(this.bot);
+            InlineUpdateHandler = new InlineUpdateHandler(this.bot);
+        }
+
         #endregion
 
         #region Конструкторы
@@ -160,8 +166,7 @@ namespace PRTelegramBot.Core
         public Handler(PRBotBase bot)
         {
             this.bot = bot;
-            MessageFacade = new MessageFacade(this.bot);
-            InlineUpdateHandler = new InlineUpdateHandler(this.bot);
+            HotReload();
         }
 
         #endregion

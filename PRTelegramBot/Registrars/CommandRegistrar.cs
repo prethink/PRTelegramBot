@@ -1,79 +1,78 @@
 ﻿using PRTelegramBot.Core;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Polling;
+using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Registrars
 {
-    public class RegisterCommands
+    public class RegisterCommand : IRegisterCommand
     {
-        private Handler handler;
+        #region Поля и свойства
 
         /// <summary>
-        /// Регистрация Slash command
+        /// Бот.
         /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="method">Метод</param>
-        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
+        private PRBotBase bot;
+
+        #endregion
+
+        #region IRegisterCommand
+
         public bool AddSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
-            return handler.MessageFacade.SlashHandler.AddCommand(command, method);
+            if (bot.Handler is Handler handler)
+                return handler.MessageFacade.SlashHandler.AddCommand(command, method);
+            else
+                return false;
+
         }
 
-        /// <summary>
-        /// Регистрация Reply command
-        /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="method">Метод</param>
-        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
         public bool AddReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
-            return handler.MessageFacade.ReplyHandler.AddCommand(command, method);
+            if (bot.Handler is Handler handler)
+                return handler.MessageFacade.ReplyHandler.AddCommand(command, method);
+            else
+                return false;
         }
 
-        /// <summary>
-        /// Регистрация inline command
-        /// </summary>
-        /// <param name="command">Команда</param>
-        /// <param name="method">Метод</param>
-        /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
         public bool AddInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method)
         {
-            return handler.InlineUpdateHandler.AddCommand(command, method);
+            if (bot.Handler is Handler handler)
+                return handler.InlineUpdateHandler.AddCommand(command, method);
+            else
+                return false;
         }
 
-        /// <summary>
-        /// Удаление Reply команды
-        /// </summary>
-        /// <param name="command">Название команды</param>
-        /// <returns>True - метод удален, false - ошибка</returns>
         public bool RemoveReplyCommand(string command)
         {
-            return handler.MessageFacade.ReplyHandler.RemoveCommand(command);
+            if (bot.Handler is Handler handler)
+                return handler.MessageFacade.ReplyHandler.RemoveCommand(command);
+            else
+                return false;
         }
 
-        /// <summary>
-        /// Удаление slash команды
-        /// </summary>
-        /// <param name="command">Название команды</param>
-        /// <returns>True - метод удален, false - ошибка</returns>
         public bool RemoveSlashCommand(string command)
         {
-            return handler.MessageFacade.SlashHandler.RemoveCommand(command);
+            if (bot.Handler is Handler handler)
+                return handler.MessageFacade.SlashHandler.RemoveCommand(command);
+            else
+                return false;
         }
 
-        /// <summary>
-        /// Удаление inline команды
-        /// </summary>
-        /// <param name="command">перечисление команды</param>
-        /// <returns>True - метод удален, false - ошибка</returns>
         public bool RemoveInlineCommand(Enum command)
         {
-            return handler.InlineUpdateHandler.RemoveCommand(command);
+            if (bot.Handler is Handler handler)
+                return handler.InlineUpdateHandler.RemoveCommand(command);
+            else
+                return false;
         }
 
-        public RegisterCommands(Handler handler)
+        public void Init(PRBotBase bot)
         {
-            this.handler = handler;
+            this.bot = bot;
         }
+
+        #endregion
     }
 }

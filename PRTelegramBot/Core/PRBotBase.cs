@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Registrars;
 using Telegram.Bot;
@@ -27,7 +28,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Обработчик для telegram бота
         /// </summary>
-        public Handler Handler { get; protected set; }
+        public IPRUpdateHandler Handler { get; protected set; }
 
         /// <summary>
         /// Работает бот или нет
@@ -52,7 +53,7 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Регистрация команд.
         /// </summary>
-        public RegisterCommands Register { get; protected set; }
+        public IRegisterCommand Register { get; protected set; }
 
         /// <summary>
         /// Тип получения обновления.
@@ -71,11 +72,37 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                Handler = new Handler(this);
-                Register = new RegisterCommands(Handler);
+                InitHandlers();
+                Handler.HotReload();
                 return true;
             }
             catch(Exception ex)
+            {
+                this.Events.OnErrorLogInvoke(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Инициализация обработчиков.
+        /// </summary>
+        /// <returns>True - инициализация прошла, False - не прошла.</returns>
+        private bool InitHandlers()
+        {
+            try
+            {
+                if(Handler is null)
+                {
+                    Handler = Options.UpdateHandler ?? new Handler(this);
+                }
+                if(Register is null)
+                {
+                    Register = Options.RegisterCommand ?? new RegisterCommand();
+                    Register.Init(this);
+                }
+                return true;
+            }
+            catch (Exception ex)
             {
                 this.Events.OnErrorLogInvoke(ex);
                 return false;
@@ -107,7 +134,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         public virtual async Task Start()
         {
-            ReloadHandlers();
+            InitHandlers();
         }
 
 

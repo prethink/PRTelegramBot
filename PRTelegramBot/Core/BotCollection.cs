@@ -1,6 +1,4 @@
-﻿using PRTelegramBot.Interfaces;
-
-namespace PRTelegramBot.Core
+﻿namespace PRTelegramBot.Core
 {
     /// <summary>
     /// Класс хранящий всех ботов.

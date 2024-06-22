@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.Factory;
+using PRTelegramBot.Interfaces;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -48,6 +49,28 @@ namespace PRTelegramBot.Core
         {
             options = new WebHookTelegramOptions();
             SetTelegramClient(client);
+        }
+
+        /// <summary>
+        /// Установить обработчик обновлений.
+        /// </summary>
+        /// <param name="updateHandler">Обработчик обновлений.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetUpdateHandler(IPRUpdateHandler updateHandler)
+        {
+            options.UpdateHandler = updateHandler;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить регистратор команд.
+        /// </summary>
+        /// <param name="registerCommand">Регистратор команд.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetRegisterCommand(IRegisterCommand registerCommand)
+        {
+            options.RegisterCommand = registerCommand;
+            return this;
         }
 
         /// <summary>

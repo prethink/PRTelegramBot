@@ -1,7 +1,9 @@
--- 2024.06.19 - V0.6
+-- 2024.06.22 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
+- feature: Добавлена возможность подставлять при создание бота свой обработчик обновлений
+- feature: Добавлена возможность подставлять при создание бота свой регистратор команд
 - feature: Добавлена возможность работать с webhook
 - feature: Добавлен атрибут BotHandler для определения класса работы с dependency injection
 - feature: AccessUtil для работы с флагами доступа и масками

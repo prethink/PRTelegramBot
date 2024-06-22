@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using PRTelegramBot.Interfaces;
+using Telegram.Bot;
 using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Configs
@@ -6,7 +7,7 @@ namespace PRTelegramBot.Configs
     /// <summary>
     /// Параметры telegram бота.
     /// </summary>
-    public class TelegramOptions : ICloneable
+    public class TelegramOptions 
     {
         #region Поля и свойства
 
@@ -67,23 +68,15 @@ namespace PRTelegramBot.Configs
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Обработчик обновлений Telegram.
+        /// </summary>
+        public IPRUpdateHandler UpdateHandler { get; set; }
 
-        #region ICloneable
-
-        public virtual object Clone()
-        {
-            //TODO: Перепроверить
-            var cloneOptions = new TelegramOptions();
-            cloneOptions.Token = Token;
-            cloneOptions.ClearUpdatesOnStart = ClearUpdatesOnStart;
-            cloneOptions.BotId = BotId;
-            cloneOptions.WhiteListUsers = WhiteListUsers.ToList();
-            cloneOptions.Admins = Admins.ToList();
-            cloneOptions.ReplyDynamicCommands = new Dictionary<string, string>(ReplyDynamicCommands);
-            cloneOptions.ConfigPaths = new Dictionary<string, string>(ConfigPaths);
-            return cloneOptions;
-        }
+        /// <summary>
+        /// Регистратор команд.
+        /// </summary>
+        public IRegisterCommand RegisterCommand { get; set; }
 
         #endregion
     }
