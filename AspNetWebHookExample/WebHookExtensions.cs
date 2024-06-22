@@ -17,7 +17,10 @@ namespace AspNetWebHook
         public static ControllerActionEndpointConventionBuilder MapBotWebhookRoute<TContoller>(this IEndpointRouteBuilder endpoints, string route)
             where TContoller : Controller
         {
+            // Название контроллера без Controller.
             var controllerName = typeof(TContoller).Name.Replace("Controller", "", StringComparison.Ordinal);
+
+            // Метод, который будет обрабатывать маршрут.
             var actionName = typeof(TContoller).GetMethods()[0].Name;
 
             return endpoints.MapControllerRoute(

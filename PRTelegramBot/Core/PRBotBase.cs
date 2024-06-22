@@ -139,7 +139,7 @@ namespace PRTelegramBot.Core
 
 
         /// <summary>
-        /// Остановка бота
+        /// Остановка бота.
         /// </summary>
         public abstract Task Stop();
 

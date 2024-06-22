@@ -24,6 +24,8 @@ new PRBotBuilder("555555:Token")
     .SetBotId(1)
     .Build();
 
+// Найти экземпляры этих ботов можно через класс BotCollection
+
 #endregion
 
 #region Сервис запуска ботов

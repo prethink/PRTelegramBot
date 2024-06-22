@@ -51,7 +51,7 @@ namespace ConsoleExample.Examples
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi,command.Data.LastCommand);
+                    var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi, command.Data.LastCommand);
                     var option = new OptionMessage();
                     option.MenuInlineKeyboardMarkup = monthYearMarkup;
                     await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);

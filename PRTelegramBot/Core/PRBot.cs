@@ -8,16 +8,14 @@ namespace PRTelegramBot.Core
     {
         #region Базовый класс
 
-        public override DataRetrievalMethod DataRetrieval { 
+        public override DataRetrievalMethod DataRetrieval 
+        { 
             get 
             { 
                 return DataRetrievalMethod.Polling; 
             } 
         }
 
-        /// <summary>
-        /// Запуск бота
-        /// </summary>
         public override async Task Start()
         {
             try
@@ -40,9 +38,6 @@ namespace PRTelegramBot.Core
             }
         }
 
-        /// <summary>
-        /// Остановка бота
-        /// </summary>
         public override async Task Stop()
         {
             try
