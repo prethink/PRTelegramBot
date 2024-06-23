@@ -18,7 +18,9 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Данные для обработки.
         /// </summary>
         [JsonPropertyName("d")]
-        public new T Data { get; set; }
+        public new T D { get; set; }
+
+        public new T Data => D;
 
         #endregion
 
@@ -49,14 +51,14 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Конструктор.
         /// </summary>
         /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
+        /// <param name="c">Заголовок команды.</param>
+        /// <param name="d">Данные.</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
+        public InlineCallback(string buttonName, Enum c, T d) : base(buttonName, c, d)
         {
             ButtonName = buttonName;
-            CommandType = commandType;
-            Data = data;
+            C = c;
+            D = d;
         }
 
         #endregion
@@ -89,13 +91,27 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         [JsonPropertyName("c")]
         [JsonConverter(typeof(HeaderConverter))]
-        public Enum CommandType { get; set; }
+        [JsonInclude]
+        public Enum C { get; set; }
+
+        /// <summary>
+        /// Тип команды.
+        /// </summary>
+        [JsonIgnore]
+        public Enum CommandType => C;
 
         /// <summary>
         /// Данные для обработки.
         /// </summary>
         [JsonPropertyName("d")]
-        public TCommandBase Data { get; set; }
+        [JsonInclude]
+        public TCommandBase D { get; set; }
+
+        /// <summary>
+        /// Данные для обработки.
+        /// </summary>
+        [JsonIgnore]
+        public TCommandBase Data => D;
 
         #endregion
 
@@ -110,7 +126,12 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             try
             {
-                return JsonSerializer.Deserialize<InlineCallback>(data);
+                var options = new JsonSerializerOptions
+                {
+                    //PropertyNameCaseInsensitive = true,
+                    IncludeFields = true
+                };
+                return JsonSerializer.Deserialize<InlineCallback>(data, options);
             }
             catch (Exception ex)
             {
@@ -144,15 +165,14 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
+        /// <param name="d">Данные.</param>
         [JsonConstructor]
-        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
+        public InlineCallback(Enum c, TCommandBase d)
         {
-            ButtonName = buttonName;
-            CommandType = commandType;
-            Data = data;
+            ButtonName = "";
+            C = c;
+            D = d;
         }
 
         /// <summary>
@@ -160,11 +180,24 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
-        public InlineCallback(string buttonName, Enum commandType)
+        /// <param name="d">Данные.</param>
+        public InlineCallback(string buttonName, Enum c, TCommandBase d)
         {
             ButtonName = buttonName;
-            CommandType = commandType;
-            Data = new TCommandBase();
+            C = c;
+            D = d;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="c">Заголовок команды.</param>
+        public InlineCallback(string buttonName, Enum c)
+        {
+            ButtonName = buttonName;
+            C = c;
+            D = new TCommandBase(0);
         }
 
         #endregion
