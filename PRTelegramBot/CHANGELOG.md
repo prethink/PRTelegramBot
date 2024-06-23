@@ -1,3 +1,11 @@
+-- 2024.06.23 - V0.6.1
+- update: Ядро telegram.bot обновлен с 19 до 21 версии.
+- update: Из-за обновления убран newtonsoft json
+- update: Добавлены новые события для сообщений Giveaway, GiveawayWinners, GiveawayCompleted, BoostAdded, ChatBackgroundSet
+- refactoring: TEvents события которые относятся к сообщениям перенесены в класс MessageEvents
+- refactoring: TEvents события которые относятся к обновлениям перенесены в класс UpdateEvents
+
+
 -- 2024.06.22 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии

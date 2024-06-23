@@ -69,10 +69,10 @@ InitEventsAndCommands(telegramTwo);
 void InitEventsAndCommands(PRBotBase tg)
 {
     ////Обработка обновление 
-    tg.Events.OnPreUpdate += Handler_OnUpdate;
+    tg.Events.UpdateEvents.OnPreUpdate += Handler_OnUpdate;
 
     //Обработка обновление кроме message и callback
-    tg.Events.OnPostMessageUpdate += Handler_OnWithoutMessageUpdate;
+    tg.Events.UpdateEvents.OnPostUpdate += Handler_OnWithoutMessageUpdate;
 
     //Обработка не правильный тип сообщений
     tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
@@ -90,55 +90,55 @@ void InitEventsAndCommands(PRBotBase tg)
     tg.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 
     //Обработка локаций
-    tg.Events.OnLocationHandle += ExampleEvent.OnLocationHandle;
+    tg.Events.MessageEvents.OnLocationHandle += ExampleEvent.OnLocationHandle;
 
     //Обработка контактных данных
-    tg.Events.OnContactHandle += ExampleEvent.OnContactHandle;
+    tg.Events.MessageEvents.OnContactHandle += ExampleEvent.OnContactHandle;
 
     //Обработка голосований
-    tg.Events.OnPollHandle += ExampleEvent.OnPollHandle;
+    tg.Events.MessageEvents.OnPollHandle += ExampleEvent.OnPollHandle;
 
     //Обработка WebApps
-    tg.Events.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
+    tg.Events.MessageEvents.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
 
     //Обработка, когда пользователю отказано в доступе
     tg.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
 
     //Обработка сообщения с документом
-    tg.Events.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
+    tg.Events.MessageEvents.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
 
     //Обработка сообщения с аудио
-    tg.Events.OnAudioHandle += ExampleEvent.OnAudioHandle;
+    tg.Events.MessageEvents.OnAudioHandle += ExampleEvent.OnAudioHandle;
 
     //Обработка сообщения с видео
-    tg.Events.OnVideoHandle += ExampleEvent.OnVideoHandle;
+    tg.Events.MessageEvents.OnVideoHandle += ExampleEvent.OnVideoHandle;
 
     //Обработка сообщения с фото
-    tg.Events.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
+    tg.Events.MessageEvents.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
 
     //Обработка сообщения с стикером
-    tg.Events.OnStickerHandle += ExampleEvent.OnStickerHandle;
+    tg.Events.MessageEvents.OnStickerHandle += ExampleEvent.OnStickerHandle;
 
     //Обработка сообщения с голосовым сообщением
-    tg.Events.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
+    tg.Events.MessageEvents.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
 
     //Обработка сообщения с неизвестным типом
-    tg.Events.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
+    tg.Events.MessageEvents.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
 
     //Обработка сообщения с местоположением
-    tg.Events.OnVenueHandle += ExampleEvent.OnVenueHandle;
+    tg.Events.MessageEvents.OnVenueHandle += ExampleEvent.OnVenueHandle;
 
     //Обработка сообщения с игрой
-    tg.Events.OnGameHandle += ExampleEvent.OnGameHandle;
+    tg.Events.MessageEvents.OnGameHandle += ExampleEvent.OnGameHandle;
 
     //Обработка сообщения с видеозаметкой
-    tg.Events.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
+    tg.Events.MessageEvents.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
 
     //Обработка сообщения с игральной костью
-    tg.Events.OnDiceHandle += ExampleEvent.OnDiceHandle;
+    tg.Events.MessageEvents.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
     //Обработка обновления изменения группы/чата
-    tg.Events.OnUpdateMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
+    tg.Events.UpdateEvents.OnUpdateMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
 
     tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
     {

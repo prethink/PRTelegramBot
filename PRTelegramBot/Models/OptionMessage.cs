@@ -55,7 +55,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Указывает, что контент сообщения защищен.
         /// </summary>
-        public bool? ProtectedContent { get; set; }
+        public bool ProtectedContent { get; set; }
 
         /// <summary>
         /// Токен отмены.
@@ -70,17 +70,17 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Отключает предварительный просмотр веб-страниц.
         /// </summary>
-        public bool? DisableWebPagePreview { get; set; }
+        public bool DisableWebPagePreview { get; set; }
 
         /// <summary>
         /// Отключает уведомления.
         /// </summary>
-        public bool? DisableNotification { get; set; }
+        public bool DisableNotification { get; set; }
 
         /// <summary>
         /// Отключает обнаружение типа контента.
         /// </summary>
-        public bool? DisableContentTypeDetection { get; set; }
+        public bool DisableContentTypeDetection { get; set; }
 
         /// <summary>
         /// Идентификатор сообщения, на которое следует ответить.
@@ -90,7 +90,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Разрешает отправку без ответа.
         /// </summary>
-        public bool? AllowSendingWithoutReply { get; set; }
+        public bool AllowSendingWithoutReply { get; set; }
 
         /// <summary>
         /// Заголовок сообщения.
@@ -105,7 +105,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Признак наличие спойлера в сообщении.
         /// </summary>
-        public bool? HasSpoiler { get; set; }
+        public bool HasSpoiler { get; set; }
 
         #endregion
     }

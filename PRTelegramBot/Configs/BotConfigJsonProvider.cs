@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using PRTelegramBot.Interfaces;
+using System.Text.Json;
 
 namespace PRTelegramBot.Configs
 {
@@ -44,7 +44,7 @@ namespace PRTelegramBot.Configs
         public Dictionary<string, string> GetKeysAndValues()
         {
             string json = File.ReadAllText(configPath);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         }
 
         public Dictionary<string, string> GetKeysAndValuesByOptions<T>() 

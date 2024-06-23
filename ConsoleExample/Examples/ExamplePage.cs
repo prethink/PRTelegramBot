@@ -159,9 +159,9 @@ namespace ConsoleExample.Examples
             //Добавляем кнопку с запросом на локацию пользователя
             menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
             //Добавляем кнопку с запросом отправки чата боту
-            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat() { RequestId = 2 }));
+            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat(2, true) ));
             //Добавляем кнопку с запросом отправки пользователя боту
-            menuList.Add(KeyboardButton.WithRequestUser("Отправить пользователя боту", new KeyboardButtonRequestUser() { RequestId = 1 }));
+            menuList.Add(KeyboardButton.WithRequestUsers("Отправить пользователя боту", new KeyboardButtonRequestUsers() { RequestId = 1 }));
             //Добавляем кнопку с отправкой опроса
             menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование"));
             //Добавляем кнопку с запросом работы с WebApp

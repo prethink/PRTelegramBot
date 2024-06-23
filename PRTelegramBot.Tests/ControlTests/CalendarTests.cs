@@ -27,7 +27,8 @@ namespace PRTelegramBot.Tests.ControlTests
         public void SetUp()
         {
             DateTimeFormatInfo = CultureInfo.GetCultureInfo("ru-RU", false).DateTimeFormat;
-            new PRBotBuilder("55555:Token").Build();
+            var bot = new PRBotBuilder("55555:Token").Build();
+            bot.ReloadHandlers();
         }
 
         [TearDown]

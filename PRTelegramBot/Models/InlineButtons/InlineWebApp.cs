@@ -26,8 +26,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         public object GetContent()
         {
-            var webApp = new WebAppInfo();
-            webApp.Url = WebAppUrl;
+            var webApp = new WebAppInfo(WebAppUrl);
             return webApp;
         }
 

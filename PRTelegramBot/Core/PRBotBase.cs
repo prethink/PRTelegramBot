@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Core.Events;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Registrars;

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {
@@ -10,7 +10,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <summary>
         /// Идентификатор сущности
         /// </summary>
-        [JsonProperty("1")]
+        [JsonPropertyName("1")]
         public T EntityId { get; set; }
 
         public EntityTCommand(T entityId, int command = 0) : base(command)

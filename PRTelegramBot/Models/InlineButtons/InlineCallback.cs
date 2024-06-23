@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using PRTelegramBot.Converters;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Utils.Converters;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
@@ -16,7 +17,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Данные для обработки.
         /// </summary>
-        [JsonProperty("d")]
+        [JsonPropertyName("d")]
         public new T Data { get; set; }
 
         #endregion
@@ -32,7 +33,7 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             try
             {
-                return JsonConvert.DeserializeObject<InlineCallback<T>>(data);
+                return JsonSerializer.Deserialize<InlineCallback<T>>(data);
             }
             catch (Exception ex)
             {
@@ -86,14 +87,14 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Тип команды.
         /// </summary>
-        [JsonProperty("c")]
+        [JsonPropertyName("c")]
         [JsonConverter(typeof(HeaderConverter))]
         public Enum CommandType { get; set; }
 
         /// <summary>
         /// Данные для обработки.
         /// </summary>
-        [JsonProperty("d")]
+        [JsonPropertyName("d")]
         public TCommandBase Data { get; set; }
 
         #endregion
@@ -109,7 +110,7 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             try
             {
-                return JsonConvert.DeserializeObject<InlineCallback>(data);
+                return JsonSerializer.Deserialize<InlineCallback>(data);
             }
             catch (Exception ex)
             {
@@ -128,7 +129,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         public object GetContent()
         {
-            var result = JsonConvert.SerializeObject(this);
+            var result = JsonSerializer.Serialize(this);
             var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
                 throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");

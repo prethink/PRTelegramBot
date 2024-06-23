@@ -32,7 +32,7 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Флаг для сброса ожидающих обновлений при запуске.
         /// </summary>
-        public bool? DropPendingUpdates { get; set; }
+        public bool DropPendingUpdates { get; set; }
 
         /// <summary>
         /// Секретный токен для верификации запросов от Telegram.

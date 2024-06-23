@@ -1,8 +1,8 @@
 ﻿using ConsoleExample.Models.Enums;
-using Newtonsoft.Json;
 using PRTelegramBot.InlineButtons;
 using PRTelegramBot.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace ConsoleExample.Models
 {
@@ -100,7 +100,7 @@ namespace ConsoleExample.Models
         {
             try
             {
-                return JsonConvert.DeserializeObject<List<InlineURL>>(MenuData ?? "");
+                return JsonSerializer.Deserialize<List<InlineURL>>(MenuData ?? "");
             }
             catch (Exception ex)
             {
@@ -118,7 +118,7 @@ namespace ConsoleExample.Models
         {
             try
             {
-                return JsonConvert.SerializeObject(menu);
+                return JsonSerializer.Serialize(menu);
             }
             catch (Exception ex)
             {

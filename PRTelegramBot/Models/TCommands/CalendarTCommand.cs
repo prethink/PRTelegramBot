@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {
@@ -10,7 +10,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <summary>
         /// Дата.
         /// </summary>
-        [JsonProperty("1")]
+        [JsonPropertyName("1")]
         public DateTime Date { get; private set; }
 
         /// <summary>

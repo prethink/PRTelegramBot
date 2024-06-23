@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {
@@ -12,7 +12,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <summary>
         /// Предыдущая команда.
         /// </summary>
-        [JsonProperty("0")]
+        [JsonPropertyName("0")]
         public int LastCommand { get; set; }
 
         #endregion

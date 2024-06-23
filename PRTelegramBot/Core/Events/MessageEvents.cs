@@ -1,49 +1,12 @@
-﻿using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
+﻿using PRTelegramBot.Models.EventsArgs;
+using System.Reflection.Metadata;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Core
+namespace PRTelegramBot.Core.Events
 {
-    /// <summary>
-    /// События для бота.
-    /// </summary>
-    public sealed class TEvents
+    public class MessageEvents
     {
-        #region Поля и свойства
-
-        /// <summary>
-        /// Бот для событий.
-        /// </summary>
-        public PRBotBase Bot { get; private set; }
-
-        #endregion
-
         #region События
-
-        /// <summary>
-        /// Событие когда пользователь написал start с аргументом.
-        /// </summary>
-        public event Func<StartEventArgs, Task>? OnUserStartWithArgs;
-
-        /// <summary>
-        /// Событие когда нужно проверить привилегии перед выполнением команды.
-        /// </summary>
-        public event Func<PrivilegeEventArgs, Task>? OnCheckPrivilege;
-
-        /// <summary>
-        /// Событие когда указан не верный тип сообщения.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnWrongTypeMessage;
-
-        /// <summary>
-        /// Событие когда указан не верный тип чат.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnWrongTypeChat;
-
-        /// <summary>
-        /// Событие когда не найдена команда.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnMissingCommand;
 
         /// <summary>
         /// Событие Обработки контактных данных.
@@ -59,15 +22,11 @@ namespace PRTelegramBot.Core
         /// Событие обработки локации.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnLocationHandle;
+
         /// <summary>
         /// Событие обработки WebApps.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWebAppsHandle;
-
-        /// <summary>
-        /// Событие когда отказано в доступе.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnAccessDenied;
 
         /// <summary>
         /// Событие обработки сообщением с документом.
@@ -123,16 +82,6 @@ namespace PRTelegramBot.Core
         /// Событие обработки сообщением с игральной кости.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnDiceHandle;
-
-        /// <summary>
-        /// Событие вызывается до обработки update, может быть прекращено выполнение.
-        /// </summary>
-        public event Func<BotEventArgs, Task<UpdateResult>>? OnPreUpdate;
-
-        /// <summary>
-        /// Событие вызывается после обработки update типа Message и CallbackQuery.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnPostMessageUpdate;
 
         /// <summary>
         /// Событие анимации в чате.
@@ -285,134 +234,37 @@ namespace PRTelegramBot.Core
         public event Func<BotEventArgs, Task>? OnWriteAccessAllowedHandle;
 
         /// <summary>
-        /// Событие ошибки.
+        /// Событие 
         /// </summary>
-        public event Func<ErrorLogEventArgs, Task>? OnErrorLog;
+        public event Func<BotEventArgs, Task>? OnGiveawayHandle;
 
         /// <summary>
-        /// Событие общих логов.
+        /// Событие 
         /// </summary>
-        public event Func<CommonLogEventArgs, Task>? OnCommonLog;
+        public event Func<BotEventArgs, Task>? OnGiveawayWinnersHandle;
 
         /// <summary>
-        /// Событие обновления поста в канале. 
+        /// Событие 
         /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateChannelPostHandle;
+        public event Func<BotEventArgs, Task>? OnGiveawayCompletedHandle;
 
         /// <summary>
-        /// Событие обработки запроса на присоединение к чату. 
+        /// Событие 
         /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateChatJoinRequestHandle;
+        public event Func<BotEventArgs, Task>? OnBoostAddedHandle;
 
         /// <summary>
-        /// Событие обновления участника чата.
+        /// Событие 
         /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateChatMemberHandle;
-
-        /// <summary>
-        /// Событие выбора inline результата. 
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateChosenInlineResultHandle;
-
-        /// <summary>
-        /// Событие обновления отредактированного поста в канале. 
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateEditedChannelPostHandle;
-
-        /// <summary>
-        /// Событие обновления отредактированного сообщения. 
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateEditedMessageHandle;
-
-        /// <summary>
-        /// Событие обработки inline запроса. 
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateInlineQueryHandle;
-
-        /// <summary>
-        /// Событие обновления моего участника чата.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateMyChatMemberHandle;
-
-        /// <summary>
-        /// Событие обновления голосования. 
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdatePollHandle;
-
-        /// <summary>
-        /// Событие обновления ответа на голосование.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdatePollAnswerHandle;
-
-        /// <summary>
-        /// Событие обработки предзаказа.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdatePreCheckoutQueryHandle;
-
-        /// <summary>
-        /// Событие обработки запроса на доставку.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateShippingQuerHandle;
-
-        /// <summary>
-        /// Событие обновления неизвестного типа.
-        /// </summary>
-        public event Func<BotEventArgs, Task>? OnUpdateUnknownHandle;
+        public event Func<BotEventArgs, Task>? OnChatBackgroundSetHandle;
 
         #endregion
 
         #region Методы
 
-        internal void OnUserStartWithArgsInvoke(StartEventArgs e)
-        {
-            OnUserStartWithArgs?.Invoke(e);
-        }
-
-        internal void OnMissingCommandInvoke(BotEventArgs e)
-        {
-            OnMissingCommand?.Invoke(e);
-        }
-
-        internal void OnAccessDeniedInvoke(BotEventArgs e)
-        {
-            OnAccessDenied?.Invoke(e);
-        }
-
-        internal void OnCheckPrivilegeInvoke(PrivilegeEventArgs e)
-        {
-            OnCheckPrivilege?.Invoke(e);
-        }
-
-        internal void OnWrongTypeMessageInvoke(BotEventArgs e)
-        {
-            OnWrongTypeMessage?.Invoke(e);
-        }
-        internal void OnWrongTypeChatInvoke(BotEventArgs e)
-        {
-            OnWrongTypeChat?.Invoke(e);
-        }
-
-        internal async Task<UpdateResult> OnPreUpdateInvoke(BotEventArgs e)
-        {
-            if (HasEventOnPreUpdate())
-                return await OnPreUpdate.Invoke(e);
-
-            return UpdateResult.Continue;
-        }
-
-        internal bool HasEventOnPreUpdate()
-        {
-            return OnPreUpdate != null;
-        }
-
-        internal void OnPostMessageUpdateInvoke(BotEventArgs e)
-        {
-            OnPostMessageUpdate?.Invoke(e);
-        }
-
         internal void OnContactHandleInvoke(BotEventArgs e)
         {
-            OnContactHandle?.Invoke(e);    
+            OnContactHandle?.Invoke(e);
         }
 
         internal void OnAudioHandleInvoke(BotEventArgs e)
@@ -625,132 +477,39 @@ namespace PRTelegramBot.Core
             OnWebsiteConnectedHandle?.Invoke(e);
         }
 
-        internal void OnWriteAccessAllowedHandleInvoke(BotEventArgs e)
+        internal void OnWriteAccessAllowedInvoke(BotEventArgs e)
         {
             OnWriteAccessAllowedHandle?.Invoke(e);
         }
 
-        internal void OnProximityAlertTriggeredHandleHandleInvoke(BotEventArgs e)
+        internal void OnProximityAlertTriggeredHandleInvoke(BotEventArgs e)
         {
             OnProximityAlertTriggeredHandle?.Invoke(e);
         }
 
-        internal void OnErrorLogInvoke(ErrorLogEventArgsCreator e)
+        internal void OnGiveawayHandleInvoke(BotEventArgs e)
         {
-            OnErrorLog?.Invoke(new ErrorLogEventArgs(Bot, e));
+            OnGiveawayHandle?.Invoke(e);
         }
 
-        public void OnErrorLogInvoke(Exception exception, Update update)
+        internal void OnGiveawayWinnersHandleInvoke(BotEventArgs e)
         {
-            OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception, update));
+            OnGiveawayWinnersHandle?.Invoke(e);
         }
 
-        public void OnErrorLogInvoke(Exception exception)
+        internal void OnGiveawayCompletedHandleInvoke(BotEventArgs e)
         {
-            OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception));
+            OnGiveawayCompletedHandle?.Invoke(e);
         }
 
-        public void OnCommonLogInvoke(CommonLogEventArgsCreator e)
+        internal void OnBoostAddedHandleInvoke(BotEventArgs e)
         {
-            OnCommonLog?.Invoke(new CommonLogEventArgs(Bot, e));
+            OnBoostAddedHandle?.Invoke(e);
         }
 
-        public void OnCommonLogInvoke(string message, string type, Update update)
+        internal void OnChatBackgroundSetHandleInvoke(BotEventArgs e)
         {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, update));
-        }
-
-        public void OnCommonLogInvoke(string message, string type, ConsoleColor color)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color));
-        }
-
-        public void OnCommonLogInvoke(string message, string type, ConsoleColor color, Update update)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, update));
-        }
-
-        public void OnErrorOnCommonLogInvokeInvoke(string message, string type)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
-        }
-
-        internal void OnUpdateChannelPostHandler(BotEventArgs e)
-        {
-            OnUpdateChannelPostHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateChatJoinRequestHandler(BotEventArgs e)
-        {
-            OnUpdateChatJoinRequestHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateChatMemberHandler(BotEventArgs e)
-        {
-            OnUpdateChatMemberHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateChosenInlineResultHandler(BotEventArgs e)
-        {
-            OnUpdateChosenInlineResultHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateEditedChannelPostHandler(BotEventArgs e)
-        {
-            OnUpdateEditedChannelPostHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateEditedMessageHandler(BotEventArgs e)
-        {
-            OnUpdateEditedMessageHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateInlineQueryHandler(BotEventArgs e)
-        {
-            OnUpdateInlineQueryHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateMyChatMemberHandler(BotEventArgs e)
-        {
-            OnUpdateMyChatMemberHandle?.Invoke(e);
-        }
-
-        internal void OnUpdatePollHandler(BotEventArgs e)
-        {
-            OnUpdatePollHandle?.Invoke(e);
-        }
-
-        internal void OnUpdatePollAnswerHandler(BotEventArgs e)
-        {
-            OnUpdatePollAnswerHandle?.Invoke(e);
-        }
-
-        internal void OnUpdatePreCheckoutQueryHandler(BotEventArgs e)
-        {
-            OnUpdatePreCheckoutQueryHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateShippingQuerHandler(BotEventArgs e)
-        {
-            OnUpdateShippingQuerHandle?.Invoke(e);
-        }
-
-        internal void OnUpdateUnknownHandler(BotEventArgs e)
-        {
-            OnUpdateUnknownHandle?.Invoke(e);
-        }
-
-        #endregion
-
-        #region Конструкторы
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="bot">Бот.</param>
-        public TEvents(PRBotBase bot)
-        {
-            this.Bot = bot;
+            OnChatBackgroundSetHandle?.Invoke(e);
         }
 
         #endregion

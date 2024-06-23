@@ -54,9 +54,9 @@ namespace PRTelegramBot.Core
                 //Связь update вместе ITelegramBotClient
                 update.AddTelegramClient(bot);
 
-                if (bot.Events.HasEventOnPreUpdate())
+                if (bot.Events.UpdateEvents.HasEventOnPreUpdate())
                 {
-                    var resultUpdate = await bot.Events.OnPreUpdateInvoke(new BotEventArgs(bot, update));
+                    var resultUpdate = await bot.Events.UpdateEvents.OnPreUpdateInvoke(new BotEventArgs(bot, update));
 
                     if (resultUpdate == UpdateResult.Stop || resultUpdate == UpdateResult.Handled)
                         return;
@@ -78,45 +78,45 @@ namespace PRTelegramBot.Core
                     await MessageFacade.Handle(update);
 
                 if (update.Type == UpdateType.ChannelPost)
-                    bot.Events.OnUpdateChannelPostHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateChannelPostHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.ChatJoinRequest)
-                    bot.Events.OnUpdateChatJoinRequestHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateChatJoinRequestHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.ChatMember)
-                    bot.Events.OnUpdateChatMemberHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateChatMemberHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.ChosenInlineResult)
-                    bot.Events.OnUpdateChosenInlineResultHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateChosenInlineResultHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.EditedChannelPost)
-                    bot.Events.OnUpdateEditedChannelPostHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateEditedChannelPostHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.EditedMessage)
-                    bot.Events.OnUpdateEditedMessageHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateEditedMessageHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.InlineQuery)
-                    bot.Events.OnUpdateInlineQueryHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateInlineQueryHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.MyChatMember)
-                    bot.Events.OnUpdateMyChatMemberHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateMyChatMemberHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.Poll)
-                    bot.Events.OnUpdatePollHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdatePollHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.PollAnswer)
-                    bot.Events.OnUpdatePollAnswerHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdatePollAnswerHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.PreCheckoutQuery)
-                    bot.Events.OnUpdatePreCheckoutQueryHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdatePreCheckoutQueryHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.ShippingQuery)
-                    bot.Events.OnUpdateShippingQuerHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateShippingQuerHandler(new BotEventArgs(bot, update));
 
                 if (update.Type == UpdateType.Unknown)
-                    bot.Events.OnUpdateUnknownHandler(new BotEventArgs(bot, update));
+                    bot.Events.UpdateEvents.OnUpdateUnknownHandler(new BotEventArgs(bot, update));
 
-                bot.Events.OnPostMessageUpdateInvoke(new BotEventArgs(bot, update));
+                bot.Events.UpdateEvents.OnPostUpdateInvoke(new BotEventArgs(bot, update));
             }
             catch (Exception ex)
             {

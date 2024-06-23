@@ -51,6 +51,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
+            var replyParams = CreateReplyParametersFromOptions(option);
             ChatId toMsg = new ChatId(chatId);
             ChatId fromMsg = new ChatId(message.Chat.Id);
 
@@ -64,8 +65,7 @@ namespace PRTelegramBot.Helpers
                                     captionEntities: option.Entities,
                                     disableNotification: option.DisableNotification,
                                     protectContent: option.ProtectedContent,
-                                    replyToMessageId: option.ReplyToMessageId,
-                                    allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                                    replyParameters: replyParams,
                                     replyMarkup: replyMarkup,
                                     cancellationToken: option.CancellationToken);
             return rMessage;
@@ -130,6 +130,8 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
+            var replyParams = CreateReplyParametersFromOptions(option);
+            var linkOptions = CreateLinkPreviewOptionsFromOption(option);
 
             if (text.Length > MAX_MESSAGE_LENGTH)
             {
@@ -152,11 +154,10 @@ namespace PRTelegramBot.Helpers
                             replyMarkup: replyMarkup,
                             messageThreadId: option.MessageThreadId,
                             entities: option.Entities,
-                            disableWebPagePreview: option.DisableWebPagePreview,
+                            linkPreviewOptions: linkOptions,
                             disableNotification: option.DisableNotification,
                             protectContent: option.ProtectedContent,
-                            replyToMessageId: option.ReplyToMessageId,
-                            allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                            replyParameters: replyParams,
                             cancellationToken: option.CancellationToken);
         }
 
@@ -172,7 +173,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             List<InputMediaPhoto> media = new();
-
+            var replyParams = CreateReplyParametersFromOptions(option);
             bool isFirst = true;
             int count = 0;
             foreach (var item in filepaths)
@@ -205,8 +206,7 @@ namespace PRTelegramBot.Helpers
                 messageThreadId:option.MessageThreadId, 
                 disableNotification: option.DisableNotification, 
                 protectContent: option.ProtectedContent,
-                replyToMessageId: option.ReplyToMessageId,
-                allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                replyParameters: replyParams,
                 cancellationToken: option.CancellationToken);
         }
 
@@ -241,6 +241,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
+            var replyParams = CreateReplyParametersFromOptions(option);
             if (!System.IO.File.Exists(filePath))
             {
                 await Send(botClient, chatId, text, option);
@@ -260,8 +261,7 @@ namespace PRTelegramBot.Helpers
                                                             disableContentTypeDetection: option.DisableContentTypeDetection,
                                                             disableNotification: option.DisableNotification,
                                                             protectContent: option.ProtectedContent,
-                                                            replyToMessageId: option.ReplyToMessageId,
-                                                            allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                                                            replyParameters: replyParams,
                                                             cancellationToken: option.CancellationToken);
             }
         }
@@ -279,7 +279,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option) as InlineKeyboardMarkup;
-
+            var linkOptions = CreateLinkPreviewOptionsFromOption(option);
             return await botClient.EditMessageTextAsync(
                         chatId: chatId,
                         messageId: messageId,
@@ -287,7 +287,7 @@ namespace PRTelegramBot.Helpers
                         parseMode: option.ParseMode,
                         replyMarkup: replyMarkup,
                         entities: option.Entities,
-                        disableWebPagePreview: option.DisableWebPagePreview,
+                        linkPreviewOptions: linkOptions,
                         cancellationToken: option.CancellationToken);
         }
 
@@ -400,7 +400,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
-
+            var replyParams = CreateReplyParametersFromOptions(option);
             return await botClient.SendPhotoAsync(
                                 chatId: chatId,
                                 photo: InputFile.FromStream(stream),
@@ -412,8 +412,7 @@ namespace PRTelegramBot.Helpers
                                 hasSpoiler: option.HasSpoiler,
                                 disableNotification: option.DisableNotification,
                                 protectContent: option.ProtectedContent,
-                                replyToMessageId: option.ReplyToMessageId,
-                                allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                                replyParameters: replyParams,
                                 cancellationToken: option.CancellationToken);
         }
 
@@ -430,7 +429,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
-
+            var replyParams = CreateReplyParametersFromOptions(option);
             return await botClient.SendPhotoAsync(
                             chatId: chatId,
                             photo: InputFile.FromString(url),
@@ -442,8 +441,7 @@ namespace PRTelegramBot.Helpers
                             hasSpoiler: option.HasSpoiler,
                             disableNotification: option.DisableNotification,
                             protectContent: option.ProtectedContent,
-                            replyToMessageId: option.ReplyToMessageId,
-                            allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                            replyParameters: replyParams,
                             cancellationToken: option.CancellationToken);
         }
 
@@ -460,7 +458,7 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
-
+            var replyParams = CreateReplyParametersFromOptions(option);
             return await botClient.SendDocumentAsync(
                             chatId: chatId,
                             document: InputFile.FromString(url),
@@ -472,8 +470,7 @@ namespace PRTelegramBot.Helpers
                             disableContentTypeDetection: option.DisableContentTypeDetection,
                             disableNotification: option.DisableNotification,
                             protectContent: option.ProtectedContent,
-                            replyToMessageId: option.ReplyToMessageId,
-                            allowSendingWithoutReply: option.AllowSendingWithoutReply,
+                            replyParameters: replyParams,
                             cancellationToken: option.CancellationToken);
         }
 
@@ -615,6 +612,23 @@ namespace PRTelegramBot.Helpers
                 replyMarkup = option.MenuInlineKeyboardMarkup;
 
             return replyMarkup;
+        }
+
+        private static ReplyParameters CreateReplyParametersFromOptions(OptionMessage option)
+        {
+            ReplyParameters parameters = new ReplyParameters();
+            if(option.ReplyToMessageId != null)
+                parameters.MessageId = option.ReplyToMessageId.Value;
+            parameters.AllowSendingWithoutReply = option.AllowSendingWithoutReply;
+            
+            return parameters;
+        }
+
+        private static LinkPreviewOptions CreateLinkPreviewOptionsFromOption(OptionMessage option)
+        {
+            LinkPreviewOptions linkOptions = new LinkPreviewOptions();
+            linkOptions.IsDisabled = option.DisableWebPagePreview;
+            return linkOptions;
         }
 
         #endregion
