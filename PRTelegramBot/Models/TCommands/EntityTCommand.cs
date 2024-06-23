@@ -17,5 +17,13 @@ namespace PRTelegramBot.Models.CallbackCommands
         {
             EntityId = entityId;
         }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        public EntityTCommand()
+        {
+            
+        }
     }
 }

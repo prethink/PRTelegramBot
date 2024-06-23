@@ -18,9 +18,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Данные для обработки.
         /// </summary>
         [JsonPropertyName("d")]
-        public new T D { get; set; }
-
-        public new T Data => D;
+        public new T Data { get; set; }
 
         #endregion
 
@@ -43,6 +41,14 @@ namespace PRTelegramBot.Models.InlineButtons
             }
         }
 
+        public override object GetContent()
+        {
+            var result = JsonSerializer.Serialize<InlineCallback<T>>(this);
+            var byteSize = result.Length * sizeof(char);
+            ThrowExceptionIfBytesMore128(result);
+            return result;
+        }
+
         #endregion
 
         #region Конструкторы
@@ -51,14 +57,13 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Конструктор.
         /// </summary>
         /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="c">Заголовок команды.</param>
-        /// <param name="d">Данные.</param>
-        [JsonConstructor]
-        public InlineCallback(string buttonName, Enum c, T d) : base(buttonName, c, d)
+        /// <param name="commandType">Заголовок команды.</param>
+        /// <param name="data">Данные.</param>
+        public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
         {
             ButtonName = buttonName;
-            C = c;
-            D = d;
+            CommandType = commandType;
+            Data = data;
         }
 
         #endregion
@@ -91,27 +96,13 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         [JsonPropertyName("c")]
         [JsonConverter(typeof(HeaderConverter))]
-        [JsonInclude]
-        public Enum C { get; set; }
-
-        /// <summary>
-        /// Тип команды.
-        /// </summary>
-        [JsonIgnore]
-        public Enum CommandType => C;
+        public Enum CommandType { get; set; }
 
         /// <summary>
         /// Данные для обработки.
         /// </summary>
         [JsonPropertyName("d")]
-        [JsonInclude]
-        public TCommandBase D { get; set; }
-
-        /// <summary>
-        /// Данные для обработки.
-        /// </summary>
-        [JsonIgnore]
-        public TCommandBase Data => D;
+        public TCommandBase Data { get; set; }
 
         #endregion
 
@@ -126,12 +117,7 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             try
             {
-                var options = new JsonSerializerOptions
-                {
-                    //PropertyNameCaseInsensitive = true,
-                    IncludeFields = true
-                };
-                return JsonSerializer.Deserialize<InlineCallback>(data, options);
+                return JsonSerializer.Deserialize<InlineCallback>(data);
             }
             catch (Exception ex)
             {
@@ -148,14 +134,18 @@ namespace PRTelegramBot.Models.InlineButtons
             return ButtonName;
         }
 
-        public object GetContent()
+        public virtual object GetContent()
         {
             var result = JsonSerializer.Serialize(this);
+            ThrowExceptionIfBytesMore128(result);   
+            return result;
+        }
+
+        public void ThrowExceptionIfBytesMore128(string result)
+        {
             var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
                 throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
-
-            return result;
         }
 
         #endregion
@@ -165,14 +155,14 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="d">Данные.</param>
-        [JsonConstructor]
-        public InlineCallback(Enum c, TCommandBase d)
+        /// <param name="data">Данные.</param>
+        public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
         {
-            ButtonName = "";
-            C = c;
-            D = d;
+            ButtonName = buttonName;
+            CommandType = commandType;
+            Data = data;
         }
 
         /// <summary>
@@ -180,25 +170,17 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="d">Данные.</param>
-        public InlineCallback(string buttonName, Enum c, TCommandBase d)
+        public InlineCallback(string buttonName, Enum commandType)
         {
             ButtonName = buttonName;
-            C = c;
-            D = d;
+            CommandType = commandType;
+            Data = new TCommandBase();
         }
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="c">Заголовок команды.</param>
-        public InlineCallback(string buttonName, Enum c)
-        {
-            ButtonName = buttonName;
-            C = c;
-            D = new TCommandBase(0);
-        }
+        public InlineCallback() { }
 
         #endregion
     }

@@ -11,7 +11,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Дата.
         /// </summary>
         [JsonPropertyName("1")]
-        public DateTime Date { get; private set; }
+        public DateTime Date { get;  set; }
 
         /// <summary>
         /// Конструктор.
@@ -21,6 +21,14 @@ namespace PRTelegramBot.Models.CallbackCommands
         public CalendarTCommand(DateTime date, int command = 0) : base(command) 
         {
             Date = date;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        public CalendarTCommand()
+        {
+            
         }
     }
 }

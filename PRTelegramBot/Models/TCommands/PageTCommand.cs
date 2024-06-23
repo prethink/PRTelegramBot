@@ -14,5 +14,13 @@ namespace PRTelegramBot.Models.TCommands
             this.Page = page;
             Header = Convert.ToInt32(enumValueInt);
         }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        public PageTCommand()
+        {
+            
+        }
     }
 }

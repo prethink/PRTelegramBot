@@ -13,14 +13,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Предыдущая команда.
         /// </summary>
         [JsonPropertyName("lc")]
-        [JsonInclude]
-        public int Lc { get; set; }
-
-        /// <summary>
-        /// Предыдущая команда.
-        /// </summary>
-        [JsonIgnore]
-        public int LastCommand => Lc;
+        public int LastCommand { get; set; }
 
         #endregion
 
@@ -43,11 +36,18 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="lc">Команда.</param>
-        [JsonConstructor]
-        public TCommandBase(int lc)
+        public TCommandBase()
         {
-            Lc = lc;
+            LastCommand = 0;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="command">Команда.</param>
+        public TCommandBase(int command)
+        {
+            LastCommand = command;
         }
 
         #endregion
