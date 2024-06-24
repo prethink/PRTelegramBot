@@ -4,7 +4,7 @@
 nuget - [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/)    
 Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
 # ⚛️ Ядро библиотеки
-TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v21.0.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.      
@@ -31,7 +31,7 @@ TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 🔑 Зависимости
 
- - TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
+ - TelegramBot v21.0.0 https://github.com/TelegramBots/Telegram.Bot
  - Microsoft.Extensions.Configuration.Binder v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.Configuration.Json v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
