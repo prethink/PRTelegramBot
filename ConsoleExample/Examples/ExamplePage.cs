@@ -17,23 +17,23 @@ namespace ConsoleExample.Examples
     {
         //Тестовые данные 1
         static List<string> pageData = new List<string>()
-            {
-                "Данные страница 1",
-                "Данные страница 2",
-                "Данные страница 3",
-                "Данные страница 4",
-                "Данные страница 5"
-            };
+        {
+            "Данные страница 1",
+            "Данные страница 2",
+            "Данные страница 3",
+            "Данные страница 4",
+            "Данные страница 5"
+        };
 
         //Тестовые данные 2
         static List<string> pageDataTwo = new List<string>()
-            {
-                "TestДанные страница 1",
-                "TestДанные страница 2",
-                "TestДанные страница 3",
-                "TestДанные страница 4",
-                "TestДанные страница 5"
-            };
+        {
+            "TestДанные страница 1",
+            "TestДанные страница 2",
+            "TestДанные страница 3",
+            "TestДанные страница 4",
+            "TestДанные страница 5"
+        };
 
         /// <summary>
         /// Напишите в чате "pages"
@@ -94,7 +94,7 @@ namespace ConsoleExample.Examples
                             var data = await pageData.GetPaged<string>(command.Data.Page, 1);
                             //Генерирую постраничное меню
                             var button = new InlineCallback("⭐", CustomTHeader.CustomButton);
-                            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader,button: button);
+                            var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader, button: button);
                             //Получаю результат из постраничного вывода
                             var pageResult = data.Results;
                             var option = new OptionMessage();

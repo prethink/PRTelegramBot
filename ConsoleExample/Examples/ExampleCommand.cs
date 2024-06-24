@@ -1,7 +1,6 @@
 ﻿using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Configs;
-using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.InlineButtons;
 using PRTelegramBot.Interfaces;

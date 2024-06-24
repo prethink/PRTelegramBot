@@ -8,7 +8,5 @@
         public const string MSG_MAIN_MENU   = "";
 
         public const string DYNAMIC_COMMANT_EXAMPLE = "";
-
-
     }
 }

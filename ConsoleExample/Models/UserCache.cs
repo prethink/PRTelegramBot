@@ -1,5 +1,4 @@
 ﻿using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models;
 
 namespace ConsoleExample.Models
 {

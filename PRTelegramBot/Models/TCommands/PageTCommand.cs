@@ -7,6 +7,7 @@ namespace PRTelegramBot.Models.TCommands
     {
         [JsonPropertyName("1")]
         public int Page { get; set; }
+
         [JsonPropertyName("2")]
         public int Header { get; set; }
         public PageTCommand(int page, Enum enumValueInt,int command = 0) : base(command)
@@ -18,9 +19,6 @@ namespace PRTelegramBot.Models.TCommands
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public PageTCommand()
-        {
-            
-        }
+        public PageTCommand() { }
     }
 }

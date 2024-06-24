@@ -21,9 +21,6 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public EntityTCommand()
-        {
-            
-        }
+        public EntityTCommand() { }
     }
 }

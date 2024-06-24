@@ -1,6 +1,5 @@
 ﻿using ConsoleExample.Extension;
 using PRTelegramBot.Extensions;
-using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Helpers = PRTelegramBot.Helpers;
 

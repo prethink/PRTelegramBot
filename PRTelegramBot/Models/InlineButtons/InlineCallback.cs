@@ -141,7 +141,7 @@ namespace PRTelegramBot.Models.InlineButtons
             return result;
         }
 
-        public void ThrowExceptionIfBytesMore128(string result)
+        protected void ThrowExceptionIfBytesMore128(string result)
         {
             var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
