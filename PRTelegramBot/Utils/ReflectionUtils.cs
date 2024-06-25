@@ -34,7 +34,7 @@ namespace PRTelegramBot.Utils
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для reply команд</returns>
-        public static MethodInfo[] FindStaticMessageMenuHandlers(long botId = 0)
+        public static MethodInfo[] FindStaticReplyCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(ReplyMenuHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
@@ -44,7 +44,7 @@ namespace PRTelegramBot.Utils
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для reply команд</returns>
-        public static MethodInfo[] FindStaticMessageMenuDictionaryHandlers(long botId = 0)
+        public static MethodInfo[] FindStaticDynamicReplyCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(ReplyMenuDynamicHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
@@ -54,7 +54,7 @@ namespace PRTelegramBot.Utils
         /// <param name="botId">Уникальный идентификатор бота</param>
         /// </summary>
         /// <returns>Массив методов для inline команд</returns>
-        public static MethodInfo[] FindStaticInlineMenuHandlers(long botId = 0)
+        public static MethodInfo[] FindStaticInlineCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(InlineCallbackHandlerAttribute<>), BindingFlags.Public | BindingFlags.Static, botId);
         }
@@ -111,7 +111,6 @@ namespace PRTelegramBot.Utils
             Type enumType = @enum.GetType();
             ValidateEnumIsInt(enumType);
         }
-
         public static void ValidateEnumIsInt(Type enumType)
         {
             if (!enumType.IsEnum)

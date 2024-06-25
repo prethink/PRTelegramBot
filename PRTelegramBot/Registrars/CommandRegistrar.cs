@@ -1,11 +1,13 @@
 ﻿using PRTelegramBot.Core;
-using Telegram.Bot.Types;
-using Telegram.Bot;
-using Telegram.Bot.Polling;
 using PRTelegramBot.Interfaces;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Registrars
 {
+    /// <summary>
+    /// Регистрация новых команд с помощью кода в процессе работы бота.
+    /// </summary>
     public class RegisterCommand : IRegisterCommand
     {
         #region Поля и свойства

@@ -41,7 +41,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(2, 3)]
         public void FindReplyMethods(int botId, int exceptedMethodsCount)
         {
-            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticReplyCommandHandlers(botId);
             Assert.AreEqual(exceptedMethodsCount, replyMethods.Length);
         }
 
@@ -61,7 +61,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var botWithIdOne = botBuilder.SetBotId(BotCollection.GetNextId()).Build();
             var botWithIdTwo = botBuilder.SetBotId(BotCollection.GetNextId()).Build();
 
-            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(botId);
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticDynamicReplyCommandHandlers(botId);
             Assert.AreEqual(exceptedMethodsCount, replyMethods.Length);
         }
 
@@ -71,7 +71,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(2, 3)]
         public void FindInlineMethods(int botId, int exceptedMethodsCount)
         {
-            MethodInfo[] inlineMethods = ReflectionUtils.FindStaticInlineMenuHandlers(botId);
+            MethodInfo[] inlineMethods = ReflectionUtils.FindStaticInlineCommandHandlers(botId);
             Assert.AreEqual(exceptedMethodsCount, inlineMethods.Length);
         }
 
@@ -90,7 +90,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(2, nameof(Commands.TestCommonMethodTwo), CommandComparison.Equals, StringComparison.OrdinalIgnoreCase)]
         public void ReplyComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
         {
-            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticReplyCommandHandlers(botId);
             var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
             var attribute = method.GetCustomAttribute<ReplyMenuHandlerAttribute>();
 
@@ -103,7 +103,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(2, nameof(Commands.TestCommonMethodTwo), CommandComparison.Equals, StringComparison.OrdinalIgnoreCase)]
         public void ReplyDynamicComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
         {
-            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticReplyCommandHandlers(botId);
             var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
             var attribute = method.GetCustomAttribute<ReplyMenuDynamicHandlerAttribute>();
 
@@ -116,7 +116,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(2, nameof(Commands.TestCommonMethodTwo), CommandComparison.Contains, StringComparison.OrdinalIgnoreCase)]
         public void SlashComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
         {
-            MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
+            MethodInfo[] replyMethods = ReflectionUtils.FindStaticReplyCommandHandlers(botId);
             var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
             var attribute = method.GetCustomAttribute<SlashHandlerAttribute>();
 

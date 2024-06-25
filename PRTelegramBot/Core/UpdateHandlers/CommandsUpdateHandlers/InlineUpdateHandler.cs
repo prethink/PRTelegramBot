@@ -95,7 +95,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         protected override void RegisterCommands()
         {
             ReflectionUtils.FindEnumHeaders();
-            MethodInfo[] methods = ReflectionUtils.FindStaticInlineMenuHandlers(bot.Options.BotId);
+            MethodInfo[] methods = ReflectionUtils.FindStaticInlineCommandHandlers(bot.Options.BotId);
             registerService.RegisterStaticCommand(bot, typeof(InlineCallbackHandlerAttribute<>), methods, commands);
 
             Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();

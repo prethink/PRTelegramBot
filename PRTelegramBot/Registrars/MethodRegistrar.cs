@@ -9,6 +9,9 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Registrars
 {
+    /// <summary>
+    /// Класс для регистрации методов для дальнейшей обработки команд.
+    /// </summary>
     public sealed class MethodRegistrar
     {
         #region Методы

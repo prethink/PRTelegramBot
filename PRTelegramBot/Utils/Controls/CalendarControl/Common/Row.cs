@@ -7,16 +7,16 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
 {
     /// <summary>
-    /// Создает inline строки для календаря
+    /// Создает inline строки для календаря.
     /// </summary>
     public static class Row
     {
         /// <summary>
-        /// Генерация даты
+        /// Генерация даты.
         /// </summary>
-        /// <param name="date">Дата</param>
-        /// <param name="dtfi">Формат даты</param>
-        /// <returns>Коллекция inline кнопок</returns>
+        /// <param name="date">Дата.</param>
+        /// <param name="dtfi">Формат даты.</param>
+        /// <returns>Коллекция inline кнопок.</returns>
         public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, DateTimeFormatInfo dtfi, int command = 0) =>
         new InlineKeyboardButton[]
         {
@@ -24,10 +24,10 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         };
 
         /// <summary>
-        /// Коллекция дней недели
+        /// Коллекция дней недели.
         /// </summary>
-        /// <param name="dtfi">Формат даты</param>
-        /// <returns>Коллекция inline кнопко</returns>
+        /// <param name="dtfi">Формат даты.</param>
+        /// <returns>Коллекция inline кнопок.</returns>
         public static IEnumerable<InlineKeyboardButton> DayOfWeek(DateTimeFormatInfo dtfi, int command = 0)
         {
             var dayNames = new InlineKeyboardButton[7];
@@ -40,11 +40,11 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         }
 
         /// <summary>
-        /// Коллекция месецов
+        /// Коллекция месецов.
         /// </summary>
-        /// <param name="date">Дата</param>
-        /// <param name="dtfi">Формат даты</param>
-        /// <returns>Коллекция inline кнопок</returns>
+        /// <param name="date">Дата.</param>
+        /// <param name="dtfi">Формат даты.</param>
+        /// <returns>Коллекция inline кнопок.</returns>
         public static IEnumerable<IEnumerable<InlineKeyboardButton>> Month(DateTime date, DateTimeFormatInfo dtfi, int command = 0)
         {
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
@@ -81,10 +81,10 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         }
 
         /// <summary>
-        /// Генерация контролов для переходов по месяцам
+        /// Генерация контролов для переходов по месяцам.
         /// </summary>
-        /// <param name="date">Дата</param>
-        /// <returns>Коллекция inline кнопок</returns>
+        /// <param name="date">Дата.</param>
+        /// <returns>Коллекция inline кнопок.</returns>
         public static IEnumerable<InlineKeyboardButton> Controls(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[]
             {
@@ -94,10 +94,10 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
             };
 
         /// <summary>
-        /// Возращение к выбору месяца года
+        /// Возращение к выбору месяца года.
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns>Массив inline кнопок</returns>
+        /// <param name="date">Дата.</param>
+        /// <returns>Массив inline кнопок.</returns>
         public static InlineKeyboardButton[] BackToMonthYearPicker(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[3]
             {
@@ -107,10 +107,10 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
             };
 
         /// <summary>
-        /// Смена года
+        /// Смена года.
         /// </summary>
-        /// <param name="date">Дата</param>
-        /// <returns>Массив inline кнопок</returns>
+        /// <param name="date">Дата.</param>
+        /// <returns>Массив inline кнопок.</returns>
         public static InlineKeyboardButton[] ChangeYear(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[3]
             {

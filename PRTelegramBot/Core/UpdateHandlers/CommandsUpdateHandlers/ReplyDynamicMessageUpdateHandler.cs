@@ -13,7 +13,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         protected override void RegisterCommands()
         {
-            MethodInfo[] methods = ReflectionUtils.FindStaticMessageMenuDictionaryHandlers(bot.Options.BotId);
+            MethodInfo[] methods = ReflectionUtils.FindStaticDynamicReplyCommandHandlers(bot.Options.BotId);
             registerService.RegisterStaticCommand(bot, typeof(ReplyMenuDynamicHandlerAttribute), methods, commands);
 
             Type[] servicesToRegistration = ReflectionUtils.FindServicesToRegistration();

@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Позволяет выполнить пользователю команды пошагово
+    /// Позволяет выполнить пользователю команды пошагово.
     /// </summary>
     public sealed class StepTelegram : IExecuteStep
     {

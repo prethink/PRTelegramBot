@@ -3,22 +3,38 @@
 namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
-    /// Команда для передачи даты из календаря
+    /// Команда для передачи даты из календаря.
     /// </summary>
     public class CalendarTCommand : TCommandBase
     {
+        #region Поля и свойства
+
         /// <summary>
         /// Дата.
         /// </summary>
         [JsonPropertyName("1")]
-        public DateTime Date { get;  set; }
+        public DateTime Date { get; set; }
+
+        #endregion
+
+        #region Конструкторы
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="command">Команда.</param>
-        public CalendarTCommand(DateTime date, int command = 0) : base(command) 
+        public CalendarTCommand(DateTime date)
+            : base(0)
+        {
+            Date = date;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="date">Дата.</param>
+        /// <param name="lastCommand">Команда.</param>
+        public CalendarTCommand(DateTime date, int lastCommand) : base(lastCommand)
         {
             Date = date;
         }
@@ -27,5 +43,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Конструктор.
         /// </summary>
         public CalendarTCommand() { }
+
+        #endregion
     }
 }
