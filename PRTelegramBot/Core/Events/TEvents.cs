@@ -1,5 +1,4 @@
-﻿using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
+﻿using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Events
@@ -16,8 +15,14 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public PRBotBase Bot { get; private set; }
 
+        /// <summary>
+        /// События для обновления типа сообщения.
+        /// </summary>
         public MessageEvents MessageEvents { get; private set; }
 
+        /// <summary>
+        /// События обновлений.
+        /// </summary>
         public UpdateEvents UpdateEvents { get; private set; }
 
         #endregion

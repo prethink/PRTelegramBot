@@ -1,6 +1,4 @@
 ﻿using PRTelegramBot.Models.EventsArgs;
-using System.Reflection.Metadata;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Events
 {
@@ -234,27 +232,27 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnWriteAccessAllowedHandle;
 
         /// <summary>
-        /// Событие 
+        /// Событие, которое происходит при обработке розыгрыша.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayHandle;
 
         /// <summary>
-        /// Событие 
+        /// Событие, которое происходит при объявлении победителей розыгрыша.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayWinnersHandle;
 
         /// <summary>
-        /// Событие 
+        /// Событие, которое происходит при завершении розыгрыша. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayCompletedHandle;
 
         /// <summary>
-        /// Событие 
+        /// Событие, которое происходит при добавлении буста. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnBoostAddedHandle;
 
         /// <summary>
-        /// Событие 
+        /// Событие, которое происходит при установке фона чата. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatBackgroundSetHandle;
 

@@ -1,7 +1,14 @@
-Описание как работать с библиотекой PRTelegramBot - [prethink.ru](https://prethink.ru/category/uroki/)
+# 🤖 Текущая версия: 0.6.1
+# Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐    
+
+Актуальная документация для версии в nuget - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
+nuget - [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/)    
+Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
+# ⚛️ Ядро библиотеки
+TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
-Библиотека для быстрого и удобного создания telegram ботов.   
+Библиотека с простой маршрутизацией команд для создания telegram ботов.      
 Пример использования в консольном приложении. https://github.com/prethink/PRTelegramBot/tree/master/ConsoleExample
 
 # 💎 Возможности
@@ -20,12 +27,16 @@
  - Возможность ограничить доступ к определенным функциям только выбранным пользователям;
  - Возможность добавления администраторов для управления телеграм-ботом;
  - Возможность использования белого списка пользователей, которые могут пользоваться ботом.
+ - Динамическое добавление и удаление команд
+
 
 # 🔑 Зависимости
 
  - TelegramBot v19.0.0 https://github.com/TelegramBots/Telegram.Bot
- - Microsoft.Extensions.Configuration.Binder v7.0.0 https://github.com/dotnet/runtime
- - Microsoft.Extensions.Configuration.Json v7.0.0 https://github.com/dotnet/runtime
+ - Microsoft.Extensions.Configuration.Binder v8.0.0 https://github.com/dotnet/runtime
+ - Microsoft.Extensions.Configuration.Json v8.0.0 https://github.com/dotnet/runtime
+ - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
+
 # 🧱 Интегрированные пакеты
  - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker
 

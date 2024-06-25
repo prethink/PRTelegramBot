@@ -11,8 +11,6 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Обработка команды старт
         /// </summary>
-        [ReplyMenuDynamicHandler("RP_START")]
-        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         [SlashHandler("/start")]
         public static async Task Start(ITelegramBotClient botClient, Update update)
         {
@@ -22,7 +20,6 @@ namespace PRTelegramBot.Commands
         /// <summary>
         /// Обработка команды старт с аргументом
         /// </summary>
-        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task StartWithArguments(ITelegramBotClient botClient, Update update, string arg)
         {
             try

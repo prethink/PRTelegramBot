@@ -6,22 +6,20 @@ using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 
-//Конфигурация NLog
+// Конфигурация NLog.
 NLogConfigurate.Configurate();
-//Словарик для логгеров
+// Словарик для логгеров.
 Dictionary<string, Logger> LoggersContainer = new Dictionary<string, Logger>();
-//Команда для завершения приложения
+// Команда для завершения приложения.
 const string EXIT_COMMAND = "exit";
 
 //Запуск программы
 Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
-
-
+// Парсинг динамических команд из json файла в формате ключ:значение.
 var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
 var dynamicCommands = botJsonProvider.GetKeysAndValues();
-#region запуск telegram бота
 
 var telegram = new PRBotBuilder("Token")
                     .SetBotId(0)
@@ -31,6 +29,17 @@ var telegram = new PRBotBuilder("Token")
                     .SetClearUpdatesOnStart(true)
                     .AddReplyDynamicCommands(dynamicCommands)
                     .Build();
+
+// Подписка на простые логи.
+telegram.Events.OnCommonLog += Telegram_OnLogCommon;
+// Подписка на логи с ошибками.
+telegram.Events.OnErrorLog += Telegram_OnLogError;
+// Запуск работы бота.
+await telegram.Start();
+// Инициализация событий и команд для бота.
+InitEventsAndCommands(telegram);
+
+#region Старый вариант создания ботов
 
 var telegramTwo = new PRBot(options =>
 {
@@ -45,26 +54,16 @@ var telegramTwo = new PRBot(options =>
     // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
     options.BotId = 1;
 });
-
-//Подписка на простые логи
-telegram.Events.OnCommonLog += Telegram_OnLogCommon;
-//Подписка на логи с ошибками
-telegram.Events.OnErrorLog += Telegram_OnLogError;
-
-
-
-//Запуск работы бота
-
 //Подписка на простые логи
 telegramTwo.Events.OnCommonLog += Telegram_OnLogCommon;
 //Подписка на логи с ошибками
 telegramTwo.Events.OnErrorLog += Telegram_OnLogError;
-//Запуск работы бота
-await telegram.Start();
+// Запуск работы бота.
 await telegramTwo.Start();
-
-InitEventsAndCommands(telegram);
+// Инициализация событий и команд для бота.
 InitEventsAndCommands(telegramTwo);
+
+#endregion
 
 void InitEventsAndCommands(PRBotBase tg)
 {
@@ -160,9 +159,6 @@ async Task Handler_OnWithoutMessageUpdate(BotEventArgs e)
 {
     //Обработка обновление кроме message и callback
 }
-
-
-#endregion
 
 #region Работа фоновых задач
 var tasker = new Tasker(10);

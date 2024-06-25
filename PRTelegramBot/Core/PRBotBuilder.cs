@@ -135,9 +135,9 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="telegramId">Идентификатор пользователя.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder AddAdmin(long telegramId)
+        public PRBotBuilder AddAdmin(params long[] telegramId)
         {
-            options.Admins.Add(telegramId);
+            options.Admins.AddRange(telegramId);
             return this;
         }
 
@@ -157,9 +157,9 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="telegramId">Идентификатор пользователя.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder AddUserWhiteList(long telegramId)
+        public PRBotBuilder AddUserWhiteList(params long[] telegramId)
         {
-            options.WhiteListUsers.Add(telegramId);
+            options.WhiteListUsers.AddRange(telegramId);
             return this;
         }
 
