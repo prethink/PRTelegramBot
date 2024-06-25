@@ -68,10 +68,10 @@ InitEventsAndCommands(telegramTwo);
 void InitEventsAndCommands(PRBotBase tg)
 {
     ////Обработка обновление 
-    tg.Events.UpdateEvents.OnPreUpdate += Handler_OnUpdate;
+    tg.Events.UpdateEvents.OnPre += Handler_OnUpdate;
 
     //Обработка обновление кроме message и callback
-    tg.Events.UpdateEvents.OnPostUpdate += Handler_OnWithoutMessageUpdate;
+    tg.Events.UpdateEvents.OnPost += Handler_OnWithoutMessageUpdate;
 
     //Обработка не правильный тип сообщений
     tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
@@ -137,7 +137,7 @@ void InitEventsAndCommands(PRBotBase tg)
     tg.Events.MessageEvents.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
     //Обработка обновления изменения группы/чата
-    tg.Events.UpdateEvents.OnUpdateMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
+    tg.Events.UpdateEvents.OnMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
 
     tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
     {
