@@ -69,7 +69,8 @@ namespace PRTelegramBot.Core.UpdateHandlers
         private async Task<UpdateResult> UpdateMessageCommands(Update update)
         {
             var result = UpdateResult.Continue;
-            
+            bot.Events.MessageEvents.OnTextHandleInvoke(new BotEventArgs(bot, update));
+
             if (!nextStepHandler.IgnoreBasicCommand(update))
             {
                 result = await SlashHandler.Handle(update);
@@ -171,6 +172,9 @@ namespace PRTelegramBot.Core.UpdateHandlers
             TypeMessage.Add(MessageType.WebAppData, bot.Events.MessageEvents.OnWebAppsHandleInvoke);
             TypeMessage.Add(MessageType.WebsiteConnected, bot.Events.MessageEvents.OnWebsiteConnectedHandleInvoke);
             TypeMessage.Add(MessageType.WriteAccessAllowed, bot.Events.MessageEvents.OnWriteAccessAllowedInvoke);
+            TypeMessage.Add(MessageType.Story, bot.Events.MessageEvents.OnStoryHandleInvoke);
+            TypeMessage.Add(MessageType.GiveawayCreated, bot.Events.MessageEvents.OnGiveawayCreatedHandleInvoke);
+            TypeMessage.Add(MessageType.PassportData, bot.Events.MessageEvents.OnPassportDataHandleInvoke);
         }
 
         #endregion

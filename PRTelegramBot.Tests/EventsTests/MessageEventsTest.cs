@@ -202,6 +202,24 @@ namespace PRTelegramBot.Tests.EventsTests
         }
 
         [Test]
+        public async Task OnTextShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateMessageTypeText();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.MessageEvents.OnTextHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnTextHandle)} event was not called.");
+            bot.Events.MessageEvents.OnTextHandle -= EventHandler;
+        }
+
+        [Test]
         public async Task OnVenueShouldBeInvoked()
         {
             var update = UpdateSetUp.CreateMessageTypeVenue();
@@ -291,5 +309,58 @@ namespace PRTelegramBot.Tests.EventsTests
             bot.Events.MessageEvents.OnAnimationHandle -= EventHandler;
         }
 
+        [Test]
+        public async Task OnStoryShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateMessageTypeStory();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.MessageEvents.OnStoryHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnStoryHandle)} event was not called.");
+            bot.Events.MessageEvents.OnStoryHandle -= EventHandler;
+        }
+
+        [Test]
+        public async Task OnPassportDataShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateMessageTypePassportData();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.MessageEvents.OnPassportDataHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnPassportDataHandle)} event was not called.");
+            bot.Events.MessageEvents.OnPassportDataHandle -= EventHandler;
+        }
+
+        [Test]
+        public async Task OnGiveawayCreatedShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateMessageTypeGiveawayCreated();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.MessageEvents.OnGiveawayCreatedHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGiveawayCreatedHandle)} event was not called.");
+            bot.Events.MessageEvents.OnGiveawayCreatedHandle -= EventHandler;
+        }
     }
 }
