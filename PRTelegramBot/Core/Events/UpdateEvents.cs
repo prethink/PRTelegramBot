@@ -10,12 +10,12 @@ namespace PRTelegramBot.Core.Events
         /// <summary>
         /// Событие вызывается после обработки update типа Message и CallbackQuery.
         /// </summary>
-        public event Func<BotEventArgs, Task>? OnPost;
+        public event Func<BotEventArgs, Task>? OnPostUpdate;
 
         /// <summary>
         /// Событие вызывается до обработки update, может быть прекращено выполнение.
         /// </summary>
-        public event Func<BotEventArgs, Task<UpdateResult>>? OnPre;
+        public event Func<BotEventArgs, Task<UpdateResult>>? OnPreUpdate;
 
         /// <summary>
         /// Событие обновления поста в канале. 
@@ -124,19 +124,19 @@ namespace PRTelegramBot.Core.Events
         internal async Task<UpdateResult> OnPreInvoke(BotEventArgs e)
         {
             if (HasEventOnPreUpdate())
-                return await OnPre.Invoke(e);
+                return await OnPreUpdate.Invoke(e);
 
             return UpdateResult.Continue;
         }
 
         internal bool HasEventOnPreUpdate()
         {
-            return OnPre != null;
+            return OnPreUpdate != null;
         }
 
         internal void OnPostInvoke(BotEventArgs e)
         {
-            OnPost?.Invoke(e);
+            OnPostUpdate?.Invoke(e);
         }
 
         internal void OnChannelPostHandler(BotEventArgs e)

@@ -41,40 +41,40 @@ InitEventsAndCommands(telegram);
 
 void InitEventsAndCommands(PRBotBase tg)
 {
-    ////Обработка обновление 
-    tg.Events.UpdateEvents.OnPre += Handler_OnUpdate;
+    // Обработка до всех update 
+    tg.Events.UpdateEvents.OnPreUpdate += Handler_OnUpdate;
 
-    //Обработка обновление кроме message и callback
-    tg.Events.UpdateEvents.OnPost += Handler_OnWithoutMessageUpdate;
+    // Обработка после всех update
+    tg.Events.UpdateEvents.OnPostUpdate += Handler_OnPostUpdate;
 
-    //Обработка не правильный тип сообщений
+    // Обработка не правильный тип сообщений
     tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
 
-    //Обработка пользователь написал в чат start с deeplink
+    // Обработка пользователь написал в чат start с deeplink
     tg.Events.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
 
-    //Обработка проверка привилегий
+    // Обработка проверка привилегий
     tg.Events.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
 
-    //Обработка пропущенной  команды
+    // Обработка пропущенной  команды
     tg.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
 
-    //Обработка не верного типа чата
+    // Обработка не верного типа чата
     tg.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 
-    //Обработка локаций
+    // Обработка локаций
     tg.Events.MessageEvents.OnLocationHandle += ExampleEvent.OnLocationHandle;
 
-    //Обработка контактных данных
+    // Обработка контактных данных
     tg.Events.MessageEvents.OnContactHandle += ExampleEvent.OnContactHandle;
 
-    //Обработка голосований
+    // Обработка голосований
     tg.Events.MessageEvents.OnPollHandle += ExampleEvent.OnPollHandle;
 
-    //Обработка WebApps
+    // Обработка WebApps
     tg.Events.MessageEvents.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
 
-    //Обработка, когда пользователю отказано в доступе
+    // Обработка, когда пользователю отказано в доступе
     tg.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
 
     //Обработка сообщения с документом
@@ -126,12 +126,20 @@ void InitEventsAndCommands(PRBotBase tg)
 
 async Task<UpdateResult> Handler_OnUpdate(BotEventArgs e)
 {
+    /*
+     Для примера можно рассмотреть зарегистрирован ли пользователь или нет.
+        Если зарегистрирован
+            return UpdateResult.Continue; - данный результат позволит продолжить обработку.
+        Если не зарегистрирован то вызвать метод регистрации
+            RegisterMethod();
+            return UpdateResult.Stop или return UpdateResult.Handled - позволит прервать текущую обработку и отправить пользователя на регистрацию
+     */
     return UpdateResult.Continue;
 }
 
-async Task Handler_OnWithoutMessageUpdate(BotEventArgs e)
+async Task Handler_OnPostUpdate(BotEventArgs e)
 {
-    //Обработка обновление кроме message и callback
+    // Пример. Регистрация последней активности пользователя в боте. Допустим дата и время
 }
 
 #region Работа фоновых задач
