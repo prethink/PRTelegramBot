@@ -16,6 +16,8 @@ namespace PRTelegramBot.Core
 
         private WebHookTelegramOptions options;
         private PRBotFactoryBase factory;
+        private List<long> admins = new List<long>();
+        private List<long> whitelist = new List<long>();
 
         #endregion
 
@@ -27,8 +29,9 @@ namespace PRTelegramBot.Core
         /// <returns>Экземпляр класса PRBot.</returns>
         public PRBotBase Build()
         {
-            var createOptions = options;
-            return factory.CreateBot(createOptions);
+            options.AdminManager.AddUsers(admins.ToArray());
+            options.WhiteListManager.AddUsers(whitelist.ToArray());
+            return factory.CreateBot(options);
         }
 
         /// <summary>
@@ -37,6 +40,8 @@ namespace PRTelegramBot.Core
         /// <param name="token">Токен.</param>
         public void ClearOptions(string token)
         {
+            admins.Clear();
+            whitelist.Clear();
             options = new WebHookTelegramOptions();
             SetToken(token);
         }
@@ -59,6 +64,28 @@ namespace PRTelegramBot.Core
         public PRBotBuilder SetUpdateHandler(IPRUpdateHandler updateHandler)
         {
             options.UpdateHandler = updateHandler;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить менеджер управления администраторами.
+        /// </summary>
+        /// <param name="adminManager">Менеджер управления администраторами.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetAdminManager(IUserManager adminManager)
+        {
+            options.AdminManager = adminManager;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить менеджер управления белым списком.
+        /// </summary>
+        /// <param name="whiteListManager">Менеджер управления белым списком.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetWhiteListManager(IUserManager whiteListManager)
+        {
+            options.WhiteListManager = whiteListManager;
             return this;
         }
 
@@ -137,7 +164,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddAdmin(params long[] telegramId)
         {
-            options.Admins.AddRange(telegramId);
+            admins.AddRange(telegramId);
             return this;
         }
 
@@ -148,7 +175,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddAdmins(List<long> telegramIds)
         {
-            options.Admins.AddRange(telegramIds);
+            admins.AddRange(telegramIds.ToArray());
             return this;
         }
 
@@ -159,7 +186,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddUserWhiteList(params long[] telegramId)
         {
-            options.WhiteListUsers.AddRange(telegramId);
+            whitelist.AddRange(telegramId);
             return this;
         }
 
@@ -170,7 +197,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddUsersWhiteList(List<long> telegramIds)
         {
-            options.WhiteListUsers.AddRange(telegramIds);
+            whitelist.AddRange(telegramIds.ToArray());
             return this;
         }
 

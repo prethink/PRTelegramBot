@@ -1,4 +1,7 @@
-﻿using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Core;
+using PRTelegramBot.Core.UpdateHandlers;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 
@@ -20,18 +23,6 @@ namespace PRTelegramBot.Configs
         /// Токен telegram бота.
         /// </summary>
         public string Token { get; set; }
-
-        /// <summary>
-        /// Список администраторов бота.
-        /// Идентификатор telegram пользователя.
-        /// </summary>
-        public List<long> Admins { get; set; } = new List<long>();
-
-        /// <summary>
-        /// Список разрешенных пользователей бота
-        /// Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи.
-        /// </summary>
-        public List<long> WhiteListUsers { get; set; } = new List<long>();
 
         /// <summary>
         /// Перед запуском очищает список обновлений, которые накопились когда бот не работал.
@@ -77,6 +68,16 @@ namespace PRTelegramBot.Configs
         /// Регистратор команд.
         /// </summary>
         public IRegisterCommand RegisterCommand { get; set; }
+
+        /// <summary>
+        /// Менеджер управления администраторами.
+        /// </summary>
+        public IUserManager AdminManager { get; set; } = new AdminListManager();
+
+        /// <summary>
+        /// Менеджер управления белым списком.
+        /// </summary>
+        public IUserManager WhiteListManager { get; set; } = new WhiteListManager();
 
         #endregion
     }

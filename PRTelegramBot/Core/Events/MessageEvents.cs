@@ -276,7 +276,6 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPassportDataHandle;
 
-
         #endregion
 
         #region Методы

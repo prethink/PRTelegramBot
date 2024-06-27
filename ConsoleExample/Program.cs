@@ -39,32 +39,6 @@ await telegram.Start();
 // Инициализация событий и команд для бота.
 InitEventsAndCommands(telegram);
 
-#region Старый вариант создания ботов
-
-var telegramTwo = new PRBot(options =>
-{
-    // Токен telegram бота берется из BotFather
-    options.Token = "555555:TestToken";
-    // Перед запуском очищает список обновлений, которые накопились когда бот не работал.
-    options.ClearUpdatesOnStart = true;
-    // Если есть хоть 1 идентификатор telegram пользователя, могут пользоваться только эти пользователи
-    options.WhiteListUsers = new List<long>() { };
-    // Идентификатор telegram пользователя
-    options.Admins = new List<long>() { };
-    // Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов
-    options.BotId = 1;
-});
-//Подписка на простые логи
-telegramTwo.Events.OnCommonLog += Telegram_OnLogCommon;
-//Подписка на логи с ошибками
-telegramTwo.Events.OnErrorLog += Telegram_OnLogError;
-// Запуск работы бота.
-await telegramTwo.Start();
-// Инициализация событий и команд для бота.
-InitEventsAndCommands(telegramTwo);
-
-#endregion
-
 void InitEventsAndCommands(PRBotBase tg)
 {
     ////Обработка обновление 

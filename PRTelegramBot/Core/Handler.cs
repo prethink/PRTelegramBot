@@ -62,9 +62,9 @@ namespace PRTelegramBot.Core
                         return;
                 }
 
-                if (bot.Options.WhiteListUsers.Count > 0)
+                if (bot.Options.WhiteListManager.Count > 0)
                 {
-                    if (!bot.Options.WhiteListUsers.Contains(update.GetChatId()))
+                    if (!(await bot.Options.WhiteListManager.HasUser(update.GetChatId())))
                     {
                         bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
                         return;

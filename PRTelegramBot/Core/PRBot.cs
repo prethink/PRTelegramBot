@@ -57,10 +57,10 @@ namespace PRTelegramBot.Core
 
         #region Конструкторы
 
-        public PRBot(Action<TelegramOptions> options)
+        internal PRBot(Action<TelegramOptions> options)
             : base(options, null) { }
 
-        public PRBot(TelegramOptions options)
+        internal PRBot(TelegramOptions options)
             : base(null, options) { }
 
         #endregion

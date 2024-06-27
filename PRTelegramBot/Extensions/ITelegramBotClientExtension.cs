@@ -18,9 +18,9 @@ namespace PRTelegramBot.Extensions
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="update">Обновление из telegram.</param>
         /// <returns>True - администратор, False - не администратор.</returns>
-        public static bool IsAdmin(this ITelegramBotClient botClient, Update update)
+        public static async Task<bool> IsAdmin(this ITelegramBotClient botClient, Update update)
         {
-            return IsAdmin(botClient, update.GetChatId());
+            return await IsAdmin(botClient, update.GetChatId());
         }
 
         /// <summary>
@@ -29,10 +29,10 @@ namespace PRTelegramBot.Extensions
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <returns>True - администратор, False - не администратор.</returns>
-        public static bool IsAdmin(this ITelegramBotClient botClient, long userId)
+        public static async Task<bool> IsAdmin(this ITelegramBotClient botClient, long userId)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null && botData.Options.Admins.Contains(userId);
+            return botData != null && await botData.Options.AdminManager.HasUser(userId);
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace PRTelegramBot.Extensions
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="update">Обновление из telegram.</param>
         /// <returns>True - есть в списке, False - нет в списке.</returns>
-        public static bool InWhiteList(this ITelegramBotClient botClient, Update update)
+        public static async Task<bool> InWhiteList(this ITelegramBotClient botClient, Update update)
         {
-            return InWhiteList(botClient, update.GetChatId());
+            return await InWhiteList(botClient, update.GetChatId());
         }
 
         /// <summary>
@@ -52,10 +52,10 @@ namespace PRTelegramBot.Extensions
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <returns>True - есть в списке, False - нет в списке.</returns>
-        public static bool InWhiteList(this ITelegramBotClient botClient, long userId)
+        public static async Task<bool> InWhiteList(this ITelegramBotClient botClient, long userId)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null && botData.Options.WhiteListUsers.Contains(userId);
+            return botData != null && await botData.Options.WhiteListManager.HasUser(userId);
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static List<long> GetAdminsIds(this ITelegramBotClient botClient)
+        public static async Task<List<long>> GetAdminsIds(this ITelegramBotClient botClient)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null ? botData.Options.Admins.ToList() : new List<long>();
+            return botData != null ? await botData.Options.AdminManager.GetUsersIds() : new List<long>();
         }
 
         /// <summary>
@@ -74,10 +74,10 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static List<long> GetWhiteListIds(this ITelegramBotClient botClient)
+        public static async Task<List<long>> GetWhiteListIds(this ITelegramBotClient botClient)
         {
             var botData = GetBotDataOrNull(botClient);
-            return botData != null ? botData.Options.WhiteListUsers.ToList() : new List<long>();
+            return botData != null ? await botData.Options.WhiteListManager.GetUsersIds() : new List<long>();
         }
 
         /// <summary>

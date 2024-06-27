@@ -22,34 +22,23 @@ namespace PRTelegramBot.Tests.CoreTests
         }
 
         [Test]
-        public void BotHasUserInAdminList()
+        public async Task BotHasUserInAdminList()
         {
-            var bot = new PRBot(config =>
-            {
-                config.Token = BotOneToken;
-                config.Admins.Add(UserId);
-            });
-
-            Assert.True(bot.IsAdmin(UserId));
+            var bot = new PRBotBuilder(BotOneToken).AddAdmin(UserId).Build();
+            Assert.True(await bot.IsAdmin(UserId));
         }
 
         [Test]
-        public void BotHasUserInWhiteList()
+        public async Task BotHasUserInWhiteList()
         {
-            var bot = new PRBot(config =>
-            {
-                config.Token = BotOneToken;
-                config.WhiteListUsers.Add(UserId);
-            });
-
-            Assert.True(bot.InWhiteList(UserId));
+            var bot = new PRBotBuilder(BotOneToken).AddUserWhiteList(UserId).Build();
+            Assert.True(await bot.InWhiteList(UserId));
         }
 
         [Test]
         public void FindOneBotFromBotCollectionFromId()
         {
-            var botOne = new PRBot(config => { config.Token = BotOneToken; });
-
+            var botOne = new PRBotBuilder(BotOneToken).Build();
             var botFromCollection = BotCollection.Instance.GetBotByTelegramIdOrNull(BotOneId);
             Assert.IsNotNull(botFromCollection);
         }

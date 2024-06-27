@@ -15,8 +15,8 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler("Админ")]
         public static async Task AdminExample(ITelegramBotClient botClient, Update update)
         {
-            bool isAdminUpdate = botClient.IsAdmin(update);
-            bool isAdminById = botClient.IsAdmin(update.GetChatId()) ;
+            bool isAdminUpdate = await botClient.IsAdmin(update);
+            bool isAdminById = await botClient.IsAdmin(update.GetChatId()) ;
             await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
         }
     }

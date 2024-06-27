@@ -1,7 +1,9 @@
--- 2024.06.25 - V0.6.1
+-- 2024.06.27 - V0.6.1
 - update: Ядро telegram.bot обновлено с 19 до 21 версии.
 - update: Из-за обновления убран newtonsoft json
 - update: Добавлены новые события для сообщений Giveaway, GiveawayWinners, GiveawayCompleted, BoostAdded, ChatBackgroundSet
+- feature: Добавлен интерфейс IUserManager и классы AdminManager, WhiteListManager.
+- refactoring: Для правильного создания ботов теперь используется только PRBotBuilder.
 - refactoring: TEvents события которые относятся к сообщениям перенесены в класс MessageEvents
 - refactoring: TEvents события которые относятся к обновлениям перенесены в класс UpdateEvents
 - refactoring: В билдере AddAdmin и AddWhiteListUser заменен параметр long на params long[]

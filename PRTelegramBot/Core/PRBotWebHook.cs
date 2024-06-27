@@ -58,10 +58,7 @@ namespace PRTelegramBot.Core
 
         #region Конструкторы
 
-        //public PBBotWebHook(Action<WebHookTelegramOptions> options)
-        //    : base(options, null) { }
-
-        public PRBotWebHook(TelegramOptions options)
+        internal PRBotWebHook(TelegramOptions options)
             : base(null, options) { }
 
         #endregion

@@ -15,9 +15,9 @@ namespace PRTelegramBot.Extensions
         /// <param name="botClient">Бот.</param>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <returns>True - администратор, False - не администратор.</returns>
-        public static bool IsAdmin(this PRBotBase botClient, long userId)
+        public static async Task<bool> IsAdmin(this PRBotBase botClient, long userId)
         {
-            return botClient.Options.Admins.Contains(userId);
+            return await botClient.Options.AdminManager.HasUser(userId);
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace PRTelegramBot.Extensions
         /// <param name="botClient">Бот.</param>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <returns>True - есть в списке, False - нет в списке.</returns>
-        public static bool InWhiteList(this PRBotBase botClient, long userId)
+        public static async Task<bool> InWhiteList(this PRBotBase botClient, long userId)
         {
-            return botClient.Options.WhiteListUsers.Contains(userId);
+            return await botClient.Options.WhiteListManager.HasUser(userId);
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static List<long> GetAdminsIds(this PRBotBase botClient)
+        public static async Task<List<long>> GetAdminsIds(this PRBotBase botClient)
         {
-            return botClient.Options.Admins.ToList();
+            return await botClient.Options.AdminManager.GetUsersIds();
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static List<long> GetWhiteListIds(this PRBotBase botClient)
+        public static async Task<List<long>> GetWhiteListIds(this PRBotBase botClient)
         {
-            return botClient.Options.WhiteListUsers.ToList();
+            return await botClient.Options.WhiteListManager.GetUsersIds();
         }
 
         #endregion
