@@ -129,5 +129,60 @@ namespace PRTelegramBot.Tests.EventsTests
         //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
         //    bot.Events.OnAccessDenied -= EventHandler;
         //}
+
+        //[Test]
+        //public async Task OnMissingCommand()
+        //{
+        //    var update = UpdateSetUp.CreateWithTextMessage("");
+        //    bool eventCalled = false;
+        //    Task EventHandler(BotEventArgs e)
+        //    {
+        //        eventCalled = true;
+        //        return Task.CompletedTask;
+        //    }
+        //    bot.Events.OnAccessDenied += EventHandler;
+        //    await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+        //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
+        //    bot.Events.OnAccessDenied -= EventHandler;
+        //}
+
+        [Test]
+        public async Task OnErrorLog()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            bot.Events.OnErrorLog += EventHandler;
+            bot.Events.OnErrorLogInvoke(new Exception("Error"));
+            Task EventHandler(BotEventArgs e)
+            {
+                tcs.SetResult(true);
+                return Task.CompletedTask;
+            }
+            bool eventCalled = await TimeoutAfter(tcs.Task, TimeSpan.FromSeconds(1));
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnErrorLog)} event was not called.");
+            bot.Events.OnErrorLog -= EventHandler;
+        }
+
+        [Test]
+        public async Task OnCommonLog()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            bot.Events.OnCommonLog += EventHandler;
+            bot.Events.OnCommonLogInvoke("Test");
+            Task EventHandler(BotEventArgs e)
+            {
+                tcs.SetResult(true);
+                return Task.CompletedTask;
+            }
+            bool eventCalled = await TimeoutAfter(tcs.Task, TimeSpan.FromSeconds(1));
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnCommonLog)} event was not called.");
+            bot.Events.OnCommonLog -= EventHandler;
+        }
+
+        private async Task<bool> TimeoutAfter(Task task, TimeSpan timeout)
+        {
+            var timeoutTask = Task.Delay(timeout);
+            var completedTask = await Task.WhenAny(task, timeoutTask);
+            return completedTask == task;
+        }
     }
 }

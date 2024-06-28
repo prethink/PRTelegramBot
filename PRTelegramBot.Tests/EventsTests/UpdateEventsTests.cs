@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Tests.Common;
 
@@ -361,6 +362,42 @@ namespace PRTelegramBot.Tests.EventsTests
             await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.UpdateEvents.OnRemovedChatBoostHandle)} event was not called.");
             bot.Events.UpdateEvents.OnRemovedChatBoostHandle -= EventHandler;
+        }
+
+        [Test]
+        public async Task OnPostUpdateShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateUpdateTypeRemovedChatBoost();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.UpdateEvents.OnPostUpdate += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.UpdateEvents.OnPostUpdate)} event was not called.");
+            bot.Events.UpdateEvents.OnPostUpdate -= EventHandler;
+        }
+
+        [Test]
+        public async Task OnPreUpdateShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateUpdateTypeRemovedChatBoost();
+            bool eventCalled = false;
+
+            async Task<UpdateResult> EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return UpdateResult.Continue;
+            }
+
+            bot.Events.UpdateEvents.OnPreUpdate += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.UpdateEvents.OnPreUpdate)} event was not called.");
+            bot.Events.UpdateEvents.OnPreUpdate -= EventHandler;
         }
     }
 }

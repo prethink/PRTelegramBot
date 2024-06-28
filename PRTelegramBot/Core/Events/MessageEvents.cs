@@ -2,6 +2,9 @@
 
 namespace PRTelegramBot.Core.Events
 {
+    /// <summary>
+    /// События для обновления типа сообщения.
+    /// </summary>
     public class MessageEvents
     {
         #region События

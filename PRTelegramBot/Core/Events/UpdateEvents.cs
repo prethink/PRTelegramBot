@@ -3,6 +3,9 @@ using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Core.Events
 {
+    /// <summary>
+    /// События обновлений.
+    /// </summary>
     public class UpdateEvents
     {
         #region События
@@ -129,115 +132,49 @@ namespace PRTelegramBot.Core.Events
             return UpdateResult.Continue;
         }
 
-        internal bool HasEventOnPreUpdate()
-        {
-            return OnPreUpdate != null;
-        }
+        internal bool HasEventOnPreUpdate() => OnPreUpdate != null;
 
-        internal void OnPostInvoke(BotEventArgs e)
-        {
-            OnPostUpdate?.Invoke(e);
-        }
+        internal void OnPostInvoke(BotEventArgs e) => OnPostUpdate?.Invoke(e);
 
-        internal void OnChannelPostHandler(BotEventArgs e)
-        {
-            OnChannelPostHandle?.Invoke(e);
-        }
+        internal void OnChannelPostHandler(BotEventArgs e) => OnChannelPostHandle?.Invoke(e);
 
-        internal void OnChatJoinRequestHandler(BotEventArgs e)
-        {
-            OnChatJoinRequestHandle?.Invoke(e);
-        }
+        internal void OnChatJoinRequestHandler(BotEventArgs e) => OnChatJoinRequestHandle?.Invoke(e);
 
-        internal void OnChatMemberHandler(BotEventArgs e)
-        {
-            OnChatMemberHandle?.Invoke(e);
-        }
+        internal void OnChatMemberHandler(BotEventArgs e) => OnChatMemberHandle?.Invoke(e);
 
-        internal void OnChosenInlineResultHandler(BotEventArgs e)
-        {
-            OnChosenInlineResultHandle?.Invoke(e);
-        }
+        internal void OnChosenInlineResultHandler(BotEventArgs e) => OnChosenInlineResultHandle?.Invoke(e);
 
-        internal void OnEditedChannelPostHandler(BotEventArgs e)
-        {
-            OnEditedChannelPostHandle?.Invoke(e);
-        }
+        internal void OnEditedChannelPostHandler(BotEventArgs e) => OnEditedChannelPostHandle?.Invoke(e);
 
-        internal void OnEditedMessageHandler(BotEventArgs e)
-        {
-            OnEditedMessageHandle?.Invoke(e);
-        }
+        internal void OnEditedMessageHandler(BotEventArgs e) => OnEditedMessageHandle?.Invoke(e);
 
-        internal void OnInlineQueryHandler(BotEventArgs e)
-        {
-            OnInlineQueryHandle?.Invoke(e);
-        }
+        internal void OnInlineQueryHandler(BotEventArgs e) => OnInlineQueryHandle?.Invoke(e);
 
-        internal void OnMyChatMemberHandler(BotEventArgs e)
-        {
-            OnMyChatMemberHandle?.Invoke(e);
-        }
+        internal void OnMyChatMemberHandler(BotEventArgs e) => OnMyChatMemberHandle?.Invoke(e);
 
-        internal void OnPollHandler(BotEventArgs e)
-        {
-            OnPollHandle?.Invoke(e);
-        }
+        internal void OnPollHandler(BotEventArgs e) => OnPollHandle?.Invoke(e);
 
-        internal void OnPollAnswerHandler(BotEventArgs e)
-        {
-            OnPollAnswerHandle?.Invoke(e);
-        }
+        internal void OnPollAnswerHandler(BotEventArgs e) => OnPollAnswerHandle?.Invoke(e);
 
-        internal void OnPreCheckoutQueryHandler(BotEventArgs e)
-        {
-            OnPreCheckoutQueryHandle?.Invoke(e);
-        }
+        internal void OnPreCheckoutQueryHandler(BotEventArgs e) => OnPreCheckoutQueryHandle?.Invoke(e);
 
-        internal void OnShippingQueryHandler(BotEventArgs e)
-        {
-            OnShippingQueryHandle?.Invoke(e);
-        }
+        internal void OnShippingQueryHandler(BotEventArgs e) => OnShippingQueryHandle?.Invoke(e);
 
-        internal void OnUnknownHandler(BotEventArgs e)
-        {
-            OnUnknownHandle?.Invoke(e);
-        }
+        internal void OnUnknownHandler(BotEventArgs e) => OnUnknownHandle?.Invoke(e);
 
-        internal void OnBusinessConnectionHandler(BotEventArgs e)
-        {
-            OnBusinessConnectionHandle?.Invoke(e);
-        }
+        internal void OnBusinessConnectionHandler(BotEventArgs e) => OnBusinessConnectionHandle?.Invoke(e);
 
-        internal void OnEditedBusinessHandler(BotEventArgs e)
-        {
-            OnEditedBusinessMessageHandle?.Invoke(e);
-        }
+        internal void OnEditedBusinessHandler(BotEventArgs e) => OnEditedBusinessMessageHandle?.Invoke(e);
 
-        internal void OnDeletedBusinessConnectionHandler(BotEventArgs e)
-        {
-            OnDeletedBusinessMessagesHandle?.Invoke(e);
-        }
+        internal void OnDeletedBusinessConnectionHandler(BotEventArgs e) => OnDeletedBusinessMessagesHandle?.Invoke(e);
 
-        internal void OnMessageReactionHandleHandler(BotEventArgs e)
-        {
-            OnMessageReactionHandle?.Invoke(e);
-        }
+        internal void OnMessageReactionHandleHandler(BotEventArgs e) => OnMessageReactionHandle?.Invoke(e);
 
-        internal void OnMessageReactionCountHandleHandler(BotEventArgs e)
-        {
-            OnMessageReactionCountHandle?.Invoke(e);
-        }
+        internal void OnMessageReactionCountHandleHandler(BotEventArgs e) => OnMessageReactionCountHandle?.Invoke(e);
 
-        internal void OnChatBoostHandler(BotEventArgs e)
-        {
-            OnChatBoostHandle?.Invoke(e);
-        }
+        internal void OnChatBoostHandler(BotEventArgs e) => OnChatBoostHandle?.Invoke(e);
 
-        internal void OnRemovedChatBoostHandler(BotEventArgs e)
-        {
-            OnRemovedChatBoostHandle?.Invoke(e);
-        }
+        internal void OnRemovedChatBoostHandler(BotEventArgs e) => OnRemovedChatBoostHandle?.Invoke(e);
 
         #endregion
     }

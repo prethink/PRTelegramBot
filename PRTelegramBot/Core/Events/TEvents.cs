@@ -73,74 +73,37 @@ namespace PRTelegramBot.Core.Events
 
         #region Методы
 
-        internal void OnUserStartWithArgsInvoke(StartEventArgs e)
-        {
-            OnUserStartWithArgs?.Invoke(e);
-        }
+        internal void OnUserStartWithArgsInvoke(StartEventArgs e) => OnUserStartWithArgs?.Invoke(e);
 
-        internal void OnMissingCommandInvoke(BotEventArgs e)
-        {
-            OnMissingCommand?.Invoke(e);
-        }
+        internal void OnMissingCommandInvoke(BotEventArgs e) => OnMissingCommand?.Invoke(e);
 
-        internal void OnAccessDeniedInvoke(BotEventArgs e)
-        {
-            OnAccessDenied?.Invoke(e);
-        }
+        internal void OnAccessDeniedInvoke(BotEventArgs e) => OnAccessDenied?.Invoke(e);
 
-        internal void OnCheckPrivilegeInvoke(PrivilegeEventArgs e)
-        {
-            OnCheckPrivilege?.Invoke(e);
-        }
+        internal void OnCheckPrivilegeInvoke(PrivilegeEventArgs e) => OnCheckPrivilege?.Invoke(e);
 
-        internal void OnWrongTypeMessageInvoke(BotEventArgs e)
-        {
-            OnWrongTypeMessage?.Invoke(e);
-        }
-        internal void OnWrongTypeChatInvoke(BotEventArgs e)
-        {
-            OnWrongTypeChat?.Invoke(e);
-        }
+        internal void OnWrongTypeMessageInvoke(BotEventArgs e) => OnWrongTypeMessage?.Invoke(e);
 
-        internal void OnErrorLogInvoke(ErrorLogEventArgsCreator e)
-        {
-            OnErrorLog?.Invoke(new ErrorLogEventArgs(Bot, e));
-        }
+        internal void OnWrongTypeChatInvoke(BotEventArgs e) => OnWrongTypeChat?.Invoke(e);
 
-        public void OnErrorLogInvoke(Exception exception, Update update)
-        {
-            OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception, update));
-        }
+        internal void OnErrorLogInvoke(ErrorLogEventArgsCreator e) => OnErrorLog?.Invoke(new ErrorLogEventArgs(Bot, e));
 
-        public void OnErrorLogInvoke(Exception exception)
-        {
-            OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception));
-        }
+        public void OnErrorLogInvoke(Exception exception, Update update) => OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception, update));
+  
+        public void OnErrorLogInvoke(Exception exception) => OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception));
 
-        public void OnCommonLogInvoke(CommonLogEventArgsCreator e)
-        {
-            OnCommonLog?.Invoke(new CommonLogEventArgs(Bot, e));
-        }
+        public void OnCommonLogInvoke(CommonLogEventArgsCreator e) => OnCommonLog?.Invoke(new CommonLogEventArgs(Bot, e));
 
-        public void OnCommonLogInvoke(string message, string type, Update update)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, update));
-        }
+        public void OnCommonLogInvoke(string message) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, "Common"));
 
-        public void OnCommonLogInvoke(string message, string type, ConsoleColor color)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color));
-        }
+        public void OnCommonLogInvoke(string message, string type) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
 
-        public void OnCommonLogInvoke(string message, string type, ConsoleColor color, Update update)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, update));
-        }
+        public void OnCommonLogInvoke(string message, string type, Update update) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, update));
 
-        public void OnErrorOnCommonLogInvokeInvoke(string message, string type)
-        {
-            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
-        }
+        public void OnCommonLogInvoke(string message, string type, ConsoleColor color) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color));
+
+        public void OnCommonLogInvoke(string message, string type, ConsoleColor color, Update update) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, update));
+
+        public void OnErrorOnCommonLogInvokeInvoke(string message, string type) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
 
         #endregion
 
