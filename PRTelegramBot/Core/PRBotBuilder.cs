@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.Factory;
+using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -86,6 +87,28 @@ namespace PRTelegramBot.Core
         public PRBotBuilder SetWhiteListManager(IUserManager whiteListManager)
         {
             options.WhiteListManager = whiteListManager;
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить промежуточный обработчик.
+        /// </summary>
+        /// <param name="middleware">Промежуточный обработчик.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddMiddlewares(MiddlewareBase middleware)
+        {
+            options.Middlewares.Add(middleware);
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить промежуточные обработчики.
+        /// </summary>
+        /// <param name="middlewares">Промежуточные обработчики.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddMiddlewares(params MiddlewareBase[] middlewares)
+        {
+            options.Middlewares.AddRange(middlewares);
             return this;
         }
 

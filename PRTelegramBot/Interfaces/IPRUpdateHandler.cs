@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Polling;
+﻿using PRTelegramBot.Core.Middlewares;
+using Telegram.Bot.Polling;
 
 namespace PRTelegramBot.Interfaces
 {
@@ -7,6 +8,11 @@ namespace PRTelegramBot.Interfaces
     /// </summary>
     public interface IPRUpdateHandler : IUpdateHandler
     {
+        /// <summary>
+        /// Промежуточный обработчик перед выполнением update.
+        /// </summary>
+        public MiddlewareBase Middleware { get; }
+
         /// <summary>
         /// Горячая перезагрузка.
         /// </summary>

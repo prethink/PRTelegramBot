@@ -3,6 +3,7 @@ using ConsoleExample.Models;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
+using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -28,6 +29,7 @@ var telegram = new PRBotBuilder("Token")
                     .AddAdmin(1111111)
                     .SetClearUpdatesOnStart(true)
                     .AddReplyDynamicCommands(dynamicCommands)
+                    .AddMiddlewares(new OneMiddleWare(), new TwoMiddleWare())
                     .Build();
 
 // Подписка на простые логи.
@@ -36,89 +38,93 @@ telegram.Events.OnCommonLog += Telegram_OnLogCommon;
 telegram.Events.OnErrorLog += Telegram_OnLogError;
 // Запуск работы бота.
 await telegram.Start();
-// Инициализация событий и команд для бота.
-InitEventsAndCommands(telegram);
+// Инициализация событий для бота.
+InitEvents(telegram);
+// Инициализация новых команд для бота.
+InitCommands(telegram);
 
-void InitEventsAndCommands(PRBotBase tg)
+void InitEvents(PRBotBase bot)
 {
     // Обработка до всех update 
-    tg.Events.UpdateEvents.OnPreUpdate += Handler_OnUpdate;
+    bot.Events.UpdateEvents.OnPreUpdate += Handler_OnUpdate;
 
     // Обработка после всех update
-    tg.Events.UpdateEvents.OnPostUpdate += Handler_OnPostUpdate;
+    bot.Events.UpdateEvents.OnPostUpdate += Handler_OnPostUpdate;
 
     // Обработка не правильный тип сообщений
-    tg.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
+    bot.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
 
     // Обработка пользователь написал в чат start с deeplink
-    tg.Events.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
+    bot.Events.OnUserStartWithArgs += ExampleEvent.OnUserStartWithArgs;
 
     // Обработка проверка привилегий
-    tg.Events.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
+    bot.Events.OnCheckPrivilege += ExampleEvent.OnCheckPrivilege;
 
     // Обработка пропущенной  команды
-    tg.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
+    bot.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
 
     // Обработка не верного типа чата
-    tg.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
+    bot.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 
     // Обработка локаций
-    tg.Events.MessageEvents.OnLocationHandle += ExampleEvent.OnLocationHandle;
+    bot.Events.MessageEvents.OnLocationHandle += ExampleEvent.OnLocationHandle;
 
     // Обработка контактных данных
-    tg.Events.MessageEvents.OnContactHandle += ExampleEvent.OnContactHandle;
+    bot.Events.MessageEvents.OnContactHandle += ExampleEvent.OnContactHandle;
 
     // Обработка голосований
-    tg.Events.MessageEvents.OnPollHandle += ExampleEvent.OnPollHandle;
+    bot.Events.MessageEvents.OnPollHandle += ExampleEvent.OnPollHandle;
 
     // Обработка WebApps
-    tg.Events.MessageEvents.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
+    bot.Events.MessageEvents.OnWebAppsHandle += ExampleEvent.OnWebAppsHandle;
 
     // Обработка, когда пользователю отказано в доступе
-    tg.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
+    bot.Events.OnAccessDenied += ExampleEvent.OnAccessDenied;
 
     //Обработка сообщения с документом
-    tg.Events.MessageEvents.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
+    bot.Events.MessageEvents.OnDocumentHandle += ExampleEvent.OnDocumentHandle;
 
     //Обработка сообщения с аудио
-    tg.Events.MessageEvents.OnAudioHandle += ExampleEvent.OnAudioHandle;
+    bot.Events.MessageEvents.OnAudioHandle += ExampleEvent.OnAudioHandle;
 
     //Обработка сообщения с видео
-    tg.Events.MessageEvents.OnVideoHandle += ExampleEvent.OnVideoHandle;
+    bot.Events.MessageEvents.OnVideoHandle += ExampleEvent.OnVideoHandle;
 
     //Обработка сообщения с фото
-    tg.Events.MessageEvents.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
+    bot.Events.MessageEvents.OnPhotoHandle += ExampleEvent.OnPhotoHandle;
 
     //Обработка сообщения с стикером
-    tg.Events.MessageEvents.OnStickerHandle += ExampleEvent.OnStickerHandle;
+    bot.Events.MessageEvents.OnStickerHandle += ExampleEvent.OnStickerHandle;
 
     //Обработка сообщения с голосовым сообщением
-    tg.Events.MessageEvents.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
+    bot.Events.MessageEvents.OnVoiceHandle += ExampleEvent.OnVoiceHandle;
 
     //Обработка сообщения с неизвестным типом
-    tg.Events.MessageEvents.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
+    bot.Events.MessageEvents.OnUnknownHandle += ExampleEvent.OnUnknownHandle;
 
     //Обработка сообщения с местоположением
-    tg.Events.MessageEvents.OnVenueHandle += ExampleEvent.OnVenueHandle;
+    bot.Events.MessageEvents.OnVenueHandle += ExampleEvent.OnVenueHandle;
 
     //Обработка сообщения с игрой
-    tg.Events.MessageEvents.OnGameHandle += ExampleEvent.OnGameHandle;
+    bot.Events.MessageEvents.OnGameHandle += ExampleEvent.OnGameHandle;
 
     //Обработка сообщения с видеозаметкой
-    tg.Events.MessageEvents.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
+    bot.Events.MessageEvents.OnVideoNoteHandle += ExampleEvent.OnVideoNoteHandle;
 
     //Обработка сообщения с игральной костью
-    tg.Events.MessageEvents.OnDiceHandle += ExampleEvent.OnDiceHandle;
+    bot.Events.MessageEvents.OnDiceHandle += ExampleEvent.OnDiceHandle;
 
     //Обработка обновления изменения группы/чата
-    tg.Events.UpdateEvents.OnMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
-
-    tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
+    bot.Events.UpdateEvents.OnMyChatMemberHandle += ExampleEvent.OnUpdateMyChatMember;
+}
+void InitCommands(PRBotBase bot)
+{
+    bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
     {
         PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommand");
     });
 
-    tg.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (botClient, update) =>
+    bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (botClient, update) =>
     {
         PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommandTwo");
     });

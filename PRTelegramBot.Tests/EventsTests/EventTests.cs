@@ -27,7 +27,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [TestCase("gamer", "gamer 1")]
         [TestCase("523523532", "523523532 1")]
         [TestCase("22222", "22222")]
-        public async Task OnUserStartWithArgs(string exceptedDeepLink, string message)
+        public async Task OnUserStartWithArgsShouldBeInvoked(string exceptedDeepLink, string message)
         {
             var update = UpdateSetUp.CreateWithStartDeepLink(message);
             bool eventCalled = false;
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Tests.EventsTests
         }
 
         [Test]
-        public async Task OnMissingCommand()
+        public async Task OnMissingCommandShouldBeInvoked()
         {
             var update = UpdateSetUp.CreateWithTextMessage("Fgasdfsadjasofdhjasfhasokfhjao");
             bool eventCalled = false;
@@ -65,7 +65,7 @@ namespace PRTelegramBot.Tests.EventsTests
         }
 
         //[Test]
-        //public async Task OnCheckPrivilege()
+        //public async Task OnCheckPrivilegeShouldBeInvoked()
         //{
         //    var update = UpdateSetUp.CreateWithTextMessage("");
         //    bool eventCalled = false;
@@ -83,7 +83,7 @@ namespace PRTelegramBot.Tests.EventsTests
         //}
 
         //[Test]
-        //public async Task OnWrongTypeMessage()
+        //public async Task OnWrongTypeMessageShouldBeInvoked()
         //{
         //    var update = UpdateSetUp.CreateWithTextMessage("");
         //    bool eventCalled = false;
@@ -99,7 +99,7 @@ namespace PRTelegramBot.Tests.EventsTests
         //}
 
         //[Test]
-        //public async Task OnWrongTypeChat()
+        //public async Task OnWrongTypeChatShouldBeInvoked()
         //{
         //    var update = UpdateSetUp.CreateWithTextMessage("");
         //    bool eventCalled = false;

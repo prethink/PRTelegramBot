@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Core.UpdateHandlers;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
@@ -78,6 +79,11 @@ namespace PRTelegramBot.Configs
         /// Менеджер управления белым списком.
         /// </summary>
         public IUserManager WhiteListManager { get; set; } = new WhiteListManager();
+
+        /// <summary>
+        /// Промежуточные обработчики перед update.
+        /// </summary>
+        public List<MiddlewareBase> Middlewares { get; set; } = new();
 
         #endregion
     }
