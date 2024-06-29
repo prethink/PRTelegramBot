@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using System.Collections.Concurrent;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -74,6 +75,17 @@ namespace PRTelegramBot.Extensions
             result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.Username) ? "" : update.CallbackQuery.Message.Chat.Username + " ";
 
             return result;
+        }
+
+        /// <summary>
+        /// Попытаться получить бота из update.
+        /// </summary>
+        /// <param name="update">Обновление телеграм.</param>
+        /// <param name="bot">Возвращаемый объект бота.</param>
+        /// <returns>True, если бот найден; иначе False.</returns>
+        public static bool TryGetBot(this Update update, out PRBotBase bot)
+        {
+            return botLink.TryGetValue(update.Id, out bot);
         }
 
         /// <summary>
