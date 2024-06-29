@@ -2,13 +2,8 @@
 
 namespace PRTelegramBot.Interfaces
 {
-    public interface IBaseQueryAttribute
+    public interface IBaseQueryAttribute : IBotIdentificatorAttribute
     {
-        /// <summary>
-        /// Идентификатор бота.
-        /// </summary>
-        public long BotId { get; }
-
         /// <summary>
         /// Сравнение команды.
         /// </summary>

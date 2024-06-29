@@ -78,7 +78,7 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Менеджер управления белым списком.
         /// </summary>
-        public IUserManager WhiteListManager { get; set; } = new WhiteListManager();
+        public IWhiteListManager WhiteListManager { get; set; } = new WhiteListManager();
 
         /// <summary>
         /// Промежуточные обработчики перед update.

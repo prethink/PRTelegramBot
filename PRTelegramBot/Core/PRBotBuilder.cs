@@ -2,6 +2,7 @@
 using PRTelegramBot.Core.Factory;
 using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -19,6 +20,7 @@ namespace PRTelegramBot.Core
         private PRBotFactoryBase factory;
         private List<long> admins = new List<long>();
         private List<long> whitelist = new List<long>();
+        private WhiteListSettings whiteListSettings = WhiteListSettings.OnPreUpdate;
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace PRTelegramBot.Core
         {
             options.AdminManager.AddUsers(admins.ToArray());
             options.WhiteListManager.AddUsers(whitelist.ToArray());
+            options.WhiteListManager.SetSettings(whiteListSettings);
             return factory.CreateBot(options);
         }
 
@@ -84,9 +87,20 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="whiteListManager">Менеджер управления белым списком.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetWhiteListManager(IUserManager whiteListManager)
+        public PRBotBuilder SetWhiteListManager(IWhiteListManager whiteListManager)
         {
             options.WhiteListManager = whiteListManager;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить новые настройки для белого списка.
+        /// </summary>
+        /// <param name="settings">Настройки для белого списка.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetWhiteListSettings(WhiteListSettings settings)
+        {
+            whiteListSettings = settings;
             return this;
         }
 

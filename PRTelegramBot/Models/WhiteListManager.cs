@@ -1,11 +1,12 @@
 ﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Models
 {
     /// <summary>
     /// Менеджер управления белым списком.
     /// </summary>
-    public class WhiteListManager : IUserManager
+    public class WhiteListManager : IWhiteListManager
     {
         #region Поля и свойства
 
@@ -19,6 +20,16 @@ namespace PRTelegramBot.Models
         #region IUserManager
 
         public long Count => users.Count;
+
+        private WhiteListSettings settings = WhiteListSettings.OnPreUpdate;
+
+        public WhiteListSettings WhiteListSettings
+        {
+            get
+            {
+                return settings;
+            }
+        }
 
         public async Task<bool> AddUser(long userId)
         {
@@ -50,6 +61,11 @@ namespace PRTelegramBot.Models
         public async Task<bool> RemoveUser(long userId)
         {
             return users.Remove(userId);
+        }
+
+        public void SetSettings(WhiteListSettings whiteListSettings)
+        {
+            settings = whiteListSettings;
         }
 
         #endregion

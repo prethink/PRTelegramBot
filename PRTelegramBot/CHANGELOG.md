@@ -4,6 +4,8 @@
 - update: Добавлены новые события для сообщений Giveaway, GiveawayWinners, GiveawayCompleted, BoostAdded, ChatBackgroundSet
 - feature: Добавлен интерфейс IUserManager и классы AdminManager, WhiteListManager. Из TelegramOptions удалены свойства Admins и WhiteListUsers.
 - feature: Добавлена middleware система перед обработкой update
+- feature: Добавлен атрибут WhiteListAnonymous, если данный атрибут присуствует на методе обработки, он будет выполнен для всех пользователей, даже если они на находятся в белом списке
+- feature: Для WhiteListManager добавлены настройки как должен работать белый список
 - refactoring: Для правильного создания ботов теперь используется только PRBotBuilder.
 - refactoring: TEvents события которые относятся к сообщениям перенесены в класс MessageEvents
 - refactoring: TEvents события которые относятся к обновлениям перенесены в класс UpdateEvents

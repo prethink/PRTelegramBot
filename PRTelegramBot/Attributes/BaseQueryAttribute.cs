@@ -47,7 +47,7 @@ namespace PRTelegramBot.Attributes
         /// </summary>
         /// <param name="botId">Идентификатор бота.</param>
         public BaseQueryAttribute(long botId = 0)
-            :this (botId, CommandComparison.Equals) { }
+            : this (botId, CommandComparison.Equals) { }
 
         /// <summary>
         /// Конструктор.

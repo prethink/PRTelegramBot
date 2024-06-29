@@ -19,6 +19,7 @@ namespace ConsoleExample.Examples
     public class ExampleCommand
     {
         static int count = 0;
+
         #region Reply команды
 
         /// <summary>

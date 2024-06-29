@@ -70,6 +70,8 @@ namespace PRTelegramBot.Core
 
         public async Task UpdateAsync(Update update)
         {
+            var whiteListManager = bot.Options.WhiteListManager;
+
             if (bot.Events.UpdateEvents.HasEventOnPreUpdate())
             {
                 var resultUpdate = await bot.Events.UpdateEvents.OnPreInvoke(new BotEventArgs(bot, update));
@@ -78,9 +80,9 @@ namespace PRTelegramBot.Core
                     return;
             }
 
-            if (bot.Options.WhiteListManager.Count > 0)
+            if (whiteListManager.WhiteListSettings == WhiteListSettings.OnPreUpdate && whiteListManager.Count > 0)
             {
-                if (!(await bot.Options.WhiteListManager.HasUser(update.GetChatId())))
+                if (!(await whiteListManager.HasUser(update.GetChatId())))
                 {
                     bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
                     return;
