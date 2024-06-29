@@ -172,6 +172,7 @@ namespace PRTelegramBot.Core
                         => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
                     _ => exception.ToString()
                 };
+                bot.Events.OnErrorLogInvoke(exception);
                 //TODO Logging exception
                 //return Task.CompletedTask;
             }
