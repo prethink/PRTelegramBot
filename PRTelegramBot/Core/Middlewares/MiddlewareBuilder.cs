@@ -8,24 +8,39 @@
         #region Методы
 
         /// <summary>
-        /// Собрать цепочку middleware
+        /// Собрать цепочку middleware.
         /// </summary>
         /// <param name="middlewares">Обработчики.</param>
         /// <returns>Цепочка обработчиков.</returns>
-        public MiddlewareBase Build(IEnumerable<MiddlewareBase> middlewares)
+        public MiddlewareBase Build(List<MiddlewareBase> middlewares)
         {
             if (middlewares == null)
                 return new MiddlewareBase();
 
-            MiddlewareBase current = null;
-            foreach (var middleware in middlewares)
+            MiddlewareBase current = new MiddlewareBase();
+
+            if (middlewares.Count == 1)
             {
-                if (current == null)
-                    current = middleware;
-                else
-                    current.SetNext(middleware);
+                current = middlewares[0];
             }
-            return current ?? new MiddlewareBase();
+            else if(middlewares.Count > 1)
+            {
+                current = middlewares[0];
+                current.SetNext(middlewares[1]);
+                for (int i = 1; i < middlewares.Count; i++) 
+                {
+                    if(i + 1 < middlewares.Count)
+                    {
+                        middlewares[i].SetNext(middlewares[i + 1], middlewares[i - 1]);
+                    }
+                    else
+                    {
+                        middlewares[i].SetPrevious(middlewares[i - 1]);
+                    }
+                }
+            }
+
+            return current;
         }
 
         #endregion

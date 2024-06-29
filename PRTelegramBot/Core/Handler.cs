@@ -57,7 +57,7 @@ namespace PRTelegramBot.Core
                 //Связь update вместе ITelegramBotClient
                 update.AddTelegramClient(bot);
 
-                await Middleware.InvokeAsync(botClient, update, async () =>
+                await Middleware.InvokeOnPreUpdateAsync(botClient, update, async () =>
                 {
                     await UpdateAsync(update);
                 });
@@ -172,7 +172,6 @@ namespace PRTelegramBot.Core
                         => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
                     _ => exception.ToString()
                 };
-                bot.Events.OnErrorLogInvoke(exception);
                 //TODO Logging exception
                 //return Task.CompletedTask;
             }

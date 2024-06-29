@@ -1,9 +1,9 @@
 ﻿using ConsoleExample.Examples;
+using ConsoleExample.Middlewares;
 using ConsoleExample.Models;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
-using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -22,14 +22,14 @@ Console.WriteLine($"Для закрытие программы напишите 
 var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
 var dynamicCommands = botJsonProvider.GetKeysAndValues();
 
-var telegram = new PRBotBuilder("Token")
+var telegram = new PRBotBuilder("")
                     .SetBotId(0)
                     .AddConfigPath(ExampleConstants.BUTTONS_FILE_KEY, ".\\Configs\\buttons.json")
                     .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
                     .AddAdmin(1111111)
                     .SetClearUpdatesOnStart(true)
                     .AddReplyDynamicCommands(dynamicCommands)
-                    .AddMiddlewares(new OneMiddleWare(), new TwoMiddleWare())
+                    .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .Build();
 
 // Подписка на простые логи.
