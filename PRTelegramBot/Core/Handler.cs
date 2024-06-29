@@ -57,7 +57,7 @@ namespace PRTelegramBot.Core
                 //Связь update вместе ITelegramBotClient
                 update.AddTelegramClient(bot);
 
-                await Middleware.InvokeAsync(update, async () =>
+                await Middleware.InvokeAsync(botClient, update, async () =>
                 {
                     await UpdateAsync(botClient, update, cancellationToken);
                 });

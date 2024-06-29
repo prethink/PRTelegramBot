@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types;
+﻿using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Middlewares
 {
@@ -23,11 +24,11 @@ namespace PRTelegramBot.Core.Middlewares
         /// </summary>
         /// <param name="update">Update.</param>
         /// <param name="next">Функция которая должна выполниться после обработчиков.</param>
-        public virtual async Task InvokeAsync(Update update, Func<Task> next)
+        public virtual async Task InvokeAsync(ITelegramBotClient botClient, Update update, Func<Task> next)
         {
             if (nextMiddleware != null)
             {
-                await nextMiddleware.InvokeAsync(update, next);
+                await nextMiddleware.InvokeAsync(botClient, update, next);
             }
             else
             {
