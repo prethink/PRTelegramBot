@@ -4,7 +4,6 @@ namespace PRTelegramBot.Tests.Common
 {
     public static class UpdateSetUp
     {
-        private static long chatId = 123456;
         private static long messageid = 1234568;
 
         public static Update CreateUpdate()
@@ -13,7 +12,7 @@ namespace PRTelegramBot.Tests.Common
             return update;
         }
 
-        public static Update CreateUpdateWithTypeMessage()
+        public static Update CreateUpdateWithTypeMessage(long chatId = 555555)
         {
             var update = CreateUpdate();
             update.Message = new Message();

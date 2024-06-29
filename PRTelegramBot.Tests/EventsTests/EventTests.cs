@@ -114,37 +114,43 @@ namespace PRTelegramBot.Tests.EventsTests
         //    bot.Events.OnWrongTypeChat -= EventHandler;
         //}
 
-        //[Test]
-        //public async Task OnAccessDenied()
-        //{
-        //    var update = UpdateSetUp.CreateWithTextMessage("");
-        //    bool eventCalled = false;
-        //    Task EventHandler(BotEventArgs e)
-        //    {
-        //        eventCalled = true;
-        //        return Task.CompletedTask;
-        //    }
-        //    bot.Events.OnAccessDenied += EventHandler;
-        //    await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
-        //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
-        //    bot.Events.OnAccessDenied -= EventHandler;
-        //}
+        [Test]
+        public async Task OnAccessDeniedShouldBeInvoked()
+        {
+            var testUserId = 55555;
+            var update = UpdateSetUp.CreateUpdateWithTypeMessage();
+            await bot.Options.WhiteListManager.AddUser(testUserId);
+            bool eventCalled = false;
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+            bot.Events.OnAccessDenied += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
+            bot.Events.OnAccessDenied -= EventHandler;
+            await bot.Options.WhiteListManager.RemoveUser(testUserId);
+        }
 
-        //[Test]
-        //public async Task OnMissingCommand()
-        //{
-        //    var update = UpdateSetUp.CreateWithTextMessage("");
-        //    bool eventCalled = false;
-        //    Task EventHandler(BotEventArgs e)
-        //    {
-        //        eventCalled = true;
-        //        return Task.CompletedTask;
-        //    }
-        //    bot.Events.OnAccessDenied += EventHandler;
-        //    await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
-        //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
-        //    bot.Events.OnAccessDenied -= EventHandler;
-        //}
+        [Test]
+        public async Task OnAccessDeniedShouldBeNotInvoked()
+        {
+            long userId = 5555;
+            var update = UpdateSetUp.CreateUpdateWithTypeMessage(userId);
+            await bot.Options.WhiteListManager.AddUser(userId);
+            bool eventCalled = false;
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+            bot.Events.OnAccessDenied += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsFalse(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
+            bot.Events.OnAccessDenied -= EventHandler;
+            await bot.Options.WhiteListManager.RemoveUser(userId);
+        }
 
         [Test]
         public async Task OnErrorLog()

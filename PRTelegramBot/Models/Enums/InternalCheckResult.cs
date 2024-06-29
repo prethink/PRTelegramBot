@@ -18,5 +18,10 @@
         /// Не верный тип чата.
         /// </summary>
         WrongChatType,
+        /// <summary>
+        /// Пользователь не в белом списке.
+        /// </summary>
+        NotInWhiteList,
+
     }
 }

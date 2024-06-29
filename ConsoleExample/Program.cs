@@ -22,7 +22,7 @@ Console.WriteLine($"Для закрытие программы напишите 
 var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
 var dynamicCommands = botJsonProvider.GetKeysAndValues();
 
-var telegram = new PRBotBuilder("")
+var telegram = new PRBotBuilder("Token")
                     .SetBotId(0)
                     .AddConfigPath(ExampleConstants.BUTTONS_FILE_KEY, ".\\Configs\\buttons.json")
                     .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")

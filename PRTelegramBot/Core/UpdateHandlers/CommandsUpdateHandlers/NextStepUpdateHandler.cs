@@ -81,7 +81,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-        protected override InternalCheckResult InternalCheck(Update update, CommandHandler handler)
+        protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
         {
             return InternalCheckResult.Passed;
         }

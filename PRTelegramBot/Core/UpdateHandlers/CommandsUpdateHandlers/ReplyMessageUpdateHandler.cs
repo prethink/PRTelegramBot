@@ -1,7 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot.Types;

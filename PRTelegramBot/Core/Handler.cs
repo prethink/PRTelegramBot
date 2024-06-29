@@ -80,7 +80,7 @@ namespace PRTelegramBot.Core
                     return;
             }
 
-            if (whiteListManager.WhiteListSettings == WhiteListSettings.OnPreUpdate && whiteListManager.Count > 0)
+            if (whiteListManager.Settings == WhiteListSettings.OnPreUpdate && whiteListManager.Count > 0)
             {
                 if (!(await whiteListManager.HasUser(update.GetChatId())))
                 {

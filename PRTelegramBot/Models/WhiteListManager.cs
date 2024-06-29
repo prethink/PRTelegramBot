@@ -23,7 +23,7 @@ namespace PRTelegramBot.Models
 
         private WhiteListSettings settings = WhiteListSettings.OnPreUpdate;
 
-        public WhiteListSettings WhiteListSettings
+        public WhiteListSettings Settings
         {
             get
             {

@@ -10,12 +10,12 @@ namespace PRTelegramBot.Interfaces
         /// <summary>
         /// Настройки работы с белым списком.
         /// </summary>
-        public WhiteListSettings WhiteListSettings { get; }
+        public WhiteListSettings Settings { get; }
 
         /// <summary>
         /// Установить настройки белого списка.
         /// </summary>
-        /// <param name="whiteListSettings">Настройки.</param>
-        public void SetSettings(WhiteListSettings whiteListSettings);
+        /// <param name="settings">Настройки.</param>
+        public void SetSettings(WhiteListSettings settings);
     }
 }

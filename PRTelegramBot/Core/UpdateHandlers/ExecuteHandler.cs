@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
@@ -31,7 +32,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         {
             var @delegate = handler.Command;
 
-            var result = InternalCheck(update, handler);
+            var result = await InternalCheck(update, handler);
             if (result != InternalCheckResult.Passed)
                 return CommandResult.InternalCheck;
 
@@ -45,13 +46,14 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <param name="update">Обновление.</param>
         /// <param name="handler">Обработчик.</param>
         /// <returns>Результат выполнения проверки.</returns>
-        protected virtual InternalCheckResult InternalCheck(Update update, CommandHandler handler)
+        protected virtual async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
         {
             {
                 var method = handler.Command.Method;
                 var privilages = method.GetCustomAttribute<AccessAttribute>();
                 var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
                 var requireUpdate = method.GetCustomAttribute<RequiredTypeChatAttribute>();
+                var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
                 var @delegate = handler.Command;
 
                 if (requireUpdate != null)
@@ -77,6 +79,19 @@ namespace PRTelegramBot.Core.UpdateHandlers
                     bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
                     return InternalCheckResult.PrivilegeCheck;
                 }
+
+                var whiteListManager = bot.Options.WhiteListManager;
+                var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
+
+                if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
+                {
+                    if(whiteListAttribute == null && !hasUserInWhiteList)
+                    {
+                        bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
+                        return InternalCheckResult.NotInWhiteList;
+                    }
+                }
+
                 return InternalCheckResult.Passed;
             }
         }
