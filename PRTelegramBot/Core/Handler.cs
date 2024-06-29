@@ -59,7 +59,7 @@ namespace PRTelegramBot.Core
 
                 await Middleware.InvokeAsync(botClient, update, async () =>
                 {
-                    await UpdateAsync(botClient, update, cancellationToken);
+                    await UpdateAsync(update);
                 });
             }   
             catch (Exception ex)
@@ -68,7 +68,7 @@ namespace PRTelegramBot.Core
             }
         }
 
-        public async Task UpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        public async Task UpdateAsync(Update update)
         {
             if (bot.Events.UpdateEvents.HasEventOnPreUpdate())
             {
