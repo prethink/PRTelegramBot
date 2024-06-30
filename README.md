@@ -1,9 +1,11 @@
 # 🤖 Текущая версия: 0.6.1
-# Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐    
+<p align="center">
+  <strong>Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐</strong>
+</p>
 
-Актуальная документация для версии в nuget - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
-nuget - [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/)    
-Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
+[https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)  - Актуальная документация для версии в nuget     
+[https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget    
+[https://t.me/predevchat](https://t.me/predevchat) - Чат для вопросов    
 # ⚛️ Ядро библиотеки
 TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
 
@@ -38,18 +40,4 @@ TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
  - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
 
 # 🧱 Интегрированные пакеты
- - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker
-
-
-
-## Примеры использования    
-Для того чтобы посмотреть, как работает бот можно воспользоваться примером из репозитория ConsoleExample.
-Примеры готовых функций есть в консольном приложение по пути ***/Examples***
-- ***ExampleCalendar.cs*** - Пример работы с календарем.
-- ***ExampleCommand.cs*** - Пример как создавать reply, inline и слеш команды.
-- ***ExampleHandlers.cs*** - Пример как можно обрабатывать callback данные.
-- ***ExampleStepCommand.cs*** - Пример c пошаговым выполнением команд.
-- ***ExampleUserCache.cs*** - Пример c кэш данными пользователя.    
-- ***ExampleEvent.cs*** - Пример обработки разных типов сообщений.    
-- ***WebApp.html*** - Скромный пример что требуется для WebApp страницы.   
-
+ - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker     
