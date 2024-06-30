@@ -85,6 +85,11 @@ namespace PRTelegramBot.Configs
         /// </summary>
         public List<MiddlewareBase> Middlewares { get; set; } = new();
 
+        /// <summary>
+        /// Дополнительные проверки перед обработкой команд.
+        /// </summary>
+        public List<InternalChecker> CommandCheckers { get; set; } = new();
+
         #endregion
     }
 }

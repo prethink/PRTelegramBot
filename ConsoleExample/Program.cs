@@ -1,9 +1,11 @@
-﻿using ConsoleExample.Examples;
+﻿using ConsoleExample.Checkers;
+using ConsoleExample.Examples;
 using ConsoleExample.Middlewares;
 using ConsoleExample.Models;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -18,6 +20,8 @@ const string EXIT_COMMAND = "exit";
 Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
+var checkerReplyCommand = new InternalChecker(CommandType.Reply, new ReplyExampleChecker());
+
 // Парсинг динамических команд из json файла в формате ключ:значение.
 var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
 var dynamicCommands = botJsonProvider.GetKeysAndValues();
@@ -29,6 +33,7 @@ var telegram = new PRBotBuilder("Token")
                     .AddAdmin(1111111)
                     .SetClearUpdatesOnStart(true)
                     .AddReplyDynamicCommands(dynamicCommands)
+                    .AddCommandChecker(checkerReplyCommand)
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .Build();
 

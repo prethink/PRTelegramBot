@@ -2,6 +2,7 @@
 using PRTelegramBot.Core.Factory;
 using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -123,6 +124,28 @@ namespace PRTelegramBot.Core
         public PRBotBuilder AddMiddlewares(params MiddlewareBase[] middlewares)
         {
             options.Middlewares.AddRange(middlewares);
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить чекер перед выполнением команд.
+        /// </summary>
+        /// <param name="checker">Чекер.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddCommandChecker(InternalChecker checker)
+        {
+            options.CommandCheckers.Add(checker);
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить чекеры перед выполнением команд.
+        /// </summary>
+        /// <param name="checkers">Чекеры.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddCommandChecker(List<InternalChecker> checkers)
+        {
+            options.CommandCheckers.AddRange(checkers);
             return this;
         }
 

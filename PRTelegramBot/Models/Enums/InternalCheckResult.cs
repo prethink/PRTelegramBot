@@ -1,5 +1,8 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
+    /// <summary>
+    /// Внутрення проверка в командах перед их выполнением.
+    /// </summary>
     public enum InternalCheckResult
     {
         /// <summary>
@@ -22,6 +25,9 @@
         /// Пользователь не в белом списке.
         /// </summary>
         NotInWhiteList,
-
+        /// <summary>
+        /// Кастомный ответ.
+        /// </summary>
+        Custom,
     }
 }

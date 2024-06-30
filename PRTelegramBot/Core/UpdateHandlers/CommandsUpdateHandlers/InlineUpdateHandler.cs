@@ -108,31 +108,40 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
         {
+            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType.Inline));
+            if (currentCheckers.Any())
             {
-                var method = handler.Command.Method;
-                var privilages = method.GetCustomAttribute<AccessAttribute>();
-                var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
-                var @delegate = handler.Command;
-
-                if (privilages != null)
+                foreach (var commandChecker in currentCheckers)
                 {
-                    bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
-                    return InternalCheckResult.PrivilegeCheck;
+                    var result = await commandChecker.Checker.Check(bot, update);
+                    if (result != InternalCheckResult.Passed)
+                        return result;
                 }
-
-                var whiteListManager = bot.Options.WhiteListManager;
-                var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
-
-                if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
-                {
-                    if (whiteListAttribute == null && !hasUserInWhiteList)
-                    {
-                        bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
-                        return InternalCheckResult.NotInWhiteList;
-                    }
-                }
-                return InternalCheckResult.Passed;
             }
+
+            var method = handler.Command.Method;
+            var privilages = method.GetCustomAttribute<AccessAttribute>();
+            var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
+            var @delegate = handler.Command;
+
+            if (privilages != null)
+            {
+                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
+                return InternalCheckResult.PrivilegeCheck;
+            }
+
+            var whiteListManager = bot.Options.WhiteListManager;
+            var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
+
+            if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
+            {
+                if (whiteListAttribute == null && !hasUserInWhiteList)
+                {
+                    bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
+                    return InternalCheckResult.NotInWhiteList;
+                }
+            }
+            return InternalCheckResult.Passed;
         }
 
         #endregion

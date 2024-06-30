@@ -83,6 +83,16 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
         {
+            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType.NextStep));
+            if (currentCheckers.Any())
+            {
+                foreach (var commandChecker in currentCheckers)
+                {
+                    var result = await commandChecker.Checker.Check(bot, update);
+                    if (result != InternalCheckResult.Passed)
+                        return result;
+                }
+            }
             return InternalCheckResult.Passed;
         }
 

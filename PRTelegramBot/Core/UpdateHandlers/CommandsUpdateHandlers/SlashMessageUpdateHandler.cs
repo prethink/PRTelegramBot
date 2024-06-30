@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Utils;
@@ -92,6 +93,27 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 bot.Events.OnErrorLogInvoke(ex, update);
                 return CommandResult.Error;
             }
+        }
+
+        /// <summary>
+        /// Внутрення проверка для <see cref="ExecuteMethod"/>
+        /// </summary>
+        /// <param name="update">Обновление.</param>
+        /// <param name="handler">Обработчик.</param>
+        /// <returns>Результат выполнения проверки.</returns>
+        protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
+        {
+            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType.Slash));
+            if (currentCheckers.Any())
+            {
+                foreach (var commandChecker in currentCheckers)
+                {
+                   var result = await commandChecker.Checker.Check(bot, update);
+                   if (result != InternalCheckResult.Passed)
+                       return result;
+                }
+            }
+            return await base.InternalCheck(update, handler); 
         }
 
         #endregion

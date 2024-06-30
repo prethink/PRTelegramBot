@@ -1,4 +1,4 @@
--- 2024.06.29 - V0.6.1
+-- 2024.06.30 - V0.6.1
 - update: Ядро telegram.bot обновлено с 19 до 21.2.0 версии.
 - update: Из-за обновления убран newtonsoft json
 - update: Добавлены новые события для сообщений Giveaway, GiveawayWinners, GiveawayCompleted, BoostAdded, ChatBackgroundSet
@@ -6,6 +6,7 @@
 - feature: Добавлена middleware система перед обработкой и после update
 - feature: Добавлен атрибут WhiteListAnonymous, если данный атрибут присуствует на методе обработки, он будет выполнен для всех пользователей, даже если они на находятся в белом списке
 - feature: Для WhiteListManager добавлены настройки как должен работать белый список
+- feature: Возможность добавить свои проверки перед выполнением конкретных команд reply, dynamicreply, nextstep, inline, slash.
 - refactoring: Для правильного создания ботов теперь используется только PRBotBuilder.
 - refactoring: TEvents события которые относятся к сообщениям перенесены в класс MessageEvents
 - refactoring: TEvents события которые относятся к обновлениям перенесены в класс UpdateEvents
