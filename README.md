@@ -1,10 +1,11 @@
+# 🤖 Текущая версия: 0.6.1
 # Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐    
 
 Актуальная документация для версии в nuget - [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)     
 nuget - [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/)    
 Чат для вопросов - [https://t.me/predevchat](https://t.me/predevchat)
 # ⚛️ Ядро библиотеки
-TelegramBot v21.0.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.      
@@ -31,15 +32,13 @@ TelegramBot v21.0.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 🔑 Зависимости
 
- - TelegramBot v21.0.0 https://github.com/TelegramBots/Telegram.Bot
+ - TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
  - Microsoft.Extensions.Configuration.Binder v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.Configuration.Json v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
 
 # 🧱 Интегрированные пакеты
  - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker
-
-
 
 
 
@@ -53,10 +52,4 @@ TelegramBot v21.0.0 https://github.com/TelegramBots/Telegram.Bot
 - ***ExampleUserCache.cs*** - Пример c кэш данными пользователя.    
 - ***ExampleEvent.cs*** - Пример обработки разных типов сообщений.    
 - ***WebApp.html*** - Скромный пример что требуется для WebApp страницы.   
-
-
-
-
-
-### [📎 Основные элементы в структуре проекта](https://github.com/prethink/-PR-TelegramBot/wiki/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5-%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D1%8B-%D0%B2-%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B5-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0)
 
