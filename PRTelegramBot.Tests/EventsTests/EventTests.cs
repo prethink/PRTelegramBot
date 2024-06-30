@@ -64,39 +64,39 @@ namespace PRTelegramBot.Tests.EventsTests
             bot.Events.OnMissingCommand -= EventHandler;
         }
 
-        //[Test]
-        //public async Task OnCheckPrivilegeShouldBeInvoked()
-        //{
-        //    var update = UpdateSetUp.CreateWithTextMessage("");
-        //    bool eventCalled = false;
+        [Test]
+        public async Task OnCheckPrivilegeShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateWithTextMessage(nameof(Commands.TestAccessMethod));
+            bool eventCalled = false;
 
-        //    Task EventHandler(BotEventArgs e)
-        //    {
-        //        eventCalled = true;
-        //        return Task.CompletedTask;
-        //    }
+            Task EventHandler(PrivilegeEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
 
-        //    bot.Events.OnCheckPrivilege += EventHandler;
-        //    await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
-        //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnCheckPrivilege)} event was not called.");
-        //    bot.Events.OnCheckPrivilege -= EventHandler;
-        //}
+            bot.Events.OnCheckPrivilege += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnCheckPrivilege)} event was not called.");
+            bot.Events.OnCheckPrivilege -= EventHandler;
+        }
 
-        //[Test]
-        //public async Task OnWrongTypeMessageShouldBeInvoked()
-        //{
-        //    var update = UpdateSetUp.CreateWithTextMessage("");
-        //    bool eventCalled = false;
-        //    Task EventHandler(BotEventArgs e)
-        //    {
-        //        eventCalled = true;
-        //        return Task.CompletedTask;
-        //    }
-        //    bot.Events.OnWrongTypeMessage += EventHandler;
-        //    await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
-        //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnWrongTypeMessage)} event was not called.");
-        //    bot.Events.OnWrongTypeMessage -= EventHandler;
-        //}
+        [Test]
+        public async Task OnWrongTypeMessageShouldBeInvoked()
+        {
+            var update = UpdateSetUp.CreateWithTextMessage(nameof(Commands.TestTypeMessage));
+            bool eventCalled = false;
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+            bot.Events.OnWrongTypeMessage += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnWrongTypeMessage)} event was not called.");
+            bot.Events.OnWrongTypeMessage -= EventHandler;
+        }
 
         //[Test]
         //public async Task OnWrongTypeChatShouldBeInvoked()

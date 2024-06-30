@@ -3,6 +3,7 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
+using System.Linq;
 using System.Reflection;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -58,7 +59,8 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
                 if (requireUpdate != null)
                 {
-                    if (!requireUpdate.TypesChat.Contains(update!.Message!.Chat.Type))
+                    var currentType = update?.Message?.Chat?.Type;
+                    if (currentType == null || !requireUpdate.TypesChat.Contains(currentType.Value))
                     {
                         bot.Events.OnWrongTypeChatInvoke(new BotEventArgs(bot, update));
                         return InternalCheckResult.WrongChatType;
@@ -67,7 +69,8 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
                 if (requireDate != null)
                 {
-                    if (!requireDate.TypeMessages.Contains(update!.Message!.Type))
+                    var currentType = update?.Message?.Type;
+                    if (currentType == null || !requireDate.TypeMessages.Contains(currentType.Value))
                     {
                         bot.Events.OnWrongTypeMessageInvoke(new BotEventArgs(bot, update));
                         return InternalCheckResult.WrongMessageType;

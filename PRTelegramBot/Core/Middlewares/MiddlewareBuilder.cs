@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="middlewares">Обработчики.</param>
         /// <returns>Цепочка обработчиков.</returns>
-        public MiddlewareBase Build(List<MiddlewareBase> middlewares)
+        public virtual MiddlewareBase Build(List<MiddlewareBase> middlewares)
         {
             if (middlewares == null)
                 return new MiddlewareBase();

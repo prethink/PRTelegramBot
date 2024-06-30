@@ -16,7 +16,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
             bot.ReloadHandlers();
             var replyCommandCount = ((Handler)(bot.Handler)).MessageFacade.ReplyHandler.CommandCount;
-            Assert.AreEqual(4, replyCommandCount);
+            Assert.AreEqual(5, replyCommandCount);
         }
 
         [Test]

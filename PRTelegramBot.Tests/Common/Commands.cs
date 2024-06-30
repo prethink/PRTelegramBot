@@ -33,14 +33,19 @@ namespace PRTelegramBot.Tests.Common
 
         #region Reply methods
 
-        [ReplyMenuHandler(nameof(TestReplyOne))]
-        public static async Task TestReplyOne(ITelegramBotClient botClient, Update update) { }
+        [Access(1)]
+        [ReplyMenuHandler(nameof(TestAccessMethod))]
+        public static async Task TestAccessMethod(ITelegramBotClient botClient, Update update) { }
 
         [ReplyMenuHandler(1, nameof(TestReplyWithCustomId))]
         public static async Task TestReplyWithCustomId(ITelegramBotClient botClient, Update update) { }
 
         [ReplyMenuHandler(2, nameof(TestReplyWithCustomIdTwo))]
         public static async Task TestReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
+
+        [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Photo)]
+        [ReplyMenuHandler(nameof(TestTypeMessage))]
+        public static async Task TestTypeMessage(ITelegramBotClient botClient, Update update) { }
 
         #endregion
 
