@@ -1,5 +1,5 @@
 -- 2024.06.29 - V0.6.1
-- update: Ядро telegram.bot обновлено с 19 до 21 версии.
+- update: Ядро telegram.bot обновлено с 19 до 21.2.0 версии.
 - update: Из-за обновления убран newtonsoft json
 - update: Добавлены новые события для сообщений Giveaway, GiveawayWinners, GiveawayCompleted, BoostAdded, ChatBackgroundSet
 - feature: Добавлен интерфейс IUserManager и классы AdminManager, WhiteListManager. Из TelegramOptions удалены свойства Admins и WhiteListUsers.
