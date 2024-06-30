@@ -3,9 +3,9 @@
   <strong>Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐</strong>
 </p>
 
-[https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)  - Актуальная документация для версии в nuget     
-[https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget    
-[https://t.me/predevchat](https://t.me/predevchat) - Чат для вопросов    
+[https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)  - актуальная документация.        
+[https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
+[https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.        
 # ⚛️ Ядро библиотеки
 TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
 
