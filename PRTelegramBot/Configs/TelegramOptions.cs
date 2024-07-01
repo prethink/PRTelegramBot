@@ -1,7 +1,6 @@
-﻿using PRTelegramBot.Core;
-using PRTelegramBot.Core.Middlewares;
-using PRTelegramBot.Core.UpdateHandlers;
+﻿using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Managers;
 using PRTelegramBot.Models;
 using Telegram.Bot;
 using Telegram.Bot.Polling;

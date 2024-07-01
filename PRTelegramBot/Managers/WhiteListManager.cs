@@ -1,7 +1,7 @@
 ﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 
-namespace PRTelegramBot.Models
+namespace PRTelegramBot.Managers
 {
     /// <summary>
     /// Менеджер управления белым списком.

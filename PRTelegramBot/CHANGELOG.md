@@ -1,3 +1,7 @@
+-- 2024.07.01 - V0.6.2
+- update: Ядро telegram.bot обновлено с 21.2.0 до 21.3.0 версии.
+- feature: В интерфейс IInternalCheck добавлен аргумент CommandHandler
+
 -- 2024.06.30 - V0.6.1
 - update: Ядро telegram.bot обновлено с 19 до 21.2.0 версии.
 - update: Из-за обновления убран newtonsoft json

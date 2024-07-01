@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot.Types;
 
@@ -15,6 +16,6 @@ namespace PRTelegramBot.Interfaces
         /// <param name="bot">Бот.</param>
         /// <param name="update">Update.</param>
         /// <returns>Результат выполенения.</returns>
-        Task<InternalCheckResult> Check(PRBotBase bot, Update update);
+        Task<InternalCheckResult> Check(PRBotBase bot, Update update, CommandHandler handler);
     }
 }

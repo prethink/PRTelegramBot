@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
 
-namespace PRTelegramBot.Models
+namespace PRTelegramBot.Managers
 {
     /// <summary>
     /// Менеджер управления администраторами.

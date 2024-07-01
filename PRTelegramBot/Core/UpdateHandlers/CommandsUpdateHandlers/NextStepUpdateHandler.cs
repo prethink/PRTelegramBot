@@ -88,7 +88,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             {
                 foreach (var commandChecker in currentCheckers)
                 {
-                    var result = await commandChecker.Checker.Check(bot, update);
+                    var result = await commandChecker.Checker.Check(bot, update, handler);
                     if (result != InternalCheckResult.Passed)
                         return result;
                 }

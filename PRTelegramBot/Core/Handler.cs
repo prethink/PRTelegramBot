@@ -6,7 +6,7 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
-using Telegram.Bot.Exceptions;
+using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -36,7 +36,7 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region IUpdateHandler
+        #region IPRUpdateHandler
 
         public MiddlewareBase Middleware { get; }
 
@@ -68,6 +68,26 @@ namespace PRTelegramBot.Core
             }
         }
 
+        public void HotReload()
+        {
+            MessageFacade = new MessageFacade(this.bot);
+            InlineUpdateHandler = new InlineUpdateHandler(this.bot);
+        }
+
+        public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
+        {
+            var bot = botClient.GetBotDataOrNull();
+            bot.Events.OnErrorLogInvoke(exception);
+        }
+
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Обработка обновлений.
+        /// </summary>
+        /// <param name="update">Update.</param>
         public async Task UpdateAsync(Update update)
         {
             var whiteListManager = bot.Options.WhiteListManager;
@@ -156,37 +176,6 @@ namespace PRTelegramBot.Core
                 bot.Events.UpdateEvents.OnUnknownHandler(new BotEventArgs(bot, update));
 
             bot.Events.UpdateEvents.OnPostInvoke(new BotEventArgs(bot, update));
-        }
-
-        /// <summary>
-        /// Обработчик ошибок.
-        /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <param name="exception">Exception.</param>
-        /// <param name="cancellationToken">Токен.</param>
-        public async Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var ErrorMessage = exception switch
-                {
-                    ApiRequestException apiRequestException
-                        => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
-                    _ => exception.ToString()
-                };
-                //TODO Logging exception
-                //return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                bot.Events.OnErrorLogInvoke(ex);
-            }
-        }
-
-        public void HotReload()
-        {
-            MessageFacade = new MessageFacade(this.bot);
-            InlineUpdateHandler = new InlineUpdateHandler(this.bot);
         }
 
         #endregion
