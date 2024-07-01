@@ -18,6 +18,8 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         public override MessageType TypeMessage => MessageType.Text;
 
+        public virtual CommandType CommandType => CommandType.Reply;
+
         #endregion
 
         #region Методы
@@ -75,7 +77,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// <returns>Результат выполнения проверки.</returns>
         protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
         {
-            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType.Reply));
+            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType));
             if (currentCheckers.Any())
             {
                 foreach (var commandChecker in currentCheckers)
