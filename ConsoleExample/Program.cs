@@ -53,10 +53,10 @@ InitCommands(telegram);
 void InitEvents(PRBotBase bot)
 {
     // Обработка до всех update 
-    bot.Events.UpdateEvents.OnPreUpdate += Handler_OnUpdate;
+    bot.Events.UpdateEvents.OnPreUpdate += ExampleEvent.Handler_OnUpdate;
 
     // Обработка после всех update
-    bot.Events.UpdateEvents.OnPostUpdate += Handler_OnPostUpdate;
+    bot.Events.UpdateEvents.OnPostUpdate += ExampleEvent.Handler_OnPostUpdate;
 
     // Обработка не правильный тип сообщений
     bot.Events.OnWrongTypeMessage += ExampleEvent.OnWrongTypeMessage;
@@ -135,24 +135,6 @@ void InitCommands(PRBotBase bot)
     {
         PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommandTwo");
     });
-}
-
-async Task<UpdateResult> Handler_OnUpdate(BotEventArgs e)
-{
-    /*
-     Для примера можно рассмотреть зарегистрирован ли пользователь или нет.
-        Если зарегистрирован
-            return UpdateResult.Continue; - данный результат позволит продолжить обработку.
-        Если не зарегистрирован то вызвать метод регистрации
-            RegisterMethod();
-            return UpdateResult.Stop или return UpdateResult.Handled - позволит прервать текущую обработку и отправить пользователя на регистрацию
-     */
-    return UpdateResult.Continue;
-}
-
-async Task Handler_OnPostUpdate(BotEventArgs e)
-{
-    // Пример. Регистрация последней активности пользователя в боте. Допустим дата и время
 }
 
 #region Работа фоновых задач

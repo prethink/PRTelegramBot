@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using System.Collections.Concurrent;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -35,8 +34,43 @@ namespace PRTelegramBot.Extensions
             {
                 UpdateType.Message => update.Message.Chat.Id,
                 UpdateType.CallbackQuery => update.CallbackQuery.Message.Chat.Id,
+                UpdateType.BusinessConnection => update.BusinessConnection.UserChatId,
+                UpdateType.BusinessMessage => update.BusinessMessage.Chat.Id,
+                UpdateType.ChannelPost => update.ChannelPost.Chat.Id,
+                UpdateType.ChatBoost => update.ChatBoost.Chat.Id,
+                UpdateType.ChatJoinRequest => update.ChatJoinRequest.UserChatId,
+                UpdateType.ChatMember => update.ChatMember.Chat.Id,
+                UpdateType.DeletedBusinessMessages => update.DeletedBusinessMessages.Chat.Id,
+                UpdateType.EditedBusinessMessage => update.EditedBusinessMessage.Chat.Id,
+                UpdateType.EditedChannelPost => update.EditedChannelPost.Chat.Id,
+                UpdateType.EditedMessage => update.EditedMessage.Chat.Id,
+                UpdateType.MessageReaction => update.MessageReaction.Chat.Id,
+                UpdateType.MessageReactionCount => update.MessageReactionCount.Chat.Id,
+                UpdateType.MyChatMember => update.MyChatMember.Chat.Id,
+                UpdateType.PollAnswer => update.PollAnswer.VoterChat.Id,
+                UpdateType.RemovedChatBoost => update.RemovedChatBoost.Chat.Id,
                 _ => throw new NotImplementedException($"Not implemented get chatId for {update.Type}")
-            };
+            }; 
+        }
+
+        /// <summary>
+        /// Попытаться получить идентификатор чата.
+        /// </summary>
+        /// <param name="update">Update.</param>
+        /// <param name="chatId">Идентификатор чата.</param>
+        /// <returns>True - удалось получить, false - нет.</returns>
+        public static bool TryGetChatId(this Update update, out long chatId)
+        {
+            chatId = 0;
+            try
+            {
+                chatId = update.GetChatId();
+                return true;
+            }
+            catch(Exception e) 
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -51,8 +85,28 @@ namespace PRTelegramBot.Extensions
             {
                 UpdateType.Message => update.Message.MessageId,
                 UpdateType.CallbackQuery => update.CallbackQuery.Message.MessageId,
+                //TODO: Доработка messageId
                 _ => throw new NotImplementedException($"Not implemented get messageId for {update.Type}")
             };
+        }
+
+        /// <summary>
+        /// Является ли идентификатор пользователским чатом.
+        /// </summary>
+        /// <param name="update">Update.</param>
+        /// <returns>True - да, False - нет.</returns>
+        public static bool IsUserChatId(this Update update)
+        {
+            try 
+            {
+                return update.GetChatId() > 0;
+            }
+            catch(Exception ex) 
+            {
+                if(update.TryGetBot(out var bot))
+                    bot.Events.OnErrorLogInvoke(ex);
+                return false;
+            }
         }
 
         /// <summary>

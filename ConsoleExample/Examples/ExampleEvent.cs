@@ -1,5 +1,6 @@
 ﻿using ConsoleExample.Extension;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Helpers = PRTelegramBot.Helpers;
 
@@ -160,15 +161,17 @@ namespace ConsoleExample.Examples
             await Helpers.Message.Send(e.BotClient, e.Update, msg);
         }
 
-        internal static async Task OnUpdateMyChatMember(BotEventArgs args)
+        #region Update events
+
+        public static async Task OnUpdateMyChatMember(BotEventArgs args)
         {
             //Обработка информации из myChatHandle
             var myChatHandle = args.Update.MyChatMember;
             try
             {
-                if(myChatHandle.NewChatMember.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
+                if (myChatHandle.NewChatMember.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
                 {
-                    if(myChatHandle.NewChatMember.User.Id == args.BotClient.BotId) 
+                    if (myChatHandle.NewChatMember.User.Id == args.BotClient.BotId)
                     {
                         await Helpers.Message.Send(args.BotClient, myChatHandle.Chat.Id, "Hello world");
                     }
@@ -178,10 +181,30 @@ namespace ConsoleExample.Examples
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 args.Bot.Events.OnErrorLogInvoke(ex);
             }
         }
+
+        public async static Task<UpdateResult> Handler_OnUpdate(BotEventArgs e)
+        {
+            /*
+             Для примера можно рассмотреть зарегистрирован ли пользователь или нет.
+                Если зарегистрирован
+                    return UpdateResult.Continue; - данный результат позволит продолжить обработку.
+                Если не зарегистрирован то вызвать метод регистрации
+                    RegisterMethod();
+                    return UpdateResult.Stop или return UpdateResult.Handled - позволит прервать текущую обработку и отправить пользователя на регистрацию
+             */
+            return UpdateResult.Continue;
+        }
+
+        public async static Task Handler_OnPostUpdate(BotEventArgs e)
+        {
+            // Пример. Регистрация последней активности пользователя в боте. Допустим дата и время
+        }
+
+        #endregion
     }
 }

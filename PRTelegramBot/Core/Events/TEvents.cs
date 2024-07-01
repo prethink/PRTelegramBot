@@ -103,7 +103,7 @@ namespace PRTelegramBot.Core.Events
 
         public void OnCommonLogInvoke(string message, string type, ConsoleColor color, Update update) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, update));
 
-        public void OnErrorOnCommonLogInvokeInvoke(string message, string type) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
+        public void OnCommonLogInvokeInvoke(string message, string type) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
 
         #endregion
 
