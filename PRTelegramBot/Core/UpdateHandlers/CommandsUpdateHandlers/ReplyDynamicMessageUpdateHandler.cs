@@ -1,11 +1,8 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models;
 using PRTelegramBot.Utils;
 using System.Reflection;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 {
@@ -14,16 +11,11 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
     /// </summary>
     public sealed class ReplyDynamicMessageUpdateHandler : ReplyMessageUpdateHandler
     {
-        #region Поля и свойства
-
-        public override MessageType TypeMessage => MessageType.Text;
+        #region Базовый класс
 
         public override CommandType CommandType => CommandType.DynamicReply;
 
-        #endregion
-
-        #region Методы
-
+        public override MessageType TypeMessage => MessageType.Text;
 
         protected override void RegisterCommands()
         {
@@ -38,7 +30,6 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             }
         }
 
-
         #endregion
 
         #region Конструкторы
@@ -48,9 +39,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// </summary>
         /// <param name="bot">Бот.</param>
         public ReplyDynamicMessageUpdateHandler(PRBotBase bot)
-            : base(bot) 
-        { 
-        }
+            : base(bot) { }
 
         #endregion
     }

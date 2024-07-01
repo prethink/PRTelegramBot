@@ -16,6 +16,11 @@ namespace PRTelegramBot.Core.UpdateHandlers
     {
         #region Поля и свойства
 
+        /// <summary>
+        /// Тип команд.
+        /// </summary>
+        public abstract CommandType CommandType { get; }
+
         public override UpdateType TypeUpdate => UpdateType.Message;
 
         #endregion
@@ -51,14 +56,14 @@ namespace PRTelegramBot.Core.UpdateHandlers
             var method = handler.Command.Method;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
             var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
-            var requireUpdate = method.GetCustomAttribute<RequiredTypeChatAttribute>();
+            var requireChat = method.GetCustomAttribute<RequiredTypeChatAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
             var @delegate = handler.Command;
 
-            if (requireUpdate != null)
+            if (requireChat != null)
             {
                 var currentType = update?.Message?.Chat?.Type;
-                if (currentType == null || !requireUpdate.TypesChat.Contains(currentType.Value))
+                if (currentType == null || !requireChat.TypesChat.Contains(currentType.Value))
                 {
                     bot.Events.OnWrongTypeChatInvoke(new BotEventArgs(bot, update));
                     return InternalCheckResult.WrongChatType;
@@ -90,6 +95,17 @@ namespace PRTelegramBot.Core.UpdateHandlers
                 {
                     bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
                     return InternalCheckResult.NotInWhiteList;
+                }
+            }
+
+            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType));
+            if (currentCheckers.Any())
+            {
+                foreach (var commandChecker in currentCheckers)
+                {
+                    var result = await commandChecker.Checker.Check(bot, update, handler);
+                    if (result != InternalCheckResult.Passed)
+                        return result;
                 }
             }
 

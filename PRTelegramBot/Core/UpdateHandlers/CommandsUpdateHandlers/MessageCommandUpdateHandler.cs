@@ -18,11 +18,11 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// </summary>
         public abstract MessageType TypeMessage { get; }
 
-        public override UpdateType TypeUpdate => UpdateType.Message;
-
         #endregion
 
-        #region Методы
+        #region Базовый класс
+
+        public override UpdateType TypeUpdate => UpdateType.Message;
 
         protected override bool CanExecute(string currentCommand, string command, CommandHandler handler)
         {

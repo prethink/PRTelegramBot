@@ -12,9 +12,38 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
     /// </summary>
     public sealed class NextStepUpdateHandler : ExecuteHandler
     {
-        #region Поля и свойства
+        #region Базовый класс
+
+        public override CommandType CommandType => CommandType.NextStep;
 
         public override UpdateType TypeUpdate => UpdateType.Message;
+
+        public override async Task<UpdateResult> Handle(Update update)
+        {
+            try
+            {
+                if (!update.HasStepHandler())
+                    return UpdateResult.Continue;
+
+                var step = update.GetStepHandler()?.GetExecuteMethod();
+                if (step is null)
+                    return UpdateResult.NotFound;
+                bot.Events.MessageEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+                var resultExecute = await ExecuteMethod(update, new CommandHandler(step));
+                if (resultExecute == CommandResult.Executed)
+                {
+                    bot.Events.MessageEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+                    return UpdateResult.Handled;
+                }
+
+                return UpdateResult.Continue;
+            }
+            catch (Exception ex)
+            {
+                bot.Events.OnErrorLogInvoke(ex, update);
+                return UpdateResult.Error;
+            }
+        }
 
         #endregion
 
@@ -56,48 +85,6 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 return;
 
             update.ClearStepUserHandler();
-        }
-
-        public override async Task<UpdateResult> Handle(Update update)
-        {
-            try
-            {
-                if (!update.HasStepHandler())
-                    return UpdateResult.Continue;
-
-                var step = update.GetStepHandler()?.GetExecuteMethod();
-                if (step is null)
-                    return UpdateResult.NotFound;
-                bot.Events.MessageEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
-                var resultExecute = await ExecuteMethod(update, new CommandHandler(step));
-                if (resultExecute == CommandResult.Executed)
-                {
-                    bot.Events.MessageEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
-                    return UpdateResult.Handled;
-                }
-
-                return UpdateResult.Continue;
-            }
-            catch (Exception ex)
-            {
-                bot.Events.OnErrorLogInvoke(ex, update);
-                return UpdateResult.Error;
-            }
-        }
-
-        protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
-        {
-            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType.NextStep));
-            if (currentCheckers.Any())
-            {
-                foreach (var commandChecker in currentCheckers)
-                {
-                    var result = await commandChecker.Checker.Check(bot, update, handler);
-                    if (result != InternalCheckResult.Passed)
-                        return result;
-                }
-            }
-            return InternalCheckResult.Passed;
         }
 
         #endregion

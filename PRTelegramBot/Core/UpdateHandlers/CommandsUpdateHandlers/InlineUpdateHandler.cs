@@ -17,13 +17,11 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
     /// </summary>
     public sealed class InlineUpdateHandler : CommandUpdateHandler<Enum>
     {
-        #region Поля и свойств
+        #region Базовый класс
+
+        public override CommandType CommandType => CommandType.Inline;
 
         public override UpdateType TypeUpdate => UpdateType.CallbackQuery;
-
-        #endregion
-
-        #region Методы
 
         public override async Task<UpdateResult> Handle(Update update)
         {
@@ -111,7 +109,7 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
 
         protected override async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
         {
-            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType.Inline));
+            var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType));
             if (currentCheckers.Any())
             {
                 foreach (var commandChecker in currentCheckers)

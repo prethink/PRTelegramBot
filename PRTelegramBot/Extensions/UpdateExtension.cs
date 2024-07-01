@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core;
+﻿using Microsoft.VisualBasic;
+using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using System.Collections.Concurrent;
 using Telegram.Bot.Types;
@@ -38,7 +39,7 @@ namespace PRTelegramBot.Extensions
                 UpdateType.BusinessMessage => update.BusinessMessage.Chat.Id,
                 UpdateType.ChannelPost => update.ChannelPost.Chat.Id,
                 UpdateType.ChatBoost => update.ChatBoost.Chat.Id,
-                UpdateType.ChatJoinRequest => update.ChatJoinRequest.UserChatId,
+                UpdateType.ChatJoinRequest => update.ChatJoinRequest.Chat.Id,
                 UpdateType.ChatMember => update.ChatMember.Chat.Id,
                 UpdateType.DeletedBusinessMessages => update.DeletedBusinessMessages.Chat.Id,
                 UpdateType.EditedBusinessMessage => update.EditedBusinessMessage.Chat.Id,
@@ -116,19 +117,26 @@ namespace PRTelegramBot.Extensions
         /// <returns>Информация о пользователе.</returns>
         public static string GetInfoUser(this Update update)
         {
-            string result = "";
-
-            result += update?.Message?.Chat?.Id + " ";
-            result += string.IsNullOrEmpty(update?.Message?.Chat?.FirstName) ? "" : update.Message.Chat.FirstName + " ";
-            result += string.IsNullOrEmpty(update?.Message?.Chat?.LastName) ? "" : update.Message.Chat.LastName + " ";
-            result += string.IsNullOrEmpty(update?.Message?.Chat?.Username) ? "" : update.Message.Chat.Username + " ";
-
-            result += update?.CallbackQuery?.Message?.Chat?.Id + " ";
-            result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.FirstName) ? "" : update.CallbackQuery.Message.Chat.FirstName + " ";
-            result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.LastName) ? "" : update.CallbackQuery.Message.Chat.LastName + " ";
-            result += string.IsNullOrEmpty(update?.CallbackQuery?.Message?.Chat?.Username) ? "" : update.CallbackQuery.Message.Chat.Username + " ";
-
-            return result;
+            return update.Type switch
+            {
+                UpdateType.Message => GetFullNameFromChat(update.Message.Chat),
+                UpdateType.CallbackQuery => GetFullNameFromChat(update.CallbackQuery.Message.Chat),
+                UpdateType.BusinessMessage => GetFullNameFromChat(update.BusinessMessage.Chat),
+                UpdateType.ChannelPost => GetFullNameFromChat(update.ChannelPost.Chat),
+                UpdateType.ChatBoost => GetFullNameFromChat(update.ChatBoost.Chat),
+                UpdateType.ChatJoinRequest => GetFullNameFromChat(update.ChatJoinRequest.Chat),
+                UpdateType.ChatMember => GetFullNameFromChat(update.ChatMember.Chat),
+                UpdateType.DeletedBusinessMessages => GetFullNameFromChat(update.DeletedBusinessMessages.Chat),
+                UpdateType.EditedBusinessMessage => GetFullNameFromChat(update.EditedBusinessMessage.Chat),
+                UpdateType.EditedChannelPost => GetFullNameFromChat(update.EditedChannelPost.Chat),
+                UpdateType.EditedMessage => GetFullNameFromChat(update.EditedMessage.Chat),
+                UpdateType.MessageReaction => GetFullNameFromChat(update.MessageReaction.Chat),
+                UpdateType.MessageReactionCount => GetFullNameFromChat(update.MessageReactionCount.Chat),
+                UpdateType.MyChatMember => GetFullNameFromChat(update.MyChatMember.Chat),
+                UpdateType.PollAnswer => GetFullNameFromChat(update.PollAnswer.VoterChat),
+                UpdateType.RemovedChatBoost => GetFullNameFromChat(update.RemovedChatBoost.Chat),
+                _ => ""
+            };
         }
 
         /// <summary>
@@ -178,6 +186,21 @@ namespace PRTelegramBot.Extensions
         internal static bool ClearTelegramClient(this Update update)
         {
             return botLink.TryRemove(update.Id, out PRBotBase _);
+        }
+
+        /// <summary>
+        /// Получить информацию о пользователе из чата.
+        /// </summary>
+        /// <param name="chat">Чат.</param>
+        /// <returns>Информация.</returns>
+        private static string GetFullNameFromChat(Chat chat)
+        {
+            string result = "";
+            result += chat?.Id + " ";
+            result += string.IsNullOrEmpty(chat.FirstName) ? "" : chat.FirstName + " ";
+            result += string.IsNullOrEmpty(chat?.LastName) ? "" : chat.LastName + " ";
+            result += string.IsNullOrEmpty(chat?.Username) ? "" : chat.Username + " ";
+            return result;
         }
 
         #endregion
