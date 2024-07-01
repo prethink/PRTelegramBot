@@ -21,6 +21,7 @@ Console.WriteLine("Запуск программы");
 Console.WriteLine($"Для закрытие программы напишите {EXIT_COMMAND}");
 
 var checkerReplyCommand = new InternalChecker(CommandType.Reply, new ReplyExampleChecker());
+var adminChecker = new InternalChecker(new List<CommandType>() { CommandType.Reply, CommandType.NextStep, CommandType.Inline, CommandType.DynamicReply, CommandType.Slash }, new AdminExampleChecher());
 
 // Парсинг динамических команд из json файла в формате ключ:значение.
 var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
@@ -34,6 +35,7 @@ var telegram = new PRBotBuilder("Token")
                     .SetClearUpdatesOnStart(true)
                     .AddReplyDynamicCommands(dynamicCommands)
                     .AddCommandChecker(checkerReplyCommand)
+                    .AddCommandChecker(adminChecker)
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .Build();
 

@@ -975,5 +975,19 @@ namespace PRTelegramBot.Tests.EventsTests
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoChatParticipantsInvitedHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoChatParticipantsInvitedHandle -= EventHandler;
         }
+
+        /* TODO Тесты для
+         *  OnPreReplyCommandHandle
+            OnPostReplyCommandHandle
+            OnPreDynamicReplyCommandHandle
+            OnPostDynamicReplyCommandHandle
+            OnPreSlashCommandHandle
+            OnPostSlashCommandHandle
+            OnPreInlineCommandHandle
+            OnPostInlineCommandHandle
+            OnPreNextStepCommandHandle
+            OnPostNextStepCommandHandle
+         * 
+         */
     }
 }

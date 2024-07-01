@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -67,10 +68,13 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 var step = update.GetStepHandler()?.GetExecuteMethod();
                 if (step is null)
                     return UpdateResult.NotFound;
-
+                bot.Events.MessageEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
                 var resultExecute = await ExecuteMethod(update, new CommandHandler(step));
                 if (resultExecute == CommandResult.Executed)
+                {
+                    bot.Events.MessageEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
                     return UpdateResult.Handled;
+                }
 
                 return UpdateResult.Continue;
             }

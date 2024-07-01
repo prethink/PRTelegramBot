@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot.Types;
@@ -27,10 +28,13 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
             {
                 string command = update.Message.Text;
                 RemoveBracketsIfExists(ref command);
+                bot.Events.MessageEvents.OnPreReplyCommandHandleInvoke(new BotEventArgs(bot, update));
                 var resultExecute = await ExecuteCommand(command, update, commands);
                 if (resultExecute != CommandResult.Continue)
+                {
+                    bot.Events.MessageEvents.OnPostReplyCommandHandleInvoke(new BotEventArgs(bot, update));
                     return UpdateResult.Handled;
-
+                }
                 return UpdateResult.Continue;
             }
             catch (Exception ex)

@@ -34,9 +34,13 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                     if (resultExecute == CommandResult.Executed)
                         return UpdateResult.Handled;
 
+                    bot.Events.MessageEvents.OnPreSlashCommandHandleInvoke(new BotEventArgs(bot, update));
                     resultExecute = await ExecuteCommand(command, update, commands);
                     if (resultExecute != CommandResult.Continue)
+                    {
+                        bot.Events.MessageEvents.OnPostSlashCommandHandleInvoke(new BotEventArgs(bot, update));
                         return UpdateResult.Handled;
+                    }
                 }
                 return UpdateResult.Continue;
             }
