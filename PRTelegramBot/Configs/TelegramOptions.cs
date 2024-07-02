@@ -89,6 +89,11 @@ namespace PRTelegramBot.Configs
         /// </summary>
         public List<InternalChecker> CommandCheckers { get; set; } = new();
 
+        /// <summary>
+        /// Таймаут для получения update в режиме polling.
+        /// </summary>
+        public int? Timeout { get; set; }
+
         #endregion
     }
 }

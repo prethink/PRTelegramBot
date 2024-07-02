@@ -7,6 +7,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core
 {
+    /// <summary>
+    /// Бот для работы через webhook.
+    /// </summary>
     public sealed class PRBotWebHook : PRBotBase
     {
         #region Базовый класс

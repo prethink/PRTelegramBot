@@ -6,6 +6,7 @@
 - feature: UpdateExtension добавлены методы IsUserChatId, TryGetChatId
 - feature: Добавлен класс MessageAwaiter, позволяет создавать сообщение заглушку перед обработкой данных и автоматически удалять его после
 - feature: Убраны await для команд reply, slash, inline, dynamicreply чтобы не задерживали обработку других update
+- feature: Добавлен polling режим. Теперь есть classic (функционал telegram.bot), polling, webhook.
 
 -- 2024.06.30 - V0.6.1
 - update: Ядро telegram.bot обновлено с 19 до 21.2.0 версии.

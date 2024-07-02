@@ -6,6 +6,10 @@
     public enum DataRetrievalMethod
     {
         /// <summary>
+        /// Классическая обработка из telegram.bot.
+        /// </summary>
+        Classic,
+        /// <summary>
         /// Обработка данных polling.
         /// </summary>
         Polling,

@@ -4,6 +4,9 @@ using Telegram.Bot;
 
 namespace PRTelegramBot.Core
 {
+    /// <summary>
+    /// Классический обработчик telegram.bot.
+    /// </summary>
     public sealed class PRBot : PRBotBase
     {
         #region Базовый класс
@@ -12,7 +15,7 @@ namespace PRTelegramBot.Core
         { 
             get 
             { 
-                return DataRetrievalMethod.Polling; 
+                return DataRetrievalMethod.Classic; 
             } 
         }
 
