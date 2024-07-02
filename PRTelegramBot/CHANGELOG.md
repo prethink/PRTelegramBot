@@ -1,5 +1,5 @@
 -- 2024.07.01 - V0.6.2
-- update: Ядро telegram.bot обновлено с 21.2.0 до 21.3.0 версии.
+- update: Ядро telegram.bot обновлено с 21.2.0 до 21.4.0 версии.
 - feature: В интерфейс IInternalCheck добавлен аргумент CommandHandler
 - feature: Добавлены новые события в update типа сообщения. OnPreReplyCommandHandle, OnPostReplyCommandHandle, OnPreDynamicReplyCommandHandle, OnPostDynamicReplyCommandHandle,
     OnPreSlashCommandHandle, OnPostSlashCommandHandle, OnPreInlineCommandHandle, OnPostInlineCommandHandle, OnPreNextStepCommandHandle, OnPostNextStepCommandHandle

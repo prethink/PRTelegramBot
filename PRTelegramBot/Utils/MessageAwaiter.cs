@@ -58,7 +58,7 @@ namespace PRTelegramBot.Utils
             {
                 await botClient.DeleteMessageAsync(new DeleteMessageRequest(chatId, message.MessageId));
             }
-            catch (Exception e) { }
+            catch (Exception ex) { }
         }
 
         #endregion

@@ -21,7 +21,6 @@ namespace ConsoleExample.Examples
                 await Task.Delay(2000);
                 await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Генерация данных завершена.");
             }
-            
         }
     }
 }
