@@ -30,9 +30,6 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 var command = InlineCallback.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
                 if (command != null)
                 {
-                    string msg = $"The user {update.GetInfoUser().Trim()} invoked the command {command.CommandType.GetDescription()}";
-                    bot.Events.OnCommonLogInvoke(msg, "CallBackCommand", ConsoleColor.Magenta);
-
                     bot.Events.MessageEvents.OnPreInlineCommandHandleInvoke(new BotEventArgs(bot, update));
                     var resultExecute = await ExecuteCommand(command.CommandType, update, commands);
                     if (resultExecute == CommandResult.Executed)

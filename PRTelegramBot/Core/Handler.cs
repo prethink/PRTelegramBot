@@ -57,7 +57,7 @@ namespace PRTelegramBot.Core
                 //Связь update вместе ITelegramBotClient
                 update.AddTelegramClient(bot);
 
-                await Middleware.InvokeOnPreUpdateAsync(botClient, update, async () =>
+                _ =  Middleware.InvokeOnPreUpdateAsync(botClient, update, async () =>
                 {
                     await UpdateAsync(update);
                 });
@@ -110,10 +110,10 @@ namespace PRTelegramBot.Core
             }
 
             if (update.Type == UpdateType.CallbackQuery)
-                await InlineUpdateHandler.Handle(update);
+                _ = InlineUpdateHandler.Handle(update);
 
             if (update.Type == UpdateType.Message)
-                await MessageFacade.Handle(update);
+                _ = MessageFacade.Handle(update);
 
             if (update.Type == UpdateType.ChannelPost)
                 bot.Events.UpdateEvents.OnChannelPostHandler(new BotEventArgs(bot, update));
