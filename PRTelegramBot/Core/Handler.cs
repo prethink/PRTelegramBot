@@ -102,7 +102,8 @@ namespace PRTelegramBot.Core
 
             if (whiteListManager.Settings == WhiteListSettings.OnPreUpdate && whiteListManager.Count > 0)
             {
-                if (!(await whiteListManager.HasUser(update.GetChatId())))
+                var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
+                if (!hasUserInWhiteList)
                 {
                     bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
                     return;

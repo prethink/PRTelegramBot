@@ -18,6 +18,7 @@ namespace ConsoleExample.Examples
         {
             using(var messageAwaiter = new MessageAwaiter(botClient, update.GetChatId()))
             {
+                // Симуляция тяжелой операции.
                 await Task.Delay(2000);
                 await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Генерация данных завершена.");
             }
