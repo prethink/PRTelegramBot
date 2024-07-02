@@ -12,7 +12,6 @@ namespace PRTelegramBot.Tests.CoreTests
         public async Task MiddlewareExecutesBeforeAndAfterMainLogic()
         {
             var exceptedMessageMainLogin = "Main Logic";
-            // Arrange
             var update = new Update { Id = 1 };
             var botClientMock = new Mock<ITelegramBotClient>();
             var log = new List<string>();
@@ -24,13 +23,11 @@ namespace PRTelegramBot.Tests.CoreTests
             var builder = new MiddlewareBuilder();
             var middlewareChain = builder.Build(new List<MiddlewareBase>() { middlewareOne, middlewareTwo, middlewareThree });
 
-            // Act
             await middlewareChain.InvokeOnPreUpdateAsync(botClientMock.Object, update, async () =>
             {
                 log.Add(exceptedMessageMainLogin);
             });
 
-            // Assert
             var expectedLog = new List<string>
             {
                 TestOneMiddleware.NextMessage,

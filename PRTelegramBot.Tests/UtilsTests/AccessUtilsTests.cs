@@ -22,7 +22,7 @@ namespace PRTelegramBot.Tests.UtilsTests
         [TestCase(READ_WRITE_FLAG, TestAccess.ReadWrite)]
         [TestCase(WRITE_FLAG, TestAccess.Write)]
         [TestCase(READ_FLAG, TestAccess.Read)]
-        public void AccessUtils_ReadFlags_HasFlag(int mask, TestAccess exceptedFlag)
+        public void ReadFlagsShouldBeTrue(int mask, TestAccess exceptedFlag)
         {
             mask.HasFlag(exceptedFlag).Should().BeTrue();
         }
@@ -32,7 +32,7 @@ namespace PRTelegramBot.Tests.UtilsTests
         [TestCase(WRITE_FLAG, TestAccess.ReadWrite)]
         [TestCase(READ_FLAG, TestAccess.Write)]
         [TestCase(READ_FLAG, TestAccess.ReadWrite)]
-        public void AccessUtils_ReadFlags_NotHasFlag(int mask, TestAccess exceptedFlag)
+        public void ReadFlagsShouldBeFalse(int mask, TestAccess exceptedFlag)
         {
             mask.HasFlag(exceptedFlag).Should().BeFalse();
         }
@@ -41,7 +41,7 @@ namespace PRTelegramBot.Tests.UtilsTests
         [TestCase(TestAccess.ReadWrite, READ_WRITE_FLAG)]
         [TestCase(TestAccess.Read, READ_FLAG)]
         [TestCase(TestAccess.Write, WRITE_FLAG)]
-        public void AccessUtils_WriteFlags(TestAccess flag, int exceptedMask)
+        public void WriteFlagsExpectedFlags(TestAccess flag, int exceptedMask)
         {
             var mask = AccessUtils.WriteFlags(flag);
             Assert.AreEqual(exceptedMask, mask);
