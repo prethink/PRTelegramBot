@@ -33,7 +33,7 @@ namespace PRTelegramBot.Utils
 
         public void Dispose()
         {
-            DeleteMessage();
+            _ = DeleteMessage();
         }
 
         #endregion
@@ -83,7 +83,7 @@ namespace PRTelegramBot.Utils
         {
             this.botClient = botClient;
             this.chatId = new ChatId(chatId);
-            CreateAwaitMessage(messageAwaiterText);
+            _ = CreateAwaitMessage(messageAwaiterText);
         }
 
         #endregion

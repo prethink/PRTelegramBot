@@ -5,6 +5,7 @@ using ConsoleExample.Models;
 using NLog;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
+using PRTelegramBot.Core.Factories;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
