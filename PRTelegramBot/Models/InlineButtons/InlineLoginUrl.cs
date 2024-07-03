@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
@@ -19,6 +20,11 @@ namespace PRTelegramBot.Models.InlineButtons
         public object GetContent()
         {
             return LoginUrl;
+        }
+
+        public override InlineKeyboardButton GetInlineButton()
+        {
+            return InlineKeyboardButton.WithLoginUrl(ButtonName, LoginUrl);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Interfaces;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
@@ -13,6 +14,11 @@ namespace PRTelegramBot.Models.InlineButtons
         public object GetContent()
         {
             return "";
+        }
+
+        public override InlineKeyboardButton GetInlineButton()
+        {
+            return InlineKeyboardButton.WithPay(ButtonName);
         }
 
         #endregion

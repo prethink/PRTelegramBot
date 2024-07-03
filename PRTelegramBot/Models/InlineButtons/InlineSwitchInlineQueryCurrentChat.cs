@@ -1,4 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
+using System;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
@@ -21,6 +23,11 @@ namespace PRTelegramBot.Models.InlineButtons
         public object GetContent()
         {
             return SwitchInlineQueryCurrentChat;
+        }
+
+        public override InlineKeyboardButton GetInlineButton()
+        {
+            return InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(ButtonName, SwitchInlineQueryCurrentChat);
         }
 
         #endregion

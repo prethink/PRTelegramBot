@@ -3,6 +3,7 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
@@ -140,6 +141,11 @@ namespace PRTelegramBot.Models.InlineButtons
             var result = JsonSerializer.Serialize(this);
             ThrowExceptionIfBytesMore128(result);   
             return result;
+        }
+
+        public override InlineKeyboardButton GetInlineButton()
+        {
+            return InlineKeyboardButton.WithCallbackData(ButtonName, GetContent() as string);
         }
 
         #endregion

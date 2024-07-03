@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
@@ -20,6 +21,12 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             return ButtonName;
         }
+
+        /// <summary>
+        /// Получить Inline кнопку.
+        /// </summary>
+        /// <returns>Inline кнопка.</returns>
+        public abstract InlineKeyboardButton GetInlineButton();
 
         #endregion
 
