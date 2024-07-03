@@ -1,18 +1,14 @@
 ﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.InlineButtons
 {
     /// <summary>
     /// Создает кнопку с ссылкой.
     /// </summary>
-    public sealed class InlineURL : IInlineContent
+    public sealed class InlineURL : InlineBase, IInlineContent
     {
         #region Поля и свойства
-
-        /// <summary>
-        /// Название кнопки.
-        /// </summary>
-        public string ButtonName { get; set; }
 
         /// <summary>
         /// Ссылка.
@@ -43,8 +39,8 @@ namespace PRTelegramBot.InlineButtons
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="url">Ссылка.</param>
         public InlineURL(string buttonName, string url)
+            : base(buttonName)
         {
-            ButtonName = buttonName;
             URL = url;
         }
         

@@ -70,6 +70,9 @@ void InitEvents(PRBotBase bot)
     // Обработка пропущенной  команды
     bot.Events.OnMissingCommand += ExampleEvent.OnMissingCommand;
 
+    // Обработка если произошла ошибка при выполнение команды
+    bot.Events.OnErrorCommand += ExampleEvent.OnErrorCommand;
+
     // Обработка не верного типа чата
     bot.Events.OnWrongTypeChat += ExampleEvent.OnWrongTypeChat;
 

@@ -55,6 +55,16 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
+        /// Получает идентификатор в формате класса.
+        /// </summary>
+        /// <param name="update">Update.</param>
+        /// <returns>Идентификатор в формате класса</returns>
+        public static ChatId GetChatIdClass(this Update update)
+        {
+            return new ChatId(update.GetChatId());
+        }
+
+        /// <summary>
         /// Попытаться получить идентификатор чата.
         /// </summary>
         /// <param name="update">Update.</param>

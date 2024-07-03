@@ -72,7 +72,7 @@ namespace PRTelegramBot.Models.InlineButtons
     /// <summary>
     /// Создает кнопку обработкой данных.
     /// </summary>
-    public class InlineCallback : IInlineContent
+    public class InlineCallback : InlineBase, IInlineContent
     {
         #region Константы
 
@@ -84,12 +84,6 @@ namespace PRTelegramBot.Models.InlineButtons
         #endregion
 
         #region Поля и свойства
-
-        /// <summary>
-        /// Название кнопки.
-        /// </summary>
-        [JsonIgnore]
-        public string ButtonName { get; set; }
 
         /// <summary>
         /// Тип команды.
@@ -125,27 +119,27 @@ namespace PRTelegramBot.Models.InlineButtons
             }
         }
 
+        /// <summary>
+        /// Выбросить исключение если результат больше чем 128 байт.
+        /// </summary>
+        /// <param name="result">Результат.</param>
+        /// <exception cref="Exception">Исключение.</exception>
+        protected void ThrowExceptionIfBytesMore128(string result)
+        {
+            var byteSize = result.Length * sizeof(char);
+            if (byteSize > MAX_SIZE_CALLBACK_DATA)
+                throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
+        }
+
         #endregion
 
         #region IInlineContent
-
-        public string GetTextButton()
-        {
-            return ButtonName;
-        }
 
         public virtual object GetContent()
         {
             var result = JsonSerializer.Serialize(this);
             ThrowExceptionIfBytesMore128(result);   
             return result;
-        }
-
-        protected void ThrowExceptionIfBytesMore128(string result)
-        {
-            var byteSize = result.Length * sizeof(char);
-            if (byteSize > MAX_SIZE_CALLBACK_DATA)
-                throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
         }
 
         #endregion
@@ -159,8 +153,8 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="commandType">Заголовок команды.</param>
         /// <param name="data">Данные.</param>
         public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
+            : base(buttonName)
         {
-            ButtonName = buttonName;
             CommandType = commandType;
             Data = data;
         }
@@ -170,9 +164,9 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
-        public InlineCallback(string buttonName, Enum commandType)
+        public InlineCallback(string buttonName, Enum commandType) 
+            : base(buttonName)
         {
-            ButtonName = buttonName;
             CommandType = commandType;
             Data = new TCommandBase();
         }
@@ -180,7 +174,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public InlineCallback() { }
+        public InlineCallback() : base() { }
 
         #endregion
     }

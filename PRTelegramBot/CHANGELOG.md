@@ -1,3 +1,11 @@
+
+-- 2024.07.03 - V0.6.3
+- feature: Добавлены новые inline кнопки InlinePay InlineCallbackGame InlineSwitchInlineQuery InlineSwitchInlineQueryChosenChat InlineSwitchInlineQueryCurrentChat InlineLoginUrl.
+- feature: Добавлено новое событие OnErrorCommand, если при выполнение команды произошла ошибка
+- feature: В UpdateExtension добавлен метод GetChatIdClass который возращает ChatId в формате класса
+- fix: Если при обработке произошла ошибка, вызывалось событие missingCommand.
+
+
 -- 2024.07.01 - V0.6.2
 - update: Ядро telegram.bot обновлено с 21.2.0 до 21.4.0 версии.
 - feature: В интерфейс IInternalCheck добавлен аргумент CommandHandler

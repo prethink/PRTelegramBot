@@ -6,14 +6,9 @@ namespace PRTelegramBot.Models.InlineButtons
     /// <summary>
     /// Создает кнопку для обработки WebApp.
     /// </summary>
-    public sealed class InlineWebApp : IInlineContent
+    public sealed class InlineWebApp : InlineBase, IInlineContent
     {
         #region Поля и свойства
-
-        /// <summary>
-        /// Название кнопки.
-        /// </summary>
-        public string ButtonName { get; set; }
 
         /// <summary>
         /// Данные для WebApp.
@@ -30,11 +25,6 @@ namespace PRTelegramBot.Models.InlineButtons
             return webApp;
         }
 
-        public string GetTextButton()
-        {
-            return ButtonName;
-        }
-
         #endregion
 
         #region Конструкторы
@@ -45,8 +35,8 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="webAppUrl">Ссылка на webApp.</param>
         public InlineWebApp(string buttonName, string webAppUrl)
+            : base(buttonName)
         {
-            ButtonName = buttonName;
             WebAppUrl = webAppUrl;
         }
 

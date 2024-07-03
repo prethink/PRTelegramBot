@@ -213,8 +213,15 @@ namespace PRTelegramBot.Utils
             return inlineData switch
             {
                 InlineCallback inlineCallback => InlineKeyboardButton.WithCallbackData(inlineCallback.GetTextButton(), inlineCallback.GetContent() as string),
+                InlinePay inlinePay => InlineKeyboardButton.WithPay(inlinePay.GetTextButton()),
                 InlineURL inlineUrl => InlineKeyboardButton.WithUrl(inlineUrl.GetTextButton(), inlineUrl.GetContent() as string),
                 InlineWebApp inlineWebApp => InlineKeyboardButton.WithWebApp(inlineWebApp.GetTextButton(), inlineWebApp.GetContent() as WebAppInfo),
+                InlineLoginUrl inlineLogin => InlineKeyboardButton.WithLoginUrl(inlineLogin.GetTextButton(), inlineLogin.GetContent() as LoginUrl),
+                InlineCallbackGame inlineCallbackGame => InlineKeyboardButton.WithCallbackGame(inlineCallbackGame.GetTextButton()),
+                InlineSwitchInlineQuery inlineSwitchInlineQuery => InlineKeyboardButton.WithSwitchInlineQuery(inlineSwitchInlineQuery.GetTextButton(), inlineSwitchInlineQuery.GetContent() as string),
+                InlineSwitchInlineQueryCurrentChat inlineSwitchInlineQueryCurrentChat => InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(inlineSwitchInlineQueryCurrentChat.GetTextButton(), inlineSwitchInlineQueryCurrentChat.GetContent() as string),
+                InlineSwitchInlineQueryChosenChat inlineSwitchInlineQueryChosenChat => InlineKeyboardButton.WithSwitchInlineQueryChosenChat(inlineSwitchInlineQueryChosenChat.GetTextButton(), inlineSwitchInlineQueryChosenChat.GetContent() as SwitchInlineQueryChosenChat),
+                
                 _ => throw new NotImplementedException()
             };
         }

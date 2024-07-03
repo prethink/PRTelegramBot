@@ -74,15 +74,15 @@ namespace PRTelegramBot.Core.UpdateHandlers
             if (!nextStepHandler.IgnoreBasicCommand(update))
             {
                 result = await SlashHandler.Handle(update);
-                if (result == UpdateResult.Handled)
+                if (!IsContinueHandle(update, result))
                     return result;
 
                 result = await ReplyHandler.Handle(update);
-                if (result == UpdateResult.Handled)
+                if (!IsContinueHandle(update, result))
                     return result;
 
                 result = await ReplyDynamicHandler.Handle(update);
-                if (result == UpdateResult.Handled)
+                if (!IsContinueHandle(update, result))
                     return result;
             }
 
@@ -96,6 +96,27 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
             bot.Events.OnMissingCommandInvoke(new BotEventArgs(bot, update));
             return UpdateResult.NotFound;
+        }
+
+
+        /// <summary>
+        /// Продолжить обработку после получения результата?
+        /// </summary>
+        /// <param name="update">Update.</param>
+        /// <param name="result">Результат.</param>
+        /// <returns>True - продолжить, False - не продолжать.</returns>
+        private bool IsContinueHandle(Update update, UpdateResult result)
+        {
+            if (result == UpdateResult.Error)
+            {
+                bot.Events.OnErrorCommandInvoke(new BotEventArgs(bot, update));
+                return false;
+            }
+
+            if (result == UpdateResult.Handled)
+                return false;
+
+            return true;
         }
 
         /// <summary>

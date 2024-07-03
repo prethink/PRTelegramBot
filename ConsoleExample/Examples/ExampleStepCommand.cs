@@ -99,7 +99,7 @@ namespace ConsoleExample.Examples
         }
 
 
-        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.InlineWithStepp)]
+        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.InlineWithStep)]
         public static async Task InlineStepp(ITelegramBotClient botClient, Update update)
         {
             try

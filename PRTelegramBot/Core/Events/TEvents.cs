@@ -60,6 +60,11 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnMissingCommand;
 
         /// <summary>
+        /// Событие когда произошла ошибка при обработке команды.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnErrorCommand;
+
+        /// <summary>
         /// Событие ошибки.
         /// </summary>
         public event Func<ErrorLogEventArgs, Task>? OnErrorLog;
@@ -76,6 +81,8 @@ namespace PRTelegramBot.Core.Events
         internal void OnUserStartWithArgsInvoke(StartEventArgs e) => OnUserStartWithArgs?.Invoke(e);
 
         internal void OnMissingCommandInvoke(BotEventArgs e) => OnMissingCommand?.Invoke(e);
+
+        internal void OnErrorCommandInvoke(BotEventArgs e) => OnErrorCommand?.Invoke(e);
 
         internal void OnAccessDeniedInvoke(BotEventArgs e) => OnAccessDenied?.Invoke(e);
 

@@ -294,7 +294,7 @@ namespace ConsoleExample.Examples
              */
             var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3));
 
-            var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStepp);
+            var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStep);
 
             //Команды который добавлены после запуска бота
             var exampleAddCommand = new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand);
@@ -307,7 +307,6 @@ namespace ConsoleExample.Examples
 
             //IInlineContent - реализуют все inline кнопки
             List<IInlineContent> menu = new();
-            
             menu.Add(exampleItemOne);
             menu.Add(exampleItemTwo);
             menu.Add(exampleItemThree);
@@ -316,6 +315,7 @@ namespace ConsoleExample.Examples
             menu.Add(inlineStep);
             menu.Add(url);
             menu.Add(webdata);
+
 
             //Генерация меню на основе данных в 1 столбец
             var testMenu = MenuGenerator.InlineKeyboard(1, menu);

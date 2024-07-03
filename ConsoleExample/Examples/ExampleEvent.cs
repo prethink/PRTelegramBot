@@ -114,6 +114,12 @@ namespace ConsoleExample.Examples
             await Helpers.Message.Send(args.BotClient, args.Update, msg);
         }
 
+        public static async Task OnErrorCommand(BotEventArgs args)
+        {
+            string msg = "Произошла ошибка при обработке команды";
+            await Helpers.Message.Send(args.BotClient, args.Update, msg);
+        }
+
         /// <summary>
         /// Событие проверки привилегий пользователя
         /// </summary>
