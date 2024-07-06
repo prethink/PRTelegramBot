@@ -1,13 +1,13 @@
 # 🤖 Текущая версия: 0.6.3
 <p align="center">
-  <strong>Если данный проект был для вас полезен и хотите его поддержать, поставьте ⭐</strong>
+  <strong>Если данный проект был для вас полезен и хотите его поддержать,можете <a href="https://new.donatepay.ru/@prethink" class="button pill">💸 поддержать материально</a></strong> и/или поставить ⭐
 </p>
 
 [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.        
 # ⚛️ Ядро библиотеки
-TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.      
@@ -19,7 +19,7 @@ TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
 - Работа с dynamicReply командами. Текстовые команды которые подхватываются из конфигурационного файла без компиляции.
 - Для reply и dynamicreply возможность работать с командами у которых в конце есть скобки, например "Тест (1)"
 - Работа с slash командами. /get_1 /users и другие текстовые.
-- Гибкая и простая работа с inline командами. Генератор и парсер inline команд.
+- Гибкая и простая работа с inline командами. Генератор и парсер inline команд. Inline кнопки с подтверждением.
 - Гибкое и простое создание меню reply и inline.
 - Работа с конфигурационными файлами для каждого бота. Возможность реализовать свой провайдер работы с конфигурационными файлами. По умолчанию работает с json.
 - Админ менеджер для управления администраторами в боте. Возможность реализовать свой админ менеджер.
@@ -42,7 +42,7 @@ TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 🔑 Зависимости
 
- - TelegramBot v21.2.0 https://github.com/TelegramBots/Telegram.Bot
+ - TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
  - Microsoft.Extensions.Configuration.Binder v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.Configuration.Json v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
