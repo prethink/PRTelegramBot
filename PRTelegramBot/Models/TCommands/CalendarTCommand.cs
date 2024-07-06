@@ -24,7 +24,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// </summary>
         /// <param name="date">Дата.</param>
         public CalendarTCommand(DateTime date)
-            : base(0)
+            : base(0, Enums.ActionWithLastMessage.Edit)
         {
             Date = date;
         }
@@ -34,7 +34,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// </summary>
         /// <param name="date">Дата.</param>
         /// <param name="lastCommand">Команда.</param>
-        public CalendarTCommand(DateTime date, int lastCommand) : base(lastCommand)
+        public CalendarTCommand(DateTime date, int lastCommand) : base(lastCommand, Enums.ActionWithLastMessage.Edit)
         {
             Date = date;
         }

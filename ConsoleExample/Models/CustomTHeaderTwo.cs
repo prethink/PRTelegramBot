@@ -12,6 +12,8 @@ namespace ConsoleExample.Models
         ExampleTwo,
         [Description("Пример 3")]
         ExampleThree,
+        [Description("Пример возращения назад")]
+        ExampleBack,
         [Description("Пример страниц")]
         CustomPageHeader,
         [Description("Пример страниц2")]

@@ -27,5 +27,9 @@ namespace PRTelegramBot.Models.Enums
         CurrentPage = 7 ,
         [Description(nameof(PreviousPage))]
         PreviousPage = 8,
+        [Description(nameof(CallbackWithConfirmation))]
+        CallbackWithConfirmation = 9,
+        [Description(nameof(CallbackWithConfirmationResultNo))]
+        CallbackWithConfirmationResultNo = 10
     }
 }

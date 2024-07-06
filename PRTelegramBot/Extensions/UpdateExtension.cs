@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using PRTelegramBot.Core;
+﻿using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using System.Collections.Concurrent;
 using Telegram.Bot.Types;

@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.Enums;
 using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.TCommands
@@ -46,6 +47,33 @@ namespace PRTelegramBot.Models.TCommands
         /// <param name="lastCommand"></param>
         public PageTCommand(int page, Enum enumValueInt, int lastCommand)
             : base(lastCommand)
+        {
+            this.Page = page;
+            Header = Convert.ToInt32(enumValueInt);
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="page">Номер страницы.</param>
+        /// <param name="enumValueInt">Заголовок enum в формате int.</param>
+        /// <param name="action">Действие с прошлым сообщением.</param>
+        public PageTCommand(int page, Enum enumValueInt, ActionWithLastMessage action)
+            : base(action)
+        {
+            this.Page = page;
+            Header = Convert.ToInt32(enumValueInt);
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="page">Номер страницы.</param>
+        /// <param name="enumValueInt">Заголовок enum в формате int.</param>
+        /// <param name="lastCommand">Прошлая команда.</param>
+        /// <param name="action">Действие с прошлым сообщением.</param>
+        public PageTCommand(int page, Enum enumValueInt, int lastCommand, ActionWithLastMessage action)
+            : base(lastCommand, action)
         {
             this.Page = page;
             Header = Convert.ToInt32(enumValueInt);

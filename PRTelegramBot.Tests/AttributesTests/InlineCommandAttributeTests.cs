@@ -16,7 +16,7 @@ namespace PRTelegramBot.Tests.AttributesTests
         [Test]
         public void FindInlineCommands()
         {
-            int exceptedCommandCount = 12;
+            int exceptedCommandCount = 14;
             ReflectionUtils.FindEnumHeaders();
             var inlineCommands = EnumHeaders.Instance.GetAll();
             Assert.AreEqual(exceptedCommandCount, inlineCommands.Count);

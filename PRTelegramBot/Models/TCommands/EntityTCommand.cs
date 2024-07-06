@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using PRTelegramBot.Models.Enums;
+using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {
@@ -36,6 +37,29 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <param name="lastCommand">Прошлая команда.</param>
         public EntityTCommand(T entityId, int lastCommand)
             : base(lastCommand)
+        {
+            EntityId = entityId;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="entityId">Идентификатор сущности.</param>
+        /// <param name="action">Действие с прошлым сообщением.</param>
+        public EntityTCommand(T entityId, ActionWithLastMessage action)
+            : base(action)
+        {
+            EntityId = entityId;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="entityId">Идентификатор сущности.</param>
+        /// <param name="lastCommand">Прошлая команда.</param>
+        /// <param name="action">Действие с прошлым сообщением.</param>
+        public EntityTCommand(T entityId, int lastCommand, ActionWithLastMessage action)
+            : base(lastCommand, action)
         {
             EntityId = entityId;
         }

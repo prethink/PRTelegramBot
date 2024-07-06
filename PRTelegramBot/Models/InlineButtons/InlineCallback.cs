@@ -45,7 +45,6 @@ namespace PRTelegramBot.Models.InlineButtons
         public override object GetContent()
         {
             var result = JsonSerializer.Serialize<InlineCallback<T>>(this);
-            var byteSize = result.Length * sizeof(char);
             ThrowExceptionIfBytesMore128(result);
             return result;
         }
@@ -66,6 +65,22 @@ namespace PRTelegramBot.Models.InlineButtons
             CommandType = commandType;
             Data = data;
         }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="commandType">Заголовок команды.</param>
+        public InlineCallback(string buttonName, Enum commandType) : base(buttonName, commandType)
+        {
+            ButtonName = buttonName;
+            CommandType = commandType;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        public InlineCallback() { }
 
         #endregion
     }

@@ -48,7 +48,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
             bot.ReloadHandlers();
             var inlineCommandsCount = ((Handler)(bot.Handler)).InlineUpdateHandler.CommandCount;
-            Assert.AreEqual(5, inlineCommandsCount);
+            Assert.AreEqual(7, inlineCommandsCount);
         }
     }
 }

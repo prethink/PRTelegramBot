@@ -1,6 +1,8 @@
 
--- 2024.07.03 - V0.6.3
+-- 2024.07.06 - V0.6.3
 - feature: Добавлены новые inline кнопки InlinePay InlineCallbackGame InlineSwitchInlineQuery InlineSwitchInlineQueryChosenChat InlineSwitchInlineQueryCurrentChat InlineLoginUrl.
+- feature: Добавлены обертка InlineCallbackWithConfirmation для кнопок InlineCallBack. Позволяет вызвать сообщение подтверждения перед выполнением.
+- feature: В TCommandBase и в наследников добавлено свойство ActionWithLastMessage, позволяет указать что делать с последним сообщением. Ничего, удалить, отредактировать.
 - feature: Добавлено новое событие OnErrorCommand, если при выполнение команды произошла ошибка
 - feature: В UpdateExtension добавлен метод GetChatIdClass который возращает ChatId в формате класса
 - fix: Если при обработке произошла ошибка, вызывалось событие missingCommand.

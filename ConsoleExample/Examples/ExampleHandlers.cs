@@ -1,6 +1,8 @@
 ﻿using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -47,7 +49,18 @@ namespace ConsoleExample.Examples
                 if (command != null)
                 {
                     string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
-                    await Helpers.Message.Send(botClient, update, msg);
+                    if(command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
+                    {
+                        await Helpers.Message.Edit(botClient, update, msg);
+                    }
+                    else
+                    {
+                        if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
+                        {
+                            await botClient.DeleteMessageAsync(update.GetChatIdClass(), update.CallbackQuery.Message.MessageId);
+                        }
+                        await Helpers.Message.Send(botClient, update, msg);
+                    }
                 }
             }
             catch (Exception ex)
