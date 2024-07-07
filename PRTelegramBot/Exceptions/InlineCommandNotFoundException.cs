@@ -6,7 +6,6 @@ namespace PRTelegramBot.Exceptions
     {
         public InlineCommandNotFoundException(Enum @enum) 
             : base($"{@enum.GetType().Name}.{@enum} Inline command not found in collection. " +
-                   $"Required add attribute [{nameof(InlineCommandAttribute)}] to the enum {@enum.GetType().Name}.")
-        {}
+                   $"Required add attribute [{nameof(InlineCommandAttribute)}] to the enum {@enum.GetType().Name}.") { }
     }
 }

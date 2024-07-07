@@ -24,15 +24,15 @@ namespace PRTelegramBot.Actions
         {
             try
             {
-                var command = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
-                if (command != null)
+                using(var inlineHandler = new InlineCallback<EntityTCommand<string>>(botClient, update))
                 {
-                    if(InlineCallbackWithConfirmation.DataCollection.TryGetValue(command.Data.EntityId, out var inlineCommand))
+                    var command = inlineHandler.GetCommandByCallbackOrNull();
+                    if (InlineCallbackWithConfirmation.DataCollection.TryGetValue(command.Data.EntityId, out var inlineCommand))
                     {
                         inlineCommand.YesCallback.ButtonName = inlineCommand.YesButton;
                         var yesButton = inlineCommand.YesCallback;
-                        var noButton = inlineCommand.NoCallback;  
-                        var menu = new List<IInlineContent>() { yesButton , noButton };
+                        var noButton = inlineCommand.NoCallback;
+                        var menu = new List<IInlineContent>() { yesButton, noButton };
                         var testMenu = MenuGenerator.InlineKeyboard(2, menu);
                         var option = new OptionMessage() { MenuInlineKeyboardMarkup = testMenu };
                         var actionLastMessage = command.Data.GetActionWithLastMessage();
@@ -43,10 +43,6 @@ namespace PRTelegramBot.Actions
                         else
                         {
                             await Helpers.Message.Send(botClient, update, inlineCommand.BaseMessage, option);
-                            if(actionLastMessage == ActionWithLastMessage.Delete)
-                            {
-                                await botClient.DeleteMessageAsync(update.GetChatIdClass(), update.CallbackQuery.Message.MessageId);
-                            }
                         }
                     }
                     else

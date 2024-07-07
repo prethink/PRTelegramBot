@@ -1,3 +1,7 @@
+-- 2024.07.07 - V0.6.4
+- feature: InlineCallback теперь реализует интерфейс IDisposable. Если в данных будет указано ActionWithLastMessage delete сообщение автоматически удалиться.
+- feature: Добавлен класс расширения для типа Message и методы AutoDeleteMessage, AutoEdit, AutoEditCycle.
+- fix: В nuget пакете не отображались xml комментарии
 
 -- 2024.07.06 - V0.6.3
 - feature: Добавлены новые inline кнопки InlinePay InlineCallbackGame InlineSwitchInlineQuery InlineSwitchInlineQueryChosenChat InlineSwitchInlineQueryCurrentChat InlineLoginUrl.
@@ -6,7 +10,6 @@
 - feature: Добавлено новое событие OnErrorCommand, если при выполнение команды произошла ошибка
 - feature: В UpdateExtension добавлен метод GetChatIdClass который возращает ChatId в формате класса
 - fix: Если при обработке произошла ошибка, вызывалось событие missingCommand.
-
 
 -- 2024.07.01 - V0.6.2
 - update: Ядро telegram.bot обновлено с 21.2.0 до 21.4.0 версии.
