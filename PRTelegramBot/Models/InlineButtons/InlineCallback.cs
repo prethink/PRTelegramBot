@@ -1,8 +1,11 @@
 ﻿using PRTelegramBot.Converters;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
@@ -40,6 +43,15 @@ namespace PRTelegramBot.Models.InlineButtons
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
+        /// <returns>InlineCallback или null.</returns>
+        public InlineCallback<T> GetCommandByCallbackOrNull()
+        {
+            return GetCommandByCallbackOrNull(Update.CallbackQuery.Data);
         }
 
         public override object GetContent()
@@ -80,6 +92,14 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="botClient">Bot client.</param>
+        /// <param name="update">Update.</param>
+        public InlineCallback(ITelegramBotClient botClient, Update update)
+            : base(botClient,update) {}
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         public InlineCallback() { }
 
         #endregion
@@ -88,7 +108,7 @@ namespace PRTelegramBot.Models.InlineButtons
     /// <summary>
     /// Создает кнопку обработкой данных.
     /// </summary>
-    public class InlineCallback : InlineBase, IInlineContent
+    public class InlineCallback : InlineBase, IInlineContent, IDisposable
     {
         #region Константы
 
@@ -114,6 +134,18 @@ namespace PRTelegramBot.Models.InlineButtons
         [JsonPropertyName("d")]
         public TCommandBase Data { get; set; }
 
+        /// <summary>
+        /// Update.
+        /// </summary>
+        [JsonIgnore]
+        public Update Update { get; private set; }
+
+        /// <summary>
+        /// Update.
+        /// </summary>
+        [JsonIgnore]
+        public ITelegramBotClient BotClient { get; private set; }
+
         #endregion
 
         #region Методы
@@ -136,6 +168,15 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
+        /// <returns>InlineCallback или null.</returns>
+        public InlineCallback GetCommandByCallbackOrNull()
+        {
+            return GetCommandByCallbackOrNull(Update.CallbackQuery.Data);
+        }
+
+        /// <summary>
         /// Выбросить исключение если результат больше чем 128 байт.
         /// </summary>
         /// <param name="result">Результат.</param>
@@ -145,6 +186,40 @@ namespace PRTelegramBot.Models.InlineButtons
             var byteSize = result.Length * sizeof(char);
             if (byteSize > MAX_SIZE_CALLBACK_DATA)
                 throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
+        }
+
+        /// <summary>
+        /// Действие с последним сообщением.
+        /// </summary>
+        /// <returns></returns>
+        public async Task ExecuteActionWithLastMessage()
+        {
+            if (Update?.CallbackQuery == null || BotClient == null || Data == null)
+                return;
+
+            try
+            {
+                var lastMessage = Update.CallbackQuery.Message;
+                var actionWithLastMessage = Data.GetActionWithLastMessage();
+                if (actionWithLastMessage == Enums.ActionWithLastMessage.Delete)
+                    await BotClient.DeleteMessageAsync(Update.GetChatIdClass(), lastMessage.MessageId);
+            }
+            catch (Exception ex)
+            {
+                BotClient.GetBotDataOrNull().Events.OnErrorLogInvoke(ex);
+            }
+        }
+
+        /// <summary>
+        /// Попытка обновить данные.
+        /// </summary>
+        public void TryUpdateData()
+        {
+            var command = GetCommandByCallbackOrNull();
+            if(command != null)
+            {
+                Data = command.Data;
+            }
         }
 
         #endregion
@@ -161,6 +236,15 @@ namespace PRTelegramBot.Models.InlineButtons
         public override InlineKeyboardButton GetInlineButton()
         {
             return InlineKeyboardButton.WithCallbackData(ButtonName, GetContent() as string);
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            _ = ExecuteActionWithLastMessage();
         }
 
         #endregion
@@ -190,6 +274,18 @@ namespace PRTelegramBot.Models.InlineButtons
         {
             CommandType = commandType;
             Data = new TCommandBase();
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botClient">Bot client.</param>
+        /// <param name="update">Update.</param>
+        public InlineCallback(ITelegramBotClient botClient, Update update)
+        {
+            Update = update;
+            BotClient = botClient;
+            TryUpdateData();
         }
 
         /// <summary>
