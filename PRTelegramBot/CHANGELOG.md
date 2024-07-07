@@ -1,6 +1,7 @@
 -- 2024.07.07 - V0.6.4
 - feature: InlineCallback теперь реализует интерфейс IDisposable. Если в данных будет указано ActionWithLastMessage delete сообщение автоматически удалиться.
 - feature: Добавлен класс расширения для типа Message и методы AutoDeleteMessage, AutoEdit, AutoEditCycle.
+- fix: В nuget пакете не отображались xml комментарии
 
 -- 2024.07.06 - V0.6.3
 - feature: Добавлены новые inline кнопки InlinePay InlineCallbackGame InlineSwitchInlineQuery InlineSwitchInlineQueryChosenChat InlineSwitchInlineQueryCurrentChat InlineLoginUrl.
