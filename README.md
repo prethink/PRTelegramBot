@@ -1,11 +1,14 @@
-# 🤖 Текущая версия: 0.6.4
+![Static Badge](https://img.shields.io/badge/version-0.6.4-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.4.0-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+
+
 <p align="center">
   <strong>Если данный проект был для вас полезен и хотите его поддержать,можете <a href="https://new.donatepay.ru/@prethink" class="button pill">💸 поддержать материально</a></strong> и/или поставить ⭐
 </p>
 
 [https://prtelegrambot.gitbook.io/prtelegrambot/](https://prtelegrambot.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
-[https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.        
+[https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
+
 # ⚛️ Ядро библиотеки
 TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
 
