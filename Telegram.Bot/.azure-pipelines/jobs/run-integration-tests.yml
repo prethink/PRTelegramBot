@@ -1,0 +1,32 @@
+parameters:
+  vmImage: ''
+  buildConfiguration: ''
+  projects: ''
+  arguments: ''
+  netSdkVersion: ''
+
+jobs:
+  - job: IntegrationTests
+    displayName: Run integration tests
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+    steps:
+      - task: UseDotNet@2
+        displayName: Install .NET SDK
+        inputs:
+          packageType: sdk
+          version: ${{ parameters.netSdkVersion }}
+      - pwsh: >
+          dotnet test
+          --verbosity normal
+          --configuration ${{ parameters.buildConfiguration }}
+          --logger "trx;LogFileName=testresults.trx"
+          ${{ parameters.arguments }}
+          ${{ parameters.projects }}
+        displayName: Execute integration tests
+      - task: PublishTestResults@2
+        displayName: Publish test results
+        inputs:
+          testResultsFormat: VSTest
+          testResultsFiles: testresults.trx
+          configuration: ${{ parameters.buildConfiguration }}
