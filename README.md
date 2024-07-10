@@ -5,7 +5,7 @@
   <strong>Если данный проект был для вас полезен и хотите его поддержать,можете <a href="https://new.donatepay.ru/@prethink" class="button pill">💸 поддержать материально</a></strong> и/или поставить ⭐
 </p>
 
-[https://prtelegrambot.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/)  - актуальная документация.        
+[https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
 
