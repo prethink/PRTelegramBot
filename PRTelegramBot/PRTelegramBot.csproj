@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.6.5</Version>
+    <Version>0.6.4</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -18,14 +18,9 @@
     <PackageIcon>LogoBot.png</PackageIcon>
     <NeutralLanguage>ru-RU</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://prethink.gitbook.io/prtelegrambot</PackageProjectUrl>
+    <PackageProjectUrl>https://prtelegrambot.gitbook.io/prtelegrambot/</PackageProjectUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Telegram.Bot.dll" />
-  </ItemGroup>
 
 
   <ItemGroup>
@@ -40,12 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Telegram.Bot" Version="21.4.0" />
   </ItemGroup>
-  <PropertyGroup>
-    <RestoreSources>$(RestoreSources);https://nuget.voids.site/v3/index.json</RestoreSources>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+
   <ItemGroup>
     <None Include="README.txt">
       <Pack>true</Pack>
@@ -56,15 +51,7 @@
       <PackagePath>build</PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Telegram.Bot\src\Telegram.Bot\Telegram.Bot.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+  
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 

@@ -1,7 +1,3 @@
--- 2024.07.07 - V0.6.5
-- Telegram.Bot обновлен до 21.5.0
-- critical fix: dll telegram.bot теперь внутри PRTelegramBot.
-
 -- 2024.07.07 - V0.6.4
 - feature: InlineCallback теперь реализует интерфейс IDisposable. Если в данных будет указано ActionWithLastMessage delete сообщение автоматически удалиться.
 - feature: Добавлен класс расширения для типа Message и методы AutoDeleteMessage, AutoEdit, AutoEditCycle.
