@@ -10,7 +10,7 @@
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
 
 # ⚛️ Ядро библиотеки
-TelegramBot v21.5.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.      
