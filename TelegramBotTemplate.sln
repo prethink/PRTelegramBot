@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PRTelegramBot.Tests", "PRTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetWebHookExample", "AspNetWebHookExample\AspNetWebHookExample.csproj", "{7B2E8E2A-C9B6-47C3-86B2-458FA528E8A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot", "Telegram.Bot\src\Telegram.Bot\Telegram.Bot.csproj", "{294895A3-1B82-47E5-BE92-06680C7ABAFE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumSerializer.Generator", "Telegram.Bot\src\EnumSerializer.Generator\EnumSerializer.Generator.csproj", "{42C6270C-8830-40E9-9E45-11C0EFC48AE8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,14 +39,6 @@ Global
 		{7B2E8E2A-C9B6-47C3-86B2-458FA528E8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B2E8E2A-C9B6-47C3-86B2-458FA528E8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B2E8E2A-C9B6-47C3-86B2-458FA528E8A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{294895A3-1B82-47E5-BE92-06680C7ABAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{294895A3-1B82-47E5-BE92-06680C7ABAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{294895A3-1B82-47E5-BE92-06680C7ABAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{294895A3-1B82-47E5-BE92-06680C7ABAFE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42C6270C-8830-40E9-9E45-11C0EFC48AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42C6270C-8830-40E9-9E45-11C0EFC48AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42C6270C-8830-40E9-9E45-11C0EFC48AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42C6270C-8830-40E9-9E45-11C0EFC48AE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

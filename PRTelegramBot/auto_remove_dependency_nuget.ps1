@@ -1,0 +1,51 @@
+param (
+    [string]$nupkgPath
+)
+
+try {
+    # Переименовываем .nupkg в .zip
+    $zipPath = "$nupkgPath.zip"
+    Rename-Item -Path $nupkgPath -NewName $zipPath
+
+    # Извлекаем архив
+    Expand-Archive -Path $zipPath -DestinationPath "TempExtract" -Force
+
+    # Находим .nuspec файл
+    $nuspecFile = Get-ChildItem -Path "TempExtract\*.nuspec" | Select-Object -First 1
+
+    if ($nuspecFile -ne $null) {
+        # Загружаем и выводим содержимое .nuspec
+        [xml]$nuspecContent = Get-Content $nuspecFile.FullName
+        
+        # Выводим все зависимости для проверки
+        $dependencies = $nuspecContent.package.metadata.dependencies.group.dependency
+        foreach ($dep in $dependencies) {
+            Write-Host "dependency: $($dep.id)"
+        }
+
+        # Находим зависимость по id
+        $dependencyToRemove = $dependencies | Where-Object { $_.id -eq "Telegram.Bot" }
+
+        if ($dependencyToRemove -ne $null) {
+            # Удаляем зависимость
+            $nuspecContent.package.metadata.dependencies.group.RemoveChild($dependencyToRemove)
+
+            # Сохраняем изменения
+            $nuspecContent.Save($nuspecFile.FullName)
+
+            Write-Host "'Telegram.Bot' удалена"
+        } else {
+            Write-Host "'Telegram.Bot' не найдена"
+        }
+    }
+
+    # Перепаковываем .nupkg
+    Compress-Archive -Path "TempExtract\*" -DestinationPath $nupkgPath -Force
+
+    # Удаляем временные файлы
+    Remove-Item -Path "TempExtract" -Recurse -Force
+    Remove-Item -Path $zipPath
+} catch {
+    Write-Host "Произошла ошибка: $_"
+    exit 1
+}
