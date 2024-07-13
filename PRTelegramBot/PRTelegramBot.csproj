@@ -22,6 +22,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <RestoreAdditionalProjectSources>https://nuget.voids.site/v3/index.json;https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
+    <NupkgPath>"$(MSBuildProjectDirectory)\$(BaseOutputPath)\bin\$(Configuration)\PRTelegramBot.$(Version).nupkg"</NupkgPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -120,7 +121,7 @@
   </ItemGroup>
 
   <Target Name="PostPack" AfterTargets="Pack">
-    <Exec Command="powershell -ExecutionPolicy Bypass -File .\auto_remove_dependency_nuget.ps1 $(MSBuildProjectDirectory)\$(BaseOutputPath)$(Configuration)\PRTelegramBot.$(Version).nupkg" />
+    <Exec Command="powershell -ExecutionPolicy Bypass -File .\auto_remove_dependency_nuget.ps1 $(NupkgPath)" />
   </Target>
   
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
