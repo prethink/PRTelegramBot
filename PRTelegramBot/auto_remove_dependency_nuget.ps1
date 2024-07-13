@@ -33,18 +33,19 @@ try {
             # Сохраняем изменения
             $nuspecContent.Save($nuspecFile.FullName)
 
-            Write-Host "'Telegram.Bot' удалена"
+            Write-Host "Dependency 'Telegram.Bot' deleted from nuget package."
         } else {
-            Write-Host "'Telegram.Bot' не найдена"
+            Write-Host "Dependency 'Telegram.Bot' not found."
         }
     }
 
     # Перепаковываем .nupkg
-    Compress-Archive -Path "TempExtract\*" -DestinationPath $nupkgPath -Force
-
+    Compress-Archive -Path "TempExtract\*" -DestinationPath $zipPath -Force
+    # Переименовываем обратно .zip в .nupkg
+    Rename-Item -Path $zipPath -NewName $nupkgPath
     # Удаляем временные файлы
     Remove-Item -Path "TempExtract" -Recurse -Force
-    Remove-Item -Path $zipPath
+    #Remove-Item -Path $zipPath
 } catch {
     Write-Host "Произошла ошибка: $_"
     exit 1

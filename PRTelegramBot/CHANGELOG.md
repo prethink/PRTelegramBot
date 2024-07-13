@@ -1,4 +1,4 @@
--- 2024.07.12 - V0.6.5
+-- 2024.07.13 - V0.6.5
 - Telegram.Bot обновлен до 21.6.2
 - critical fix: dll telegram.bot теперь внутри PRTelegramBot для фикса проблемы с nuget.
 
