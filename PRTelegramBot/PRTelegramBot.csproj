@@ -26,6 +26,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -48,7 +52,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsPackaging)' != 'true'">
-    <PackageReference Include="Telegram.Bot" Version="21.6.2" PrivateAssets="build"/>
+    <PackageReference Include="Telegram.Bot" Version="21.6.2" PrivateAssets="build" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
