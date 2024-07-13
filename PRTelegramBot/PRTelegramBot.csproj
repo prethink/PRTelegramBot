@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.6.4</Version>
+    <Version>0.6.5</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -18,10 +18,11 @@
     <PackageIcon>LogoBot.png</PackageIcon>
     <NeutralLanguage>ru-RU</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://prtelegrambot.gitbook.io/prtelegrambot/</PackageProjectUrl>
+    <PackageProjectUrl>https://prethink.gitbook.io/prtelegrambot</PackageProjectUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RestoreAdditionalProjectSources>https://nuget.voids.site/v3/index.json;https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
   </PropertyGroup>
-
 
   <ItemGroup>
     <None Include="LICENSE">
@@ -34,13 +35,36 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-    <PackageReference Include="Telegram.Bot" Version="21.4.0" />
+  <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsPackaging)' != 'true'">
+    <PackageReference Include="Telegram.Bot" Version="21.6.2" PrivateAssets="build"/>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" ExcludeAssets="Build;Analyzers" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" ExcludeAssets="Build;Analyzers" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="IndexRange" Version="1.0.3" ExcludeAssets="Build;Analyzers" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" ExcludeAssets="Build;Analyzers" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" ExcludeAssets="Build;Analyzers" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" ExcludeAssets="Build;Analyzers" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" ExcludeAssets="Build;Analyzers" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="README.txt">
       <Pack>true</Pack>
@@ -51,8 +75,54 @@
       <PackagePath>build</PackagePath>
     </None>
   </ItemGroup>
-  
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_SupportContent\" />
+  </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <Reference Include="Telegram.Bot">
+      <HintPath>_SupportContent\net6.0\Telegram.Bot.dll</HintPath>
+    </Reference>
+    <Content Include="_SupportContent\net6.0\Telegram.Bot.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\net6.0\</PackagePath>
+    </Content>
+    <Content Include="_SupportContent\net6.0\Telegram.Bot.xml">
+      <Pack>true</Pack>
+      <PackagePath>lib\net6.0\</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Reference Include="Telegram.Bot">
+      <HintPath>_SupportContent\netstandard2.0\Telegram.Bot.dll</HintPath>
+    </Reference>
+    <Content Include="_SupportContent\netstandard2.0\Telegram.Bot.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\netstandard2.0\</PackagePath>
+    </Content>
+    <Content Include="_SupportContent\netstandard2.0\Telegram.Bot.xml">
+      <Pack>true</Pack>
+      <PackagePath>lib\netstandard2.0\</PackagePath>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Включите все локальные dll файлы для копирования в выходную директорию -->
+    <None Update="_SupportContent\**\*.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostPack" AfterTargets="Pack">
+    <Exec Command="powershell -ExecutionPolicy Bypass -File .\auto_remove_dependency_nuget.ps1 $(MSBuildProjectDirectory)\$(BaseOutputPath)$(Configuration)\PRTelegramBot.$(Version).nupkg" />
+  </Target>
+  
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
