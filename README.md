@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/version-v0.6.4-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.4.0-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+![Static Badge](https://img.shields.io/badge/version-v0.6.5-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.6.2-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
 <p align="center">
@@ -10,7 +10,7 @@
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
 
 # ⚛️ Ядро библиотеки
-TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v21.6.2 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.      
@@ -41,13 +41,6 @@ TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
 - Постраничная работа в сообщениях.
 - Хранения кэша пользователей.
 - Возможность ограничения доступа к методам.
-
-
-# 🔑 Зависимости
-
- - TelegramBot v21.4.0 https://github.com/TelegramBots/Telegram.Bot
- - Microsoft.Extensions.Configuration.Binder v8.0.0 https://github.com/dotnet/runtime
- - Microsoft.Extensions.Configuration.Json v8.0.0 https://github.com/dotnet/runtime
  - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
 
 # 🧱 Интегрированные пакеты
