@@ -12,10 +12,10 @@ namespace ConsoleExample.Middlewares
             await base.InvokeOnPreUpdateAsync(botClient,update, next);
         }
 
-        public override Task InvokeOnPostUpdatesAsync(ITelegramBotClient botClient, Update update)
+        public override Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
         {
             Console.WriteLine("Выполнение второго обработчика после update");
-            return base.InvokeOnPostUpdatesAsync(botClient, update);
+            return base.InvokeOnPostUpdateAsync(botClient, update);
         }
     }
 }
