@@ -14,7 +14,7 @@ TelegramBot v21.6.2 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.      
-Пример использования в консольном приложении. https://github.com/prethink/PRTelegramBot/tree/master/ConsoleExample
+Пример использования в консольном приложении. https://github.com/prethink/PRTelegramBot/tree/master/ConsoleExample     
 Примеры с видео: https://github.com/prethink/PRTelegramYoutube    
 
 # 💎 Возможности
