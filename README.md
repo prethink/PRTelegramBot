@@ -42,7 +42,7 @@ TelegramBot v21.6.2 https://github.com/TelegramBots/Telegram.Bot
 - Постраничная работа в сообщениях.
 - Хранения кэша пользователей.
 - Возможность ограничения доступа к методам.
- - Microsoft.Extensions.DependencyInjection.Abstractions v8.0.0 https://github.com/dotnet/runtime
+
 
 # 🧱 Интегрированные пакеты
  - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker     
