@@ -11,4 +11,11 @@
     <ProjectReference Include="..\..\PRTelegramBot\PRTelegramBot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="README.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
 </Project>
