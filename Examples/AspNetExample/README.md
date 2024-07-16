@@ -1,0 +1,1 @@
+Пример реализации бота с asp.net с dependency injection.
