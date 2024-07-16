@@ -1,9 +1,7 @@
-![Static Badge](https://img.shields.io/badge/version-v0.6.5-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.6.2-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+![Static Badge](https://img.shields.io/badge/version-v0.6.5.2-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.6.2-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
-<p align="center">
-  <strong>Если данный проект был для вас полезен и хотите его поддержать,можете <a href="https://new.donatepay.ru/@prethink" class="button pill">💸 поддержать материально</a></strong> и/или поставить ⭐
-</p>
+> **Если данный проект был для вас полезен и хотите его поддержать, можете [💸 поддержать материально](https://new.donatepay.ru/@prethink)** и/или поставить ⭐ в репозитории проекта.
 
 [https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
@@ -13,8 +11,9 @@
 TelegramBot v21.6.2 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
-Библиотека с простой маршрутизацией команд для создания telegram ботов.      
-Пример использования в консольном приложении. https://github.com/prethink/PRTelegramBot/tree/master/ConsoleExample
+Библиотека с простой маршрутизацией команд для создания telegram ботов.         
+Примеры https://github.com/prethink/PRTelegramBot/tree/master/Examples     
+Примеры с видео: https://github.com/prethink/PRTelegramYoutube   
 
 # 💎 Возможности
 
