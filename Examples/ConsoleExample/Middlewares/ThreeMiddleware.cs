@@ -2,29 +2,20 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Tests.Common.TestMiddleware
+namespace ConsoleExample.Middlewares
 {
-    public class TestThreeMiddleware : MiddlewareBase
+    public class ThreeMiddleware : MiddlewareBase
     {
-        public const string NextMessage = "ThreeNext";
-        public const string PrevMessage = "ThreePrev";
-        private List<string> log;
-
         public override async Task InvokeOnPreUpdateAsync(ITelegramBotClient botClient, Update update, Func<Task> next)
         {
-            log.Add(NextMessage);
+            Console.WriteLine("Выполнение третьего обработчика перед update");
             await base.InvokeOnPreUpdateAsync(botClient, update, next);
         }
 
         public override Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
         {
-            log.Add(PrevMessage);
+            Console.WriteLine("Выполнение третьего обработчика после update");
             return base.InvokeOnPostUpdateAsync(botClient, update);
-        }
-
-        public TestThreeMiddleware(List<string> log)
-        {
-            this.log = log;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace PRTelegramBot.Core.Middlewares
             else
             {
                 await next();
-                await InvokeOnPostUpdatesAsync(botClient, update);
+                await InvokeOnPostUpdateAsync(botClient, update);
             }
         }
 
@@ -46,10 +46,10 @@ namespace PRTelegramBot.Core.Middlewares
         /// Выполнить предыдущий асинхронный промежуточный обработчик.
         /// </summary>
         /// <param name="update">Update.</param>
-        public virtual async Task InvokeOnPostUpdatesAsync(ITelegramBotClient botClient, Update update)
+        public virtual async Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
         {
             if (previousMiddleware != null)
-                await previousMiddleware.InvokeOnPostUpdatesAsync(botClient, update);
+                await previousMiddleware.InvokeOnPostUpdateAsync(botClient, update);
         }
 
         /// <summary>

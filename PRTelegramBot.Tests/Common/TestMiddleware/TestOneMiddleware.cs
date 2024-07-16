@@ -16,10 +16,10 @@ namespace PRTelegramBot.Tests.Common.TestMiddleware
             await base.InvokeOnPreUpdateAsync(botClient, update, next);
         }
 
-        public override Task InvokeOnPostUpdatesAsync(ITelegramBotClient botClient, Update update)
+        public override Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
         {
             log.Add(PrevMessage);
-            return base.InvokeOnPostUpdatesAsync(botClient, update);
+            return base.InvokeOnPostUpdateAsync(botClient, update);
         }
 
         public TestOneMiddleware(List<string> log)
