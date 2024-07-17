@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.6.5.2</Version>
+    <Version>0.6.6</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Telegram.Bot" Version="21.6.2" />
+    <PackageReference Include="Telegram.Bot" Version="21.7.0" />
   </ItemGroup>
 
   <ItemGroup>
