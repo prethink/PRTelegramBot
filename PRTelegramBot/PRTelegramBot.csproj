@@ -18,7 +18,7 @@
     <PackageIcon>LogoBot.png</PackageIcon>
     <NeutralLanguage>ru-RU</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://prtelegrambot.gitbook.io/prtelegrambot/</PackageProjectUrl>
+    <PackageProjectUrl>https://prethink.gitbook.io/prtelegrambot/</PackageProjectUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RestoreAdditionalProjectSources>https://nuget.voids.site/v3/index.json;https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
     <PackageReadmeFile>README.md</PackageReadmeFile>
