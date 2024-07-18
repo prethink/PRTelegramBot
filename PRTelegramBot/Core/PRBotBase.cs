@@ -167,6 +167,7 @@ namespace PRTelegramBot.Core
 
             botClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);
+            InitHandlers();
         }
 
         #endregion

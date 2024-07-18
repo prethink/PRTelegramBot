@@ -66,7 +66,7 @@ namespace PRTelegramBot.Tests.CoreTests
         }
 
         [Test]
-        [TestCase(0, 5)]
+        [TestCase(0, 10)]
         [TestCase(1, 4)]
         [TestCase(2, 5)]
         public void FindInlineMethods(int botId, int exceptedMethodsCount)

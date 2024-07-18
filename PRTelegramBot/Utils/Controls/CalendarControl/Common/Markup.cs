@@ -2,6 +2,7 @@
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
@@ -17,16 +18,16 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Разметка калердаря.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <param name="command">Заголовок команды.</param>
         /// <returns>Inline меню.</returns>
-        public static InlineKeyboardMarkup Calendar(in DateTime date, DateTimeFormatInfo dtfi, int command = 0)
+        public static InlineKeyboardMarkup Calendar(in DateTime date, CultureInfo culture, int command = 0)
         {
             var keyboardRows = new List<IEnumerable<InlineKeyboardButton>>();
 
-            keyboardRows.Add(Row.Date(date, dtfi, command));
-            keyboardRows.Add(Row.DayOfWeek(dtfi, command));
-            keyboardRows.AddRange(Row.Month(date, dtfi, command));
+            keyboardRows.Add(Row.Date(date, culture, command));
+            keyboardRows.Add(Row.DayOfWeek(culture, command));
+            keyboardRows.AddRange(Row.Month(date, culture, command));
             keyboardRows.Add(Row.Controls(date, command));
 
             return new InlineKeyboardMarkup(keyboardRows);
@@ -36,17 +37,18 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Разметка месяца года.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <param name="command">Заголовок команды.</param>
         /// <returns>Inline меню.</returns>
-        public static InlineKeyboardMarkup PickMonthYear(in DateTime date, DateTimeFormatInfo dtfi, int command = 0)
+        public static InlineKeyboardMarkup PickMonthYear(in DateTime date, CultureInfo culture, int command = 0)
         {
+            var dtfi = culture.DateTimeFormat;
             var keyboardRows = new InlineKeyboardButton[][]
             {
                 new InlineKeyboardButton[]
                 {
-                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("MMMM", dtfi), PRTelegramBotCommand.PickMonth, new CalendarTCommand(date, command))),
-                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("yyyy", dtfi), PRTelegramBotCommand.PickYear, new CalendarTCommand(date, command)))
+                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("MMMM", dtfi), PRTelegramBotCommand.PickMonth, new CalendarTCommand(date, culture, command))),
+                    MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>(date.ToString("yyyy", dtfi), PRTelegramBotCommand.PickYear, new CalendarTCommand(date, culture, command)))
                 },
                 new InlineKeyboardButton[]
                 {
@@ -62,11 +64,12 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Разметка выбора месяца.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <param name="command">Заголовок команды.</param>
         /// <returns>Inline меню.</returns>
-        public static InlineKeyboardMarkup PickMonth(in DateTime date, DateTimeFormatInfo dtfi, int command = 0)
+        public static InlineKeyboardMarkup PickMonth(in DateTime date, CultureInfo culture, int command = 0)
         {
+            var dtfi = culture.DateTimeFormat;
             var keyboardRows = new InlineKeyboardButton[5][];
 
             for (int month = 0, row = 0; month < 12; row++)
@@ -90,11 +93,12 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Разметка выбора года.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <param name="command">Заголовок команды.</param>
         /// <returns>Inline меню.</returns>
-        public static InlineKeyboardMarkup PickYear(in DateTime date, DateTimeFormatInfo dtfi, int command = 0)
+        public static InlineKeyboardMarkup PickYear(in DateTime date, CultureInfo culture, int command = 0)
         {
+            var dtfi = culture.DateTimeFormat;
             var keyboardRows = new InlineKeyboardButton[6][];
 
             var startYear = date.AddYears(-7);
