@@ -12,12 +12,17 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Actions
 {
+    /// <summary>
+    /// Класс обработчик календаря.
+    /// </summary>
     public class InlineCalendar
     {
+        #region Методы
+
         /// <summary>
-        /// Выбор года или месяца
+        /// Действие выбор года или месяца.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.YearMonthPicker)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.YearMonthPicker)]
         public static async Task PickYearMonth(ITelegramBotClient botClient, Update update)
         {
             try
@@ -39,9 +44,9 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Выбор месяца
+        /// Действие выбор месяца.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickMonth)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.PickMonth)]
         public static async Task PickMonth(ITelegramBotClient botClient, Update update)
         {
             try
@@ -65,9 +70,9 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Выбор года
+        /// Действие выбор года.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickYear)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.PickYear)]
         public static async Task PickYear(ITelegramBotClient botClient, Update update)
         {
             try
@@ -89,9 +94,9 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Перелистывание месяца
+        /// Действие перелистывание месяца.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.ChangeTo)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.ChangeTo)]
         public static async Task ChangeToHandler(ITelegramBotClient botClient, Update update)
         {
             try
@@ -113,9 +118,9 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Обработка выбраной даты
+        /// Действие обработка выбраной даты.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickDate)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.PickDate)]
         public static async Task PickDate(ITelegramBotClient botClient, Update update)
         {
             var bot = botClient.GetBotDataOrNull();
@@ -135,5 +140,7 @@ namespace PRTelegramBot.Actions
                 bot.Events.OnErrorLogInvoke(ex);
             }
         }
+
+        #endregion
     }
 }

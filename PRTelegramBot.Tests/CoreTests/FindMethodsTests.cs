@@ -67,8 +67,8 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [Test]
         [TestCase(0, 10)]
-        [TestCase(1, 4)]
-        [TestCase(2, 5)]
+        [TestCase(1, 9)]
+        [TestCase(2, 10)]
         public void FindInlineMethods(int botId, int exceptedMethodsCount)
         {
             MethodInfo[] inlineMethods = ReflectionUtils.FindStaticInlineCommandHandlers(botId);
