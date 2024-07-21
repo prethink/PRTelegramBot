@@ -11,7 +11,7 @@
 TelegramBot v21.7.1 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
-Библиотека с простой маршрутизацией команд для создания telegram ботов.         
+Фреймворк с открытым исходным кодом с гибким и простым функционалом для создания ботов Telegram.     
 Примеры https://github.com/prethink/PRTelegramBot/tree/master/Examples     
 Примеры с видео: https://github.com/prethink/PRTelegramYoutube   
 
