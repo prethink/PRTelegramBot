@@ -5,7 +5,7 @@ namespace PRTelegramBot.Configs
     /// <summary>
     /// Параметры telegram бота для работы с WebHook.
     /// </summary>
-    public class WebHookTelegramOptions : TelegramOptions
+    public class WebHookOptions
     {
         #region Поля и свойства
 

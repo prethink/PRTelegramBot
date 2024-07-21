@@ -29,6 +29,14 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="botIds">Идентификаторы ботов.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuHandlerAttribute(long[] botIds, params string[] commands)
+            : this(botIds, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         /// <param name="commandComparison">Как сравнивать команду.</param>
         /// <param name="commands">Команды.</param>
         public ReplyMenuHandlerAttribute(CommandComparison commandComparison, params string[] commands)
@@ -42,6 +50,15 @@ namespace PRTelegramBot.Attributes
         /// <param name="commands">Команды.</param>
         public ReplyMenuHandlerAttribute(long botId, CommandComparison commandComparison, params string[] commands)
             : this(botId, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botIds">Идентификаторы ботов.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuHandlerAttribute(long[] botIds, CommandComparison commandComparison, params string[] commands)
+            : this(botIds, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
         /// Конструктор.
@@ -63,6 +80,15 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="botIds">Идентификаторы ботов.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuHandlerAttribute(long[] botIds, StringComparison stringComparison, params string[] commands)
+            : this(botIds, CommandComparison.Equals, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         /// <param name="commandComparison">Как сравнивать команду.</param>
         /// <param name="stringComparison">Как сравнивать строку.</param>
         /// <param name="commands">Команды.</param>
@@ -77,7 +103,17 @@ namespace PRTelegramBot.Attributes
         /// <param name="stringComparison">Как сравнивать строку.</param>
         /// <param name="commands">Команды.</param>
         public ReplyMenuHandlerAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
-            : base(botId, commandComparison, stringComparison)
+            : this([botId], commandComparison, stringComparison, commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botIds">Идентификаторы ботов.</param>
+        /// <param name="commandComparison">Как сравнивать команду.</param>
+        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="commands">Команды.</param>
+        public ReplyMenuHandlerAttribute(long[] botIds, CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
+            : base(botIds, commandComparison, stringComparison)
         {
             this.commands.AddRange(commands);
         }

@@ -48,7 +48,7 @@ namespace AspNetWebHook.Filter
 
                 foreach (var bot in bots)
                 {
-                    var secretToken = ((WebHookTelegramOptions)bot.Options).SecretToken;
+                    var secretToken = bot.Options.WebHookOptions.SecretToken;
                     if (string.Equals(secretTokenHeader, secretToken, StringComparison.Ordinal));
                         return true;
                 }

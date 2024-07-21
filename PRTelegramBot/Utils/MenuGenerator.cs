@@ -1,8 +1,8 @@
 ﻿using PRTelegramBot.InlineButtons;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models.TCommands;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 

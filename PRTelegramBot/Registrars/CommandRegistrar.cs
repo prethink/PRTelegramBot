@@ -24,7 +24,7 @@ namespace PRTelegramBot.Registrars
         public bool AddSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
             if (bot.Handler is Handler handler)
-                return handler.MessageFacade.SlashHandler.AddCommand(command, method);
+                return handler.SlashCommandsStore.AddCommand(command, method);
             else
                 return false;
 
@@ -33,7 +33,7 @@ namespace PRTelegramBot.Registrars
         public bool AddReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method)
         {
             if (bot.Handler is Handler handler)
-                return handler.MessageFacade.ReplyHandler.AddCommand(command, method);
+                return handler.ReplyCommandsStore.AddCommand(command, method);
             else
                 return false;
         }
@@ -41,7 +41,7 @@ namespace PRTelegramBot.Registrars
         public bool AddInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method)
         {
             if (bot.Handler is Handler handler)
-                return handler.InlineUpdateHandler.AddCommand(command, method);
+                return handler.CallbackQueryCommandsStore.AddCommand(command, method);
             else
                 return false;
         }
@@ -49,7 +49,7 @@ namespace PRTelegramBot.Registrars
         public bool RemoveReplyCommand(string command)
         {
             if (bot.Handler is Handler handler)
-                return handler.MessageFacade.ReplyHandler.RemoveCommand(command);
+                return handler.ReplyCommandsStore.RemoveCommand(command);
             else
                 return false;
         }
@@ -57,7 +57,7 @@ namespace PRTelegramBot.Registrars
         public bool RemoveSlashCommand(string command)
         {
             if (bot.Handler is Handler handler)
-                return handler.MessageFacade.SlashHandler.RemoveCommand(command);
+                return handler.SlashCommandsStore.RemoveCommand(command);
             else
                 return false;
         }
@@ -65,7 +65,7 @@ namespace PRTelegramBot.Registrars
         public bool RemoveInlineCommand(Enum command)
         {
             if (bot.Handler is Handler handler)
-                return handler.InlineUpdateHandler.RemoveCommand(command);
+                return handler.CallbackQueryCommandsStore.RemoveCommand(command);
             else
                 return false;
         }

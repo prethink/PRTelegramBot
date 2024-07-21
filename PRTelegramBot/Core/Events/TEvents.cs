@@ -25,6 +25,11 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public UpdateEvents UpdateEvents { get; private set; }
 
+        /// <summary>
+        /// События команд.
+        /// </summary>
+        public CommandsEvents CommandsEvents { get; private set; }
+
         #endregion
 
         #region События
@@ -125,6 +130,7 @@ namespace PRTelegramBot.Core.Events
             Bot = bot;
             MessageEvents = new MessageEvents();
             UpdateEvents = new UpdateEvents();
+            CommandsEvents = new CommandsEvents();
         }
 
         #endregion

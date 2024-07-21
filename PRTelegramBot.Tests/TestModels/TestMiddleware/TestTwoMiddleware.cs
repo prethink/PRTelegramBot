@@ -2,7 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Tests.Common.TestMiddleware
+namespace PRTelegramBot.Tests.TestModels.TestMiddleware
 {
     public class TestTwoMiddleware : MiddlewareBase
     {

@@ -2,7 +2,6 @@
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models.TCommands;
 
 namespace PRTelegramBot.Tests.CoreTests
 {

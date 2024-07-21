@@ -37,7 +37,7 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [Test]
         [TestCase(0, 4)]
-        [TestCase(1, 2)]
+        [TestCase(1, 3)]
         [TestCase(2, 3)]
         public void FindReplyMethods(int botId, int exceptedMethodsCount)
         {
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [Test]
         [TestCase(0, 3)]
-        [TestCase(1, 2)]
+        [TestCase(1, 3)]
         [TestCase(2, 3)]
         public void FindReplyDictionaryMethods(int botId, int exceptedMethodsCount)
         {
@@ -67,7 +67,7 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [Test]
         [TestCase(0, 10)]
-        [TestCase(1, 9)]
+        [TestCase(1, 10)]
         [TestCase(2, 10)]
         public void FindInlineMethods(int botId, int exceptedMethodsCount)
         {
@@ -77,7 +77,7 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [Test]
         [TestCase(0, 3)]
-        [TestCase(1, 2)]
+        [TestCase(1, 3)]
         [TestCase(2, 3)]
         public void FindSlashMethods(int botId, int exceptedMethodsCount)
         {

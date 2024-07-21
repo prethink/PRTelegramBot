@@ -1,16 +1,12 @@
 ﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
-using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
-using PRTelegramBot.Utils.Controls.CalendarControl.Common;
 using System.Globalization;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples

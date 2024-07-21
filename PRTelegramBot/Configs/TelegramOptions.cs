@@ -94,6 +94,21 @@ namespace PRTelegramBot.Configs
         /// </summary>
         public int? Timeout { get; set; }
 
+        /// <summary>
+        /// Обработчики callbackquery (inline) команд.
+        /// </summary>
+        public List<ICallbackQueryCommandHandler> CallbackQueryHandlers { get; set; } = new();
+
+        /// <summary>
+        /// Обработчики для message.
+        /// </summary>
+        public List<IMessageCommandHandler> MessageHandlers { get; set; } = new();
+
+        /// <summary>
+        /// Параметры для webhook.
+        /// </summary>
+        public WebHookOptions WebHookOptions = new WebHookOptions();
+
         #endregion
     }
 }

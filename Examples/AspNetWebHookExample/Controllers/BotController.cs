@@ -21,7 +21,7 @@ namespace AspNetWebHook.Controllers
                 foreach (var bot in webHookbots)
                 {
                     // Сравнение секретных токенов, если идентичны, выполняем обработку.
-                    var secretToken = ((WebHookTelegramOptions)bot.Options).SecretToken;
+                    var secretToken = bot.Options.WebHookOptions.SecretToken;
                     if (string.Equals(secretTokenHeader, secretToken, StringComparison.Ordinal))
                     {
                         await bot.Handler.HandleUpdateAsync(bot.botClient, update, bot.Options.CancellationToken.Token);

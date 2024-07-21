@@ -1,24 +1,29 @@
-﻿using PRTelegramBot.Extensions;
+﻿using PRTelegramBot.Core.Executors;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
-namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
+namespace PRTelegramBot.Core.CommandHandlers
 {
     /// <summary>
     /// Обработчик пошагового выполнение команд.
     /// </summary>
-    public sealed class NextStepUpdateHandler : ExecuteHandler
+    internal sealed class NextStepCommandHandler
     {
-        #region Базовый класс
+        #region Поля и свойства
 
-        public override CommandType CommandType => CommandType.NextStep;
+        /// <summary>
+        /// Бот.
+        /// </summary>
+        private readonly PRBotBase bot;
 
-        public override UpdateType TypeUpdate => UpdateType.Message;
+        #endregion
 
-        public override async Task<UpdateResult> Handle(Update update)
+        #region Методы
+
+        public async Task<UpdateResult> Handle(PRBotBase bot, Update update)
         {
             try
             {
@@ -28,11 +33,17 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 var step = update.GetStepHandler()?.GetExecuteMethod();
                 if (step is null)
                     return UpdateResult.NotFound;
-                bot.Events.MessageEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
-                var resultExecute = await ExecuteMethod(update, new CommandHandler(step));
+                bot.Events.CommandsEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+
+                var executer = new ExecutorNextStepCommand(bot);
+                var currentHandler = bot.Handler as Handler;
+                if (currentHandler == null)
+                    return UpdateResult.Continue;
+
+                var resultExecute = await executer.ExecuteMethod(bot, update, new CommandHandler(step));
                 if (resultExecute == CommandResult.Executed)
                 {
-                    bot.Events.MessageEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+                    bot.Events.CommandsEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
                     return UpdateResult.Handled;
                 }
 
@@ -44,10 +55,6 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
                 return UpdateResult.Error;
             }
         }
-
-        #endregion
-
-        #region Методы
 
         /// <summary>
         /// Игнорировать базовые команды.
@@ -95,8 +102,10 @@ namespace PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public NextStepUpdateHandler(PRBotBase bot)
-            : base(bot) { }
+        public NextStepCommandHandler(PRBotBase bot)
+        { 
+            this.bot = bot;
+        }
 
         #endregion
     }

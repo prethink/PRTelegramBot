@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -6,13 +6,13 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.6.7</Version>
+    <Version>0.7</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/prethink/PRTelegramBot</RepositoryUrl>
     <PackageTags>Telegram, TelegramBot</PackageTags>
-    <Description>Библиотека для быстрого создания telegram ботов на C#</Description>
+    <Description>An open-source framework with flexible and simple functionality for creating Telegram bots</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>PRTelegramBot</Title>
     <PackageIcon>LogoBot.png</PackageIcon>
@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Telegram.Bot" Version="21.7.0" />
+    <PackageReference Include="Telegram.Bot" Version="21.7.1" />
   </ItemGroup>
 
   <ItemGroup>

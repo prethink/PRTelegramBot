@@ -27,19 +27,18 @@ namespace PRTelegramBot.Core
             try
             {
                 await base.Start();
-                var webHookOptions = Options as WebHookTelegramOptions;
-                if(string.IsNullOrEmpty(webHookOptions.SecretToken))
-                    webHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
+                if(string.IsNullOrEmpty(Options.WebHookOptions.SecretToken))
+                    Options.WebHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
 
                 await botClient.SetWebhookAsync(
-                    url: webHookOptions.Url,
-                    certificate: webHookOptions.Certificate,
-                    ipAddress: webHookOptions.IpAddress,
-                    maxConnections: webHookOptions.MaxConnections,
+                    url: Options.WebHookOptions.Url,
+                    certificate: Options.WebHookOptions.Certificate,
+                    ipAddress: Options.WebHookOptions.IpAddress,
+                    maxConnections: Options.WebHookOptions.MaxConnections,
                     allowedUpdates: Array.Empty<UpdateType>(),
-                    dropPendingUpdates: webHookOptions.DropPendingUpdates,
-                    secretToken: webHookOptions.SecretToken,
-                    cancellationToken: webHookOptions.CancellationToken.Token);
+                    dropPendingUpdates: Options.WebHookOptions.DropPendingUpdates,
+                    secretToken: Options.WebHookOptions.SecretToken,
+                    cancellationToken: Options.CancellationToken.Token);
             }
             catch(Exception ex)
             {

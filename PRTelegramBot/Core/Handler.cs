@@ -1,6 +1,6 @@
-﻿using PRTelegramBot.Core.Middlewares;
+﻿using PRTelegramBot.Core.CommandStores;
+using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Core.UpdateHandlers;
-using PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
@@ -20,14 +20,34 @@ namespace PRTelegramBot.Core
         #region Поля и свойства
 
         /// <summary>
-        /// Фасад для обработки логики сообщений.
+        /// Диспетчер для обработки update типа message.
         /// </summary>
-        public MessageFacade MessageFacade { get; private set; }
+        internal MessageUpdateDispatcher MessageDispatcher { get; private set; }
 
         /// <summary>
-        /// Обработчик inline команд.
+        /// Диспетчер для обработки update типа callbackQuery.
         /// </summary>
-        public InlineUpdateHandler InlineUpdateHandler { get; private set; }
+        internal CallBackQueryUpdateDispatcher CallBackQueryDispatcher { get; private set; }
+
+        /// <summary>
+        /// Хранилище callbackQuery команд.
+        /// </summary>
+        public CallbackQueryCommandStore CallbackQueryCommandsStore { get; private set; }
+
+        /// <summary>
+        /// Хранилище reply команд.
+        /// </summary>
+        public ReplyCommandStore ReplyCommandsStore { get; private set; }
+
+        /// <summary>
+        /// Хранилище reply dynamic команд.
+        /// </summary>
+        public ReplyDynamicCommandStore ReplyDynamicCommandsStore { get; private set; }
+
+        /// <summary>
+        /// Хранилище slash команд.
+        /// </summary>
+        public SlashCommandStore SlashCommandsStore { get; private set; }
 
         /// <summary>
         /// Бот.
@@ -45,8 +65,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="botClient">Клиент телеграм бота.</param>
         /// <param name="update">Обновление телеграм.</param>
-        /// <param name="cancellationToken">Токен.</param>
-        /// <returns></returns>
+        /// <param name="cancellationToken">Токен отмены.</param>
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             try
@@ -70,10 +89,24 @@ namespace PRTelegramBot.Core
 
         public void HotReload()
         {
-            MessageFacade = new MessageFacade(this.bot);
-            InlineUpdateHandler = new InlineUpdateHandler(this.bot);
+            CallbackQueryCommandsStore.ClearCommands();
+            ReplyCommandsStore.ClearCommands();
+            ReplyDynamicCommandsStore.ClearCommands();
+            SlashCommandsStore.ClearCommands();
+
+            CallbackQueryCommandsStore.RegisterCommand();
+            ReplyCommandsStore.RegisterCommand();
+            ReplyDynamicCommandsStore.RegisterCommand();
+            SlashCommandsStore.RegisterCommand();
         }
 
+        /// <summary>
+        /// Обработчик ошибок API.
+        /// </summary>
+        /// <param name="botClient">Клиент телеграм бота.</param>
+        /// <param name="exception">Исключение.</param>
+        /// <param name="source">Исходник ошибки</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
         public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
         {
             var bot = botClient.GetBotDataOrNull();
@@ -111,10 +144,10 @@ namespace PRTelegramBot.Core
             }
 
             if (update.Type == UpdateType.CallbackQuery)
-                _ = InlineUpdateHandler.Handle(update);
+                _ = CallBackQueryDispatcher.Dispatch(update);
 
             if (update.Type == UpdateType.Message)
-                _ = MessageFacade.Handle(update);
+                _ = MessageDispatcher.Dispatch(update);
 
             if (update.Type == UpdateType.ChannelPost)
                 bot.Events.UpdateEvents.OnChannelPostHandler(new BotEventArgs(bot, update));
@@ -191,6 +224,14 @@ namespace PRTelegramBot.Core
         {
             this.bot = bot;
             Middleware = new MiddlewareBuilder().Build(bot.Options.Middlewares);
+
+            CallbackQueryCommandsStore = new CallbackQueryCommandStore(bot);
+            ReplyCommandsStore = new ReplyCommandStore(bot);
+            ReplyDynamicCommandsStore = new ReplyDynamicCommandStore(bot);
+            SlashCommandsStore = new SlashCommandStore(bot);
+
+            MessageDispatcher = new MessageUpdateDispatcher(this.bot);
+            CallBackQueryDispatcher = new CallBackQueryUpdateDispatcher(this.bot);
             HotReload();
         }
 

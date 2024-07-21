@@ -23,7 +23,15 @@ namespace PRTelegramBot.Attributes
         /// <param name="botId">Идентификатор бота.</param>
         /// <param name="commands">Команды.</param>
         public InlineCallbackHandlerAttribute(long botId, params T[] commands) 
-            : base(botId, CommandComparison.Equals)
+            : this([botId], commands) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botIds">Идентификаторы ботов.</param>
+        /// <param name="commands">Команды.</param>
+        public InlineCallbackHandlerAttribute(long[] botIds, params T[] commands)
+            : base(botIds, CommandComparison.Equals)
         {
             foreach (var command in commands)
                 this.commands.Add((Enum)command);

@@ -23,11 +23,11 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="botIds">Идентификаторы ботов.</param>
         /// <param name="commandComparison">Как сравнивать команду.</param>
         /// <param name="stringComparison">Как сравнивать строку.</param>
-        public StringQueryAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison) 
-            : base(botId, commandComparison) 
+        public StringQueryAttribute(long[] botIds, CommandComparison commandComparison, StringComparison stringComparison)
+            : base(botIds, commandComparison)
         {
             this.StringComparison = stringComparison;
         }

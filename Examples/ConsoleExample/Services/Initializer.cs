@@ -156,7 +156,7 @@ namespace ConsoleExample.Services
         public static List<InternalChecker> GetCommandChekers()
         {
             var checkerReplyCommand = new InternalChecker(CommandType.Reply, new ReplyExampleChecker());
-            var adminChecker = new InternalChecker(new List<CommandType>() { CommandType.Reply, CommandType.NextStep, CommandType.Inline, CommandType.DynamicReply, CommandType.Slash }, new AdminExampleChecher());
+            var adminChecker = new InternalChecker(new List<CommandType>() { CommandType.Reply, CommandType.NextStep, CommandType.Inline, CommandType.ReplyDynamic, CommandType.Slash }, new AdminExampleChecher());
             return new List<InternalChecker>() { checkerReplyCommand, adminChecker };
         }
 
