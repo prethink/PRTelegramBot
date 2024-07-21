@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/version-v0.6.6-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.7.0-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+![Static Badge](https://img.shields.io/badge/version-v0.7-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-2.7.1-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
 > **Если данный проект был для вас полезен и хотите его поддержать, можете [💸 поддержать материально](https://new.donatepay.ru/@prethink)** и/или поставить ⭐ в репозитории проекта.
@@ -7,8 +7,8 @@
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
 
-# ⚛️ Ядро библиотеки
-TelegramBot v21.7.0 https://github.com/TelegramBots/Telegram.Bot
+# ⚛️ Ядро фреймворка
+TelegramBot v21.7.1 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Библиотека с простой маршрутизацией команд для создания telegram ботов.         
