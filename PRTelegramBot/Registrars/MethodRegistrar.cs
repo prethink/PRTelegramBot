@@ -33,7 +33,7 @@ namespace PRTelegramBot.Registrars
                 {
                     var attribute = method.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == attributetype.Name);
 
-                    if (attribute == null || ((IBaseQueryAttribute)attribute).BotId != bot.Options.BotId && ((IBaseQueryAttribute)attribute).BotId != -1)
+                    if (attribute == null || !((IBaseQueryAttribute)attribute).BotIds.Contains(bot.Options.BotId) && !((IBaseQueryAttribute)attribute).BotIds.Contains(-1))
                         continue;
 
                     bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);

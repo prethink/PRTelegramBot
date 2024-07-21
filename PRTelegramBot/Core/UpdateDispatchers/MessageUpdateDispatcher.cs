@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core.UpdateHandlers.CommandsUpdateHandlers;
+﻿using PRTelegramBot.Core.CommandHandlers;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
@@ -7,49 +8,37 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Core.UpdateHandlers
 {
     /// <summary>
-    /// Фасад для правильной обработки reply, slash, step команд.
+    /// Диспетчер для обработчик update типа message.
     /// </summary>
-    public sealed class MessageFacade : UpdateHandler
+    internal sealed class MessageUpdateDispatcher
     {
         #region Поля и свойства
-
-        /// <summary>
-        /// Обработчик reply команд.
-        /// </summary>
-        public ReplyMessageUpdateHandler ReplyHandler { get; private set; }
-
-        /// <summary>
-        /// Обработчик динамических reply команд.
-        /// </summary>
-        public ReplyDynamicMessageUpdateHandler ReplyDynamicHandler { get; private set; }
-
-        /// <summary>
-        /// Обработчик slash команд.
-        /// </summary>
-        public SlashMessageUpdateHandler SlashHandler { get; private set; }
 
         /// <summary>
         /// Коллекция типов сообщений и событий для вызова.
         /// </summary>
         public Dictionary<MessageType, Action<BotEventArgs>> TypeMessage { get; private set; }
 
-        public override UpdateType TypeUpdate => UpdateType.Message;
-
         /// <summary>
         /// Обработчик пошаговых команд.
         /// </summary>
-        private NextStepUpdateHandler nextStepHandler;
+        private NextStepCommandHandler nextStepHandler;
+
+        /// <summary>
+        /// Бот.
+        /// </summary>
+        private readonly PRBotBase bot;
 
         #endregion
 
         #region Методы
 
         /// <summary>
-        /// Обработка обновления.
+        /// Вызвать обработку update типа message/
         /// </summary>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнения.</returns>
-        public override async Task<UpdateResult> Handle(Update update)
+        public async Task<UpdateResult> Dispatch(Update update)
         {
             var eventResult = EventHandler(update);
             if (eventResult == UpdateResult.Handled)
@@ -57,6 +46,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
  
             if(update.Message.Type.Equals(MessageType.Text))
                 return await UpdateMessageCommands(update);
+
             
             return UpdateResult.NotFound;
         }
@@ -73,20 +63,15 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
             if (!nextStepHandler.IgnoreBasicCommand(update))
             {
-                result = await SlashHandler.Handle(update);
-                if (!IsContinueHandle(update, result))
-                    return result;
-
-                result = await ReplyHandler.Handle(update);
-                if (!IsContinueHandle(update, result))
-                    return result;
-
-                result = await ReplyDynamicHandler.Handle(update);
-                if (!IsContinueHandle(update, result))
-                    return result;
+                foreach (var handler in bot.Options.MessageHandlers)
+                {
+                    result = await handler.Handle(bot, update, update.Message);
+                    if (!result.IsContinueHandle(bot, update))
+                        return result;
+                }
             }
 
-            result = await nextStepHandler.Handle(update);
+            result = await nextStepHandler.Handle(bot, update);
             if (result == UpdateResult.Handled)
             {
                 if (nextStepHandler.LastStepExecuted(update))
@@ -95,28 +80,8 @@ namespace PRTelegramBot.Core.UpdateHandlers
             }
 
             bot.Events.OnMissingCommandInvoke(new BotEventArgs(bot, update));
+
             return UpdateResult.NotFound;
-        }
-
-
-        /// <summary>
-        /// Продолжить обработку после получения результата?
-        /// </summary>
-        /// <param name="update">Update.</param>
-        /// <param name="result">Результат.</param>
-        /// <returns>True - продолжить, False - не продолжать.</returns>
-        private bool IsContinueHandle(Update update, UpdateResult result)
-        {
-            if (result == UpdateResult.Error)
-            {
-                bot.Events.OnErrorCommandInvoke(new BotEventArgs(bot, update));
-                return false;
-            }
-
-            if (result == UpdateResult.Handled)
-                return false;
-
-            return true;
         }
 
         /// <summary>
@@ -206,13 +171,10 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// Конструктор.
         /// </summary>
         /// <param name="bot">Бот.</param>
-        public MessageFacade(PRBotBase bot)
-            : base(bot)
+        public MessageUpdateDispatcher(PRBotBase bot)
         {
-            ReplyHandler = new ReplyMessageUpdateHandler(bot);
-            ReplyDynamicHandler = new ReplyDynamicMessageUpdateHandler(bot);
-            SlashHandler = new SlashMessageUpdateHandler(bot);
-            nextStepHandler = new NextStepUpdateHandler(bot);
+            this.bot = bot;
+            nextStepHandler = new NextStepCommandHandler(bot);
 
             UpdateEventLink();
         }

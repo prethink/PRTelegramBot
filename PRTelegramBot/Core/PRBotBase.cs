@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Core.CommandHandlers;
 using PRTelegramBot.Core.Events;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
@@ -95,12 +96,21 @@ namespace PRTelegramBot.Core
                 if(Handler is null)
                 {
                     Handler = Options.UpdateHandler ?? new Handler(this);
+                    if(Handler is Handler baseHandler)
+                    {
+                        Options.MessageHandlers.Add(new SlashCommandHandler());
+                        Options.MessageHandlers.Add(new ReplyCommandHandler());
+                        Options.MessageHandlers.Add(new ReplyDynamicCommandHandler());
+
+                        Options.CallbackQueryHandlers.Add(new InlineCommandHandler());
+                    }
                 }
                 if(Register is null)
                 {
                     Register = Options.RegisterCommand ?? new RegisterCommand();
                     Register.Init(this);
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -167,6 +177,7 @@ namespace PRTelegramBot.Core
 
             botClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);
+            InitHandlers();
         }
 
         #endregion

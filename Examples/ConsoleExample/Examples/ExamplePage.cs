@@ -2,9 +2,9 @@
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
+using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models.TCommands;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;

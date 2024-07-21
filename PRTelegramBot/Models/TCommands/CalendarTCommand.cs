@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace PRTelegramBot.Models.CallbackCommands
 {
@@ -13,7 +14,11 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Дата.
         /// </summary>
         [JsonPropertyName("1")]
+        [JsonConverter(typeof(DateOnlyConverter))]
         public DateTime Date { get; set; }
+
+        [JsonPropertyName("2")]
+        public string Culture { get; set; }
 
         #endregion
 
@@ -24,7 +29,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// </summary>
         /// <param name="date">Дата.</param>
         public CalendarTCommand(DateTime date)
-            : base(0, Enums.ActionWithLastMessage.Edit)
+            : this(date, CultureInfo.GetCultureInfo("ru-RU", false), 0)
         {
             Date = date;
         }
@@ -33,10 +38,24 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// Конструктор.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="lastCommand">Команда.</param>
-        public CalendarTCommand(DateTime date, int lastCommand) : base(lastCommand, Enums.ActionWithLastMessage.Edit)
+        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
+        public CalendarTCommand(DateTime date, int headerCallbackCommand)
+            : this(date, CultureInfo.GetCultureInfo("ru-RU", false), headerCallbackCommand)
         {
             Date = date;
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="date">Дата.</param>
+        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
+        /// <param name="culture">Язык календаря.</param>
+        public CalendarTCommand(DateTime date, CultureInfo culture, int headerCallbackCommand)
+            : base(headerCallbackCommand, Enums.ActionWithLastMessage.Edit)
+        {
+            Date = date;
+            Culture = culture.Name;
         }
 
         /// <summary>

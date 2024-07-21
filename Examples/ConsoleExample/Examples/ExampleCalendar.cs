@@ -1,25 +1,18 @@
 ﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
-using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Utils.Controls.CalendarControl.Common;
+using PRTelegramBot.Utils;
 using System.Globalization;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
-using PRTelegramBotCommand = PRTelegramBot.Models.Enums.PRTelegramBotCommand;
 
 namespace ConsoleExample.Examples
 {
     public class ExampleCalendar
     {
-        /// <summary>
-        /// Устанавливаем русский формат даты.
-        /// </summary>
-        public static DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("ru-RU", false).DateTimeFormat;
-
         /// <summary>
         /// Напишите в чат Calendar
         /// Вызов команды календаря
@@ -29,10 +22,7 @@ namespace ConsoleExample.Examples
         {
             try
             {
-                var calendarMarkup = Markup.Calendar(DateTime.Today, dtfi, (int)CustomTHeaderTwo.ExampleThree);
-                var option = new OptionMessage();
-                option.MenuInlineKeyboardMarkup = calendarMarkup;
-                await Helpers.Message.Send(botClient, update.GetChatId(), $"Выберите дату:", option);
+                await CalendarUtils.Create(botClient, update, CustomTHeader.CalendarCallback, "Выберите дату:");
             }
             catch (Exception ex)
             {
@@ -41,121 +31,40 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Выбор года или месяца
+        /// Напишите в чат EngCalendar
+        /// Вызов команды календаря на английском языке
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.YearMonthPicker)]
-        public static async Task PickYearMonth(ITelegramBotClient botClient, Update update)
+        [ReplyMenuHandler("EngCalendar")]
+        public static async Task EngPickCalendar(ITelegramBotClient botClient, Update update)
         {
             try
             {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
-                if (command != null)
-                {
-                    var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, dtfi, command.Data.LastCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = monthYearMarkup;
-                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
-                }
+                await CalendarUtils.Create(botClient, update, CultureInfo.GetCultureInfo("en-US", false), CustomTHeader.CalendarCallback, "Choose date:");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
-        }
-
-        /// <summary>
-        /// Выбор месяца
-        /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickMonth)]
-        public static async Task PickMonth(ITelegramBotClient botClient, Update update)
-        {
-            try
-            {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
-                if (command != null)
-                {
-                    var monthPickerMarkup = Markup.PickMonth(command.Data.Date, dtfi, command.Data.LastCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = monthPickerMarkup;
-                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
-
-        /// <summary>
-        /// Выбор года
-        /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickYear)]
-        public static async Task PickYear(ITelegramBotClient botClient, Update update)
-        {
-            try
-            {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
-                if (command != null)
-                {
-                    var monthYearMarkup = Markup.PickYear(command.Data.Date, dtfi, command.Data.LastCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = monthYearMarkup;
-                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Перелистывание месяца
-        /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.ChangeTo)]
-        public static async Task ChangeToHandler(ITelegramBotClient botClient, Update update)
-        {
-            try
-            {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
-                if (command != null)
-                {
-                    var calendarMarkup = Markup.Calendar(command.Data.Date, dtfi, command.Data.LastCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = calendarMarkup;
-                    await Helpers.Message.EditInline(botClient, update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, option);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-
         }
 
         /// <summary>
         /// Обработка выбраной даты
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.PickDate)]
+        [InlineCallbackHandler<CustomTHeader>(CustomTHeader.CalendarCallback)]
         public static async Task PickDate(ITelegramBotClient botClient, Update update)
         {
+            var bot = botClient.GetBotDataOrNull();
             try
             {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
-                if (command != null)
+                using (var inlineHandler = new InlineCallback<CalendarTCommand>(botClient, update))
                 {
-                    var type = command.Data.GetLastCommandEnum<CustomTHeader>();
-                    var data = command.Data.Date;
-                    //Обработка данных даты;
-                    await Helpers.Message.Send(botClient, update, data.ToString());
+                    var command = inlineHandler.GetCommandByCallbackOrNull();
+                    await Helpers.Message.Send(botClient, update, command.Data.Date.ToString());
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                bot.Events.OnErrorLogInvoke(ex);
             }
         }
     }

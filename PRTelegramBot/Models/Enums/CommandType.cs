@@ -7,9 +7,11 @@
     {
         None = 0,
         Reply,
-        DynamicReply,
+        ReplyDynamic,
         Slash,
         NextStep,
-        Inline
+        Inline,
+        Message,
+        Custom
     }
 }

@@ -40,7 +40,7 @@ namespace PRTelegramBot.Tests.Common
         [ReplyMenuHandler(1, nameof(TestReplyWithCustomId))]
         public static async Task TestReplyWithCustomId(ITelegramBotClient botClient, Update update) { }
 
-        [ReplyMenuHandler(2, nameof(TestReplyWithCustomIdTwo))]
+        [ReplyMenuHandler([2, 1], nameof(TestReplyWithCustomIdTwo))]
         public static async Task TestReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
 
         [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Photo)]
@@ -57,7 +57,7 @@ namespace PRTelegramBot.Tests.Common
         [ReplyMenuDynamicHandler(1, nameof(KEY_DYNAMIC_REPLY_TWO))]
         public static async Task TestDynamicReplyWithCustomId(ITelegramBotClient botClient, Update update) { }
 
-        [ReplyMenuDynamicHandler(2, KEY_DYNAMIC_REPLY_THREE)]
+        [ReplyMenuDynamicHandler([2,1], KEY_DYNAMIC_REPLY_THREE)]
         public static async Task TestDynamicReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
 
         #endregion
@@ -70,7 +70,7 @@ namespace PRTelegramBot.Tests.Common
         [InlineCallbackHandler<TestTHeader>(1, TestTHeader.Six)]
         public static async Task InlineSix(ITelegramBotClient botClient, Update update) { }
 
-        [InlineCallbackHandler<TestTHeader>(2, TestTHeader.Seven)]
+        [InlineCallbackHandler<TestTHeader>([2, 1], TestTHeader.Seven)]
         public static async Task InlineSeven(ITelegramBotClient botClient, Update update) { }
 
         #endregion 
@@ -83,7 +83,7 @@ namespace PRTelegramBot.Tests.Common
         [SlashHandler(1, nameof(TestSlashMethodTwo))]
         public static async Task TestSlashMethodTwo(ITelegramBotClient botClient, Update update) { }
 
-        [SlashHandler(2, nameof(TestSlashMethodThree))]
+        [SlashHandler([2, 1], nameof(TestSlashMethodThree))]
         public static async Task TestSlashMethodThree(ITelegramBotClient botClient, Update update) { }
 
         #endregion

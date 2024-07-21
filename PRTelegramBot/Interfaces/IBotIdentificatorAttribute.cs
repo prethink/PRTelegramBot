@@ -3,8 +3,8 @@
     public interface IBotIdentificatorAttribute
     {
         /// <summary>
-        /// Идентификатор бота.
+        /// Идентификаторы ботов.
         /// </summary>
-        public long BotId { get; }
+        public List<long> BotIds { get; }
     }
 }

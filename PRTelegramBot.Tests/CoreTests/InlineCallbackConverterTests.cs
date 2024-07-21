@@ -2,7 +2,6 @@
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Models.TCommands;
 
 namespace PRTelegramBot.Tests.CoreTests
 {
@@ -32,7 +31,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var json = command.GetContent() as string;
             var exportCommand = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedLong, exportCommand.Data.EntityId);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.LastCommand);
+            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
         }
 
@@ -47,7 +46,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var json = command.GetContent() as string;
             var exportCommand = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedString, exportCommand.Data.EntityId);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.LastCommand);
+            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
         }
 
@@ -62,7 +61,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var json = command.GetContent() as string;
             var exportCommand = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedPage, exportCommand.Data.Page);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.LastCommand);
+            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
         }
 
@@ -76,7 +75,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var command = new InlineCallback<TCommandBase>("Пример 2", exceptedCommandType, new TCommandBase(exceptedCommandId));
             var json = command.GetContent() as string;
             var exportCommand = InlineCallback<TCommandBase>.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.LastCommand);
+            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
         }
 
@@ -106,7 +105,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var json = command.GetContent() as string;
             var exportCommand = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedDate, exportCommand.Data.Date);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.LastCommand);
+            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
         }
     }

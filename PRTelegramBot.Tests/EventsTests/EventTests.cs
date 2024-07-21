@@ -27,11 +27,11 @@ namespace PRTelegramBot.Tests.EventsTests
         [TestCase("gamer", "gamer 1")]
         [TestCase("523523532", "523523532 1")]
         [TestCase("22222", "22222")]
-        public async Task OnUserStartWithArgsShouldBeInvoked(string exceptedDeepLink, string message)
+        public async Task OnUserStartWithArgsShouldBeInvoked(string expectedDeepLink, string message)
         {
             var update = UpdateSetUp.CreateWithStartDeepLink(message);
             bool eventCalled = false;
-            string capturedExpectedDeepLink = exceptedDeepLink;
+            string capturedExpectedDeepLink = expectedDeepLink;
 
             Task EventHandler(StartEventArgs e)
             {
@@ -97,22 +97,6 @@ namespace PRTelegramBot.Tests.EventsTests
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnWrongTypeMessage)} event was not called.");
             bot.Events.OnWrongTypeMessage -= EventHandler;
         }
-
-        //[Test]
-        //public async Task OnWrongTypeChatShouldBeInvoked()
-        //{
-        //    var update = UpdateSetUp.CreateWithTextMessage("");
-        //    bool eventCalled = false;
-        //    Task EventHandler(BotEventArgs e)
-        //    {
-        //        eventCalled = true;
-        //        return Task.CompletedTask;
-        //    }
-        //    bot.Events.OnWrongTypeChat += EventHandler;
-        //    await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
-        //    Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnWrongTypeChat)} event was not called.");
-        //    bot.Events.OnWrongTypeChat -= EventHandler;
-        //}
 
         [Test]
         public async Task OnAccessDeniedShouldBeInvoked()

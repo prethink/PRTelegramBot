@@ -6,7 +6,7 @@ namespace PRTelegramBot.Core.Events
     /// <summary>
     /// События обновлений.
     /// </summary>
-    public class UpdateEvents
+    public sealed class UpdateEvents
     {
         #region События
 
@@ -86,39 +86,44 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
 
         /// <summary>
-        /// Событие, вызываемое при установлении бизнес-соединения.
+        /// Событие вызываемое при установлении бизнес-соединения.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnBusinessConnectionHandle;
 
         /// <summary>
-        /// Событие, вызываемое при редактировании бизнес-сообщения.
+        /// Событие вызываемое при редактировании бизнес-сообщения.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnEditedBusinessMessageHandle;
 
         /// <summary>
-        /// Событие, вызываемое при удалении бизнес-сообщений.
+        /// Событие вызываемое при удалении бизнес-сообщений.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnDeletedBusinessMessagesHandle;
 
         /// <summary>
-        /// Событие, вызываемое при реакции на сообщение.
+        /// Событие вызываемое при реакции на сообщение.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessageReactionHandle;
 
         /// <summary>
-        /// Событие, вызываемое при изменении количества реакций на сообщение.
+        /// Событие вызываемое при изменении количества реакций на сообщение.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessageReactionCountHandle;
 
         /// <summary>
-        /// Событие, вызываемое при увеличении активности в чате.
+        /// Событие вызываемое при увеличении активности в чате.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatBoostHandle;
 
         /// <summary>
-        /// Событие, вызываемое при отмене увеличения активности в чате.
+        /// Событие вызываемое при отмене увеличения активности в чате.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnRemovedChatBoostHandle;
+
+        /// <summary>
+        /// Событие вызываемое при обработке update callbackquery
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCallbackQueryHandle;
 
         #endregion
 
@@ -175,6 +180,8 @@ namespace PRTelegramBot.Core.Events
         internal void OnChatBoostHandler(BotEventArgs e) => OnChatBoostHandle?.Invoke(e);
 
         internal void OnRemovedChatBoostHandler(BotEventArgs e) => OnRemovedChatBoostHandle?.Invoke(e);
+
+        internal void OnCallbackQueryHandler(BotEventArgs e) => OnCallbackQueryHandle?.Invoke(e);
 
         #endregion
     }

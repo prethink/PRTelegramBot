@@ -5,53 +5,17 @@ using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using System.Reflection;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
-namespace PRTelegramBot.Core.UpdateHandlers
+namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Обработчик выполнения обновление.
+    /// Базовый исполнитель для команд типа сообщения.
     /// </summary>
-    public abstract class ExecuteHandler : UpdateHandler
+    internal abstract class ExecutorMessageCommand : ExecutorCommandBase<string>
     {
-        #region Поля и свойства
+        #region Базовый класс
 
-        /// <summary>
-        /// Тип команд.
-        /// </summary>
-        public abstract CommandType CommandType { get; }
-
-        public override UpdateType TypeUpdate => UpdateType.Message;
-
-        #endregion
-
-        #region Методы
-
-        /// <summary>
-        /// Выполнить метод.
-        /// </summary>
-        /// <param name="update">Обновление.</param>
-        /// <param name="handler">Обработчик.</param>
-        /// <returns>Результат выполнения команды.</returns>
-        protected virtual async Task<CommandResult> ExecuteMethod(Update update, CommandHandler handler)
-        {
-            var @delegate = handler.Command;
-
-            var result = await InternalCheck(update, handler);
-            if (result != InternalCheckResult.Passed)
-                return CommandResult.InternalCheck;
-
-            await @delegate(bot.botClient, update);
-            return CommandResult.Executed;
-        }
-
-        /// <summary>
-        /// Внутрення проверка для <see cref="ExecuteMethod"/>
-        /// </summary>
-        /// <param name="update">Обновление.</param>
-        /// <param name="handler">Обработчик.</param>
-        /// <returns>Результат выполнения проверки.</returns>
-        protected virtual async Task<InternalCheckResult> InternalCheck(Update update, CommandHandler handler)
+        protected override async Task<InternalCheckResult> InternalCheck(PRBotBase bot, Update update, CommandHandler handler)
         {
             var method = handler.Command.Method;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
@@ -91,7 +55,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
             if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
             {
-                if(whiteListAttribute == null && !hasUserInWhiteList)
+                if (whiteListAttribute == null && !hasUserInWhiteList)
                 {
                     bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
                     return InternalCheckResult.NotInWhiteList;
@@ -112,6 +76,25 @@ namespace PRTelegramBot.Core.UpdateHandlers
             return InternalCheckResult.Passed;
         }
 
+        protected override bool CanExecute(string currentCommand, string command, CommandHandler handler)
+        {
+            if (handler.CommandComparison == CommandComparison.Equals)
+            {
+                if (handler is StringCommandHandler stringHandler && currentCommand.Equals(command, stringHandler.StringComparison))
+                    return true;
+            }
+            else if (handler.CommandComparison == CommandComparison.Contains)
+            {
+                if (handler is StringCommandHandler stringHandler && currentCommand.Contains(command, stringHandler.StringComparison))
+                    return true;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            return false;
+        }
+
         #endregion
 
         #region Конструкторы
@@ -119,9 +102,8 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Telegram bot.</param>
-        protected ExecuteHandler(PRBotBase bot)
-            : base(bot) { }
+        /// <param name="bot">Бот.</param>
+        public ExecutorMessageCommand(PRBotBase bot) : base(bot) { }
 
         #endregion
     }

@@ -16,6 +16,8 @@ namespace PRTelegramBot.Actions
     /// </summary>
     public static class InlineConfirmation
     {
+        #region Методы
+
         /// <summary>
         /// Обработка подтверждения действия.
         /// </summary>
@@ -24,7 +26,7 @@ namespace PRTelegramBot.Actions
         {
             try
             {
-                using(var inlineHandler = new InlineCallback<EntityTCommand<string>>(botClient, update))
+                using (var inlineHandler = new InlineCallback<EntityTCommand<string>>(botClient, update))
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
                     if (InlineCallbackWithConfirmation.DataCollection.TryGetValue(command.Data.EntityId, out var inlineCommand))
@@ -73,5 +75,7 @@ namespace PRTelegramBot.Actions
                 botClient.GetBotDataOrNull().Events.OnErrorLogInvoke(ex);
             }
         }
+
+        #endregion
     }
 }

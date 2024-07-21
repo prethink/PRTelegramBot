@@ -10,7 +10,7 @@ namespace PRTelegramBot.Attributes
     {
         #region IBaseQueryAttribute
 
-        public long BotId { get; set; }
+        public List<long> BotIds { get; set; } = new();
 
         #endregion
 
@@ -22,7 +22,16 @@ namespace PRTelegramBot.Attributes
         /// <param name="botId">Идентификатор бота.</param>
         public WhiteListAnonymousAttribute(long botId)
         {
-            this.BotId = botId;
+            this.BotIds.Add(botId);
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="botIds">Идентификаторы бота.</param>
+        public WhiteListAnonymousAttribute(List<long> botIds)
+        {
+            this.BotIds.AddRange(botIds);
         }
 
         /// <summary>

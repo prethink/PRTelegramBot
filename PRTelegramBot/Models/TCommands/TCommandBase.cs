@@ -11,10 +11,10 @@ namespace PRTelegramBot.Models.CallbackCommands
         #region Свойства и поля
 
         /// <summary>
-        /// Предыдущая команда.
+        /// Заголовок callback команды.
         /// </summary>
         [JsonPropertyName("l")]
-        public int LastCommand { get; set; }
+        public int HeaderCallbackCommand { get; set; }
 
         /// <summary>
         /// Действие с предыдущим сообщением.
@@ -33,7 +33,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <returns>Команда в enum типе.</returns>
         public TEnum GetLastCommandEnum<TEnum>() where TEnum : Enum
         {
-            return (TEnum)Enum.ToObject(typeof(TEnum), LastCommand);
+            return (TEnum)Enum.ToObject(typeof(TEnum), HeaderCallbackCommand);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         /// <param name="command">Команда.</param>
         public TCommandBase(int command)
         {
-            LastCommand = command;
+            HeaderCallbackCommand = command;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         public TCommandBase(int command, ActionWithLastMessage action)
             : this (action)
         {
-            LastCommand = command;
+            HeaderCallbackCommand = command;
         }
 
         /// <summary>

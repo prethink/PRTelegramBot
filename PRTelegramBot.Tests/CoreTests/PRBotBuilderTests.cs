@@ -199,13 +199,6 @@ namespace PRTelegramBot.Tests.CoreTests
             Assert.IsTrue(bot.GetType().Equals(typeof(PRBotWebHook)));
         }
 
-        [Test]
-        public void PRBuilderShouldCreateWebhookInstanceWithWebHookOptions()
-        {
-            var bot = new PRBotBuilder(TOKEN).UseFactory(new PRBotWebHookFactory()).Build();
-            Assert.IsTrue(bot.Options.GetType().Equals(typeof(WebHookTelegramOptions)));
-        }
-
         #endregion
     }
 }

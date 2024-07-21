@@ -19,6 +19,8 @@ namespace ConsoleExample.Models.CommandHeaders
         [Description("Шаг из Inline")]
         InlineWithStep,
         [Description("Кастомная кнопка")]
-        CustomButton
+        CustomButton,
+        [Description("Callback для календаря")]
+        CalendarCallback
     }
 }

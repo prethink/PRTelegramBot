@@ -1,6 +1,6 @@
 ﻿using Moq;
 using PRTelegramBot.Core.Middlewares;
-using PRTelegramBot.Tests.Common.TestMiddleware;
+using PRTelegramBot.Tests.TestModels.TestMiddleware;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 

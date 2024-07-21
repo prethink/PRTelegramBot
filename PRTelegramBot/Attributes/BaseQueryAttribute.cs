@@ -34,7 +34,7 @@ namespace PRTelegramBot.Attributes
 
         #region IBaseQueryAttribute
 
-        public long BotId { get; set; }
+        public List<long> BotIds { get; set; } = new();
 
         public CommandComparison CommandComparison { get; protected set; }
 
@@ -45,18 +45,11 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        public BaseQueryAttribute(long botId = 0)
-            : this (botId, CommandComparison.Equals) { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="botIds">Идентификаторы ботов.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
-        public BaseQueryAttribute(long botId, CommandComparison commandComparison)
+        public BaseQueryAttribute(long[] botIds, CommandComparison commandComparison)
         {
-            BotId = botId;
+            BotIds.AddRange(botIds);
             this.CommandComparison = commandComparison;
         }
 

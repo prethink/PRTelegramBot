@@ -2,12 +2,12 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Tests.Common.TestMiddleware
+namespace PRTelegramBot.Tests.TestModels.TestMiddleware
 {
-    public class TestOneMiddleware : MiddlewareBase
+    public class TestThreeMiddleware : MiddlewareBase
     {
-        public const string NextMessage = "OneNext";
-        public const string PrevMessage = "OnePrev";
+        public const string NextMessage = "ThreeNext";
+        public const string PrevMessage = "ThreePrev";
         private List<string> log;
 
         public override async Task InvokeOnPreUpdateAsync(ITelegramBotClient botClient, Update update, Func<Task> next)
@@ -22,7 +22,7 @@ namespace PRTelegramBot.Tests.Common.TestMiddleware
             return base.InvokeOnPostUpdateAsync(botClient, update);
         }
 
-        public TestOneMiddleware(List<string> log)
+        public TestThreeMiddleware(List<string> log)
         {
             this.log = log;
         }

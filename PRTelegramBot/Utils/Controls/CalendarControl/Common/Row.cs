@@ -2,6 +2,7 @@
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
@@ -15,21 +16,26 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Генерация даты.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <returns>Коллекция inline кнопок.</returns>
-        public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, DateTimeFormatInfo dtfi, int command = 0) =>
-        new InlineKeyboardButton[]
+        public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, CultureInfo culture, int command = 0)
         {
-            MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>($"» {date.ToString("Y", dtfi)} «", PRTelegramBotCommand.YearMonthPicker, new CalendarTCommand(date, command)))
-        };
+            var dtfi = culture.DateTimeFormat;
+            return new InlineKeyboardButton[]
+            {
+                MenuGenerator.GetInlineButton(new InlineCallback<CalendarTCommand>($"» {date.ToString("Y", dtfi)} «", PRTelegramBotCommand.YearMonthPicker, new CalendarTCommand(date, culture, command)))
+            };
+
+        }
 
         /// <summary>
         /// Коллекция дней недели.
         /// </summary>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <returns>Коллекция inline кнопок.</returns>
-        public static IEnumerable<InlineKeyboardButton> DayOfWeek(DateTimeFormatInfo dtfi, int command = 0)
+        public static IEnumerable<InlineKeyboardButton> DayOfWeek(CultureInfo culture, int command = 0)
         {
+            var dtfi = culture.DateTimeFormat;
             var dayNames = new InlineKeyboardButton[7];
 
             var firstDayOfWeek = (int)dtfi.FirstDayOfWeek;
@@ -43,10 +49,11 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Коллекция месецов.
         /// </summary>
         /// <param name="date">Дата.</param>
-        /// <param name="dtfi">Формат даты.</param>
+        /// <param name="culture">Язык календаря.</param>
         /// <returns>Коллекция inline кнопок.</returns>
-        public static IEnumerable<IEnumerable<InlineKeyboardButton>> Month(DateTime date, DateTimeFormatInfo dtfi, int command = 0)
+        public static IEnumerable<IEnumerable<InlineKeyboardButton>> Month(DateTime date, CultureInfo culture, int command = 0)
         {
+            var dtfi = culture.DateTimeFormat;
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1).Day;
 
