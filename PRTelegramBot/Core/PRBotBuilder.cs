@@ -439,6 +439,17 @@ namespace PRTelegramBot.Core
             return this;
         }
 
+        /// <summary>
+        /// Установить параметр ограничения спама в логах ошибок.
+        /// </summary>
+        /// <param name="minute">Количество минут.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetAntiSpamErrorMinute(int minute)
+        {
+            this.options.AntiSpamErrorMinute = minute;
+            return this;
+        }
+
         #endregion
 
         #region Конструкторы

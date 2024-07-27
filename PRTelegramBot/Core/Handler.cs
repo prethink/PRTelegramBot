@@ -50,6 +50,11 @@ namespace PRTelegramBot.Core
         public SlashCommandStore SlashCommandsStore { get; private set; }
 
         /// <summary>
+        /// Ограничитель спама логов.
+        /// </summary>
+        private DateTime LastErrorPollingDate;
+
+        /// <summary>
         /// Бот.
         /// </summary>
         private PRBotBase bot;
@@ -109,8 +114,14 @@ namespace PRTelegramBot.Core
         /// <param name="cancellationToken">Токен отмены.</param>
         public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
         {
-            var bot = botClient.GetBotDataOrNull();
-            bot.Events.OnErrorLogInvoke(exception);
+            if(source == HandleErrorSource.PollingError &&  exception.Message.Contains("Exception during making request"))
+            {
+                if(DateTime.Now < LastErrorPollingDate)
+                    return;
+
+                LastErrorPollingDate = DateTime.Now.AddMinutes(bot.Options.AntiSpamErrorMinute);
+            }
+            this.bot.Events.OnErrorLogInvoke(exception);
         }
 
         #endregion

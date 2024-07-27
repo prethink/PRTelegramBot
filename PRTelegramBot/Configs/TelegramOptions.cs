@@ -109,6 +109,11 @@ namespace PRTelegramBot.Configs
         /// </summary>
         public WebHookOptions WebHookOptions = new WebHookOptions();
 
+        /// <summary>
+        /// Параметр предотвращает спам об ошибке, если пропала сеть. По умолчанию значение 1 минута, можно поменять.
+        /// </summary>
+        public int AntiSpamErrorMinute { get; set; } = 1;
+
         #endregion
     }
 }
