@@ -48,7 +48,7 @@ namespace PRTelegramBot.Models
         public bool HasMessage => !string.IsNullOrWhiteSpace(Message);
 
         /// <summary>
-        /// Проверяет, что сообщение есть.
+        /// Идентификатор темы/чата.
         /// </summary>
         public int? MessageThreadId { get; set; }
 
