@@ -31,7 +31,7 @@ namespace PRTelegramBot.Helpers
                 Directory.CreateDirectory(BaseDir + folder);
             }
             await using Stream fileStream = System.IO.File.OpenWrite(fullPath);
-            var file = await botClient.GetInfoAndDownloadFileAsync(
+            var file = await botClient.GetInfoAndDownloadFile(
                 fileId: fileId,
                 destination: fileStream);
             return dbpath;

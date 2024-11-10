@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.7.2</Version>
+    <Version>0.7.3</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -20,7 +20,6 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://prethink.gitbook.io/prtelegrambot/</PackageProjectUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <RestoreAdditionalProjectSources>https://nuget.voids.site/v3/index.json;https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -37,10 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Telegram.Bot" Version="21.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="README.txt">
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>
@@ -49,6 +44,10 @@
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Telegram.Bot" Version="22.0.2" />
   </ItemGroup>
 
   <ItemGroup>
