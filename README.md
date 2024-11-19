@@ -1,7 +1,7 @@
 ![Static Badge](https://img.shields.io/badge/version-v0.7.4-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.1.0-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
-> **Если данный проект был для вас полезен и хотите его поддержать, можете [💸 поддержать материально](https://new.donatepay.ru/@prethink)** и/или поставить ⭐ в репозитории проекта.
+> **Если данный проект был для вас полезен и хотите его поддержать, можете ⭐ в репозитории проекта.
 
 [https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
