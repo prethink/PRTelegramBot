@@ -1,14 +1,14 @@
-![Static Badge](https://img.shields.io/badge/version-v0.7.4-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.1.0-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+![Static Badge](https://img.shields.io/badge/version-v0.7.5-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.2.0-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
-> **Если данный проект был для вас полезен и хотите его поддержать, можете ⭐ в репозитории проекта.
+> **Если данный проект был для вас полезен и хотите его поддержать, можете [💸 поддержать материально](https://new.donatepay.ru/@prethink)** и/или поставить ⭐ в репозитории проекта.
 
 [https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
 
 # ⚛️ Ядро фреймворка
-TelegramBot v22.1.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v22.2.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Фреймворк с открытым исходным кодом с гибким и простым функционалом для создания ботов Telegram.     
