@@ -1,10 +1,21 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
+/// <summary>
+/// Конвертер даты в json.
+/// </summary>
 public class DateOnlyConverter : JsonConverter<DateTime>
 {
-    private const string DateFormat = "yyyy-MM-dd";
+    #region Константы
+
+    /// <summary>
+    /// Формат даты.
+    /// </summary>
+    private const string DATE_FORMAT = "yyyy-MM-dd";
+
+    #endregion
+
+    #region Базовый класс
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -13,6 +24,8 @@ public class DateOnlyConverter : JsonConverter<DateTime>
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString(DateFormat));
+        writer.WriteStringValue(value.ToString(DATE_FORMAT));
     }
+
+    #endregion
 }

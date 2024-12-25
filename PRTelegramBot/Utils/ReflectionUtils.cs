@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core;
 using PRTelegramBot.Interfaces;
 using System.Reflection;
 using Telegram.Bot;
@@ -19,6 +20,7 @@ namespace PRTelegramBot.Utils
                 .GetParameters()
                 .Select(p => (object)null)
                 .ToArray();
+
             return Activator.CreateInstance(type, parameters);
         }
         /// <summary>
@@ -77,7 +79,11 @@ namespace PRTelegramBot.Utils
             foreach (Assembly assembly in assemblies)
             {
                 // Получаем все типы из сборки и ищем только перечисления
-                var types = assembly.GetTypes().Where(type => type.IsEnum && type.GetCustomAttributes(typeof(InlineCommandAttribute), true).Any()).ToList();
+                var types = assembly
+                    .GetTypes()
+                    .Where(type => type.IsEnum && type.GetCustomAttributes(typeof(InlineCommandAttribute), true)
+                    .Any())
+                    .ToList();
 
                 foreach (Type type in types)
                 {
@@ -111,6 +117,7 @@ namespace PRTelegramBot.Utils
             Type enumType = @enum.GetType();
             ValidateEnumIsInt(enumType);
         }
+
         public static void ValidateEnumIsInt(Type enumType)
         {
             if (!enumType.IsEnum)
@@ -167,7 +174,7 @@ namespace PRTelegramBot.Utils
             return uniqueTypes.ToArray();
         }
 
-        public static bool IsValidMethodForBaseBaseQueryAttribute(MethodInfo method)
+        public static bool IsValidMethodForBaseBaseQueryAttribute(PRBotBase bot, MethodInfo method)
         {
             try
             {
@@ -191,6 +198,7 @@ namespace PRTelegramBot.Utils
             }
             catch (Exception ex)
             {
+                bot.Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }

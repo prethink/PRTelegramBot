@@ -1,10 +1,9 @@
-﻿using PRTelegramBot.Attributes;
+﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
 using PRTelegramBot.Utils.Controls.CalendarControl.Common;
 using System.Globalization;
-using Telegram.Bot.Types;
 using Telegram.Bot;
-using PRTelegramBot.Extensions;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Utils
 {

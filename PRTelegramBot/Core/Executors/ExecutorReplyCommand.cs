@@ -13,7 +13,6 @@ namespace PRTelegramBot.Core.Executors
 
         #endregion
 
-
         #region Конструкторы
 
         /// <summary>

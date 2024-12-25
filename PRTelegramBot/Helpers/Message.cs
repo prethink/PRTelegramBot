@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
+using PRTelegramBot.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -19,25 +20,6 @@ namespace PRTelegramBot.Helpers
         #endregion
 
         #region Методы
-
-        /// <summary>
-        /// Разбивает большое сообщение на блоки.
-        /// </summary>
-        /// <param name="text">Текст.</param>
-        /// <param name="chunkSize">Размер блока.</param>
-        /// <returns>Коллекция сообщений.</returns>
-        public static IList<string> SplitIntoChunks(string text, int chunkSize)
-        {
-            List<string> chunks = new List<string>();
-            int offset = 0;
-            while (offset < text.Length)
-            {
-                int size = Math.Min(chunkSize, text.Length - offset);
-                chunks.Add(text.Substring(offset, size));
-                offset += size;
-            }
-            return chunks;
-        }
 
         /// <summary>
         /// Копировать сообщение.
@@ -135,7 +117,7 @@ namespace PRTelegramBot.Helpers
 
             if (text.Length > MAX_MESSAGE_LENGTH)
             {
-                var chunk = SplitIntoChunks(text, MAX_MESSAGE_LENGTH);
+                var chunk = MessageUtils.SplitIntoChunks(text, MAX_MESSAGE_LENGTH);
                 int count = 0;
                 foreach (var item in chunk)
                 {

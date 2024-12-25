@@ -39,13 +39,9 @@ namespace PRTelegramBot.Actions
                         var option = new OptionMessage() { MenuInlineKeyboardMarkup = testMenu };
                         var actionLastMessage = command.Data.GetActionWithLastMessage();
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
-                        {
                             await Helpers.Message.Edit(botClient, update, inlineCommand.BaseMessage, option);
-                        }
                         else
-                        {
                             await Helpers.Message.Send(botClient, update, inlineCommand.BaseMessage, option);
-                        }
                     }
                     else
                     {

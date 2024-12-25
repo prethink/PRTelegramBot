@@ -50,25 +50,19 @@ namespace PRTelegramBot.Utils
         public bool ContainsKey(int key, Enum value)
         {
             lock (_lock)
-            {
                 return _headers.ContainsKey(key) && _uniqueValues.Contains(_headers[key]);
-            }
         }
 
         public Enum Get(int key)
         {
             lock (_lock)
-            {
                 return _headers.First(x => x.Key == key).Value;
-            }
         }
 
         public List<Enum> GetAll()
         {
             lock (_lock)
-            {
                 return _headers.Select(x => x.Value).ToList();
-            }
         }
 
         public int Get(Enum key)

@@ -16,7 +16,7 @@ namespace PRTelegramBot.Interfaces
         /// <param name="bot">Бот.</param>
         /// <param name="update">Update.</param>
         /// <param name="handler">Команда обработчик.</param>
-        /// <returns>Результат выполенения.</returns>
+        /// <returns>Результат выполнения.</returns>
         /// <returns></returns>
         Task<InternalCheckResult> Check(PRBotBase bot, Update update, CommandHandler handler);
     }

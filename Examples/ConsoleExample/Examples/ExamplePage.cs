@@ -163,7 +163,7 @@ namespace ConsoleExample.Examples
             //Добавляем кнопку с запросом отправки пользователя боту
             menuList.Add(KeyboardButton.WithRequestUsers("Отправить пользователя боту", new KeyboardButtonRequestUsers() { RequestId = 1 }));
             //Добавляем кнопку с отправкой опроса
-            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование"));
+            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование", new KeyboardButtonPollType()));
             //Добавляем кнопку с запросом работы с WebApp
             menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html" }));
 

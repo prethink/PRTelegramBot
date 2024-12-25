@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PRTelegramBot.Models.Enums;
+﻿using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
@@ -74,19 +73,7 @@ namespace PRTelegramBot.Models
             }
             else
             {
-                object instance = null;
-                if (this.serviceProvider != null)
-                {
-                    var factory = this.serviceProvider.GetRequiredService<IServiceScopeFactory>();
-                    using (var scope = factory.CreateScope())
-                    {
-                        instance = scope.ServiceProvider.GetRequiredService(method.DeclaringType);
-                    }
-                }
-                else
-                {
-                    instance = ReflectionUtils.CreateInstanceWithNullArguments(method.DeclaringType);
-                }
+                var instance = InstanceFactory.GetOrCreate(method.DeclaringType, this.serviceProvider);
                 var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
                 Command = ((Func<ITelegramBotClient, Update, Task>)instanceMethod);
             }

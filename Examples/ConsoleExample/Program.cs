@@ -1,4 +1,6 @@
-﻿using ConsoleExample.Middlewares;
+﻿using ConsoleExample.Examples.InlineClassHandlers;
+using ConsoleExample.Middlewares;
+using ConsoleExample.Models.CommandHeaders;
 using ConsoleExample.Services;
 using PRTelegramBot.Core;
 
@@ -20,6 +22,7 @@ var telegram = new PRBotBuilder("Token")
                     .AddReplyDynamicCommands(Initializer.GetDynamicCommands())
                     .AddCommandChecker(Initializer.GetCommandChekers())
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
+                    .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(InlineDefaultClassHandler))
                     .Build();
 
 // Инициализация событий для бота.
@@ -33,6 +36,14 @@ Initializer.InitCommands(telegram);
 
 // Запуск работы бота.
 await telegram.Start();
+
+
+telegram.Events.OnErrorLog += Events_OnErrorLog;
+
+async Task Events_OnErrorLog(PRTelegramBot.Models.EventsArgs.ErrorLogEventArgs arg)
+{
+    Console.WriteLine(arg.Exception.Message);
+}
 
 // Чтобы консольное приложение не закрылось.
 while (true)

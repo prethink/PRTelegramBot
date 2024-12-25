@@ -36,7 +36,7 @@ namespace PRTelegramBot.Registrars
                     if (attribute == null || !((IBaseQueryAttribute)attribute).BotIds.Contains(bot.Options.BotId) && !((IBaseQueryAttribute)attribute).BotIds.Contains(-1))
                         continue;
 
-                    bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
+                    bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(bot, method);
                     if (!isValidMethod)
                     {
                         bot.Events.OnErrorLogInvoke(new Exception($"The method {method.Name} has an invalid signature. " +
@@ -78,7 +78,7 @@ namespace PRTelegramBot.Registrars
 
                     foreach (var command in ((ICommandStore<Tkey>)attribute).Commands)
                     {
-                        bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(method);
+                        bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(bot, method);
                         if (!isValidMethod)
                         {
                             bot.Events.OnErrorLogInvoke(new Exception($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored."));
