@@ -65,11 +65,6 @@ namespace PRTelegramBot.Configs
         public IPRUpdateHandler UpdateHandler { get; set; }
 
         /// <summary>
-        /// Регистратор команд.
-        /// </summary>
-        public IRegisterCommand RegisterCommand { get; set; }
-
-        /// <summary>
         /// Менеджер управления администраторами.
         /// </summary>
         public IUserManager AdminManager { get; set; } = new AdminListManager();
@@ -113,6 +108,11 @@ namespace PRTelegramBot.Configs
         /// Параметр предотвращает спам об ошибке, если пропала сеть. По умолчанию значение 1 минута, можно поменять.
         /// </summary>
         public int AntiSpamErrorMinute { get; set; } = 1;
+
+        /// <summary>
+        /// Параметры команд.
+        /// </summary>
+        public CommandOptions CommandOptions = new CommandOptions();
 
         #endregion
     }

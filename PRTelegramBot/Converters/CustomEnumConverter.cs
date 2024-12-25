@@ -1,15 +1,15 @@
-﻿using System.Text.Json;
+﻿using PRTelegramBot.Utils;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Converters
 {
     /// <summary>
     /// Конвертер enum в json.
     /// </summary>
-    internal sealed class HeaderConverter : JsonConverter<Enum>
+    public sealed class HeaderConverter : JsonConverter<Enum>
     {
-        #region Методы
+        #region Базовый класс
 
         public override Enum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Внутрення проверка в командах перед их выполнением.
+    /// Внутренняя проверка в командах перед их выполнением.
     /// </summary>
     public enum InternalCheckResult
     {

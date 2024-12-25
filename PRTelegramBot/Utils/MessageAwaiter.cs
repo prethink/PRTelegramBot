@@ -1,5 +1,4 @@
 ﻿using Telegram.Bot;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Message = Telegram.Bot.Types.Message;
 

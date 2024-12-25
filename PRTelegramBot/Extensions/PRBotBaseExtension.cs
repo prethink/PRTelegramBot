@@ -32,7 +32,7 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Возращает список администраторов бота.
+        /// Возвращает список администраторов бота.
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>
@@ -42,7 +42,7 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Возращает белый список пользователей.
+        /// Возвращает белый список пользователей.
         /// </summary>
         /// <param name="botClient">Бот клиент.</param>
         /// <returns>Список идентификаторов.</returns>

@@ -1,5 +1,16 @@
--- 2024.08.03 - V0.7.3
-- fix: Исправление комментариев
+-- 2024.12.25 - V0.7.6
+- update: Добавлен inline обработчик для экземпляров классов. Позволяет назначить тип команды для определенного типа класса, который реализует интерфейс ICallbackQueryCommandHandler. Добавлен пример для консольного приложения и для asp.net di.
+- refactoring: RegisterCommand из Options перенесен в CommandOptions.
+- refactoring: Метод SplitIntoChunks перенесен в MessageUtils из класса Message.
+
+-- 2024.12.05 - V0.7.5
+- Telegram.Bot: обновлен до 22.2.0
+
+-- 2024.11.19 - V0.7.4
+- Telegram.Bot: обновлен до 22.1.0
+
+-- 2024.11.10 - V0.7.3
+- Telegram.Bot: обновлен до 22.0.2
 
 -- 2024.08.01 - V0.7.2
 - Telegram.Bot: обновлен до 21.8.0
@@ -32,7 +43,7 @@
 - feature: Добавлены обертка InlineCallbackWithConfirmation для кнопок InlineCallBack. Позволяет вызвать сообщение подтверждения перед выполнением.
 - feature: В TCommandBase и в наследников добавлено свойство ActionWithLastMessage, позволяет указать что делать с последним сообщением. Ничего, удалить, отредактировать.
 - feature: Добавлено новое событие OnErrorCommand, если при выполнение команды произошла ошибка
-- feature: В UpdateExtension добавлен метод GetChatIdClass который возращает ChatId в формате класса
+- feature: В UpdateExtension добавлен метод GetChatIdClass который возвращает ChatId в формате класса
 - fix: Если при обработке произошла ошибка, вызывалось событие missingCommand.
 
 -- 2024.07.01 - V0.6.2

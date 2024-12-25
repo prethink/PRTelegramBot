@@ -14,9 +14,9 @@ namespace PRTelegramBot.Helpers
         public static string BaseDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         /// <summary>
-        /// Скачивание файлов с телеграм серверов
+        /// Скачивание файлов с telegram серверов
         /// </summary>
-        /// <param name="botClient">Телеграм клиент</param>
+        /// <param name="botClient">Telegram клиент</param>
         /// <param name="telegramId">Идентификатор пользователя</param>
         /// <param name="fileId">Идентификатор файла</param>
         /// <param name="fileName">Название файла</param>

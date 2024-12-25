@@ -23,7 +23,7 @@ namespace PRTelegramBot.Core
         public ITelegramBotClient botClient { get; protected set; }
 
         /// <summary>
-        /// Идетификатор бота в telegram.
+        /// Идентификатор бота в telegram.
         /// </summary>
         public long? TelegramId { get { return botClient.BotId; } }
 
@@ -56,6 +56,11 @@ namespace PRTelegramBot.Core
         /// Регистрация команд.
         /// </summary>
         public IRegisterCommand Register { get; protected set; }
+
+        /// <summary>
+        /// Созданные экземпляры классов для Inline команд.
+        /// </summary>
+        public Dictionary<Enum, ICallbackQueryCommandHandler> InlineClassHandlerInstances { get; protected set; } = new();
 
         /// <summary>
         /// Тип получения обновления.
@@ -102,12 +107,13 @@ namespace PRTelegramBot.Core
                         Options.MessageHandlers.Add(new ReplyCommandHandler());
                         Options.MessageHandlers.Add(new ReplyDynamicCommandHandler());
 
+                        Options.CallbackQueryHandlers.Add(new InlineClassInstanceHandler());
                         Options.CallbackQueryHandlers.Add(new InlineCommandHandler());
                     }
                 }
                 if(Register is null)
                 {
-                    Register = Options.RegisterCommand ?? new RegisterCommand();
+                    Register = Options.CommandOptions.RegisterCommand ?? new RegisterCommand();
                     Register.Init(this);
                 }
 
@@ -127,11 +133,11 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                var update = await botClient.GetUpdatesAsync();
+                var update = await botClient.GetUpdates();
                 foreach (var item in update)
                 {
                     var offset = item.Id + 1;
-                    await botClient.GetUpdatesAsync(offset);
+                    await botClient.GetUpdates(offset);
                 }
             }
             catch (Exception ex)
@@ -177,6 +183,7 @@ namespace PRTelegramBot.Core
 
             botClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);
+            InlineClassRegistrar.Register(this);
             InitHandlers();
         }
 

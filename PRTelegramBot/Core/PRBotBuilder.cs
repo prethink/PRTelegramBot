@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Configs;
+﻿using Microsoft.Extensions.Options;
+using PRTelegramBot.Configs;
 using PRTelegramBot.Core.Factory;
 using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
@@ -156,7 +157,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetRegisterCommand(IRegisterCommand registerCommand)
         {
-            options.RegisterCommand = registerCommand;
+            options.CommandOptions.RegisterCommand = registerCommand;
             return this;
         }
 
@@ -447,6 +448,22 @@ namespace PRTelegramBot.Core
         public PRBotBuilder SetAntiSpamErrorMinute(int minute)
         {
             this.options.AntiSpamErrorMinute = minute;
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить обработчик экземпляра класса для inline команды.
+        /// </summary>
+        /// <param name="enum">Заголовок команды.</param>
+        /// <param name="type">Тип класса. Тип должен реализовывать интерфейс <see cref="ICallbackQueryCommandHandler"/>.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddInlineClassHandler(Enum @enum, Type type)
+        {
+            if (type.IsAssignableTo(typeof(ICallbackQueryCommandHandler)))
+                this.options.CommandOptions.InlineClassHandlers.Add(@enum, type);
+            else
+                throw new Exception($"{type} must implement the {typeof(ICallbackQueryCommandHandler)} interface.");
+
             return this;
         }
 

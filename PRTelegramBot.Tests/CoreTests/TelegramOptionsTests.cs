@@ -2,6 +2,7 @@
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factories;
 using PRTelegramBot.Core.Factory;
+using PRTelegramBot.Tests.TestModels;
 using PRTelegramBot.Tests.TestModels.TestHandlers;
 using PRTelegramBot.Tests.UtilsTests;
 
@@ -40,21 +41,21 @@ namespace PRTelegramBot.Tests.CoreTests
         public void PRBotDefaultCallbackQueryHandlersShouldBeOne()
         {
             var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN).Build();
-            bot.Options.CallbackQueryHandlers.Count.Should().Be(1);
+            bot.Options.CallbackQueryHandlers.Count.Should().Be(2);
         }
 
         [Test]
         public void PRBotWebHookDefaultCallbackQueryHandlersShouldBeOne()
         {
             var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN).UseFactory(new PRBotWebHookFactory()).Build();
-            bot.Options.CallbackQueryHandlers.Count.Should().Be(1);
+            bot.Options.CallbackQueryHandlers.Count.Should().Be(2);
         }
 
         [Test]
         public void PRBotPollingDefaultCallbackQueryHandlersShouldBeOne()
         {
             var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN).UseFactory(new PRBotPollingFactory()).Build();
-            bot.Options.CallbackQueryHandlers.Count.Should().Be(1);
+            bot.Options.CallbackQueryHandlers.Count.Should().Be(2);
         }
 
         [Test]
@@ -72,7 +73,29 @@ namespace PRTelegramBot.Tests.CoreTests
             var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN)
                 .AddCallbackQueryCommandHandlers(new CallbackQueryTestHandler())
                 .Build();
-            bot.Options.CallbackQueryHandlers.Count.Should().Be(2);
+            bot.Options.CallbackQueryHandlers.Count.Should().Be(3);
+        }
+
+        [Test]
+        public void AddInlineClassHandlerWhenTypeImplementedInterfaceNotShouldBeException()
+        {
+            var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN)
+                .AddInlineClassHandler(TestTHeader.Class, typeof(TestInlineClassHandler))
+                .Build();
+
+            bot.Options.CommandOptions.InlineClassHandlers.Count.Should().Be(1);
+            bot.InlineClassHandlerInstances.Count.Should().Be(1);
+        }
+
+        [Test]
+        public void AddInlineClassHandlerWhenTypeNotImplementedInterfaceShouldBeException()
+        {
+            var exception = Assert.Throws<Exception>(() =>
+            {
+                var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN)
+                    .AddInlineClassHandler(TestTHeader.Class, typeof(TestClass))
+                    .Build();
+            });
         }
     }
 }
