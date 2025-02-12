@@ -9,7 +9,7 @@
 [https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
 
 # ⚛️ Ядро фреймворка
-TelegramBot v22.3.0 https://github.com/TelegramBots/Telegram.Bot
+TelegramBot v22.4.0 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Фреймворк с открытым исходным кодом с гибким и простым функционалом для создания ботов Telegram.     
