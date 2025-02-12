@@ -581,11 +581,11 @@ namespace PRTelegramBot.Helpers
         /// </summary>
         /// <param name="option">Параметры сообщения.</param>
         /// <returns>Готовое меню или null.</returns>
-        private static IReplyMarkup? GetReplyMarkup(OptionMessage option)
+        private static ReplyMarkup? GetReplyMarkup(OptionMessage option)
         {
             option = CreateOptionsIfNull(option);
 
-            IReplyMarkup replyMarkup = null;
+            ReplyMarkup replyMarkup = null;
             if (option.ClearMenu)
                 replyMarkup = new ReplyKeyboardRemove();
             else if (option.MenuReplyKeyboardMarkup != null)
