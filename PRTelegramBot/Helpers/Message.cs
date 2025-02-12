@@ -521,14 +521,14 @@ namespace PRTelegramBot.Helpers
             Telegram.Bot.Types.Message message = null;
             if (option?.MenuInlineKeyboardMarkup != null)
             {
-                await botClient.EditMessageMediaAsync(
+                await botClient.EditMessageMedia(
                         chatId: chatId,
                         messageId: messageId,
                         media: media,
                         replyMarkup: option.MenuInlineKeyboardMarkup,
                         cancellationToken: option.CancellationToken);
 
-                message = await botClient.EditMessageCaptionAsync(
+                message = await botClient.EditMessageCaption(
                         chatId: chatId,
                         messageId: messageId,
                         caption: text,
