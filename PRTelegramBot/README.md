@@ -1,4 +1,3 @@
-
 ![Static Badge](https://img.shields.io/badge/version-v0.7.9-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.3.4-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
