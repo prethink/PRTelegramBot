@@ -33,7 +33,7 @@ namespace ConsoleExample.Examples
         public static async Task AutoDelete(ITelegramBotClient botClient, Update update)
         {
             var message = await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Автоматическое удаление сообщения через 10 секунд");
-            await message.AutoDeleteMessage(10, botClient, update);
+            message.AutoDeleteMessage(10, botClient, update);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace ConsoleExample.Examples
         public static async Task AutoEdit(ITelegramBotClient botClient, Update update)
         {
             var message = await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Автоматическое редактирование сообщения через 10 секунд");
-            await message.AutoEditMessage("Текст изменился.", 10, botClient, update);
+            message.AutoEditMessage("Текст изменился.", 10, botClient, update);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace ConsoleExample.Examples
                 "Все готово.",
             };
             var message = await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Автоматическое редактирование сообщения через 10 секунд");
-            await message.AutoEditMessageСycle(messages, 1, botClient, update);
+            message.AutoEditMessageСycle(messages, 1, botClient, update);
         }
     }
 }
