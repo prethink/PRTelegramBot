@@ -129,7 +129,7 @@ namespace PRTelegramBot.Helpers
                 }
             }
 
-            return await botClient.SendTextMessageAsync(
+            return await botClient.SendMessage(
                             chatId: chatId,
                             text: text,
                             parseMode: option.ParseMode,
@@ -182,7 +182,7 @@ namespace PRTelegramBot.Helpers
 
             }
 
-            return await botClient.SendMediaGroupAsync(
+            return await botClient.SendMediaGroup(
                 chatId: chatId, 
                 media: media.ToArray(), 
                 messageThreadId:option.MessageThreadId, 
@@ -232,7 +232,7 @@ namespace PRTelegramBot.Helpers
 
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var file = await botClient.SendDocumentAsync(chatId: chatId,
+                var file = await botClient.SendDocument(chatId: chatId,
                                                             document: InputFile.FromStream(fileStream, Path.GetFileName(filePath)),
                                                             caption: text,
                                                             messageThreadId: option.MessageThreadId,
@@ -262,7 +262,7 @@ namespace PRTelegramBot.Helpers
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option) as InlineKeyboardMarkup;
             var linkOptions = CreateLinkPreviewOptionsFromOption(option);
-            return await botClient.EditMessageTextAsync(
+            return await botClient.EditMessageText(
                         chatId: chatId,
                         messageId: messageId,
                         text: text,
@@ -306,7 +306,7 @@ namespace PRTelegramBot.Helpers
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option) as InlineKeyboardMarkup;
 
-            return await botClient.EditMessageCaptionAsync(
+            return await botClient.EditMessageCaption(
                         chatId: chatId,
                         messageId: messageId,
                         caption: text,
@@ -347,7 +347,7 @@ namespace PRTelegramBot.Helpers
         public static async Task DeleteMessage(ITelegramBotClient botClient, long chatId, int messageId, OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);
-            await botClient.DeleteMessageAsync(chatId, messageId, option.CancellationToken);
+            await botClient.DeleteMessage(chatId, messageId, option.CancellationToken);
         }
 
         /// <summary>
@@ -383,7 +383,7 @@ namespace PRTelegramBot.Helpers
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
             var replyParams = CreateReplyParametersFromOptions(option);
-            return await botClient.SendPhotoAsync(
+            return await botClient.SendPhoto(
                                 chatId: chatId,
                                 photo: InputFile.FromStream(stream),
                                 caption: text,
@@ -412,7 +412,7 @@ namespace PRTelegramBot.Helpers
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
             var replyParams = CreateReplyParametersFromOptions(option);
-            return await botClient.SendPhotoAsync(
+            return await botClient.SendPhoto(
                             chatId: chatId,
                             photo: InputFile.FromString(url),
                             caption: msg,
@@ -441,7 +441,7 @@ namespace PRTelegramBot.Helpers
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
             var replyParams = CreateReplyParametersFromOptions(option);
-            return await botClient.SendDocumentAsync(
+            return await botClient.SendDocument(
                             chatId: chatId,
                             document: InputFile.FromString(url),
                             caption: msg,
@@ -472,7 +472,7 @@ namespace PRTelegramBot.Helpers
             Telegram.Bot.Types.Message message = null;
             if (option?.MenuInlineKeyboardMarkup != null)
             {
-                message = await botClient.EditMessageReplyMarkupAsync(
+                message = await botClient.EditMessageReplyMarkup(
                         chatId: chatId,
                         messageId: messageId,
                         replyMarkup: replyMarkup,
@@ -496,7 +496,7 @@ namespace PRTelegramBot.Helpers
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option) as InlineKeyboardMarkup;
 
-            return await botClient.EditMessageMediaAsync(
+            return await botClient.EditMessageMedia(
                         chatId: chatId,
                         media: new InputMediaPhoto(InputFile.FromStream(stream, filename)),
                         messageId: messageId,
@@ -561,7 +561,7 @@ namespace PRTelegramBot.Helpers
             int? cacheTime = null,
             CancellationToken cancellationToken = default)
         {
-            await botClient.AnswerCallbackQueryAsync(callbackQueryId, text, showAlert, url, cacheTime, cancellationToken);
+            await botClient.AnswerCallbackQuery(callbackQueryId, text, showAlert, url, cacheTime, cancellationToken);
         }
 
         /// <summary>

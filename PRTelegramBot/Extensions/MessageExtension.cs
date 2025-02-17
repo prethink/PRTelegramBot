@@ -15,7 +15,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="update">Update.</param>
-        public static async Task AutoDeleteMessage(this Message message, int seconds, ITelegramBotClient botClient, Update update)
+        public static void AutoDeleteMessage(this Message message, int seconds, ITelegramBotClient botClient, Update update)
         {
             if(message == null)
                 return;
@@ -23,7 +23,7 @@ namespace PRTelegramBot.Extensions
             _ = Task.Run(async () =>
             {
                 await Task.Delay(seconds * 1000);
-                await botClient.DeleteMessageAsync(update.GetChatIdClass(), message.MessageId);
+                await botClient.DeleteMessage(update.GetChatIdClass(), message.MessageId);
             });
         }
 
@@ -34,7 +34,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="update">Update.</param>
-        public static async Task AutoEditMessage(this Message message, string messageText, int seconds, ITelegramBotClient botClient, Update update)
+        public static void AutoEditMessage(this Message message, string messageText, int seconds, ITelegramBotClient botClient, Update update)
         {
             if (message == null)
                 return;
@@ -42,7 +42,7 @@ namespace PRTelegramBot.Extensions
             _ = Task.Run(async () =>
             {
                 await Task.Delay(seconds * 1000);
-                await botClient.EditMessageTextAsync(update.GetChatIdClass(), message.MessageId, messageText);
+                await botClient.EditMessageText(update.GetChatIdClass(), message.MessageId, messageText);
             });
         }
 
@@ -53,7 +53,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
         /// <param name="botClient">Бот клиент.</param>
         /// <param name="update">Update.</param>
-        public static async Task AutoEditMessageСycle(this Message message, List<string> messageTexts, int seconds, ITelegramBotClient botClient, Update update)
+        public static void AutoEditMessageСycle(this Message message, List<string> messageTexts, int seconds, ITelegramBotClient botClient, Update update)
         {
             if (message == null)
                 return;
@@ -63,7 +63,7 @@ namespace PRTelegramBot.Extensions
                 foreach (var text in messageTexts) 
                 {
                     await Task.Delay(seconds * 1000);
-                    await botClient.EditMessageTextAsync(update.GetChatIdClass(), message.MessageId, text);
+                    await botClient.EditMessageText(update.GetChatIdClass(), message.MessageId, text);
                 }
             });
         }
