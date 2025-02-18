@@ -37,7 +37,7 @@ namespace PRTelegramBot.Helpers
             ChatId toMsg = new ChatId(chatId);
             ChatId fromMsg = new ChatId(message.Chat.Id);
 
-            var rMessage = await botClient.CopyMessageAsync(
+            var rMessage = await botClient.CopyMessage(
                                     chatId: toMsg,
                                     fromChatId: fromMsg,
                                     messageId: message.MessageId,
