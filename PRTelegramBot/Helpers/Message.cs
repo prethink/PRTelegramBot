@@ -219,20 +219,21 @@ namespace PRTelegramBot.Helpers
         /// <param name="chatId">Идентификатор чата.</param>
         /// <param name="text">Текст.</param>
         /// <param name="filePath">Путь к файлу.</param>
-        public static async Task SendFile(ITelegramBotClient botClient, long chatId, string text, string filePath, OptionMessage option = null)
+        /// <returns>Сообщение.</returns>
+        public static async Task<Telegram.Bot.Types.Message> SendFile(ITelegramBotClient botClient, long chatId, string text, string filePath, OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option);
             var replyParams = CreateReplyParametersFromOptions(option);
             if (!System.IO.File.Exists(filePath))
             {
-                await Send(botClient, chatId, text, option);
-                return;
+                var message = await Send(botClient, chatId, text, option);
+                return message;
             }
 
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var file = await botClient.SendDocument(chatId: chatId,
+                var message = await botClient.SendDocument(chatId: chatId,
                                                             document: InputFile.FromStream(fileStream, Path.GetFileName(filePath)),
                                                             caption: text,
                                                             messageThreadId: option.MessageThreadId,
@@ -245,6 +246,8 @@ namespace PRTelegramBot.Helpers
                                                             protectContent: option.ProtectedContent,
                                                             replyParameters: replyParams,
                                                             cancellationToken: option.CancellationToken);
+
+                return message;
             }
         }
 
