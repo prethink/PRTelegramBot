@@ -22,6 +22,8 @@ namespace PRTelegramBot.Tests.UtilsTests
         [TestCase(READ_WRITE_FLAG, TestAccess.ReadWrite)]
         [TestCase(WRITE_FLAG, TestAccess.Write)]
         [TestCase(READ_FLAG, TestAccess.Read)]
+        [TestCase(READ_FLAG, TestAccess.ReadWrite)]
+        [TestCase(WRITE_FLAG, TestAccess.ReadWrite)]
         public void ReadFlagsShouldBeTrue(int mask, TestAccess exceptedFlag)
         {
             mask.HasFlag(exceptedFlag).Should().BeTrue();
@@ -29,9 +31,7 @@ namespace PRTelegramBot.Tests.UtilsTests
 
         [Test]
         [TestCase(WRITE_FLAG, TestAccess.Read)]
-        [TestCase(WRITE_FLAG, TestAccess.ReadWrite)]
         [TestCase(READ_FLAG, TestAccess.Write)]
-        [TestCase(READ_FLAG, TestAccess.ReadWrite)]
         public void ReadFlagsShouldBeFalse(int mask, TestAccess exceptedFlag)
         {
             mask.HasFlag(exceptedFlag).Should().BeFalse();

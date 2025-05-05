@@ -54,8 +54,8 @@
         public static bool HasFlag<TEnum>(int mask, TEnum flag)
             where TEnum : Enum
         {
-            var flags = ReadFlags<TEnum>(mask);
-            return flags.HasFlag(flag);
+            int flagValue = Convert.ToInt32(flag);
+            return (mask & flagValue) != 0;
         }
 
         #endregion

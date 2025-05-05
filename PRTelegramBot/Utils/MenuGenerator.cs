@@ -21,11 +21,12 @@ namespace PRTelegramBot.Utils
         /// <param name="menu">Коллекция меню</param>
         /// <param name="resizeKeyboard">Изменяет размер по вертикали</param>
         /// <param name="mainMenu">Если значение не пустое добавляет пункт в самый конец меню</param>
+        /// <param name="OneTimeKeyboard">Признак, того что клавиатура будет скрыта после нажатия на кнопку.</param>
         /// <returns>Готовое меню</returns>
-        public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<string> menu, bool resizeKeyboard = true, string mainMenu = "")
+        public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<string> menu, bool resizeKeyboard = true, string mainMenu = "", bool OneTimeKeyboard = false)
         {
             var buttons = ReplyButtons(maxColumn, menu, mainMenu);
-            return ReplyKeyboard(buttons, resizeKeyboard);
+            return ReplyKeyboard(buttons, resizeKeyboard, "", OneTimeKeyboard);
         }
 
         /// <summary>
@@ -35,11 +36,12 @@ namespace PRTelegramBot.Utils
         /// <param name="keyboardButtons">Коллекция кнопок</param>
         /// <param name="resizeKeyboard">Изменяет размер по вертикали</param>
         /// <param name="mainMenu">Есть не пусто, добавляет главное меню</param>
+        /// <param name="OneTimeKeyboard">Признак, того что клавиатура будет скрыта после нажатия на кнопку.</param>
         /// <returns>Готовое меню</returns>
-        public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<KeyboardButton> keyboardButtons, bool resizeKeyboard = true, string mainMenu = "")
+        public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<KeyboardButton> keyboardButtons, bool resizeKeyboard = true, string mainMenu = "", bool OneTimeKeyboard = false)
         {
             var buttons = ReplyButtons(maxColumn, keyboardButtons, mainMenu);
-            return ReplyKeyboard(buttons, resizeKeyboard);
+            return ReplyKeyboard(buttons, resizeKeyboard, "", OneTimeKeyboard);
         }
 
         /// <summary>
@@ -48,8 +50,9 @@ namespace PRTelegramBot.Utils
         /// <param name="buttons"></param>
         /// <param name="resizeKeyboard">Изменяет размер по вертикали</param>
         /// <param name="mainMenu">Есть не пусто, добавляет главное меню</param>
+        /// <param name="OneTimeKeyboard">Признак, того что клавиатура будет скрыта после нажатия на кнопку.</param>
         /// <returns>Готовое меню</returns>
-        public static ReplyKeyboardMarkup ReplyKeyboard(List<List<KeyboardButton>> buttons, bool resizeKeyboard = true, string mainMenu = "")
+        public static ReplyKeyboardMarkup ReplyKeyboard(List<List<KeyboardButton>> buttons, bool resizeKeyboard = true, string mainMenu = "", bool OneTimeKeyboard = false)
         {
             if (!string.IsNullOrEmpty(mainMenu))
             {
@@ -62,6 +65,7 @@ namespace PRTelegramBot.Utils
             {
                 ResizeKeyboard = resizeKeyboard
             };
+            replyKeyboardMarkup.OneTimeKeyboard = OneTimeKeyboard;
             return replyKeyboardMarkup;
         }
 
