@@ -45,7 +45,7 @@ namespace PRTelegramBot.Utils
         /// <param name="messageText">Текст сообщения.</param>
         public async Task CreateAwaitMessage(string messageText)
         {
-            message = await botClient.SendTextMessageAsync(chatId, messageText);
+            message = await botClient.SendMessage(chatId, messageText);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace PRTelegramBot.Utils
         {
             try
             {
-                await botClient.DeleteMessageAsync(chatId, message.MessageId);
+                await botClient.DeleteMessage(chatId, message.MessageId);
             }
             catch (Exception ex) { }
         }

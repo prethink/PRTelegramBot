@@ -202,7 +202,7 @@ namespace PRTelegramBot.Models.InlineButtons
                 var lastMessage = Update.CallbackQuery.Message;
                 var actionWithLastMessage = Data.GetActionWithLastMessage();
                 if (actionWithLastMessage == Enums.ActionWithLastMessage.Delete)
-                    await BotClient.DeleteMessageAsync(Update.GetChatIdClass(), lastMessage.MessageId);
+                    await BotClient.DeleteMessage(Update.GetChatIdClass(), lastMessage.MessageId);
             }
             catch (Exception ex)
             {

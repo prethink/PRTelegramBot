@@ -29,7 +29,7 @@ namespace PRTelegramBot.Core
 
                 _ = UpdatePolling();
 
-                var client = await botClient.GetMeAsync();
+                var client = await botClient.GetMe();
                 BotName = client?.Username;
                 this.Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;
@@ -67,7 +67,7 @@ namespace PRTelegramBot.Core
             int? offset = Options.ReceiverOptions.Offset;
             while (!Options.CancellationToken.IsCancellationRequested)
             {
-                var updates = await botClient.GetUpdatesAsync(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationToken.Token);
+                var updates = await botClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationToken.Token);
                 foreach (var update in updates)
                 {
                     offset = update.Id + 1;

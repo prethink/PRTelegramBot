@@ -18,7 +18,7 @@ namespace PRTelegramBot.Utils
         /// <returns>True - есть иначе false.</returns>
         public static async Task<bool> IsGroupMember(ITelegramBotClient botClient, long groupId, long userId)
         {
-            var data = await botClient.GetChatMemberAsync(groupId, userId);
+            var data = await botClient.GetChatMember(groupId, userId);
             return data.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member ||
                     data.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Administrator ||
                     data.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Creator;
@@ -33,7 +33,7 @@ namespace PRTelegramBot.Utils
         /// <returns>True - администратор иначе false.</returns>
         public static async Task<bool> IsGroupAdmin(ITelegramBotClient botClient, long groupId, long userId)
         {
-            var data = await botClient.GetChatMemberAsync(groupId, userId);
+            var data = await botClient.GetChatMember(groupId, userId);
             return data.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Administrator;
         }
 
@@ -46,7 +46,7 @@ namespace PRTelegramBot.Utils
         /// <returns>True - создатель иначе false.</returns>
         public static async Task<bool> IsGroupCreator(ITelegramBotClient botClient, long groupId, long userId)
         {
-            var data = await botClient.GetChatMemberAsync(groupId, userId);
+            var data = await botClient.GetChatMember(groupId, userId);
             return data.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Creator;
         }
 

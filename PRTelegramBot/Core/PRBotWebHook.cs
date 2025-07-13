@@ -30,7 +30,7 @@ namespace PRTelegramBot.Core
                 if(string.IsNullOrEmpty(Options.WebHookOptions.SecretToken))
                     Options.WebHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
 
-                await botClient.SetWebhookAsync(
+                await botClient.SetWebhook(
                     url: Options.WebHookOptions.Url,
                     certificate: Options.WebHookOptions.Certificate,
                     ipAddress: Options.WebHookOptions.IpAddress,
@@ -48,12 +48,12 @@ namespace PRTelegramBot.Core
 
         public override async Task Stop()
         {
-            await botClient.DeleteWebhookAsync(cancellationToken: Options.CancellationToken.Token);
+            await botClient.DeleteWebhook(cancellationToken: Options.CancellationToken.Token);
         }
 
         public async Task<WebhookInfo> GetWebHookInfo()
         {
-            return await botClient.GetWebhookInfoAsync();
+            return await botClient.GetWebhookInfo();
         }
 
         #endregion

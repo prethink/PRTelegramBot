@@ -29,7 +29,7 @@ namespace PRTelegramBot.Core
 
                 botClient.StartReceiving(Handler, Options.ReceiverOptions);
 
-                var client = await botClient.GetMeAsync();
+                var client = await botClient.GetMe();
                 BotName = client?.Username;
                 this.Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;

@@ -145,7 +145,7 @@ namespace ConsoleExample.Examples.Commands
                     {
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
                         {
-                            await botClient.DeleteMessageAsync(update.GetChatIdClass(), update.CallbackQuery.Message.MessageId);
+                            await botClient.DeleteMessage(update.GetChatIdClass(), update.CallbackQuery.Message.MessageId);
                         }
                         await Helpers.Message.Send(botClient, update, msg);
                     }

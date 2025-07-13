@@ -138,7 +138,7 @@ namespace PRTelegramBot.Extensions
             if (string.IsNullOrEmpty(refLink))
                 throw new ArgumentNullException(nameof(refLink));
 
-            var bot = await botClient.GetMeAsync();
+            var bot = await botClient.GetMe();
             return $"https://t.me/{bot.Username}?start={refLink}";
         }
 
