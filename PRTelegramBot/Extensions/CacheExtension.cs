@@ -79,6 +79,16 @@ namespace PRTelegramBot.Extensions
             return _userHandlerData.ContainsKey(userKey);
         }
 
+        /// <summary>
+        /// Полностью удаляет кэш пользователя из словаря.
+        /// </summary>
+        /// <param name="update">Обновление данных telegram.</param>
+        public static void RemoveCacheData(this Update update)
+        {
+            string userKey = update.GetKeyMappingUserTelegram();
+            _userHandlerData.TryRemove(userKey, out _);
+        }
+
         #endregion
     }
 }
