@@ -14,7 +14,7 @@ using PRTelegramBot.Core;
 
 Console.WriteLine("Запуск программы");
 
-var telegram = new PRBotBuilder("Token")
+var telegram = new PRBotBuilder("token")
                     .SetBotId(0)
                     .AddConfigPaths(Initializer.GetConfigPaths())
                     .AddAdmin(1111111)

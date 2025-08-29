@@ -1,5 +1,7 @@
+using AspNetExample;
 using AspNetExample.BotController;
 using AspNetExample.Services;
+using Microsoft.EntityFrameworkCore;
 using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.EventsArgs;
@@ -23,7 +25,10 @@ builder.Services.AddTransient<ServiceTransient>();
 builder.Services.AddScoped<ServiceScoped>();
 builder.Services.AddSingleton<ServiceSingleton>();
 builder.Services.AddTransient<BotInlineHandlerWithDependency>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase("MyInMemoryDb"));
 builder.Services.AddBotHandlers();
+
 
 
 async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)
@@ -61,7 +66,7 @@ app.MapControllerRoute(
 
 //Создание и запуск бота
 var serviceProvaider = app.Services.GetService<IServiceProvider>();
-var prBotInstance = new PRBotBuilder("token")
+var prBotInstance = new PRBotBuilder("Token")
     .SetClearUpdatesOnStart(true)
     .SetServiceProvider(serviceProvaider)
     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(BotInlineHandlerWithDependency))

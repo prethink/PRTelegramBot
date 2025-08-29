@@ -61,6 +61,11 @@ namespace PRTelegramBot.Models
             return CommandDelegate;
         }
 
+        public bool CanExecute()
+        {
+            return ExpiredTime == null || DateTime.Now < ExpiredTime;
+        }
+
         #endregion
 
         #region Методы

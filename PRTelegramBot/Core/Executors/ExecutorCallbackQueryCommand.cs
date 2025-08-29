@@ -30,14 +30,13 @@ namespace PRTelegramBot.Core.Executors
                 }
             }
 
-            var method = handler.Command.Method;
+            var method = handler.GetMethodInfo();
             var privilages = method.GetCustomAttribute<AccessAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
-            var @delegate = handler.Command;
 
             if (privilages != null)
             {
-                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
+                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, handler.ExecuteCommand, privilages.Mask));
                 return InternalCheckResult.PrivilegeCheck;
             }
 

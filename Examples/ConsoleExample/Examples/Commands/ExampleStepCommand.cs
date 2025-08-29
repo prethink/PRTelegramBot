@@ -59,7 +59,7 @@ namespace ConsoleExample.Examples.Commands
             //Записываем дату рождения
             handler!.GetCache<StepCache>().BirthDay = update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
-            handler.RegisterNextStep(StepThree, DateTime.Now.AddMinutes(5));
+            handler.RegisterNextStep(StepThree, DateTime.Now.AddMinutes(1));
             //Настройки для сообщения
             var option = new OptionMessage();
             //Добавление пустого reply меню с кнопкой "Главное меню"

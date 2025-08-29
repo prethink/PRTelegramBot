@@ -32,5 +32,11 @@ namespace PRTelegramBot.Interfaces
         /// <param name="update">Обновления telegram.</param>
         /// <returns>Результат выполнения команды.</returns>
         Task<ExecuteStepResult> ExecuteStep(ITelegramBotClient botClient, Update update);
+
+        /// <summary>
+        /// Может ли быть выполнен шаг
+        /// </summary>
+        /// <returns>True - да/False - нет.</returns>
+        bool CanExecute();
     }
 }

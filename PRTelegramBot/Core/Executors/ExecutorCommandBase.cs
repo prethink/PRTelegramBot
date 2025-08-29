@@ -51,13 +51,11 @@ namespace PRTelegramBot.Core.Executors
         /// <returns>Результат выполнения команды.</returns>
         public virtual async Task<CommandResult> ExecuteMethod(PRBotBase bot, Update update, CommandHandler handler)
         {
-            var @delegate = handler.Command;
-
             var result = await InternalCheck(bot, update, handler);
             if (result != InternalCheckResult.Passed)
                 return CommandResult.InternalCheck;
 
-            await @delegate(bot.botClient, update);
+            await handler.ExecuteCommand(bot.botClient, update);
             return CommandResult.Executed;
         }
 

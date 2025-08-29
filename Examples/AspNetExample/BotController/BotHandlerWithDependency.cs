@@ -17,13 +17,14 @@ namespace AspNetExample.BotController
         private readonly ServiceScoped serviceScoped;
         private readonly ServiceSingleton serviceSingleton;
         private readonly ServiceTransient serviceTransient;
+        private readonly AppDbContext db;
 
-        public BotHandlerWithDependency(ServiceScoped serviceScoped, ServiceTransient serviceTransient, ServiceSingleton serviceSingleton, ILogger<BotHandlerWithDependency> logger)
+        public BotHandlerWithDependency(ServiceScoped serviceScoped, ServiceTransient serviceTransient, ServiceSingleton serviceSingleton, ILogger<BotHandlerWithDependency> logger, AppDbContext db)
         {
-
             this.serviceScoped = serviceScoped;
             this.serviceTransient = serviceTransient;
             this.serviceSingleton = serviceSingleton;
+            this.db = db;
             _logger = logger;
         }
 

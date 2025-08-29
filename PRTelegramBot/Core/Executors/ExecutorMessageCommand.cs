@@ -17,12 +17,11 @@ namespace PRTelegramBot.Core.Executors
 
         protected override async Task<InternalCheckResult> InternalCheck(PRBotBase bot, Update update, CommandHandler handler)
         {
-            var method = handler.Command.Method;
+            var method = handler.GetMethodInfo();
             var privilages = method.GetCustomAttribute<AccessAttribute>();
             var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
             var requireChat = method.GetCustomAttribute<RequiredTypeChatAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
-            var @delegate = handler.Command;
 
             if (requireChat != null)
             {
@@ -46,7 +45,7 @@ namespace PRTelegramBot.Core.Executors
 
             if (privilages != null)
             {
-                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, @delegate, privilages.Mask));
+                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, handler.ExecuteCommand, privilages.Mask));
                 return InternalCheckResult.PrivilegeCheck;
             }
 

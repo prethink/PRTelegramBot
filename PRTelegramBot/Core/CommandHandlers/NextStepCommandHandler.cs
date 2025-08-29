@@ -33,7 +33,14 @@ namespace PRTelegramBot.Core.CommandHandlers
                 var step = update.GetStepHandler()?.GetExecuteMethod();
                 if (step is null)
                     return UpdateResult.NotFound;
-                bot.Events.CommandsEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+
+                if(!update.GetStepHandler()!.CanExecute())
+                {
+                    update.ClearStepUserHandler();
+                    return UpdateResult.Continue;
+                }
+
+                bot.Events.CommandsEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
 
                 var executer = new ExecutorNextStepCommand(bot);
                 var currentHandler = bot.Handler as Handler;
@@ -43,7 +50,7 @@ namespace PRTelegramBot.Core.CommandHandlers
                 var resultExecute = await executer.ExecuteMethod(bot, update, new CommandHandler(step));
                 if (resultExecute == CommandResult.Executed)
                 {
-                    bot.Events.CommandsEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+                    bot.Events.CommandsEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
                     return UpdateResult.Handled;
                 }
 

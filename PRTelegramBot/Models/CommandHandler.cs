@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Models.Enums;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
@@ -21,12 +22,70 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Команда.
         /// </summary>
-        public Func<ITelegramBotClient, Update, Task> Command { get; }
+        private Func<ITelegramBotClient, Update, Task> Command { get; set; }
 
         /// <summary>
         /// Сервис провайдер.
         /// </summary>
         private IServiceProvider serviceProvider { get; set; }
+
+        /// <summary>
+        /// Информация о методе.
+        /// </summary>
+        private MethodInfo Method { get; }
+
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Выполнить команду.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="update">Update.</param>
+        public async Task ExecuteCommand(ITelegramBotClient botClient, Update update)
+        {
+            if (Command != null)
+            {
+                await Command.Invoke(botClient, update);
+                return;
+            }
+
+            if (Method == null)
+                return;
+
+            if (Method.IsStatic)
+            {
+                Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), Method, false);
+                await ((Func<ITelegramBotClient, Update, Task>)serverMessageHandler).Invoke(botClient, update);
+            }
+            else
+            {
+                if (serviceProvider != null)
+                {
+                    var factory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+                    using (var scope = factory.CreateScope())
+                    {
+                        var instance = scope.ServiceProvider.GetRequiredService(Method.DeclaringType);
+                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, Method);
+                        await (((Func<ITelegramBotClient, Update, Task>)instanceMethod)).Invoke(botClient, update);
+                    }
+                }
+                else
+                {
+                    var instance = ReflectionUtils.CreateInstanceWithNullArguments(Method.DeclaringType);
+                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, Method);
+                    await (((Func<ITelegramBotClient, Update, Task>)instanceMethod)).Invoke(botClient, update);
+                }
+            }
+        }
+
+        public MethodInfo GetMethodInfo()
+        {
+            return Command != null ?
+                Command.Method :
+                Method;
+        }
 
         #endregion
 
@@ -65,19 +124,7 @@ namespace PRTelegramBot.Models
         {
             this.serviceProvider = ServiceProvider;
             this.CommandComparison = commandComparison;
-
-            if (method.IsStatic)
-            {
-                Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                Command = (Func<ITelegramBotClient, Update, Task>)serverMessageHandler;
-            }
-            else
-            {
-                var instance = InstanceFactory.GetOrCreate(method.DeclaringType, this.serviceProvider);
-                var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, method);
-                Command = ((Func<ITelegramBotClient, Update, Task>)instanceMethod);
-            }
-            CommandComparison = commandComparison;
+            this.Method = method;
         }
 
         /// <summary>
