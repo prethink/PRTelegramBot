@@ -7,21 +7,20 @@ namespace PRTelegramBot.Tests.ControlTests
     internal class CalendarTests
     {
         private CultureInfo cultureInfo { get; set; }
+        private DateTime testData { get; set; }
 
-        private DateTime testData;
-
-        private const string January = "01.01.2024";
-        private const string February = "02.01.2024";
-        private const string March = "03.01.2024";
-        private const string April = "04.01.2024";
-        private const string May = "05.01.2024";
-        private const string June = "06.01.2024";
-        private const string July = "07.01.2024";
-        private const string August = "08.01.2024";
-        private const string September = "09.01.2024";
-        private const string October = "10.01.2024";
-        private const string November = "11.01.2024";
-        private const string December = "12.01.2024";
+        private const string January    = "01.01.2024";
+        private const string February   = "02.01.2024";
+        private const string March      = "03.01.2024";
+        private const string April      = "04.01.2024";
+        private const string May        = "05.01.2024";
+        private const string June       = "06.01.2024";
+        private const string July       = "07.01.2024";
+        private const string August     = "08.01.2024";
+        private const string September  = "09.01.2024";
+        private const string October    = "10.01.2024";
+        private const string November   = "11.01.2024";
+        private const string December   = "12.01.2024";
 
         [OneTimeSetUp]
         public void SetUp()
