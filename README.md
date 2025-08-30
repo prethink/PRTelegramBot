@@ -47,3 +47,6 @@ TelegramBot v22.6.2 https://github.com/TelegramBots/Telegram.Bot
 
 # 🧱 Интегрированные пакеты
  - CalendarPicker | karb0f0s   https://github.com/karb0f0s/CalendarPicker     
+
+
+qwerty
