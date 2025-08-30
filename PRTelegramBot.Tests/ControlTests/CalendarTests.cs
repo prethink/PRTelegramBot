@@ -8,7 +8,7 @@ namespace PRTelegramBot.Tests.ControlTests
     {
         private CultureInfo cultureInfo { get; set; }
 
-        private readonly DateTime TestData = DateTime.Parse("14.05.2024");
+        private DateTime testData;
 
         private const string January = "01.01.2024";
         private const string February = "02.01.2024";
@@ -27,6 +27,7 @@ namespace PRTelegramBot.Tests.ControlTests
         public void SetUp()
         {
             cultureInfo = CultureInfo.GetCultureInfo("ru-RU", false);
+            testData= DateTime.Parse("14.05.2024", cultureInfo);
             var bot = new PRBotBuilder("55555:Token").Build();
             bot.ReloadHandlers();
         }
@@ -40,7 +41,7 @@ namespace PRTelegramBot.Tests.ControlTests
         [Test]
         public void CreateCalendar()
         {
-            var calendarMarkup = Markup.Calendar(TestData, cultureInfo, 0);
+            var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace PRTelegramBot.Tests.ControlTests
         [TestCase(6,"вс")]
         public void CreateCalendarWithPanelDays(int indexDay, string exceptedDay)
         {
-            var calendarMarkup = Markup.Calendar(TestData, cultureInfo, 0);
+            var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
             var day = calendarMarkup.InlineKeyboard.ElementAt(1).ElementAt(indexDay).Text;
             Assert.AreEqual(exceptedDay, day);
         }
@@ -61,7 +62,7 @@ namespace PRTelegramBot.Tests.ControlTests
         [Test]
         public void CreateCalendarWithControl()
         {
-            var calendarMarkup = Markup.Calendar(TestData, cultureInfo, 0);
+            var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
             var prevControl = calendarMarkup.InlineKeyboard.ElementAt(7).ElementAt(0).Text;
             var nextControl = calendarMarkup.InlineKeyboard.ElementAt(7).ElementAt(2).Text;
             Assert.AreEqual("<", prevControl);
