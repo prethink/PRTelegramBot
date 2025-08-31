@@ -42,7 +42,7 @@ namespace PRTelegramBot.Core.CommandStores
             try
             {
                 ReflectionUtils.AddEnumsHeader(command);
-                Commands.Add(command, new CommandHandler(@delegate));
+                Commands.Add(command, new CommandHandler(@delegate, bot.Options.ServiceProvider));
                 return true;
             }
             catch (Exception ex)

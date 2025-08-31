@@ -13,7 +13,7 @@ namespace ConsoleExample.Checkers
     {
         public async Task<InternalCheckResult> Check(PRBotBase bot, Update update, CommandHandler handler)
         {
-            var method = handler.GetMethodInfo();
+            var method = handler.Method;
             var adminAttribute = method.GetCustomAttribute<AdminOnlyExampleAttribute>();
             if(adminAttribute != null)
             {

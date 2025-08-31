@@ -17,7 +17,7 @@ namespace PRTelegramBot.Core.Executors
 
         protected override async Task<InternalCheckResult> InternalCheck(PRBotBase bot, Update update, CommandHandler handler)
         {
-            var method = handler.GetMethodInfo();
+            var method = handler.Method;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
             var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
             var requireChat = method.GetCustomAttribute<RequiredTypeChatAttribute>();

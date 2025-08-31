@@ -30,7 +30,7 @@ namespace PRTelegramBot.Core.Executors
                 }
             }
 
-            var method = handler.GetMethodInfo();
+            var method = handler.Method;
             var privilages = method.GetCustomAttribute<AccessAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
 

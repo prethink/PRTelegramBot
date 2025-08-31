@@ -19,10 +19,6 @@ namespace PRTelegramBot.Models
         /// </summary>
         public CommandComparison CommandComparison { get;}
 
-        /// <summary>
-        /// Команда.
-        /// </summary>
-        private Func<ITelegramBotClient, Update, Task> Command { get; set; }
 
         /// <summary>
         /// Сервис провайдер.
@@ -32,7 +28,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Информация о методе.
         /// </summary>
-        private MethodInfo Method { get; }
+        public MethodInfo Method { get; private set; }
 
         #endregion
 
@@ -45,12 +41,6 @@ namespace PRTelegramBot.Models
         /// <param name="update">Update.</param>
         public async Task ExecuteCommand(ITelegramBotClient botClient, Update update)
         {
-            if (Command != null)
-            {
-                await Command.Invoke(botClient, update);
-                return;
-            }
-
             if (Method == null)
                 return;
 
@@ -78,13 +68,6 @@ namespace PRTelegramBot.Models
                     await (((Func<ITelegramBotClient, Update, Task>)instanceMethod)).Invoke(botClient, update);
                 }
             }
-        }
-
-        public MethodInfo GetMethodInfo()
-        {
-            return Command != null ?
-                Command.Method :
-                Method;
         }
 
         #endregion
@@ -117,19 +100,6 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="method">Метод.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
-        /// <param name="commandComparison">Сравнение команд.</param>
-        public CommandHandler(MethodInfo method, IServiceProvider ServiceProvider, CommandComparison commandComparison)
-        {
-            this.serviceProvider = ServiceProvider;
-            this.CommandComparison = commandComparison;
-            this.Method = method;
-        }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
         /// <param name="command">Команда.</param>
         public CommandHandler(Func<ITelegramBotClient, Update, Task> command) 
             : this (command, null, CommandComparison.Equals) { }
@@ -157,10 +127,19 @@ namespace PRTelegramBot.Models
         /// <param name="ServiceProvider">Сервис провайдер.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
         public CommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison)
+            : this(command.Method, ServiceProvider, commandComparison) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="method">Метод.</param>
+        /// <param name="ServiceProvider">Сервис провайдер.</param>
+        /// <param name="commandComparison">Сравнение команд.</param>
+        public CommandHandler(MethodInfo method, IServiceProvider ServiceProvider, CommandComparison commandComparison)
         {
             this.serviceProvider = ServiceProvider;
-            this.Command = command;
             this.CommandComparison = commandComparison;
+            this.Method = method;
         }
 
         #endregion

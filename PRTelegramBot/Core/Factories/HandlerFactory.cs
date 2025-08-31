@@ -21,7 +21,7 @@ namespace PRTelegramBot.Core.Factories
             if (attr is IStringQueryAttribute stringAttribute)
                 return CreateStringHandler(stringAttribute, command, serviceProvider);
             else
-                return new CommandHandler(command);
+                return new CommandHandler(command, serviceProvider);
         }
 
         private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, MethodInfo method, IServiceProvider serviceProvider)
