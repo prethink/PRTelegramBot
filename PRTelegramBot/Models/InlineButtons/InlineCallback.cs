@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Converters;
+﻿using System.Text;
+using PRTelegramBot.Converters;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
@@ -183,8 +184,8 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <exception cref="Exception">Исключение.</exception>
         protected void ThrowExceptionIfBytesMore128(string result)
         {
-            var byteSize = result.Length * sizeof(char);
-            if (byteSize > MAX_SIZE_CALLBACK_DATA)
+            var byteSize = Encoding.UTF8.GetBytes(result);
+            if (byteSize.Length > MAX_SIZE_CALLBACK_DATA)
                 throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
         }
 
