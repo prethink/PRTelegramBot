@@ -18,17 +18,7 @@ namespace PRTelegramBot.Core
     public sealed class Handler : IPRUpdateHandler
     {
         #region Поля и свойства
-
-        /// <summary>
-        /// Диспетчер для обработки update типа message.
-        /// </summary>
-        internal MessageUpdateDispatcher MessageDispatcher { get; private set; }
-
-        /// <summary>
-        /// Диспетчер для обработки update типа callbackQuery.
-        /// </summary>
-        internal CallBackQueryUpdateDispatcher CallBackQueryDispatcher { get; private set; }
-
+        
         /// <summary>
         /// Хранилище callbackQuery команд.
         /// </summary>
@@ -50,19 +40,30 @@ namespace PRTelegramBot.Core
         public SlashCommandStore SlashCommandsStore { get; private set; }
 
         /// <summary>
+        /// Диспетчер для обработки update типа message.
+        /// </summary>
+        internal MessageUpdateDispatcher MessageDispatcher { get; private set; }
+
+        /// <summary>
+        /// Диспетчер для обработки update типа callbackQuery.
+        /// </summary>
+        internal CallBackQueryUpdateDispatcher CallBackQueryDispatcher { get; private set; }
+
+        /// <summary>
         /// Ограничитель спама логов.
         /// </summary>
-        private DateTime LastErrorPollingDate;
+        private DateTime _lastErrorPollingDate;
 
         /// <summary>
         /// Бот.
         /// </summary>
-        private PRBotBase bot;
+        private readonly PRBotBase _bot;
 
         #endregion
 
         #region IPRUpdateHandler
 
+        /// <inheritdoc />
         public MiddlewareBase Middleware { get; }
 
         /// <summary>
@@ -78,20 +79,21 @@ namespace PRTelegramBot.Core
                 if (update == null)
                     return;
 
-                //Связь update вместе ITelegramBotClient
-                update.AddTelegramClient(bot);
-
-                _ =  Middleware.InvokeOnPreUpdateAsync(botClient, update, async () =>
+                // Связь update вместе ITelegramBotClient.
+                update.AddTelegramClient(_bot);
+                
+                _ = Middleware.InvokeOnPreUpdateAsync(botClient, update, async () =>
                 {
-                    await UpdateAsync(update);
+                    await UpdateAsync(update, cancellationToken);
                 });
             }   
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex, update);
+                _bot.Events.OnErrorLogInvoke(ex, update);
             }
         }
 
+        /// <inheritdoc />
         public void HotReload()
         {
             CallbackQueryCommandsStore.ClearCommands();
@@ -112,16 +114,18 @@ namespace PRTelegramBot.Core
         /// <param name="exception">Исключение.</param>
         /// <param name="source">Исходник ошибки</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
+        public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
         {
-            if(source == HandleErrorSource.PollingError &&  exception.Message.Contains("Exception during making request"))
+            if (source == HandleErrorSource.PollingError &&  exception.Message.Contains("Exception during making request"))
             {
-                if(DateTime.Now < LastErrorPollingDate)
-                    return;
+                if (DateTime.Now < _lastErrorPollingDate)
+                    return Task.CompletedTask;
 
-                LastErrorPollingDate = DateTime.Now.AddMinutes(bot.Options.AntiSpamErrorMinute);
+                _lastErrorPollingDate = DateTime.Now.AddMinutes(_bot.Options.AntiSpamErrorMinute);
             }
-            this.bot.Events.OnErrorLogInvoke(exception);
+            _bot.Events.OnErrorLogInvoke(exception);
+            
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -132,15 +136,15 @@ namespace PRTelegramBot.Core
         /// Обработка обновлений.
         /// </summary>
         /// <param name="update">Update.</param>
-        public async Task UpdateAsync(Update update)
+        public async Task UpdateAsync(Update update, CancellationToken cancellationToken)  // TODO: разобраться с CancellationToken.
         {
-            var whiteListManager = bot.Options.WhiteListManager;
+            var whiteListManager = _bot.Options.WhiteListManager;
 
-            if (bot.Events.UpdateEvents.HasEventOnPreUpdate())
+            if (_bot.Events.UpdateEvents.HasEventOnPreUpdate())
             {
-                var resultUpdate = await bot.Events.UpdateEvents.OnPreInvoke(new BotEventArgs(bot, update));
+                var resultUpdate = await _bot.Events.UpdateEvents.OnPreInvoke(new BotEventArgs(_bot, update));
 
-                if (resultUpdate == UpdateResult.Stop || resultUpdate == UpdateResult.Handled)
+                if (resultUpdate is UpdateResult.Stop or UpdateResult.Handled)
                     return;
             }
 
@@ -149,7 +153,7 @@ namespace PRTelegramBot.Core
                 var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
                 if (!hasUserInWhiteList)
                 {
-                    bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
+                    _bot.Events.OnAccessDeniedInvoke(new BotEventArgs(_bot, update));
                     return;
                 }
             }
@@ -161,66 +165,66 @@ namespace PRTelegramBot.Core
                 _ = MessageDispatcher.Dispatch(update);
 
             if (update.Type == UpdateType.ChannelPost)
-                bot.Events.UpdateEvents.OnChannelPostHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnChannelPostHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.ChatJoinRequest)
-                bot.Events.UpdateEvents.OnChatJoinRequestHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnChatJoinRequestHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.ChatMember)
-                bot.Events.UpdateEvents.OnChatMemberHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnChatMemberHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.ChosenInlineResult)
-                bot.Events.UpdateEvents.OnChosenInlineResultHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnChosenInlineResultHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.ChatBoost)
-                bot.Events.UpdateEvents.OnChatBoostHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnChatBoostHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.EditedChannelPost)
-                bot.Events.UpdateEvents.OnEditedChannelPostHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnEditedChannelPostHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.EditedMessage)
-                bot.Events.UpdateEvents.OnEditedMessageHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnEditedMessageHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.BusinessConnection)
-                bot.Events.UpdateEvents.OnBusinessConnectionHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnBusinessConnectionHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.EditedBusinessMessage)
-                bot.Events.UpdateEvents.OnEditedBusinessHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnEditedBusinessHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.DeletedBusinessMessages)
-                bot.Events.UpdateEvents.OnDeletedBusinessConnectionHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnDeletedBusinessConnectionHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.MessageReaction)
-                bot.Events.UpdateEvents.OnMessageReactionHandleHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnMessageReactionHandleHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.MessageReactionCount)
-                bot.Events.UpdateEvents.OnMessageReactionCountHandleHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnMessageReactionCountHandleHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.InlineQuery)
-                bot.Events.UpdateEvents.OnInlineQueryHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnInlineQueryHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.MyChatMember)
-                bot.Events.UpdateEvents.OnMyChatMemberHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnMyChatMemberHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.Poll)
-                bot.Events.UpdateEvents.OnPollHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnPollHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.PollAnswer)
-                bot.Events.UpdateEvents.OnPollAnswerHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnPollAnswerHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.PreCheckoutQuery)
-                bot.Events.UpdateEvents.OnPreCheckoutQueryHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnPreCheckoutQueryHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.RemovedChatBoost)
-                bot.Events.UpdateEvents.OnRemovedChatBoostHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnRemovedChatBoostHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.ShippingQuery)
-                bot.Events.UpdateEvents.OnShippingQueryHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnShippingQueryHandler(new BotEventArgs(_bot, update));
 
             if (update.Type == UpdateType.Unknown)
-                bot.Events.UpdateEvents.OnUnknownHandler(new BotEventArgs(bot, update));
+                _bot.Events.UpdateEvents.OnUnknownHandler(new BotEventArgs(_bot, update));
 
-            bot.Events.UpdateEvents.OnPostInvoke(new BotEventArgs(bot, update));
+            _bot.Events.UpdateEvents.OnPostInvoke(new BotEventArgs(_bot, update));
         }
 
         #endregion
@@ -233,7 +237,7 @@ namespace PRTelegramBot.Core
         /// <param name="bot">Бот.</param>
         public Handler(PRBotBase bot)
         {
-            this.bot = bot;
+            _bot = bot;
             Middleware = new MiddlewareBuilder().Build(bot.Options.Middlewares);
 
             CallbackQueryCommandsStore = new CallbackQueryCommandStore(bot);
@@ -241,8 +245,8 @@ namespace PRTelegramBot.Core
             ReplyDynamicCommandsStore = new ReplyDynamicCommandStore(bot);
             SlashCommandsStore = new SlashCommandStore(bot);
 
-            MessageDispatcher = new MessageUpdateDispatcher(this.bot);
-            CallBackQueryDispatcher = new CallBackQueryUpdateDispatcher(this.bot);
+            MessageDispatcher = new MessageUpdateDispatcher(bot);
+            CallBackQueryDispatcher = new CallBackQueryUpdateDispatcher(bot);
             HotReload();
         }
 

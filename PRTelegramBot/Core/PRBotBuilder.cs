@@ -18,11 +18,11 @@ namespace PRTelegramBot.Core
     {
         #region Поля и свойства
 
-        private TelegramOptions options;
-        private PRBotFactoryBase factory;
-        private List<long> admins = new List<long>();
-        private List<long> whitelist = new List<long>();
-        private WhiteListSettings whiteListSettings = WhiteListSettings.OnPreUpdate;
+        private TelegramOptions _options;
+        private PRBotFactoryBase _factory;
+        private List<long> _admins = [];
+        private List<long> _whiteList = [];
+        private WhiteListSettings _whiteListSettings = WhiteListSettings.OnPreUpdate;
 
         #endregion
 
@@ -34,10 +34,10 @@ namespace PRTelegramBot.Core
         /// <returns>Экземпляр класса PRBot.</returns>
         public PRBotBase Build()
         {
-            options.AdminManager.AddUsers(admins.ToArray());
-            options.WhiteListManager.AddUsers(whitelist.ToArray());
-            options.WhiteListManager.SetSettings(whiteListSettings);
-            return factory.CreateBot(options);
+            _options.AdminManager.AddUsers(_admins.ToArray());
+            _options.WhiteListManager.AddUsers(_whiteList.ToArray());
+            _options.WhiteListManager.SetSettings(_whiteListSettings);
+            return _factory.CreateBot(_options);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace PRTelegramBot.Core
         /// <param name="token">Токен.</param>
         public void ClearOptions(string token)
         {
-            admins.Clear();
-            whitelist.Clear();
-            options = new TelegramOptions();
+            _admins.Clear();
+            _whiteList.Clear();
+            _options = new TelegramOptions();
             SetToken(token);
         }
 
@@ -58,7 +58,7 @@ namespace PRTelegramBot.Core
         /// <param name="client">Клиент телеграм бота.</param>
         public void ClearOptions(TelegramBotClient client)
         {
-            options = new TelegramOptions();
+            _options = new TelegramOptions();
             SetTelegramClient(client);
         }
 
@@ -69,7 +69,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetUpdateHandler(IPRUpdateHandler updateHandler)
         {
-            options.UpdateHandler = updateHandler;
+            _options.UpdateHandler = updateHandler;
             return this;
         }
 
@@ -80,7 +80,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetAdminManager(IUserManager adminManager)
         {
-            options.AdminManager = adminManager;
+            _options.AdminManager = adminManager;
             return this;
         }
 
@@ -91,7 +91,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetWhiteListManager(IWhiteListManager whiteListManager)
         {
-            options.WhiteListManager = whiteListManager;
+            _options.WhiteListManager = whiteListManager;
             return this;
         }
 
@@ -102,7 +102,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetWhiteListSettings(WhiteListSettings settings)
         {
-            whiteListSettings = settings;
+            _whiteListSettings = settings;
             return this;
         }
 
@@ -113,7 +113,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddMiddlewares(MiddlewareBase middleware)
         {
-            options.Middlewares.Add(middleware);
+            _options.Middlewares.Add(middleware);
             return this;
         }
 
@@ -124,7 +124,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddMiddlewares(params MiddlewareBase[] middlewares)
         {
-            options.Middlewares.AddRange(middlewares);
+            _options.Middlewares.AddRange(middlewares);
             return this;
         }
 
@@ -135,7 +135,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddCommandChecker(InternalChecker checker)
         {
-            options.CommandCheckers.Add(checker);
+            _options.CommandCheckers.Add(checker);
             return this;
         }
 
@@ -146,7 +146,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddCommandChecker(List<InternalChecker> checkers)
         {
-            options.CommandCheckers.AddRange(checkers);
+            _options.CommandCheckers.AddRange(checkers);
             return this;
         }
 
@@ -157,7 +157,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetRegisterCommand(IRegisterCommand registerCommand)
         {
-            options.CommandOptions.RegisterCommand = registerCommand;
+            _options.CommandOptions.RegisterCommand = registerCommand;
             return this;
         }
 
@@ -168,7 +168,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetToken(string token)
         {
-            options.Token = token;
+            _options.Token = token;
             return this;
         }
 
@@ -179,7 +179,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetBotId(long botId)
         {
-            options.BotId = botId;
+            _options.BotId = botId;
             return this;
         }
 
@@ -190,7 +190,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetClearUpdatesOnStart(bool flag)
         {
-            options.ClearUpdatesOnStart = flag;
+            _options.ClearUpdatesOnStart = flag;
             return this;
         }
 
@@ -202,7 +202,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddReplyDynamicCommand(string key, string value)
         {
-            options.ReplyDynamicCommands.Add(key, value);
+            _options.ReplyDynamicCommands.Add(key, value);
             return this;
         }
 
@@ -214,7 +214,7 @@ namespace PRTelegramBot.Core
         public PRBotBuilder AddReplyDynamicCommands(Dictionary<string, string> dynamicCommands)
         {
             foreach (var command in dynamicCommands)
-                options.ReplyDynamicCommands.Add(command.Key, command.Value);
+                _options.ReplyDynamicCommands.Add(command.Key, command.Value);
             return this;
         }
 
@@ -225,7 +225,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddAdmin(params long[] telegramId)
         {
-            admins.AddRange(telegramId);
+            _admins.AddRange(telegramId);
             return this;
         }
 
@@ -236,7 +236,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddAdmins(List<long> telegramIds)
         {
-            admins.AddRange(telegramIds.ToArray());
+            _admins.AddRange(telegramIds.ToArray());
             return this;
         }
 
@@ -247,7 +247,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddUserWhiteList(params long[] telegramId)
         {
-            whitelist.AddRange(telegramId);
+            _whiteList.AddRange(telegramId);
             return this;
         }
 
@@ -258,7 +258,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddUsersWhiteList(List<long> telegramIds)
         {
-            whitelist.AddRange(telegramIds.ToArray());
+            _whiteList.AddRange(telegramIds.ToArray());
             return this;
         }
 
@@ -270,7 +270,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddConfigPath(string key, string path)
         {
-            options.ConfigPaths.Add(key, path);
+            _options.ConfigPaths.Add(key, path);
             return this;
         }
 
@@ -282,7 +282,7 @@ namespace PRTelegramBot.Core
         public PRBotBuilder AddConfigPaths(Dictionary<string, string> configPaths)
         {
             foreach (var configPath in configPaths)
-                options.ConfigPaths.Add(configPath.Key, configPath.Value);
+                _options.ConfigPaths.Add(configPath.Key, configPath.Value);
             return this;
         }
 
@@ -293,18 +293,18 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetServiceProvider(IServiceProvider serviceProvider)
         {
-            this.options.ServiceProvider = serviceProvider;
+            _options.ServiceProvider = serviceProvider;
             return this;
         }
 
         /// <summary>
         /// Добавить параметры приемника.
         /// </summary>
-        /// <param name="recevierOptions">параметры приемника.</param>
+        /// <param name="recevierOptions">Параметры приемника.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder AddRecevingOptions(ReceiverOptions recevierOptions)
+        public PRBotBuilder AddRecevingOptions(ReceiverOptions recevierOptions)  // TODO: исправить опечатку в названии на AddReceivingOptions.
         {
-            this.options.ReceiverOptions = recevierOptions;
+            _options.ReceiverOptions = recevierOptions;
             return this;
         }
 
@@ -315,7 +315,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder UseFactory(PRBotFactoryBase factory)
         {
-            this.factory = factory;
+            _factory = factory;
             return this;
         }
 
@@ -326,7 +326,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetUrlWebHook(string url)
         {
-            this.options.WebHookOptions.Url = url;
+            _options.WebHookOptions.Url = url;
             return this;
         }
 
@@ -337,18 +337,18 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetSecretTokenWebHook(string secretToken)
         {
-            this.options.WebHookOptions.SecretToken = secretToken;
+            _options.WebHookOptions.SecretToken = secretToken;
             return this;
         }
 
         /// <summary>
         /// Установить IP-адрес для вебхука.
         /// </summary>
-        /// <param name="ipAddres">IP-адрес.</param>
+        /// <param name="ipAddress">IP-адрес.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetIpAddresWebHook(string ipAddres)
+        public PRBotBuilder SetIpAddresWebHook(string ipAddress)  // TODO: исправить опечатку в названии на SetIpAddressWebHook.
         {
-            this.options.WebHookOptions.IpAddress = ipAddres;
+            _options.WebHookOptions.IpAddress = ipAddress;
             return this;
         }
 
@@ -359,7 +359,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetDropPendingUpdates(bool flag)
         {
-            this.options.WebHookOptions.DropPendingUpdates = flag;
+            _options.WebHookOptions.DropPendingUpdates = flag;
             return this;
         }
 
@@ -370,7 +370,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetMaxConnectionsWebHook(int maxConnections)
         {
-            this.options.WebHookOptions.MaxConnections = maxConnections;
+            _options.WebHookOptions.MaxConnections = maxConnections;
             return this;
         }
 
@@ -381,7 +381,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetTelegramClient(TelegramBotClient client)
         {
-            this.options.Client = client;
+            _options.Client = client;
             return this;
         }
 
@@ -392,51 +392,51 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetCertificateWebHook(InputFileStream certificate)
         {
-            this.options.WebHookOptions.Certificate = certificate;
+            _options.WebHookOptions.Certificate = certificate;
             return this;
         }
 
         /// <summary>
-        /// Добавить новый обработчик команд для callbackQuery (inline).
+        /// Добавить новы(й/е) обработчик(и) команд для callbackQuery (inline).
         /// </summary>
-        /// <param name="handler">Обработчик.</param>
+        /// <param name="handlers">Обработчики для callbackQuery команд.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder AddCallbackQueryCommandHandlers(params ICallbackQueryCommandHandler[] handlers)
         {
-            this.options.CallbackQueryHandlers.AddRange(handlers);
+            _options.CallbackQueryHandlers.AddRange(handlers);
             return this;
         }
 
         /// <summary>
         /// Добавить новые обработчики команд для callbackQuery (inline).
         /// </summary>
-        /// <param name="handlers">Обработчик.</param>
+        /// <param name="handlers">Обработчики для callbackQuery команд.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder AddCallbackQueryCommandHandlers(List<ICallbackQueryCommandHandler> handlers)
         {
-            this.options.CallbackQueryHandlers.AddRange(handlers);
+            _options.CallbackQueryHandlers.AddRange(handlers);
             return this;
         }
 
         /// <summary>
-        /// Добавить новый обработчик команд для message.
+        /// Добавить новы(й/е) обработчик(и) команд для message.
         /// </summary>
-        /// <param name="handler">Обработчик.</param>
+        /// <param name="handlers">Обработчик(и) для message команд.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder AddMessageCommandHandlers(params IMessageCommandHandler[] handlers)
         {
-            this.options.MessageHandlers.AddRange(handlers);
+            _options.MessageHandlers.AddRange(handlers);
             return this;
         }
 
         /// <summary>
         /// Добавить новые обработчики команд для message.
         /// </summary>
-        /// <param name="handlers">Обработчик.</param>
+        /// <param name="handlers">Обработчики для message команд.</param>
         /// <returns>Builder.</returns>
         public PRBotBuilder AddMessageCommandHandlers(List<IMessageCommandHandler> handlers)
         {
-            this.options.MessageHandlers.AddRange(handlers);
+            _options.MessageHandlers.AddRange(handlers);
             return this;
         }
 
@@ -447,7 +447,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetAntiSpamErrorMinute(int minute)
         {
-            this.options.AntiSpamErrorMinute = minute;
+            _options.AntiSpamErrorMinute = minute;
             return this;
         }
 
@@ -460,9 +460,9 @@ namespace PRTelegramBot.Core
         public PRBotBuilder AddInlineClassHandler(Enum @enum, Type type)
         {
             if (type.IsAssignableTo(typeof(ICallbackQueryCommandHandler)))
-                this.options.CommandOptions.InlineClassHandlers.Add(@enum, type);
+                _options.CommandOptions.InlineClassHandlers.Add(@enum, type);
             else
-                throw new Exception($"{type} must implement the {typeof(ICallbackQueryCommandHandler)} interface.");
+                throw new ArgumentException($"{type} must implement the {typeof(ICallbackQueryCommandHandler)} interface.");
 
             return this;
         }
@@ -480,7 +480,7 @@ namespace PRTelegramBot.Core
         {
             SetToken(token);
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
-            factory = new PRBotFactory();
+            _factory = new PRBotFactory();
         }
 
         /// <summary>
@@ -491,9 +491,9 @@ namespace PRTelegramBot.Core
             : this()
         {
 
-            options.Client = client;
+            _options.Client = client;
             AddRecevingOptions(new ReceiverOptions() { AllowedUpdates = { } });
-            factory = new PRBotFactory();
+            _factory = new PRBotFactory();
         }
 
         /// <summary>
@@ -501,7 +501,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         private PRBotBuilder()
         {
-            options = new TelegramOptions();
+            _options = new TelegramOptions();
         }
 
         #endregion

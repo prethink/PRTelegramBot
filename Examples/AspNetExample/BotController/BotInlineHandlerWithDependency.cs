@@ -31,7 +31,7 @@ namespace AspNetExample.BotController
 
         public async Task<UpdateResult> Handle(PRBotBase bot, Update update, CallbackQuery updateType)
         {
-            await PRTelegramBot.Helpers.Message.Send(bot.botClient, update, $"{nameof(Handle)} {_logger != null}");
+            await PRTelegramBot.Helpers.Message.Send(bot.BotClient, update, $"{nameof(Handle)} {_logger != null}");
             return UpdateResult.Handled;
         }
 

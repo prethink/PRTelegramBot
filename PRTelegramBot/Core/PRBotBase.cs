@@ -20,12 +20,12 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Клиент для telegram бота.
         /// </summary>
-        public ITelegramBotClient botClient { get; protected set; }
+        public ITelegramBotClient BotClient { get; protected set; }
 
         /// <summary>
         /// Идентификатор бота в telegram.
         /// </summary>
-        public long? TelegramId { get { return botClient.BotId; } }
+        public long? TelegramId => BotClient.BotId;
 
         /// <summary>
         /// Обработчик для telegram бота
@@ -85,7 +85,7 @@ namespace PRTelegramBot.Core
             }
             catch(Exception ex)
             {
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }
@@ -98,7 +98,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                if(Handler is null)
+                if (Handler is null)
                 {
                     Handler = Options.UpdateHandler ?? new Handler(this);
                     if(Handler is Handler baseHandler)
@@ -111,7 +111,7 @@ namespace PRTelegramBot.Core
                         Options.CallbackQueryHandlers.Add(new InlineCommandHandler());
                     }
                 }
-                if(Register is null)
+                if (Register is null)
                 {
                     Register = Options.CommandOptions.RegisterCommand ?? new RegisterCommand();
                     Register.Init(this);
@@ -121,7 +121,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ex);
                 return false;
             }
         }
@@ -129,59 +129,60 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Очистка очереди команд перед запуском.
         /// </summary>
-        protected async Task ClearUpdates()
+        protected async Task ClearUpdatesAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var update = await botClient.GetUpdates();
+                var update = await BotClient.GetUpdates(cancellationToken: cancellationToken);
                 foreach (var item in update)
                 {
                     var offset = item.Id + 1;
-                    await botClient.GetUpdates(offset);
+                    await BotClient.GetUpdates(offset, cancellationToken: cancellationToken);
                 }
             }
             catch (Exception ex)
             {
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ex);
             }
         }
 
         /// <summary>
         /// Запустить бота.
         /// </summary>
-        public virtual async Task Start()
+        public virtual Task Start(CancellationToken cancellationToken = default)  // TODO: добавить постфикс Async.
         {
             InitHandlers();
+            return Task.CompletedTask;
         }
 
 
         /// <summary>
         /// Остановка бота.
         /// </summary>
-        public abstract Task Stop();
+        public abstract Task Stop(CancellationToken cancellationToken = default);  // TODO: добавить постфикс Async.
 
         #endregion
 
         #region Конструкторы
 
-        protected PRBotBase(Action<TelegramOptions> optionsBuilder, TelegramOptions options)
+        protected PRBotBase(Action<TelegramOptions>? optionsBuilder, TelegramOptions? options)
             : base()
         {
             Options = new TelegramOptions();
             if (optionsBuilder != null)
                 optionsBuilder.Invoke(Options);
             else
-                Options = options;
+                Options = options ?? throw new ArgumentNullException($"The arguments to the designer are incorrectly transferred, both arguments ({nameof(options)} and {nameof(optionsBuilder)}) cannot be null.");
 
             if (string.IsNullOrEmpty(Options.Token))
-                throw new Exception("Bot token is empty");
+                throw new ArgumentException("Bot token is empty");
 
             if (Options.BotId < 0)
-                throw new Exception("Bot ID cannot be less than zero");
+                throw new ArgumentException("Bot ID cannot be less than zero");
 
             BotCollection.Instance.AddBot(this);
 
-            botClient = Options.Client ?? new TelegramBotClient(Options.Token);
+            BotClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);
             InlineClassRegistrar.Register(this);
             InitHandlers();

@@ -29,7 +29,8 @@ namespace AspNetWebHook.Services
 
                 if (bot.DataRetrieval == DataRetrievalMethod.WebHook)
                 {
-                    var webHookResult = await((PRBotWebHook)bot).GetWebHookInfo();
+                    var webHookResult = await((PRBotWebHook)bot)
+                        .GetWebHookInfo(bot.Options.CancellationTokenSource.Token);
                     if (!string.IsNullOrEmpty(webHookResult.LastErrorMessage))
                         bot.Events.OnErrorLogInvoke(new Exception(webHookResult.LastErrorMessage));
                 }

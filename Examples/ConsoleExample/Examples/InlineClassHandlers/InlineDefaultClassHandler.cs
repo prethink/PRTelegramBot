@@ -26,7 +26,7 @@ namespace ConsoleExample.Examples.InlineClassHandlers
             var command = InlineCallback<StringTCommand>.GetCommandByCallbackOrNull(updateType.Data);
             if (command != null)
             {
-                await PRTelegramBot.Helpers.Message.Send(bot.botClient, update.GetChatId(), $"{TEST_ADD_MESSAGE} {command.Data.StrData}");
+                await PRTelegramBot.Helpers.Message.Send(bot.BotClient, update.GetChatId(), $"{TEST_ADD_MESSAGE} {command.Data.StrData}");
                 return UpdateResult.Handled;
             }
 

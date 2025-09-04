@@ -55,7 +55,7 @@ namespace PRTelegramBot.Core.Executors
             if (result != InternalCheckResult.Passed)
                 return CommandResult.InternalCheck;
 
-            await handler.ExecuteCommand(bot.botClient, update);
+            await handler.ExecuteCommand(bot.BotClient, update);
             return CommandResult.Executed;
         }
 

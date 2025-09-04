@@ -38,7 +38,7 @@ namespace PRTelegramBot.Models.EventsArgs
         public BotEventArgs(PRBotBase bot, Update update)
         {
             Bot = bot;
-            BotClient = bot.botClient;
+            BotClient = bot.BotClient;
             Update = update;
         }
 
