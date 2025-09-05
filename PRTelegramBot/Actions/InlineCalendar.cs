@@ -132,7 +132,7 @@ namespace PRTelegramBot.Actions
                     command.Data.ActionWithLastMessage = (int)ActionWithLastMessage.Delete;
                     var callBackHandler = new InlineCallback<CalendarTCommand>("", EnumHeaders.Instance.Get(command.Data.HeaderCallbackCommand), command.Data);
                     update.CallbackQuery.Data = callBackHandler.GetContent() as string;
-                    await botClient.GetBotDataOrNull().Handler.HandleUpdateAsync(botClient, update, bot.Options.CancellationToken.Token);
+                    await botClient.GetBotDataOrNull().Handler.HandleUpdateAsync(botClient, update, bot.Options.CancellationTokenSource.Token);
                 }
             }
             catch (Exception ex)

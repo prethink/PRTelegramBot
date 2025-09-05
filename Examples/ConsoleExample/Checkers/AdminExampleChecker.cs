@@ -9,7 +9,7 @@ using Telegram.Bot.Types;
 
 namespace ConsoleExample.Checkers
 {
-    internal class AdminExampleChecher : IInternalCheck
+    internal class AdminExampleChecker : IInternalCheck
     {
         public async Task<InternalCheckResult> Check(PRBotBase bot, Update update, CommandHandler handler)
         {
@@ -19,7 +19,7 @@ namespace ConsoleExample.Checkers
             {
                 var userIsAdmin = await bot.IsAdmin(update.GetChatId());
                 if(!userIsAdmin)
-                    await PRTelegramBot.Helpers.Message.Send(bot.botClient, update.GetChatId(), "Вы не админ!");
+                    await PRTelegramBot.Helpers.Message.Send(bot.BotClient, update.GetChatId(), "Вы не админ!");
 
                 return userIsAdmin ? InternalCheckResult.Passed : InternalCheckResult.Custom;
             }

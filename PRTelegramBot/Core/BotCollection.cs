@@ -10,30 +10,22 @@
         /// <summary>
         /// Экземпляр класса.
         /// </summary>
-        private static BotCollection instance;
+        private static BotCollection? _instance;
 
         /// <summary>
         /// Коллекция ботов.
         /// </summary>
-        private Dictionary<long, PRBotBase> BotList = new Dictionary<long, PRBotBase>();
+        private Dictionary<long, PRBotBase> _botList = new();
 
         /// <summary>
         /// Количество ботов.
         /// </summary>
-        public long BotCount => BotList.Count;
+        public long BotCount => _botList.Count;
 
         /// <summary>
         /// Singleton экземпляр.
         /// </summary>
-        public static BotCollection Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new BotCollection();
-                return instance;
-            }
-        }
+        public static BotCollection Instance => _instance ??= new BotCollection();
 
         #endregion
 
@@ -44,35 +36,35 @@
         /// </summary>
         /// <returns>Идентификатор бота.</returns>
         public static long GetNextId()
-            => Instance.BotList.LastOrDefault().Key + 1;
+            => Instance._botList.LastOrDefault().Key + 1;
 
         /// <summary>
         /// Добавить бота в коллекцию.
         /// </summary>
         /// <param name="bot">Бот.</param>
         public void AddBot(PRBotBase bot)
-            => BotList.Add(bot.BotId, bot);
+            => _botList.Add(bot.BotId, bot);
 
         /// <summary>
         /// Удалить бота из коллекции.
         /// </summary>
         /// <param name="bot">Бот.</param>
         public void RemoveBot(PRBotBase bot)
-            => BotList.Remove(bot.BotId);
+            => _botList.Remove(bot.BotId);
 
         /// <summary>
         /// Очистить всех ботов.
         /// </summary>
         public void ClearBots()
-            => BotList.Clear();
+            => _botList.Clear();
 
         /// <summary>
         /// Получить бота по telegram id.
         /// </summary>
         /// <param name="telegramId">Идентификатор telegram.</param>
         /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase GetBotByTelegramIdOrNull(long? telegramId)
-            => BotList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
+        public PRBotBase? GetBotByTelegramIdOrNull(long? telegramId)
+            => _botList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
 
         /// <summary>
         /// Получить экземпляр бота.
@@ -80,22 +72,22 @@
         /// <param name="botId">Идентификатор бота.</param>
         /// <returns>Экземпляр класса бота или null.</returns>
         public PRBotBase GetBotOrNull(long botId)
-            => BotList.Values.SingleOrDefault(x => x.BotId == botId);
+            => _botList.Values.SingleOrDefault(x => x.BotId == botId);
 
         /// <summary>
         /// Получить экземпляр бота.
         /// </summary>
         /// <param name="predicate">Выражение для фильтрации.</param>
         /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase GetBotOrNull(Func<PRBotBase, bool> predicate)
-            => BotList.Values.SingleOrDefault(predicate);
+        public PRBotBase? GetBotOrNull(Func<PRBotBase, bool> predicate)
+            => _botList.Values.SingleOrDefault(predicate);
 
         /// <summary>
         /// Получить всех ботов.
         /// </summary>
         /// <returns>Коллекция ботов.</returns>
         public List<PRBotBase> GetBots()
-            => BotList.Select(x => x.Value).ToList();
+            => _botList.Select(x => x.Value).ToList();
 
         /// <summary>
         /// Получить всех ботов.
@@ -103,15 +95,15 @@
         /// <param name="predicate">Выражение для фильтрации.</param>
         /// <returns>Коллекция ботов.</returns>
         public List<PRBotBase> GetBots(Func<PRBotBase, bool> predicate)
-            => BotList.Values.Where(predicate).ToList();
+            => _botList.Values.Where(predicate).ToList();
 
         /// <summary>
         /// Получить экземпляр бота.
         /// </summary>
         /// <param name="botName">Название/логин бота.</param>
         /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase GetBotOrNull(string botName)
-            => BotList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
+        public PRBotBase? GetBotOrNull(string botName)
+            => _botList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
 
         #endregion
 

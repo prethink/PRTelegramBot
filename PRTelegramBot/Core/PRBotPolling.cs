@@ -11,47 +11,44 @@ namespace PRTelegramBot.Core
     {
         #region Базовый класс
 
-        public override DataRetrievalMethod DataRetrieval
-        {
-            get
-            {
-                return DataRetrievalMethod.Polling;
-            }
-        }
+        /// <inheritdoc />
+        public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Polling;
 
-        public override async Task Start()
+        /// <inheritdoc />
+        public override async Task Start(CancellationToken cancellationToken = default)
         {
             try
             {
-                await base.Start();
+                await base.Start(Options.CancellationTokenSource.Token);
                 if (Options.ClearUpdatesOnStart)
-                    await ClearUpdates();
+                    await ClearUpdatesAsync(Options.CancellationTokenSource.Token);
 
-                _ = UpdatePolling();
+                _ = UpdatePolling(Options.CancellationTokenSource.Token);
 
-                var client = await botClient.GetMe();
+                var client = await BotClient.GetMe(Options.CancellationTokenSource.Token);
                 BotName = client?.Username;
-                this.Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
+                Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;
             }
             catch (Exception ex)
             {
                 IsWork = false;
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ex);
             }
         }
 
-        public override async Task Stop()
+        /// <inheritdoc />
+        public override async Task Stop(CancellationToken cancellationToken = default)
         {
             try
             {
-                Options.CancellationToken.Cancel();
-                await Task.Delay(3000);
+                Options.CancellationTokenSource.Cancel();
+                await Task.Delay(3000, CancellationToken.None);
                 IsWork = false;
             }
             catch (Exception ex)
             {
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ex);
             }
         }
 
@@ -62,24 +59,24 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Обработка update через polling.
         /// </summary>
-        public async Task UpdatePolling()
+        public async Task UpdatePolling(CancellationToken cancellationToken = default)  // TODO: добавить постфикс Async. P.S. метод больше похож на приватный. Если приватный - убрать default для cT.
         {
             int? offset = Options.ReceiverOptions.Offset;
-            while (!Options.CancellationToken.IsCancellationRequested)
+            while (!Options.CancellationTokenSource.IsCancellationRequested)
             {
-                var updates = await botClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationToken.Token);
+                var updates = await BotClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationTokenSource.Token);
                 foreach (var update in updates)
                 {
                     offset = update.Id + 1;
                     try
                     {
-                        await Handler.HandleUpdateAsync(botClient, update, Options.CancellationToken.Token);
+                        await Handler.HandleUpdateAsync(BotClient, update, Options.CancellationTokenSource.Token);
                     }
                     catch (Exception ex)
                     {
-                        this.Events.OnErrorLogInvoke(ex);
+                        Events.OnErrorLogInvoke(ex);
                     }
-                    if (Options.CancellationToken.IsCancellationRequested) break;
+                    if (Options.CancellationTokenSource.IsCancellationRequested) break;
                 }
             }
             IsWork = false;

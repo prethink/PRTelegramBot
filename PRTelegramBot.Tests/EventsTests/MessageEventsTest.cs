@@ -34,7 +34,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnContactHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnContactHandle)} event was not called.");
             bot.Events.MessageEvents.OnContactHandle -= EventHandler;
         }
@@ -52,7 +52,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnPollHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnPollHandle)} event was not called.");
             bot.Events.MessageEvents.OnPollHandle -= EventHandler;
         }
@@ -70,7 +70,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnLocationHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnLocationHandle)} event was not called.");
             bot.Events.MessageEvents.OnLocationHandle -= EventHandler;
         }
@@ -88,7 +88,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnWebAppsHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnWebAppsHandle)} event was not called.");
             bot.Events.MessageEvents.OnWebAppsHandle -= EventHandler;
         }
@@ -106,7 +106,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnDocumentHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnDocumentHandle)} event was not called.");
             bot.Events.MessageEvents.OnDocumentHandle -= EventHandler;
         }
@@ -124,7 +124,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnAudioHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnAudioHandle)} event was not called.");
             bot.Events.MessageEvents.OnAudioHandle -= EventHandler;
         }
@@ -142,7 +142,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVideoHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoHandle -= EventHandler;
         }
@@ -160,7 +160,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnPhotoHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnPhotoHandle)} event was not called.");
             bot.Events.MessageEvents.OnPhotoHandle -= EventHandler;
         }
@@ -178,7 +178,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnStickerHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnStickerHandle)} event was not called.");
             bot.Events.MessageEvents.OnStickerHandle -= EventHandler;
         }
@@ -196,7 +196,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVoiceHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVoiceHandle)} event was not called.");
             bot.Events.MessageEvents.OnVoiceHandle -= EventHandler;
         }
@@ -214,7 +214,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnTextHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnTextHandle)} event was not called.");
             bot.Events.MessageEvents.OnTextHandle -= EventHandler;
         }
@@ -232,7 +232,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVenueHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVenueHandle)} event was not called.");
             bot.Events.MessageEvents.OnVenueHandle -= EventHandler;
         }
@@ -250,7 +250,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGameHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGameHandle)} event was not called.");
             bot.Events.MessageEvents.OnGameHandle -= EventHandler;
         }
@@ -268,7 +268,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVideoNoteHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoNoteHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoNoteHandle -= EventHandler;
         }
@@ -286,7 +286,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnDiceHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnDiceHandle)} event was not called.");
             bot.Events.MessageEvents.OnDiceHandle -= EventHandler;
         }
@@ -304,7 +304,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnAnimationHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnAnimationHandle)} event was not called.");
             bot.Events.MessageEvents.OnAnimationHandle -= EventHandler;
         }
@@ -322,7 +322,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnStoryHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnStoryHandle)} event was not called.");
             bot.Events.MessageEvents.OnStoryHandle -= EventHandler;
         }
@@ -340,7 +340,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnPassportDataHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnPassportDataHandle)} event was not called.");
             bot.Events.MessageEvents.OnPassportDataHandle -= EventHandler;
         }
@@ -358,7 +358,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGiveawayCreatedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGiveawayCreatedHandle)} event was not called.");
             bot.Events.MessageEvents.OnGiveawayCreatedHandle -= EventHandler;
         }
@@ -376,7 +376,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChatMemberLeftHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChatMemberLeftHandle)} event was not called.");
             bot.Events.MessageEvents.OnChatMemberLeftHandle -= EventHandler;
         }
@@ -394,7 +394,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChatTitleChangedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChatTitleChangedHandle)} event was not called.");
             bot.Events.MessageEvents.OnChatTitleChangedHandle -= EventHandler;
         }
@@ -412,7 +412,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChatPhotoChangedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChatPhotoChangedHandle)} event was not called.");
             bot.Events.MessageEvents.OnChatPhotoChangedHandle -= EventHandler;
         }
@@ -430,7 +430,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChatPhotoDeletedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChatPhotoDeletedHandle)} event was not called.");
             bot.Events.MessageEvents.OnChatPhotoDeletedHandle -= EventHandler;
         }
@@ -448,7 +448,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGroupCreatedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGroupCreatedHandle)} event was not called.");
             bot.Events.MessageEvents.OnGroupCreatedHandle -= EventHandler;
         }
@@ -466,7 +466,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnSupergroupCreatedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnSupergroupCreatedHandle)} event was not called.");
             bot.Events.MessageEvents.OnSupergroupCreatedHandle -= EventHandler;
         }
@@ -484,7 +484,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChannelCreatedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChannelCreatedHandle)} event was not called.");
             bot.Events.MessageEvents.OnChannelCreatedHandle -= EventHandler;
         }
@@ -502,7 +502,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnMessageAutoDeleteTimerChangedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnMessageAutoDeleteTimerChangedHandle)} event was not called.");
             bot.Events.MessageEvents.OnMessageAutoDeleteTimerChangedHandle -= EventHandler;
         }
@@ -520,7 +520,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnMigratedFromGroupHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnMigratedFromGroupHandle)} event was not called.");
             bot.Events.MessageEvents.OnMigratedFromGroupHandle -= EventHandler;
         }
@@ -538,7 +538,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnMigratedToSupergroupHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnMigratedToSupergroupHandle)} event was not called.");
             bot.Events.MessageEvents.OnMigratedToSupergroupHandle -= EventHandler;
         }
@@ -556,7 +556,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnMessagePinnedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnMessagePinnedHandle)} event was not called.");
             bot.Events.MessageEvents.OnMessagePinnedHandle -= EventHandler;
         }
@@ -574,7 +574,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnWebsiteConnectedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnWebsiteConnectedHandle)} event was not called.");
             bot.Events.MessageEvents.OnWebsiteConnectedHandle -= EventHandler;
         }
@@ -592,7 +592,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnInvoiceHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnInvoiceHandle)} event was not called.");
             bot.Events.MessageEvents.OnInvoiceHandle -= EventHandler;
         }
@@ -610,7 +610,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnSuccessfulPaymentHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnSuccessfulPaymentHandle)} event was not called.");
             bot.Events.MessageEvents.OnSuccessfulPaymentHandle -= EventHandler;
         }
@@ -628,7 +628,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnUserSharedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnUserSharedHandle)} event was not called.");
             bot.Events.MessageEvents.OnUserSharedHandle -= EventHandler;
         }
@@ -646,7 +646,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChatSharedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChatSharedHandle)} event was not called.");
             bot.Events.MessageEvents.OnChatSharedHandle -= EventHandler;
         }
@@ -664,7 +664,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnWriteAccessAllowedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnWriteAccessAllowedHandle)} event was not called.");
             bot.Events.MessageEvents.OnWriteAccessAllowedHandle -= EventHandler;
         }
@@ -682,7 +682,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnPassportDataHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnPassportDataHandle)} event was not called.");
             bot.Events.MessageEvents.OnPassportDataHandle -= EventHandler;
         }
@@ -700,7 +700,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnProximityAlertTriggeredHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnProximityAlertTriggeredHandle)} event was not called.");
             bot.Events.MessageEvents.OnProximityAlertTriggeredHandle -= EventHandler;
         }
@@ -718,7 +718,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnBoostAddedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnBoostAddedHandle)} event was not called.");
             bot.Events.MessageEvents.OnBoostAddedHandle -= EventHandler;
         }
@@ -736,7 +736,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnChatBackgroundSetHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnChatBackgroundSetHandle)} event was not called.");
             bot.Events.MessageEvents.OnChatBackgroundSetHandle -= EventHandler;
         }
@@ -754,7 +754,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnForumTopicCreatedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnForumTopicCreatedHandle)} event was not called.");
             bot.Events.MessageEvents.OnForumTopicCreatedHandle -= EventHandler;
         }
@@ -772,7 +772,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnForumTopicEditedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnForumTopicEditedHandle)} event was not called.");
             bot.Events.MessageEvents.OnForumTopicEditedHandle -= EventHandler;
         }
@@ -790,7 +790,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnForumTopicClosedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnForumTopicClosedHandle)} event was not called.");
             bot.Events.MessageEvents.OnForumTopicClosedHandle -= EventHandler;
         }
@@ -808,7 +808,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnForumTopicReopenedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnForumTopicReopenedHandle)} event was not called.");
             bot.Events.MessageEvents.OnForumTopicReopenedHandle -= EventHandler;
         }
@@ -826,7 +826,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGeneralForumTopicHiddenHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGeneralForumTopicHiddenHandle)} event was not called.");
             bot.Events.MessageEvents.OnGeneralForumTopicHiddenHandle -= EventHandler;
         }
@@ -844,7 +844,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGeneralForumTopicUnhiddenHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGeneralForumTopicUnhiddenHandle)} event was not called.");
             bot.Events.MessageEvents.OnGeneralForumTopicUnhiddenHandle -= EventHandler;
         }
@@ -862,7 +862,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGiveawayHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGiveawayHandle)} event was not called.");
             bot.Events.MessageEvents.OnGiveawayHandle -= EventHandler;
         }
@@ -881,7 +881,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGiveawayWinnersHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGiveawayWinnersHandle)} event was not called.");
             bot.Events.MessageEvents.OnGiveawayWinnersHandle -= EventHandler;
         }
@@ -899,7 +899,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnGiveawayCompletedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnGiveawayCompletedHandle)} event was not called.");
             bot.Events.MessageEvents.OnGiveawayCompletedHandle -= EventHandler;
         }
@@ -917,7 +917,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVideoChatScheduledHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoChatScheduledHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoChatScheduledHandle -= EventHandler;
         }
@@ -935,7 +935,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVideoChatStartedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoChatStartedHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoChatStartedHandle -= EventHandler;
         }
@@ -953,7 +953,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVideoChatEndedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoChatEndedHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoChatEndedHandle -= EventHandler;
         }
@@ -971,7 +971,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.MessageEvents.OnVideoChatParticipantsInvitedHandle += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnVideoChatParticipantsInvitedHandle)} event was not called.");
             bot.Events.MessageEvents.OnVideoChatParticipantsInvitedHandle -= EventHandler;
         }
