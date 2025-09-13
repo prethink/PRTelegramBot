@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Models;
+using PRTelegramBot.Models.EventsArgs;
 using System.Collections.Concurrent;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -7,7 +8,7 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для update в телеграм.
+    /// Методы расширения для update в telegram.
     /// </summary>
     public static class UpdateExtension
     {
@@ -114,7 +115,7 @@ namespace PRTelegramBot.Extensions
             catch(Exception ex) 
             {
                 if(update.TryGetBot(out var bot))
-                    bot.Events.OnErrorLogInvoke(ex);
+                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 return false;
             }
         }
@@ -151,7 +152,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Попытаться получить бота из update.
         /// </summary>
-        /// <param name="update">Обновление телеграм.</param>
+        /// <param name="update">Обновление telegram.</param>
         /// <param name="bot">Возвращаемый объект бота.</param>
         /// <returns>True, если бот найден; иначе False.</returns>
         public static bool TryGetBot(this Update update, out PRBotBase bot)
@@ -160,10 +161,33 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
+        /// Получает идентификатор пользователя из обновления Telegram.
+        /// </summary>
+        /// <param name="update">Объект обновления Telegram.</param>
+        /// <returns>Идентификатор пользователя (UserId).</returns>
+        public static long GetUserId(this Update update)
+        {
+            return update.Type switch
+            {
+                UpdateType.Message => update.Message.From.Id,
+                UpdateType.CallbackQuery => update.CallbackQuery.Message.From.Id,
+                UpdateType.BusinessMessage => update.BusinessMessage.From.Id,
+                UpdateType.ChannelPost => update.ChannelPost.From.Id,
+                UpdateType.ChatJoinRequest => update.ChatJoinRequest.From.Id,
+                UpdateType.ChatMember => update.ChatMember.From.Id,
+                UpdateType.EditedBusinessMessage => update.EditedBusinessMessage.From.Id,
+                UpdateType.EditedChannelPost => update.EditedChannelPost.From.Id,
+                UpdateType.EditedMessage => update.EditedMessage.From.Id,
+                UpdateType.MyChatMember => update.MyChatMember.From.Id,
+                _ => throw new NotImplementedException($"Not implemented get userId for {update.Type}")
+            };
+        }
+
+        /// <summary>
         /// Связать update с PRBotBase.
         /// </summary>
         /// <param name="update">Обновление telegram.</param>
-        /// <param name="bot">Экзпляр PRBotBase.</param>
+        /// <param name="bot">Экземпляр PRBotBase.</param>
         /// <returns>True - удалось добавить, False - не удалось.</returns>
         internal static bool AddTelegramClient(this Update update, PRBotBase bot)
         {

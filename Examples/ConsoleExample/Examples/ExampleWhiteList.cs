@@ -1,6 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
-using Telegram.Bot.Types;
-using Telegram.Bot;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 
 namespace ConsoleExample.Examples
@@ -12,10 +11,10 @@ namespace ConsoleExample.Examples
         /// Если включен белый список и в нем есть пользователи, отработает только для них.
         /// </summary>
         [ReplyMenuHandler("OnlyWhiteList")]
-        public static async Task OnlyWhiteList(ITelegramBotClient botClient, Update update)
+        public static async Task OnlyWhiteList(IBotContext context)
         {
             string msg = nameof(OnlyWhiteList);
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, msg);
+            await PRTelegramBot.Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -24,10 +23,10 @@ namespace ConsoleExample.Examples
         /// </summary>
         [WhiteListAnonymous]
         [ReplyMenuHandler("AllUsers")]
-        public static async Task AllUsers(ITelegramBotClient botClient, Update update)
+        public static async Task AllUsers(IBotContext context)
         {
             string msg = nameof(AllUsers);
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, msg);
+            await PRTelegramBot.Helpers.Message.Send(context, msg);
         }
     }
 }

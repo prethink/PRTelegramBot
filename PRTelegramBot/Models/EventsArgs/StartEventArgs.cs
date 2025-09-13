@@ -1,5 +1,4 @@
-﻿using PRTelegramBot.Core;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {
@@ -22,11 +21,10 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст.</param>
         /// <param name="data">Данные.</param>
-        public StartEventArgs(PRBotBase bot, Update update, string data)
-            : base(bot, update)
+        public StartEventArgs(IBotContext context, string data)
+            : base(context)
         {
             Data = data;
         }

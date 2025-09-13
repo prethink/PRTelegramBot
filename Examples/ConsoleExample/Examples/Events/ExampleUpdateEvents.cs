@@ -9,14 +9,14 @@ namespace ConsoleExample.Examples.Events
         public static async Task OnUpdateMyChatMember(BotEventArgs args)
         {
             //Обработка информации из myChatHandle
-            var myChatHandle = args.Update.MyChatMember;
+            var myChatHandle = args.Context.Update.MyChatMember;
             try
             {
                 if (myChatHandle.NewChatMember.Status == Telegram.Bot.Types.Enums.ChatMemberStatus.Member)
                 {
-                    if (myChatHandle.NewChatMember.User.Id == args.BotClient.BotId)
+                    if (myChatHandle.NewChatMember.User.Id == args.Context.BotClient.BotId)
                     {
-                        await Helpers.Message.Send(args.BotClient, myChatHandle.Chat.Id, "Hello world");
+                        await Helpers.Message.Send(args.Context, "Hello world");
                     }
                     else
                     {
@@ -26,7 +26,7 @@ namespace ConsoleExample.Examples.Events
             }
             catch (Exception ex)
             {
-                args.Bot.Events.OnErrorLogInvoke(ex);
+                args.Context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(args.Context, ex));
             }
         }
 

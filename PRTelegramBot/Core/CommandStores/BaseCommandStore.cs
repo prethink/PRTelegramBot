@@ -1,7 +1,6 @@
-﻿using PRTelegramBot.Models;
+﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using PRTelegramBot.Registrars;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandStores
 {
@@ -54,9 +53,9 @@ namespace PRTelegramBot.Core.CommandStores
         /// Добавить новую команду.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="delegate">Метод обработки команды.</param
+        /// <param name="delegate">Метод обработки команды.</param>
         /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
-        public abstract bool AddCommand(TKey command, Func<ITelegramBotClient, Update, Task> @delegate);
+        public abstract bool AddCommand(TKey command, Func<IBotContext, Task> @delegate);
 
         /// <summary>
         /// Удалить команду.

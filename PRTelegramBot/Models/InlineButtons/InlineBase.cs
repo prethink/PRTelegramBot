@@ -17,6 +17,10 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region Методы
 
+        /// <summary>
+        /// Получить текст кнопки.
+        /// </summary>
+        /// <returns>Текст кнопки.</returns>
         public virtual string GetTextButton()
         {
             return ButtonName;

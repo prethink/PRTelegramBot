@@ -1,12 +1,12 @@
-﻿using System.Text;
-using PRTelegramBot.Converters;
+﻿using PRTelegramBot.Converters;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.EventsArgs;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
@@ -40,7 +40,7 @@ namespace PRTelegramBot.Models.InlineButtons
             {
                 return JsonSerializer.Deserialize<InlineCallback<T>>(data);
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -49,10 +49,20 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Преобразовать данные в команду.
         /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>InlineCallback или null.</returns>
+        public new static InlineCallback<T> GetCommandByCallbackOrNull(IBotContext context)
+        {
+            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? "");
+        }
+
+        /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
         /// <returns>InlineCallback или null.</returns>
         public InlineCallback<T> GetCommandByCallbackOrNull()
         {
-            return GetCommandByCallbackOrNull(Update.CallbackQuery.Data);
+            return GetCommandByCallbackOrNull(Context.Update.CallbackQuery.Data);
         }
 
         public override object GetContent()
@@ -93,10 +103,9 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="botClient">Bot client.</param>
-        /// <param name="update">Update.</param>
-        public InlineCallback(ITelegramBotClient botClient, Update update)
-            : base(botClient,update) {}
+        /// <param name="context">Контекст бота.</param>
+        public InlineCallback(IBotContext context) :base(context)
+        { }
 
         /// <summary>
         /// Конструктор.
@@ -139,7 +148,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Update.
         /// </summary>
         [JsonIgnore]
-        public Update Update { get; private set; }
+        public IBotContext Context { get; private set; }
 
         /// <summary>
         /// Update.
@@ -162,7 +171,7 @@ namespace PRTelegramBot.Models.InlineButtons
             {
                 return JsonSerializer.Deserialize<InlineCallback>(data);
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -171,10 +180,20 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Преобразовать данные в команду.
         /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>InlineCallback или null.</returns>
+        public static InlineCallback GetCommandByCallbackOrNull(IBotContext context)
+        {
+            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? "");
+        }
+
+        /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
         /// <returns>InlineCallback или null.</returns>
         public InlineCallback GetCommandByCallbackOrNull()
         {
-            return GetCommandByCallbackOrNull(Update.CallbackQuery.Data);
+            return GetCommandByCallbackOrNull(Context.Update.CallbackQuery.Data);
         }
 
         /// <summary>
@@ -195,19 +214,19 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns></returns>
         public async Task ExecuteActionWithLastMessage()
         {
-            if (Update?.CallbackQuery == null || BotClient == null || Data == null)
+            if (Context == null || Data == null || Context.Update?.CallbackQuery == null )
                 return;
 
             try
             {
-                var lastMessage = Update.CallbackQuery.Message;
+                var lastMessage = Context.Update.CallbackQuery.Message;
                 var actionWithLastMessage = Data.GetActionWithLastMessage();
                 if (actionWithLastMessage == Enums.ActionWithLastMessage.Delete)
-                    await BotClient.DeleteMessage(Update.GetChatIdClass(), lastMessage.MessageId);
+                    await BotClient.DeleteMessage(Context.Update.GetChatIdClass(), lastMessage.MessageId);
             }
             catch (Exception ex)
             {
-                BotClient.GetBotDataOrNull().Events.OnErrorLogInvoke(ex);
+                Context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(Context, ex));
             }
         }
 
@@ -227,6 +246,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IInlineContent
 
+        /// <inheritdoc />
         public virtual object GetContent()
         {
             var result = JsonSerializer.Serialize(this);
@@ -234,6 +254,7 @@ namespace PRTelegramBot.Models.InlineButtons
             return result;
         }
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return InlineKeyboardButton.WithCallbackData(ButtonName, GetContent() as string);
@@ -243,6 +264,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IDisposable
 
+        /// <inheritdoc />
         public void Dispose()
         {
             _ = ExecuteActionWithLastMessage();
@@ -280,12 +302,10 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="botClient">Bot client.</param>
-        /// <param name="update">Update.</param>
-        public InlineCallback(ITelegramBotClient botClient, Update update)
+        /// <param name="context">Контекст бота.</param>
+        public InlineCallback(IBotContext context)
         {
-            Update = update;
-            BotClient = botClient;
+            Context = context;
             TryUpdateData();
         }
 

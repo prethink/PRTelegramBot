@@ -129,6 +129,10 @@ namespace PRTelegramBot.Core.Events
 
         #region Методы
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnPreUpdate"/> и получить результат продолжения/остановки обработки.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal async Task<UpdateResult> OnPreInvoke(BotEventArgs e)
         {
             if (HasEventOnPreUpdate())
@@ -137,50 +141,75 @@ namespace PRTelegramBot.Core.Events
             return UpdateResult.Continue;
         }
 
+        /// <summary>
+        /// Проверить наличие подписчиков на <see cref="OnPreUpdate"/>.
+        /// </summary>
         internal bool HasEventOnPreUpdate() => OnPreUpdate != null;
 
+        /// <summary>Вызвать событие <see cref="OnPostUpdate"/>.</summary>
         internal void OnPostInvoke(BotEventArgs e) => OnPostUpdate?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnChannelPostHandle"/>.</summary>
         internal void OnChannelPostHandler(BotEventArgs e) => OnChannelPostHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnChatJoinRequestHandle"/>.</summary>
         internal void OnChatJoinRequestHandler(BotEventArgs e) => OnChatJoinRequestHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnChatMemberHandle"/>.</summary>
         internal void OnChatMemberHandler(BotEventArgs e) => OnChatMemberHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnChosenInlineResultHandle"/>.</summary>
         internal void OnChosenInlineResultHandler(BotEventArgs e) => OnChosenInlineResultHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnEditedChannelPostHandle"/>.</summary>
         internal void OnEditedChannelPostHandler(BotEventArgs e) => OnEditedChannelPostHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnEditedMessageHandle"/>.</summary>
         internal void OnEditedMessageHandler(BotEventArgs e) => OnEditedMessageHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnInlineQueryHandle"/>.</summary>
         internal void OnInlineQueryHandler(BotEventArgs e) => OnInlineQueryHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnMyChatMemberHandle"/>.</summary>
         internal void OnMyChatMemberHandler(BotEventArgs e) => OnMyChatMemberHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnPollHandle"/>.</summary>
         internal void OnPollHandler(BotEventArgs e) => OnPollHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnPollAnswerHandle"/>.</summary>
         internal void OnPollAnswerHandler(BotEventArgs e) => OnPollAnswerHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnPreCheckoutQueryHandle"/>.</summary>
         internal void OnPreCheckoutQueryHandler(BotEventArgs e) => OnPreCheckoutQueryHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnShippingQueryHandle"/>.</summary>
         internal void OnShippingQueryHandler(BotEventArgs e) => OnShippingQueryHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnUnknownHandle"/>.</summary>
         internal void OnUnknownHandler(BotEventArgs e) => OnUnknownHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnBusinessConnectionHandle"/>.</summary>
         internal void OnBusinessConnectionHandler(BotEventArgs e) => OnBusinessConnectionHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnEditedBusinessMessageHandle"/>.</summary>
         internal void OnEditedBusinessHandler(BotEventArgs e) => OnEditedBusinessMessageHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnDeletedBusinessMessagesHandle"/>.</summary>
         internal void OnDeletedBusinessConnectionHandler(BotEventArgs e) => OnDeletedBusinessMessagesHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnMessageReactionHandle"/>.</summary>
         internal void OnMessageReactionHandleHandler(BotEventArgs e) => OnMessageReactionHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnMessageReactionCountHandle"/>.</summary>
         internal void OnMessageReactionCountHandleHandler(BotEventArgs e) => OnMessageReactionCountHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnChatBoostHandle"/>.</summary>
         internal void OnChatBoostHandler(BotEventArgs e) => OnChatBoostHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnRemovedChatBoostHandle"/>.</summary>
         internal void OnRemovedChatBoostHandler(BotEventArgs e) => OnRemovedChatBoostHandle?.Invoke(e);
 
+        /// <summary>Вызвать событие <see cref="OnCallbackQueryHandle"/>.</summary>
         internal void OnCallbackQueryHandler(BotEventArgs e) => OnCallbackQueryHandle?.Invoke(e);
 
         #endregion

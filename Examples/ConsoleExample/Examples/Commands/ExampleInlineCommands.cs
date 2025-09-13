@@ -11,7 +11,6 @@ using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples.Commands
@@ -25,7 +24,7 @@ namespace ConsoleExample.Examples.Commands
         /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
         /// </summary>
         [ReplyMenuHandler("InlineMenu")]
-        public static async Task InlineMenu(ITelegramBotClient botClient, Update update)
+        public static async Task InlineMenu(IBotContext context)
         {
             /*
              *  В program.cs создается экземпляр бота:
@@ -41,7 +40,7 @@ namespace ConsoleExample.Examples.Commands
              */
 
             /*
-             *  botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE")
+             *  context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE")
              *  BotConfigJsonProvider - провайдер который работает с json файлами.
              *  string - возращаемый тип.
              *  ExampleConstants.BUTTONS_FILE_KEY - ключ конфига.
@@ -50,10 +49,10 @@ namespace ConsoleExample.Examples.Commands
              */
 
             /* Создание новой кнопки с callback данными
-             * botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE") - Название кнопки из json
+             * context`.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE") - Название кнопки из json
              * CustomTHeaderTwo.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE"), CustomTHeaderTwo.ExampleOne);
+            var exampleItemOne = new InlineCallback(context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE"), CustomTHeaderTwo.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * CustomTHeaderTwo.ExampleTwo - Заголовок команды
@@ -97,7 +96,7 @@ namespace ConsoleExample.Examples.Commands
             option.MenuInlineKeyboardMarkup = testMenu;
             string msg = "Пример работы меню";
             //Отправка сообщение с меню
-            await Helpers.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(context, msg, option);
         }
 
         /// <summary>
@@ -105,16 +104,16 @@ namespace ConsoleExample.Examples.Commands
         /// Обрабатывает одну точку входа
         /// </summary>
         [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleOne)]
-        public static async Task Inline(ITelegramBotClient botClient, Update update)
+        public static async Task Inline(IBotContext context)
         {
             try
             {
                 //Попытка преобразовать callback данные к требуемому типу
-                var command = InlineCallback.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback.GetCommandByCallbackOrNull(context.Update.CallbackQuery.Data);
                 if (command != null)
                 {
                     string msg = "Выполнена команда callback";
-                    await Helpers.Message.Send(botClient, update, msg);
+                    await Helpers.Message.Send(context, msg);
                 }
             }
             catch (Exception ex)
@@ -128,26 +127,26 @@ namespace ConsoleExample.Examples.Commands
         /// Данный метод может обработать несколько точек входа
         /// </summary>
         [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleTwo, CustomTHeaderTwo.ExampleThree)]
-        public static async Task InlineTwo(ITelegramBotClient botClient, Update update)
+        public static async Task InlineTwo(IBotContext context)
         {
             try
             {
                 //Попытка преобразовать callback данные к требуемому типу
-                var command = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                var command = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(context);
                 if (command != null)
                 {
                     string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
                     if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                     {
-                        await Helpers.Message.Edit(botClient, update, msg);
+                        await Helpers.Message.Edit(context, msg);
                     }
                     else
                     {
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
                         {
-                            await botClient.DeleteMessage(update.GetChatIdClass(), update.CallbackQuery.Message.MessageId);
+                            await context.BotClient.DeleteMessage(context.Update.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
                         }
-                        await Helpers.Message.Send(botClient, update, msg);
+                        await Helpers.Message.Send(context, msg);
                     }
                 }
             }

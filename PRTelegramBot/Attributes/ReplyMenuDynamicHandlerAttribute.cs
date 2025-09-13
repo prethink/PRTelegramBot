@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Attributes
 {
@@ -125,7 +126,8 @@ namespace PRTelegramBot.Attributes
                 {
                     if (!dynamicCommand.ContainsKey(command))
                     {
-                        bot.Events.OnErrorLogInvoke(new Exception($"Bot with id {bot.BotId} not contains dynamic command {command}"));
+                        var exception = new Exception($"Bot with id {bot.BotId} not contains dynamic command {command}");
+                        bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception));
                         continue;
                     }
                     this.commands.Add(dynamicCommand[command]);

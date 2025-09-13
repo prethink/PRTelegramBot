@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
 
 namespace PRTelegramBot.Core
@@ -11,48 +12,45 @@ namespace PRTelegramBot.Core
     {
         #region Базовый класс
 
-        public override DataRetrievalMethod DataRetrieval 
-        { 
-            get 
-            { 
-                return DataRetrievalMethod.Classic; 
-            } 
-        }
+        /// <inheritdoc />
+        public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Classic;
 
-        public override async Task Start()
+        /// <inheritdoc />
+        public override async Task StartAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await base.Start();
+                await base.StartAsync(Options.CancellationTokenSource.Token);
                 if (Options.ClearUpdatesOnStart)
-                    await ClearUpdates();
+                    await ClearUpdatesAsync(Options.CancellationTokenSource.Token);
 
-                botClient.StartReceiving(Handler, Options.ReceiverOptions);
+                BotClient.StartReceiving(Handler, Options.ReceiverOptions, Options.CancellationTokenSource.Token);
 
-                var client = await botClient.GetMe();
+                var client = await BotClient.GetMe(Options.CancellationTokenSource.Token);
                 BotName = client?.Username;
-                this.Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
+                Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;
             }
             catch (Exception ex)
             {
                 IsWork = false;
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex));
             }
         }
 
-        public override async Task Stop()
+        /// <inheritdoc />
+        public override async Task StopAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                Options.CancellationToken.Cancel();
+                Options.CancellationTokenSource.Cancel();
 
-                await Task.Delay(3000);
+                await Task.Delay(3000, CancellationToken.None);
                 IsWork = false;
             }
             catch (Exception ex)
             {
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex));
             }
         }
 

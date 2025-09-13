@@ -1,6 +1,5 @@
 ﻿using PRTelegramBot.Core.Middlewares;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Tests.TestModels.TestMiddleware
 {
@@ -10,16 +9,16 @@ namespace PRTelegramBot.Tests.TestModels.TestMiddleware
         public const string PrevMessage = "TwoPrev";
         private List<string> log;
 
-        public override async Task InvokeOnPreUpdateAsync(ITelegramBotClient botClient, Update update, Func<Task> next)
+        public override async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
             log.Add(NextMessage);
-            await base.InvokeOnPreUpdateAsync(botClient, update, next);
+            await base.InvokeOnPreUpdateAsync(context, next);
         }
 
-        public override Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
+        public override Task InvokeOnPostUpdateAsync(IBotContext context)
         {
             log.Add(PrevMessage);
-            return base.InvokeOnPostUpdateAsync(botClient, update);
+            return base.InvokeOnPostUpdateAsync(context);
         }
 
         public TestTwoMiddleware(List<string> log)

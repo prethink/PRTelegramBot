@@ -1,8 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Utils;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace ConsoleExample.Examples
 {
@@ -14,13 +13,13 @@ namespace ConsoleExample.Examples
         /// Сначало будет отправлено сообщение 'Обработка данных...', после двух секунд старое сообщение будет удалено и сразу появится новое. 
         /// </summary>
         [ReplyMenuHandler("Awaiter message")]
-        public static async Task AwaiterExample (ITelegramBotClient botClient, Update update)
+        public static async Task AwaiterExample (IBotContext context)
         {
-            using(var messageAwaiter = new MessageAwaiter(botClient, update.GetChatId(), "Обработка данных..."))
+            using(var messageAwaiter = new MessageAwaiter(context.BotClient, context.Update.GetChatId(), "Обработка данных..."))
             {
                 // Симуляция тяжелой операции.
                 await Task.Delay(2000);
-                await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Генерация данных завершена.");
+                await PRTelegramBot.Helpers.Message.Send(context, $"Генерация данных завершена.");
             }
         }
 
@@ -30,10 +29,10 @@ namespace ConsoleExample.Examples
         /// Сообщение будет удалено по истечению 10 секунд.
         /// </summary>
         [ReplyMenuHandler("AutoDelete")]
-        public static async Task AutoDelete(ITelegramBotClient botClient, Update update)
+        public static async Task AutoDelete(IBotContext context)
         {
-            var message = await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Автоматическое удаление сообщения через 10 секунд");
-            message.AutoDeleteMessage(10, botClient, update);
+            var message = await PRTelegramBot.Helpers.Message.Send(context, $"Автоматическое удаление сообщения через 10 секунд");
+            message.AutoDeleteMessage(10, context);
         }
 
         /// <summary>
@@ -42,10 +41,10 @@ namespace ConsoleExample.Examples
         /// Сообщение будет отредактировано по истечению 10 секунд.
         /// </summary>
         [ReplyMenuHandler("AutoEdit")]
-        public static async Task AutoEdit(ITelegramBotClient botClient, Update update)
+        public static async Task AutoEdit(IBotContext context)
         {
-            var message = await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Автоматическое редактирование сообщения через 10 секунд");
-            message.AutoEditMessage("Текст изменился.", 10, botClient, update);
+            var message = await PRTelegramBot.Helpers.Message.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
+            message.AutoEditMessage("Текст изменился.", 10, context);
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace ConsoleExample.Examples
         /// Сообщение постепенно будет редактироваться.
         /// </summary>
         [ReplyMenuHandler("AutoEditCycle")]
-        public static async Task AutoEditCycle(ITelegramBotClient botClient, Update update)
+        public static async Task AutoEditCycle(IBotContext context)
         {
             var messages = new List<string>()
             {
@@ -70,8 +69,8 @@ namespace ConsoleExample.Examples
                 "1",
                 "Все готово.",
             };
-            var message = await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Автоматическое редактирование сообщения через 10 секунд");
-            message.AutoEditMessageСycle(messages, 1, botClient, update);
+            var message = await PRTelegramBot.Helpers.Message.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
+            message.AutoEditMessageСycle(messages, 1, context);
         }
     }
 }

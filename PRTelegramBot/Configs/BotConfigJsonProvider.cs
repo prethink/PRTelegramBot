@@ -22,6 +22,7 @@ namespace PRTelegramBot.Configs
 
         #region IBotConfigProvider
 
+        /// <inheritdoc />
         public void SetConfigPath(string configPath)
         {
             this.configPath = configPath;
@@ -29,6 +30,7 @@ namespace PRTelegramBot.Configs
                 .AddJsonFile(configPath).Build();
         }
 
+        /// <inheritdoc />
         public TOptions GetOptions<TOptions>() 
             where TOptions : class
         {
@@ -36,17 +38,20 @@ namespace PRTelegramBot.Configs
             return section.Get<TOptions>();
         }
 
+        /// <inheritdoc />
         public TReturn GetValue<TReturn>(string section)
         {
             return configuration.GetSection(section).Get<TReturn>();
         }
 
+        /// <inheritdoc />
         public Dictionary<string, string> GetKeysAndValues()
         {
             string json = File.ReadAllText(configPath);
             return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         }
 
+        /// <inheritdoc />
         public Dictionary<string, string> GetKeysAndValuesByOptions<T>() 
             where T : class
         {

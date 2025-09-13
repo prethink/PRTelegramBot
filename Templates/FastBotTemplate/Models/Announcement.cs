@@ -102,7 +102,7 @@ namespace FastBotTemplateConsole.Models
             {
                 return JsonSerializer.Deserialize<List<InlineURL>>(MenuData ?? "");
             }
-            catch (Exception ex)
+            catch
             {
                 return new List<InlineURL>();
             }
@@ -120,7 +120,7 @@ namespace FastBotTemplateConsole.Models
             {
                 return JsonSerializer.Serialize(menu);
             }
-            catch (Exception ex)
+            catch
             {
                 return "";
             }

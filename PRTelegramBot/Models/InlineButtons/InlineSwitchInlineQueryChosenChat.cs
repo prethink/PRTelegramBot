@@ -20,11 +20,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IInlineContent
 
+        /// <inheritdoc />
         public object GetContent()
         {
             return SwitchInlineQueryChosenChat;
         }
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return InlineKeyboardButton.WithSwitchInlineQueryChosenChat(ButtonName, SwitchInlineQueryChosenChat);

@@ -1,9 +1,8 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Core;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.EventsArgs;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Utils
 {
@@ -179,15 +178,13 @@ namespace PRTelegramBot.Utils
             try
             {
                 Type expectedReturnType = typeof(Task);
-                Type expectedBotClientType = typeof(ITelegramBotClient);
-                Type expectedUpdateType = typeof(Update);
+                Type expectedBotContext = typeof(IBotContext);
 
                 ParameterInfo[] parameters = method.GetParameters();
 
                 if (method.ReturnType == expectedReturnType &&
-                    parameters.Length == 2 &&
-                    parameters[0].ParameterType == expectedBotClientType &&
-                    parameters[1].ParameterType == expectedUpdateType)
+                    parameters.Length == 1 &&
+                    parameters[0].ParameterType == expectedBotContext)
                 {
                     return true;
                 }
@@ -198,7 +195,7 @@ namespace PRTelegramBot.Utils
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex);
+                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 return false;
             }
         }

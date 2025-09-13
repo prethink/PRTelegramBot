@@ -90,7 +90,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [Test]
         public void AddInlineClassHandlerWhenTypeNotImplementedInterfaceShouldBeException()
         {
-            var exception = Assert.Throws<Exception>(() =>
+            var exception = Assert.Throws<ArgumentException>(() =>
             {
                 var bot = new PRBotBuilder(CommonUtils.TEST_TOKEN)
                     .AddInlineClassHandler(TestTHeader.Class, typeof(TestClass))

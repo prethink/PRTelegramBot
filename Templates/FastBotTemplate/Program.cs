@@ -6,7 +6,7 @@ namespace FastBotTemplateConsole
 {
     internal class Program
     {
-        static async Task Main(string[] args)
+        static Task Main(string[] args)
         {
             var bot = new PRBotBuilder("Token")
                     .SetBotId(0)
@@ -17,7 +17,7 @@ namespace FastBotTemplateConsole
             bot.Events.OnErrorLog += LogEvents.OnLogError;
             bot.Events.OnUserStartWithArgs += StartCommands.StartWithArguments;
 
-            _ = bot.Start();
+            _ = bot.StartAsync();
 
             // Чтобы консолька не закрылась.
             while(true) { }

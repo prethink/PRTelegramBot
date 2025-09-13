@@ -1,7 +1,40 @@
+-- 2025.09.13 - V0.8
+- Рефакторинг кода. Так же спасибо за помощь @Harlok13.
+- Добавлен IBotContext который хранит в себе: Всех экземпляры ботов системы. Текущий экземпляр бота. Update. BotClient, CurrentUpdateType, CancelationToken.
+- Сигнатура методов, команд ...ITelegramBotClient botClient, Update update... заменена на IBotContext context
+- Добавлены методы расширений для IBotContext по аналогии с update. Cache, Steps и другие.
+- CacheExtension. 
+-- Добавлен метод GetOrCreate.
+-- Поправлен метод CreateCacheData. Теперь при его вызове будет всегда создаваться новый кэш.
+
+# Миграции:
+## MiddlewareBase:
+- InvokeOnPreUpdateAsync(ITelegramBotClient context.BotClient, context.Update update, Func<Task> next) -> InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
+- InvokeOnPostUpdateAsync(ITelegramBotClient context.BotClient, context.Update update, Func<Task> next) -> InvokeOnPostUpdateAsync(IBotContext context)
+
+## IExecuteStep и его реализации:
+ExecuteStep(ITelegramBotClient context.BotClient, context.Update update) -> ExecuteStep(IBotContext context)
+
+## PRBotBuilder
+- SetIpAddresWebHook(string ipAddress) -> SetIpAddressWebHook(string ipAddress)
+- AddRecevingOptions(ReceiverOptions recevierOptions) -> AddReceivingOptions(ReceiverOptions receiverOptions) 
+
+## PRBotWebHook
+- GetWebHookInfo(CancellationToken cancellationToken = default) -> GetWebHookInfoAsync(CancellationToken cancellationToken = default)
+
+## PRBotBase
+- Start -> StartAsync
+- Stop -> StopAsync
+
+Методы в вашем коде нужно привести к сигнатуре от (ITelegramBotClient context.BotClient, context.Update update) к (IBotContext context) и поправить другие места в коде куда передавались или брались старые аргументы аргументы.
+Примеры:
+update -> context.Update
+botClient -> context.BotClient
+
+
 -- 2025.09.04 - V0.7.12
 - Исправлена проверка размера callback_data. Автор @Harlok13
 - Telegram.Bot: обновлен до 22.7.2
-
 
 -- 2025.08.31 - V0.7.11
 - Еще доработки по Di Scope для nextStep.

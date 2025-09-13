@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot.Types;
 
@@ -7,7 +8,7 @@ namespace PRTelegramBot.Tests.TestModels.TestHandlers
 {
     public class CallbackQueryTestHandler : ICallbackQueryCommandHandler
     {
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update, CallbackQuery updateType)
+        public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
             ///* Если данные пришли которые вам нужны и вы их обработали возращаем результат Handled. 
             // * Это будет означать, то что действие выполнено и остальные обработчики будут пропущены. */

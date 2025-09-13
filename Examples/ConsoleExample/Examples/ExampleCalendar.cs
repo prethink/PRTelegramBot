@@ -1,12 +1,11 @@
 ﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
-using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
 using System.Globalization;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples
@@ -18,11 +17,11 @@ namespace ConsoleExample.Examples
         /// Вызов команды календаря
         /// </summary>
         [ReplyMenuHandler("Calendar")]
-        public static async Task PickCalendar(ITelegramBotClient botClient, Update update)
+        public static async Task PickCalendar(IBotContext context)
         {
             try
             {
-                await CalendarUtils.Create(botClient, update, CustomTHeader.CalendarCallback, "Выберите дату:");
+                await CalendarUtils.Create(context, CustomTHeader.CalendarCallback, "Выберите дату:");
             }
             catch (Exception ex)
             {
@@ -35,11 +34,11 @@ namespace ConsoleExample.Examples
         /// Вызов команды календаря на английском языке
         /// </summary>
         [ReplyMenuHandler("EngCalendar")]
-        public static async Task EngPickCalendar(ITelegramBotClient botClient, Update update)
+        public static async Task EngPickCalendar(IBotContext context)
         {
             try
             {
-                await CalendarUtils.Create(botClient, update, CultureInfo.GetCultureInfo("en-US", false), CustomTHeader.CalendarCallback, "Choose date:");
+                await CalendarUtils.Create(context, CultureInfo.GetCultureInfo("en-US", false), CustomTHeader.CalendarCallback, "Choose date:");
             }
             catch (Exception ex)
             {
@@ -51,20 +50,20 @@ namespace ConsoleExample.Examples
         /// Обработка выбраной даты
         /// </summary>
         [InlineCallbackHandler<CustomTHeader>(CustomTHeader.CalendarCallback)]
-        public static async Task PickDate(ITelegramBotClient botClient, Update update)
+        public static async Task PickDate(IBotContext context)
         {
-            var bot = botClient.GetBotDataOrNull();
+            var bot = context.Current;
             try
             {
-                using (var inlineHandler = new InlineCallback<CalendarTCommand>(botClient, update))
+                using (var inlineHandler = new InlineCallback<CalendarTCommand>(context))
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
-                    await Helpers.Message.Send(botClient, update, command.Data.Date.ToString());
+                    await Helpers.Message.Send(context, command.Data.Date.ToString());
                 }
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex);
+                bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
             }
         }
     }

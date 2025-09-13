@@ -1,12 +1,12 @@
 ﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Helpers = PRTelegramBot.Helpers;
@@ -39,7 +39,7 @@ namespace ConsoleExample.Examples
         /// Напишите в чате "pages"
         /// </summary>
         [ReplyMenuHandler("pages")]
-        public static async Task ExamplePages(ITelegramBotClient botClient, Update update)
+        public static async Task ExamplePages(IBotContext context)
         {
             //Беру текст для первого сообщения
             string msg = pageData[0];
@@ -49,14 +49,14 @@ namespace ConsoleExample.Examples
             var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
-            var message = await Helpers.Message.Send(botClient, update, msg, option);
+            var message = await Helpers.Message.Send(context, msg, option);
         }
 
         /// <summary>
         /// Напишите в чате "pagestwo"
         /// </summary>
         [ReplyMenuHandler("pagestwo")]
-        public static async Task ExamplePagesTwo(ITelegramBotClient botClient, Update update)
+        public static async Task ExamplePagesTwo(IBotContext context)
         {
             //Беру текст для первого сообщения
             string msg = pageDataTwo[0];
@@ -67,7 +67,7 @@ namespace ConsoleExample.Examples
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
 
-            var message = await Helpers.Message.Send(botClient, update, msg, option);
+            var message = await Helpers.Message.Send(context, msg, option);
         }
 
         /// <summary>
@@ -75,14 +75,14 @@ namespace ConsoleExample.Examples
         /// Обрабатывает одну точку входа
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.NextPage, PRTelegramBotCommand.PreviousPage, PRTelegramBotCommand.CurrentPage)]
-        public static async Task InlinenPage(ITelegramBotClient botClient, Update update)
+        public static async Task InlinenPage(IBotContext context)
         {
             try
             {
                 //Попытка преобразовать callback данные к требуемому типу
-                if (update.CallbackQuery?.Data != null)
+                if (context.Update.CallbackQuery?.Data != null)
                 {
-                    var command = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(update.CallbackQuery.Data);
+                    var command = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(context);
                     if (command != null)
                     {
                         //Получаю заголовок из данных
@@ -109,7 +109,7 @@ namespace ConsoleExample.Examples
                                 msg = "Нечего не найдено";
                             }
                             //Редактирую текущую страницу
-                            await Helpers.Message.Edit(botClient, update, msg, option);
+                            await Helpers.Message.Edit(context, msg, option);
                         }
                         //обрабатываю данные по заголовку
                         else if (header == CustomTHeaderTwo.CustomPageHeader2)
@@ -132,7 +132,7 @@ namespace ConsoleExample.Examples
                                 msg = "Нечего не найдено";
                             }
                             //Редактирую текущую страницу
-                            await Helpers.Message.Edit(botClient, update, msg, option);
+                            await Helpers.Message.Edit(context, msg, option);
                         }
                     }
                 }
@@ -145,7 +145,7 @@ namespace ConsoleExample.Examples
         }
 
         [InlineCallbackHandler<CustomTHeader>(CustomTHeader.CustomButton)]
-        public static async Task FavoriteMessage(ITelegramBotClient botClient, Update update)
+        public static async Task FavoriteMessage(IBotContext context)
         {
             string msg = "Меню";
             //Создаем настройки сообщения
@@ -172,7 +172,7 @@ namespace ConsoleExample.Examples
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Helpers.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(context, msg, option);
         }
     }
 }

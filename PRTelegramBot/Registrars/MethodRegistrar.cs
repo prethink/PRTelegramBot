@@ -2,6 +2,7 @@
 using PRTelegramBot.Core.Factories;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
+using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Utils;
 using System.Reflection;
 using Telegram.Bot;
@@ -39,8 +40,9 @@ namespace PRTelegramBot.Registrars
                     bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(bot, method);
                     if (!isValidMethod)
                     {
-                        bot.Events.OnErrorLogInvoke(new Exception($"The method {method.Name} has an invalid signature. " +
-                            $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}"));
+                        var exception = new Exception($"The method {method.Name} has an invalid signature. " +
+                            $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}");
+                        bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception));
                         continue;
                     }
 
@@ -50,7 +52,7 @@ namespace PRTelegramBot.Registrars
                 }
                 catch (Exception ex)
                 {
-                    bot.Events.OnErrorLogInvoke(ex);
+                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 }
             }
         }
@@ -81,18 +83,19 @@ namespace PRTelegramBot.Registrars
                         bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(bot, method);
                         if (!isValidMethod)
                         {
-                            bot.Events.OnErrorLogInvoke(new Exception($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored."));
+                            var exception = new Exception($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored.");
+                            bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception));
                             continue;
                         }
 
-                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), method, false);
-                        var telegramCommand = new HandlerFactory().CreateHandler((IBaseQueryAttribute)attribute, (Func<ITelegramBotClient, Update, Task>)serverMessageHandler, null);
+                        Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), method, false);
+                        var telegramCommand = new HandlerFactory().CreateHandler((IBaseQueryAttribute)attribute, (Func<IBotContext, Task>)serverMessageHandler, null);
                         commands.Add(command, telegramCommand);
                     }
                 }
                 catch (Exception ex)
                 {
-                    bot.Events.OnErrorLogInvoke(ex);
+                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 }
             }
         }

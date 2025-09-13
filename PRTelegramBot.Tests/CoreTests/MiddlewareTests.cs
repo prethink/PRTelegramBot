@@ -1,7 +1,7 @@
 ﻿using Moq;
 using PRTelegramBot.Core.Middlewares;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Tests.TestModels.TestMiddleware;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Tests.CoreTests
@@ -13,7 +13,7 @@ namespace PRTelegramBot.Tests.CoreTests
         {
             var exceptedMessageMainLogin = "Main Logic";
             var update = new Update { Id = 1 };
-            var botClientMock = new Mock<ITelegramBotClient>();
+            var botContextMock = new Mock<IBotContext>();
             var log = new List<string>();
 
             var middlewareOne = new TestOneMiddleware(log);
@@ -23,7 +23,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var builder = new MiddlewareBuilder();
             var middlewareChain = builder.Build(new List<MiddlewareBase>() { middlewareOne, middlewareTwo, middlewareThree });
 
-            await middlewareChain.InvokeOnPreUpdateAsync(botClientMock.Object, update, async () =>
+            await middlewareChain.InvokeOnPreUpdateAsync(botContextMock.Object, async () =>
             {
                 log.Add(exceptedMessageMainLogin);
             });

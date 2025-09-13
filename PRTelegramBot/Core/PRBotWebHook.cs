@@ -14,23 +14,19 @@ namespace PRTelegramBot.Core
     {
         #region Базовый класс
 
-        public override DataRetrievalMethod DataRetrieval
-        {
-            get
-            {
-                return DataRetrievalMethod.WebHook;
-            }
-        }
+        /// <inheritdoc />
+        public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.WebHook;
 
-        public override async Task Start()
+        /// <inheritdoc />
+        public override async Task StartAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await base.Start();
+                await base.StartAsync(Options.CancellationTokenSource.Token);
                 if(string.IsNullOrEmpty(Options.WebHookOptions.SecretToken))
                     Options.WebHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
 
-                await botClient.SetWebhook(
+                await BotClient.SetWebhook(
                     url: Options.WebHookOptions.Url,
                     certificate: Options.WebHookOptions.Certificate,
                     ipAddress: Options.WebHookOptions.IpAddress,
@@ -38,7 +34,7 @@ namespace PRTelegramBot.Core
                     allowedUpdates: Array.Empty<UpdateType>(),
                     dropPendingUpdates: Options.WebHookOptions.DropPendingUpdates,
                     secretToken: Options.WebHookOptions.SecretToken,
-                    cancellationToken: Options.CancellationToken.Token);
+                    cancellationToken: Options.CancellationTokenSource.Token);
             }
             catch(Exception ex)
             {
@@ -46,14 +42,16 @@ namespace PRTelegramBot.Core
             }
         }
 
-        public override async Task Stop()
+        /// <inheritdoc />
+        public override async Task StopAsync(CancellationToken cancellationToken = default)
         {
-            await botClient.DeleteWebhook(cancellationToken: Options.CancellationToken.Token);
+            await BotClient.DeleteWebhook(cancellationToken: Options.CancellationTokenSource.Token);
         }
 
-        public async Task<WebhookInfo> GetWebHookInfo()
+        /// <inheritdoc cref="TelegramBotClientExtensions.GetWebhookInfo"/>
+        public async Task<WebhookInfo> GetWebHookInfoAsync(CancellationToken cancellationToken = default)
         {
-            return await botClient.GetWebhookInfo();
+            return await BotClient.GetWebhookInfo(cancellationToken);
         }
 
         #endregion

@@ -207,10 +207,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создает inline кнопку
+        /// Создает inline кнопку.
         /// </summary>
-        /// <param name="inlineData">Данные inline кнопки</param>
-        /// <returns>Inline кнопка</returns>
+        /// <param name="inlineData">Данные inline кнопки.</param>
+        /// <returns>Inline кнопка.</returns>
         /// <exception cref="NotImplementedException"></exception>
         public static InlineKeyboardButton GetInlineButton(IInlineContent inlineData)
         {
@@ -231,10 +231,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создает одно inline меню из нескольких
+        /// Создает одно inline меню из нескольких.
         /// </summary>
-        /// <param name="keyboards">Массив меню</param>
-        /// <returns> Inline меню для бота</returns>
+        /// <param name="keyboards">Массив меню.</param>
+        /// <returns> Inline меню для бота.</returns>
         public static InlineKeyboardMarkup UnitInlineKeyboard(params InlineKeyboardMarkup[] keyboards)
         {
             List<IEnumerable<InlineKeyboardButton>> buttons = new();
@@ -246,7 +246,7 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует меню для постраничного вывода
+        /// Генерирует меню для постраничного вывода.
         /// </summary>
         /// <param name="currentPage">Текущая страница</param>
         /// <param name="pageCount">Всего страниц</param>

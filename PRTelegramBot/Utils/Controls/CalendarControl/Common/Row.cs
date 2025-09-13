@@ -2,7 +2,6 @@
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils.Controls.CalendarControl.Common

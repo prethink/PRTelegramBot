@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Core.Executors;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
@@ -12,45 +13,41 @@ namespace PRTelegramBot.Core.CommandHandlers
     /// </summary>
     internal sealed class NextStepCommandHandler
     {
-        #region Поля и свойства
-
-        /// <summary>
-        /// Бот.
-        /// </summary>
-        private readonly PRBotBase bot;
-
-        #endregion
-
         #region Методы
 
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update)
+        /// <summary>
+        /// Обработать следующий шаг.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>Результат обработки.</returns>
+        public async Task<UpdateResult> Handle(IBotContext context)
         {
             try
             {
-                if (!update.HasStepHandler())
+                if (!context.Update.HasStepHandler())
                     return UpdateResult.Continue;
 
-                var step = update.GetStepHandler()?.GetExecuteMethod();
+                var step = context.Update.GetStepHandler()?.GetExecuteMethod();
                 if (step is null)
                     return UpdateResult.NotFound;
 
-                if(!update.GetStepHandler()!.CanExecute())
+                if(!context.Update.GetStepHandler()!.CanExecute())
                 {
-                    update.ClearStepUserHandler();
+                    context.Update.ClearStepUserHandler();
                     return UpdateResult.Continue;
                 }
 
-                bot.Events.CommandsEvents.OnPreNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+                context.Current.Events.CommandsEvents.OnPreNextStepCommandHandleInvoke(context.CreateBotEventArgs());
 
-                var executer = new ExecutorNextStepCommand(bot);
-                var currentHandler = bot.Handler as Handler;
+                var executer = new ExecutorNextStepCommand(context.Current);
+                var currentHandler = context.Current.Handler as Handler;
                 if (currentHandler == null)
                     return UpdateResult.Continue;
 
-                var resultExecute = await executer.ExecuteMethod(bot, update, new CommandHandler(step, bot.Options.ServiceProvider));
+                var resultExecute = await executer.ExecuteMethod(context, new CommandHandler(step, context.Current.Options.ServiceProvider));
                 if (resultExecute == CommandResult.Executed)
                 {
-                    bot.Events.CommandsEvents.OnPostNextStepCommandHandleInvoke(new BotEventArgs(bot, update));
+                    context.Current.Events.CommandsEvents.OnPostNextStepCommandHandleInvoke(context.CreateBotEventArgs());
                     return UpdateResult.Handled;
                 }
 
@@ -58,7 +55,7 @@ namespace PRTelegramBot.Core.CommandHandlers
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex, update);
+                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
                 return UpdateResult.Error;
             }
         }
@@ -66,14 +63,14 @@ namespace PRTelegramBot.Core.CommandHandlers
         /// <summary>
         /// Игнорировать базовые команды.
         /// </summary>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>True - игнорировать основные команды, False - не игнорировать.</returns>
-        public bool IgnoreBasicCommand(Update update)
+        public bool IgnoreBasicCommand(IBotContext context)
         {
-            if (!update.HasStepHandler())
+            if (!context.Update.HasStepHandler())
                 return false;
 
-            return update?.GetStepHandler()?.IgnoreBasicCommands ?? false;
+            return context.Update?.GetStepHandler()?.IgnoreBasicCommands ?? false;
         }
 
         /// <summary>
@@ -108,11 +105,7 @@ namespace PRTelegramBot.Core.CommandHandlers
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        public NextStepCommandHandler(PRBotBase bot)
-        { 
-            this.bot = bot;
-        }
+        public NextStepCommandHandler() { }
 
         #endregion
     }

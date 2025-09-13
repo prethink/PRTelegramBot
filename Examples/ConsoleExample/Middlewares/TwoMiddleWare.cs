@@ -1,21 +1,20 @@
 ﻿using PRTelegramBot.Core.Middlewares;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+using PRTelegramBot.Interfaces;
 
 namespace ConsoleExample.Middlewares
 {
     public class TwoMiddleware : MiddlewareBase
     {
-        public override async Task InvokeOnPreUpdateAsync(ITelegramBotClient botClient, Update update, Func<Task> next)
+        public override async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
             Console.WriteLine("Выполнение второго обработчика перед update");
-            await base.InvokeOnPreUpdateAsync(botClient,update, next);
+            await base.InvokeOnPreUpdateAsync(context, next);
         }
 
-        public override Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
+        public override Task InvokeOnPostUpdateAsync(IBotContext context)
         {
             Console.WriteLine("Выполнение второго обработчика после update");
-            return base.InvokeOnPostUpdateAsync(botClient, update);
+            return base.InvokeOnPostUpdateAsync(context);
         }
     }
 }

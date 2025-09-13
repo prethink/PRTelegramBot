@@ -17,6 +17,9 @@ namespace PRTelegramBot.Models.CallbackCommands
         [JsonConverter(typeof(DateOnlyConverter))]
         public DateTime Date { get; set; }
 
+        /// <summary>
+        /// Культура.
+        /// </summary>
         [JsonPropertyName("2")]
         public string Culture { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {
@@ -31,9 +31,8 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <param name="e">Событие.</param>
-        public CommonLogEventArgs(PRBotBase bot, CommonLogEventArgsCreator e) : base(bot, e.Update)
+        /// <param name="context">Контекст.</param>
+        public CommonLogEventArgs(IBotContext context, CommonLogEventArgsCreator e) : base(context)
         {
             this.Message = e.Message;
             this.Type = e.Type;

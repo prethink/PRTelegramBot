@@ -10,19 +10,19 @@ namespace ConsoleExample.Examples.Events
         public static async Task OnWrongTypeChat(BotEventArgs e)
         {
             string msg = "Неверный тип чата";
-            await Helpers.Message.Send(e.BotClient, e.Update, msg);
+            await Helpers.Message.Send(e.Context, msg);
         }
 
         public static async Task OnMissingCommand(BotEventArgs args)
         {
             string msg = "Не найдена команда";
-            await Helpers.Message.Send(args.BotClient, args.Update, msg);
+            await Helpers.Message.Send(args.Context, msg);
         }
 
         public static async Task OnErrorCommand(BotEventArgs args)
         {
             string msg = "Произошла ошибка при обработке команды";
-            await Helpers.Message.Send(args.BotClient, args.Update, msg);
+            await Helpers.Message.Send(args.Context, msg);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace ConsoleExample.Examples.Events
             if (!e.Mask.HasValue)
             {
                 // Нет маски доступа, выполняем метод.
-                await e.ExecuteMethod(e.BotClient, e.Update);
+                await e.ExecuteMethod(e.Context);
                 return;
             }
 
@@ -45,18 +45,18 @@ namespace ConsoleExample.Examples.Events
 
             // Получаем флаги доступа пользователя.
             // Здесь вы на свое усмотрение реализываете логику получение флагов, например можно из базы данных получить.
-            var userFlags = e.Update.LoadExampleFlagPrivilege();
+            var userFlags = e.Context.Update.LoadExampleFlagPrivilege();
 
             if (requiredAccess.HasFlag(userFlags))
             {
                 // Доступ есть, выполняем метод.
-                await e.ExecuteMethod(e.BotClient, e.Update);
+                await e.ExecuteMethod(e.Context);
                 return;
             }
 
             // Доступа нет.
             string errorMsg = "У вас нет доступа к данной функции";
-            await Helpers.Message.Send(e.BotClient, e.Update, errorMsg);
+            await Helpers.Message.Send(e.Context, errorMsg);
             return;
 
         }
@@ -64,12 +64,12 @@ namespace ConsoleExample.Examples.Events
         public static async Task OnUserStartWithArgs(StartEventArgs args)
         {
             string msg = "Пользователь отправил старт с аргументом";
-            await Helpers.Message.Send(args.BotClient, args.Update, msg);
+            await Helpers.Message.Send(args.Context, msg);
         }
         public static async Task OnWrongTypeMessage(BotEventArgs e)
         {
             string msg = "Неверный тип сообщения";
-            await Helpers.Message.Send(e.BotClient, e.Update, msg);
+            await Helpers.Message.Send(e.Context, msg);
         }
     }
 }

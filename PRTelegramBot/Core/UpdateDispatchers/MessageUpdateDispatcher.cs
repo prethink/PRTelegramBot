@@ -1,8 +1,8 @@
 ﻿using PRTelegramBot.Core.CommandHandlers;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Core.UpdateHandlers
@@ -34,18 +34,18 @@ namespace PRTelegramBot.Core.UpdateHandlers
         #region Методы
 
         /// <summary>
-        /// Вызвать обработку update типа message/
+        /// Вызвать обработку update типа message.
         /// </summary>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>Результат выполнения.</returns>
-        public async Task<UpdateResult> Dispatch(Update update)
+        public async Task<UpdateResult> Dispatch(IBotContext context)
         {
-            var eventResult = EventHandler(update);
+            var eventResult = EventHandler(context);
             if (eventResult == UpdateResult.Handled)
                 return eventResult;
  
-            if(update.Message.Type.Equals(MessageType.Text))
-                return await UpdateMessageCommands(update);
+            if(context.Update.Message.Type.Equals(MessageType.Text))
+                return await UpdateMessageCommands(context);
 
             
             return UpdateResult.NotFound;
@@ -54,32 +54,32 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <summary>
         /// Логика обработки сообщений.
         /// </summary>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>Результат выполнения.</returns>
-        private async Task<UpdateResult> UpdateMessageCommands(Update update)
+        private async Task<UpdateResult> UpdateMessageCommands(IBotContext context)
         {
             var result = UpdateResult.Continue;
-            bot.Events.MessageEvents.OnTextHandleInvoke(new BotEventArgs(bot, update));
+            bot.Events.MessageEvents.OnTextHandleInvoke(context.CreateBotEventArgs());
 
-            if (!nextStepHandler.IgnoreBasicCommand(update))
+            if (!nextStepHandler.IgnoreBasicCommand(context))
             {
                 foreach (var handler in bot.Options.MessageHandlers)
                 {
-                    result = await handler.Handle(bot, update, update.Message);
-                    if (!result.IsContinueHandle(bot, update))
+                    result = await handler.Handle(context, context.Update.Message);
+                    if (!result.IsContinueHandle(context))
                         return result;
                 }
             }
 
-            result = await nextStepHandler.Handle(bot, update);
+            result = await nextStepHandler.Handle(context);
             if (result == UpdateResult.Handled)
             {
-                if (nextStepHandler.LastStepExecuted(update))
-                    nextStepHandler.ClearSteps(update);
+                if (nextStepHandler.LastStepExecuted(context.Update))
+                    nextStepHandler.ClearSteps(context.Update);
                 return result;
             }
 
-            bot.Events.OnMissingCommandInvoke(new BotEventArgs(bot, update));
+            bot.Events.OnMissingCommandInvoke(context.CreateBotEventArgs());
 
             return UpdateResult.NotFound;
         }
@@ -89,13 +89,13 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// </summary>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнения.</returns>
-        private UpdateResult EventHandler(Update update)
+        private UpdateResult EventHandler(IBotContext context)
         {
             foreach (var item in TypeMessage)
             {
-                if ((int)item.Key == (int)update!.Message!.Type)
+                if ((int)item.Key == (int)context.Update!.Message!.Type)
                 {
-                    item.Value.Invoke(new BotEventArgs(bot, update));
+                    item.Value.Invoke(context.CreateBotEventArgs());
                     return UpdateResult.Handled;
                 }
             }
@@ -174,7 +174,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         public MessageUpdateDispatcher(PRBotBase bot)
         {
             this.bot = bot;
-            nextStepHandler = new NextStepCommandHandler(bot);
+            nextStepHandler = new NextStepCommandHandler();
 
             UpdateEventLink();
         }

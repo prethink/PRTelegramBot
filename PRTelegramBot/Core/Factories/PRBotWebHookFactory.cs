@@ -9,6 +9,7 @@ namespace PRTelegramBot.Core.Factory
     {
         #region Базовый класс
 
+        /// <inheritdoc />
         public override PRBotBase CreateBot(TelegramOptions options)
         {
             return new PRBotWebHook(options);

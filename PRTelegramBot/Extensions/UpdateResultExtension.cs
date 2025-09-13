@@ -1,7 +1,5 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Extensions
 {
@@ -14,14 +12,13 @@ namespace PRTelegramBot.Extensions
         /// Продолжить обработку.
         /// </summary>
         /// <param name="result">Результат update.</param>
-        /// <param name="bot">Бот.</param>
-        /// <param name="update">Update.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>True - продолжить, False - нет.</returns>
-        public static bool IsContinueHandle(this UpdateResult result, PRBotBase bot, Update update)
+        public static bool IsContinueHandle(this UpdateResult result, IBotContext context)
         {
             if (result == UpdateResult.Error)
             {
-                bot.Events.OnErrorCommandInvoke(new BotEventArgs(bot, update));
+                context.Current.Events.OnErrorCommandInvoke(context.CreateBotEventArgs());
                 return false;
             }
 

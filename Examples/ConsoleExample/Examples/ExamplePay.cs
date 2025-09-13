@@ -1,11 +1,4 @@
-﻿using PRTelegramBot.Attributes;
-using PRTelegramBot.Extensions;
-using Telegram.Bot;
-using Telegram.Bot.Requests;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Payments;
-
-namespace ConsoleExample.Examples
+﻿namespace ConsoleExample.Examples
 {
     internal class ExamplePay
     {
@@ -14,7 +7,7 @@ namespace ConsoleExample.Examples
         ///// Метод регистрирует следующий шаг пользователя
         ///// </summary>
         //[ReplyMenuHandler("Pay")]
-        //public static async Task Pay(ITelegramBotClient botClient, Update update)
+        //public static async Task Pay(ITelegramBotClient context.BotClient, context.Update update)
         //{
         //    var chatId = new ChatId(update.GetChatId());
         //    List<LabeledPrice> prices = new();

@@ -20,12 +20,14 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IInlineContent
 
+        /// <inheritdoc />
         public object GetContent()
         {
             var webApp = new WebAppInfo(WebAppUrl);
             return webApp;
         }
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return InlineKeyboardButton.WithWebApp(ButtonName, GetContent() as WebAppInfo);

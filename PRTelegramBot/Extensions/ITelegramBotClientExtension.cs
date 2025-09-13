@@ -1,7 +1,6 @@
-﻿using PRTelegramBot.Core;
-using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Extensions
 {
@@ -15,130 +14,99 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Проверяет пользователя, является ли он администратором бота.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <param name="update">Обновление из telegram.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>True - администратор, False - не администратор.</returns>
-        public static async Task<bool> IsAdmin(this ITelegramBotClient botClient, Update update)
+        public static async Task<bool> IsAdmin(this IBotContext context)
         {
-            return await IsAdmin(botClient, update.GetChatId());
+            return await IsAdmin(context);
         }
 
         /// <summary>
         /// Проверяет пользователя, является ли он администратором бота.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <returns>True - администратор, False - не администратор.</returns>
-        public static async Task<bool> IsAdmin(this ITelegramBotClient botClient, long userId)
+        public static async Task<bool> IsAdmin(this IBotContext context, long userId)
         {
-            var botData = GetBotDataOrNull(botClient);
-            return botData != null && await botData.Options.AdminManager.HasUser(userId);
+            return await context.Current.Options.AdminManager.HasUser(userId);
         }
 
         /// <summary>
         /// Проверяет пользователя, присутствует ли в белом списке бота.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <param name="update">Обновление из telegram.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>True - есть в списке, False - нет в списке.</returns>
-        public static async Task<bool> InWhiteList(this ITelegramBotClient botClient, Update update)
+        public static async Task<bool> InWhiteList(this IBotContext context)
         {
-            return await InWhiteList(botClient, update.GetChatId());
+            return await InWhiteList(context, context.Update.GetChatId());
         }
 
         /// <summary>
         /// Проверяет пользователя, присутствует ли в белом списке бота.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>True - есть в списке, False - нет в списке.</returns>
-        public static async Task<bool> InWhiteList(this ITelegramBotClient botClient, long userId)
+        public static async Task<bool> InWhiteList(this IBotContext context, long userId)
         {
-            var botData = GetBotDataOrNull(botClient);
-            return botData != null && await botData.Options.WhiteListManager.HasUser(userId);
+            return await context.Current.Options.WhiteListManager.HasUser(userId);
         }
 
         /// <summary>
-        /// Возращает список администраторов бота.
+        /// Возвращает список администраторов бота.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static async Task<List<long>> GetAdminsIds(this ITelegramBotClient botClient)
+        public static async Task<List<long>> GetAdminsIds(this IBotContext context)
         {
-            var botData = GetBotDataOrNull(botClient);
-            return botData != null ? await botData.Options.AdminManager.GetUsersIds() : new List<long>();
+            return await context.Current.Options.AdminManager.GetUsersIds();
         }
 
         /// <summary>
-        /// Возращает белый список пользователей.
+        /// Возвращает белый список пользователей.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>Список идентификаторов.</returns>
-        public static async Task<List<long>> GetWhiteListIds(this ITelegramBotClient botClient)
+        public static async Task<List<long>> GetWhiteListIds(this IBotContext context)
         {
-            var botData = GetBotDataOrNull(botClient);
-            return botData != null ? await botData.Options.WhiteListManager.GetUsersIds() : new List<long>();
-        }
-
-        /// <summary>
-        /// Получить экземпляр класса бота.
-        /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <returns>Экземпляр класса или null.</returns>
-        public static PRBotBase GetBotDataOrNull(this ITelegramBotClient botClient)
-        {
-            return BotCollection.Instance.GetBotByTelegramIdOrNull(botClient.BotId);
+            return await context.Current.Options.WhiteListManager.GetUsersIds();
         }
 
         /// <summary>
         /// Вызов события простого лога.
         /// </summary>
-        /// <param name="botClient">Бот.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="msg">Сообщение.</param>
         /// <param name="typeEvent">Тип события.</param>
         /// <param name="color">Цвет.</param>
-        public static void InvokeCommonLog(this ITelegramBotClient botClient, string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
+        public static void InvokeCommonLog(this IBotContext context, string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
         {
-            var bot = GetBotDataOrNull(botClient);
-            bot?.Events.OnCommonLogInvoke(msg, typeEvent, color);
+            context.Current.Events.OnCommonLogInvoke(msg, typeEvent, color);
         }
 
         /// <summary>
         /// Вызов события логирование ошибок.
         /// </summary>
-        /// <param name="botClient">Бот.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="ex">Исключение.</param>
-        public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex)
+        public static void InvokeErrorLog(this IBotContext context, Exception ex)
         {
-            var bot = GetBotDataOrNull(botClient);
-            bot?.Events.OnErrorLogInvoke(ex);
-        }
-
-        /// <summary>
-        /// Вызов события логирование ошибок.
-        /// </summary>
-        /// <param name="botClient">Бот.</param>
-        /// <param name="ex">Исключение.</param>
-        /// <param name="update">обновление.</param>
-        public static void InvokeErrorLog(this ITelegramBotClient botClient, Exception ex, Update update)
-        {
-            var bot = GetBotDataOrNull(botClient);
-            bot?.Events.OnErrorLogInvoke(ex, update);
+            context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
         }
 
         /// <summary>
         /// Генерация реферальной ссылки.
         /// </summary>
-        /// <param name="botClient">Бот.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="refLink">Текст реферальной ссылки.</param>
         /// <returns>Сгенерированная реферальная ссылка https://t.me/{bot.Username}?start={refLink}.</returns>
         /// <exception cref="ArgumentNullException">Вызывается в случае пустого текста.</exception>
-        public async static Task<string> GetGeneratedRefLink(this ITelegramBotClient botClient, string refLink)
+        public async static Task<string> GetGeneratedRefLink(this IBotContext context, string refLink)
         {
             if (string.IsNullOrEmpty(refLink))
                 throw new ArgumentNullException(nameof(refLink));
 
-            var bot = await botClient.GetMe();
+            var bot = await context.BotClient.GetMe();
             return $"https://t.me/{bot.Username}?start={refLink}";
         }
 
@@ -147,14 +115,14 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <typeparam name="TBotProvider">Провайдера работы с файлами.</typeparam>
         /// <typeparam name="TReturn">Возращаемый тип.</typeparam>
-        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="configKey">Ключ конфига.</param>
         /// <param name="key">Ключ для значения.</param>
         /// <returns>Значение из конфиг файла.</returns>
-        public static TReturn GetConfigValue<TBotProvider, TReturn>(this ITelegramBotClient botClient, string configKey, string key)
+        public static TReturn GetConfigValue<TBotProvider, TReturn>(this IBotContext context, string configKey, string key)
             where TBotProvider : IBotConfigProvider
         {
-            string configPath = botClient.GetBotDataOrNull().Options.ConfigPaths[configKey];
+            string configPath = context.Current.Options.ConfigPaths[configKey];
             var botConfiguration = Activator.CreateInstance(typeof(TBotProvider)) as IBotConfigProvider;
             botConfiguration.SetConfigPath(configPath);
             return botConfiguration.GetValue<TReturn>(key);
@@ -165,19 +133,19 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <typeparam name="TBotProvider">Провайдера работы с файлами.</typeparam>
         /// <typeparam name="TReturn">Возращаемый тип.</typeparam>
-        /// <param name="botClient">Бот клиент.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="configKey">Ключ конфига.</param>
         /// <param name="key">Ключ для значения.</param>
         /// <param name="result">Значение.</param>
         /// <returns>True - значение получено, False - не удалось получить значение.</returns>
-        public static bool TryGetConfigValue<TBotProvider, TReturn>(this ITelegramBotClient botClient, string configKey, string key, out TReturn result)
+        public static bool TryGetConfigValue<TBotProvider, TReturn>(this IBotContext context, string configKey, string key, out TReturn result)
             where TBotProvider : IBotConfigProvider, new()
         {
             result = default(TReturn);
             try
             {
                 var botConfiguration = new TBotProvider(); // Создание экземпляра поставщика конфигурации
-                string configPath = botClient.GetBotDataOrNull()?.Options?.ConfigPaths?.GetValueOrDefault(configKey);
+                string configPath = context.Current.Options?.ConfigPaths?.GetValueOrDefault(configKey);
 
                 if (configPath == null)
                 {

@@ -30,6 +30,7 @@ namespace PRTelegramBot.Utils
 
         #region IDisposable
 
+        /// <inheritdoc />
         public void Dispose()
         {
             _ = DeleteMessage();

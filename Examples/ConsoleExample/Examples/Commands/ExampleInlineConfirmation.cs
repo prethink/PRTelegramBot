@@ -7,8 +7,6 @@ using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.TCommands;
 using PRTelegramBot.Utils;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace ConsoleExample.Examples.Commands
 {
@@ -20,7 +18,7 @@ namespace ConsoleExample.Examples.Commands
         /// Так же при проверки будет проигнорирован регистр команды.
         /// </summary>
         [ReplyMenuHandler("InlineConfirm")]
-        public static async Task InlineConfirm(ITelegramBotClient botClient, Update update)
+        public static async Task InlineConfirm(IBotContext context)
         {
             //Кнопка для которой нужно создать подтверждение.
             var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтверждением", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
@@ -36,14 +34,14 @@ namespace ConsoleExample.Examples.Commands
             option.MenuInlineKeyboardMarkup = testMenu;
             string msg = "InlineCallback с подтверждением";
             //Отправка сообщение с меню
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, msg, option);
+            await PRTelegramBot.Helpers.Message.Send(context, msg, option);
         }
 
         /// <summary>
         /// Пример обработки inline класса.
         /// </summary>
         [ReplyMenuHandler("InlineClass")]
-        public static async Task InlineClass(ITelegramBotClient botClient, Update update)
+        public static async Task InlineClass(IBotContext context)
         {
             var exampleInlineCallback = new InlineCallback<StringTCommand>("Test1", ClassTHeader.DefaultTestClass, new StringTCommand("Test1"));
             var exampleInlineCallbackTwo = new InlineCallback<StringTCommand>("Test2", ClassTHeader.DefaultTestClass, new StringTCommand("Test2"));
@@ -59,7 +57,7 @@ namespace ConsoleExample.Examples.Commands
             string msg = "InlineClass";
 
             //Отправка сообщение с меню
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, msg, option);
+            await PRTelegramBot.Helpers.Message.Send(context, msg, option);
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace ConsoleExample.Examples.Commands
         /// </summary>
         [ReplyMenuHandler("InlineConfirmWithBack")]
         [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleBack)]
-        public static async Task InlineConfirmWithBack(ITelegramBotClient botClient, Update update)
+        public static async Task InlineConfirmWithBack(IBotContext context)
         {
             //Кнопка для которой нужно создать подтверждение.
             var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтвержением", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
@@ -88,10 +86,10 @@ namespace ConsoleExample.Examples.Commands
             option.MenuInlineKeyboardMarkup = testMenu;
             string msg = "InlineCallback с подтверждением и обработкой кнопки назад или кастомной";
             //Отправка сообщение с меню
-            if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
-                await PRTelegramBot.Helpers.Message.Edit(botClient, update, msg, option);
+            if (context.Update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
+                await PRTelegramBot.Helpers.Message.Edit(context, msg, option);
             else
-                await PRTelegramBot.Helpers.Message.Send(botClient, update, msg, option);
+                await PRTelegramBot.Helpers.Message.Send(context, msg, option);
         }
     }
 }

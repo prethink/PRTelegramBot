@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {
@@ -25,9 +25,9 @@ namespace PRTelegramBot.Models.EventsArgs
         public ConsoleColor Color { get; private set; }
 
         /// <summary>
-        /// Обновление.
+        /// Context.
         /// </summary>
-        public Update Update { get; private set; }
+        public IBotContext Context { get; private set; }
 
         #endregion
 
@@ -39,16 +39,16 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <param name="message">Сообщение.</param>
         /// <param name="type">Тип.</param>
         public CommonLogEventArgsCreator(string message, string type)
-            : this(message, type, ConsoleColor.White, new Update()) { }
+            : this(message, type, ConsoleColor.White, BotContext.CreateEmpty()) { }
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="message">Сообщение.</param>
         /// <param name="type">Тип.</param>
-        /// <param name="update">Обновление.</param>
-        public CommonLogEventArgsCreator(string message, string type, Update update)
-            : this(message, type, ConsoleColor.White, update) { }
+        /// <param name="context">Контекст бота.</param>
+        public CommonLogEventArgsCreator(string message, string type, IBotContext context)
+            : this(message, type, ConsoleColor.White, context) { }
 
         /// <summary>
         /// Конструктор.
@@ -57,7 +57,7 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <param name="type">Тип.</param>
         /// <param name="color">Цвет.</param>
         public CommonLogEventArgsCreator(string message, string type, ConsoleColor color)
-            : this(message, type, color, new Update()) { }
+            : this(message, type, color, BotContext.CreateEmpty()) { }
 
         /// <summary>
         /// Конструктор.
@@ -65,13 +65,13 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <param name="message">Сообщение.</param>
         /// <param name="type">Тип.</param>
         /// <param name="color">Цвет.</param>
-        /// <param name="update">Обновление.</param>
-        public CommonLogEventArgsCreator(string message, string type, ConsoleColor color, Update update)
+        /// <param name="context">Контекст бота.</param>
+        public CommonLogEventArgsCreator(string message, string type, ConsoleColor color, IBotContext context)
         {
             this.Message = message;
             this.Type = type;
             this.Color = color;
-            this.Update = update;
+            this.Context = context;
         }
 
         #endregion

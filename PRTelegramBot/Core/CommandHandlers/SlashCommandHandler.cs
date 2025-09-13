@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core.Executors;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
@@ -8,42 +9,47 @@ namespace PRTelegramBot.Core.CommandHandlers
 {
     internal class SlashCommandHandler : IMessageCommandHandler
     {
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update, Message updateType)
+        #region IMessageCommandHandler
+
+        /// <inheritdoc />
+        public async Task<UpdateResult> Handle(IBotContext context, Message updateType)
         {
-            string command = update.Message.Text;
+            string command = context.Update.Message.Text;
             if (command.StartsWith('/'))
             {
-                var resultExecute = StartHasDeepLink(bot, command, update);
+                var resultExecute = StartHasDeepLink(context, command);
                 if (resultExecute == CommandResult.Executed)
                     return UpdateResult.Handled;
 
-                bot.Events.CommandsEvents.OnPreSlashCommandHandleInvoke(new BotEventArgs(bot, update));
+                context.Current.Events.CommandsEvents.OnPreSlashCommandHandleInvoke(context.CreateBotEventArgs());
 
-                var executer = new ExecutorSlashCommand(bot);
-                var currentHandler = bot.Handler as Handler;
+                var executer = new ExecutorSlashCommand(context.Current);
+                var currentHandler = context.Current.Handler as Handler;
                 if (currentHandler == null)
                     return UpdateResult.Continue;
 
-                resultExecute = await executer.Execute(command, update, currentHandler.SlashCommandsStore.Commands);
+                resultExecute = await executer.Execute(command, context, currentHandler.SlashCommandsStore.Commands);
 
                 if (resultExecute != CommandResult.Continue)
                 {
-                    bot.Events.CommandsEvents.OnPostSlashCommandHandleInvoke(new BotEventArgs(bot, update));
+                    context.Current.Events.CommandsEvents.OnPostSlashCommandHandleInvoke(context.CreateBotEventArgs());
                     return UpdateResult.Handled;
                 }
             }
             return UpdateResult.Continue;
         }
 
+        #endregion
+
         #region Методы
 
         /// <summary>
         /// Проверка является ли команда start с аргументом.
         /// </summary>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="command">Команда.</param>
-        /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнение команд.</returns>
-        private CommandResult StartHasDeepLink(PRBotBase bot, string command, Update update)
+        private CommandResult StartHasDeepLink(IBotContext context, string command)
         {
             try
             {
@@ -54,12 +60,12 @@ namespace PRTelegramBot.Core.CommandHandlers
                 if (spl.Length < 2 || string.IsNullOrEmpty(spl[1]))
                     return CommandResult.Continue;
 
-                bot.Events.OnUserStartWithArgsInvoke(new StartEventArgs(bot, update, spl[1]));
+                context.Current.Events.OnUserStartWithArgsInvoke(new StartEventArgs(context, spl[1]));
                 return CommandResult.Executed;
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex, update);
+                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
                 return CommandResult.Error;
             }
         }

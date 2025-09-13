@@ -1,25 +1,23 @@
 ﻿using ConsoleExample.Attributes;
-using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using System.Reflection;
-using Telegram.Bot.Types;
 
 namespace ConsoleExample.Checkers
 {
-    internal class AdminExampleChecher : IInternalCheck
+    internal class AdminExampleChecker : IInternalCheck
     {
-        public async Task<InternalCheckResult> Check(PRBotBase bot, Update update, CommandHandler handler)
+        public async Task<InternalCheckResult> Check(IBotContext context, CommandHandler handler)
         {
             var method = handler.Method;
             var adminAttribute = method.GetCustomAttribute<AdminOnlyExampleAttribute>();
             if(adminAttribute != null)
             {
-                var userIsAdmin = await bot.IsAdmin(update.GetChatId());
+                var userIsAdmin = await context.IsAdmin(context.Update.GetChatId());
                 if(!userIsAdmin)
-                    await PRTelegramBot.Helpers.Message.Send(bot.botClient, update.GetChatId(), "Вы не админ!");
+                    await PRTelegramBot.Helpers.Message.Send(context, "Вы не админ!");
 
                 return userIsAdmin ? InternalCheckResult.Passed : InternalCheckResult.Custom;
             }

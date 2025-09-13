@@ -1,8 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Utils;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandStores
 {
@@ -35,7 +34,7 @@ namespace PRTelegramBot.Core.CommandStores
         /// <param name="command">Команда.</param>
         /// <param name="delegate">Метод обработки команды.</param
         /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
-        public override bool AddCommand(string command, Func<ITelegramBotClient, Update, Task> @delegate)
+        public override bool AddCommand(string command, Func<IBotContext, Task> @delegate)
         {
             if (!command.StartsWith('/'))
                 command = "/" + command;

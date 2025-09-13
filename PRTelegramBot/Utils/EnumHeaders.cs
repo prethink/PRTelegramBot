@@ -5,7 +5,7 @@ namespace PRTelegramBot.Utils
     public class EnumHeaders
     {
         private static readonly object _lock = new object();
-        private static EnumHeaders _instance;
+        private static EnumHeaders instance;
         private HashSet<Enum> _uniqueValues;
         private Dictionary<int, Enum> _headers;
 
@@ -19,17 +19,17 @@ namespace PRTelegramBot.Utils
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
                 {
                     lock (_lock)
                     {
-                        if (_instance == null)
+                        if (instance == null)
                         {
-                            _instance = new EnumHeaders();
+                            instance = new EnumHeaders();
                         }
                     }
                 }
-                return _instance;
+                return instance;
             }
         }
 

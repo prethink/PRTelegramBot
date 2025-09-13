@@ -22,20 +22,17 @@ namespace PRTelegramBot.Attributes
 
         #region ICommandStore
 
-        public IEnumerable<T> Commands
-        {
-            get
-            {
-                return commands.ToList();
-            }
-        }
+        /// <inheritdoc />
+        public IEnumerable<T> Commands => commands.ToList();
 
         #endregion
 
         #region IBaseQueryAttribute
 
+        /// <inheritdoc />
         public List<long> BotIds { get; set; } = new();
 
+        /// <inheritdoc />
         public CommandComparison CommandComparison { get; protected set; }
 
         #endregion
@@ -50,6 +47,7 @@ namespace PRTelegramBot.Attributes
         public BaseQueryAttribute(long[] botIds, CommandComparison commandComparison)
         {
             BotIds.AddRange(botIds);
+
             this.CommandComparison = commandComparison;
         }
 

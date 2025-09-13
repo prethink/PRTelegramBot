@@ -1,6 +1,6 @@
-﻿using PRTelegramBot.Models;
+﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Executors
 {
@@ -30,15 +30,15 @@ namespace PRTelegramBot.Core.Executors
         /// Выполнить команду.
         /// </summary>
         /// <param name="command">Команда для выполения.</param>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="commands">Команды.</param>
         /// <returns>Результат выполнения команды.</returns>
-        public async Task<CommandResult> Execute(TKey command, Update update, Dictionary<TKey, CommandHandler> commands)
+        public async Task<CommandResult> Execute(TKey command, IBotContext context, Dictionary<TKey, CommandHandler> commands)
         {
             foreach (var commandExecute in commands.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
             {
                 if (CanExecute(command, commandExecute.Key, commandExecute.Value))
-                    return await ExecuteMethod(bot, update, commandExecute.Value);
+                    return await ExecuteMethod(context, commandExecute.Value);
             }
             return CommandResult.Continue;
         }
@@ -46,26 +46,26 @@ namespace PRTelegramBot.Core.Executors
         /// <summary>
         /// Выполнить метод.
         /// </summary>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="handler">Обработчик.</param>
         /// <returns>Результат выполнения команды.</returns>
-        public virtual async Task<CommandResult> ExecuteMethod(PRBotBase bot, Update update, CommandHandler handler)
+        public virtual async Task<CommandResult> ExecuteMethod(IBotContext context, CommandHandler handler)
         {
-            var result = await InternalCheck(bot, update, handler);
+            var result = await InternalCheck(context, handler);
             if (result != InternalCheckResult.Passed)
                 return CommandResult.InternalCheck;
 
-            await handler.ExecuteCommand(bot.botClient, update);
+            await handler.ExecuteCommand(context);
             return CommandResult.Executed;
         }
 
         /// <summary>
         /// Внутрення проверка для <see cref="ExecuteMethod"/>
         /// </summary>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="handler">Обработчик.</param>
         /// <returns>Результат выполнения проверки.</returns>
-        protected abstract Task<InternalCheckResult> InternalCheck(PRBotBase bot, Update update, CommandHandler handler);
+        protected abstract Task<InternalCheckResult> InternalCheck(IBotContext context, CommandHandler handler);
 
         /// <summary>
         /// Можно ли выполнить команду.

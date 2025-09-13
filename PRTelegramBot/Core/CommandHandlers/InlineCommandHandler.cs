@@ -1,7 +1,7 @@
 ﻿using PRTelegramBot.Core.Executors;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types;
 
@@ -9,21 +9,22 @@ namespace PRTelegramBot.Core.CommandHandlers
 {
     internal class InlineCommandHandler : ICallbackQueryCommandHandler
     {
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update, CallbackQuery updateType)
+        /// <inheritdoc />
+        public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
             var command = InlineCallback.GetCommandByCallbackOrNull(updateType.Data);
             if (command != null)
             {
-                bot.Events.CommandsEvents.OnPreInlineCommandHandleInvoke(new BotEventArgs(bot, update));
-                var executer = new ExecutorCallbackQueryCommand(bot);
-                var currentHandler = bot.Handler as Handler;
+                context.Current.Events.CommandsEvents.OnPreInlineCommandHandleInvoke(context.CreateBotEventArgs());
+                var executer = new ExecutorCallbackQueryCommand(context.Current);
+                var currentHandler = context.Current.Handler as Handler;
                 if (currentHandler == null)
                     return UpdateResult.Continue;
 
-                var resultExecute = await executer.Execute(command.CommandType, update, currentHandler.CallbackQueryCommandsStore.Commands);
+                var resultExecute = await executer.Execute(command.CommandType, context, currentHandler.CallbackQueryCommandsStore.Commands);
                 if (resultExecute == CommandResult.Executed)
                 {
-                    bot.Events.CommandsEvents.OnPostInlineCommandHandleInvoke(new BotEventArgs(bot, update));
+                    context.Current.Events.CommandsEvents.OnPostInlineCommandHandleInvoke(context.CreateBotEventArgs());
                     return UpdateResult.Handled;
                 }
             }

@@ -74,7 +74,7 @@ var prBotInstance = new PRBotBuilder("Token")
 
 prBotInstance.Events.OnCommonLog += PrBotInstance_OnLogCommon;
 prBotInstance.Events.OnErrorLog += PrBotInstance_OnLogError;
-await prBotInstance.Start();
+await prBotInstance.StartAsync();
 
 
 app.Run();

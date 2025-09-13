@@ -1,10 +1,10 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using System.Reflection;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Executors
 {
@@ -15,48 +15,49 @@ namespace PRTelegramBot.Core.Executors
     {
         #region Базовый класс
 
-        protected override async Task<InternalCheckResult> InternalCheck(PRBotBase bot, Update update, CommandHandler handler)
+        /// <inheritdoc />
+        protected override async Task<InternalCheckResult> InternalCheck(IBotContext context, CommandHandler handler)
         {
             var method = handler.Method;
-            var privilages = method.GetCustomAttribute<AccessAttribute>();
+            var privileges = method.GetCustomAttribute<AccessAttribute>();
             var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
             var requireChat = method.GetCustomAttribute<RequiredTypeChatAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
 
             if (requireChat != null)
             {
-                var currentType = update?.Message?.Chat?.Type;
+                var currentType = context.Update?.Message?.Chat?.Type;
                 if (currentType == null || !requireChat.TypesChat.Contains(currentType.Value))
                 {
-                    bot.Events.OnWrongTypeChatInvoke(new BotEventArgs(bot, update));
+                    bot.Events.OnWrongTypeChatInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.WrongChatType;
                 }
             }
 
             if (requireDate != null)
             {
-                var currentType = update?.Message?.Type;
+                var currentType = context.Update?.Message?.Type;
                 if (currentType == null || !requireDate.TypeMessages.Contains(currentType.Value))
                 {
-                    bot.Events.OnWrongTypeMessageInvoke(new BotEventArgs(bot, update));
+                    bot.Events.OnWrongTypeMessageInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.WrongMessageType;
                 }
             }
 
-            if (privilages != null)
+            if (privileges != null)
             {
-                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, handler.ExecuteCommand, privilages.Mask));
+                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(context, handler.ExecuteCommand, privileges.Mask));
                 return InternalCheckResult.PrivilegeCheck;
             }
 
             var whiteListManager = bot.Options.WhiteListManager;
-            var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
+            var hasUserInWhiteList = await whiteListManager.HasUser(context.Update.GetChatId());
 
             if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
             {
                 if (whiteListAttribute == null && !hasUserInWhiteList)
                 {
-                    bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
+                    bot.Events.OnAccessDeniedInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.NotInWhiteList;
                 }
             }
@@ -66,7 +67,7 @@ namespace PRTelegramBot.Core.Executors
             {
                 foreach (var commandChecker in currentCheckers)
                 {
-                    var result = await commandChecker.Checker.Check(bot, update, handler);
+                    var result = await commandChecker.Checker.Check(context, handler);
                     if (result != InternalCheckResult.Passed)
                         return result;
                 }
@@ -75,6 +76,7 @@ namespace PRTelegramBot.Core.Executors
             return InternalCheckResult.Passed;
         }
 
+        /// <inheritdoc />
         protected override bool CanExecute(string currentCommand, string command, CommandHandler handler)
         {
             if (handler.CommandComparison == CommandComparison.Equals)

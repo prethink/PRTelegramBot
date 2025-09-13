@@ -10,6 +10,7 @@ namespace PRTelegramBot.Attributes
     {
         #region IBaseQueryAttribute
 
+        /// <inheritdoc />
         public List<long> BotIds { get; set; } = new();
 
         #endregion

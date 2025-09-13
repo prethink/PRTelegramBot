@@ -11,11 +11,13 @@ namespace PRTelegramBot.Models.InlineButtons
     {
         #region IInlineContent
 
+        /// <inheritdoc />
         public object GetContent()
         {
             return "";
         }
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return InlineKeyboardButton.WithPay(ButtonName);

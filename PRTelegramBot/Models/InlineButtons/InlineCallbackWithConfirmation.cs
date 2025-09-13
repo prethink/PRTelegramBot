@@ -53,7 +53,8 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IInlineContent
 
-        public object GetContent()
+        /// <inheritdoc />
+        public override object GetContent()
         {
             return base.GetContent();
         }
@@ -62,13 +63,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region Базовый класс
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return base.GetInlineButton();
         }
 
         #endregion
-
 
         #region Конструкторы
 

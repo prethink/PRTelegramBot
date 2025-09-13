@@ -16,6 +16,10 @@
         /// <summary>
         /// Обработка данных webhook.
         /// </summary>
-        WebHook
+        WebHook,
+        /// <summary>
+        /// Заглушка.
+        /// </summary>
+        Dummy,
     }
 }

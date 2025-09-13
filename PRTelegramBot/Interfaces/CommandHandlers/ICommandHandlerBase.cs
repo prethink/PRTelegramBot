@@ -1,6 +1,4 @@
-﻿using PRTelegramBot.Core;
-using PRTelegramBot.Models.Enums;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Interfaces
 {
@@ -13,10 +11,9 @@ namespace PRTelegramBot.Interfaces
         /// <summary>
         /// Обработка.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <param name="update">Update.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="updateType">Конкретный класс update.</param>
         /// <returns>Результат обновления.</returns>
-        public Task<UpdateResult> Handle(PRBotBase bot, Update update, T updateType);
+        public Task<UpdateResult> Handle(IBotContext context, T updateType);
     }
 }

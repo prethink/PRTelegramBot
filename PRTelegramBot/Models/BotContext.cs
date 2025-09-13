@@ -1,19 +1,86 @@
-﻿using Telegram.Bot;
+﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
+using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Models
 {
-    public class BotContext
+    /// <summary>
+    /// Контекст бота.
+    /// </summary>
+    public class BotContext : IBotContext
     {
-        public ITelegramBotClient BotClient { get; protected set; }
-        public Update Update { get; protected set; }
-        public CancellationToken CancellationToken { get; protected set; }
+        #region IIBotContext
 
-        public BotContext(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public IEnumerable<PRBotBase> Bots => BotCollection.Instance.GetBots();
+
+        /// <inheritdoc />
+        public PRBotBase Current { get; }
+
+        /// <inheritdoc />
+        public ITelegramBotClient BotClient => Current.BotClient;
+
+        /// <inheritdoc />
+        public Update Update { get; }
+
+        /// <inheritdoc />
+        public UpdateType CurrentUpdateType => Update.Type;
+
+        /// <inheritdoc />
+        public CancellationToken CancellationToken { get; }
+
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Создать заглушку контекста.
+        /// </summary>
+        /// <returns>Заглушка.</returns>
+        public static IBotContext CreateEmpty()
         {
-            BotClient = botClient;
+            return new BotContext(new PRBotDummy());
+        }
+
+        #endregion
+
+        #region Конструкторы
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="update">Обновление telegram.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        public BotContext(PRBotBase bot, Update update, CancellationToken cancellationToken)
+        {
+            Current = bot;
             Update = update;
             CancellationToken = cancellationToken;
         }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        public BotContext(PRBotBase bot) : this(bot, new Update(), CancellationToken.None) {}
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="update">Обновление telegram.</param>
+        public BotContext(PRBotBase bot, Update update) : this(bot, update, CancellationToken.None) { }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        public BotContext(PRBotBase bot, CancellationToken cancellationToken) : this(bot, new Update(), cancellationToken) { }
+
+        #endregion
     }
 }

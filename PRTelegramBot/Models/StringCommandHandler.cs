@@ -1,7 +1,6 @@
-﻿using PRTelegramBot.Models.Enums;
+﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.Enums;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
@@ -48,7 +47,7 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="command">Команда.</param>
-        public StringCommandHandler(Func<ITelegramBotClient, Update, Task> command)
+        public StringCommandHandler(Func<IBotContext, Task> command)
             : this(command, null, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase) { }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда.</param>
         /// <param name="ServiceProvider">Сервис провайдер.</param>
-        public StringCommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider)
+        public StringCommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider)
             : this(command, ServiceProvider, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase) { }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
-        public StringCommandHandler(Func<ITelegramBotClient, Update, Task> command, CommandComparison commandComparison) 
+        public StringCommandHandler(Func<IBotContext, Task> command, CommandComparison commandComparison) 
             : this(command,null, commandComparison, StringComparison.OrdinalIgnoreCase) { }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace PRTelegramBot.Models
         /// <param name="ServiceProvider">Сервис провайдер.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
         /// <param name="stringComparison">Сравнение строк.</param>
-        public StringCommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison, StringComparison stringComparison)
+        public StringCommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison, StringComparison stringComparison)
             : base(command, ServiceProvider, commandComparison)
         {
             this.StringComparison = stringComparison;

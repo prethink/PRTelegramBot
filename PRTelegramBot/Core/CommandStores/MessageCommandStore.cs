@@ -1,6 +1,6 @@
-﻿using PRTelegramBot.Models;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
+using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Core.CommandStores
 {
@@ -15,9 +15,9 @@ namespace PRTelegramBot.Core.CommandStores
         /// Добавить новую команду.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="delegate">Метод обработки команды.</param
+        /// <param name="delegate">Метод обработки команды.</param>
         /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
-        public override bool AddCommand(string command, Func<ITelegramBotClient, Update, Task> @delegate)
+        public override bool AddCommand(string command, Func<IBotContext, Task> @delegate)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace PRTelegramBot.Core.CommandStores
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex);
+                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 return false;
             }
         }
@@ -45,7 +45,7 @@ namespace PRTelegramBot.Core.CommandStores
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex);
+                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 return false;
             }
         }
