@@ -8,7 +8,7 @@ using System.Reflection;
 namespace PRTelegramBot.Core.CommandStores
 {
     /// <summary>
-    /// Хранилище callbackquery команд.
+    /// Хранилище callbackQuery команд.
     /// </summary>
     public sealed class CallbackQueryCommandStore : BaseCommandStore<Enum>
     {

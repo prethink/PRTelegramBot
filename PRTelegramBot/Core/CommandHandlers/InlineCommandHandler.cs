@@ -13,12 +13,12 @@ namespace PRTelegramBot.Core.CommandHandlers
         public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
             var command = InlineCallback.GetCommandByCallbackOrNull(updateType.Data);
-            if (command != null)
+            if (command is not null)
             {
                 context.Current.Events.CommandsEvents.OnPreInlineCommandHandleInvoke(context.CreateBotEventArgs());
                 var executer = new ExecutorCallbackQueryCommand(context.Current);
                 var currentHandler = context.Current.Handler as Handler;
-                if (currentHandler == null)
+                if (currentHandler is null)
                     return UpdateResult.Continue;
 
                 var resultExecute = await executer.Execute(command.CommandType, context, currentHandler.CallbackQueryCommandsStore.Commands);

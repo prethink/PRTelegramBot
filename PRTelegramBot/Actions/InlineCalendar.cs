@@ -27,7 +27,7 @@ namespace PRTelegramBot.Actions
             try
             {
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
-                if (command != null)
+                if (command is not null)
                 {
                     var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
                     var option = new OptionMessage();
@@ -50,7 +50,7 @@ namespace PRTelegramBot.Actions
             try
             {
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
-                if (command != null)
+                if (command is not null)
                 {
                     var monthPickerMarkup = Markup.PickMonth(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
                     var option = new OptionMessage();
@@ -75,7 +75,7 @@ namespace PRTelegramBot.Actions
             try
             {
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
-                if (command != null)
+                if (command is not null)
                 {
                     var monthYearMarkup = Markup.PickYear(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
                     var option = new OptionMessage();
@@ -98,7 +98,7 @@ namespace PRTelegramBot.Actions
             try
             {
                 var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
-                if (command != null)
+                if (command is not null)
                 {
                     var calendarMarkup = Markup.Calendar(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
                     var option = new OptionMessage();
@@ -125,7 +125,7 @@ namespace PRTelegramBot.Actions
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
                     command.Data.ActionWithLastMessage = (int)ActionWithLastMessage.Delete;
-                    var callBackHandler = new InlineCallback<CalendarTCommand>("", EnumHeaders.Instance.Get(command.Data.HeaderCallbackCommand), command.Data);
+                    var callBackHandler = new InlineCallback<CalendarTCommand>(string.Empty, EnumHeaders.Instance.Get(command.Data.HeaderCallbackCommand), command.Data);
                     context.Update.CallbackQuery.Data = callBackHandler.GetContent() as string;
                     await bot.Handler.HandleUpdateAsync(context.BotClient, context.Update, bot.Options.CancellationTokenSource.Token);
                 }

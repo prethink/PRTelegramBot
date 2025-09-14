@@ -21,7 +21,7 @@ namespace PRTelegramBot.Core
         private PRBotFactoryBase factory;
         private List<long> admins = [];
         private List<long> whiteList = [];
-        private WhiteListSettings _whiteListSettings = WhiteListSettings.OnPreUpdate;
+        private WhiteListSettings whiteListSettings = WhiteListSettings.OnPreUpdate;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace PRTelegramBot.Core
         {
             options.AdminManager.AddUsers(admins.ToArray());
             options.WhiteListManager.AddUsers(whiteList.ToArray());
-            options.WhiteListManager.SetSettings(_whiteListSettings);
+            options.WhiteListManager.SetSettings(whiteListSettings);
             return factory.CreateBot(options);
         }
 
@@ -101,7 +101,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetWhiteListSettings(WhiteListSettings settings)
         {
-            _whiteListSettings = settings;
+            whiteListSettings = settings;
             return this;
         }
 

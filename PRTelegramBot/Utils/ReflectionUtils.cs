@@ -165,7 +165,7 @@ namespace PRTelegramBot.Utils
             {
                 var types = assembly
                     .GetTypes()
-                    .Where(t => t.IsClass && t.GetCustomAttribute(typeof(BotHandlerAttribute)) != null);
+                    .Where(t => t.IsClass && t.GetCustomAttribute(typeof(BotHandlerAttribute)) is not null);
 
                 foreach (var type in types)
                     uniqueTypes.Add(type); 

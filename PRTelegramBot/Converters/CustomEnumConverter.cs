@@ -30,7 +30,7 @@ namespace PRTelegramBot.Converters
         public override void Write(Utf8JsonWriter writer, Enum value, JsonSerializerOptions options)
         {
             // Обработка сериализации типа Enum в JSON
-            if (value != null)
+            if (value is not null)
                 writer.WriteNumberValue(EnumHeaders.Instance.Get(value));
             else
                 writer.WriteNullValue();

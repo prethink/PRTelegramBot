@@ -4,8 +4,6 @@ using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Tests.Common;
 using PRTelegramBot.Utils;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Tests.CoreTests
 {
@@ -17,8 +15,8 @@ namespace PRTelegramBot.Tests.CoreTests
             BotCollection.Instance.ClearBots();
         }
 
-        public const string KEY_DYNAMIC_REPLY_ONE      = "";
-        public const string KEY_DYNAMIC_REPLY_TWO      = "";
+        public const string KEY_DYNAMIC_REPLY_ONE      =  "";
+        public const string KEY_DYNAMIC_REPLY_TWO      =  "";
         public const string KEY_DYNAMIC_REPLY_THREE    = "dynamic three";
         public const string KEY_DYNAMIC_REPLY_FOUR     = "dynamic four";
         public const string KEY_DYNAMIC_REPLY_FIVE     = "dynamic five";

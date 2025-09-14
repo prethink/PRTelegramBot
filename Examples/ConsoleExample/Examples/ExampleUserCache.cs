@@ -33,7 +33,7 @@ namespace ConsoleExample.Examples
         {
             //Получаем данные с кеша
             var cache = context.GetCacheData<UserCache>();
-            string msg = "";
+            string msg = string.Empty;
             if(cache.Id != null)
             {
                 msg = $"Данные в кэше пользователя: {cache.Id}";

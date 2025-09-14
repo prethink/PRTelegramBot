@@ -29,7 +29,7 @@ namespace ConsoleExample.Examples.Commands
             /*
              *  В program.cs создается экземпляр бота:
              *   
-             *  var telegram = new PRBotBuilder("")
+             *  var telegram = new PRBotBuilder(string.Empty)
                     .AddConfigPath(ExampleConstants.BUTTONS_FILE_KEY, ".\\Configs\\buttons.json")
              *      .Build();
              *  

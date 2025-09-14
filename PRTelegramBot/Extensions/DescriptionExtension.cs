@@ -29,7 +29,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>Описание.</returns>
         public static string GetDescription(this Enum @enum)
         {
-            return @enum.GetAttribute<DescriptionAttribute>()?.Description ?? "";
+            return @enum.GetAttribute<DescriptionAttribute>()?.Description ?? string.Empty;
         }
 
         #endregion

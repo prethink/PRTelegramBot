@@ -86,7 +86,7 @@ namespace ConsoleExample.Models
         {
             if (!string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName))
             {
-                string tempName = "";
+                string tempName = string.Empty;
                 tempName += FirstName + " ";
                 tempName += LastName;
                 return tempName;

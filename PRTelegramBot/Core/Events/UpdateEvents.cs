@@ -144,7 +144,7 @@ namespace PRTelegramBot.Core.Events
         /// <summary>
         /// Проверить наличие подписчиков на <see cref="OnPreUpdate"/>.
         /// </summary>
-        internal bool HasEventOnPreUpdate() => OnPreUpdate != null;
+        internal bool HasEventOnPreUpdate() => OnPreUpdate is not null;
 
         /// <summary>Вызвать событие <see cref="OnPostUpdate"/>.</summary>
         internal void OnPostInvoke(BotEventArgs e) => OnPostUpdate?.Invoke(e);

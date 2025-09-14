@@ -53,16 +53,16 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns>InlineCallback или null.</returns>
         public new static InlineCallback<T> GetCommandByCallbackOrNull(IBotContext context)
         {
-            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? "");
+            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
         /// Преобразовать данные в команду.
         /// </summary>
         /// <returns>InlineCallback или null.</returns>
-        public InlineCallback<T> GetCommandByCallbackOrNull()
+        public new InlineCallback<T> GetCommandByCallbackOrNull()
         {
-            return GetCommandByCallbackOrNull(Context.Update.CallbackQuery.Data);
+            return GetCommandByCallbackOrNull(Context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         public override object GetContent()
@@ -104,7 +104,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Конструктор.
         /// </summary>
         /// <param name="context">Контекст бота.</param>
-        public InlineCallback(IBotContext context) :base(context)
+        public InlineCallback(IBotContext context) : base(context)
         { }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns>InlineCallback или null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(IBotContext context)
         {
-            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? "");
+            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns>InlineCallback или null.</returns>
         public InlineCallback GetCommandByCallbackOrNull()
         {
-            return GetCommandByCallbackOrNull(Context.Update.CallbackQuery.Data);
+            return GetCommandByCallbackOrNull(Context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns></returns>
         public async Task ExecuteActionWithLastMessage()
         {
-            if (Context == null || Data == null || Context.Update?.CallbackQuery == null )
+            if (Context is null || Data is null || Context.Update?.CallbackQuery is null )
                 return;
 
             try
@@ -236,7 +236,7 @@ namespace PRTelegramBot.Models.InlineButtons
         public void TryUpdateData()
         {
             var command = GetCommandByCallbackOrNull();
-            if(command != null)
+            if(command is not null)
             {
                 Data = command.Data;
             }

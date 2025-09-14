@@ -14,7 +14,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <inheritdoc />
         public object GetContent()
         {
-            return "";
+            return string.Empty;
         }
 
         /// <inheritdoc />

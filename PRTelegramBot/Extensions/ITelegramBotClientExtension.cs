@@ -147,7 +147,7 @@ namespace PRTelegramBot.Extensions
                 var botConfiguration = new TBotProvider(); // Создание экземпляра поставщика конфигурации
                 string configPath = context.Current.Options?.ConfigPaths?.GetValueOrDefault(configKey);
 
-                if (configPath == null)
+                if (configPath is null)
                 {
                     // Если путь конфигурации не найден, возвращаем false
                     return false;

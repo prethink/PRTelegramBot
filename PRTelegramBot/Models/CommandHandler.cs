@@ -38,7 +38,7 @@ namespace PRTelegramBot.Models
         /// <param name="context">Контекст бота.</param>
         public async Task ExecuteCommand(IBotContext context)
         {
-            if (Method == null)
+            if (Method is null)
                 return;
 
             if (Method.IsStatic)
@@ -48,7 +48,7 @@ namespace PRTelegramBot.Models
             }
             else
             {
-                if (serviceProvider != null)
+                if (serviceProvider is not null)
                 {
                     var factory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
                     using (var scope = factory.CreateScope())

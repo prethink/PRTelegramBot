@@ -78,6 +78,7 @@ namespace PRTelegramBot.Helpers
         /// </summary>
         /// <param name="context">Контекст бота.</param>
         /// <param name="chatId">Идентификатор чата.</param>
+        /// <param name="message">Текст сообщения.</param>
         /// <param name="option">Параметры сообщения.</param>
         /// <returns>Сообщение.</returns>
         public static async Task<Telegram.Bot.Types.Message> AwaitAnswerBot(IBotContext context, long chatId, string message = "⏳ Генерирую ответ...", OptionMessage option = null)
@@ -168,6 +169,7 @@ namespace PRTelegramBot.Helpers
         /// <param name="chatId">Идентификатор чата.</param>
         /// <param name="text">Текст.</param>
         /// <param name="filepaths">Путь к файлам.</param>
+        /// <param name="option">Настройка сообщения.</param>
         /// <returns>Коллекция сообщений.</returns>
         public static async Task<Telegram.Bot.Types.Message[]> SendPhotoGroup(IBotContext context, long chatId, string text, List<string> filepaths, OptionMessage option = null)
         {
@@ -237,6 +239,7 @@ namespace PRTelegramBot.Helpers
         /// <param name="chatId">Идентификатор чата.</param>
         /// <param name="text">Текст.</param>
         /// <param name="filePath">Путь к файлу.</param>
+        /// <param name="option">Настройки сообщения.</param>
         /// <returns>Сообщение.</returns>
         public static async Task<Telegram.Bot.Types.Message> SendFile(IBotContext context, long chatId, string text, string filePath, OptionMessage option = null)
         {
@@ -297,8 +300,7 @@ namespace PRTelegramBot.Helpers
         /// <summary>
         /// Редактирование сообщения.
         /// </summary>
-        /// <param name="botClient">Клиент телеграм бота.</param>
-        /// <param name="update">Обновление телеграм.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="text">Текст.</param>
         /// <param name="option">Настройки сообщения.</param>
         /// <returns>Сообщение.</returns>
@@ -350,7 +352,6 @@ namespace PRTelegramBot.Helpers
         {
             option = CreateOptionsIfNull(option);
 
-            Telegram.Bot.Types.Message message;
             if (!File.Exists(photoPath))
                 return await EditInline(context, chatId, messageId, option);
 
@@ -364,6 +365,7 @@ namespace PRTelegramBot.Helpers
         /// <param name="context">Контекст бота.</param>
         /// <param name="chatId">Идентификатор чата.</param>
         /// <param name="messageId">Идентификатор сообщения.</param>
+        /// <param name="option">Настройка сообщения.</param>
         public static async Task DeleteMessage(IBotContext context, long chatId, int messageId, OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);
@@ -465,13 +467,13 @@ namespace PRTelegramBot.Helpers
         /// <param name="messageId">Идентификатор сообщения.</param>
         /// <param name="option">Насройки сообщения.</param>
         /// <returns>Сообщение.</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage option)
+        public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);
             var replyMarkup = GetReplyMarkup(option) as InlineKeyboardMarkup;
 
             Telegram.Bot.Types.Message message = null;
-            if (option?.MenuInlineKeyboardMarkup != null)
+            if (option?.MenuInlineKeyboardMarkup is not null)
             {
                 message = await context.BotClient.EditMessageReplyMarkup(
                     chatId: chatId,
@@ -490,7 +492,8 @@ namespace PRTelegramBot.Helpers
         /// <param name="chatId">Идентификатор чата.</param>
         /// <param name="messageId">Идентификатор сообщения.</param>
         /// <param name="stream">Поток.</param>
-        /// <param name="option">Насройки сообщения.</param>
+        /// <param name="filename">Название файла.</param>
+        /// <param name="option">Настройки сообщения.</param>
         /// <returns>Сообщение.</returns>
         public static async Task<Telegram.Bot.Types.Message> EditPhoto(IBotContext context, long chatId, int messageId, Stream stream, string filename = "file", OptionMessage option = null)
         {
@@ -515,12 +518,12 @@ namespace PRTelegramBot.Helpers
         /// <param name="media">Медиа.</param>
         /// <param name="option">Параметры сообщения.</param>
         /// <returns>Сообщение.</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditWithPhoto(IBotContext context, long chatId, int messageId, string text, InputMedia media, OptionMessage option)
+        public static async Task<Telegram.Bot.Types.Message> EditWithPhoto(IBotContext context, long chatId, int messageId, string text, InputMedia media, OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);
 
             Telegram.Bot.Types.Message message = null;
-            if (option?.MenuInlineKeyboardMarkup != null)
+            if (option?.MenuInlineKeyboardMarkup is not null)
             {
                 await context.BotClient.EditMessageMedia(
                     chatId: chatId,
@@ -572,7 +575,7 @@ namespace PRTelegramBot.Helpers
         /// <returns>Экземпляр класса OptionMessage.</returns>
         private static OptionMessage CreateOptionsIfNull(OptionMessage option = null)
         {
-            if (option == null)
+            if (option is null)
                 option = new OptionMessage();
             return option;
         }
@@ -582,16 +585,16 @@ namespace PRTelegramBot.Helpers
         /// </summary>
         /// <param name="option">Параметры сообщения.</param>
         /// <returns>Готовое меню или null.</returns>
-        private static ReplyMarkup? GetReplyMarkup(OptionMessage option)
+        private static ReplyMarkup? GetReplyMarkup(OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);
 
             ReplyMarkup replyMarkup = null;
             if (option.ClearMenu)
                 replyMarkup = new ReplyKeyboardRemove();
-            else if (option.MenuReplyKeyboardMarkup != null)
+            else if (option.MenuReplyKeyboardMarkup is not null)
                 replyMarkup = option.MenuReplyKeyboardMarkup;
-            else if (option.MenuInlineKeyboardMarkup != null)
+            else if (option.MenuInlineKeyboardMarkup is not null)
                 replyMarkup = option.MenuInlineKeyboardMarkup;
 
             return replyMarkup;
@@ -600,7 +603,7 @@ namespace PRTelegramBot.Helpers
         private static ReplyParameters CreateReplyParametersFromOptions(OptionMessage option)
         {
             ReplyParameters parameters = new ReplyParameters();
-            if(option.ReplyToMessageId != null)
+            if(option.ReplyToMessageId is not null)
                 parameters.MessageId = option.ReplyToMessageId.Value;
             parameters.AllowSendingWithoutReply = option.AllowSendingWithoutReply;
             

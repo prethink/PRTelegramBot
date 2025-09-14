@@ -78,7 +78,7 @@ namespace PRTelegramBot.Extensions
                 chatId = update.GetChatId();
                 return true;
             }
-            catch(Exception e) 
+            catch
             {
                 return false;
             }
@@ -145,7 +145,7 @@ namespace PRTelegramBot.Extensions
                 UpdateType.MyChatMember => GetFullNameFromChat(update.MyChatMember.Chat),
                 UpdateType.PollAnswer => GetFullNameFromChat(update.PollAnswer.VoterChat),
                 UpdateType.RemovedChatBoost => GetFullNameFromChat(update.RemovedChatBoost.Chat),
-                _ => ""
+                _ => string.Empty
             };
         }
 
@@ -191,7 +191,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>True - удалось добавить, False - не удалось.</returns>
         internal static bool AddTelegramClient(this Update update, PRBotBase bot)
         {
-            if(update == null) 
+            if(update is null) 
                 return false;
 
             return botLink.TryAdd(update.Id, bot);
@@ -228,11 +228,11 @@ namespace PRTelegramBot.Extensions
         /// <returns>Информация.</returns>
         private static string GetFullNameFromChat(Chat chat)
         {
-            string result = "";
+            string result = string.Empty;
             result += chat?.Id + " ";
-            result += string.IsNullOrEmpty(chat.FirstName) ? "" : chat.FirstName + " ";
-            result += string.IsNullOrEmpty(chat?.LastName) ? "" : chat.LastName + " ";
-            result += string.IsNullOrEmpty(chat?.Username) ? "" : chat.Username + " ";
+            result += string.IsNullOrEmpty(chat.FirstName) ? string.Empty : chat.FirstName + " ";
+            result += string.IsNullOrEmpty(chat?.LastName) ? string.Empty : chat.LastName + " ";
+            result += string.IsNullOrEmpty(chat?.Username) ? string.Empty : chat.Username + " ";
             return result;
         }
 

@@ -17,7 +17,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="context">Контекст бота.</param>
         public static void AutoDeleteMessage(this Message message, int seconds, IBotContext context)
         {
-            if(message == null)
+            if(message is null)
                 return;
 
             _ = Task.Run(async () =>
@@ -36,7 +36,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="context">Контекст бота.</param>
         public static void AutoEditMessage(this Message message, string messageText, int seconds, IBotContext context)
         {
-            if (message == null)
+            if (message is null)
                 return;
 
             _ = Task.Run(async () =>
@@ -55,7 +55,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="context">Контекст бота.</param>
         public static void AutoEditMessageСycle(this Message message, List<string> messageTexts, int seconds, IBotContext context)
         {
-            if (message == null)
+            if (message is null)
                 return;
 
             _ = Task.Run(async () =>

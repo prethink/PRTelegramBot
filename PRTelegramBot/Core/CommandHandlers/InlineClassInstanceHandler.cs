@@ -15,7 +15,7 @@ namespace PRTelegramBot.Core.CommandHandlers
             foreach (var handler in context.Current.InlineClassHandlerInstances)
             {
                 var command = InlineCallback.GetCommandByCallbackOrNull(updateType.Data);
-                if (command != null && Convert.ToInt32(command.CommandType) == Convert.ToInt32(handler.Key))
+                if (command is not null && Convert.ToInt32(command.CommandType) == Convert.ToInt32(handler.Key))
                     return await handler.Value.Handle(context, updateType);
             }
 

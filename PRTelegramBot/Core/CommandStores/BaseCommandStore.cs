@@ -9,6 +9,7 @@ namespace PRTelegramBot.Core.CommandStores
     /// </summary>
     /// <typeparam name="TKey">Тип ключа для команды.</typeparam>
     public abstract class BaseCommandStore<TKey>
+        where TKey : notnull
     {
         #region Поля и свойства
 

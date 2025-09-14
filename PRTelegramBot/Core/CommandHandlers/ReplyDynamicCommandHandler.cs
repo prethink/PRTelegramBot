@@ -11,7 +11,7 @@ namespace PRTelegramBot.Core.CommandHandlers
         protected override Dictionary<string, CommandHandler> GetCommands(IBotContext context)
         {
             var currentHandler = context.Current.Handler as Handler;
-            if (currentHandler == null)
+            if (currentHandler is null)
                 return new();
 
             return currentHandler.ReplyDynamicCommandsStore.Commands;

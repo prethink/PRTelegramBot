@@ -24,14 +24,13 @@ namespace PRTelegramBot.Helpers
         /// <returns>Путь до файла</returns>
         public static async Task<string> DownloadFileFromTelegram(IBotContext context, long telegramId, string fileId, string fileName)
         {
-            string folder = $"/Uploads/Users/{telegramId}/";
-            string fullPath = BaseDir + folder + "/" +fileName;
-            string dbpath = folder + "/" +fileName;
-            if (!Directory.Exists(BaseDir + folder))
-            {
-                Directory.CreateDirectory(BaseDir + folder);
-            }
-            await using Stream fileStream = System.IO.File.OpenWrite(fullPath);
+            string folder = Path.Combine("Uploads", "Users", telegramId.ToString());
+            string fullPath = Path.Combine(BaseDir, folder, fileName);
+            string dbpath = Path.Combine(folder, fileName).Replace('\\', '/');
+
+            Directory.CreateDirectory(Path.Combine(BaseDir, folder));
+
+            await using Stream fileStream = File.OpenWrite(fullPath);
             var file = await context.BotClient.GetInfoAndDownloadFile(
                 fileId: fileId,
                 destination: fileStream);
@@ -47,13 +46,11 @@ namespace PRTelegramBot.Helpers
         /// <returns></returns>
         public static string SaveFileToUser(long telegramId, MemoryStream stream, string fileName)
         {
-            string folder = $"/Uploads/Users/{telegramId}/";
-            string fullPath = BaseDir + folder + "/" + fileName;
-            string dbpath = folder + "/" + fileName;
-            if (!Directory.Exists(BaseDir + folder))
-            {
-                Directory.CreateDirectory(BaseDir + folder);
-            }
+            string folder = Path.Combine("Uploads", "Users", telegramId.ToString());
+            string fullPath = Path.Combine(BaseDir, folder, fileName);
+
+            Directory.CreateDirectory(Path.Combine(BaseDir, folder));
+
             File.WriteAllBytes(fullPath, stream.ToArray());
             return fullPath;
         }

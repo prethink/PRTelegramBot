@@ -100,7 +100,7 @@ namespace ConsoleExample.Examples.Commands
             /*
              *  В program.cs создается экземпляр бота:
              *   
-             *  var telegram = new PRBotBuilder("")
+             *  var telegram = new PRBotBuilder(string.Empty)
              *      .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
              *      .Build();
              *  
@@ -177,7 +177,7 @@ namespace ConsoleExample.Examples.Commands
              *  Выгрузка всех команд в формате ключ:значение
              *  var dynamicCommands = botJsonProvider.GetKeysAndValues();
              *
-             *  var telegram = new PRBotBuilder("")
+             *  var telegram = new PRBotBuilder(string.Empty)
              *                      .AddReplyDynamicCommands(dynamicCommands)
              *                      .Build();
              * 
@@ -236,5 +236,20 @@ namespace ConsoleExample.Examples.Commands
             string msg = nameof(ReplyExampleAllBots);
             await Helpers.Message.Send(context, msg);
         }
+
+        /// <summary>
+        /// Reply команда которая задерживает обработку update.
+        /// </summary>
+        [ReplyMenuHandler("Block10")]
+        public static async Task ReplyBlockUpdate(IBotContext context)
+        {
+            string msg = nameof(ReplyBlockUpdate);
+            await Helpers.Message.Send(context, msg);
+
+            await Task.Delay(10000);
+
+            await Helpers.Message.Send(context, "Конец ожидания");
+        }
+
     }
 }

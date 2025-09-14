@@ -20,7 +20,7 @@ namespace PRTelegramBot.Core.CommandHandlers
 
             var executer = new ExecutorReplyCommand(context.Current);
             var currentHandler = context.Current.Handler as Handler;
-            if (currentHandler == null)
+            if (currentHandler is null)
                 return UpdateResult.Continue;
 
             var resultExecute = await executer.Execute(command, context, GetCommands(context));
@@ -35,7 +35,7 @@ namespace PRTelegramBot.Core.CommandHandlers
         protected virtual Dictionary<string, CommandHandler> GetCommands(IBotContext context)
         {
             var currentHandler = context.Current.Handler as Handler;
-            if (currentHandler == null)
+            if (currentHandler is null)
                 return new();
 
             return currentHandler.ReplyCommandsStore.Commands;

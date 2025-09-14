@@ -1,6 +1,4 @@
-﻿using PRTelegramBot.Core;
-using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models;
+﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot.Types;
 

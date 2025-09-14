@@ -41,7 +41,7 @@ namespace PRTelegramBot.Core.CommandHandlers
 
                 var executer = new ExecutorNextStepCommand(context.Current);
                 var currentHandler = context.Current.Handler as Handler;
-                if (currentHandler == null)
+                if (currentHandler is null)
                     return UpdateResult.Continue;
 
                 var resultExecute = await executer.ExecuteMethod(context, new CommandHandler(step, context.Current.Options.ServiceProvider));

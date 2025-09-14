@@ -19,11 +19,11 @@ namespace PRTelegramBot.Utils
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
                     lock (_lock)
                     {
-                        if (instance == null)
+                        if (instance is null)
                         {
                             instance = new EnumHeaders();
                         }
@@ -70,7 +70,7 @@ namespace PRTelegramBot.Utils
             lock (_lock)
             {
                 var @enum = _headers.FirstOrDefault(x => x.Value.Equals(key));
-                if (@enum.Value == null)
+                if (@enum.Value is null)
                     throw new InlineCommandNotFoundException(key);
 
                 return @enum.Key;

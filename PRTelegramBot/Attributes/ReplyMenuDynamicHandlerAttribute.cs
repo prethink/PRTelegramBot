@@ -126,7 +126,7 @@ namespace PRTelegramBot.Attributes
                 {
                     if (!dynamicCommand.ContainsKey(command))
                     {
-                        var exception = new Exception($"Bot with id {bot.BotId} not contains dynamic command {command}");
+                        var exception = new ArgumentException($"Bot with id {bot.BotId} not contains dynamic command {command}");
                         bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception));
                         continue;
                     }

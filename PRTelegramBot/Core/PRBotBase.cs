@@ -137,8 +137,8 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                var update = await BotClient.GetUpdates(cancellationToken: cancellationToken);
-                foreach (var item in update)
+                var updates = await BotClient.GetUpdates(cancellationToken: cancellationToken);
+                foreach (var item in updates)
                 {
                     var offset = item.Id + 1;
                     await BotClient.GetUpdates(offset, cancellationToken: cancellationToken);
@@ -173,7 +173,7 @@ namespace PRTelegramBot.Core
             : base()
         {
             Options = new TelegramOptions();
-            if (optionsBuilder != null)
+            if (optionsBuilder is not null)
                 optionsBuilder.Invoke(Options);
             else
                 Options = options ?? throw new ArgumentNullException($"The arguments to the designer are incorrectly transferred, both arguments ({nameof(options)} and {nameof(optionsBuilder)}) cannot be null.");

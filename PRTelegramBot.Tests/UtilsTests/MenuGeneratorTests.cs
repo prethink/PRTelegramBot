@@ -1,9 +1,4 @@
 ﻿using PRTelegramBot.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRTelegramBot.Tests.UtilsTests
 {
@@ -13,9 +8,9 @@ namespace PRTelegramBot.Tests.UtilsTests
         private const string MENU_ITEM = "Menu item";
 
         [Test]
-        [TestCase(1,"", 1, 1)]
-        [TestCase(1,"", 2, 2)]
-        [TestCase(1,"", 6, 6)]
+        [TestCase(1, "", 1, 1)]
+        [TestCase(1, "", 2, 2)]
+        [TestCase(1, "", 6, 6)]
         [TestCase(2, "", 1, 1)]
         [TestCase(2, "", 1, 1)]
         [TestCase(1, MAIN_MENU, 1, 2)]

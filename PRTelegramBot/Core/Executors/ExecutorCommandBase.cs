@@ -8,7 +8,8 @@ namespace PRTelegramBot.Core.Executors
     /// Базовый исполнитель команд.
     /// </summary>
     /// <typeparam name="TKey">Тип ключа для команд.</typeparam>
-    internal abstract class ExecutorCommandBase<TKey>
+    internal abstract class ExecutorCommandBase<TKey> 
+        where TKey : notnull
     {
         #region Поля и свойства
 

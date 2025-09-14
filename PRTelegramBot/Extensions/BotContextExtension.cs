@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Extensions
 {
@@ -71,6 +72,16 @@ namespace PRTelegramBot.Extensions
         public static string GetInfoUser(this IBotContext context)
         {
             return context.Update.GetInfoUser();
+        }
+
+        /// <summary>
+        /// Получает идентификатор пользователя из обновления Telegram.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>Идентификатор пользователя (UserId).</returns>
+        public static long GetUserId(this IBotContext context)
+        {
+            return context.Update.GetUserId();
         }
 
         #endregion

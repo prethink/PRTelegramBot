@@ -24,27 +24,27 @@ namespace PRTelegramBot.Core.Executors
             var requireChat = method.GetCustomAttribute<RequiredTypeChatAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
 
-            if (requireChat != null)
+            if (requireChat is not null)
             {
                 var currentType = context.Update?.Message?.Chat?.Type;
-                if (currentType == null || !requireChat.TypesChat.Contains(currentType.Value))
+                if (currentType is null || !requireChat.TypesChat.Contains(currentType.Value))
                 {
                     bot.Events.OnWrongTypeChatInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.WrongChatType;
                 }
             }
 
-            if (requireDate != null)
+            if (requireDate is not null)
             {
                 var currentType = context.Update?.Message?.Type;
-                if (currentType == null || !requireDate.TypeMessages.Contains(currentType.Value))
+                if (currentType is null || !requireDate.TypeMessages.Contains(currentType.Value))
                 {
                     bot.Events.OnWrongTypeMessageInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.WrongMessageType;
                 }
             }
 
-            if (privileges != null)
+            if (privileges is not null)
             {
                 bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(context, handler.ExecuteCommand, privileges.Mask));
                 return InternalCheckResult.PrivilegeCheck;
@@ -55,7 +55,7 @@ namespace PRTelegramBot.Core.Executors
 
             if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
             {
-                if (whiteListAttribute == null && !hasUserInWhiteList)
+                if (whiteListAttribute is null && !hasUserInWhiteList)
                 {
                     bot.Events.OnAccessDeniedInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.NotInWhiteList;

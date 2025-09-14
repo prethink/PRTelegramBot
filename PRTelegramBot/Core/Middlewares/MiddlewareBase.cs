@@ -30,7 +30,7 @@ namespace PRTelegramBot.Core.Middlewares
         /// <param name="next">Функция которая должна выполниться после обработчиков.</param>
         public virtual async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
-            if (nextMiddleware != null)
+            if (nextMiddleware is not null)
             {
                 await nextMiddleware.InvokeOnPreUpdateAsync(context, next);
             }
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Core.Middlewares
         /// <param name="context">Контекст бота.</param>
         public virtual async Task InvokeOnPostUpdateAsync(IBotContext context)
         {
-            if (previousMiddleware != null)
+            if (previousMiddleware is not null)
                 await previousMiddleware.InvokeOnPostUpdateAsync(context);
         }
 

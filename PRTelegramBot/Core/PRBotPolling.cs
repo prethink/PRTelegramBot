@@ -62,25 +62,26 @@ namespace PRTelegramBot.Core
         /// </summary>
         private async Task UpdatePollingAsync(CancellationToken cancellationToken)
         {
-            int? offset = Options.ReceiverOptions.Offset;
-            while (!Options.CancellationTokenSource.IsCancellationRequested)
+            try
             {
-                var updates = await BotClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationTokenSource.Token);
-                foreach (var update in updates)
+                int? offset = Options.ReceiverOptions.Offset;
+                while (!Options.CancellationTokenSource.IsCancellationRequested)
                 {
-                    offset = update.Id + 1;
-                    try
+                    var updates = await BotClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationTokenSource.Token);
+                    foreach (var update in updates)
                     {
+                        offset = update.Id + 1;
                         await Handler.HandleUpdateAsync(BotClient, update, Options.CancellationTokenSource.Token);
+
+                        if (Options.CancellationTokenSource.IsCancellationRequested) break;
                     }
-                    catch (Exception ex)
-                    {
-                        Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex, cancellationToken));
-                    }
-                    if (Options.CancellationTokenSource.IsCancellationRequested) break;
                 }
+                IsWork = false;
             }
-            IsWork = false;
+            catch (Exception ex)
+            {
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex, cancellationToken));
+            }
         }
 
         #endregion

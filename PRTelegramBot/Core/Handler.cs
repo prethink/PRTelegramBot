@@ -73,22 +73,33 @@ namespace PRTelegramBot.Core
         /// <param name="botClient">Клиент telegram бота.</param>
         /// <param name="update">Обновление telegram.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        public Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if (update == null)
-                return;
+                return Task.CompletedTask;
 
             // Связь update вместе ITelegramBotClient.
             update.AddTelegramClient(bot);
             var context = new BotContext(bot, update, cancellationToken);
+            _ = HandleUpdateInternalAsync(context);
+            return Task.CompletedTask;
+        }
 
+        /// <summary>
+        /// Обработать update в отдельном потоке.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>Task.</returns>
+        /// <remarks>Требуется, чтобы 1 update не повесил обработку всего приложения.</remarks>
+        private async Task HandleUpdateInternalAsync(BotContext context)
+        {
             try
             {
-                _ = Middleware.InvokeOnPreUpdateAsync(context, async () =>
+                await Middleware.InvokeOnPreUpdateAsync(context, async () =>
                 {
                     await UpdateAsync(context);
                 });
-            }   
+            }
             catch (Exception ex)
             {
                 bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));

@@ -99,7 +99,7 @@ namespace ConsoleExample.Examples
                             var pageResult = data.Results;
                             var option = new OptionMessage();
                             option.MenuInlineKeyboardMarkup = generateMenu;
-                            string msg = "";
+                            string msg = string.Empty;
                             if (pageResult.Count > 0)
                             {
                                 msg = pageResult.FirstOrDefault();
@@ -122,7 +122,7 @@ namespace ConsoleExample.Examples
                             var pageResult = data.Results;
                             var option = new OptionMessage();
                             option.MenuInlineKeyboardMarkup = generateMenu;
-                            string msg = "";
+                            string msg = string.Empty;
                             if (pageResult.Count > 0)
                             {
                                 msg = pageResult.FirstOrDefault();

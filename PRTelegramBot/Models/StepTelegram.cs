@@ -40,7 +40,7 @@ namespace PRTelegramBot.Models
         /// <inheritdoc/>
         public async Task<ExecuteStepResult> ExecuteStep(IBotContext context)
         {
-            if (ExpiredTime != null && DateTime.Now > ExpiredTime)
+            if (ExpiredTime is not null && DateTime.Now > ExpiredTime)
             {
                 context.Update.ClearStepUserHandler();
                 return ExecuteStepResult.ExpiredTime;
@@ -67,7 +67,7 @@ namespace PRTelegramBot.Models
         /// <inheritdoc/>
         public bool CanExecute()
         {
-            return ExpiredTime == null || DateTime.Now < ExpiredTime;
+            return ExpiredTime is null || DateTime.Now < ExpiredTime;
         }
 
         #endregion

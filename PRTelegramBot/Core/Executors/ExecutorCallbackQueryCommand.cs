@@ -36,7 +36,7 @@ namespace PRTelegramBot.Core.Executors
             var privileges = method.GetCustomAttribute<AccessAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
 
-            if (privileges != null)
+            if (privileges is not null)
             {
                 bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(context, handler.ExecuteCommand, privileges.Mask));
                 return InternalCheckResult.PrivilegeCheck;
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Core.Executors
 
             if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
             {
-                if (whiteListAttribute == null && !hasUserInWhiteList)
+                if (whiteListAttribute is null && !hasUserInWhiteList)
                 {
                     bot.Events.OnAccessDeniedInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.NotInWhiteList;
