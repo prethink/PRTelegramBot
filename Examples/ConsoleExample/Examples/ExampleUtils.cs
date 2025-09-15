@@ -15,7 +15,7 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler("Awaiter message")]
         public static async Task AwaiterExample (IBotContext context)
         {
-            using(var messageAwaiter = new MessageAwaiter(context.BotClient, context.Update.GetChatId(), "Обработка данных..."))
+            using(var messageAwaiter = new MessageAwaiter(context, "Обработка данных..."))
             {
                 // Симуляция тяжелой операции.
                 await Task.Delay(2000);
