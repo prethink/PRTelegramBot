@@ -1,6 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
-using Telegram.Bot.Types;
-using Telegram.Bot;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.EventsArgs;
 
 namespace FastBotTemplateConsole.Commands
@@ -8,14 +7,14 @@ namespace FastBotTemplateConsole.Commands
     internal class StartCommands
     {
         [SlashHandler("/start")]
-        public static async Task Start(ITelegramBotClient botClient, Update update)
+        public static Task Start(IBotContext context)
         {
-            
+            return Task.CompletedTask;
         }
 
-        public static async Task StartWithArguments(StartEventArgs e)
+        public static Task StartWithArguments(StartEventArgs e)
         {
-           
+            return Task.CompletedTask;
         }
     }
 }

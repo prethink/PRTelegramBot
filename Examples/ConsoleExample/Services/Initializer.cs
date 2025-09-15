@@ -128,14 +128,14 @@ namespace ConsoleExample.Services
         /// <param name="bot">Бот.</param>
         public static void InitCommands(PRBotBase bot)
         {
-            bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (botClient, update) =>
+            bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (context) =>
             {
-                await PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommand");
+                await PRTelegramBot.Helpers.Message.Send(context, "Тест метода TestAddCommand");
             });
 
-            bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (botClient, update) =>
+            bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (context) =>
             {
-                await PRTelegramBot.Helpers.Message.Send(botClient, update, "Тест метода TestAddCommandTwo");
+                await PRTelegramBot.Helpers.Message.Send(context, "Тест метода TestAddCommandTwo");
             });
         }
 
@@ -156,7 +156,7 @@ namespace ConsoleExample.Services
         public static List<InternalChecker> GetCommandChekers()
         {
             var checkerReplyCommand = new InternalChecker(CommandType.Reply, new ReplyExampleChecker());
-            var adminChecker = new InternalChecker(new List<CommandType>() { CommandType.Reply, CommandType.NextStep, CommandType.Inline, CommandType.ReplyDynamic, CommandType.Slash }, new AdminExampleChecher());
+            var adminChecker = new InternalChecker(new List<CommandType>() { CommandType.Reply, CommandType.NextStep, CommandType.Inline, CommandType.ReplyDynamic, CommandType.Slash }, new AdminExampleChecker());
             return new List<InternalChecker>() { checkerReplyCommand, adminChecker };
         }
 

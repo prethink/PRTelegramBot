@@ -59,7 +59,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>Обновленная коллекция сервисов.</returns>
         private static IServiceCollection AddBotHandlersInDI(this IServiceCollection services, LifeCycle lifeCycle)
         {
-            if (services == null)
+            if (services is null)
                 throw new ArgumentNullException(nameof(services));
 
             var types = ReflectionUtils.FindClassesWithBotHandlerAttribute();

@@ -1,11 +1,9 @@
-﻿using PRTelegramBot.Core;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы при проверки привелегий.
+    /// Аргументы при проверки привилегий.
     /// </summary>
     public class PrivilegeEventArgs : CommandEventsArgs
     {
@@ -23,12 +21,11 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <param name="update">Обновление.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="executeMethod">Метод для выполнения.</param>
         /// <param name="mask">Маска доступа.</param>
-        public PrivilegeEventArgs(PRBotBase bot, Update update, Func<ITelegramBotClient, Update, Task> executeMethod, int? mask)
-            : base(bot, update, executeMethod)
+        public PrivilegeEventArgs(IBotContext context, Func<IBotContext, Task> executeMethod, int? mask)
+            : base(context, executeMethod)
         {
             Mask = mask;
         }

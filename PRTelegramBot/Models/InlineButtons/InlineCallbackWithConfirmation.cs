@@ -53,7 +53,8 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IInlineContent
 
-        public object GetContent()
+        /// <inheritdoc />
+        public override object GetContent()
         {
             return base.GetContent();
         }
@@ -62,13 +63,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region Базовый класс
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return base.GetInlineButton();
         }
 
         #endregion
-
 
         #region Конструкторы
 
@@ -97,7 +98,7 @@ namespace PRTelegramBot.Models.InlineButtons
             : base(inlineCallBack.ButtonName, callbackWithConfirmation)
         {
             string guidString = Guid.NewGuid().ToString();
-            var id = guidString.Replace("-", "").Remove(0, guidString.Length / 2);
+            var id = guidString.Replace("-", string.Empty).Remove(0, guidString.Length / 2);
             YesCallback = inlineCallBack;
             Data = new EntityTCommand<string>(id, actionWithLastMessage);
             DataCollection.Add(id, this);

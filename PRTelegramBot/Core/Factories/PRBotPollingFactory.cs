@@ -10,6 +10,7 @@ namespace PRTelegramBot.Core.Factories
     {
         #region Базовый класс
 
+        /// <inheritdoc />
         public override PRBotBase CreateBot(TelegramOptions options)
         {
             return new PRBotPolling(options);

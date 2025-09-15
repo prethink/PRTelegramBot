@@ -14,7 +14,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Список шагов для пользователя.
         /// </summary>
-        static ConcurrentDictionary<string, IExecuteStep> _step = new();
+        static ConcurrentDictionary<string, IExecuteStep> step = new();
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace PRTelegramBot.Extensions
         {
             string userKey = update.GetKeyMappingUserTelegram();
             update.ClearStepUserHandler();
-            _step.AddOrUpdate(userKey, command, (_, existingData) => command);
+            step.AddOrUpdate(userKey, command, (_, existingData) => command);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PRTelegramBot.Extensions
         public static TExecuteStep? GetStepHandler<TExecuteStep>(this Update update) where TExecuteStep : IExecuteStep
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            return _step.TryGetValue(userKey, out var data) && data is TExecuteStep stepHandler
+            return step.TryGetValue(userKey, out var data) && data is TExecuteStep stepHandler
                 ? stepHandler
                 : default(TExecuteStep);
         }
@@ -63,7 +63,7 @@ namespace PRTelegramBot.Extensions
         {
             string userKey = update.GetKeyMappingUserTelegram();
             if (update.HasStepHandler())
-                _step.Remove(userKey, out _);
+                step.Remove(userKey, out _);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace PRTelegramBot.Extensions
         public static bool HasStepHandler(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            return _step.ContainsKey(userKey);
+            return step.ContainsKey(userKey);
         }
 
         #endregion

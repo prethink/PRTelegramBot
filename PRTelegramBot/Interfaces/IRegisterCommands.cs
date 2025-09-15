@@ -1,6 +1,4 @@
 ﻿using PRTelegramBot.Core;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Interfaces
 {
@@ -15,7 +13,7 @@ namespace PRTelegramBot.Interfaces
         /// <param name="command">Команда</param>
         /// <param name="method">Метод</param>
         /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
-        public bool AddSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method);
+        public bool AddSlashCommand(string command, Func<IBotContext, Task> method);
 
         /// <summary>
         /// Регистрация Reply command
@@ -23,7 +21,7 @@ namespace PRTelegramBot.Interfaces
         /// <param name="command">Команда</param>
         /// <param name="method">Метод</param>
         /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
-        public bool AddReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method);
+        public bool AddReplyCommand(string command, Func<IBotContext, Task> method);
 
         /// <summary>
         /// Регистрация inline command
@@ -31,7 +29,7 @@ namespace PRTelegramBot.Interfaces
         /// <param name="command">Команда</param>
         /// <param name="method">Метод</param>
         /// <returns>True - метод зарегистрирован, false - ошибка/не зарегистрирован</returns>
-        public bool AddInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method);
+        public bool AddInlineCommand(Enum command, Func<IBotContext, Task> method);
 
         /// <summary>
         /// Удаление Reply команды

@@ -15,7 +15,7 @@ namespace ConsoleExample.Models
 
         public bool ClearData()
         {
-            Data = "";
+            Data = string.Empty;
             return true;
         }
     }

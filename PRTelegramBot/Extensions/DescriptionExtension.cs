@@ -13,7 +13,7 @@ namespace PRTelegramBot.Extensions
         /// Получить атрибут из перечисления.
         /// </summary>
         /// <typeparam name="TAttribute">Тип атрибута.</typeparam>
-        /// <param name="enum">Значение из перечесления.</param>
+        /// <param name="enum">Значение из перечисления.</param>
         /// <returns>Атрибут.</returns>
         internal static TAttribute GetAttribute<TAttribute>(this Enum @enum) where TAttribute : Attribute
         {
@@ -25,11 +25,11 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Позволяет получить описание у Enum.
         /// </summary>
-        /// <param name="enum">Значение из перечесления.</param>
+        /// <param name="enum">Значение из перечисления.</param>
         /// <returns>Описание.</returns>
         public static string GetDescription(this Enum @enum)
         {
-            return @enum.GetAttribute<DescriptionAttribute>()?.Description ?? "";
+            return @enum.GetAttribute<DescriptionAttribute>()?.Description ?? string.Empty;
         }
 
         #endregion

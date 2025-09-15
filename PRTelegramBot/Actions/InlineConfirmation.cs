@@ -4,10 +4,10 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Actions
 {
@@ -22,11 +22,11 @@ namespace PRTelegramBot.Actions
         /// Обработка подтверждения действия.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.CallbackWithConfirmation)]
-        public static async Task ActionWithConfirmation(ITelegramBotClient botClient, Update update)
+        public static async Task ActionWithConfirmation(IBotContext context)
         {
             try
             {
-                using (var inlineHandler = new InlineCallback<EntityTCommand<string>>(botClient, update))
+                using (var inlineHandler = new InlineCallback<EntityTCommand<string>>(context))
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
                     if (InlineCallbackWithConfirmation.DataCollection.TryGetValue(command.Data.EntityId, out var inlineCommand))
@@ -39,20 +39,20 @@ namespace PRTelegramBot.Actions
                         var option = new OptionMessage() { MenuInlineKeyboardMarkup = testMenu };
                         var actionLastMessage = command.Data.GetActionWithLastMessage();
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
-                            await Helpers.Message.Edit(botClient, update, inlineCommand.BaseMessage, option);
+                            await Helpers.Message.Edit(context, inlineCommand.BaseMessage, option);
                         else
-                            await Helpers.Message.Send(botClient, update, inlineCommand.BaseMessage, option);
+                            await Helpers.Message.Send(context, inlineCommand.BaseMessage, option);
                     }
                     else
                     {
                         string msg = "Ошибка при выполнение команды, попробуйте еще раз.";
-                        await Helpers.Message.Edit(botClient, update, msg);
+                        await Helpers.Message.Edit(context, msg);
                     }
                 }
             }
             catch (Exception ex)
             {
-                botClient.GetBotDataOrNull().Events.OnErrorLogInvoke(ex);
+                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
             }
         }
 
@@ -60,15 +60,15 @@ namespace PRTelegramBot.Actions
         /// Базовый обработчик при нажатие на нет.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.CallbackWithConfirmationResultNo)]
-        public static async Task ActionWithConfirmationResultNo(ITelegramBotClient botClient, Update update)
+        public static async Task ActionWithConfirmationResultNo(IBotContext context)
         {
             try
             {
-                await botClient.DeleteMessage(update.GetChatIdClass(), update.CallbackQuery.Message.MessageId);
+                await context.BotClient.DeleteMessage(context.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
             }
             catch (Exception ex)
             {
-                botClient.GetBotDataOrNull().Events.OnErrorLogInvoke(ex);
+                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
             }
         }
 

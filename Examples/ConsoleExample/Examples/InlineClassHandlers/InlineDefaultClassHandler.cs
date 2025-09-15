@@ -1,6 +1,4 @@
-﻿using PRTelegramBot.Core;
-using PRTelegramBot.Extensions;
-using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.TCommands;
@@ -21,12 +19,12 @@ namespace ConsoleExample.Examples.InlineClassHandlers
 
         #region ICallbackQueryCommandHandler
 
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update, CallbackQuery updateType)
+        public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
             var command = InlineCallback<StringTCommand>.GetCommandByCallbackOrNull(updateType.Data);
             if (command != null)
             {
-                await PRTelegramBot.Helpers.Message.Send(bot.botClient, update.GetChatId(), $"{TEST_ADD_MESSAGE} {command.Data.StrData}");
+                await PRTelegramBot.Helpers.Message.Send(context, $"{TEST_ADD_MESSAGE} {command.Data.StrData}");
                 return UpdateResult.Handled;
             }
 

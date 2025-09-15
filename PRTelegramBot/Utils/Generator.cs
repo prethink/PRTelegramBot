@@ -31,12 +31,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генериурет случайный набор символов
+        /// Генерирует случайный набор символов.
         /// </summary>
-        /// <param name="chars">Указывает какого типа должны быть символы</param>
-        /// <param name="length">Длина набора символов</param>
-        /// <param name="prefix">Префикс ставится перед сгенерированным набором символов</param>
-        /// <returns>Сгенерированный набор символов</returns>
+        /// <param name="chars">Указывает какого типа должны быть символы.</param>
+        /// <param name="length">Длина набора символов.</param>
+        /// <param name="prefix">Префикс ставится перед сгенерированным набором символов.</param>
+        /// <returns>Сгенерированный набор символов.</returns>
         public static string RandomSymbols(Chars chars, int length, string prefix = "")
         {
             var random = new Random();
@@ -63,13 +63,13 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует купон
-        /// Можно использовать для разных акций или промо кодов
+        /// Генерирует купон.
+        /// Можно использовать для разных акций или промо кодов.
         /// </summary>
-        /// <param name="segmentLength">Длина сегмента кода</param>
-        /// <param name="countSplit">Количество разделителей</param>
-        /// <param name="symbolSplit">Символ разделителя, по умолчанию - </param>
-        /// <returns>Сгенерированный купон</returns>
+        /// <param name="segmentLength">Длина сегмента кода.</param>
+        /// <param name="countSplit">Количество разделителей.</param>
+        /// <param name="symbolSplit">Символ разделителя, по умолчанию - .</param>
+        /// <returns>Сгенерированный купон.</returns>
         public static string Coupon(int segmentLength = 6, int countSplit = 1, char symbolSplit = '-')
         {
             var random = new Random((int)DateTime.Now.Ticks);

@@ -1,8 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using static PRTelegramBot.Tests.CoreTests.FindMethodsTests;
-using Telegram.Bot.Types;
-using Telegram.Bot;
 
 namespace PRTelegramBot.Tests.Common
 {
@@ -14,19 +13,19 @@ namespace PRTelegramBot.Tests.Common
         [ReplyMenuHandler(CommandComparison.Contains, StringComparison.Ordinal, nameof(TestCommonMethod), "TestTwoArgs")]
         [InlineCallbackHandler<TestTHeader>(TestTHeader.One, TestTHeader.Two)]
         [ReplyMenuDynamicHandler(CommandComparison.Contains, StringComparison.Ordinal, nameof(KEY_DYNAMIC_REPLY_FOUR))]
-        public static async Task TestCommonMethod(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestCommonMethod(IBotContext context) { }
 
         [SlashHandler(2, nameof(TestCommonMethodTwo))]
         [ReplyMenuHandler(2, nameof(TestCommonMethodTwo))]
         [InlineCallbackHandler<TestTHeader>(2, TestTHeader.Three)]
         [ReplyMenuDynamicHandler(2, nameof(KEY_DYNAMIC_REPLY_FOUR))]
-        public static async Task TestCommonMethodTwo(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestCommonMethodTwo(IBotContext context) { }
 
         [SlashHandler(-1, nameof(TestCommonMethodForAllBot))]
         [ReplyMenuHandler(-1, nameof(TestCommonMethodForAllBot))]
         [InlineCallbackHandler<TestTHeader>(-1, TestTHeader.Eight)]
         [ReplyMenuDynamicHandler(-1, nameof(KEY_DYNAMIC_REPLY_FIVE))]
-        public static async Task TestCommonMethodForAllBot(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestCommonMethodForAllBot(IBotContext context) { }
 
 
         #endregion
@@ -35,56 +34,56 @@ namespace PRTelegramBot.Tests.Common
 
         [Access(1)]
         [ReplyMenuHandler(nameof(TestAccessMethod))]
-        public static async Task TestAccessMethod(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestAccessMethod(IBotContext context) { }
 
         [ReplyMenuHandler(1, nameof(TestReplyWithCustomId))]
-        public static async Task TestReplyWithCustomId(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestReplyWithCustomId(IBotContext context) { }
 
         [ReplyMenuHandler([2, 1], nameof(TestReplyWithCustomIdTwo))]
-        public static async Task TestReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestReplyWithCustomIdTwo(IBotContext context) { }
 
         [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Photo)]
         [ReplyMenuHandler(nameof(TestTypeMessage))]
-        public static async Task TestTypeMessage(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestTypeMessage(IBotContext context) { }
 
         #endregion
 
         #region Reply dynamic methods
 
         [ReplyMenuDynamicHandler(nameof(KEY_DYNAMIC_REPLY_ONE))]
-        public static async Task TestDynamicReplyOne(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestDynamicReplyOne(IBotContext context) { }
 
         [ReplyMenuDynamicHandler(1, nameof(KEY_DYNAMIC_REPLY_TWO))]
-        public static async Task TestDynamicReplyWithCustomId(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestDynamicReplyWithCustomId(IBotContext context) { }
 
         [ReplyMenuDynamicHandler([2,1], KEY_DYNAMIC_REPLY_THREE)]
-        public static async Task TestDynamicReplyWithCustomIdTwo(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestDynamicReplyWithCustomIdTwo(IBotContext context) { }
 
         #endregion
 
         #region Inline methods
 
         [InlineCallbackHandler<TestTHeader>(TestTHeader.Four, TestTHeader.Five)]
-        public static async Task InlineFive(ITelegramBotClient botClient, Update update) { }
+        public static async Task InlineFive(IBotContext context) { }
 
         [InlineCallbackHandler<TestTHeader>(1, TestTHeader.Six)]
-        public static async Task InlineSix(ITelegramBotClient botClient, Update update) { }
+        public static async Task InlineSix(IBotContext context) { }
 
         [InlineCallbackHandler<TestTHeader>([2, 1], TestTHeader.Seven)]
-        public static async Task InlineSeven(ITelegramBotClient botClient, Update update) { }
+        public static async Task InlineSeven(IBotContext context) { }
 
         #endregion 
 
         #region Slash methods
 
         [SlashHandler(nameof(TestSlashMethod))]
-        public static async Task TestSlashMethod(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestSlashMethod(IBotContext context) { }
 
         [SlashHandler(1, nameof(TestSlashMethodTwo))]
-        public static async Task TestSlashMethodTwo(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestSlashMethodTwo(IBotContext context) { }
 
         [SlashHandler([2, 1], nameof(TestSlashMethodThree))]
-        public static async Task TestSlashMethodThree(ITelegramBotClient botClient, Update update) { }
+        public static async Task TestSlashMethodThree(IBotContext context) { }
 
         #endregion
     }

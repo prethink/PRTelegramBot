@@ -1,8 +1,7 @@
 ﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Models
 {
@@ -13,14 +12,10 @@ namespace PRTelegramBot.Models
     {
         #region Свойства и константы
 
-        public bool LastStepExecuted { get; set; }
-
-        public bool IgnoreBasicCommands { get; set; }
-
         /// <summary>
         /// Ссылка на метод который должен быть выполнен.
         /// </summary>
-        public Func<ITelegramBotClient, Update, Task> CommandDelegate { get; set; }
+        public Func<IBotContext, Task> CommandDelegate { get; set; }
 
         /// <summary>
         /// До какого времени команду можно выполнить.
@@ -36,34 +31,43 @@ namespace PRTelegramBot.Models
 
         #region IExecuteStep
 
-        public async Task<ExecuteStepResult> ExecuteStep(ITelegramBotClient botClient, Update update)
+        /// <inheritdoc/>
+        public bool LastStepExecuted { get; set; }
+
+        /// <inheritdoc/>
+        public bool IgnoreBasicCommands { get; set; }
+
+        /// <inheritdoc/>
+        public async Task<ExecuteStepResult> ExecuteStep(IBotContext context)
         {
-            if (ExpiredTime != null && DateTime.Now > ExpiredTime)
+            if (ExpiredTime is not null && DateTime.Now > ExpiredTime)
             {
-                update.ClearStepUserHandler();
+                context.Update.ClearStepUserHandler();
                 return ExecuteStepResult.ExpiredTime;
             }
 
             try
             {
-                await CommandDelegate.Invoke(botClient, update);
+                await CommandDelegate.Invoke(context);
                 return ExecuteStepResult.Success;
             }
             catch (Exception ex)
             {
-                botClient.GetBotDataOrNull()!.Events.OnErrorLogInvoke(ex);
+                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
                 return ExecuteStepResult.Failure;
             }
         }
 
-        public Func<ITelegramBotClient, Update, Task> GetExecuteMethod()
+        /// <inheritdoc/>
+        public Func<IBotContext, Task> GetExecuteMethod()
         {
             return CommandDelegate;
         }
 
+        /// <inheritdoc/>
         public bool CanExecute()
         {
-            return ExpiredTime == null || DateTime.Now < ExpiredTime;
+            return ExpiredTime is null || DateTime.Now < ExpiredTime;
         }
 
         #endregion
@@ -74,7 +78,7 @@ namespace PRTelegramBot.Models
         /// Регистрация следующего шага.
         /// </summary>
         /// <param name="nextStep">Метод для следующей обработки.</param>
-        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep)
+        public void RegisterNextStep(Func<IBotContext, Task> nextStep)
         {
             RegisterNextStep(nextStep, null);
         }
@@ -84,7 +88,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="nextStep">Метод для следующей обработки.</param>
         /// <param name="addTime">До какого времени команду можно выполнить</param>
-        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, TimeSpan addTime)
+        public void RegisterNextStep(Func<IBotContext, Task> nextStep, TimeSpan addTime)
         {
             RegisterNextStep(nextStep, DateTime.Now.Add(addTime));
         }
@@ -94,7 +98,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="nextStep">Метод для следующей обработки.</param>
         /// <param name="expiriedTime"> До какого времени команду можно выполнить.</param>
-        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime? expiriedTime)
+        public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiriedTime)
         {
             RegisterNextStep(nextStep, expiriedTime, false);
         }
@@ -105,7 +109,7 @@ namespace PRTelegramBot.Models
         /// <param name="nextStep">Метод для следующей обработки.</param>
         /// <param name="expiriedTime"> До какого времени команду можно выполнить.</param>
         /// <param name="ignoreBasicCommands">Игнорировать базовые команды при выполнение шагов.</param>
-        public void RegisterNextStep(Func<ITelegramBotClient, Update, Task> nextStep, DateTime? expiriedTime, bool ignoreBasicCommands)
+        public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiriedTime, bool ignoreBasicCommands)
         {
             CommandDelegate = nextStep;
             ExpiredTime = expiriedTime;
@@ -130,7 +134,7 @@ namespace PRTelegramBot.Models
         /// Создать новый следующий шаг.
         /// </summary>
         /// <param name="command">Команда для выполнения</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command)
+        public StepTelegram(Func<IBotContext, Task> command)
             : this(command, null, null) { }
 
         /// <summary>
@@ -138,7 +142,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда для выполнения.</param>
         /// <param name="cache">Кэш.</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, ITelegramCache cache)
+        public StepTelegram(Func<IBotContext, Task> command, ITelegramCache cache)
             : this(command, null, cache, false) { }
 
         /// <summary>
@@ -146,7 +150,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда для выполнения.</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime expiriedTime)
+        public StepTelegram(Func<IBotContext, Task> command, DateTime expiriedTime)
             : this(command, expiriedTime, null, false) { }
 
         /// <summary>
@@ -155,7 +159,7 @@ namespace PRTelegramBot.Models
         /// <param name="command">Команда для выполнения.</param>
         /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
         /// <param name="cache">Кэш.</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime? expiriedTime, ITelegramCache cache)
+        public StepTelegram(Func<IBotContext, Task> command, DateTime? expiriedTime, ITelegramCache cache)
             : this(command, expiriedTime, cache, false) { }
 
         /// <summary>
@@ -165,7 +169,7 @@ namespace PRTelegramBot.Models
         /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
         /// <param name="cache">Кэш.</param>
         /// <param name="ignoreBasicCommands">Игнорировать базовые команды при выполнение шагов.</param>
-        public StepTelegram(Func<ITelegramBotClient, Update, Task> command, DateTime? expiriedTime, ITelegramCache cache, bool ignoreBasicCommands)
+        public StepTelegram(Func<IBotContext, Task> command, DateTime? expiriedTime, ITelegramCache cache, bool ignoreBasicCommands)
         {
             this.cache = cache;
             IgnoreBasicCommands = ignoreBasicCommands;

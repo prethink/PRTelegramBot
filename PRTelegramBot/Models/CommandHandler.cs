@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Models
 {
@@ -18,7 +17,6 @@ namespace PRTelegramBot.Models
         /// Сравнение команд.
         /// </summary>
         public CommandComparison CommandComparison { get;}
-
 
         /// <summary>
         /// Сервис провайдер.
@@ -37,35 +35,34 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Выполнить команду.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <param name="update">Update.</param>
-        public async Task ExecuteCommand(ITelegramBotClient botClient, Update update)
+        /// <param name="context">Контекст бота.</param>
+        public async Task ExecuteCommand(IBotContext context)
         {
-            if (Method == null)
+            if (Method is null)
                 return;
 
             if (Method.IsStatic)
             {
-                Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), Method, false);
-                await ((Func<ITelegramBotClient, Update, Task>)serverMessageHandler).Invoke(botClient, update);
+                Delegate serverMessageHandler = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), Method, false);
+                await ((Func<IBotContext, Task>)serverMessageHandler).Invoke(context);
             }
             else
             {
-                if (serviceProvider != null)
+                if (serviceProvider is not null)
                 {
                     var factory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
                     using (var scope = factory.CreateScope())
                     {
                         var instance = scope.ServiceProvider.GetRequiredService(Method.DeclaringType);
-                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, Method);
-                        await (((Func<ITelegramBotClient, Update, Task>)instanceMethod)).Invoke(botClient, update);
+                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), instance, Method);
+                        await (((Func<IBotContext, Task>)instanceMethod)).Invoke(context);
                     }
                 }
                 else
                 {
                     var instance = ReflectionUtils.CreateInstanceWithNullArguments(Method.DeclaringType);
-                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<ITelegramBotClient, Update, Task>), instance, Method);
-                    await (((Func<ITelegramBotClient, Update, Task>)instanceMethod)).Invoke(botClient, update);
+                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), instance, Method);
+                    await (((Func<IBotContext, Task>)instanceMethod)).Invoke(context);
                 }
             }
         }
@@ -101,7 +98,7 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="command">Команда.</param>
-        public CommandHandler(Func<ITelegramBotClient, Update, Task> command) 
+        public CommandHandler(Func<IBotContext, Task> command) 
             : this (command, null, CommandComparison.Equals) { }
 
         /// <summary>
@@ -109,7 +106,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда.</param>
         /// <param name="ServiceProvider">Сервис провайдер.</param>
-        public CommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider)
+        public CommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider)
             : this(command, ServiceProvider, CommandComparison.Equals) { }
 
         /// <summary>
@@ -117,7 +114,7 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="command">Команда.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
-        public CommandHandler(Func<ITelegramBotClient, Update, Task> command, CommandComparison commandComparison)
+        public CommandHandler(Func<IBotContext, Task> command, CommandComparison commandComparison)
             : this(command, null, commandComparison) { }
 
         /// <summary>
@@ -126,7 +123,7 @@ namespace PRTelegramBot.Models
         /// <param name="command">Команда.</param>
         /// <param name="ServiceProvider">Сервис провайдер.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
-        public CommandHandler(Func<ITelegramBotClient, Update, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison)
+        public CommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison)
             : this(command.Method, ServiceProvider, commandComparison) { }
 
         /// <summary>

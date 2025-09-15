@@ -3,6 +3,7 @@ using ConsoleExample.Middlewares;
 using ConsoleExample.Models.CommandHeaders;
 using ConsoleExample.Services;
 using PRTelegramBot.Core;
+using PRTelegramBot.Models.EventsArgs;
 
 /****************************************************************************************
  * ######################################################################################
@@ -35,12 +36,12 @@ Initializer.InitUpdateEvents(telegram);
 Initializer.InitCommands(telegram);
 
 // Запуск работы бота.
-await telegram.Start();
+await telegram.StartAsync();
 
 
 telegram.Events.OnErrorLog += Events_OnErrorLog;
 
-async Task Events_OnErrorLog(PRTelegramBot.Models.EventsArgs.ErrorLogEventArgs arg)
+async Task Events_OnErrorLog(ErrorLogEventArgs arg)
 {
     Console.WriteLine(arg.Exception.Message);
 }

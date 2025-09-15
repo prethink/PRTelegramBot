@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 

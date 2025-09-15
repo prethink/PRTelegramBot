@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Tests.Common;
 
@@ -41,7 +42,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.OnUserStartWithArgs += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnUserStartWithArgs)} event was not called.");
             bot.Events.OnUserStartWithArgs -= EventHandler;
         }
@@ -59,7 +60,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.OnMissingCommand += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnMissingCommand)} event was not called.");
             bot.Events.OnMissingCommand -= EventHandler;
         }
@@ -77,7 +78,7 @@ namespace PRTelegramBot.Tests.EventsTests
             }
 
             bot.Events.OnCheckPrivilege += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnCheckPrivilege)} event was not called.");
             bot.Events.OnCheckPrivilege -= EventHandler;
         }
@@ -93,7 +94,7 @@ namespace PRTelegramBot.Tests.EventsTests
                 return Task.CompletedTask;
             }
             bot.Events.OnWrongTypeMessage += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnWrongTypeMessage)} event was not called.");
             bot.Events.OnWrongTypeMessage -= EventHandler;
         }
@@ -111,7 +112,7 @@ namespace PRTelegramBot.Tests.EventsTests
                 return Task.CompletedTask;
             }
             bot.Events.OnAccessDenied += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
             bot.Events.OnAccessDenied -= EventHandler;
             await bot.Options.WhiteListManager.RemoveUser(testUserId);
@@ -130,7 +131,7 @@ namespace PRTelegramBot.Tests.EventsTests
                 return Task.CompletedTask;
             }
             bot.Events.OnAccessDenied += EventHandler;
-            await bot.Handler.HandleUpdateAsync(bot.botClient, update, new CancellationToken());
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsFalse(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
             bot.Events.OnAccessDenied -= EventHandler;
             await bot.Options.WhiteListManager.RemoveUser(userId);
@@ -141,7 +142,7 @@ namespace PRTelegramBot.Tests.EventsTests
         {
             var tcs = new TaskCompletionSource<bool>();
             bot.Events.OnErrorLog += EventHandler;
-            bot.Events.OnErrorLogInvoke(new Exception("Error"));
+            bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(new BotContext(bot), new Exception("EX")));
             Task EventHandler(BotEventArgs e)
             {
                 tcs.SetResult(true);

@@ -19,7 +19,7 @@ namespace PRTelegramBot.Utils
         {
             object instance = null;
 
-            if (serviceProvider != null)
+            if (serviceProvider is not null)
             {
                 var factory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
                 using (var scope = factory.CreateScope())

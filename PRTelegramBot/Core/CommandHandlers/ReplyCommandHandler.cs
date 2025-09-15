@@ -1,42 +1,47 @@
 ﻿using PRTelegramBot.Core.Executors;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandHandlers
 {
     internal class ReplyCommandHandler : IMessageCommandHandler
     {
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update, Message updateType)
+        #region IMessageCommandHandler
+
+        /// <inheritdoc />
+        public async Task<UpdateResult> Handle(IBotContext context, Message updateType)
         {
             string command = updateType.Text;
             RemoveBracketsIfExists(ref command);
-            bot.Events.CommandsEvents.OnPreReplyCommandHandleInvoke(new BotEventArgs(bot, update));
+            context.Current.Events.CommandsEvents.OnPreReplyCommandHandleInvoke(context.CreateBotEventArgs());
 
-            var executer = new ExecutorReplyCommand(bot);
-            var currentHandler = bot.Handler as Handler;
-            if (currentHandler == null)
+            var executer = new ExecutorReplyCommand(context.Current);
+            var currentHandler = context.Current.Handler as Handler;
+            if (currentHandler is null)
                 return UpdateResult.Continue;
 
-            var resultExecute = await executer.Execute(command, update, GetCommands(bot));
+            var resultExecute = await executer.Execute(command, context, GetCommands(context));
             if (resultExecute != CommandResult.Continue)
             {
-                bot.Events.CommandsEvents.OnPostReplyCommandHandleInvoke(new BotEventArgs(bot, update));
+                context.Current.Events.CommandsEvents.OnPostReplyCommandHandleInvoke(context.CreateBotEventArgs());
                 return UpdateResult.Handled;
             }
             return UpdateResult.Continue;
         }
 
-        protected virtual Dictionary<string, CommandHandler> GetCommands(PRBotBase bot)
+        protected virtual Dictionary<string, CommandHandler> GetCommands(IBotContext context)
         {
-            var currentHandler = bot.Handler as Handler;
-            if (currentHandler == null)
+            var currentHandler = context.Current.Handler as Handler;
+            if (currentHandler is null)
                 return new();
 
             return currentHandler.ReplyCommandsStore.Commands;
-        } 
+        }
+
+        #endregion
 
         #region Методы
 

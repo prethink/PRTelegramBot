@@ -21,7 +21,7 @@
         /// <summary>
         /// Получить значение из параметра.
         /// </summary>
-        /// <typeparam name="TReturn">Тип возращаемого значения.</typeparam>
+        /// <typeparam name="TReturn">Тип возвращаемого значения.</typeparam>
         /// <param name="optionName">Название параметра.</param>
         /// <returns>Значение параметра.</returns>
         public TReturn GetValue<TReturn>(string optionName);

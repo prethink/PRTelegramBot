@@ -1,7 +1,5 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Interfaces;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Registrars
 {
@@ -21,7 +19,8 @@ namespace PRTelegramBot.Registrars
 
         #region IRegisterCommand
 
-        public bool AddSlashCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        /// <inheritdoc />
+        public bool AddSlashCommand(string command, Func<IBotContext, Task> method)
         {
             if (bot.Handler is Handler handler)
                 return handler.SlashCommandsStore.AddCommand(command, method);
@@ -30,7 +29,8 @@ namespace PRTelegramBot.Registrars
 
         }
 
-        public bool AddReplyCommand(string command, Func<ITelegramBotClient, Update, Task> method)
+        /// <inheritdoc />
+        public bool AddReplyCommand(string command, Func<IBotContext, Task> method)
         {
             if (bot.Handler is Handler handler)
                 return handler.ReplyCommandsStore.AddCommand(command, method);
@@ -38,7 +38,8 @@ namespace PRTelegramBot.Registrars
                 return false;
         }
 
-        public bool AddInlineCommand(Enum command, Func<ITelegramBotClient, Update, Task> method)
+        /// <inheritdoc />
+        public bool AddInlineCommand(Enum command, Func<IBotContext, Task> method)
         {
             if (bot.Handler is Handler handler)
                 return handler.CallbackQueryCommandsStore.AddCommand(command, method);
@@ -46,6 +47,7 @@ namespace PRTelegramBot.Registrars
                 return false;
         }
 
+        /// <inheritdoc />
         public bool RemoveReplyCommand(string command)
         {
             if (bot.Handler is Handler handler)
@@ -54,6 +56,7 @@ namespace PRTelegramBot.Registrars
                 return false;
         }
 
+        /// <inheritdoc />
         public bool RemoveSlashCommand(string command)
         {
             if (bot.Handler is Handler handler)
@@ -62,6 +65,7 @@ namespace PRTelegramBot.Registrars
                 return false;
         }
 
+        /// <inheritdoc />
         public bool RemoveInlineCommand(Enum command)
         {
             if (bot.Handler is Handler handler)
@@ -70,6 +74,7 @@ namespace PRTelegramBot.Registrars
                 return false;
         }
 
+        /// <inheritdoc />
         public void Init(PRBotBase bot)
         {
             this.bot = bot;

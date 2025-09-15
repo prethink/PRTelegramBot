@@ -1,7 +1,7 @@
 ﻿using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.UpdateHandlers
 {
@@ -10,38 +10,29 @@ namespace PRTelegramBot.Core.UpdateHandlers
     /// </summary>
     internal sealed class CallBackQueryUpdateDispatcher
     {
-        #region Поля и свойства
-
-        /// <summary>
-        /// Бот.
-        /// </summary>
-        private readonly PRBotBase bot;
-
-        #endregion
-
         #region Методы
 
         /// <summary>
         /// Отправить update на обработку.
         /// </summary>
-        /// <param name="update">Update.</param>
-        public async Task<UpdateResult> Dispatch(Update update)
+        /// <param name="context">Контекст бота.</param>
+        public async Task<UpdateResult> Dispatch(IBotContext context)
         {
             try
             {
-                bot.Events.UpdateEvents.OnCallbackQueryHandler(new BotEventArgs(bot, update));
+                context.Current.Events.UpdateEvents.OnCallbackQueryHandler(context.CreateBotEventArgs());
                 var result = UpdateResult.Continue;
-                foreach (var handler in bot.Options.CallbackQueryHandlers)
+                foreach (var handler in context.Current.Options.CallbackQueryHandlers)
                 {
-                    result = await handler.Handle(bot, update, update.CallbackQuery);
-                    if (!result.IsContinueHandle(bot, update))
+                    result = await handler.Handle(context, context.Update.CallbackQuery);
+                    if (!result.IsContinueHandle(context))
                         return result;
                 }
                 return result;
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex, update);
+                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
                 return UpdateResult.Error;
             }
         }
@@ -53,11 +44,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        public CallBackQueryUpdateDispatcher(PRBotBase bot)
-        {
-            this.bot = bot;
-        }
+        public CallBackQueryUpdateDispatcher() { }
 
         #endregion
     }

@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace AspNetExample.BotController
 {
@@ -14,15 +13,15 @@ namespace AspNetExample.BotController
         }
 
         [ReplyMenuHandler("Testnodi")]
-        public async Task TestMethodWithoutDependency(ITelegramBotClient botClient, Update update)
+        public async Task TestMethodWithoutDependency(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, $"{nameof(TestMethodWithoutDependency)}");
+            await PRTelegramBot.Helpers.Message.Send(context, $"{nameof(TestMethodWithoutDependency)}");
         }
 
         [SlashHandler(CommandComparison.Equals, "/Testnodi")]
-        public async Task SlashNoDi(ITelegramBotClient botClient, Update update)
+        public async Task SlashNoDi(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, nameof(SlashNoDi));
+            await PRTelegramBot.Helpers.Message.Send(context, nameof(SlashNoDi));
         }
     }
 }

@@ -9,13 +9,14 @@ namespace PRTelegramBot.Core.CommandHandlers
     {
         #region ICallbackQueryCommandHandler
 
-        public async Task<UpdateResult> Handle(PRBotBase bot, Update update, CallbackQuery updateType)
+        /// <inheritdoc/>
+        public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
-            foreach (var handler in bot.InlineClassHandlerInstances)
+            foreach (var handler in context.Current.InlineClassHandlerInstances)
             {
                 var command = InlineCallback.GetCommandByCallbackOrNull(updateType.Data);
-                if (command != null && Convert.ToInt32(command.CommandType) == Convert.ToInt32(handler.Key))
-                    return await handler.Value.Handle(bot, update, updateType);
+                if (command is not null && Convert.ToInt32(command.CommandType) == Convert.ToInt32(handler.Key))
+                    return await handler.Value.Handle(context, updateType);
             }
 
             return UpdateResult.Continue;

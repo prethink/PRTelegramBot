@@ -12,7 +12,7 @@
         /// </summary>
         /// <typeparam name="TEnum">Тип перечисления.</typeparam>
         /// <param name="mask">Маска доступа.</param>
-        /// <returns>Перечесление флагов доступа.</returns>
+        /// <returns>Перечисление флагов доступа.</returns>
         public static TEnum ReadFlags<TEnum>(int mask)
             where TEnum : Enum
         {

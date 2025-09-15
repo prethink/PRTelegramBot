@@ -8,101 +8,101 @@ namespace FastBotTemplateConsole.Models
 {
 
     /// <summary>
-    /// Реклама / объявления
+    /// Реклама / объявления.
     /// Entity framework
     /// </summary>
     [Table("Announcements")]
     public class Announcement
     {
         /// <summary>
-        /// Идентификатор
+        /// Идентификатор.
         /// </summary>
         [Column("id")]
         public long Id { get; set; }
 
         /// <summary>
-        /// Описание
+        /// Описание.
         /// </summary>
         [Column("description")]
         public string Description { get; set; }
 
         /// <summary>
-        /// Ссылка на медиа, фото, видео
+        /// Ссылка на медиа, фото, видео.
         /// </summary>
         [Column("media")]
         public string? Media { get; set; }
 
         /// <summary>
-        /// Текст сообщения рекламы
+        /// Текст сообщения рекламы.
         /// </summary>
         [Column("text")]
         public string Text { get; set; }
 
         /// <summary>
-        /// Дата создания
+        /// Дата создания.
         /// </summary>
         [Column("create_date")]
         public DateTime CreateDate { get; set; }
 
         /// <summary>
-        /// Активна или нет
+        /// Активна или нет.
         /// </summary>
         [Column("is_active")]
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Данные для меню
+        /// Данные для меню.
         /// </summary>
         [Column("menu_data")]
         public string? MenuData { get; set; }
 
         /// <summary>
-        /// Тип меню рекламы
+        /// Тип меню рекламы.
         /// </summary>
         [Column("menu_type")]
         public MenuType MenuType { get; set; }
 
         /// <summary>
-        /// Тип сообщения рекламы
+        /// Тип сообщения рекламы.
         /// </summary>
         [Column("message_type")]
         public MessageType MessageType { get; set; }
 
         /// <summary>
-        /// Минимальный возраст для показа рекламы
+        /// Минимальный возраст для показа рекламы.
         /// </summary>
         [Column("start_age")]
         public long? StartAge { get; set; }
 
         /// <summary>
-        /// Максимальный возраст для показа рекламы
+        /// Максимальный возраст для показа рекламы.
         /// </summary>
         [Column("end_age")]
         public long? EndAge { get; set; }
 
         /// <summary>
-        /// Список тегов, перечесление через ;
+        /// Список тегов, перечисление через ";".
         /// </summary>
         [Column("tags")]
         public string? Tags { get; set; }
 
         /// <summary>
-        /// Количество просмотров
+        /// Количество просмотров.
         /// </summary>
         [Column("viewed")]
         public long Viewed { get; set; }
 
         /// <summary>
-        /// Генерирует inline меню со ссылками есть есть данные для меню в MenuData
+        /// Генерирует inline меню со ссылками есть есть данные для меню в MenuData.
         /// </summary>
-        /// <returns>Возращает меню или пустой список</returns>
+        /// <returns>Возвращает меню или пустой список.</returns>
         public List<InlineURL> GetMenu()
         {
             try
             {
-                return JsonSerializer.Deserialize<List<InlineURL>>(MenuData ?? "");
+                return JsonSerializer.Deserialize<List<InlineURL>>(MenuData ?? string.Empty);
             }
-            catch (Exception ex)
+            catch
             {
                 return new List<InlineURL>();
             }
@@ -110,9 +110,9 @@ namespace FastBotTemplateConsole.Models
         }
 
         /// <summary>
-        /// Сериази
+        /// Сериализация inline меню.
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="menu">Меню</param>
         /// <returns></returns>
         public static string WriteMenu(List<IInlineContent> menu)
         {
@@ -120,9 +120,9 @@ namespace FastBotTemplateConsole.Models
             {
                 return JsonSerializer.Serialize(menu);
             }
-            catch (Exception ex)
+            catch
             {
-                return "";
+                return string.Empty;
             }
         }
 

@@ -1,8 +1,7 @@
 ﻿using ConsoleExample.Attributes;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+using PRTelegramBot.Interfaces;
 
 namespace ConsoleExample.Examples
 {
@@ -14,11 +13,11 @@ namespace ConsoleExample.Examples
         /// Проверка текущего пользователя на привилегии администратора.
         /// </summary>
         [ReplyMenuHandler("Админ")]
-        public static async Task AdminExample(ITelegramBotClient botClient, Update update)
+        public static async Task AdminExample(IBotContext context)
         {
-            bool isAdminUpdate = await botClient.IsAdmin(update);
-            bool isAdminById = await botClient.IsAdmin(update.GetChatId()) ;
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+            bool isAdminUpdate = await context.IsAdmin();
+            bool isAdminById = await context.IsAdmin(context.Update.GetChatId()) ;
+            await PRTelegramBot.Helpers.Message.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
         }
 
 
@@ -29,11 +28,11 @@ namespace ConsoleExample.Examples
         /// </summary>
         [AdminOnlyExample]
         [ReplyMenuHandler("Только админы")]
-        public static async Task AdminOnlyExample(ITelegramBotClient botClient, Update update)
+        public static async Task AdminOnlyExample(IBotContext context)
         {
-            bool isAdminUpdate = await botClient.IsAdmin(update);
-            bool isAdminById = await botClient.IsAdmin(update.GetChatId());
-            await PRTelegramBot.Helpers.Message.Send(botClient, update, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+            bool isAdminUpdate = await context.IsAdmin();
+            bool isAdminById = await context.IsAdmin(context.Update.GetChatId());
+            await PRTelegramBot.Helpers.Message.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
 
 namespace PRTelegramBot.Core
@@ -11,47 +12,44 @@ namespace PRTelegramBot.Core
     {
         #region Базовый класс
 
-        public override DataRetrievalMethod DataRetrieval
-        {
-            get
-            {
-                return DataRetrievalMethod.Polling;
-            }
-        }
+        /// <inheritdoc />
+        public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Polling;
 
-        public override async Task Start()
+        /// <inheritdoc />
+        public override async Task StartAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await base.Start();
+                await base.StartAsync(Options.CancellationTokenSource.Token);
                 if (Options.ClearUpdatesOnStart)
-                    await ClearUpdates();
+                    await ClearUpdatesAsync(Options.CancellationTokenSource.Token);
 
-                _ = UpdatePolling();
+                _ = UpdatePollingAsync(Options.CancellationTokenSource.Token);
 
-                var client = await botClient.GetMe();
+                var client = await BotClient.GetMe(Options.CancellationTokenSource.Token);
                 BotName = client?.Username;
-                this.Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
+                Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                 IsWork = true;
             }
             catch (Exception ex)
             {
                 IsWork = false;
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex, cancellationToken));
             }
         }
 
-        public override async Task Stop()
+        /// <inheritdoc />
+        public override async Task StopAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                Options.CancellationToken.Cancel();
-                await Task.Delay(3000);
+                Options.CancellationTokenSource.Cancel();
+                await Task.Delay(3000, CancellationToken.None);
                 IsWork = false;
             }
             catch (Exception ex)
             {
-                this.Events.OnErrorLogInvoke(ex);
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex, cancellationToken));
             }
         }
 
@@ -62,27 +60,28 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Обработка update через polling.
         /// </summary>
-        public async Task UpdatePolling()
+        private async Task UpdatePollingAsync(CancellationToken cancellationToken)
         {
-            int? offset = Options.ReceiverOptions.Offset;
-            while (!Options.CancellationToken.IsCancellationRequested)
+            try
             {
-                var updates = await botClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationToken.Token);
-                foreach (var update in updates)
+                int? offset = Options.ReceiverOptions.Offset;
+                while (!Options.CancellationTokenSource.IsCancellationRequested)
                 {
-                    offset = update.Id + 1;
-                    try
+                    var updates = await BotClient.GetUpdates(offset, Options.ReceiverOptions.Limit, Options.Timeout, Options.ReceiverOptions.AllowedUpdates, Options.CancellationTokenSource.Token);
+                    foreach (var update in updates)
                     {
-                        await Handler.HandleUpdateAsync(botClient, update, Options.CancellationToken.Token);
+                        offset = update.Id + 1;
+                        await Handler.HandleUpdateAsync(BotClient, update, Options.CancellationTokenSource.Token);
+
+                        if (Options.CancellationTokenSource.IsCancellationRequested) break;
                     }
-                    catch (Exception ex)
-                    {
-                        this.Events.OnErrorLogInvoke(ex);
-                    }
-                    if (Options.CancellationToken.IsCancellationRequested) break;
                 }
+                IsWork = false;
             }
-            IsWork = false;
+            catch (Exception ex)
+            {
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex, cancellationToken));
+            }
         }
 
         #endregion

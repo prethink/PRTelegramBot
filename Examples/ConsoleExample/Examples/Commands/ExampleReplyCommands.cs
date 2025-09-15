@@ -2,13 +2,13 @@
 using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Configs;
+using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using PRTelegramBot.Extensions;
 using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples.Commands
@@ -23,10 +23,10 @@ namespace ConsoleExample.Examples.Commands
         /// Так же при проверки будет проигнорирован регистр команды.
         /// </summary>
         [ReplyMenuHandler(CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, "Команда содержит текст")]
-        public static async Task ReplyExampleOne(ITelegramBotClient botClient, Update update)
+        public static async Task ReplyExampleOne(IBotContext context)
         {
             string msg = nameof(ReplyExampleOne);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -34,10 +34,10 @@ namespace ConsoleExample.Examples.Commands
         /// Команда отработает если 'Точное совпадение команды' будет точное совпадения текста сообщения за исключением регистра.
         /// </summary>
         [ReplyMenuHandler("Точное совпадение команды")]
-        public static async Task ReplyExampleTwo(ITelegramBotClient botClient, Update update)
+        public static async Task ReplyExampleTwo(IBotContext context)
         {
             string msg = nameof(ReplyExampleTwo);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace ConsoleExample.Examples.Commands
         /// Пример с использованием разных reply команд для работы с 1 функцией.
         /// </summary>
         [ReplyMenuHandler("Пример 1", "Пример 2")]
-        public static async Task ExampleReplyMany(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyMany(IBotContext context)
         {
             string msg = nameof(ExampleReplyMany);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace ConsoleExample.Examples.Commands
         /// В результате сгенерируется меню.
         /// </summary>
         [ReplyMenuHandler("Reply Меню")]
-        public static async Task ExampleReplyMenu(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyMenu(IBotContext context)
         {
             string msg = "Меню";
             //Создаем настройки сообщения
@@ -85,7 +85,7 @@ namespace ConsoleExample.Examples.Commands
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Helpers.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(context, msg, option);
         }
 
         /// <summary>
@@ -95,12 +95,12 @@ namespace ConsoleExample.Examples.Commands
         /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
         /// </summary>
         [ReplyMenuHandler("Пример динамического текста сообщения")]
-        public static async Task ExampleDynamicReply(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleDynamicReply(IBotContext context)
         {
             /*
              *  В program.cs создается экземпляр бота:
              *   
-             *  var telegram = new PRBotBuilder("")
+             *  var telegram = new PRBotBuilder(string.Empty)
              *      .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
              *      .Build();
              *  
@@ -120,8 +120,8 @@ namespace ConsoleExample.Examples.Commands
              */
 
             // Получаем текст сообщения по ключу из json файла.
-            string msg = botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
-            await Helpers.Message.Send(botClient, update, msg);
+            string msg = context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace ConsoleExample.Examples.Commands
         /// Пример работы меню со скобками.
         /// </summary>
         [ReplyMenuHandler("Скобки")]
-        public static async Task ExampleBracket(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleBracket(IBotContext context)
         {
             string msg = $"Значени {count}";
             //Создаем настройки сообщения
@@ -144,7 +144,7 @@ namespace ConsoleExample.Examples.Commands
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Helpers.Message.Send(botClient, update, msg, option);
+            await Helpers.Message.Send(context, msg, option);
             count++;
         }
 
@@ -155,10 +155,10 @@ namespace ConsoleExample.Examples.Commands
         /// </summary>
         [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]
         [ReplyMenuHandler("Проверка доступа")]
-        public static async Task ExampleAccess(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleAccess(IBotContext context)
         {
             string msg = nameof(ExampleAccess);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace ConsoleExample.Examples.Commands
         /// "DYNAMIC_COMMANT_EXAMPLE": "Динамическая команда"
         /// </summary>
         [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))]
-        public static async Task ExampleReplyDynamicCommand(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyDynamicCommand(IBotContext context)
         {
             /*
              *  Создание провайдера работы с json файлом commands.json
@@ -177,7 +177,7 @@ namespace ConsoleExample.Examples.Commands
              *  Выгрузка всех команд в формате ключ:значение
              *  var dynamicCommands = botJsonProvider.GetKeysAndValues();
              *
-             *  var telegram = new PRBotBuilder("")
+             *  var telegram = new PRBotBuilder(string.Empty)
              *                      .AddReplyDynamicCommands(dynamicCommands)
              *                      .Build();
              * 
@@ -187,7 +187,7 @@ namespace ConsoleExample.Examples.Commands
              */
 
             string msg = nameof(ExampleReplyDynamicCommand);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -196,10 +196,10 @@ namespace ConsoleExample.Examples.Commands
         /// </summary>
         [ReplyMenuHandler("Приватная команда")]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
-        public static async Task ExampleReplyRequeretPrivate(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyRequeretPrivate(IBotContext context)
         {
             string msg = nameof(ExampleReplyRequeretPrivate);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -208,10 +208,10 @@ namespace ConsoleExample.Examples.Commands
         /// </summary>
         [ReplyMenuHandler("Сообщение только из текста")]
         [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
-        public static async Task ExampleReplyRequiredText(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyRequiredText(IBotContext context)
         {
             string msg = nameof(ExampleReplyRequiredText);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -220,10 +220,10 @@ namespace ConsoleExample.Examples.Commands
         /// Пример работы с текстом из json файла.
         /// </summary>
         [ReplyMenuHandler(1, "Пример команды для бота id 1")]
-        public static async Task ExampleReplyBotIdOne(ITelegramBotClient botClient, Update update)
+        public static async Task ExampleReplyBotIdOne(IBotContext context)
         {
             string msg = nameof(ExampleReplyBotIdOne);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>
@@ -231,10 +231,25 @@ namespace ConsoleExample.Examples.Commands
         /// Команда отработает при написание в чат "Команда для всех ботов".
         /// </summary>
         [ReplyMenuHandler(-1, "Команда для всех ботов")]
-        public static async Task ReplyExampleAllBots(ITelegramBotClient botClient, Update update)
+        public static async Task ReplyExampleAllBots(IBotContext context)
         {
             string msg = nameof(ReplyExampleAllBots);
-            await Helpers.Message.Send(botClient, update, msg);
+            await Helpers.Message.Send(context, msg);
         }
+
+        /// <summary>
+        /// Reply команда которая задерживает обработку update.
+        /// </summary>
+        [ReplyMenuHandler("Block10")]
+        public static async Task ReplyBlockUpdate(IBotContext context)
+        {
+            string msg = nameof(ReplyBlockUpdate);
+            await Helpers.Message.Send(context, msg);
+
+            await Task.Delay(10000);
+
+            await Helpers.Message.Send(context, "Конец ожидания");
+        }
+
     }
 }

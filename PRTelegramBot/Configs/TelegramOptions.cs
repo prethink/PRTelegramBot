@@ -17,12 +17,12 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Клиент телеграма.
         /// </summary>
-        public TelegramBotClient? Client { get; set; }
+        public ITelegramBotClient? Client { get; set; }
 
         /// <summary>
         /// Токен telegram бота.
         /// </summary>
-        public string Token { get; set; }
+        public string Token { get; set; } = null!;
 
         /// <summary>
         /// Перед запуском очищает список обновлений, которые накопились когда бот не работал.
@@ -30,7 +30,7 @@ namespace PRTelegramBot.Configs
         public bool ClearUpdatesOnStart { get; set; }
 
         /// <summary>
-        /// Уникальных идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов.
+        /// Уникальный идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов.
         /// </summary>
         public long BotId { get; set; }
 
@@ -45,9 +45,9 @@ namespace PRTelegramBot.Configs
         public Dictionary<string, string> ConfigPaths { get; set; } = new();
 
         /// <summary>
-        /// Токен отмены.
+        /// Источник токена отмены.
         /// </summary>
-        public CancellationTokenSource CancellationToken { get; set; } = new CancellationTokenSource();
+        public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
         /// <summary>
         /// Настройки telegram бота.
@@ -57,12 +57,12 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Сервис провайдер.
         /// </summary>
-        public IServiceProvider ServiceProvider { get; set; }
+        public IServiceProvider? ServiceProvider { get; set; }
 
         /// <summary>
         /// Обработчик обновлений Telegram.
         /// </summary>
-        public IPRUpdateHandler UpdateHandler { get; set; }
+        public IPRUpdateHandler? UpdateHandler { get; set; }
 
         /// <summary>
         /// Менеджер управления администраторами.
@@ -77,12 +77,12 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Промежуточные обработчики перед update.
         /// </summary>
-        public List<MiddlewareBase> Middlewares { get; set; } = new();
+        public List<MiddlewareBase> Middlewares { get; set; } = [];
 
         /// <summary>
         /// Дополнительные проверки перед обработкой команд.
         /// </summary>
-        public List<InternalChecker> CommandCheckers { get; set; } = new();
+        public List<InternalChecker> CommandCheckers { get; set; } = [];
 
         /// <summary>
         /// Таймаут для получения update в режиме polling.
@@ -90,29 +90,29 @@ namespace PRTelegramBot.Configs
         public int? Timeout { get; set; }
 
         /// <summary>
-        /// Обработчики callbackquery (inline) команд.
+        /// Обработчики callbackQuery (inline) команд.
         /// </summary>
-        public List<ICallbackQueryCommandHandler> CallbackQueryHandlers { get; set; } = new();
+        public List<ICallbackQueryCommandHandler> CallbackQueryHandlers { get; set; } = [];
 
         /// <summary>
         /// Обработчики для message.
         /// </summary>
-        public List<IMessageCommandHandler> MessageHandlers { get; set; } = new();
-
-        /// <summary>
-        /// Параметры для webhook.
-        /// </summary>
-        public WebHookOptions WebHookOptions = new WebHookOptions();
+        public List<IMessageCommandHandler> MessageHandlers { get; set; } = [];
 
         /// <summary>
         /// Параметр предотвращает спам об ошибке, если пропала сеть. По умолчанию значение 1 минута, можно поменять.
         /// </summary>
         public int AntiSpamErrorMinute { get; set; } = 1;
+        
+        /// <summary>
+        /// Параметры для webhook.
+        /// </summary>
+        public readonly WebHookOptions WebHookOptions = new();
 
         /// <summary>
         /// Параметры команд.
         /// </summary>
-        public CommandOptions CommandOptions = new CommandOptions();
+        public readonly CommandOptions CommandOptions = new();
 
         #endregion
     }

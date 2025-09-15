@@ -17,11 +17,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #region IInlineContent
 
+        /// <inheritdoc />
         public object GetContent()
         {
             return LoginUrl;
         }
 
+        /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
         {
             return InlineKeyboardButton.WithLoginUrl(ButtonName, LoginUrl);

@@ -4,20 +4,22 @@ namespace FastBotTemplateConsole.Events
 {
     internal class LogEvents
     {
-        public static async Task OnLogError(ErrorLogEventArgs e)
+        public static Task OnLogError(ErrorLogEventArgs e)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             string errorMsg = $"{DateTime.Now}: {e.Exception.ToString()}";
             Console.WriteLine(errorMsg);
             Console.ResetColor();
+            return Task.CompletedTask;
         }
 
-        public static async Task OnLogCommon(CommonLogEventArgs e)
+        public static Task OnLogCommon(CommonLogEventArgs e)
         {
             Console.ForegroundColor = e.Color;
             string formatMsg = $"{DateTime.Now}: {e.Message}";
             Console.WriteLine(formatMsg);
             Console.ResetColor();
+            return Task.CompletedTask;
         }
     }
 }

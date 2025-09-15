@@ -14,7 +14,7 @@
         /// <returns>Цепочка обработчиков.</returns>
         public virtual MiddlewareBase Build(List<MiddlewareBase> middlewares)
         {
-            if (middlewares == null)
+            if (middlewares is null)
                 return new MiddlewareBase();
 
             MiddlewareBase current = new MiddlewareBase();

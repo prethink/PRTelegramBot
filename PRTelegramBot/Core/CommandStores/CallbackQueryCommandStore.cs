@@ -1,14 +1,14 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
+using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Utils;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandStores
 {
     /// <summary>
-    /// Хранилище callbackquery команд.
+    /// Хранилище callbackQuery команд.
     /// </summary>
     public sealed class CallbackQueryCommandStore : BaseCommandStore<Enum>
     {
@@ -37,7 +37,7 @@ namespace PRTelegramBot.Core.CommandStores
         /// <param name="command">Команда.</param>
         /// <param name="delegate">Метод обработки команды.</param
         /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
-        public override bool AddCommand(Enum command, Func<ITelegramBotClient, Update, Task> @delegate)
+        public override bool AddCommand(Enum command, Func<IBotContext, Task> @delegate)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Core.CommandStores
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex);
+                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 return false;
             }
         }
@@ -66,7 +66,7 @@ namespace PRTelegramBot.Core.CommandStores
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ex);
+                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
                 return false;
             }
         }

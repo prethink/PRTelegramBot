@@ -1,6 +1,4 @@
-﻿using PRTelegramBot.Core;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {
@@ -12,19 +10,23 @@ namespace PRTelegramBot.Models.EventsArgs
         #region Поля и свойства
 
         /// <summary>
-        /// Бот.
+        /// Контекст бота.
         /// </summary>
-        public PRBotBase Bot { get; private set; }
+        public IBotContext Context { get; private set; }
+
+        #endregion
+
+        #region Методы
 
         /// <summary>
-        /// Клиент бота.
+        /// Создать аргументы событий для бота.
         /// </summary>
-        public ITelegramBotClient BotClient { get; private set; }
-
-        /// <summary>
-        /// Обновление.
-        /// </summary>
-        public Update Update { get; private set; }
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>Базовые аргументы события для ботов</returns>
+        public static BotEventArgs CreateEventArgs(IBotContext context)
+        {
+            return new BotEventArgs(context);
+        }
 
         #endregion
 
@@ -33,13 +35,10 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <param name="update">Обновление.</param>
-        public BotEventArgs(PRBotBase bot, Update update)
+        /// <param name="context">Контекст бота.</param>
+        public BotEventArgs(IBotContext context)
         {
-            Bot = bot;
-            BotClient = bot.botClient;
-            Update = update;
+            Context = context;
         }
 
         #endregion

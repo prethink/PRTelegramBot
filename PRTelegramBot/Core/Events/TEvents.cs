@@ -1,5 +1,5 @@
-﻿using PRTelegramBot.Models.EventsArgs;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Models;
+using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Core.Events
 {
@@ -83,39 +83,111 @@ namespace PRTelegramBot.Core.Events
 
         #region Методы
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnUserStartWithArgs"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnUserStartWithArgsInvoke(StartEventArgs e) => OnUserStartWithArgs?.Invoke(e);
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnMissingCommand"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnMissingCommandInvoke(BotEventArgs e) => OnMissingCommand?.Invoke(e);
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnErrorCommand"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnErrorCommandInvoke(BotEventArgs e) => OnErrorCommand?.Invoke(e);
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnAccessDenied"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnAccessDeniedInvoke(BotEventArgs e) => OnAccessDenied?.Invoke(e);
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnCheckPrivilege"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnCheckPrivilegeInvoke(PrivilegeEventArgs e) => OnCheckPrivilege?.Invoke(e);
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnWrongTypeMessage"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnWrongTypeMessageInvoke(BotEventArgs e) => OnWrongTypeMessage?.Invoke(e);
 
+        /// <summary>
+        /// Вызвать событие <see cref="OnWrongTypeChat"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
         internal void OnWrongTypeChatInvoke(BotEventArgs e) => OnWrongTypeChat?.Invoke(e);
 
-        internal void OnErrorLogInvoke(ErrorLogEventArgsCreator e) => OnErrorLog?.Invoke(new ErrorLogEventArgs(Bot, e));
+        /// <summary>
+        /// Вызвать событие <see cref="OnErrorLog"/>.
+        /// </summary>
+        /// <param name="e">Аргументы события.</param>
+        public void OnErrorLogInvoke(ErrorLogEventArgs e) => OnErrorLog?.Invoke(e);
 
-        public void OnErrorLogInvoke(Exception exception, Update update) => OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception, update));
-  
-        public void OnErrorLogInvoke(Exception exception) => OnErrorLogInvoke(new ErrorLogEventArgsCreator(exception));
+        /// <summary>
+        /// Вызвать событие <see cref="OnCommonLog"/> через готовый объект аргументов.
+        /// </summary>
+        /// <param name="e">Создатель аргументов события.</param>
+        public void OnCommonLogInvoke(CommonLogEventArgsCreator e) =>
+            OnCommonLog?.Invoke(new CommonLogEventArgs(e.Context, e));
 
-        public void OnCommonLogInvoke(CommonLogEventArgsCreator e) => OnCommonLog?.Invoke(new CommonLogEventArgs(Bot, e));
+        /// <summary>
+        /// Вызвать событие <see cref="OnCommonLog"/> с простым сообщением.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        public void OnCommonLogInvoke(string message) =>
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, "Common"));
 
-        public void OnCommonLogInvoke(string message) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, "Common"));
+        /// <summary>
+        /// Вызвать событие <see cref="OnCommonLog"/> с указанием типа лога.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="type">Тип лога.</param>
+        public void OnCommonLogInvoke(string message, string type) =>
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
 
-        public void OnCommonLogInvoke(string message, string type) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
+        /// <summary>
+        /// Вызвать событие <see cref="OnCommonLog"/> с контекстом бота.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="type">Тип лога.</param>
+        /// <param name="context">Контекст бота.</param>
+        public void OnCommonLogInvoke(string message, string type, BotContext context) =>
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, context));
 
-        public void OnCommonLogInvoke(string message, string type, Update update) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, update));
+        /// <summary>
+        /// Вызвать событие <see cref="OnCommonLog"/> с цветом текста.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="type">Тип лога.</param>
+        /// <param name="color">Цвет текста в консоли.</param>
+        public void OnCommonLogInvoke(string message, string type, ConsoleColor color) =>
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color));
 
-        public void OnCommonLogInvoke(string message, string type, ConsoleColor color) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color));
+        /// <summary>
+        /// Вызвать событие <see cref="OnCommonLog"/> с цветом текста и контекстом бота.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="type">Тип лога.</param>
+        /// <param name="color">Цвет текста в консоли.</param>
+        /// <param name="context">Контекст бота.</param>
+        public void OnCommonLogInvoke(string message, string type, ConsoleColor color, BotContext context) =>
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, context));
 
-        public void OnCommonLogInvoke(string message, string type, ConsoleColor color, Update update) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type, color, update));
-
-        public void OnCommonLogInvokeInvoke(string message, string type) => OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
+        /// <summary>
+        /// Дополнительный метод вызова <see cref="OnCommonLog"/> с типом лога.
+        /// </summary>
+        /// <param name="message">Текст сообщения.</param>
+        /// <param name="type">Тип лога.</param>
+        public void OnCommonLogInvokeInvoke(string message, string type) =>
+            OnCommonLogInvoke(new CommonLogEventArgsCreator(message, type));
 
         #endregion
 

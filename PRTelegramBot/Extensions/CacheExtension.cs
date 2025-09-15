@@ -14,7 +14,7 @@ namespace PRTelegramBot.Extensions
         /// <summary>
         /// Словарь для работы который хранит идентификатор пользователя и его кеш.
         /// </summary>
-        static ConcurrentDictionary<string, ITelegramCache> _userHandlerData = new();
+        static ConcurrentDictionary<string, ITelegramCache> userHandlerData = new();
 
         #endregion
 
@@ -25,17 +25,39 @@ namespace PRTelegramBot.Extensions
         /// </summary>
         /// <typeparam name="TCache">Тип кэша.</typeparam>
         /// <param name="update">Обновление telegram.</param>
-        public static void CreateCacheData<TCache>(this Update update) where TCache : ITelegramCache
+        /// <returns>Кэш.</returns>
+        public static TCache CreateCacheData<TCache>(this Update update) where TCache : ITelegramCache
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            if (_userHandlerData.TryGetValue(userKey, out var data))
+            var newData = Activator.CreateInstance<TCache>();
+            userHandlerData.AddOrUpdate(userKey, newData, (_, existingData) => newData);
+            return newData;
+        }
+
+        /// <summary>
+        /// Получает существующий кэш или создает новый.
+        /// </summary>
+        /// <typeparam name="TCache">Тип кэша.</typeparam>
+        /// <param name="update">Обновление telegram.</param>
+        /// <returns>Кэш.</returns>
+        /// <remarks>Если тип кэша отличается от существующего, будет создан кэш нового типа.</remarks>
+        public static TCache GetOrCreate<TCache>(this Update update) where TCache : ITelegramCache
+        {
+            string userKey = update.GetKeyMappingUserTelegram();
+            if (userHandlerData.TryGetValue(userKey, out var data))
             {
-                data?.ClearData();
+                if (data is TCache cache)
+                    return cache;
+
+                var newData = Activator.CreateInstance<TCache>();
+                userHandlerData.AddOrUpdate(userKey, newData, (_, existingData) => newData);
+                return newData;
             }
             else
             {
                 var newData = Activator.CreateInstance<TCache>();
-                _userHandlerData.AddOrUpdate(userKey, newData, (_, existingData) => newData);
+                userHandlerData.AddOrUpdate(userKey, newData, (_, existingData) => newData);
+                return newData;
             }
         }
 
@@ -48,10 +70,10 @@ namespace PRTelegramBot.Extensions
         public static TCache GetCacheData<TCache>(this Update update) where TCache : ITelegramCache
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            if (!_userHandlerData.TryGetValue(userKey, out var data))
+            if (!userHandlerData.TryGetValue(userKey, out var data))
             {
-                update.CreateCacheData<TCache>();
-                return (TCache)_userHandlerData[userKey];
+                update.GetOrCreate<TCache>();
+                return (TCache)userHandlerData[userKey];
             }
             return (TCache)data;
         }
@@ -63,7 +85,7 @@ namespace PRTelegramBot.Extensions
         public static void ClearCacheData(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            if (_userHandlerData.TryGetValue(userKey, out var data))
+            if (userHandlerData.TryGetValue(userKey, out var data))
                 data.ClearData();
 
         }
@@ -76,7 +98,7 @@ namespace PRTelegramBot.Extensions
         public static bool HasCacheData(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            return _userHandlerData.ContainsKey(userKey);
+            return userHandlerData.ContainsKey(userKey);
         }
 
         /// <summary>
@@ -86,7 +108,7 @@ namespace PRTelegramBot.Extensions
         public static void RemoveCacheData(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
-            _userHandlerData.TryRemove(userKey, out _);
+            userHandlerData.TryRemove(userKey, out _);
         }
 
         #endregion

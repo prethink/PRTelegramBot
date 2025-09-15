@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {
@@ -16,17 +17,44 @@ namespace PRTelegramBot.Models.EventsArgs
 
         #endregion
 
+        #region Методы
+
+        /// <summary>
+        /// Создать аргументы событий с ошибкой.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="exception">Исключение.</param>
+        /// <returns></returns>
+        public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception)
+        {
+            return new ErrorLogEventArgs(new BotContext(bot), exception);
+        }
+
+        /// <summary>
+        /// Создать аргументы событий с ошибкой.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="exception">Исключение.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns></returns>
+        public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception, CancellationToken cancellationToken)
+        {
+            return new ErrorLogEventArgs(new BotContext(bot, cancellationToken), exception);
+        }
+
+        #endregion
+
         #region Конструкторы
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <param name="e">Аргументы события.</param>
-        public ErrorLogEventArgs(PRBotBase bot, ErrorLogEventArgsCreator e)
-            : base(bot, e.Update)
+        /// <param name="context">Контекст бота.</param>
+        /// <param name="exception">Исключение.</param>
+        public ErrorLogEventArgs(IBotContext context, Exception exception)
+            : base(context)
         {
-            this.Exception = e.Exception;
+            this.Exception = exception;
         }
 
         #endregion

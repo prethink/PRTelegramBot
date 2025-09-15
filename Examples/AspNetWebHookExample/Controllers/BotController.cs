@@ -1,6 +1,5 @@
 ﻿using AspNetWebHook.Filter;
 using Microsoft.AspNetCore.Mvc;
-using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot.Types;
@@ -24,7 +23,7 @@ namespace AspNetWebHook.Controllers
                     var secretToken = bot.Options.WebHookOptions.SecretToken;
                     if (string.Equals(secretTokenHeader, secretToken, StringComparison.Ordinal))
                     {
-                        await bot.Handler.HandleUpdateAsync(bot.botClient, update, bot.Options.CancellationToken.Token);
+                        await bot.Handler.HandleUpdateAsync(bot.BotClient, update, bot.Options.CancellationTokenSource.Token);
                         return Ok();
                     }
                 }

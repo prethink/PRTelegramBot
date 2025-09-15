@@ -5,7 +5,7 @@ namespace PRTelegramBot.Utils
     public class EnumHeaders
     {
         private static readonly object _lock = new object();
-        private static EnumHeaders _instance;
+        private static EnumHeaders instance;
         private HashSet<Enum> _uniqueValues;
         private Dictionary<int, Enum> _headers;
 
@@ -19,17 +19,17 @@ namespace PRTelegramBot.Utils
         {
             get
             {
-                if (_instance == null)
+                if (instance is null)
                 {
                     lock (_lock)
                     {
-                        if (_instance == null)
+                        if (instance is null)
                         {
-                            _instance = new EnumHeaders();
+                            instance = new EnumHeaders();
                         }
                     }
                 }
-                return _instance;
+                return instance;
             }
         }
 
@@ -70,7 +70,7 @@ namespace PRTelegramBot.Utils
             lock (_lock)
             {
                 var @enum = _headers.FirstOrDefault(x => x.Value.Equals(key));
-                if (@enum.Value == null)
+                if (@enum.Value is null)
                     throw new InlineCommandNotFoundException(key);
 
                 return @enum.Key;

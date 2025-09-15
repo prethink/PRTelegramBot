@@ -1,10 +1,10 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using System.Reflection;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Executors
 {
@@ -15,45 +15,48 @@ namespace PRTelegramBot.Core.Executors
     {
         #region Базовый класс
 
+        /// <inheritdoc />
         public override CommandType CommandType => CommandType.Inline;
 
-        protected override async Task<InternalCheckResult> InternalCheck(PRBotBase bot, Update update, CommandHandler handler)
+        /// <inheritdoc />
+        protected override async Task<InternalCheckResult> InternalCheck(IBotContext context, CommandHandler handler)
         {
             var currentCheckers = bot.Options.CommandCheckers.Where(x => x.CommandTypes.Contains(CommandType));
             if (currentCheckers.Any())
             {
                 foreach (var commandChecker in currentCheckers)
                 {
-                    var result = await commandChecker.Checker.Check(bot, update, handler);
+                    var result = await commandChecker.Checker.Check(context, handler);
                     if (result != InternalCheckResult.Passed)
                         return result;
                 }
             }
 
             var method = handler.Method;
-            var privilages = method.GetCustomAttribute<AccessAttribute>();
+            var privileges = method.GetCustomAttribute<AccessAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
 
-            if (privilages != null)
+            if (privileges is not null)
             {
-                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(bot, update, handler.ExecuteCommand, privilages.Mask));
+                bot.Events.OnCheckPrivilegeInvoke(new PrivilegeEventArgs(context, handler.ExecuteCommand, privileges.Mask));
                 return InternalCheckResult.PrivilegeCheck;
             }
 
             var whiteListManager = bot.Options.WhiteListManager;
-            var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
+            var hasUserInWhiteList = await whiteListManager.HasUser(context.Update.GetChatId());
 
             if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
             {
-                if (whiteListAttribute == null && !hasUserInWhiteList)
+                if (whiteListAttribute is null && !hasUserInWhiteList)
                 {
-                    bot.Events.OnAccessDeniedInvoke(new BotEventArgs(bot, update));
+                    bot.Events.OnAccessDeniedInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.NotInWhiteList;
                 }
             }
             return InternalCheckResult.Passed;
         }
 
+        /// <inheritdoc />
         protected override bool CanExecute(Enum currentCommand, Enum command, CommandHandler handler)
         {
             if (handler.CommandComparison == CommandComparison.Equals)

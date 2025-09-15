@@ -11,6 +11,7 @@ namespace PRTelegramBot.Converters
     {
         #region Базовый класс
 
+        /// <inheritdoc />
         public override Enum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             // Обработка десериализации JSON в тип Enum
@@ -25,15 +26,17 @@ namespace PRTelegramBot.Converters
             }
         }
 
+        /// <inheritdoc />
         public override void Write(Utf8JsonWriter writer, Enum value, JsonSerializerOptions options)
         {
             // Обработка сериализации типа Enum в JSON
-            if (value != null)
+            if (value is not null)
                 writer.WriteNumberValue(EnumHeaders.Instance.Get(value));
             else
                 writer.WriteNullValue();
         }
 
+        /// <inheritdoc />
         public override bool CanConvert(Type typeToConvert)
         {
             return true;

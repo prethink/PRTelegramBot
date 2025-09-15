@@ -1,8 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using System.Reflection;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.Factories
 {
@@ -16,7 +14,7 @@ namespace PRTelegramBot.Core.Factories
                 return new CommandHandler(method, serviceProvider);
         }
 
-        public CommandHandler CreateHandler(IBaseQueryAttribute attr, Func<ITelegramBotClient, Update, Task> command, IServiceProvider serviceProvider)
+        public CommandHandler CreateHandler(IBaseQueryAttribute attr, Func<IBotContext, Task> command, IServiceProvider serviceProvider)
         {
             if (attr is IStringQueryAttribute stringAttribute)
                 return CreateStringHandler(stringAttribute, command, serviceProvider);
@@ -29,7 +27,7 @@ namespace PRTelegramBot.Core.Factories
             return new StringCommandHandler(method, serviceProvider, attribute.CommandComparison, attribute.StringComparison);
         }
 
-        private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, Func<ITelegramBotClient, Update, Task> command, IServiceProvider serviceProvider)
+        private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, Func<IBotContext, Task> command, IServiceProvider serviceProvider)
         {
             return new StringCommandHandler(command, serviceProvider, attribute.CommandComparison, attribute.StringComparison);
         }

@@ -9,6 +9,7 @@ namespace PRTelegramBot.Core.Executors
     {
         #region Базовый класс
 
+        /// <inheritdoc />
         public override CommandType CommandType => CommandType.Slash;
 
         #endregion

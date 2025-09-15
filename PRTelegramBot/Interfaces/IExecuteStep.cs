@@ -1,6 +1,4 @@
 ﻿using PRTelegramBot.Models.Enums;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Interfaces
 {
@@ -23,15 +21,14 @@ namespace PRTelegramBot.Interfaces
         /// Получить ссылку на метод, который нужно выполнить.
         /// </summary>
         /// <returns>Метод для выполнения.</returns>
-        Func<ITelegramBotClient, Update, Task> GetExecuteMethod();
+        Func<IBotContext, Task> GetExecuteMethod();
 
         /// <summary>
         /// Выполнить команду.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <param name="update">Обновления telegram.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <returns>Результат выполнения команды.</returns>
-        Task<ExecuteStepResult> ExecuteStep(ITelegramBotClient botClient, Update update);
+        Task<ExecuteStepResult> ExecuteStep(IBotContext context);
 
         /// <summary>
         /// Может ли быть выполнен шаг

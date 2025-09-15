@@ -1,5 +1,4 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Core.Middlewares
 {
@@ -27,29 +26,29 @@ namespace PRTelegramBot.Core.Middlewares
         /// <summary>
         /// Выполнить следующий асинхронный промежуточный обработчик.
         /// </summary>
-        /// <param name="update">Update.</param>
+        /// <param name="context">Контекст бота.</param>
         /// <param name="next">Функция которая должна выполниться после обработчиков.</param>
-        public virtual async Task InvokeOnPreUpdateAsync(ITelegramBotClient botClient, Update update, Func<Task> next)
+        public virtual async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
-            if (nextMiddleware != null)
+            if (nextMiddleware is not null)
             {
-                await nextMiddleware.InvokeOnPreUpdateAsync(botClient, update, next);
+                await nextMiddleware.InvokeOnPreUpdateAsync(context, next);
             }
             else
             {
                 await next();
-                await InvokeOnPostUpdateAsync(botClient, update);
+                await InvokeOnPostUpdateAsync(context);
             }
         }
 
         /// <summary>
         /// Выполнить предыдущий асинхронный промежуточный обработчик.
         /// </summary>
-        /// <param name="update">Update.</param>
-        public virtual async Task InvokeOnPostUpdateAsync(ITelegramBotClient botClient, Update update)
+        /// <param name="context">Контекст бота.</param>
+        public virtual async Task InvokeOnPostUpdateAsync(IBotContext context)
         {
-            if (previousMiddleware != null)
-                await previousMiddleware.InvokeOnPostUpdateAsync(botClient, update);
+            if (previousMiddleware is not null)
+                await previousMiddleware.InvokeOnPostUpdateAsync(context);
         }
 
         /// <summary>
