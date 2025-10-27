@@ -228,12 +228,10 @@ namespace PRTelegramBot.Extensions
         /// <returns>Информация.</returns>
         private static string GetFullNameFromChat(Chat chat)
         {
-            string result = string.Empty;
-            result += chat?.Id + " ";
-            result += string.IsNullOrEmpty(chat.FirstName) ? string.Empty : chat.FirstName + " ";
-            result += string.IsNullOrEmpty(chat?.LastName) ? string.Empty : chat.LastName + " ";
-            result += string.IsNullOrEmpty(chat?.Username) ? string.Empty : chat.Username + " ";
-            return result;
+            List<string> infos = [chat.Id.ToString(), chat.FirstName, chat.LastName, chat.Username];
+            infos = infos.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+
+            return string.Join(' ', infos);
         }
 
         #endregion

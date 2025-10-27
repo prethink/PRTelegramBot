@@ -1,3 +1,7 @@
+-- 2025.10.27 - V0.8.1
+- Telegram.Bot: обновлен до 22.7.3
+- Рефакторинг метода GetFullNameFromChat
+
 -- 2025.09.15 - V0.8
 - Рефакторинг кода. Так же спасибо за помощь @Harlok13.
 - Добавлен IBotContext который хранит в себе: Всех экземпляры ботов системы. Текущий экземпляр бота. Update. BotClient, CurrentUpdateType, CancelationToken.
