@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.1</Version>
+    <Version>0.8.2</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -49,7 +49,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.7" />
-    <PackageReference Include="Telegram.Bot" Version="22.7.3" />
+    <PackageReference Include="Telegram.Bot" Version="22.7.4" />
   </ItemGroup>
 
   <ItemGroup>
