@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using PRTelegramBot.Interfaces;
+using System.Text.Json.Serialization;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
@@ -12,6 +13,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         [JsonIgnore]
         public string ButtonName { get; set; }
+
 
         #endregion
 

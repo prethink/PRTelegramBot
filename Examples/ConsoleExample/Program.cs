@@ -4,6 +4,7 @@ using ConsoleExample.Models.CommandHeaders;
 using ConsoleExample.Services;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.EventsArgs;
+using PRTelegramBot.Wrappers;
 
 /****************************************************************************************
  * ######################################################################################
@@ -24,6 +25,7 @@ var telegram = new PRBotBuilder("token")
                     .AddCommandChecker(Initializer.GetCommandChekers())
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(InlineDefaultClassHandler))
+                    .SetSerializer(new ToonSerializatorWrapper())
                     .Build();
 
 // Инициализация событий для бота.

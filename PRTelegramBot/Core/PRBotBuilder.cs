@@ -466,6 +466,17 @@ namespace PRTelegramBot.Core
             return this;
         }
 
+        /// <summary>
+        /// Установить сеализатор данных.
+        /// </summary>
+        /// <param name="serializator">Сеализатор.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetSerializer(IPRSerializator serializator)
+        {
+            options.Serializator = serializator;
+            return this;
+        }
+
         #endregion
 
         #region Конструкторы

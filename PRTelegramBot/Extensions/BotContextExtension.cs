@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models.CallbackCommands;
+using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Extensions
 {
@@ -201,6 +202,21 @@ namespace PRTelegramBot.Extensions
         public static bool HasStepHandler(this IBotContext context)
         {
             return context.Update.HasStepHandler();
+        }
+
+        #endregion
+
+        #region Other
+
+        public static InlineCallback GetCommandByCallbackOrNull(this IBotContext botContext)
+        {
+            return new InlineCallback(botContext).GetCommandByCallbackOrNull();
+        }
+
+        public static InlineCallback<T> GetCommandByCallbackOrNull<T>(this IBotContext botContext) 
+            where T : TCommandBase
+        {
+            return new InlineCallback<T>(botContext).GetCommandByCallbackOrNull();
         }
 
         #endregion

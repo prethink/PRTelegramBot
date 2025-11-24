@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.TCommands;
 using Telegram.Bot.Types;
 
@@ -21,7 +21,7 @@ namespace ConsoleExample.Examples.InlineClassHandlers
 
         public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
-            var command = InlineCallback<StringTCommand>.GetCommandByCallbackOrNull(updateType.Data);
+            var command = context.GetCommandByCallbackOrNull<StringTCommand>();
             if (command != null)
             {
                 await PRTelegramBot.Helpers.Message.Send(context, $"{TEST_ADD_MESSAGE} {command.Data.StrData}");

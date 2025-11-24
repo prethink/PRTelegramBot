@@ -105,7 +105,7 @@ namespace ConsoleExample.Examples.Commands
             try
             {
                 //Попытка преобразовать callback данные к требуемому типу
-                var command = InlineCallback.GetCommandByCallbackOrNull(context.Update.CallbackQuery.Data);
+                var command = context.GetCommandByCallbackOrNull();
                 if (command != null)
                 {
                     string msg = "Регистрация следующего шага, напишите что-нибудь";

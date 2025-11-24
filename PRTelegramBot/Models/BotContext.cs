@@ -31,6 +31,9 @@ namespace PRTelegramBot.Models
         /// <inheritdoc />
         public CancellationToken CancellationToken { get; }
 
+        /// <inheritdoc />
+        public IPRSerializator Serializator => Current.Serializator;
+
         #endregion
 
         #region Методы

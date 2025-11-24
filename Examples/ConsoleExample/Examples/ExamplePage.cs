@@ -82,7 +82,7 @@ namespace ConsoleExample.Examples
                 //Попытка преобразовать callback данные к требуемому типу
                 if (context.Update.CallbackQuery?.Data != null)
                 {
-                    var command = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(context);
+                    var command = context.GetCommandByCallbackOrNull<PageTCommand>();
                     if (command != null)
                     {
                         //Получаю заголовок из данных

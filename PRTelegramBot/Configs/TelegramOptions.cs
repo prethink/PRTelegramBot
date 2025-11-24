@@ -2,6 +2,7 @@
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Managers;
 using PRTelegramBot.Models;
+using PRTelegramBot.Wrappers;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 
@@ -113,6 +114,11 @@ namespace PRTelegramBot.Configs
         /// Параметры команд.
         /// </summary>
         public readonly CommandOptions CommandOptions = new();
+
+        /// <summary>
+        /// Сериалайзер данных.
+        /// </summary>
+        public IPRSerializator Serializator { get; set; } = new JsonSerializatorWrapper();
 
         #endregion
     }

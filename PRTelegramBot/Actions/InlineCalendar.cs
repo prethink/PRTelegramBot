@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
@@ -26,7 +27,7 @@ namespace PRTelegramBot.Actions
         {
             try
             {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
+                var command = context.GetCommandByCallbackOrNull<CalendarTCommand>();
                 if (command is not null)
                 {
                     var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
@@ -49,7 +50,7 @@ namespace PRTelegramBot.Actions
         {
             try
             {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
+                var command = context.GetCommandByCallbackOrNull<CalendarTCommand>();
                 if (command is not null)
                 {
                     var monthPickerMarkup = Markup.PickMonth(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
@@ -74,7 +75,7 @@ namespace PRTelegramBot.Actions
         {
             try
             {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
+                var command = context.GetCommandByCallbackOrNull<CalendarTCommand>();
                 if (command is not null)
                 {
                     var monthYearMarkup = Markup.PickYear(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
@@ -97,7 +98,7 @@ namespace PRTelegramBot.Actions
         {
             try
             {
-                var command = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(context);
+                var command = context.GetCommandByCallbackOrNull<CalendarTCommand>();
                 if (command is not null)
                 {
                     var calendarMarkup = Markup.Calendar(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);

@@ -36,6 +36,11 @@ namespace PRTelegramBot.Interfaces
         public UpdateType CurrentUpdateType { get; }
 
         /// <summary>
+        /// Сеализатор.
+        /// </summary>
+        public IPRSerializator Serializator { get; }
+
+        /// <summary>
         /// Токен отмены.
         /// </summary>
         public CancellationToken CancellationToken { get; }
