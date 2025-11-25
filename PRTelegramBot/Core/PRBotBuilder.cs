@@ -473,7 +473,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetSerializer(IPRSerializator serializator)
         {
-            options.Serializator = serializator;
+            PRSettingsProvider.Instance.SetSerializator(serializator);
             return this;
         }
 

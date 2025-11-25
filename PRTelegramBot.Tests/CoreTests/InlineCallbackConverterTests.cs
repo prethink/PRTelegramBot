@@ -30,7 +30,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var exceptedCommandType = PRTelegramBotCommand.PickYear;
             var command = new InlineCallback<EntityTCommand<long>>("Пример 2", exceptedCommandType, new EntityTCommand<long>(exceptedLong, exceptedCommandId));
             var json = command.GetContent() as string;
-            var exportCommand = new InlineCallback<EntityTCommand<long>>().GetCommandByCallbackOrNull(json);
+            var exportCommand = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedLong, exportCommand.Data.EntityId);
             Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
@@ -45,7 +45,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var exceptedCommandType = PRTelegramBotCommand.PickYear;
             var command = new InlineCallback<EntityTCommand<string>>("Пример 2", exceptedCommandType, new EntityTCommand<string>(exceptedString, exceptedCommandId));
             var json = command.GetContent() as string;
-            var exportCommand = new InlineCallback<EntityTCommand<string>>().GetCommandByCallbackOrNull(json);
+            var exportCommand = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedString, exportCommand.Data.EntityId);
             Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
@@ -60,7 +60,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var exceptedCommandType = PRTelegramBotCommand.PickYear;
             var command = new InlineCallback<PageTCommand>("Пример 2", exceptedCommandType, new PageTCommand(exceptedPage, PRTelegramBotCommand.None, exceptedCommandId));
             var json = command.GetContent() as string;
-            var exportCommand = new InlineCallback<PageTCommand>().GetCommandByCallbackOrNull(json);
+            var exportCommand = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedPage, exportCommand.Data.Page);
             Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
@@ -75,7 +75,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var exceptedCommandType = PRTelegramBotCommand.PickYear;
             var command = new InlineCallback<TCommandBase>("Пример 2", exceptedCommandType, new TCommandBase(exceptedCommandId));
             var json = command.GetContent() as string;
-            var exportCommand = new InlineCallback<TCommandBase>().GetCommandByCallbackOrNull(json);
+            var exportCommand = InlineCallback<TCommandBase>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
         }
@@ -88,9 +88,9 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(PRTelegramBotCommand.NextPage)]
         public void NonGenericShouldReturnCommandTypeAfterConvertation(PRTelegramBotCommand exceptedCommand)
         {
-            var command = new InlineCallback("Пример 2", exceptedCommand, new JsonSerializatorWrapper());
+            var command = new InlineCallback("Пример 2", exceptedCommand);
             var json = command.GetContent() as string;
-            var exportCommand = new InlineCallback(new JsonSerializatorWrapper()).GetCommandByCallbackOrNull(json);
+            var exportCommand = InlineCallback.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedCommand, exportCommand.CommandType);
         }
 
@@ -104,7 +104,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var exceptedCommandType = PRTelegramBotCommand.PickYear;
             var command = new InlineCallback<CalendarTCommand>("Тест", exceptedCommandType, new CalendarTCommand(exceptedDate, exceptedCommandId));
             var json = command.GetContent() as string;
-            var exportCommand = new InlineCallback<CalendarTCommand>().GetCommandByCallbackOrNull(json);
+            var exportCommand = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(json);
             Assert.AreEqual(exceptedDate, exportCommand.Data.Date);
             Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
             Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);

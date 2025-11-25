@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace PRTelegramBot.Converters
+namespace PRTelegramBot.Converters.Json
 {
     /// <summary>
     /// Конвертер enum в json.

@@ -1,3 +1,8 @@
+-- 2025.11.25 - V0.8.4
+- В билдере теперь есть возможность указать каким сериализатором пользоваться (SetSerializer) для Inline кнопок. JsonSerializatorWrapper или ToonSerializatorWrapper. ToonSerializatorWrapper использует меньше байт в callback_data.
+- Добавлен класс глобальных настроек проекта PRSettingsProvider.
+- Добавлена библиотека ToonNet.
+
 -- 2025.11.09 - V0.8.3
 - Telegram.Bot: обновлен до 22.7.5
 

@@ -37,11 +37,6 @@ namespace PRTelegramBot.Core
         public IPRUpdateHandler Handler { get; protected set; }
 
         /// <summary>
-        /// Сериалайзер данных.
-        /// </summary>
-        public IPRSerializator Serializator { get; protected set; }
-
-        /// <summary>
         /// Работает бот или нет
         /// </summary>
         public bool IsWork { get; protected set; }
@@ -191,7 +186,6 @@ namespace PRTelegramBot.Core
             BotCollection.Instance.AddBot(this);
 
             BotClient = Options.Client ?? new TelegramBotClient(Options.Token);
-            Serializator = Options.Serializator;
             Events = new TEvents(this);
             InlineClassRegistrar.Register(this);
             InitHandlers();

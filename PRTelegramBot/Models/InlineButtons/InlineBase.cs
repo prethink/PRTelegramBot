@@ -1,5 +1,4 @@
-﻿using PRTelegramBot.Interfaces;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons

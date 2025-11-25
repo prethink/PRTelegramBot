@@ -1,9 +1,8 @@
-﻿using PRTelegramBot.Converters;
+﻿using PRTelegramBot.Converters.Json;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.EventsArgs;
-using PRTelegramBot.Wrappers;
 using System.Text;
 using System.Text.Json.Serialization;
 using Telegram.Bot;
@@ -34,16 +33,26 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="data">Данные.</param>
         /// <returns>InlineCallback или null.</returns>
-        public new InlineCallback<T> GetCommandByCallbackOrNull(string data)
+        public new static InlineCallback<T> GetCommandByCallbackOrNull(string data)
         {
             try
             {
-                return Serializator.Deserialize<InlineCallback<T>>(data);
+                return PRSettingsProvider.Instance.Serializator.Deserialize<InlineCallback<T>>(data);
             }
             catch
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>InlineCallback или null.</returns>
+        public new static InlineCallback<T> GetCommandByCallbackOrNull(IBotContext context)
+        {
+            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         public override object GetContent()
         {
-            var result = Serializator.Serialize<InlineCallback<T>>(this);
+            var result = PRSettingsProvider.Instance.Serializator.Serialize<InlineCallback<T>>(this);
             ThrowExceptionIfBytesMore128(result);
             return result;
         }
@@ -72,10 +81,10 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
         /// <param name="data">Данные.</param>
-        /// <param name="serializator">сеализатор.</param>
-        public InlineCallback(string buttonName, Enum commandType, T data, IPRSerializator serializator)
-            : base(buttonName, commandType, data, serializator)
+        public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
         {
+            ButtonName = buttonName;
+            CommandType = commandType;
             Data = data;
         }
 
@@ -84,31 +93,11 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="serializator">сеализатор.</param>
-        public InlineCallback(string buttonName, Enum commandType, IPRSerializator serializator)
-            : base(buttonName, commandType, serializator)
-        { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
-        public InlineCallback(string buttonName, Enum commandType, T data) 
-            : base(buttonName, commandType, data, new JsonSerializatorWrapper())
+        public InlineCallback(string buttonName, Enum commandType) : base(buttonName, commandType)
         {
-            Data = data;
+            ButtonName = buttonName;
+            CommandType = commandType;
         }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        public InlineCallback(string buttonName, Enum commandType) 
-            : this(buttonName, commandType, new JsonSerializatorWrapper())
-        {}
 
         /// <summary>
         /// Конструктор.
@@ -120,10 +109,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public InlineCallback() 
-        {
-            Serializator = new JsonSerializatorWrapper();
-        }
+        public InlineCallback() { }
 
         #endregion
     }
@@ -169,12 +155,6 @@ namespace PRTelegramBot.Models.InlineButtons
         [JsonIgnore]
         public ITelegramBotClient BotClient { get; private set; }
 
-        /// <summary>
-        /// Сеализатор.
-        /// </summary>
-        [JsonIgnore]
-        public IPRSerializator Serializator { get; protected set; }
-
         #endregion
 
         #region Методы
@@ -184,16 +164,26 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         /// <param name="data">Данные.</param>
         /// <returns>InlineCallback или null.</returns>
-        public InlineCallback GetCommandByCallbackOrNull(string data)
+        public static InlineCallback GetCommandByCallbackOrNull(string data)
         {
             try
             {
-                return Serializator.Deserialize<InlineCallback>(data);
+                return PRSettingsProvider.Instance.Serializator.Deserialize<InlineCallback>(data);
             }
             catch
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Преобразовать данные в команду.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>InlineCallback или null.</returns>
+        public static InlineCallback GetCommandByCallbackOrNull(IBotContext context)
+        {
+            return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
@@ -223,7 +213,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns></returns>
         public async Task ExecuteActionWithLastMessage()
         {
-            if (Context is null || Data is null || Context.Update?.CallbackQuery is null )
+            if (Context is null || Data is null || Context.Update?.CallbackQuery is null)
                 return;
 
             try
@@ -245,7 +235,7 @@ namespace PRTelegramBot.Models.InlineButtons
         public void TryUpdateData()
         {
             var command = GetCommandByCallbackOrNull();
-            if(command is not null)
+            if (command is not null)
             {
                 Data = command.Data;
             }
@@ -258,8 +248,8 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <inheritdoc />
         public virtual object GetContent()
         {
-            var result = Serializator.Serialize(this);
-            ThrowExceptionIfBytesMore128(result);   
+            var result = PRSettingsProvider.Instance.Serializator.Serialize(this);
+            ThrowExceptionIfBytesMore128(result);
             return result;
         }
 
@@ -289,61 +279,9 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <param name="buttonName">Название кнопки.</param>
         /// <param name="commandType">Заголовок команды.</param>
         /// <param name="data">Данные.</param>
-        /// <param name="context">Контекст бота.</param>
-        public InlineCallback(string buttonName, Enum commandType, TCommandBase data, IBotContext context)
-            : this(buttonName, commandType, data, context.Serializator)
-        { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
         public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
-            : this(buttonName, commandType, data, new JsonSerializatorWrapper())
-        { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="context">Контекст бота.</param>
-        public InlineCallback(string buttonName, Enum commandType, IBotContext context)
-            : this(buttonName, commandType, context.Serializator)
-        { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        public InlineCallback(string buttonName, Enum commandType)
-            : this(buttonName, commandType, new JsonSerializatorWrapper())
-        { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="serializator">сеализатор.</param>
-        public InlineCallback(string buttonName, Enum commandType, IPRSerializator serializator) 
-            : this(buttonName, commandType, new TCommandBase(), serializator)
-        { }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
-        /// <param name="serializator">сеализатор.</param>
-        public InlineCallback(string buttonName, Enum commandType, TCommandBase data, IPRSerializator serializator)
             : base(buttonName)
         {
-            Serializator = serializator;
             CommandType = commandType;
             Data = data;
         }
@@ -351,9 +289,20 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="commandType">Заголовок команды.</param>
+        public InlineCallback(string buttonName, Enum commandType)
+            : base(buttonName)
+        {
+            CommandType = commandType;
+            Data = new TCommandBase();
+        }
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         /// <param name="context">Контекст бота.</param>
-        public InlineCallback(IBotContext context) 
-            : this(context.Serializator)
+        public InlineCallback(IBotContext context)
         {
             Context = context;
             TryUpdateData();
@@ -362,19 +311,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="serializator">сеализатор.</param>
-        public InlineCallback(IPRSerializator serializator)
-        {
-            Serializator = serializator;
-        }
-
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        public InlineCallback() : base() 
-        {
-            Serializator = new JsonSerializatorWrapper();
-        }
+        public InlineCallback() : base() { }
 
         #endregion
     }

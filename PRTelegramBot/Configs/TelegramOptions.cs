@@ -115,11 +115,6 @@ namespace PRTelegramBot.Configs
         /// </summary>
         public readonly CommandOptions CommandOptions = new();
 
-        /// <summary>
-        /// Сериалайзер данных.
-        /// </summary>
-        public IPRSerializator Serializator { get; set; } = new JsonSerializatorWrapper();
-
         #endregion
     }
 }

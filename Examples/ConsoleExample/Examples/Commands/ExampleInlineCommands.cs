@@ -52,24 +52,24 @@ namespace ConsoleExample.Examples.Commands
              * context`.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE") - Название кнопки из json
              * CustomTHeaderTwo.ExampleOne - Заголовок команды
              */
-            var exampleItemOne = new InlineCallback(context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE"), CustomTHeaderTwo.ExampleOne, context);
+            var exampleItemOne = new InlineCallback(context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "IN_EXAMPLE_ONE"), CustomTHeaderTwo.ExampleOne);
             /* Создание новой кнопки с callback данными
              * InlineKeys.IN_EXAMPLE_TWO - Название кнопки из константы
              * CustomTHeaderTwo.ExampleTwo - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>("Пример 2", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2), context.Serializator);
+            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>("Пример 2", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2));
             /* Создание новой кнопки с callback данными
              * CustomTHeaderTwo.ExampleThree - Заголовок команды
              * new EntityTCommand(3) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3), context.Serializator);
+            var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3));
 
-            var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStep, context);
+            var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStep);
 
             //Команды который добавлены после запуска бота
-            var exampleAddCommand = new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand, context);
-            var exampleAddCommandTwo = new InlineCallback("Команда добавленная динамически 2", AddCustomTHeader.TestAddCommandTwo, context);
+            var exampleAddCommand = new InlineCallback("Команда добавленная динамически 1", AddCustomTHeader.TestAddCommand);
+            var exampleAddCommandTwo = new InlineCallback("Команда добавленная динамически 2", AddCustomTHeader.TestAddCommandTwo);
 
             // Создает inline кнопку с ссылкой
             var url = new InlineURL("Google", "https://google.com");
