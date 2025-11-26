@@ -25,7 +25,7 @@ var telegram = new PRBotBuilder("token")
                     .AddCommandChecker(Initializer.GetCommandChekers())
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(InlineDefaultClassHandler))
-                    .SetSerializer(new ToonSerializatorWrapper())
+                    .SetSerializer(new ToonSerializerWrapper())
                     .Build();
 
 // Инициализация событий для бота.

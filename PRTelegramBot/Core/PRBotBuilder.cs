@@ -467,11 +467,11 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Установить сеализатор данных.
+        /// Установить сериализатор данных.
         /// </summary>
-        /// <param name="serializator">Сеализатор.</param>
+        /// <param name="serializator">Сериализатор.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetSerializer(IPRSerializator serializator)
+        public PRBotBuilder SetSerializer(IPRSerializer serializator)
         {
             PRSettingsProvider.Instance.SetSerializator(serializator);
             return this;

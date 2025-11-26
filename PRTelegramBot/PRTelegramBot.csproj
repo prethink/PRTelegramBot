@@ -49,6 +49,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.7" />
     <PackageReference Include="Telegram.Bot" Version="22.7.5" />
     <PackageReference Include="ToonNet" Version="1.0.4" />
   </ItemGroup>

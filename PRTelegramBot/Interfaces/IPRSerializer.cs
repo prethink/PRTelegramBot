@@ -3,7 +3,7 @@
     /// <summary>
     /// Интерфейс обертки сериализатора.
     /// </summary>
-    public interface IPRSerializator
+    public interface IPRSerializer
     {
         /// <summary>
         /// 

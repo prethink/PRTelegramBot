@@ -1,27 +1,28 @@
 ﻿using PRTelegramBot.Interfaces;
-using ToonNetSerializer;
+using System.Text.Json;
 
 namespace PRTelegramBot.Wrappers
 {
     /// <summary>
-    /// Сеализатор данных Toon.
+    /// Сериализатор данных Json.
     /// </summary>
-    public class ToonSerializatorWrapper : IPRSerializator
+    public class JsonSerializerWrapper : IPRSerializer
     {
         #region IPRSerializator
 
         /// <inheritdoc />
         public T Deserialize<T>(string data)
         {
-            return ToonNet.Decode<T>(data);
+            return JsonSerializer.Deserialize<T>(data);
         }
 
         /// <inheritdoc />
         public string Serialize<T>(T data)
         {
-            return ToonNet.Encode(data);
+            return JsonSerializer.Serialize<T>(data);
         }
 
         #endregion
+
     }
 }

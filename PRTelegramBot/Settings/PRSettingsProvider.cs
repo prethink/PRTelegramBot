@@ -10,7 +10,7 @@ public class PRSettingsProvider : IPRSettings
     #region IPRSettings
 
     /// <inheritdoc />
-    public IPRSerializator Serializator { get; set; } = new JsonSerializatorWrapper();
+    public IPRSerializer Serializator { get; set; } = new JsonSerializerWrapper();
 
     #endregion
 
@@ -40,7 +40,7 @@ public class PRSettingsProvider : IPRSettings
     }
 
     /// <inheritdoc />
-    public void SetSerializator(IPRSerializator serializator)
+    public void SetSerializator(IPRSerializer serializator)
     {
         Serializator = serializator;
     }

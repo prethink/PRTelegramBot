@@ -16,6 +16,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
             bot.ReloadHandlers();
             var replyCommandCount = ((Handler)(bot.Handler)).ReplyCommandsStore.CommandCount;
+            
             Assert.AreEqual(5, replyCommandCount);
         }
 
@@ -30,6 +31,7 @@ namespace PRTelegramBot.Tests.CoreTests
                 .Build();
             bot.ReloadHandlers();
             var replyDymanicCommandCount = ((Handler)(bot.Handler)).ReplyDynamicCommandsStore.CommandCount;
+            
             Assert.AreEqual(3, replyDymanicCommandCount);
         }
 
@@ -39,6 +41,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
             bot.ReloadHandlers();
             var slashCommandCounts = ((Handler)(bot.Handler)).SlashCommandsStore.CommandCount;
+            
             Assert.AreEqual(4, slashCommandCounts);
         }
 
@@ -48,6 +51,7 @@ namespace PRTelegramBot.Tests.CoreTests
             var bot = new PRBotBuilder("55555:Token").SetBotId(0).Build();
             bot.ReloadHandlers();
             var inlineCommandsCount = ((Handler)(bot.Handler)).CallbackQueryCommandsStore.CommandCount;
+            
             Assert.AreEqual(12, inlineCommandsCount);
         }
     }

@@ -10,12 +10,12 @@ namespace PRTelegramBot.Providers
         /// <summary>
         /// Глобальный сериализатор.    
         /// </summary>
-        public IPRSerializator Serializator { get; }
+        public IPRSerializer Serializator { get; }
 
         /// <summary>
         /// Установить глобальный сериализатор.
         /// </summary>
-        /// <param name="serializator">Сеализатор.</param>
-        void SetSerializator(IPRSerializator serializator);
+        /// <param name="serializator">Сериализатор.</param>
+        void SetSerializator(IPRSerializer serializator);
     }
 }

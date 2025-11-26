@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Configs;
+﻿using Microsoft.Extensions.Hosting;
+using PRTelegramBot.Configs;
 using PRTelegramBot.Core.CommandHandlers;
 using PRTelegramBot.Core.Events;
 using PRTelegramBot.Interfaces;
@@ -12,7 +13,7 @@ namespace PRTelegramBot.Core
     /// <summary>
     /// Базовый класс экземпляра бота.
     /// </summary>
-    public abstract class PRBotBase
+    public abstract class PRBotBase : IHostedService
     {
         #region Поля и свойства
 

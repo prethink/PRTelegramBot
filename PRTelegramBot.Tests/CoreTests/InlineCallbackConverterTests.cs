@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
@@ -6,13 +7,21 @@ using PRTelegramBot.Wrappers;
 
 namespace PRTelegramBot.Tests.CoreTests
 {
-    internal class InlineCallbackConverterTests
+    [TestFixture(typeof(JsonSerializerWrapper))]
+    [TestFixture(typeof(ToonSerializerWrapper))]
+    internal class InlineCallbackConverterTests<TSerializer> 
+        where TSerializer : IPRSerializer, new()
     {
+        private IPRSerializer serializer;
+
         [OneTimeSetUp]
         public void SetUp()
         {
             var bot = new PRBotBuilder("55555:Token").Build();
             bot.ReloadHandlers();
+
+            serializer = new TSerializer();
+            PRSettingsProvider.Instance.SetSerializator(serializer);
         }
 
         [TearDown]

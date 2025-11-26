@@ -121,21 +121,5 @@ namespace PRTelegramBot.Tests.CoreTests
             Assert.AreEqual(exceptedCommandComparison, attribute.CommandComparison);
             Assert.AreEqual(exceptedStringComparison, attribute.StringComparison);
         }
-
-        //[Test]
-        //[TestCase(0, nameof(Commands.TestCommonMethod), CommandComparison.Contains, StringComparison.Ordinal)]
-        //[TestCase(2, nameof(Commands.TestCommonMethodTwo), CommandComparison.Equals, StringComparison.OrdinalIgnoreCase)]
-        //public void InlineComparisonCommands(long botId, string methodName, CommandComparison exceptedCommandComparison, StringComparison exceptedStringComparison)
-        //{
-        //    MethodInfo[] replyMethods = ReflectionUtils.FindStaticMessageMenuHandlers(botId);
-        //    var method = replyMethods.FirstOrDefault(x => x.Name == methodName);
-        //    var attribute = method.GetCustomAttribute<InlineCallbackHandlerAttribute<>>();
-
-        //    Assert.AreEqual(exceptedCommandComparison, attribute.CommandComparison);
-        //    Assert.AreEqual(exceptedStringComparison, attribute.StringComparison);
-        //}
-
-
-
     }
 }
