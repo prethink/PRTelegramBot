@@ -149,12 +149,6 @@ namespace PRTelegramBot.Models.InlineButtons
         [JsonIgnore]
         public IBotContext Context { get; private set; }
 
-        /// <summary>
-        /// Update.
-        /// </summary>
-        [JsonIgnore]
-        public ITelegramBotClient BotClient { get; private set; }
-
         #endregion
 
         #region Методы
@@ -221,7 +215,7 @@ namespace PRTelegramBot.Models.InlineButtons
                 var lastMessage = Context.Update.CallbackQuery.Message;
                 var actionWithLastMessage = Data.GetActionWithLastMessage();
                 if (actionWithLastMessage == Enums.ActionWithLastMessage.Delete)
-                    await BotClient.DeleteMessage(Context.Update.GetChatIdClass(), lastMessage.MessageId);
+                    await Context.BotClient.DeleteMessage(Context.Update.GetChatIdClass(), lastMessage.MessageId);
             }
             catch (Exception ex)
             {

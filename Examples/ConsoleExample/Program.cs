@@ -25,6 +25,7 @@ var telegram = new PRBotBuilder("token")
                     .AddCommandChecker(Initializer.GetCommandChekers())
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(InlineDefaultClassHandler))
+                    // ToonSerializerWrapper использует меньше байт при сериализации данных по сравнению с JsonSerializer.
                     //.SetInlineSerializer(new ToonSerializerWrapper())
                     .Build();
 
