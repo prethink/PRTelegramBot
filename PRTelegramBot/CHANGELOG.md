@@ -1,5 +1,6 @@
 -- 2025.11.29 - V0.8.4
 - В билдере теперь есть возможность указать каким сериализатором пользоваться (SetInlineSerializer) для Inline кнопок. JsonSerializerWrapper или ToonSerializerWrapper. ToonSerializerWrapper использует меньше байт в callback_data.
+- При создание экземпляра сериализатора можно устанавливать параметры сериализации.
 - Добавлен класс глобальных настроек проекта PRSettingsProvider.
 - Добавлена библиотека ToonNet.
 - Добавлена Microsoft.Extensions.Hosting.Abstractions для возможности использования бота как IHostedService сервиса.
