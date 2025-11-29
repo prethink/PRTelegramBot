@@ -467,11 +467,11 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Установить сериализатор данных.
+        /// Установить сериализатор данных для inline кнопок.
         /// </summary>
         /// <param name="serializator">Сериализатор.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetSerializer(IPRSerializer serializator)
+        public PRBotBuilder SetInlineSerializer(IPRSerializer serializator)
         {
             PRSettingsProvider.Instance.SetSerializator(serializator);
             return this;
