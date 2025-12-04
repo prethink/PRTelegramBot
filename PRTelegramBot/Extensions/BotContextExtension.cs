@@ -208,11 +208,22 @@ namespace PRTelegramBot.Extensions
 
         #region Other
 
+        /// <summary>
+        /// Получить inline команду из callback данных используя контекст бота.
+        /// </summary>
+        /// <param name="context">Контекст.</param>
+        /// <returns>Команда или null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(this IBotContext context)
         {
             return new InlineCallback(context).GetCommandByCallbackOrNull();
         }
 
+        /// <summary>
+        /// Получить inline команду из callback данных используя контекст бота.
+        /// </summary>
+        /// <typeparam name="T">Тип данных.</typeparam>
+        /// <param name="context">Контекст.</param>
+        /// <returns>Команда или null.</returns>
         public static InlineCallback<T> GetCommandByCallbackOrNull<T>(this IBotContext context) 
             where T : TCommandBase
         {
