@@ -1,8 +1,10 @@
-﻿using PRTelegramBot.Core.Executors;
+﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core.Executors;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
+using System.Reflection;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandHandlers
@@ -18,17 +20,27 @@ namespace PRTelegramBot.Core.CommandHandlers
             if (command.StartsWith('/'))
             {
                 var resultExecute = StartHasDeepLink(context, command);
-                if (resultExecute == CommandResult.Executed)
-                    return UpdateResult.Handled;
-
-                context.Current.Events.CommandsEvents.OnPreSlashCommandHandleInvoke(context.CreateBotEventArgs());
 
                 var executer = new ExecutorSlashCommand(context.Current);
                 var currentHandler = context.Current.Handler as Handler;
                 if (currentHandler is null)
                     return UpdateResult.Continue;
 
-                resultExecute = await executer.Execute(command, context, currentHandler.SlashCommandsStore.Commands);
+                var executeMethod = executer.GetExecuteHandlerOrNull(command, context, currentHandler.SlashCommandsStore.Commands);
+                if (executeMethod == null)
+                    return UpdateResult.NotFound;
+
+                var attr = executeMethod.Method.GetCustomAttribute<SlashHandlerAttribute>();
+                if(attr.SplitChar != default)
+                {
+                    var spl = command.Split(attr.SplitChar);
+                    if (spl.Length > 1)
+                        context.SetCustomData(spl.Skip(1).ToList());
+                }
+
+                context.Current.Events.CommandsEvents.OnPreSlashCommandHandleInvoke(context.CreateBotEventArgs());
+
+                resultExecute = await executer.Execute(context, executeMethod);
 
                 if (resultExecute != CommandResult.Continue)
                 {

@@ -1,3 +1,11 @@
+-- 2025.12.04 - V0.8.5
+- В атрибут SlashHandlerAttribute добавлена возможность указать символ разделителя для аргументов. Пример [SlashHandler('_', "/get")]
+- Добавлена возможность при выполнение slash команд получить список аргументов из контекста. 
+var args = context.GetSlashArgs();
+var args = context.GetSlashArgs<int>();
+var args = context.GetSlashArgs<bool>();
+- /start с deeplink теперь можно использовать в своих slash методах, а не как раньше, только через события.
+
 -- 2025.11.29 - V0.8.4
 - В билдере теперь есть возможность указать каким сериализатором пользоваться (SetInlineSerializer) для Inline кнопок. JsonSerializerWrapper или ToonSerializerWrapper. ToonSerializerWrapper использует меньше байт в callback_data.
 - При создание экземпляра сериализатора можно устанавливать параметры сериализации.

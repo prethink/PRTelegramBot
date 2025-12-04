@@ -1,4 +1,6 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 
 namespace PRTelegramBot.Extensions
 {
@@ -49,6 +51,16 @@ namespace PRTelegramBot.Extensions
         public static async Task<List<long>> GetWhiteListIds(this PRBotBase botClient)
         {
             return await botClient.Options.WhiteListManager.GetUsersIds();
+        }
+
+        /// <summary>
+        /// Создать контекст бота.
+        /// </summary>
+        /// <param name="botClient">Бот клиент.</param>
+        /// <returns>Контекст бота.</returns>
+        public static IBotContext CreateContext(this PRBotBase botClient)
+        {
+            return new BotContext(botClient);
         }
 
         #endregion

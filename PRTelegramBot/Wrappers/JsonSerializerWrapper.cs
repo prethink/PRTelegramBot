@@ -44,6 +44,14 @@ namespace PRTelegramBot.Wrappers
             this.options = options;
         }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        public JsonSerializerWrapper()
+        {
+            
+        }
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using Helpers = PRTelegramBot.Helpers;
@@ -27,28 +28,106 @@ namespace ConsoleExample.Examples.Commands
         /// Команда отработает при написание в чат "/get".
         /// Команда отработает при написание в чат "/get_1", значение 1 можно обработать.
         /// </summary>
-        [SlashHandler("/get")]
+        [SlashHandler('_', "/get")]
         public static async Task ExampleSlashCommandGet(IBotContext context)
         {
-            if (context.Update.Message.Text.Contains("_"))
+            var args = context.GetSlashArgs();
+
+            // Нет аргументов
+            if (args.Count == 0)
             {
-                var spl = context.Update.Message.Text.Split("_");
-                if (spl.Length > 1)
-                {
-                    string msg = $"Команда /get со значением {spl[1]}";
-                    await Helpers.Message.Send(context, msg);
-                }
-                else
-                {
-                    string msg = $"Команда /get";
-                    await Helpers.Message.Send(context, msg);
-                }
+                await Helpers.Message.Send(context, "Команда /get");
+                return;
             }
-            else
+
+            // Один аргумент
+            if (args.Count == 1)
             {
-                string msg = $"Команда /get";
-                await Helpers.Message.Send(context, msg);
+                await Helpers.Message.Send(context, $"Команда /get со значением: {args[0]}");
+                return;
             }
+
+            // Несколько аргументов
+            string joinedArgs = string.Join(", ", args);
+            await Helpers.Message.Send(context, $"Команда /get со значениями: {joinedArgs}");
+        }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/int".
+        /// Команда отработает при написание в чат "/int_1", значение 1 можно обработать.
+        /// </summary>
+        [SlashHandler('_', "/int")]
+        public static async Task ExampleSlashIntCommandGet(IBotContext context)
+        {
+            var args = context.GetSlashArgs<int>();
+
+            // Нет аргументов
+            if (args.Count == 0)
+            {
+                await Helpers.Message.Send(context, "Команда /int");
+                return;
+            }
+
+            // Один аргумент
+            if (args.Count == 1)
+            {
+                await Helpers.Message.Send(context, $"Команда /int со значением: {args[0]}");
+                return;
+            }
+
+            // Несколько аргументов
+            string joinedArgs = string.Join(", ", args);
+            await Helpers.Message.Send(context, $"Команда /int со значениями: {joinedArgs}");
+        }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/bool".
+        /// Команда отработает при написание в чат "/bool_true", значение 1 можно обработать.
+        /// </summary>
+        [SlashHandler('_', "/bool")]
+        public static async Task ExampleSlashBoolCommandGet(IBotContext context)
+        {
+            var args = context.GetSlashArgs<bool>();
+
+            // Нет аргументов
+            if (args.Count == 0)
+            {
+                await Helpers.Message.Send(context, "Команда /bool");
+                return;
+            }
+
+            // Один аргумент
+            if (args.Count == 1)
+            {
+                await Helpers.Message.Send(context, $"Команда /bool со значением: {args[0]}");
+                return;
+            }
+
+            // Несколько аргументов
+            string joinedArgs = string.Join(", ", args);
+            await Helpers.Message.Send(context, $"Команда /bool со значениями: {joinedArgs}");
+        }
+
+        /// <summary>
+        /// Команда отработает для бота с botId 0.
+        /// Команда отработает при написание в чат "/start".
+        /// Команда отработает при написание в чат "/start 1", значение 1 можно обработать.
+        /// </summary>
+        [SlashHandler(' ', "/start")]
+        public static async Task ExampleSlashCommandStart(IBotContext context)
+        {
+            var args = context.GetSlashArgs();
+            if (args.Count > 0)
+            {
+                string msgWithArgs = $"Команда /start со значением {args[0]}";
+                await Helpers.Message.Send(context, msgWithArgs);
+                return;
+            }
+
+            string msg = $"Команда /start";
+            await Helpers.Message.Send(context, msg);
         }
 
         /// <summary>

@@ -39,5 +39,18 @@ namespace PRTelegramBot.Interfaces
         /// Токен отмены.
         /// </summary>
         public CancellationToken CancellationToken { get; }
+
+        /// <summary>
+        /// Попытаться кастомное значение пользовательское значение.
+        /// </summary>
+        /// <typeparam name="T">Тип/</typeparam>
+        /// <returns>Значение или null</returns>
+        public bool TryGetCustomValue<T>(out T? value);
+
+        /// <summary>
+        /// Установить кастомные данные.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        public void SetCustomData(object data); 
     }
 }

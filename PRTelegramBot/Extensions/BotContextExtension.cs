@@ -208,15 +208,62 @@ namespace PRTelegramBot.Extensions
 
         #region Other
 
-        public static InlineCallback GetCommandByCallbackOrNull(this IBotContext botContext)
+        public static InlineCallback GetCommandByCallbackOrNull(this IBotContext context)
         {
-            return new InlineCallback(botContext).GetCommandByCallbackOrNull();
+            return new InlineCallback(context).GetCommandByCallbackOrNull();
         }
 
-        public static InlineCallback<T> GetCommandByCallbackOrNull<T>(this IBotContext botContext) 
+        public static InlineCallback<T> GetCommandByCallbackOrNull<T>(this IBotContext context) 
             where T : TCommandBase
         {
-            return new InlineCallback<T>(botContext).GetCommandByCallbackOrNull();
+            return new InlineCallback<T>(context).GetCommandByCallbackOrNull();
+        }
+
+        /// <summary>
+        /// Получить аргументы слэш-команды.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <returns>Коллекция аргументов.</returns>
+        public static List<string> GetSlashArgs(this IBotContext context)
+        {
+            if(context.TryGetCustomValue<List<string>>(out var args))
+                return args;
+
+            return new List<string>();
+        }
+
+        /// <summary>
+        /// Получить аргументы слэш-команды конкретного типа.
+        /// </summary>
+        /// <typeparam name="T">Тип.</typeparam>
+        /// <param name="context">Контекст бота.</param>
+        /// <param name="throwOnError">Признак, что требуется выбросить исключение.</param>
+        /// <returns>Коллекция аргументов.</returns>
+        /// <exception cref="FormatException">Исключение.</exception>
+        public static List<T> GetSlashArgs<T>(this IBotContext context, bool throwOnError = false)
+        {
+            var args = context.GetSlashArgs();
+            var result = new List<T>();
+
+            if (args.Count == 0)
+                return result;
+
+            foreach (var arg in args)
+            {
+                try
+                {
+                    object? converted = Convert.ChangeType(arg, typeof(T));
+                    if (converted is T value)
+                        result.Add(value);
+                }
+                catch (Exception ex)
+                {
+                    if (throwOnError)
+                        throw new FormatException($"Не удалось преобразовать '{arg}' в тип {typeof(T).Name}.", ex);
+                }
+            }
+
+            return result;
         }
 
         #endregion

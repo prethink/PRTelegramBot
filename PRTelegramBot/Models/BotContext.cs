@@ -11,6 +11,15 @@ namespace PRTelegramBot.Models
     /// </summary>
     public class BotContext : IBotContext
     {
+        #region Поля и свойства
+
+        /// <summary>
+        /// Хранилище кастомных данных.
+        /// </summary>
+        protected object customData { get; set; }
+
+        #endregion
+
         #region IIBotContext
 
         /// <inheritdoc />
@@ -42,6 +51,25 @@ namespace PRTelegramBot.Models
         public static IBotContext CreateEmpty()
         {
             return new BotContext(new PRBotDummy());
+        }
+
+        /// <inheritdoc />
+        public bool TryGetCustomValue<T>(out T? value)
+        {
+            if (customData is T t)
+            {
+                value = t;
+                return true;
+            }
+
+            value = default;
+            return false;
+        }
+
+        /// <inheritdoc />
+        public void SetCustomData(object data)
+        {
+            customData = data;
         }
 
         #endregion

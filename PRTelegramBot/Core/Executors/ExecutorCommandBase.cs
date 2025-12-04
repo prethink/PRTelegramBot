@@ -30,7 +30,7 @@ namespace PRTelegramBot.Core.Executors
         /// <summary>
         /// Выполнить команду.
         /// </summary>
-        /// <param name="command">Команда для выполения.</param>
+        /// <param name="command">Команда для выполнения.</param>
         /// <param name="context">Контекст бота.</param>
         /// <param name="commands">Команды.</param>
         /// <returns>Результат выполнения команды.</returns>
@@ -42,6 +42,35 @@ namespace PRTelegramBot.Core.Executors
                     return await ExecuteMethod(context, commandExecute.Value);
             }
             return CommandResult.Continue;
+        }
+
+        /// <summary>
+        /// Выполнить команду.
+        /// </summary>
+        /// <param name="context">Контекст бота.</param>
+        /// <param name="command">Команда для выполнения.</param>
+        /// <returns>Результат выполнения команды.</returns>
+        public async Task<CommandResult> Execute(IBotContext context, CommandHandler command)
+        {
+            return await ExecuteMethod(context, command);
+        }
+
+        /// <summary>
+        /// Получить обработчик для выполнения команды.
+        /// </summary>
+        /// <param name="command">Команда для выполнения.</param>
+        /// <param name="context">Контекст бота.</param>
+        /// <param name="commands">Команды.</param>
+        /// <returns>Обработчик выполения команды или null.</returns>
+        public CommandHandler GetExecuteHandlerOrNull(TKey command, IBotContext context, Dictionary<TKey, CommandHandler> commands)
+        {
+            foreach (var commandExecute in commands.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
+            {
+                if (CanExecute(command, commandExecute.Key, commandExecute.Value))
+                    return commandExecute.Value;
+            }
+
+            return null;
         }
 
         /// <summary>
