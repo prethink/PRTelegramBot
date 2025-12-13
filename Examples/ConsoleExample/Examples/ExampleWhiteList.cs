@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Services.Messages;
 
 namespace ConsoleExample.Examples
 {
@@ -14,7 +15,7 @@ namespace ConsoleExample.Examples
         public static async Task OnlyWhiteList(IBotContext context)
         {
             string msg = nameof(OnlyWhiteList);
-            await PRTelegramBot.Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace ConsoleExample.Examples
         public static async Task AllUsers(IBotContext context)
         {
             string msg = nameof(AllUsers);
-            await PRTelegramBot.Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
     }
 }

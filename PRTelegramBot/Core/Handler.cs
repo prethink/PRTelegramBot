@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core.CommandStores;
+﻿using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Core.CommandStores;
 using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Core.UpdateHandlers;
 using PRTelegramBot.Extensions;
@@ -93,16 +94,19 @@ namespace PRTelegramBot.Core
         /// <remarks>Требуется, чтобы 1 update не повесил обработку всего приложения.</remarks>
         private async Task HandleUpdateInternalAsync(BotContext context)
         {
-            try
+            using (var scope = new BotDataScope(context, bot))
             {
-                await Middleware.InvokeOnPreUpdateAsync(context, async () =>
+                try
                 {
-                    await UpdateAsync(context);
-                });
-            }
-            catch (Exception ex)
-            {
-                bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                    await Middleware.InvokeOnPreUpdateAsync(context, async () =>
+                    {
+                        await UpdateAsync(context);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                }
             }
         }
 
@@ -151,7 +155,7 @@ namespace PRTelegramBot.Core
         /// <param name="context">Контекст бота.</param>
         public async Task UpdateAsync(IBotContext context)
         {
-            var whiteListManager = bot.Options.WhiteListManager;
+            var whiteListManager = bot.GetWhiteListManager();
             var update = context.Update;
             if (bot.Events.UpdateEvents.HasEventOnPreUpdate())
             {
@@ -172,72 +176,78 @@ namespace PRTelegramBot.Core
             }
 
             if (update.Type == UpdateType.CallbackQuery)
-                _ = CallBackQueryDispatcher.Dispatch(context);
+                await CallBackQueryDispatcher.Dispatch(context);
 
             if (update.Type == UpdateType.Message)
-                _ = MessageDispatcher.Dispatch(context);
+                await MessageDispatcher.Dispatch(context);
 
             if (update.Type == UpdateType.ChannelPost)
-                bot.Events.UpdateEvents.OnChannelPostHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnChannelPostHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.ChatJoinRequest)
-                bot.Events.UpdateEvents.OnChatJoinRequestHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnChatJoinRequestHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.ChatMember)
-                bot.Events.UpdateEvents.OnChatMemberHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnChatMemberHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.ChosenInlineResult)
-                bot.Events.UpdateEvents.OnChosenInlineResultHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnChosenInlineResultHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.ChatBoost)
-                bot.Events.UpdateEvents.OnChatBoostHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnChatBoostHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.EditedChannelPost)
-                bot.Events.UpdateEvents.OnEditedChannelPostHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnEditedChannelPostHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.EditedMessage)
-                bot.Events.UpdateEvents.OnEditedMessageHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnEditedMessageHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.BusinessConnection)
-                bot.Events.UpdateEvents.OnBusinessConnectionHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnBusinessConnectionHandler(context.CreateBotEventArgs());
+
+            if (update.Type == UpdateType.BusinessMessage)
+                await bot.Events.UpdateEvents.OnBusinessMessageHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.EditedBusinessMessage)
-                bot.Events.UpdateEvents.OnEditedBusinessHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnEditedBusinessHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.DeletedBusinessMessages)
-                bot.Events.UpdateEvents.OnDeletedBusinessConnectionHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnDeletedBusinessConnectionHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.MessageReaction)
-                bot.Events.UpdateEvents.OnMessageReactionHandleHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnMessageReactionHandleHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.MessageReactionCount)
-                bot.Events.UpdateEvents.OnMessageReactionCountHandleHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnMessageReactionCountHandleHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.InlineQuery)
-                bot.Events.UpdateEvents.OnInlineQueryHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnInlineQueryHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.MyChatMember)
-                bot.Events.UpdateEvents.OnMyChatMemberHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnMyChatMemberHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.Poll)
-                bot.Events.UpdateEvents.OnPollHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnPollHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.PollAnswer)
-                bot.Events.UpdateEvents.OnPollAnswerHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnPollAnswerHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.PreCheckoutQuery)
-                bot.Events.UpdateEvents.OnPreCheckoutQueryHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnPreCheckoutQueryHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.RemovedChatBoost)
-                bot.Events.UpdateEvents.OnRemovedChatBoostHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnRemovedChatBoostHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.ShippingQuery)
-                bot.Events.UpdateEvents.OnShippingQueryHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnShippingQueryHandler(context.CreateBotEventArgs());
+
+            if (update.Type == UpdateType.PurchasedPaidMedia)
+                await bot.Events.UpdateEvents.OnPurchasedPaidMediaHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.Unknown)
-                bot.Events.UpdateEvents.OnUnknownHandler(context.CreateBotEventArgs());
+                await bot.Events.UpdateEvents.OnUnknownHandler(context.CreateBotEventArgs());
 
-            bot.Events.UpdateEvents.OnPostInvoke(context.CreateBotEventArgs());
+            await bot.Events.UpdateEvents.OnPostInvoke(context.CreateBotEventArgs());
         }
 
         #endregion

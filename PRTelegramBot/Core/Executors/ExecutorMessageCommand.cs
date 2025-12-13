@@ -50,7 +50,7 @@ namespace PRTelegramBot.Core.Executors
                 return InternalCheckResult.PrivilegeCheck;
             }
 
-            var whiteListManager = bot.Options.WhiteListManager;
+            var whiteListManager = bot.GetWhiteListManager();
             var hasUserInWhiteList = await whiteListManager.HasUser(context.Update.GetChatId());
 
             if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)

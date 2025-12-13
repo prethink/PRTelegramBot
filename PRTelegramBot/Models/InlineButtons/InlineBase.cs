@@ -22,8 +22,19 @@ namespace PRTelegramBot.Models.InlineButtons
         /// Получить текст кнопки.
         /// </summary>
         /// <returns>Текст кнопки.</returns>
-        public virtual string GetTextButton()
+        public virtual string GetButtonName()
         {
+            return ButtonName;
+        }
+
+
+        /// <summary>
+        /// Установить новое значение кнопки.
+        /// </summary>
+        /// <returns>Название кнопки.</returns>
+        public virtual string SetButtonName(string name)
+        {
+            ButtonName = name;
             return ButtonName;
         }
 

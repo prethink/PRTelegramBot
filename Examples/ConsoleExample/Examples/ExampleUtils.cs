@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples
@@ -19,7 +20,7 @@ namespace ConsoleExample.Examples
             {
                 // Симуляция тяжелой операции.
                 await Task.Delay(2000);
-                await PRTelegramBot.Helpers.Message.Send(context, $"Генерация данных завершена.");
+                await MessageSender.Send(context, $"Генерация данных завершена.");
             }
         }
 
@@ -31,7 +32,7 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler("AutoDelete")]
         public static async Task AutoDelete(IBotContext context)
         {
-            var message = await PRTelegramBot.Helpers.Message.Send(context, $"Автоматическое удаление сообщения через 10 секунд");
+            var message = await MessageSender.Send(context, $"Автоматическое удаление сообщения через 10 секунд");
             message.AutoDeleteMessage(10, context);
         }
 
@@ -43,7 +44,7 @@ namespace ConsoleExample.Examples
         [ReplyMenuHandler("AutoEdit")]
         public static async Task AutoEdit(IBotContext context)
         {
-            var message = await PRTelegramBot.Helpers.Message.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
+            var message = await MessageSender.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
             message.AutoEditMessage("Текст изменился.", 10, context);
         }
 
@@ -69,7 +70,7 @@ namespace ConsoleExample.Examples
                 "1",
                 "Все готово.",
             };
-            var message = await PRTelegramBot.Helpers.Message.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
+            var message = await MessageSender.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
             message.AutoEditMessageСycle(messages, 1, context);
         }
     }

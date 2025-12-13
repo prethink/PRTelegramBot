@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
+using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Core.Events
 {
@@ -81,6 +82,11 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnShippingQueryHandle;
 
         /// <summary>
+        /// Событие вызываемое при покупке платного медиа.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPurchasedPaidMediaHandle;
+
+        /// <summary>
         /// Событие обновления неизвестного типа.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
@@ -94,6 +100,11 @@ namespace PRTelegramBot.Core.Events
         /// Событие вызываемое при редактировании бизнес-сообщения.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnEditedBusinessMessageHandle;
+
+        /// <summary>
+        /// Событие вызываемое при бизнес-сообщение.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnBusinessMessageHandle;
 
         /// <summary>
         /// Событие вызываемое при удалении бизнес-сообщений.
@@ -147,70 +158,76 @@ namespace PRTelegramBot.Core.Events
         internal bool HasEventOnPreUpdate() => OnPreUpdate is not null;
 
         /// <summary>Вызвать событие <see cref="OnPostUpdate"/>.</summary>
-        internal void OnPostInvoke(BotEventArgs e) => OnPostUpdate?.Invoke(e);
+        internal Task OnPostInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPostUpdate, e);
 
         /// <summary>Вызвать событие <see cref="OnChannelPostHandle"/>.</summary>
-        internal void OnChannelPostHandler(BotEventArgs e) => OnChannelPostHandle?.Invoke(e);
+        internal Task OnChannelPostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChannelPostHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnChatJoinRequestHandle"/>.</summary>
-        internal void OnChatJoinRequestHandler(BotEventArgs e) => OnChatJoinRequestHandle?.Invoke(e);
+        internal Task OnChatJoinRequestHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatJoinRequestHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnChatMemberHandle"/>.</summary>
-        internal void OnChatMemberHandler(BotEventArgs e) => OnChatMemberHandle?.Invoke(e);
+        internal Task OnChatMemberHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatMemberHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnChosenInlineResultHandle"/>.</summary>
-        internal void OnChosenInlineResultHandler(BotEventArgs e) => OnChosenInlineResultHandle?.Invoke(e);
+        internal Task OnChosenInlineResultHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChosenInlineResultHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnEditedChannelPostHandle"/>.</summary>
-        internal void OnEditedChannelPostHandler(BotEventArgs e) => OnEditedChannelPostHandle?.Invoke(e);
+        internal Task OnEditedChannelPostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnEditedChannelPostHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnEditedMessageHandle"/>.</summary>
-        internal void OnEditedMessageHandler(BotEventArgs e) => OnEditedMessageHandle?.Invoke(e);
+        internal Task OnEditedMessageHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnEditedMessageHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnInlineQueryHandle"/>.</summary>
-        internal void OnInlineQueryHandler(BotEventArgs e) => OnInlineQueryHandle?.Invoke(e);
+        internal Task OnInlineQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnInlineQueryHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnMyChatMemberHandle"/>.</summary>
-        internal void OnMyChatMemberHandler(BotEventArgs e) => OnMyChatMemberHandle?.Invoke(e);
+        internal Task OnMyChatMemberHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMyChatMemberHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnPollHandle"/>.</summary>
-        internal void OnPollHandler(BotEventArgs e) => OnPollHandle?.Invoke(e);
+        internal Task OnPollHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnPollAnswerHandle"/>.</summary>
-        internal void OnPollAnswerHandler(BotEventArgs e) => OnPollAnswerHandle?.Invoke(e);
+        internal Task OnPollAnswerHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollAnswerHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnPreCheckoutQueryHandle"/>.</summary>
-        internal void OnPreCheckoutQueryHandler(BotEventArgs e) => OnPreCheckoutQueryHandle?.Invoke(e);
+        internal Task OnPreCheckoutQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPreCheckoutQueryHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnShippingQueryHandle"/>.</summary>
-        internal void OnShippingQueryHandler(BotEventArgs e) => OnShippingQueryHandle?.Invoke(e);
+        internal Task OnShippingQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnShippingQueryHandle, e);
+
+        /// <summary>Вызвать событие <see cref="OnPurchasedPaidMediaHandle"/>.</summary>
+        internal Task OnPurchasedPaidMediaHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPurchasedPaidMediaHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnUnknownHandle"/>.</summary>
-        internal void OnUnknownHandler(BotEventArgs e) => OnUnknownHandle?.Invoke(e);
+        internal Task OnUnknownHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnBusinessConnectionHandle"/>.</summary>
-        internal void OnBusinessConnectionHandler(BotEventArgs e) => OnBusinessConnectionHandle?.Invoke(e);
+        internal Task OnBusinessConnectionHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBusinessConnectionHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnEditedBusinessMessageHandle"/>.</summary>
-        internal void OnEditedBusinessHandler(BotEventArgs e) => OnEditedBusinessMessageHandle?.Invoke(e);
+        internal Task OnEditedBusinessHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnEditedBusinessMessageHandle, e);
+
+        /// <summary>Вызвать событие <see cref="OnBusinessMessageHandle"/>.</summary>
+        internal Task OnBusinessMessageHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBusinessMessageHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnDeletedBusinessMessagesHandle"/>.</summary>
-        internal void OnDeletedBusinessConnectionHandler(BotEventArgs e) => OnDeletedBusinessMessagesHandle?.Invoke(e);
+        internal Task OnDeletedBusinessConnectionHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDeletedBusinessMessagesHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnMessageReactionHandle"/>.</summary>
-        internal void OnMessageReactionHandleHandler(BotEventArgs e) => OnMessageReactionHandle?.Invoke(e);
+        internal Task OnMessageReactionHandleHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessageReactionHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnMessageReactionCountHandle"/>.</summary>
-        internal void OnMessageReactionCountHandleHandler(BotEventArgs e) => OnMessageReactionCountHandle?.Invoke(e);
+        internal Task OnMessageReactionCountHandleHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessageReactionCountHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnChatBoostHandle"/>.</summary>
-        internal void OnChatBoostHandler(BotEventArgs e) => OnChatBoostHandle?.Invoke(e);
+        internal Task OnChatBoostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatBoostHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnRemovedChatBoostHandle"/>.</summary>
-        internal void OnRemovedChatBoostHandler(BotEventArgs e) => OnRemovedChatBoostHandle?.Invoke(e);
+        internal Task OnRemovedChatBoostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnRemovedChatBoostHandle, e);
 
         /// <summary>Вызвать событие <see cref="OnCallbackQueryHandle"/>.</summary>
-        internal void OnCallbackQueryHandler(BotEventArgs e) => OnCallbackQueryHandle?.Invoke(e);
+        internal Task OnCallbackQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCallbackQueryHandle, e);
 
         #endregion
     }

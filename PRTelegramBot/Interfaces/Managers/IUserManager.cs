@@ -13,8 +13,14 @@
         /// <summary>
         /// Перезагрузить пользователей.
         /// </summary>
-        /// <returns>True - удалсь выполнить перезагрузку, False - не удалось.</returns>
+        /// <returns>True - удалось выполнить перезагрузку, False - не удалось.</returns>
         public Task<bool> Reload();
+
+        /// <summary>
+        /// Инициализация менеджера.
+        /// </summary>
+        /// <returns>True - инициализация прошла успешно.</returns>
+        public Task<bool> Initialize();
 
         /// <summary>
         /// Добавить пользователя.

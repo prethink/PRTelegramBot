@@ -1,4 +1,7 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
+using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Utils.Controls.CalendarControl.Common;
 using System.Globalization;
 
@@ -22,13 +25,17 @@ namespace PRTelegramBot.Tests.ControlTests
         private const string November   = "11.01.2024";
         private const string December   = "12.01.2024";
 
+        private PRBotBase botInstance;
+        private IBotContext context;
+
         [OneTimeSetUp]
         public void SetUp()
         {
             cultureInfo = CultureInfo.GetCultureInfo("ru-RU", false);
             testData= DateTime.Parse("14.05.2024", cultureInfo);
-            var bot = new PRBotBuilder("55555:Token").Build();
-            bot.ReloadHandlers();
+            botInstance = new PRBotBuilder("55555:Token").Build();
+            botInstance.ReloadHandlers();
+            context = TestDataFactory.CreateBotContext();
         }
 
         [TearDown]
@@ -40,7 +47,10 @@ namespace PRTelegramBot.Tests.ControlTests
         [Test]
         public void CreateCalendar()
         {
-            var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
+            }
         }
 
         [Test]
@@ -53,19 +63,25 @@ namespace PRTelegramBot.Tests.ControlTests
         [TestCase(6,"вс")]
         public void CreateCalendarWithPanelDays(int indexDay, string exceptedDay)
         {
-            var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
-            var day = calendarMarkup.InlineKeyboard.ElementAt(1).ElementAt(indexDay).Text;
-            Assert.AreEqual(exceptedDay, day);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
+                var day = calendarMarkup.InlineKeyboard.ElementAt(1).ElementAt(indexDay).Text;
+                Assert.AreEqual(exceptedDay, day);
+            }
         }
 
         [Test]
         public void CreateCalendarWithControl()
         {
-            var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
-            var prevControl = calendarMarkup.InlineKeyboard.ElementAt(7).ElementAt(0).Text;
-            var nextControl = calendarMarkup.InlineKeyboard.ElementAt(7).ElementAt(2).Text;
-            Assert.AreEqual("<", prevControl);
-            Assert.AreEqual(">", nextControl);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var calendarMarkup = Markup.Calendar(testData, cultureInfo, 0);
+                var prevControl = calendarMarkup.InlineKeyboard.ElementAt(7).ElementAt(0).Text;
+                var nextControl = calendarMarkup.InlineKeyboard.ElementAt(7).ElementAt(2).Text;
+                Assert.AreEqual("<", prevControl);
+                Assert.AreEqual(">", nextControl);
+            }
         }
 
         [Test]
@@ -83,9 +99,12 @@ namespace PRTelegramBot.Tests.ControlTests
         [TestCase(December, "Декабрь")]
         public void CreateCalendarWithTitleMonth(DateTime data, string month)
         {
-            var calendarMarkup = Markup.Calendar(data, cultureInfo, 0);
-            string title = calendarMarkup.InlineKeyboard.ElementAt(0).ElementAt(0).Text;
-            Assert.IsTrue(title.Contains(month, StringComparison.OrdinalIgnoreCase));
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var calendarMarkup = Markup.Calendar(data, cultureInfo, 0);
+                string title = calendarMarkup.InlineKeyboard.ElementAt(0).ElementAt(0).Text;
+                Assert.IsTrue(title.Contains(month, StringComparison.OrdinalIgnoreCase));
+            }
         }
     }
 }

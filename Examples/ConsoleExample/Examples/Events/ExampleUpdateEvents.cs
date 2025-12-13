@@ -1,6 +1,6 @@
 ﻿using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
-using Helpers = PRTelegramBot.Helpers;
+using PRTelegramBot.Services.Messages;
 
 namespace ConsoleExample.Examples.Events
 {
@@ -16,7 +16,7 @@ namespace ConsoleExample.Examples.Events
                 {
                     if (myChatHandle.NewChatMember.User.Id == args.Context.BotClient.BotId)
                     {
-                        await Helpers.Message.Send(args.Context, "Hello world");
+                        await MessageSender.Send(args.Context, "Hello world");
                     }
                     else
                     {

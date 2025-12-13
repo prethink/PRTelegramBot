@@ -1,4 +1,6 @@
-﻿using PRTelegramBot.Models.EventsArgs;
+﻿using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Models;
+using PRTelegramBot.Models.EventsArgs;
 
 namespace ConsoleExample.Examples.Events
 {
@@ -88,7 +90,10 @@ namespace ConsoleExample.Examples.Events
 
         public static async Task OnContactHandle(BotEventArgs e)
         {
+            await Task.Delay(5000);
             var contact = e.Context.Update.Message.Contact;
+            var bot = CurrentScope.Bot;
+            var context = CurrentScope.Context;
             //Обработка данных
         }
 

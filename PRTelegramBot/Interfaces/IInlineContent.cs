@@ -9,7 +9,13 @@
         /// Получает название кнопки.
         /// </summary>
         /// <returns>Название кнопки.</returns>
-        public string GetTextButton();
+        public string GetButtonName();
+
+        /// <summary>
+        /// Установить новое значение кнопки.
+        /// </summary>
+        /// <returns>Название кнопки.</returns>
+        public string SetButtonName(string name);
 
         /// <summary>
         /// Получает контент.

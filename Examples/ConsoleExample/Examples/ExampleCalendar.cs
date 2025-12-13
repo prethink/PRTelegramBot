@@ -4,6 +4,7 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using System.Globalization;
 using Helpers = PRTelegramBot.Helpers;
@@ -58,7 +59,7 @@ namespace ConsoleExample.Examples
                 using (var inlineHandler = new InlineCallback<CalendarTCommand>(context))
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
-                    await Helpers.Message.Send(context, command.Data.Date.ToString());
+                    await MessageSender.Send(context, command.Data.Date.ToString());
                 }
             }
             catch (Exception ex)

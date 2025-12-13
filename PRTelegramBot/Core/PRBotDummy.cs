@@ -16,10 +16,7 @@ namespace PRTelegramBot.Core
         public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Dummy;
 
         /// <inheritdoc />
-        public override Task StopAsync(CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
+        protected override bool addBotToCollection => false;
 
         #endregion
 

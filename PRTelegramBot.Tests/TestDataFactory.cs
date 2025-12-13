@@ -1,8 +1,11 @@
-﻿using Telegram.Bot.Types;
+﻿using Moq;
+using PRTelegramBot.Interfaces;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
-namespace PRTelegramBot.Tests.Common
+namespace PRTelegramBot.Tests
 {
-    public static class UpdateSetUp
+    public static class TestDataFactory
     {
         private static long messageid = 1234568;
 
@@ -571,6 +574,17 @@ namespace PRTelegramBot.Tests.Common
             var update = CreateUpdate();
             update.RemovedChatBoost = new();
             return update;
+        }
+
+        #endregion
+
+        #region Context
+
+        public static IBotContext CreateBotContext()
+        {
+            var mockContext = new Mock<IBotContext>();
+            mockContext.Setup(c => c.Update).Returns(CreateUpdateWithTypeMessage());
+            return mockContext.Object;
         }
 
         #endregion

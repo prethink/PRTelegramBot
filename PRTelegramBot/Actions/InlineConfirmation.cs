@@ -6,6 +6,7 @@ using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
 
@@ -39,14 +40,14 @@ namespace PRTelegramBot.Actions
                         var option = new OptionMessage() { MenuInlineKeyboardMarkup = testMenu };
                         var actionLastMessage = command.Data.GetActionWithLastMessage();
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
-                            await Helpers.Message.Edit(context, inlineCommand.BaseMessage, option);
+                            await MessageEditor.Edit(context, inlineCommand.BaseMessage, option);
                         else
-                            await Helpers.Message.Send(context, inlineCommand.BaseMessage, option);
+                            await MessageSender.Send(context, inlineCommand.BaseMessage, option);
                     }
                     else
                     {
                         string msg = "Ошибка при выполнение команды, попробуйте еще раз.";
-                        await Helpers.Message.Edit(context, msg);
+                        await MessageEditor.Edit(context, msg);
                     }
                 }
             }

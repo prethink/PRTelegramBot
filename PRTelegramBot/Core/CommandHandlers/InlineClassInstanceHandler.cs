@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandHandlers

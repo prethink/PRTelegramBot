@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
@@ -22,9 +23,19 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <summary>
         /// Создать аргументы событий с ошибкой.
         /// </summary>
+        /// <param name="exception">Исключение.</param>
+        /// <returns>Аргументы событий логирования ошибок.</returns>
+        public static ErrorLogEventArgs Create(Exception exception)
+        {
+            return new ErrorLogEventArgs(CurrentScope.Context, exception);
+        }
+
+        /// <summary>
+        /// Создать аргументы событий с ошибкой.
+        /// </summary>
         /// <param name="bot">Экземпляр бота.</param>
         /// <param name="exception">Исключение.</param>
-        /// <returns></returns>
+        /// <returns>Аргументы событий логирования ошибок.</returns>
         public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception)
         {
             return new ErrorLogEventArgs(new BotContext(bot), exception);
@@ -36,7 +47,7 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <param name="bot">Экземпляр бота.</param>
         /// <param name="exception">Исключение.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns></returns>
+        /// <returns>Аргументы событий логирования ошибок.</returns>
         public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception, CancellationToken cancellationToken)
         {
             return new ErrorLogEventArgs(new BotContext(bot, cancellationToken), exception);

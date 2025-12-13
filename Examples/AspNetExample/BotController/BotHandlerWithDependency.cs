@@ -5,6 +5,7 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using TestDI.Models;
 
@@ -31,13 +32,14 @@ namespace AspNetExample.BotController
         [ReplyMenuHandler("Test")]
         public async Task TestMethodWithDependency(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, $"{nameof(TestMethodWithDependency)} {_logger != null}");
+            var users = db.Users.ToList();
+            await MessageSender.Send(context, $"{nameof(TestMethodWithDependency)} {_logger != null}");
         }
 
         [SlashHandler("/test")]
         public async Task Slash(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(Slash));
+            await MessageSender.Send(context, nameof(Slash));
         }
 
         [ReplyMenuHandler("inline")]
@@ -49,7 +51,7 @@ namespace AspNetExample.BotController
                 new InlineCallback("TestStatic", PRTelegramBotCommand.NextPage)
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineTest), options);
+            await MessageSender.Send(context, nameof(InlineTest), options);
         }
 
         [ReplyMenuHandler("inlinestatic")]
@@ -61,19 +63,19 @@ namespace AspNetExample.BotController
                 new InlineCallback("TestStatic", PRTelegramBotCommand.NextPage)
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(StaticInlineTest), options);
+            await MessageSender.Send(context, nameof(StaticInlineTest), options);
         }
 
         [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.CurrentPage)]
         public async Task InlineHandler(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineHandler));
+            await MessageSender.Send(context, nameof(InlineHandler));
         }
 
         [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.NextPage)]
         public async static Task InlineHandlerStatic(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineHandlerStatic));
+            await MessageSender.Send(context, nameof(InlineHandlerStatic));
         }
 
         /// <summary>
@@ -86,7 +88,7 @@ namespace AspNetExample.BotController
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
             //Регистрация обработчика для последовательной обработки шагов и сохранение данных
             context.Update.RegisterStepHandler(new StepTelegram(StepOne, new StepCache()));
-            await PRTelegramBot.Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace AspNetExample.BotController
             handler!.GetCache<StepCache>().Name = context.Update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             handler.RegisterNextStep(StepTwo);
-            await PRTelegramBot.Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -124,7 +126,7 @@ namespace AspNetExample.BotController
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
             //option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "RP_MAIN_MENU"));
-            await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
         }
 
 
@@ -141,7 +143,7 @@ namespace AspNetExample.BotController
                          $"\nПоследовательность шагов очищена.";
             //Последний шаг
             handler.LastStepExecuted = true;
-            await PRTelegramBot.Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -155,7 +157,7 @@ namespace AspNetExample.BotController
                 ? "Следующий шаг проигнорирован"
                 : "Следующий шаг отсутствовал";
 
-            await PRTelegramBot.Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
     }
 }

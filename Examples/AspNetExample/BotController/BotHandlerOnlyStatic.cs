@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Services.Messages;
 
 namespace AspNetExample.BotController
 {
@@ -9,7 +10,7 @@ namespace AspNetExample.BotController
         [ReplyMenuHandler("TestStatic")]
         public async static Task StaticTestMethod(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(StaticTestMethod));
+            await MessageSender.Send(context, nameof(StaticTestMethod));
         }
     }
 }

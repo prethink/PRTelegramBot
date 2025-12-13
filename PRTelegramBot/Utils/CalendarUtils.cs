@@ -1,5 +1,6 @@
 ﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils.Controls.CalendarControl.Common;
 using System.Globalization;
 
@@ -23,7 +24,7 @@ namespace PRTelegramBot.Utils
             var calendarMarkup = Markup.Calendar(DateTime.Today, culture, Convert.ToInt32(headerCallbackCommand));
             option.MenuInlineKeyboardMarkup = calendarMarkup;
             option.MenuReplyKeyboardMarkup = null;
-            await Helpers.Message.Send(context, message, option);
+            await MessageSender.Send(context, message, option);
         }
 
         /// <summary>

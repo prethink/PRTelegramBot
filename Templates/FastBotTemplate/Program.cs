@@ -1,6 +1,6 @@
 ﻿using FastBotTemplateConsole.Commands;
 using FastBotTemplateConsole.Events;
-using PRTelegramBot.Core;
+using PRTelegramBot.Builders;
 
 namespace FastBotTemplateConsole
 {

@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Models.EventsArgs;
+using PRTelegramBot.Utils;
 
 namespace PRTelegramBot.Core.Events
 {
@@ -279,6 +280,76 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPassportDataHandle;
 
+        /// <summary>
+        /// Событие обработки платного медиа.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPaidMediaHandle;
+
+        /// <summary>
+        /// Событие обработки возврата платежа.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnRefundedPaymentHandle;
+
+        /// <summary>
+        /// Событие получения подарка.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnGiftHandle;
+
+        /// <summary>
+        /// Событие получения уникального подарка.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnUniqueGiftHandle;
+
+        /// <summary>
+        /// Событие изменения стоимости платного сообщения.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPaidMessagePriceChangedHandle;
+
+        /// <summary>
+        /// Событие получения чеклиста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChecklistHandle;
+
+        /// <summary>
+        /// Событие выполнения задач чеклиста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChecklistTasksDoneHandle;
+
+        /// <summary>
+        /// Событие добавления задач в чеклист.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChecklistTasksAddedHandle;
+
+        /// <summary>
+        /// Событие изменения цены прямого сообщения.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnDirectMessagePriceChangedHandle;
+
+        /// <summary>
+        /// Событие подтверждения предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostApprovedHandle;
+
+        /// <summary>
+        /// Событие ошибки подтверждения предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostApprovalFailedHandle;
+
+        /// <summary>
+        /// Событие отклонения предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostDeclinedHandle;
+
+        /// <summary>
+        /// Событие успешной оплаты предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostPaidHandle;
+
+        /// <summary>
+        /// Событие возврата оплаты предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostRefundedHandle;
+
         #endregion
 
         #region Методы
@@ -286,272 +357,342 @@ namespace PRTelegramBot.Core.Events
         /// <summary>
         /// Вызвать событие <see cref="OnContactHandle"/>.
         /// </summary>
-        internal void OnContactHandleInvoke(BotEventArgs e) => OnContactHandle?.Invoke(e);
+        internal Task OnContactHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnContactHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnAudioHandle"/>.
         /// </summary>
-        internal void OnAudioHandleInvoke(BotEventArgs e) => OnAudioHandle?.Invoke(e);
+        internal Task OnAudioHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnAudioHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnLocationHandle"/>.
         /// </summary>
-        internal void OnLocationHandleInvoke(BotEventArgs e) => OnLocationHandle?.Invoke(e);
+        internal Task OnLocationHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnLocationHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnDiceHandle"/>.
         /// </summary>
-        internal void OnDiceHandleInvoke(BotEventArgs e) => OnDiceHandle?.Invoke(e);
+        internal Task OnDiceHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDiceHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnDocumentHandle"/>.
         /// </summary>
-        internal void OnDocumentHandleInvoke(BotEventArgs e) => OnDocumentHandle?.Invoke(e);
+        internal Task OnDocumentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDocumentHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnWebAppsHandle"/>.
         /// </summary>
-        internal void OnWebAppsHandleInvoke(BotEventArgs e) => OnWebAppsHandle?.Invoke(e);
+        internal Task OnWebAppsHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWebAppsHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnPollHandle"/>.
         /// </summary>
-        internal void OnPollHandleInvoke(BotEventArgs e) => OnPollHandle?.Invoke(e);
+        internal Task OnPollHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGameHandle"/>.
         /// </summary>
-        internal void OnGameHandleInvoke(BotEventArgs e) => OnGameHandle?.Invoke(e);
+        internal Task OnGameHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGameHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVideoHandle"/>.
         /// </summary>
-        internal void OnVideoHandleInvoke(BotEventArgs e) => OnVideoHandle?.Invoke(e);
+        internal Task OnVideoHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnPhotoHandle"/>.
         /// </summary>
-        internal void OnPhotoHandleInvoke(BotEventArgs e) => OnPhotoHandle?.Invoke(e);
+        internal Task OnPhotoHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPhotoHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnStickerHandle"/>.
         /// </summary>
-        internal void OnStickerHandleInvoke(BotEventArgs e) => OnStickerHandle?.Invoke(e);
+        internal Task OnStickerHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnStickerHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVoiceHandle"/>.
         /// </summary>
-        internal void OnVoiceHandleInvoke(BotEventArgs e) => OnVoiceHandle?.Invoke(e);
+        internal Task OnVoiceHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVoiceHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVenueHandle"/>.
         /// </summary>
-        internal void OnVenueHandleInvoke(BotEventArgs e) => OnVenueHandle?.Invoke(e);
+        internal Task OnVenueHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVenueHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnUnknownHandle"/>.
         /// </summary>
-        internal void OnUnknownHandleInvoke(BotEventArgs e) => OnUnknownHandle?.Invoke(e);
+        internal Task OnUnknownHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVideoNoteHandle"/>.
         /// </summary>
-        internal void OnVideoNoteHandleInvoke(BotEventArgs e) => OnVideoNoteHandle?.Invoke(e);
+        internal Task OnVideoNoteHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoNoteHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnAnimationHandle"/>.
         /// </summary>
-        internal void OnAnimationHandleInvoke(BotEventArgs e) => OnAnimationHandle?.Invoke(e);
+        internal Task OnAnimationHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnAnimationHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChannelCreatedHandle"/>.
         /// </summary>
-        internal void OnChannelCreatedHandleInvoke(BotEventArgs e) => OnChannelCreatedHandle?.Invoke(e);
+        internal Task OnChannelCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChannelCreatedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatMemberLeftHandle"/>.
         /// </summary>
-        internal void OnChatMemberLeftHandleInvoke(BotEventArgs e) => OnChatMemberLeftHandle?.Invoke(e);
+        internal Task OnChatMemberLeftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatMemberLeftHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatMembersAddedHandle"/>.
         /// </summary>
-        internal void OnChatMembersAddedHandleInvoke(BotEventArgs e) => OnChatMembersAddedHandle?.Invoke(e);
+        internal Task OnChatMembersAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatMembersAddedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatPhotoChangedHandle"/>.
         /// </summary>
-        internal void OnChatPhotoChangedHandleInvoke(BotEventArgs e) => OnChatPhotoChangedHandle?.Invoke(e);
+        internal Task OnChatPhotoChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatPhotoChangedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatPhotoDeletedHandle"/>.
         /// </summary>
-        internal void OnChatPhotoDeletedHandleInvoke(BotEventArgs e) => OnChatPhotoDeletedHandle?.Invoke(e);
+        internal Task OnChatPhotoDeletedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatPhotoDeletedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatSharedHandle"/>.
         /// </summary>
-        internal void OnChatSharedHandleInvoke(BotEventArgs e) => OnChatSharedHandle?.Invoke(e);
+        internal Task OnChatSharedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatSharedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatTitleChangedHandle"/>.
         /// </summary>
-        internal void OnChatTitleChangedHandleInvoke(BotEventArgs e) => OnChatTitleChangedHandle?.Invoke(e);
+        internal Task OnChatTitleChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatTitleChangedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnForumTopicClosedHandle"/>.
         /// </summary>
-        internal void OnForumTopicClosedHandleInvoke(BotEventArgs e) => OnForumTopicClosedHandle?.Invoke(e);
+        internal Task OnForumTopicClosedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicClosedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnForumTopicCreatedHandle"/>.
         /// </summary>
-        internal void OnForumTopicCreatedHandleInvoke(BotEventArgs e) => OnForumTopicCreatedHandle?.Invoke(e);
+        internal Task OnForumTopicCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicCreatedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnForumTopicEditedHandle"/>.
         /// </summary>
-        internal void OnForumTopicEditedHandleInvoke(BotEventArgs e) => OnForumTopicEditedHandle?.Invoke(e);
+        internal Task OnForumTopicEditedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicEditedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnForumTopicReopenedHandle"/>.
         /// </summary>
-        internal void OnForumTopicReopenedHandleInvoke(BotEventArgs e) => OnForumTopicReopenedHandle?.Invoke(e);
+        internal Task OnForumTopicReopenedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicReopenedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGeneralForumTopicHiddenHandle"/>.
         /// </summary>
-        internal void OnGeneralForumTopicHiddenHandleInvoke(BotEventArgs e) => OnGeneralForumTopicHiddenHandle?.Invoke(e);
+        internal Task OnGeneralForumTopicHiddenHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGeneralForumTopicHiddenHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGeneralForumTopicUnhiddenHandle"/>.
         /// </summary>
-        internal void OnGeneralForumTopicUnhiddenHandleInvoke(BotEventArgs e) => OnGeneralForumTopicUnhiddenHandle?.Invoke(e);
+        internal Task OnGeneralForumTopicUnhiddenHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGeneralForumTopicUnhiddenHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGroupCreatedHandle"/>.
         /// </summary>
-        internal void OnGroupCreatedHandleInvoke(BotEventArgs e) => OnGroupCreatedHandle?.Invoke(e);
+        internal Task OnGroupCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGroupCreatedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnInvoiceHandle"/>.
         /// </summary>
-        internal void OnInvoiceHandleInvoke(BotEventArgs e) => OnInvoiceHandle?.Invoke(e);
+        internal Task OnInvoiceHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnInvoiceHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnMessageAutoDeleteTimerChangedHandle"/>.
         /// </summary>
-        internal void OnMessageAutoDeleteTimerChangedHandleInvoke(BotEventArgs e) => OnMessageAutoDeleteTimerChangedHandle?.Invoke(e);
+        internal Task OnMessageAutoDeleteTimerChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessageAutoDeleteTimerChangedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnMessagePinnedHandle"/>.
         /// </summary>
-        internal void OnMessagePinnedHandleInvoke(BotEventArgs e) => OnMessagePinnedHandle?.Invoke(e);
+        internal Task OnMessagePinnedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessagePinnedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnMigratedFromGroupHandle"/>.
         /// </summary>
-        internal void OnMigratedFromGroupHandleInvoke(BotEventArgs e) => OnMigratedFromGroupHandle?.Invoke(e);
+        internal Task OnMigratedFromGroupHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMigratedFromGroupHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnMigratedToSupergroupHandle"/>.
         /// </summary>
-        internal void OnMigratedToSupergroupHandleInvoke(BotEventArgs e) => OnMigratedToSupergroupHandle?.Invoke(e);
+        internal Task OnMigratedToSupergroupHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMigratedToSupergroupHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnSuccessfulPaymentHandle"/>.
         /// </summary>
-        internal void OnSuccessfulPaymentHandleInvoke(BotEventArgs e) => OnSuccessfulPaymentHandle?.Invoke(e);
+        internal Task OnSuccessfulPaymentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuccessfulPaymentHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnSupergroupCreatedHandle"/>.
         /// </summary>
-        internal void OnSupergroupCreatedHandleInvoke(BotEventArgs e) => OnSupergroupCreatedHandle?.Invoke(e);
+        internal Task OnSupergroupCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSupergroupCreatedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnUserSharedHandle"/>.
         /// </summary>
-        internal void OnUserSharedHandleInvoke(BotEventArgs e) => OnUserSharedHandle?.Invoke(e);
+        internal Task OnUserSharedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUserSharedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVideoChatEndedHandle"/>.
         /// </summary>
-        internal void OnVideoChatEndedHandleInvoke(BotEventArgs e) => OnVideoChatEndedHandle?.Invoke(e);
+        internal Task OnVideoChatEndedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatEndedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVideoChatParticipantsInvitedHandle"/>.
         /// </summary>
-        internal void OnVideoChatParticipantsInvitedHandleInvoke(BotEventArgs e) => OnVideoChatParticipantsInvitedHandle?.Invoke(e);
+        internal Task OnVideoChatParticipantsInvitedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatParticipantsInvitedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVideoChatScheduledHandle"/>.
         /// </summary>
-        internal void OnVideoChatScheduledHandleInvoke(BotEventArgs e) => OnVideoChatScheduledHandle?.Invoke(e);
+        internal Task OnVideoChatScheduledHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatScheduledHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnVideoChatStartedHandle"/>.
         /// </summary>
-        internal void OnVideoChatStartedHandleInvoke(BotEventArgs e) => OnVideoChatStartedHandle?.Invoke(e);
+        internal Task OnVideoChatStartedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatStartedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnWebsiteConnectedHandle"/>.
         /// </summary>
-        internal void OnWebsiteConnectedHandleInvoke(BotEventArgs e) => OnWebsiteConnectedHandle?.Invoke(e);
+        internal Task OnWebsiteConnectedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWebsiteConnectedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnWriteAccessAllowedHandle"/>.
         /// </summary>
-        internal void OnWriteAccessAllowedInvoke(BotEventArgs e) => OnWriteAccessAllowedHandle?.Invoke(e);
+        internal Task OnWriteAccessAllowedInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWriteAccessAllowedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnProximityAlertTriggeredHandle"/>.
         /// </summary>
-        internal void OnProximityAlertTriggeredHandleInvoke(BotEventArgs e) => OnProximityAlertTriggeredHandle?.Invoke(e);
+        internal Task OnProximityAlertTriggeredHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnProximityAlertTriggeredHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGiveawayHandle"/>.
         /// </summary>
-        internal void OnGiveawayHandleInvoke(BotEventArgs e) => OnGiveawayHandle?.Invoke(e);
+        internal Task OnGiveawayHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGiveawayWinnersHandle"/>.
         /// </summary>
-        internal void OnGiveawayWinnersHandleInvoke(BotEventArgs e) => OnGiveawayWinnersHandle?.Invoke(e);
+        internal Task OnGiveawayWinnersHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayWinnersHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGiveawayCompletedHandle"/>.
         /// </summary>
-        internal void OnGiveawayCompletedHandleInvoke(BotEventArgs e) => OnGiveawayCompletedHandle?.Invoke(e);
+        internal Task OnGiveawayCompletedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayCompletedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnBoostAddedHandle"/>.
         /// </summary>
-        internal void OnBoostAddedHandleInvoke(BotEventArgs e) => OnBoostAddedHandle?.Invoke(e);
+        internal Task OnBoostAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBoostAddedHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnChatBackgroundSetHandle"/>.
         /// </summary>
-        internal void OnChatBackgroundSetHandleInvoke(BotEventArgs e) => OnChatBackgroundSetHandle?.Invoke(e);
+        internal Task OnChatBackgroundSetHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatBackgroundSetHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnTextHandle"/>.
         /// </summary>
-        internal void OnTextHandleInvoke(BotEventArgs e) => OnTextHandle?.Invoke(e);
+        internal Task OnTextHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnTextHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnStoryHandle"/>.
         /// </summary>
-        internal void OnStoryHandleInvoke(BotEventArgs e) => OnStoryHandle?.Invoke(e);
+        internal Task OnStoryHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnStoryHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnPassportDataHandle"/>.
         /// </summary>
-        internal void OnPassportDataHandleInvoke(BotEventArgs e) => OnPassportDataHandle?.Invoke(e);
+        internal Task OnPassportDataHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPassportDataHandle, e);
 
         /// <summary>
         /// Вызвать событие <see cref="OnGiveawayCreatedHandle"/>.
         /// </summary>
-        internal void OnGiveawayCreatedHandleInvoke(BotEventArgs e) => OnGiveawayCreatedHandle?.Invoke(e);
+        internal Task OnGiveawayCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayCreatedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnPaidMediaHandle"/>.
+        /// </summary>
+        internal Task OnPaidMediaHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPaidMediaHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnRefundedPaymentHandle"/>.
+        /// </summary>
+        internal Task OnRefundedPaymentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnRefundedPaymentHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnGiftHandle"/>.
+        /// </summary>
+        internal Task OnGiftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiftHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnUniqueGiftHandle"/>.
+        /// </summary>
+        internal Task OnUniqueGiftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUniqueGiftHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnPaidMessagePriceChangedHandle"/>.
+        /// </summary>
+        internal Task OnPaidMessagePriceChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPaidMessagePriceChangedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnChecklistHandle"/>.
+        /// </summary>
+        internal Task OnChecklistHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChecklistHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnChecklistTasksDoneHandle"/>.
+        /// </summary>
+        internal Task OnChecklistTasksDoneHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChecklistTasksDoneHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnChecklistTasksAddedHandle"/>.
+        /// </summary>
+        internal Task OnChecklistTasksAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChecklistTasksAddedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnDirectMessagePriceChangedHandle"/>.
+        /// </summary>
+        internal Task OnDirectMessagePriceChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDirectMessagePriceChangedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnSuggestedPostApprovedHandle"/>.
+        /// </summary>
+        internal Task OnSuggestedPostApprovedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostApprovedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnSuggestedPostApprovalFailedHandle"/>.
+        /// </summary>
+        internal Task OnSuggestedPostApprovalFailedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostApprovalFailedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnSuggestedPostDeclinedHandle"/>.
+        /// </summary>
+        internal Task OnSuggestedPostDeclinedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostDeclinedHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnSuggestedPostPaidHandle"/>.
+        /// </summary>
+        internal Task OnSuggestedPostPaidHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostPaidHandle, e);
+
+        /// <summary>
+        /// Вызвать событие <see cref="OnSuggestedPostRefundedHandle"/>.
+        /// </summary>
+        internal Task OnSuggestedPostRefundedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostRefundedHandle, e);
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 
 namespace PRTelegramBot.Tests.CoreTests
@@ -25,6 +26,7 @@ namespace PRTelegramBot.Tests.CoreTests
         public async Task BotHasUserInAdminList()
         {
             var bot = new PRBotBuilder(BotOneToken).AddAdmin(UserId).Build();
+            await bot.Initialize();
             Assert.True(await bot.IsAdmin(UserId));
         }
 
@@ -32,6 +34,7 @@ namespace PRTelegramBot.Tests.CoreTests
         public async Task BotHasUserInWhiteList()
         {
             var bot = new PRBotBuilder(BotOneToken).AddUserWhiteList(UserId).Build();
+            await bot.Initialize();
             Assert.True(await bot.InWhiteList(UserId));
         }
 
@@ -63,7 +66,7 @@ namespace PRTelegramBot.Tests.CoreTests
 
             var botFromCollection = BotCollection.Instance.GetBots();
             var exceptedBotCount = 3;
-            Assert.AreEqual(exceptedBotCount, botFromCollection.Count);
+            Assert.AreEqual(exceptedBotCount, botFromCollection.Count());
         }
     }
 }

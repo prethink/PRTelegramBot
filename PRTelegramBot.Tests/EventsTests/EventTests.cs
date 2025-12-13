@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Tests.Common;
@@ -30,7 +31,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [TestCase("22222", "22222")]
         public async Task OnUserStartWithArgsShouldBeInvoked(string expectedDeepLink, string message)
         {
-            var update = UpdateSetUp.CreateWithStartDeepLink(message);
+            var update = TestDataFactory.CreateWithStartDeepLink(message);
             bool eventCalled = false;
             string capturedExpectedDeepLink = expectedDeepLink;
 
@@ -50,7 +51,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnMissingCommandShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateWithTextMessage("Fgasdfsadjasofdhjasfhasokfhjao");
+            var update = TestDataFactory.CreateWithTextMessage("Fgasdfsadjasofdhjasfhasokfhjao");
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -68,7 +69,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnCheckPrivilegeShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateWithTextMessage(nameof(Commands.TestAccessMethod));
+            var update = TestDataFactory.CreateWithTextMessage(nameof(Commands.TestAccessMethod));
             bool eventCalled = false;
 
             Task EventHandler(PrivilegeEventArgs e)
@@ -86,7 +87,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnWrongTypeMessageShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateWithTextMessage(nameof(Commands.TestTypeMessage));
+            var update = TestDataFactory.CreateWithTextMessage(nameof(Commands.TestTypeMessage));
             bool eventCalled = false;
             Task EventHandler(BotEventArgs e)
             {
@@ -103,8 +104,8 @@ namespace PRTelegramBot.Tests.EventsTests
         public async Task OnAccessDeniedShouldBeInvoked()
         {
             var testUserId = 55555;
-            var update = UpdateSetUp.CreateUpdateWithTypeMessage();
-            await bot.Options.WhiteListManager.AddUser(testUserId);
+            var update = TestDataFactory.CreateUpdateWithTypeMessage();
+            await bot.GetWhiteListManager().AddUser(testUserId);
             bool eventCalled = false;
             Task EventHandler(BotEventArgs e)
             {
@@ -115,15 +116,15 @@ namespace PRTelegramBot.Tests.EventsTests
             await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
             bot.Events.OnAccessDenied -= EventHandler;
-            await bot.Options.WhiteListManager.RemoveUser(testUserId);
+            await bot.GetWhiteListManager().RemoveUser(testUserId);
         }
 
         [Test]
         public async Task OnAccessDeniedShouldBeNotInvoked()
         {
             long userId = 5555;
-            var update = UpdateSetUp.CreateUpdateWithTypeMessage(userId);
-            await bot.Options.WhiteListManager.AddUser(userId);
+            var update = TestDataFactory.CreateUpdateWithTypeMessage(userId);
+            await bot.GetWhiteListManager().AddUser(userId);
             bool eventCalled = false;
             Task EventHandler(BotEventArgs e)
             {
@@ -134,7 +135,7 @@ namespace PRTelegramBot.Tests.EventsTests
             await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsFalse(eventCalled, $"The {nameof(bot.Events.OnAccessDenied)} event was not called.");
             bot.Events.OnAccessDenied -= EventHandler;
-            await bot.Options.WhiteListManager.RemoveUser(userId);
+            await bot.GetWhiteListManager().RemoveUser(userId);
         }
 
         [Test]

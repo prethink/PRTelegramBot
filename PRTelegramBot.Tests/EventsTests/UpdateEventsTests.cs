@@ -1,7 +1,7 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
-using PRTelegramBot.Tests.Common;
 
 namespace PRTelegramBot.Tests.EventsTests
 {
@@ -25,7 +25,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnEditedMessageShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeEditedMessage();
+            var update = TestDataFactory.CreateUpdateTypeEditedMessage();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -43,7 +43,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnChannelPostShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeChannelPost();
+            var update = TestDataFactory.CreateUpdateTypeChannelPost();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -61,7 +61,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnEditedChannelPostShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeEditedChannelPost();
+            var update = TestDataFactory.CreateUpdateTypeEditedChannelPost();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -79,7 +79,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnEditedBusinessConnectionShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeBusinessConnection();
+            var update = TestDataFactory.CreateUpdateTypeBusinessConnection();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -97,7 +97,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnEditedBusinessMessageShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeEditedBusinessMessage();
+            var update = TestDataFactory.CreateUpdateTypeEditedBusinessMessage();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -115,7 +115,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnDeletedBusinessMessagesHandleShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeDeletedBusinessMessages();
+            var update = TestDataFactory.CreateUpdateTypeDeletedBusinessMessages();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -133,7 +133,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnMessageReactionHandleShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeMessageReaction();
+            var update = TestDataFactory.CreateUpdateTypeMessageReaction();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -151,7 +151,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnMessageReactionCountShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeMessageReactionCount();
+            var update = TestDataFactory.CreateUpdateTypeMessageReactionCount();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -169,7 +169,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnInlineQueryShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeInlineQuery();
+            var update = TestDataFactory.CreateUpdateTypeInlineQuery();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -187,7 +187,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnChosenInlineResultShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeChosenInlineResult();
+            var update = TestDataFactory.CreateUpdateTypeChosenInlineResult();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -205,7 +205,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnShippingQueryShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeShippingQuery();
+            var update = TestDataFactory.CreateUpdateTypeShippingQuery();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -223,7 +223,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnPreCheckoutQueryShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypePreCheckoutQuery();
+            var update = TestDataFactory.CreateUpdateTypePreCheckoutQuery();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -241,7 +241,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnPollShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypePoll();
+            var update = TestDataFactory.CreateUpdateTypePoll();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -259,7 +259,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnPollAnswerShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypePollAnswer();
+            var update = TestDataFactory.CreateUpdateTypePollAnswer();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -277,7 +277,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnMyChatMemberShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeMyChatMember();
+            var update = TestDataFactory.CreateUpdateTypeMyChatMember();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -295,7 +295,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnChatMemberShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeChatMember();
+            var update = TestDataFactory.CreateUpdateTypeChatMember();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -313,7 +313,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnChatJoinRequestShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeChatJoinRequest();
+            var update = TestDataFactory.CreateUpdateTypeChatJoinRequest();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -331,7 +331,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnChatBoostShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeChatBoost();
+            var update = TestDataFactory.CreateUpdateTypeChatBoost();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -349,7 +349,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnRemovedChatBoostShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeRemovedChatBoost();
+            var update = TestDataFactory.CreateUpdateTypeRemovedChatBoost();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -367,7 +367,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnPostUpdateShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeRemovedChatBoost();
+            var update = TestDataFactory.CreateUpdateTypeRemovedChatBoost();
             bool eventCalled = false;
 
             Task EventHandler(BotEventArgs e)
@@ -385,7 +385,7 @@ namespace PRTelegramBot.Tests.EventsTests
         [Test]
         public async Task OnPreUpdateShouldBeInvoked()
         {
-            var update = UpdateSetUp.CreateUpdateTypeRemovedChatBoost();
+            var update = TestDataFactory.CreateUpdateTypeRemovedChatBoost();
             bool eventCalled = false;
 
             async Task<UpdateResult> EventHandler(BotEventArgs e)

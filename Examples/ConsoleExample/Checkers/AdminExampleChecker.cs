@@ -3,6 +3,7 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Services.Messages;
 using System.Reflection;
 
 namespace ConsoleExample.Checkers
@@ -17,7 +18,7 @@ namespace ConsoleExample.Checkers
             {
                 var userIsAdmin = await context.IsAdmin(context.Update.GetChatId());
                 if(!userIsAdmin)
-                    await PRTelegramBot.Helpers.Message.Send(context, "Вы не админ!");
+                    await MessageSender.Send(context, "Вы не админ!");
 
                 return userIsAdmin ? InternalCheckResult.Passed : InternalCheckResult.Custom;
             }

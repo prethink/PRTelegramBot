@@ -1,8 +1,8 @@
 ﻿using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
-using PRTelegramBot.Managers;
+using PRTelegramBot.Interfaces.Managers;
 using PRTelegramBot.Models;
-using PRTelegramBot.Wrappers;
+using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 
@@ -16,7 +16,7 @@ namespace PRTelegramBot.Configs
         #region Поля и свойства
 
         /// <summary>
-        /// Клиент телеграма.
+        /// Клиент telegram.
         /// </summary>
         public ITelegramBotClient? Client { get; set; }
 
@@ -68,12 +68,12 @@ namespace PRTelegramBot.Configs
         /// <summary>
         /// Менеджер управления администраторами.
         /// </summary>
-        public IUserManager AdminManager { get; set; } = new AdminListManager();
+        public IAdminManager? AdminManager { get; set; }
 
         /// <summary>
         /// Менеджер управления белым списком.
         /// </summary>
-        public IWhiteListManager WhiteListManager { get; set; } = new WhiteListManager();
+        public IWhiteListManager? WhiteListManager { get; set; }
 
         /// <summary>
         /// Промежуточные обработчики перед update.
@@ -114,6 +114,36 @@ namespace PRTelegramBot.Configs
         /// Параметры команд.
         /// </summary>
         public readonly CommandOptions CommandOptions = new();
+
+        /// <summary>
+        /// Сериализатор.
+        /// </summary>
+        public IPRSerializer? PRSerializer { get; set; }
+        
+        /// <summary>
+        /// Конвертер для inline меню.
+        /// </summary>
+        public IInlineMenuConverter? InlineConverter { get; set; }
+
+        /// <summary>
+        /// Предопределенные идентификаторы администраторов.
+        /// </summary>
+        public HashSet<long> AdminIds { get; set; } = new();
+
+        /// <summary>
+        /// Предопределенные идентификаторы пользователей в белом списке.
+        /// </summary>
+        public HashSet<long> WhiteListIds { get; set; } = new();
+
+        /// <summary>
+        /// Настройки белого списка.
+        /// </summary>
+        public WhiteListSettings WhiteListSettings { get; set; } = WhiteListSettings.OnPreUpdate;
+
+        /// <summary>
+        /// Дополнительное действие при инициализации бота.
+        /// </summary>
+        public Action? InitializeAction { get; set; }
 
         #endregion
     }

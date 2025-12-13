@@ -1,11 +1,13 @@
 ﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
+using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Models.TCommands;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 
 namespace ConsoleExample.Examples.Commands
@@ -34,7 +36,7 @@ namespace ConsoleExample.Examples.Commands
             option.MenuInlineKeyboardMarkup = testMenu;
             string msg = "InlineCallback с подтверждением";
             //Отправка сообщение с меню
-            await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
@@ -49,15 +51,23 @@ namespace ConsoleExample.Examples.Commands
 
             //Создание нового меню.
             List<IInlineContent> menu = new() { exampleInlineCallback, exampleInlineCallbackTwo, exampleInlineCallbackThree };
-            var testMenu = MenuGenerator.InlineKeyboard(1, menu);
+
+            var keyboard = new InlineKeyboardBuilder()
+                                    .AddButton(exampleInlineCallback)
+                                    .AddButton(exampleInlineCallbackTwo, newRow:true)
+                                    .AddRow()
+                                    .AddRow()
+                                    .AddButton(exampleInlineCallbackThree)
+                                    .Build();   
+
             var option = new OptionMessage();
 
             //Передача меню в настройки
-            option.MenuInlineKeyboardMarkup = testMenu;
+            option.MenuInlineKeyboardMarkup = keyboard;
             string msg = "InlineClass";
 
             //Отправка сообщение с меню
-            await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
@@ -87,9 +97,9 @@ namespace ConsoleExample.Examples.Commands
             string msg = "InlineCallback с подтверждением и обработкой кнопки назад или кастомной";
             //Отправка сообщение с меню
             if (context.Update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
-                await PRTelegramBot.Helpers.Message.Edit(context, msg, option);
+                await MessageEditor.Edit(context, msg, option);
             else
-                await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+                await MessageSender.Send(context, msg, option);
         }
     }
 }

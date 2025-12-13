@@ -1,6 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Services.Messages;
 
 namespace AspNetExample.BotController
 {
@@ -15,13 +16,13 @@ namespace AspNetExample.BotController
         [ReplyMenuHandler("Testnodi")]
         public async Task TestMethodWithoutDependency(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, $"{nameof(TestMethodWithoutDependency)}");
+            await MessageSender.Send(context, $"{nameof(TestMethodWithoutDependency)}");
         }
 
         [SlashHandler(CommandComparison.Equals, "/Testnodi")]
         public async Task SlashNoDi(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(SlashNoDi));
+            await MessageSender.Send(context, nameof(SlashNoDi));
         }
     }
 }

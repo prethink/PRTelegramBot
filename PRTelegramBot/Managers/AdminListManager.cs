@@ -1,11 +1,11 @@
-﻿using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Interfaces.Managers;
 
 namespace PRTelegramBot.Managers
 {
     /// <summary>
     /// Менеджер управления администраторами.
     /// </summary>
-    public class AdminListManager : IUserManager
+    public class AdminListManager : IAdminManager
     {
         #region Поля и свойства
 
@@ -16,40 +16,53 @@ namespace PRTelegramBot.Managers
 
         #endregion
 
-        #region IUserManager
+        #region IAdminManager
 
+        /// <inheritdoc />
         public long Count => users.Count;
 
-        public async Task<bool> AddUser(long userId)
+        /// <inheritdoc />
+        public Task<bool> AddUser(long userId)
         {
             users.Add(userId);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<bool> AddUsers(params long[] userIds)
+        /// <inheritdoc />
+        public Task<bool> AddUsers(params long[] userIds)
         {
             users.AddRange(userIds);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<List<long>> GetUsersIds()
+        /// <inheritdoc />
+        public Task<List<long>> GetUsersIds()
         {
-            return users.ToList();
+            return Task.FromResult(users.ToList());
         }
 
-        public async Task<bool> HasUser(long userId)
+        /// <inheritdoc />
+        public Task<bool> HasUser(long userId)
         {
-            return users.Contains(userId);
+            return Task.FromResult(users.Contains(userId));
         }
 
-        public async Task<bool> Reload()
+        /// <inheritdoc />
+        public Task<bool> Initialize()
         {
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<bool> RemoveUser(long userId)
+        /// <inheritdoc />
+        public  Task<bool> Reload()
         {
-            return users.Remove(userId);
+            return Task.FromResult(true);
+        }
+
+        /// <inheritdoc />
+        public Task<bool> RemoveUser(long userId)
+        {
+            return Task.FromResult(users.Remove(userId));
         }
 
         #endregion

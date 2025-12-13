@@ -6,6 +6,7 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -49,7 +50,7 @@ namespace ConsoleExample.Examples
             var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
-            var message = await Helpers.Message.Send(context, msg, option);
+            var message = await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace ConsoleExample.Examples
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
 
-            var message = await Helpers.Message.Send(context, msg, option);
+            var message = await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
@@ -109,7 +110,7 @@ namespace ConsoleExample.Examples
                                 msg = "Нечего не найдено";
                             }
                             //Редактирую текущую страницу
-                            await Helpers.Message.Edit(context, msg, option);
+                            await MessageEditor.Edit(context, msg, option);
                         }
                         //обрабатываю данные по заголовку
                         else if (header == CustomTHeaderTwo.CustomPageHeader2)
@@ -132,7 +133,7 @@ namespace ConsoleExample.Examples
                                 msg = "Нечего не найдено";
                             }
                             //Редактирую текущую страницу
-                            await Helpers.Message.Edit(context, msg, option);
+                            await MessageEditor.Edit(context, msg, option);
                         }
                     }
                 }
@@ -172,7 +173,7 @@ namespace ConsoleExample.Examples
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
         }
     }
 }

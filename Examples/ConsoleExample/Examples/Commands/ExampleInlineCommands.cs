@@ -1,6 +1,7 @@
 ﻿using ConsoleExample.Models;
 using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
+using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.InlineButtons;
@@ -9,7 +10,7 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using PRTelegramBot.Utils;
+using PRTelegramBot.Services.Messages;
 using Telegram.Bot;
 using Helpers = PRTelegramBot.Helpers;
 
@@ -58,12 +59,13 @@ namespace ConsoleExample.Examples.Commands
              * CustomTHeaderTwo.ExampleTwo - Заголовок команды
              * new EntityTCommand(2) - Данные которые требуется передать
              */
-            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>("Пример 2", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2));
+            var exampleItemTwo = new InlineCallback<EntityTCommand<long>>("Пример с большим числом", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(2_000_000_000_000_000_000));
             /* Создание новой кнопки с callback данными
              * CustomTHeaderTwo.ExampleThree - Заголовок команды
              * new EntityTCommand(3) - Данные которые требуется передать
              */
-            var exampleItemThree = new InlineCallback<EntityTCommand<long>>("Пример 3", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3));
+
+            var exampleItemThree = new InlineCallback<EntityTCommand<string>>("Пример с большим текстом", CustomTHeaderTwo.ExampleThree, new EntityTCommand<string>("И нет сомнений, что диаграммы связей будут объявлены нарушающими общечеловеческие нормы этики и морали. Имеется спорная точка зрения, гласящая примерно следующее: ключевые особенности структуры проекта, инициированные исключительно синтетически, своевременно верифицированы. Значимость этих проблем настолько очевидна, что высокотехнологичная концепция общественного уклада обеспечивает широкому кругу (специалистов) участие в формировании переосмысления внешнеэкономических политик. Таким образом, высокотехнологичная концепция общественного уклада играет важную роль в формировании экспериментов, поражающих по своей масштабности и грандиозности. Картельные сговоры не допускают ситуации, при которой тщательные исследования конкурентов, превозмогая сложившуюся непростую экономическую ситуацию, заблокированы в рамках своих собственных рациональных ограничений. Каждый из нас понимает очевидную вещь: реализация намеченных плановых заданий выявляет срочную потребность как самодостаточных, так и внешне зависимых концептуальных решений. Равным образом, убеждённость некоторых оппонентов однозначно определяет каждого участника как способного принимать собственные решения касаемо первоочередных требований. Повседневная практика показывает, что реализация намеченных плановых заданий обеспечивает актуальность распределения внутренних резервов и ресурсов. В своём стремлении повысить качество жизни, они забывают, что базовый вектор развития обеспечивает актуальность поставленных обществом задач."));
 
             var inlineStep = new InlineCallback("Inline Step", CustomTHeader.InlineWithStep);
 
@@ -76,27 +78,26 @@ namespace ConsoleExample.Examples.Commands
             // Создаем кнопку для работы с webApp
             var webdata = new InlineWebApp("WebApp", "https://prethink.github.io/telegram/webapp.html");
 
-            //IInlineContent - реализуют все inline кнопки
-            List<IInlineContent> menu = new();
-            menu.Add(exampleItemOne);
-            menu.Add(exampleItemTwo);
-            menu.Add(exampleItemThree);
-            menu.Add(exampleAddCommand);
-            menu.Add(exampleAddCommandTwo);
-            menu.Add(inlineStep);
-            menu.Add(url);
-            menu.Add(webdata);
-
-            //Генерация меню на основе данных в 1 столбец
-            var testMenu = MenuGenerator.InlineKeyboard(1, menu);
+            var keyboard = new InlineKeyboardBuilder()
+                .AddButton(exampleItemOne)
+                .AddButton(exampleItemTwo, newRow:true)
+                .AddButton(exampleItemThree, newRow: true)
+                .AddButton(exampleAddCommand, newRow: true)
+                .AddRow()
+                .AddButton(exampleAddCommandTwo)
+                .AddButton(inlineStep)
+                .AddRow()
+                .AddButton(url)
+                .AddButton(webdata)
+                .Build();
 
             //Создание настроек для передачи в сообщение
             var option = new OptionMessage();
             //Передача меню в настройки
-            option.MenuInlineKeyboardMarkup = testMenu;
+            option.MenuInlineKeyboardMarkup = keyboard;
             string msg = "Пример работы меню";
             //Отправка сообщение с меню
-            await Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
@@ -113,7 +114,42 @@ namespace ConsoleExample.Examples.Commands
                 if (command != null)
                 {
                     string msg = "Выполнена команда callback";
-                    await Helpers.Message.Send(context, msg);
+                    await MessageSender.Send(context, msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Обработка исключения
+            }
+        }
+
+
+        /// <summary>
+        /// callback обработка
+        /// Данный метод может обработать несколько точек входа
+        /// </summary>
+        [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleTwo)]
+        public static async Task InlineTwo(IBotContext context)
+        {
+            try
+            {
+                //Попытка преобразовать callback данные к требуемому типу
+                var command = context.GetCommandByCallbackOrNull<EntityTCommand<long>>();
+                if (command != null)
+                {
+                    string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
+                    if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
+                    {
+                        await MessageEditor.Edit(context, msg);
+                    }
+                    else
+                    {
+                        if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
+                        {
+                            await context.BotClient.DeleteMessage(context.Update.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
+                        }
+                        await MessageSender.Send(context, msg);
+                    }
                 }
             }
             catch (Exception ex)
@@ -126,19 +162,19 @@ namespace ConsoleExample.Examples.Commands
         /// callback обработка
         /// Данный метод может обработать несколько точек входа
         /// </summary>
-        [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleTwo, CustomTHeaderTwo.ExampleThree)]
-        public static async Task InlineTwo(IBotContext context)
+        [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleThree)]
+        public static async Task InlineThree(IBotContext context)
         {
             try
             {
                 //Попытка преобразовать callback данные к требуемому типу
-                var command = context.GetCommandByCallbackOrNull<EntityTCommand<long>>();
+                var command = context.GetCommandByCallbackOrNull<EntityTCommand<string>>();
                 if (command != null)
                 {
                     string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
                     if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                     {
-                        await Helpers.Message.Edit(context, msg);
+                        await MessageEditor.Edit(context, msg);
                     }
                     else
                     {
@@ -146,7 +182,7 @@ namespace ConsoleExample.Examples.Commands
                         {
                             await context.BotClient.DeleteMessage(context.Update.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
                         }
-                        await Helpers.Message.Send(context, msg);
+                        await MessageSender.Send(context, msg);
                     }
                 }
             }

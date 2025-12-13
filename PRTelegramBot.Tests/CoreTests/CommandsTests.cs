@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
 
 namespace PRTelegramBot.Tests.CoreTests
 {

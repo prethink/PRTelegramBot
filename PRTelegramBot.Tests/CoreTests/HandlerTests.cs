@@ -1,6 +1,6 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
 using PRTelegramBot.Models.EventsArgs;
-using PRTelegramBot.Tests.Common;
 
 namespace PRTelegramBot.Tests.CoreTests
 {
@@ -24,7 +24,7 @@ namespace PRTelegramBot.Tests.CoreTests
         [Test]
         public async Task HandleUpdateAsyncShouldTriggerErrorLogWhenHandlerThrows()
         {
-            var update = UpdateSetUp.CreateUpdateTypeShippingQuery();
+            var update = TestDataFactory.CreateUpdateTypeShippingQuery();
             bool errorEventCalled = false;
             Exception capturedException = null;
 

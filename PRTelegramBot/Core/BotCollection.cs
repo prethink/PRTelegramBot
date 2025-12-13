@@ -1,109 +1,65 @@
-﻿namespace PRTelegramBot.Core
+﻿using PRTelegramBot.Interfaces;
+
+namespace PRTelegramBot.Core
 {
     /// <summary>
     /// Класс хранящий всех ботов.
     /// </summary>
-    public sealed class BotCollection 
+    public sealed class BotCollection : IBotCollection
     {
         #region Поля и свойства
 
         /// <summary>
-        /// Экземпляр класса.
+        /// Глобальный экземпляр настроек.
         /// </summary>
-        private static BotCollection? instance;
+        public static IBotCollection Instance => instance.Value;
+
+        /// <summary>
+        /// Lazy инициализация глобального экземпляра настроек.
+        /// </summary>
+        private static Lazy<IBotCollection> instance = new Lazy<IBotCollection>(() => new BotCollection());
 
         /// <summary>
         /// Коллекция ботов.
         /// </summary>
         private Dictionary<long, PRBotBase> botList = new();
 
-        /// <summary>
-        /// Количество ботов.
-        /// </summary>
-        public long BotCount => botList.Count;
-
-        /// <summary>
-        /// Singleton экземпляр.
-        /// </summary>
-        public static BotCollection Instance => instance ??= new BotCollection();
-
         #endregion
 
-        #region Методы
+        #region IBotCollection
 
-        /// <summary>
-        /// Получить следующий идентификатор для бота.
-        /// </summary>
-        /// <returns>Идентификатор бота.</returns>
-        public static long GetNextId()
-            => Instance.botList.LastOrDefault().Key + 1;
+        /// <inheritdoc />
+        public long BotCount => botList.Count;
 
-        /// <summary>
-        /// Добавить бота в коллекцию.
-        /// </summary>
-        /// <param name="bot">Бот.</param>
-        public void AddBot(PRBotBase bot)
-            => botList.Add(bot.BotId, bot);
+        /// <inheritdoc />
+        public long GetNextId() => botList.LastOrDefault().Key + 1;
 
-        /// <summary>
-        /// Удалить бота из коллекции.
-        /// </summary>
-        /// <param name="bot">Бот.</param>
-        public void RemoveBot(PRBotBase bot)
-            => botList.Remove(bot.BotId);
+        /// <inheritdoc />
+        public void AddBot(PRBotBase bot)  => botList.Add(bot.BotId, bot);
 
-        /// <summary>
-        /// Очистить всех ботов.
-        /// </summary>
-        public void ClearBots()
-            => botList.Clear();
+        /// <inheritdoc />
+        public void RemoveBot(PRBotBase bot) => botList.Remove(bot.BotId);
 
-        /// <summary>
-        /// Получить бота по telegram id.
-        /// </summary>
-        /// <param name="telegramId">Идентификатор telegram.</param>
-        /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase? GetBotByTelegramIdOrNull(long? telegramId)
-            => botList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
+        /// <inheritdoc />
+        public void ClearBots() => botList.Clear();
 
-        /// <summary>
-        /// Получить экземпляр бота.
-        /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase GetBotOrNull(long botId)
-            => botList.Values.SingleOrDefault(x => x.BotId == botId);
+        /// <inheritdoc />
+        public PRBotBase? GetBotByTelegramIdOrNull(long? telegramId)  => botList.Values.SingleOrDefault(x => x.TelegramId == telegramId);
 
-        /// <summary>
-        /// Получить экземпляр бота.
-        /// </summary>
-        /// <param name="predicate">Выражение для фильтрации.</param>
-        /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase? GetBotOrNull(Func<PRBotBase, bool> predicate)
-            => botList.Values.SingleOrDefault(predicate);
+        /// <inheritdoc />
+        public PRBotBase GetBotOrNull(long botId) => botList.Values.SingleOrDefault(x => x.BotId == botId);
 
-        /// <summary>
-        /// Получить всех ботов.
-        /// </summary>
-        /// <returns>Коллекция ботов.</returns>
-        public List<PRBotBase> GetBots()
-            => botList.Select(x => x.Value).ToList();
+        /// <inheritdoc />
+        public PRBotBase? GetBotOrNull(Func<PRBotBase, bool> predicate) => botList.Values.SingleOrDefault(predicate);
 
-        /// <summary>
-        /// Получить всех ботов.
-        /// </summary>
-        /// <param name="predicate">Выражение для фильтрации.</param>
-        /// <returns>Коллекция ботов.</returns>
-        public List<PRBotBase> GetBots(Func<PRBotBase, bool> predicate)
-            => botList.Values.Where(predicate).ToList();
+        /// <inheritdoc />
+        public IEnumerable<PRBotBase> GetBots() => botList.Select(x => x.Value).ToList();
 
-        /// <summary>
-        /// Получить экземпляр бота.
-        /// </summary>
-        /// <param name="botName">Название/логин бота.</param>
-        /// <returns>Экземпляр класса бота или null.</returns>
-        public PRBotBase? GetBotOrNull(string botName)
-            => botList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
+        /// <inheritdoc />
+        public IEnumerable<PRBotBase> GetBots(Func<PRBotBase, bool> predicate) => botList.Values.Where(predicate).ToList();
+
+        /// <inheritdoc />
+        public PRBotBase? GetBotOrNull(string botName) => botList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
 
         #endregion
 

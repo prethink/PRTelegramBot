@@ -19,10 +19,13 @@ namespace PRTelegramBot.Managers
 
         #region IUserManager
 
+        /// <inheritdoc />
         public long Count => users.Count;
 
+        /// <inheritdoc />
         private WhiteListSettings settings = WhiteListSettings.OnPreUpdate;
 
+        /// <inheritdoc />
         public WhiteListSettings Settings
         {
             get
@@ -31,41 +34,54 @@ namespace PRTelegramBot.Managers
             }
         }
 
-        public async Task<bool> AddUser(long userId)
+        /// <inheritdoc />
+        public Task<bool> AddUser(long userId)
         {
             users.Add(userId);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<bool> AddUsers(params long[] userIds)
+        /// <inheritdoc />
+        public Task<bool> AddUsers(params long[] userIds)
         {
             users.AddRange(userIds);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<List<long>> GetUsersIds()
+        /// <inheritdoc />
+        public Task<List<long>> GetUsersIds()
         {
-            return users.ToList();
+            return Task.FromResult(users.ToList());
         }
 
-        public async Task<bool> HasUser(long userId)
+        /// <inheritdoc />
+        public Task<bool> HasUser(long userId)
         {
-            return users.Contains(userId);
+            return Task.FromResult(users.Contains(userId));
         }
 
-        public async Task<bool> Reload()
+        /// <inheritdoc />
+        public Task<bool> Reload()
         {
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<bool> RemoveUser(long userId)
+        /// <inheritdoc />
+        public Task<bool> RemoveUser(long userId)
         {
-            return users.Remove(userId);
+            return Task.FromResult(users.Remove(userId));
         }
 
+        /// <inheritdoc />
         public void SetSettings(WhiteListSettings whiteListSettings)
         {
             settings = whiteListSettings;
+        }
+
+        /// <inheritdoc />
+        public Task<bool> Initialize()
+        {
+            return Task.FromResult(true);
         }
 
         #endregion

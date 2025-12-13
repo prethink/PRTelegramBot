@@ -2,6 +2,7 @@
 using PRTelegramBot.Core.Executors;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using System.Reflection;
@@ -35,7 +36,7 @@ namespace PRTelegramBot.Core.CommandHandlers
                 {
                     var spl = command.Split(attr.SplitChar);
                     if (spl.Length > 1)
-                        context.SetCustomData(spl.Skip(1).ToList());
+                        ((BotContext)context).SetCustomData(spl.Skip(1).ToList());
                 }
 
                 context.Current.Events.CommandsEvents.OnPreSlashCommandHandleInvoke(context.CreateBotEventArgs());

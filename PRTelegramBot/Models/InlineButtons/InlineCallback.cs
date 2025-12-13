@@ -1,9 +1,9 @@
 ﻿using PRTelegramBot.Converters.Json;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.EventsArgs;
-using System.Text;
 using System.Text.Json.Serialization;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,7 +14,8 @@ namespace PRTelegramBot.Models.InlineButtons
     /// Создает кнопку обработкой данных.
     /// </summary>
     /// <typeparam name="T">Тип данных.</typeparam>
-    public class InlineCallback<T> : InlineCallback where T : TCommandBase
+    public class InlineCallback<T> : InlineCallback
+        where T : TCommandBase
     {
         #region Поля и свойства
 
@@ -35,14 +36,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns>InlineCallback или null.</returns>
         public new static InlineCallback<T> GetCommandByCallbackOrNull(string data)
         {
-            try
-            {
-                return PRSettingsProvider.Instance.Serializator.Deserialize<InlineCallback<T>>(data);
-            }
-            catch
-            {
-                return null;
-            }
+            return CurrentScope.Bot.GetInlineConverter().GetCommandByCallbackOrNull<T>(data);
         }
 
         /// <summary>
@@ -64,11 +58,10 @@ namespace PRTelegramBot.Models.InlineButtons
             return GetCommandByCallbackOrNull(Context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
+        /// <inheritdoc />
         public override object GetContent()
         {
-            var result = PRSettingsProvider.Instance.Serializator.Serialize<InlineCallback<T>>(this);
-            ThrowExceptionIfBytesMore128(result);
-            return result;
+            return CurrentScope.Bot.GetInlineConverter().GenerateCallbackData<T>(this);
         }
 
         #endregion
@@ -119,15 +112,6 @@ namespace PRTelegramBot.Models.InlineButtons
     /// </summary>
     public class InlineCallback : InlineBase, IInlineContent, IDisposable
     {
-        #region Константы
-
-        /// <summary>
-        /// Максимальный допустимый размер данных для обработки.
-        /// </summary>
-        public const int MAX_SIZE_CALLBACK_DATA = 128;
-
-        #endregion
-
         #region Поля и свойства
 
         /// <summary>
@@ -160,14 +144,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <returns>InlineCallback или null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(string data)
         {
-            try
-            {
-                return PRSettingsProvider.Instance.Serializator.Deserialize<InlineCallback>(data);
-            }
-            catch
-            {
-                return null;
-            }
+            return CurrentScope.Bot.GetInlineConverter().GetCommandByCallbackOrNull(data);
         }
 
         /// <summary>
@@ -187,18 +164,6 @@ namespace PRTelegramBot.Models.InlineButtons
         public InlineCallback GetCommandByCallbackOrNull()
         {
             return GetCommandByCallbackOrNull(Context?.Update?.CallbackQuery?.Data ?? string.Empty);
-        }
-
-        /// <summary>
-        /// Выбросить исключение если результат больше чем 128 байт.
-        /// </summary>
-        /// <param name="result">Результат.</param>
-        /// <exception cref="Exception">Исключение.</exception>
-        protected void ThrowExceptionIfBytesMore128(string result)
-        {
-            var byteSize = Encoding.UTF8.GetBytes(result);
-            if (byteSize.Length > MAX_SIZE_CALLBACK_DATA)
-                throw new Exception($"Callback_data limit exceeded {byteSize} > {MAX_SIZE_CALLBACK_DATA}. Try reducing the amount of data in the command.");
         }
 
         /// <summary>
@@ -242,9 +207,7 @@ namespace PRTelegramBot.Models.InlineButtons
         /// <inheritdoc />
         public virtual object GetContent()
         {
-            var result = PRSettingsProvider.Instance.Serializator.Serialize(this);
-            ThrowExceptionIfBytesMore128(result);
-            return result;
+            return CurrentScope.Bot.GetInlineConverter().GenerateCallbackData(this);
         }
 
         /// <inheritdoc />

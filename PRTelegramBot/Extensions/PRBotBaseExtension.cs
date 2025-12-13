@@ -19,7 +19,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>True - администратор, False - не администратор.</returns>
         public static async Task<bool> IsAdmin(this PRBotBase botClient, long userId)
         {
-            return await botClient.Options.AdminManager.HasUser(userId);
+            return await botClient.GetAdminManager().HasUser(userId);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>True - есть в списке, False - нет в списке.</returns>
         public static async Task<bool> InWhiteList(this PRBotBase botClient, long userId)
         {
-            return await botClient.Options.WhiteListManager.HasUser(userId);
+            return await botClient.GetWhiteListManager().HasUser(userId);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>Список идентификаторов.</returns>
         public static async Task<List<long>> GetAdminsIds(this PRBotBase botClient)
         {
-            return await botClient.Options.AdminManager.GetUsersIds();
+            return await botClient.GetAdminManager().GetUsersIds();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>Список идентификаторов.</returns>
         public static async Task<List<long>> GetWhiteListIds(this PRBotBase botClient)
         {
-            return await botClient.Options.WhiteListManager.GetUsersIds();
+            return await botClient.GetWhiteListManager().GetUsersIds();
         }
 
         /// <summary>

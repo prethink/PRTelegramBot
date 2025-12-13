@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
@@ -48,15 +49,11 @@ namespace PRTelegramBot.Models
             }
             else
             {
-                if (serviceProvider is not null)
+                if (CurrentScope.Services != null)
                 {
-                    var factory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-                    using (var scope = factory.CreateScope())
-                    {
-                        var instance = scope.ServiceProvider.GetRequiredService(Method.DeclaringType);
-                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), instance, Method);
-                        await (((Func<IBotContext, Task>)instanceMethod)).Invoke(context);
-                    }
+                    var instance = CurrentScope.Services.GetRequiredService(Method.DeclaringType);
+                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), instance, Method);
+                    await (((Func<IBotContext, Task>)instanceMethod)).Invoke(context);
                 }
                 else
                 {

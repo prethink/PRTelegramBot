@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.EventsArgs;
 using System.Collections.Concurrent;
@@ -114,8 +115,7 @@ namespace PRTelegramBot.Extensions
             }
             catch(Exception ex) 
             {
-                if(update.TryGetBot(out var bot))
-                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                CurrentScope.Bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
                 return false;
             }
         }
@@ -209,6 +209,12 @@ namespace PRTelegramBot.Extensions
                 return new UserBotMapping(bot.BotId, update.GetChatId()).GetKey;
 
             throw new KeyNotFoundException($"Key update {update.Id} not mapped with prbot.");
+        }
+
+
+        internal static string GetInlineKey(this Update update, Enum @enum)
+        {
+            return update.GetKeyMappingUserTelegram() + "-" + Convert.ToInt32(@enum);
         }
 
         /// <summary>

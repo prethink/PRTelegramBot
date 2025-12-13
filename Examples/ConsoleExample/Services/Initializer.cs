@@ -6,6 +6,7 @@ using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Services.Messages;
 
 namespace ConsoleExample.Services
 {
@@ -130,12 +131,12 @@ namespace ConsoleExample.Services
         {
             bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (context) =>
             {
-                await PRTelegramBot.Helpers.Message.Send(context, "Тест метода TestAddCommand");
+                await MessageSender.Send(context, "Тест метода TestAddCommand");
             });
 
             bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (context) =>
             {
-                await PRTelegramBot.Helpers.Message.Send(context, "Тест метода TestAddCommandTwo");
+                await MessageSender.Send(context, "Тест метода TestAddCommandTwo");
             });
         }
 

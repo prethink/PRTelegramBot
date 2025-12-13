@@ -4,6 +4,7 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using Telegram.Bot.Types;
 using TestDI.Models;
@@ -29,7 +30,7 @@ namespace AspNetExample.BotController
 
         public async Task<UpdateResult> Handle(IBotContext context, CallbackQuery updateType)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, $"{nameof(Handle)} {_logger != null}");
+            await MessageSender.Send(context, $"{nameof(Handle)} {_logger != null}");
             return UpdateResult.Handled;
         }
 
@@ -41,7 +42,7 @@ namespace AspNetExample.BotController
                 new InlineCallback("Test", ClassTHeader.DefaultTestClass)
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineTest), options);
+            await MessageSender.Send(context, nameof(InlineTest), options);
         }
     }
 }

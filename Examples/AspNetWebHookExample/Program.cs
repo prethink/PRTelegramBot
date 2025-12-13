@@ -1,7 +1,7 @@
 using AspNetWebHook;
 using AspNetWebHook.Controllers;
 using AspNetWebHook.Services;
-using PRTelegramBot.Core;
+using PRTelegramBot.Builders;
 using PRTelegramBot.Core.Factory;
 
 /****************************************************************************************
@@ -16,6 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Для работы webhook нужны контроллеры и newtonsoftJson!!!
 builder.Services.AddControllers().AddNewtonsoftJson();
+
+#region Сервис запуска ботов
+
+builder.Services.AddHostedService<BotHostedService>();
 
 #region Добавляем ботов
 
@@ -35,10 +39,6 @@ new PRBotBuilder("555555:Token")
 // Найти экземпляры этих ботов можно через класс BotCollection
 
 #endregion
-
-#region Сервис запуска ботов
-
-builder.Services.AddHostedService<BotHostedService>();
 
 #endregion
 

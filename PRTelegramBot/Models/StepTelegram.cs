@@ -123,7 +123,9 @@ namespace PRTelegramBot.Models
         /// <returns>Кэш</returns>
         public T GetCache<T>()
         {
-            return cache is T resultCache ? resultCache : default;
+            return cache is T resultCache 
+                ? resultCache 
+                : default;
         }
 
         #endregion

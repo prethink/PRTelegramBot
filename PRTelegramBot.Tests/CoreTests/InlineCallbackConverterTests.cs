@@ -1,4 +1,6 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.Builders;
+using PRTelegramBot.Core;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
@@ -12,16 +14,18 @@ namespace PRTelegramBot.Tests.CoreTests
     internal class InlineCallbackConverterTests<TSerializer> 
         where TSerializer : IPRSerializer, new()
     {
-        private IPRSerializer serializer;
+        private PRBotBase botInstance;
+        private IBotContext context;
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            var bot = new PRBotBuilder("55555:Token").Build();
-            bot.ReloadHandlers();
+            botInstance = new PRBotBuilder("55555:Token")
+                .SetInlineSerializer(new TSerializer())
+                .Build();
 
-            serializer = new TSerializer();
-            PRSettingsProvider.Instance.SetSerializator(serializer);
+            botInstance.ReloadHandlers();
+            context = TestDataFactory.CreateBotContext();
         }
 
         [TearDown]
@@ -36,13 +40,17 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(100, 50)]
         public void EntityTCommandShouldReturnLongAfterConvertation(long exceptedLong, int exceptedCommandId = 0)
         {
-            var exceptedCommandType = PRTelegramBotCommand.PickYear;
-            var command = new InlineCallback<EntityTCommand<long>>("Пример 2", exceptedCommandType, new EntityTCommand<long>(exceptedLong, exceptedCommandId));
-            var json = command.GetContent() as string;
-            var exportCommand = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedLong, exportCommand.Data.EntityId);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
-            Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var exceptedCommandType = PRTelegramBotCommand.PickYear;
+                var command = new InlineCallback<EntityTCommand<long>>("Пример 2", exceptedCommandType, new EntityTCommand<long>(exceptedLong, exceptedCommandId));
+                var json = command.GetContent() as string;
+                var exportCommand = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(json);
+
+                Assert.AreEqual(exceptedLong, exportCommand.Data.EntityId);
+                Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
+                Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            }
         }
 
         [Test]
@@ -51,13 +59,17 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase("Hammer", 20)]
         public void EntityTCommandShouldReturnStringAfterConvertation(string exceptedString, int exceptedCommandId = 0)
         {
-            var exceptedCommandType = PRTelegramBotCommand.PickYear;
-            var command = new InlineCallback<EntityTCommand<string>>("Пример 2", exceptedCommandType, new EntityTCommand<string>(exceptedString, exceptedCommandId));
-            var json = command.GetContent() as string;
-            var exportCommand = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedString, exportCommand.Data.EntityId);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
-            Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var exceptedCommandType = PRTelegramBotCommand.PickYear;
+                var command = new InlineCallback<EntityTCommand<string>>("Пример 2", exceptedCommandType, new EntityTCommand<string>(exceptedString, exceptedCommandId));
+                var json = command.GetContent() as string;
+                var exportCommand = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(json);
+
+                Assert.AreEqual(exceptedString, exportCommand.Data.EntityId);
+                Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
+                Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            }
         }
 
         [Test]
@@ -66,13 +78,17 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(100, 4)]
         public void PageTCommandShouldReturnIntPageAfterConvertation(int exceptedPage, int exceptedCommandId = 0)
         {
-            var exceptedCommandType = PRTelegramBotCommand.PickYear;
-            var command = new InlineCallback<PageTCommand>("Пример 2", exceptedCommandType, new PageTCommand(exceptedPage, PRTelegramBotCommand.None, exceptedCommandId));
-            var json = command.GetContent() as string;
-            var exportCommand = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedPage, exportCommand.Data.Page);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
-            Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var exceptedCommandType = PRTelegramBotCommand.PickYear;
+                var command = new InlineCallback<PageTCommand>("Пример 2", exceptedCommandType, new PageTCommand(exceptedPage, PRTelegramBotCommand.None, exceptedCommandId));
+                var json = command.GetContent() as string;
+                var exportCommand = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(json);
+
+                Assert.AreEqual(exceptedPage, exportCommand.Data.Page);
+                Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
+                Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            }
         }
 
         [Test]
@@ -81,12 +97,16 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(100)]
         public void TCommandBaseShouldReturnCommandIdAfterConvertation(int exceptedCommandId)
         {
-            var exceptedCommandType = PRTelegramBotCommand.PickYear;
-            var command = new InlineCallback<TCommandBase>("Пример 2", exceptedCommandType, new TCommandBase(exceptedCommandId));
-            var json = command.GetContent() as string;
-            var exportCommand = InlineCallback<TCommandBase>.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
-            Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var exceptedCommandType = PRTelegramBotCommand.PickYear;
+                var command = new InlineCallback<TCommandBase>("Пример 2", exceptedCommandType, new TCommandBase(exceptedCommandId));
+                var json = command.GetContent() as string;
+                var exportCommand = InlineCallback<TCommandBase>.GetCommandByCallbackOrNull(json);
+
+                Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
+                Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            }
         }
 
         [Test]
@@ -97,10 +117,15 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase(PRTelegramBotCommand.NextPage)]
         public void NonGenericShouldReturnCommandTypeAfterConvertation(PRTelegramBotCommand exceptedCommand)
         {
-            var command = new InlineCallback("Пример 2", exceptedCommand);
-            var json = command.GetContent() as string;
-            var exportCommand = InlineCallback.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedCommand, exportCommand.CommandType);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                var command = new InlineCallback("Пример 2", exceptedCommand);
+                var json = command.GetContent() as string;
+
+                var exportCommand = InlineCallback.GetCommandByCallbackOrNull(json);
+
+                Assert.AreEqual(exceptedCommand, exportCommand.CommandType);
+            }
         }
 
         [Test]
@@ -109,14 +134,19 @@ namespace PRTelegramBot.Tests.CoreTests
         [TestCase("2023-08-07")]
         public void CalendarTCommandShouldReturnDateTimeAfterConvertation(DateTime exceptedDate)
         {
-            int exceptedCommandId = 5;
-            var exceptedCommandType = PRTelegramBotCommand.PickYear;
-            var command = new InlineCallback<CalendarTCommand>("Тест", exceptedCommandType, new CalendarTCommand(exceptedDate, exceptedCommandId));
-            var json = command.GetContent() as string;
-            var exportCommand = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(json);
-            Assert.AreEqual(exceptedDate, exportCommand.Data.Date);
-            Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
-            Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            using (var botData = new BotDataScope(context, botInstance))
+            {
+                int exceptedCommandId = 5;
+                var exceptedCommandType = PRTelegramBotCommand.PickYear;
+                var command = new InlineCallback<CalendarTCommand>("Тест", exceptedCommandType, new CalendarTCommand(exceptedDate, exceptedCommandId));
+                var json = command.GetContent() as string;
+
+                var exportCommand = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(json);
+
+                Assert.AreEqual(exceptedDate, exportCommand.Data.Date);
+                Assert.AreEqual(exceptedCommandId, exportCommand.Data.HeaderCallbackCommand);
+                Assert.AreEqual(exceptedCommandType, exportCommand.CommandType);
+            }
         }
     }
 }

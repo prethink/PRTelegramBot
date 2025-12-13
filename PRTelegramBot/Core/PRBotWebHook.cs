@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
@@ -18,34 +19,44 @@ namespace PRTelegramBot.Core
         public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.WebHook;
 
         /// <inheritdoc />
+        protected override bool addBotToCollection => true;
+
+        /// <inheritdoc />
         public override async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            try
+            using (var scope = new BotDataScope(this))
             {
-                await base.StartAsync(Options.CancellationTokenSource.Token);
-                if(string.IsNullOrEmpty(Options.WebHookOptions.SecretToken))
-                    Options.WebHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
+                try
+                {
+                    await base.StartAsync(Options.CancellationTokenSource.Token);
+                    if (string.IsNullOrEmpty(Options.WebHookOptions.SecretToken))
+                        Options.WebHookOptions.SecretToken = Generator.RandomSymbols(Generator.Chars.Alphabet, 10);
 
-                await BotClient.SetWebhook(
-                    url: Options.WebHookOptions.Url,
-                    certificate: Options.WebHookOptions.Certificate,
-                    ipAddress: Options.WebHookOptions.IpAddress,
-                    maxConnections: Options.WebHookOptions.MaxConnections,
-                    allowedUpdates: Array.Empty<UpdateType>(),
-                    dropPendingUpdates: Options.WebHookOptions.DropPendingUpdates,
-                    secretToken: Options.WebHookOptions.SecretToken,
-                    cancellationToken: Options.CancellationTokenSource.Token);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
+                    await BotClient.SetWebhook(
+                        url: Options.WebHookOptions.Url,
+                        certificate: Options.WebHookOptions.Certificate,
+                        ipAddress: Options.WebHookOptions.IpAddress,
+                        maxConnections: Options.WebHookOptions.MaxConnections,
+                        allowedUpdates: Array.Empty<UpdateType>(),
+                        dropPendingUpdates: Options.WebHookOptions.DropPendingUpdates,
+                        secretToken: Options.WebHookOptions.SecretToken,
+                        cancellationToken: Options.CancellationTokenSource.Token);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
 
         /// <inheritdoc />
         public override async Task StopAsync(CancellationToken cancellationToken = default)
         {
-            await BotClient.DeleteWebhook(cancellationToken: Options.CancellationTokenSource.Token);
+            using (var scope = new BotDataScope(this))
+            {
+                await base.StopAsync(cancellationToken);
+                await BotClient.DeleteWebhook(cancellationToken: Options.CancellationTokenSource.Token);
+            }
         }
 
         /// <inheritdoc cref="TelegramBotClientExtensions.GetWebhookInfo"/>

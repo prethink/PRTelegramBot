@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Builders;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Tests.Common;
@@ -56,8 +57,8 @@ namespace PRTelegramBot.Tests.CoreTests
                             .AddReplyDynamicCommand(KEY_DYNAMIC_REPLY_ONE, "dynamic foure example");
 
             var bot = botBuilder.Build();
-            var botWithIdOne = botBuilder.SetBotId(BotCollection.GetNextId()).Build();
-            var botWithIdTwo = botBuilder.SetBotId(BotCollection.GetNextId()).Build();
+            var botWithIdOne = botBuilder.SetBotId(BotCollection.Instance.GetNextId()).Build();
+            var botWithIdTwo = botBuilder.SetBotId(BotCollection.Instance.GetNextId()).Build();
 
             MethodInfo[] replyMethods = ReflectionUtils.FindStaticDynamicReplyCommandHandlers(botId);
             Assert.AreEqual(exceptedMethodsCount, replyMethods.Length);

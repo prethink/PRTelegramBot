@@ -1,11 +1,17 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PRTelegramBot.Configs;
+using PRTelegramBot.Converters.Inline;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Core.CommandHandlers;
 using PRTelegramBot.Core.Events;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Interfaces.Managers;
+using PRTelegramBot.Managers;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Registrars;
+using PRTelegramBot.Wrappers;
 using Telegram.Bot;
 
 namespace PRTelegramBot.Core
@@ -72,6 +78,26 @@ namespace PRTelegramBot.Core
         /// </summary>
         public abstract DataRetrievalMethod DataRetrieval { get; }
 
+        /// <summary>
+        /// Добавлять ли бота в коллекцию при создании.
+        /// </summary>
+        protected abstract bool addBotToCollection { get; }
+
+        /// <summary>
+        /// Локальный менеджер администраторов.
+        /// </summary>
+        protected readonly IAdminManager localAdminManager = new AdminListManager();
+
+        /// <summary>
+        /// Локальный менеджер белого списка.
+        /// </summary>
+        protected readonly IWhiteListManager localWhiteListManager = new WhiteListManager();
+
+        /// <summary>
+        /// Проинициализирован ли бот.
+        /// </summary>
+        private bool isInitialized;
+
         #endregion
 
         #region Методы
@@ -84,7 +110,7 @@ namespace PRTelegramBot.Core
         {
             try
             {
-                InitHandlers();
+                InitializeHandlers();
                 Handler.HotReload();
                 return true;
             }
@@ -99,7 +125,7 @@ namespace PRTelegramBot.Core
         /// Инициализация обработчиков.
         /// </summary>
         /// <returns>True - инициализация прошла, False - не прошла.</returns>
-        private bool InitHandlers()
+        private bool InitializeHandlers()
         {
             try
             {
@@ -126,9 +152,63 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex));
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Инициализация менеджера администраторов.
+        /// </summary>
+        private async Task InitializeAdminManager()
+        {
+            try
+            {
+                var adminManager = GetAdminManager();
+                await adminManager.AddUsers(Options.AdminIds.ToArray());
+                await adminManager.Initialize();
+            }
+            catch(Exception ex)
+            {
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+            }
+        }
+
+        /// <summary>
+        /// Инициализация менеджера белого списка.
+        /// </summary>
+        private async Task InitializeWhiteListManager()
+        {
+            try
+            {
+                var whiteList = GetWhiteListManager();
+                await whiteList.AddUsers(Options.WhiteListIds.ToArray());
+                whiteList.SetSettings(Options.WhiteListSettings);
+                await whiteList.Initialize();
+            }
+            catch (Exception ex)
+            {
+                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+            }
+        }
+
+        /// <summary>
+        /// Инициализация бота.
+        /// </summary>
+        public async Task Initialize()
+        {
+            if(isInitialized)
+                return;
+
+            InitializeHandlers();
+            await InitializeAdminManager();
+            await InitializeWhiteListManager();
+
+            if (GetInlineConverter().GetType() == typeof(TelegramInlineConverter))
+                Events.OnCommonLogInvoke($"\nДля генерации Inline-меню используется конвертер по умолчанию, который ограничен длиной callback_data до 64 байт (ограничение Telegram). \nЧтобы обойти это ограничение при создании бота через билдер, используйте:\n.SetInlineMenuConverter(new FileInlineConverter())\nПодробнее про работу конвертеров смотрите в справке {PRConstants.DOCUMENTATION_URL}", "Warning", ConsoleColor.Green);
+
+            Options?.InitializeAction?.Invoke();
+            isInitialized = true;
         }
 
         /// <summary>
@@ -154,22 +234,91 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Запустить бота.
         /// </summary>
-        public virtual Task StartAsync(CancellationToken cancellationToken = default)
+        public virtual async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            InitHandlers();
-            return Task.CompletedTask;
+            await Initialize();
         }
 
+        /// <summary>
+        /// Получить текущий сериализатор для бота.
+        /// </summary>
+        /// <returns>Сериализатор.</returns>
+        public IPRSerializer GetSerializer()
+        {
+            return Options.PRSerializer
+                ?? CurrentScope.Services?.GetService<IPRSerializer>()
+                ?? new JsonSerializerWrapper();
+        }
+
+        /// <summary>
+        /// Получить текущий inline конвертер для бота.
+        /// </summary>
+        /// <returns>Inline конвертер.</returns>
+        public IInlineMenuConverter GetInlineConverter()
+        {
+            return Options.InlineConverter
+                ?? CurrentScope.Services?.GetService<IInlineMenuConverter>()
+                ?? new TelegramInlineConverter();
+        }
+
+        /// <summary>
+        /// Получить текущий админ менеджер для бота.
+        /// </summary>
+        /// <returns>Админ менеджер.</returns>
+        public IAdminManager GetAdminManager()
+        {
+            return Options.AdminManager
+                ?? CurrentScope.Services?.GetService<IAdminManager>()
+                ?? this.localAdminManager;
+        }
+
+        /// <summary>
+        /// Получить текущий менеджер белого списка для бота.
+        /// </summary>
+        /// <returns>Менеджер белого списка.</returns>
+        public IWhiteListManager GetWhiteListManager()
+        {
+            return Options.WhiteListManager
+                ?? CurrentScope.Services?.GetService<IWhiteListManager>()
+                ?? this.localWhiteListManager;
+        }
 
         /// <summary>
         /// Остановка бота.
         /// </summary>
-        public abstract Task StopAsync(CancellationToken cancellationToken = default);
+        public virtual Task StopAsync(CancellationToken cancellationToken = default)
+        {
+            isInitialized = false;
+            return Task.CompletedTask;
+        }
 
         #endregion
 
         #region Конструкторы
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="optionsBuilder">
+        /// Делегат конфигурации, позволяющий программно настроить параметры бота.
+        /// Может быть <c>null</c>.  
+        /// Если указан, выполняется перед применением объекта <paramref name="options"/>.
+        /// </param>
+        /// <param name="options">
+        /// Объект параметров <see cref="TelegramOptions"/>, содержащий настройки бота.  
+        /// Может быть <c>null</c>.  
+        /// Если одновременно переданы и <paramref name="optionsBuilder"/>, и <paramref name="options"/>,
+        /// применяется комбинация обоих: сначала вызывается <paramref name="optionsBuilder"/>,
+        /// затем дополняются или переопределяются параметры из <paramref name="options"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Выбрасывается, если после выполнения делегата и объединения параметров
+        /// не удалось сформировать валидный экземпляр <see cref="TelegramOptions"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Выбрасывается, если параметры конфигурации содержат некорректные значения
+        /// (например, отсутствует токен бота или заданы несовместимые опции).
+        /// </exception>
         protected PRBotBase(Action<TelegramOptions>? optionsBuilder, TelegramOptions? options)
         {
             Options = new TelegramOptions();
@@ -184,12 +333,13 @@ namespace PRTelegramBot.Core
             if (Options.BotId < 0)
                 throw new ArgumentException("Bot ID cannot be less than zero");
 
-            BotCollection.Instance.AddBot(this);
+            if(addBotToCollection)
+                BotCollection.Instance.AddBot(this);
 
             BotClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);
             InlineClassRegistrar.Register(this);
-            InitHandlers();
+            InitializeHandlers();
         }
 
         #endregion

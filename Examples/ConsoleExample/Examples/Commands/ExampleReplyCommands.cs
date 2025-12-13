@@ -1,13 +1,14 @@
 ﻿using ConsoleExample.Examples.Events;
 using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
+using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Helpers = PRTelegramBot.Helpers;
 
@@ -26,7 +27,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ReplyExampleOne(IBotContext context)
         {
             string msg = nameof(ReplyExampleOne);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ReplyExampleTwo(IBotContext context)
         {
             string msg = nameof(ReplyExampleTwo);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleReplyMany(IBotContext context)
         {
             string msg = nameof(ExampleReplyMany);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -63,29 +64,24 @@ namespace ConsoleExample.Examples.Commands
             string msg = "Меню";
             //Создаем настройки сообщения
             var option = new OptionMessage();
-            //Создаем список для меню
-            var menuList = new List<KeyboardButton>();
-            //Добавляем кнопку с текстом
-            menuList.Add(new KeyboardButton("Кнопка 1"));
-            //Добавляем кнопку с запросом на контакт пользователя
-            menuList.Add(KeyboardButton.WithRequestContact("Отправить свой контакт"));
-            //Добавляем кнопку с запросом на локацию пользователя
-            menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
-            //Добавляем кнопку с запросом отправки чата боту
-            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat(2, true)));
-            //Добавляем кнопку с запросом отправки пользователя боту
-            menuList.Add(KeyboardButton.WithRequestUsers("Отправить пользователя боту", new KeyboardButtonRequestUsers() { RequestId = 1 }));
-            //Добавляем кнопку с отправкой опроса
-            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование", new KeyboardButtonPollType()));
-            //Добавляем кнопку с запросом работы с WebApp
-            menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html" }));
+            var keyboard = new ReplyKeyboardBuilder()
+                            .SetResizeKeyboard(true)
+                            .AddButton("Кнопка 1")
+                            .AddRequestContact("Отправить свой контакт", newRow:true)
+                            .AddRequestLocation("Отправить свою локацию")
+                            .AddRow()
+                            .AddRequestChat("Отправить группу боту", new KeyboardButtonRequestChat(2, true))
+                            .AddRequestUsers("Отправить пользователя боту", new KeyboardButtonRequestUsers() { RequestId = 1 })
+                            .AddRequestPoll("Отправить свою голосование", new KeyboardButtonPollType())
+                            .AddEmptyButton(3, newRow:true)
+                            .AddRow()
+                            .AddButtonWebApp("WebApp", "https://prethink.github.io/telegram/webapp.html")
+                            .SetMainMenuButton("Главное меню")
+                            .Build();
 
-            //Генерируем reply меню
-            //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
-            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
-            option.MenuReplyKeyboardMarkup = menu;
-            await Helpers.Message.Send(context, msg, option);
+            option.MenuReplyKeyboardMarkup = keyboard;
+            await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
@@ -121,7 +117,7 @@ namespace ConsoleExample.Examples.Commands
 
             // Получаем текст сообщения по ключу из json файла.
             string msg = context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -144,7 +140,7 @@ namespace ConsoleExample.Examples.Commands
             var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
             //Добавляем в настройки меню
             option.MenuReplyKeyboardMarkup = menu;
-            await Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
             count++;
         }
 
@@ -158,7 +154,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleAccess(IBotContext context)
         {
             string msg = nameof(ExampleAccess);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -187,7 +183,7 @@ namespace ConsoleExample.Examples.Commands
              */
 
             string msg = nameof(ExampleReplyDynamicCommand);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -199,7 +195,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleReplyRequeretPrivate(IBotContext context)
         {
             string msg = nameof(ExampleReplyRequeretPrivate);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -211,7 +207,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleReplyRequiredText(IBotContext context)
         {
             string msg = nameof(ExampleReplyRequiredText);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -223,7 +219,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleReplyBotIdOne(IBotContext context)
         {
             string msg = nameof(ExampleReplyBotIdOne);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -234,7 +230,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ReplyExampleAllBots(IBotContext context)
         {
             string msg = nameof(ReplyExampleAllBots);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -244,11 +240,11 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ReplyBlockUpdate(IBotContext context)
         {
             string msg = nameof(ReplyBlockUpdate);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
 
             await Task.Delay(10000);
 
-            await Helpers.Message.Send(context, "Конец ожидания");
+            await MessageSender.Send(context, "Конец ожидания");
         }
 
     }

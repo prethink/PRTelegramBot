@@ -1,14 +1,16 @@
 ﻿using PRTelegramBot.Configs;
+using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factory;
 using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Interfaces.Managers;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 
-namespace PRTelegramBot.Core
+namespace PRTelegramBot.Builders
 {
     /// <summary>
     /// Билдер для создания нового экземпляра класса PRBot.
@@ -19,9 +21,8 @@ namespace PRTelegramBot.Core
 
         private TelegramOptions options;
         private PRBotFactoryBase factory;
-        private List<long> admins = [];
-        private List<long> whiteList = [];
-        private WhiteListSettings whiteListSettings = WhiteListSettings.OnPreUpdate;
+        private List<long> adminIds = [];
+        private List<long> whiteListIds = [];
 
         #endregion
 
@@ -33,9 +34,12 @@ namespace PRTelegramBot.Core
         /// <returns>Экземпляр класса PRBot.</returns>
         public PRBotBase Build()
         {
-            options.AdminManager.AddUsers(admins.ToArray());
-            options.WhiteListManager.AddUsers(whiteList.ToArray());
-            options.WhiteListManager.SetSettings(whiteListSettings);
+            foreach (var adminId in adminIds)
+                options.AdminIds.Add(adminId);
+
+            foreach (var whiteListUserId in whiteListIds)
+                options.WhiteListIds.Add(whiteListUserId);
+
             return factory.CreateBot(options);
         }
 
@@ -45,8 +49,8 @@ namespace PRTelegramBot.Core
         /// <param name="token">Токен.</param>
         public void ClearOptions(string token)
         {
-            admins.Clear();
-            whiteList.Clear();
+            adminIds.Clear();
+            whiteListIds.Clear();
             options = new TelegramOptions();
             SetToken(token);
         }
@@ -77,7 +81,7 @@ namespace PRTelegramBot.Core
         /// </summary>
         /// <param name="adminManager">Менеджер управления администраторами.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetAdminManager(IUserManager adminManager)
+        public PRBotBuilder SetAdminManager(IAdminManager adminManager)
         {
             options.AdminManager = adminManager;
             return this;
@@ -101,7 +105,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetWhiteListSettings(WhiteListSettings settings)
         {
-            whiteListSettings = settings;
+            options.WhiteListSettings = settings;
             return this;
         }
 
@@ -224,7 +228,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddAdmin(params long[] telegramId)
         {
-            admins.AddRange(telegramId);
+            adminIds.AddRange(telegramId);
             return this;
         }
 
@@ -235,7 +239,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddAdmins(List<long> telegramIds)
         {
-            admins.AddRange(telegramIds.ToArray());
+            adminIds.AddRange(telegramIds.ToArray());
             return this;
         }
 
@@ -246,7 +250,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddUserWhiteList(params long[] telegramId)
         {
-            whiteList.AddRange(telegramId);
+            whiteListIds.AddRange(telegramId);
             return this;
         }
 
@@ -257,7 +261,7 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder AddUsersWhiteList(List<long> telegramIds)
         {
-            whiteList.AddRange(telegramIds.ToArray());
+            whiteListIds.AddRange(telegramIds.ToArray());
             return this;
         }
 
@@ -473,7 +477,35 @@ namespace PRTelegramBot.Core
         /// <returns>Builder.</returns>
         public PRBotBuilder SetInlineSerializer(IPRSerializer serializator)
         {
-            PRSettingsProvider.Instance.SetSerializator(serializator);
+            options.PRSerializer = serializator;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить конвертер для inline меню.
+        /// </summary>
+        /// <param name="inlineMenuConverter">Конвертер.</param>
+        /// <remarks>Конвертер можно так же добавить через DI.
+        /// Важное уточнение приоритет установки конвертера идет следующим образом:
+        /// 1. SetInlineMenuConverter
+        /// 2. DI
+        /// 3. defualt</remarks>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetInlineMenuConverter(IInlineMenuConverter inlineMenuConverter)
+        {
+            options.InlineConverter = inlineMenuConverter;
+            return this;
+        }
+
+        /// <summary>
+        /// Установить действие при инициализации бота.
+        /// </summary>
+        /// <param name="action">Действие которое должно быть выполнено при инициализации бота.</param>
+        /// <remarks>Инициализация бота происходит во время его старта.</remarks>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetInitializeAction(Action action)
+        {
+            options.InitializeAction = action;
             return this;
         }
 

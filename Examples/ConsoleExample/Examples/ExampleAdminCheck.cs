@@ -2,6 +2,7 @@
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
+using PRTelegramBot.Services.Messages;
 
 namespace ConsoleExample.Examples
 {
@@ -17,7 +18,7 @@ namespace ConsoleExample.Examples
         {
             bool isAdminUpdate = await context.IsAdmin();
             bool isAdminById = await context.IsAdmin(context.Update.GetChatId()) ;
-            await PRTelegramBot.Helpers.Message.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+            await MessageSender.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
         }
 
 
@@ -32,7 +33,7 @@ namespace ConsoleExample.Examples
         {
             bool isAdminUpdate = await context.IsAdmin();
             bool isAdminById = await context.IsAdmin(context.Update.GetChatId());
-            await PRTelegramBot.Helpers.Message.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+            await MessageSender.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
         }
     }
 }

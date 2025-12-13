@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using PRTelegramBot.Builders;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factories;
 using PRTelegramBot.Core.Factory;
@@ -52,7 +53,7 @@ namespace PRTelegramBot.Tests.CoreTests
         public void BuilderShouldCreateInstanceWithNextBotId(int exceptedBotId)
         {
             var builder = new PRBotBuilder(TOKEN)
-                            .SetBotId(BotCollection.GetNextId());
+                            .SetBotId(BotCollection.Instance.GetNextId());
             var bot = builder.Build();
 
             Assert.AreEqual(exceptedBotId, bot.Options.BotId);
@@ -66,8 +67,8 @@ namespace PRTelegramBot.Tests.CoreTests
         {
             var builder = new PRBotBuilder(TOKEN).AddAdmin(telegramId);
             var bot = builder.Build();
-
-            var userIds = await bot.Options.AdminManager.GetUsersIds();
+            await bot.Initialize();
+            var userIds = await bot.GetAdminManager().GetUsersIds();
             userIds.Should().BeEquivalentTo(new[] { telegramId });
         }
 
@@ -79,7 +80,8 @@ namespace PRTelegramBot.Tests.CoreTests
         {
             var builder = new PRBotBuilder(TOKEN).AddAdmins(new List<long>() { telegramId });
             var bot = builder.Build();
-            var userIds = await bot.Options.AdminManager.GetUsersIds();
+            await bot.Initialize();
+            var userIds = await bot.GetAdminManager().GetUsersIds();
             userIds.Should().BeEquivalentTo(new[] { telegramId });
         }
 
@@ -91,7 +93,8 @@ namespace PRTelegramBot.Tests.CoreTests
         {
             var builder = new PRBotBuilder(TOKEN).AddUserWhiteList(telegramId);
             var bot = builder.Build();
-            var userIds = await bot.Options.WhiteListManager.GetUsersIds();
+            await bot.Initialize();
+            var userIds = await bot.GetWhiteListManager().GetUsersIds();
             userIds.Should().BeEquivalentTo(new[] { telegramId });
         }
 
@@ -103,7 +106,8 @@ namespace PRTelegramBot.Tests.CoreTests
         {
             var builder = new PRBotBuilder(TOKEN).AddUsersWhiteList(new List<long>() { telegramId });
             var bot = builder.Build();
-            var userIds = await bot.Options.WhiteListManager.GetUsersIds();
+            await bot.Initialize();
+            var userIds = await bot.GetWhiteListManager().GetUsersIds();
             userIds.Should().BeEquivalentTo(new[] { telegramId });
         }
 

@@ -1,19 +1,10 @@
-﻿using PRTelegramBot.Interfaces;
-using PRTelegramBot.Providers;
-using PRTelegramBot.Wrappers;
+﻿using PRTelegramBot.Providers;
 
 /// <summary>
 /// Провайдер глобальных настроек.  
 /// </summary>
 public class PRSettingsProvider : IPRSettings
 {
-    #region IPRSettings
-
-    /// <inheritdoc />
-    public IPRSerializer Serializator { get; set; } = new JsonSerializerWrapper();
-
-    #endregion
-
     #region Поля и свойства
 
     /// <summary>
@@ -37,12 +28,6 @@ public class PRSettingsProvider : IPRSettings
     public static void SetSettings(IPRSettings settings)
     {
         instance = new Lazy<IPRSettings>(() => settings);
-    }
-
-    /// <inheritdoc />
-    public void SetSerializator(IPRSerializer serializator)
-    {
-        Serializator = serializator;
     }
 
     #endregion

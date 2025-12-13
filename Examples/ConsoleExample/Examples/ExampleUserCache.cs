@@ -2,7 +2,7 @@
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
-using Helpers = PRTelegramBot.Helpers;
+using PRTelegramBot.Services.Messages;
 
 namespace ConsoleExample.Examples
 {
@@ -21,7 +21,7 @@ namespace ConsoleExample.Examples
             string msg = $"Запись в кэш пользователя данных: {context.GetChatId()}";
             //Записываем данные в кеш пользователя
             context.GetCacheData<UserCache>().Id = context.GetChatId();
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace ConsoleExample.Examples
             {
                 msg = $"Данные в кэше пользователя отсутствуют.";
             }
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace ConsoleExample.Examples
             string msg = "Очистка данных";
             //Очищаем кеш для пользователя
             context.GetCacheData<UserCache>().ClearData();
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
     }
 }

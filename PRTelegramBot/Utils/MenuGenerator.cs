@@ -1,9 +1,7 @@
-﻿using PRTelegramBot.InlineButtons;
-using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils
@@ -187,11 +185,11 @@ namespace PRTelegramBot.Utils
                 if (currentElement == 0)
                 {
                     buttons.Add(new List<InlineKeyboardButton>());
-                    buttons[row].Add(GetInlineButton(item));
+                    buttons[row].Add(InlineUtils.GetInlineButton(item));
                 }
                 else
                 {
-                    buttons[row].Add(GetInlineButton(item));
+                    buttons[row].Add(InlineUtils.GetInlineButton(item));
                 }
 
                 currentElement++;
@@ -204,44 +202,6 @@ namespace PRTelegramBot.Utils
             }
 
             return buttons;
-        }
-
-        /// <summary>
-        /// Создает inline кнопку.
-        /// </summary>
-        /// <param name="inlineData">Данные inline кнопки.</param>
-        /// <returns>Inline кнопка.</returns>
-        public static InlineKeyboardButton GetInlineButton(IInlineContent inlineData)
-        {
-            return inlineData switch
-            {
-                InlineCallback inlineCallback => InlineKeyboardButton.WithCallbackData(inlineCallback.GetTextButton(), inlineCallback.GetContent() as string),
-                InlinePay inlinePay => InlineKeyboardButton.WithPay(inlinePay.GetTextButton()),
-                InlineURL inlineUrl => InlineKeyboardButton.WithUrl(inlineUrl.GetTextButton(), inlineUrl.GetContent() as string),
-                InlineWebApp inlineWebApp => InlineKeyboardButton.WithWebApp(inlineWebApp.GetTextButton(), inlineWebApp.GetContent() as WebAppInfo),
-                InlineLoginUrl inlineLogin => InlineKeyboardButton.WithLoginUrl(inlineLogin.GetTextButton(), inlineLogin.GetContent() as LoginUrl),
-                InlineCallbackGame inlineCallbackGame => InlineKeyboardButton.WithCallbackGame(inlineCallbackGame.GetTextButton()),
-                InlineSwitchInlineQuery inlineSwitchInlineQuery => InlineKeyboardButton.WithSwitchInlineQuery(inlineSwitchInlineQuery.GetTextButton(), inlineSwitchInlineQuery.GetContent() as string),
-                InlineSwitchInlineQueryCurrentChat inlineSwitchInlineQueryCurrentChat => InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(inlineSwitchInlineQueryCurrentChat.GetTextButton(), inlineSwitchInlineQueryCurrentChat.GetContent() as string),
-                InlineSwitchInlineQueryChosenChat inlineSwitchInlineQueryChosenChat => InlineKeyboardButton.WithSwitchInlineQueryChosenChat(inlineSwitchInlineQueryChosenChat.GetTextButton(), inlineSwitchInlineQueryChosenChat.GetContent() as SwitchInlineQueryChosenChat),
-                
-                _ => throw new NotImplementedException($"{inlineData.GetType()} is not implemented yet.")
-            };
-        }
-
-        /// <summary>
-        /// Создает одно inline меню из нескольких.
-        /// </summary>
-        /// <param name="keyboards">Массив меню.</param>
-        /// <returns> Inline меню для бота.</returns>
-        public static InlineKeyboardMarkup UnitInlineKeyboard(params InlineKeyboardMarkup[] keyboards)
-        {
-            List<IEnumerable<InlineKeyboardButton>> buttons = new();
-            foreach (var keyboard in keyboards)
-                buttons.AddRange(keyboard.InlineKeyboard);
-
-            InlineKeyboardMarkup Keyboard = new(buttons);
-            return Keyboard;
         }
 
         /// <summary>
@@ -264,7 +224,7 @@ namespace PRTelegramBot.Utils
             string currentPageMarker = "")
         {
             var pageMenu = GetPageMenu(enumToInt, currentPage, pageCount, nextPageMarker, previousPageMarker, currentPageMarker);
-            return UnitInlineKeyboard(addMenu, pageMenu);
+            return InlineUtils.UnitInlineKeyboard(addMenu, pageMenu);
         }
 
         /// <summary>
@@ -287,7 +247,7 @@ namespace PRTelegramBot.Utils
             IInlineContent button = null)
         {
             var pageMenu = GetPageMenu(currentPage, pageCount, enumToInt, nextPageMarker, previousPageMarker, button);
-            return UnitInlineKeyboard(addMenu, pageMenu);
+            return InlineUtils.UnitInlineKeyboard(addMenu, pageMenu);
         }
 
         /// <summary>

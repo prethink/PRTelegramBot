@@ -2,7 +2,8 @@
 using ConsoleExample.Middlewares;
 using ConsoleExample.Models.CommandHeaders;
 using ConsoleExample.Services;
-using PRTelegramBot.Core;
+using PRTelegramBot.Builders;
+using PRTelegramBot.Converters.Inline;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Wrappers;
 
@@ -25,8 +26,11 @@ var telegram = new PRBotBuilder("token")
                     .AddCommandChecker(Initializer.GetCommandChekers())
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(InlineDefaultClassHandler))
+                    //Обход ограничения telegram на 64 байта для callback_data.
+                    .SetInlineMenuConverter(new FileInlineConverter())
                     // ToonSerializerWrapper использует меньше байт при сериализации данных по сравнению с JsonSerializer.
-                    //.SetInlineSerializer(new ToonSerializerWrapper())
+                    .SetInlineSerializer(new ToonSerializerWrapper())
+                    .SetInitializeAction(() => { Console.WriteLine("Hello world init"); })
                     .Build();
 
 // Инициализация событий для бота.

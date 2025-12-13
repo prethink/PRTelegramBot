@@ -5,9 +5,8 @@ using PRTelegramBot.Configs;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
-using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
-using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples.Commands
 {
@@ -26,7 +25,7 @@ namespace ConsoleExample.Examples.Commands
             string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
             //Регистрация обработчика для последовательной обработки шагов и сохранение данных
             context.Update.RegisterStepHandler(new StepTelegram(StepOne, new StepCache()));
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace ConsoleExample.Examples.Commands
             handler!.GetCache<StepCache>().Name = context.Update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             handler.RegisterNextStep(StepTwo);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace ConsoleExample.Examples.Commands
             //Добавление пустого reply меню с кнопкой "Главное меню"
             //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
             option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "RP_MAIN_MENU"));
-            await Helpers.Message.Send(context, msg, option);
+            await MessageSender.Send(context, msg, option);
         }
 
 
@@ -81,7 +80,7 @@ namespace ConsoleExample.Examples.Commands
                          $"\nПоследовательность шагов очищена.";
             //Последний шаг
             handler.LastStepExecuted = true;
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace ConsoleExample.Examples.Commands
                 ? "Следующий шаг проигнорирован"
                 : "Следующий шаг отсутствовал";
 
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
 
@@ -109,7 +108,7 @@ namespace ConsoleExample.Examples.Commands
                 if (command != null)
                 {
                     string msg = "Регистрация следующего шага, напишите что-нибудь";
-                    await Helpers.Message.Send(context, msg);
+                    await MessageSender.Send(context, msg);
                     context.Update.RegisterStepHandler(new StepTelegram(InlineStep, new StepCache()));
                 }
             }
@@ -128,7 +127,7 @@ namespace ConsoleExample.Examples.Commands
             handler!.GetCache<StepCache>().Name = context.Update.Message.Text;
             //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
             context.Update.ClearStepUserHandler();
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
             await ExampleCalendar.PickCalendar(context);
         }
     }

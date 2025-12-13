@@ -17,7 +17,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <summary>
         /// Коллекция типов сообщений и событий для вызова.
         /// </summary>
-        public Dictionary<MessageType, Action<BotEventArgs>> TypeMessage { get; private set; }
+        public Dictionary<MessageType, Func<BotEventArgs, Task>> TypeMessage { get; private set; }
 
         /// <summary>
         /// Обработчик пошаговых команд.
@@ -40,7 +40,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <returns>Результат выполнения.</returns>
         public async Task<UpdateResult> Dispatch(IBotContext context)
         {
-            var eventResult = EventHandler(context);
+            var eventResult = await EventHandler(context);
             if (eventResult == UpdateResult.Handled)
                 return eventResult;
  
@@ -89,13 +89,13 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// </summary>
         /// <param name="update">Обновление.</param>
         /// <returns>Результат выполнения.</returns>
-        private UpdateResult EventHandler(IBotContext context)
+        private async Task<UpdateResult> EventHandler(IBotContext context)
         {
             foreach (var item in TypeMessage)
             {
                 if ((int)item.Key == (int)context.Update!.Message!.Type)
                 {
-                    item.Value.Invoke(context.CreateBotEventArgs());
+                    await item.Value.Invoke(context.CreateBotEventArgs());
                     return UpdateResult.Handled;
                 }
             }
@@ -161,6 +161,19 @@ namespace PRTelegramBot.Core.UpdateHandlers
             TypeMessage.Add(MessageType.Story, bot.Events.MessageEvents.OnStoryHandleInvoke);
             TypeMessage.Add(MessageType.GiveawayCreated, bot.Events.MessageEvents.OnGiveawayCreatedHandleInvoke);
             TypeMessage.Add(MessageType.PassportData, bot.Events.MessageEvents.OnPassportDataHandleInvoke);
+            TypeMessage.Add(MessageType.PaidMedia, bot.Events.MessageEvents.OnPaidMediaHandleInvoke);
+            TypeMessage.Add(MessageType.RefundedPayment, bot.Events.MessageEvents.OnRefundedPaymentHandleInvoke);
+            TypeMessage.Add(MessageType.Gift, bot.Events.MessageEvents.OnGiftHandleInvoke);
+            TypeMessage.Add(MessageType.UniqueGift, bot.Events.MessageEvents.OnUniqueGiftHandleInvoke);
+            TypeMessage.Add(MessageType.Checklist, bot.Events.MessageEvents.OnChecklistHandleInvoke);
+            TypeMessage.Add(MessageType.ChecklistTasksDone, bot.Events.MessageEvents.OnChecklistTasksDoneHandleInvoke);
+            TypeMessage.Add(MessageType.ChecklistTasksAdded, bot.Events.MessageEvents.OnChecklistTasksAddedHandleInvoke);
+            TypeMessage.Add(MessageType.DirectMessagePriceChanged, bot.Events.MessageEvents.OnDirectMessagePriceChangedHandleInvoke);
+            TypeMessage.Add(MessageType.SuggestedPostApproved, bot.Events.MessageEvents.OnSuggestedPostApprovedHandleInvoke);
+            TypeMessage.Add(MessageType.SuggestedPostApprovalFailed, bot.Events.MessageEvents.OnSuggestedPostApprovalFailedHandleInvoke);
+            TypeMessage.Add(MessageType.SuggestedPostDeclined, bot.Events.MessageEvents.OnSuggestedPostDeclinedHandleInvoke);
+            TypeMessage.Add(MessageType.SuggestedPostPaid, bot.Events.MessageEvents.OnSuggestedPostPaidHandleInvoke);
+            TypeMessage.Add(MessageType.SuggestedPostRefunded, bot.Events.MessageEvents.OnSuggestedPostRefundedHandleInvoke);
         }
 
         #endregion
