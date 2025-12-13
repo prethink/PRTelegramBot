@@ -1,12 +1,16 @@
-﻿using AspNetExample.Services;
+﻿using AspNetExample.Models;
+using AspNetExample.Services;
 using PRTelegramBot.Attributes;
+using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
+using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
+using Telegram.Bot;
 using TestDI.Models;
 
 namespace AspNetExample.BotController
@@ -46,11 +50,9 @@ namespace AspNetExample.BotController
         public async Task InlineTest(IBotContext context)
         {
             var options = new OptionMessage();
-            var menuItemns = MenuGenerator.InlineButtons(1, new List<IInlineContent> {
-                new InlineCallback("Test", PRTelegramBotCommand.CurrentPage),
-                new InlineCallback("TestStatic", PRTelegramBotCommand.NextPage)
-            });
-            options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
+            var exampleItemThree = new InlineCallback<EntityTCommand<string>>("Пример с большим текстом", CustomTHeaderTwo.ExampleThree, new EntityTCommand<string>("И нет сомнений, что диаграммы связей будут объявлены нарушающими общечеловеческие нормы этики и морали. Имеется спорная точка зрения, гласящая примерно следующее: ключевые особенности структуры проекта, инициированные исключительно синтетически, своевременно верифицированы. Значимость этих проблем настолько очевидна, что высокотехнологичная концепция общественного уклада обеспечивает широкому кругу (специалистов) участие в формировании переосмысления внешнеэкономических политик. Таким образом, высокотехнологичная концепция общественного уклада играет важную роль в формировании экспериментов, поражающих по своей масштабности и грандиозности. Картельные сговоры не допускают ситуации, при которой тщательные исследования конкурентов, превозмогая сложившуюся непростую экономическую ситуацию, заблокированы в рамках своих собственных рациональных ограничений. Каждый из нас понимает очевидную вещь: реализация намеченных плановых заданий выявляет срочную потребность как самодостаточных, так и внешне зависимых концептуальных решений. Равным образом, убеждённость некоторых оппонентов однозначно определяет каждого участника как способного принимать собственные решения касаемо первоочередных требований. Повседневная практика показывает, что реализация намеченных плановых заданий обеспечивает актуальность распределения внутренних резервов и ресурсов. В своём стремлении повысить качество жизни, они забывают, что базовый вектор развития обеспечивает актуальность поставленных обществом задач."));
+            var menu = new InlineKeyboardBuilder().AddButton(exampleItemThree).Build();
+            options.MenuInlineKeyboardMarkup = menu;
             await MessageSender.Send(context, nameof(InlineTest), options);
         }
 
@@ -76,6 +78,40 @@ namespace AspNetExample.BotController
         public async static Task InlineHandlerStatic(IBotContext context)
         {
             await MessageSender.Send(context, nameof(InlineHandlerStatic));
+        }
+
+        /// <summary>
+        /// callback обработка
+        /// Данный метод может обработать несколько точек входа
+        /// </summary>
+        [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleThree)]
+        public static async Task InlineThree(IBotContext context)
+        {
+            try
+            {
+                //Попытка преобразовать callback данные к требуемому типу
+                var command = context.GetCommandByCallbackOrNull<EntityTCommand<string>>();
+                if (command != null)
+                {
+                    string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
+                    if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
+                    {
+                        await MessageEditor.Edit(context, msg);
+                    }
+                    else
+                    {
+                        if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
+                        {
+                            await context.BotClient.DeleteMessage(context.Update.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
+                        }
+                        await MessageSender.Send(context, msg);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Обработка исключения
+            }
         }
 
         /// <summary>

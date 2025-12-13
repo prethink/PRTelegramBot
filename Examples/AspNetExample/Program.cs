@@ -3,7 +3,9 @@ using AspNetExample.BotController;
 using AspNetExample.Services;
 using Microsoft.EntityFrameworkCore;
 using PRTelegramBot.Builders;
+using PRTelegramBot.Converters.Inline;
 using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.EventsArgs;
 using TestDI.Models;
 
@@ -28,6 +30,7 @@ builder.Services.AddTransient<BotInlineHandlerWithDependency>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("MyInMemoryDb"));
 builder.Services.AddBotHandlers();
+builder.Services.AddSingleton<IInlineMenuConverter>(new FileInlineConverter());
 
 async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)
 {
