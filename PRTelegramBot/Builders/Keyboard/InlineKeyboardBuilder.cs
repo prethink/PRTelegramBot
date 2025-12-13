@@ -5,7 +5,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Builders.Keyboard
 {
     /// <summary>
-    /// 
+    /// Билдер для удобного построения InlineKeyboardMarkup.
+    /// Позволяет задавать параметры клавиатуры и динамически добавлять кнопки и строки.
     /// </summary>
     public class InlineKeyboardBuilder : KeyboardBuilderBase<IInlineContent, InlineKeyboardMarkup, InlineKeyboardBuilder>
     {

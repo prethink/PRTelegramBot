@@ -33,7 +33,7 @@
 Теперь можно легко получить их в любом месте кода, если этот код был вызван обновлением telegram:   
 `var currentContext = CurrentScope.Context;    
 var currentBot = CurrentScope.Bot;    
-var serviceScope = CurrentScope.Services (IServiceProvider);`    
+var services = CurrentScope.Services (IServiceProvider);`    
 
 ### 📡 События
 - Добавлены события для `updateType`:  
