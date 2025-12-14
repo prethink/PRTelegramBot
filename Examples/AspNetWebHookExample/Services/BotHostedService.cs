@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Core;
+using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
@@ -25,16 +26,19 @@ namespace AspNetWebHook.Services
             var bots = BotCollection.Instance.GetBots();
             foreach (var bot in bots)
             {
-                bot.Options.ServiceProvider = serviceProvider;
-                bot.ReloadHandlers();
-                await bot.StartAsync();
-
-                if (bot.DataRetrieval == DataRetrievalMethod.WebHook)
+                using (var scope = new BotDataScope(bot))
                 {
-                    var webHookResult = await((PRBotWebHook)bot)
-                        .GetWebHookInfoAsync(bot.Options.CancellationTokenSource.Token);
-                    if (!string.IsNullOrEmpty(webHookResult.LastErrorMessage))
-                        bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(new BotContext(bot), new Exception(webHookResult.LastErrorMessage)));
+                    bot.Options.ServiceProvider = serviceProvider;
+                    bot.ReloadHandlers();
+                    await bot.StartAsync();
+
+                    if (bot.DataRetrieval == DataRetrievalMethod.WebHook)
+                    {
+                        var webHookResult = await ((PRBotWebHook)bot)
+                            .GetWebHookInfoAsync(bot.Options.CancellationTokenSource.Token);
+                        if (!string.IsNullOrEmpty(webHookResult.LastErrorMessage))
+                            bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(new BotContext(bot), new Exception(webHookResult.LastErrorMessage)));
+                    }
                 }
             }
         }
