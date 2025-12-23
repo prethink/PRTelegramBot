@@ -43,7 +43,7 @@ builder.Services.AddTransient<IPRBackgroundTask, ExampleWithoutMetadataBackgroun
 //Middleware через DI
 
 builder.Services.AddScoped<MiddlewareBase, DIMiddleware>();
-builder.Services.AddScoped<MiddlewareBase, UserMiddleware>();
+builder.Services.AddTransient<MiddlewareBase, UserMiddleware>();
 
 async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)
 {

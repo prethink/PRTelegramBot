@@ -2,14 +2,26 @@
 
 namespace PRTelegramBot.BackgroundTasks.Models
 {
+    /// <summary>
+    /// Данные запущенной задачи.
+    /// </summary>
     public sealed class RunningBackgroundTask : IRunningBackgroundTaskData
     {
         #region Поля и свойства
 
+        /// <summary>
+        /// Ошибки.
+        /// </summary>
         private List<Exception> errors = new();
 
+        /// <summary>
+        /// Количество выполнений задачи.
+        /// </summary>
         private int executeCount = 0;
 
+        /// <summary>
+        /// Ссылка на метод запуска задач.
+        /// </summary>
         private Func<IPRBackgroundTaskMetadata, IRunningBackgroundTaskData, CancellationToken, Task> startAsync;
 
         #endregion

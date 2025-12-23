@@ -1,6 +1,4 @@
-﻿using PRTelegramBot.BackgroundTasks;
-
-namespace PRTelegramBot.BackgroundTasks.Interfaces
+﻿namespace PRTelegramBot.BackgroundTasks.Interfaces
 {
     /// <summary>
     /// Интерфейс исполнителя фоновых задач.
