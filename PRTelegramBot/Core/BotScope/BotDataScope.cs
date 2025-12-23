@@ -29,11 +29,8 @@ namespace PRTelegramBot.Core.BotScope
         /// <param name="prBot">Экземпляр бота.</param>
         public BotDataScope(IBotContext context, PRBotBase prBot)
         {
-            if (CurrentScope.contextStack.Value == null)
-                CurrentScope.contextStack.Value = new Stack<IBotContext>();
-
-            if (CurrentScope.botStack.Value == null)
-                CurrentScope.botStack.Value = new Stack<PRBotBase>();
+            CurrentScope.contextStack.Value ??= new Stack<IBotContext>();
+            CurrentScope.botStack.Value ??= new Stack<PRBotBase>();
 
             CurrentScope.contextStack.Value.Push(context);
             CurrentScope.botStack.Value.Push(prBot);

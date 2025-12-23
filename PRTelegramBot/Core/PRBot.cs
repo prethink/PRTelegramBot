@@ -36,6 +36,7 @@ namespace PRTelegramBot.Core
                     BotName = client?.Username;
                     Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
                     IsWork = true;
+                    await base.OnPostStart();
                 }
                 catch (Exception ex)
                 {

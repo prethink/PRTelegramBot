@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/version-v0.9-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.7.6-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+![Static Badge](https://img.shields.io/badge/version-v0.9.1-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.7.6-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
 > Если проект был вам полезен, вы можете поддержать его развитие на Boosty:  
@@ -45,6 +45,7 @@ TelegramBot v22.7.6 https://github.com/TelegramBots/Telegram.Bot
  - **Ограничение доступа к методам.** Возможность ограничения доступа к определенным методам.    
  - **Работа с dependency injection.** Поддержка внедрения зависимостей.    
  - **Парсинг из конфигурационных файлов.** Парсинг сообщений, команд и кнопок из конфигурационных файлов.    
+ - **Фоновые задачи.**   
  - **Функционал предоставляемый telegram.bot.**    
 
 # 🧱 Интегрированные пакеты

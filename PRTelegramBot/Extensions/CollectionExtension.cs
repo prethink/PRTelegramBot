@@ -30,6 +30,28 @@
         }
 
         /// <summary>
+        /// Добавляет элементы в <see cref="HashSet{T}"/>.
+        /// Возвращает количество реально добавленных элементов.
+        /// </summary>
+        public static int AddRange<T>(this HashSet<T> set, IEnumerable<T> items)
+        {
+            if (set == null)
+                throw new ArgumentNullException(nameof(set));
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            var added = 0;
+
+            foreach (var item in items)
+            {
+                if (set.Add(item))
+                    added++;
+            }
+
+            return added;
+        }
+
+        /// <summary>
         /// Возвращает столбец (column) по указанному индексу.
         /// </summary>
         /// <typeparam name="T">Тип элементов коллекции.</typeparam>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PRTelegramBot.BackgroundTasks;
+using PRTelegramBot.BackgroundTasks.Interfaces;
 using PRTelegramBot.Configs;
 using PRTelegramBot.Converters.Inline;
 using PRTelegramBot.Core.BotScope;
@@ -8,6 +10,7 @@ using PRTelegramBot.Core.Events;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Interfaces.Managers;
 using PRTelegramBot.Managers;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Registrars;
@@ -94,9 +97,15 @@ namespace PRTelegramBot.Core
         protected readonly IWhiteListManager localWhiteListManager = new WhiteListManager();
 
         /// <summary>
+        /// Обработчик фоновых задач.
+        /// </summary>
+        public IPRBackgroundTaskRunner BackgroundTaskRunner { get; protected set; }
+
+        /// <summary>
         /// Проинициализирован ли бот.
         /// </summary>
         private bool isInitialized;
+
 
         #endregion
 
@@ -120,6 +129,30 @@ namespace PRTelegramBot.Core
                 return false;
             }
         }
+
+        /// <summary>
+        /// Создать Scope для serviceProvider.
+        /// </summary>
+        /// <returns>Disposable объект, который хранит в себе serviceProvider.</returns>
+        public DisposableScope CreateServiceScope()
+        {
+           var scope = Options?.ServiceProvider?.GetRequiredService<IServiceScopeFactory>().CreateScope();
+           return new DisposableScope(scope);
+        }
+
+        /// <summary>
+        /// Получить serviceProvider.
+        /// </summary>
+        /// <returns>IServiceProvider или null.</returns>
+        public IServiceProvider? GetServiceProvider()
+        {
+            return Options?.ServiceProvider;
+        }
+
+        /// <summary>
+        /// Признак, того что есть сервис провайдер в боте.
+        /// </summary>
+        public bool HasServiceProvider => Options?.ServiceProvider != null;
 
         /// <summary>
         /// Инициализация обработчиков.
@@ -208,6 +241,7 @@ namespace PRTelegramBot.Core
                 Events.OnCommonLogInvoke($"\nДля генерации Inline-меню используется конвертер по умолчанию, который ограничен длиной callback_data до 64 байт (ограничение Telegram). \nЧтобы обойти это ограничение при создании бота через билдер, используйте:\n.SetInlineMenuConverter(new FileInlineConverter())\nПодробнее про работу конвертеров смотрите в справке {PRConstants.DOCUMENTATION_URL}", "Warning", ConsoleColor.Green);
 
             Options?.InitializeAction?.Invoke();
+            BackgroundTaskRunner.Initialize(Options.BackgroundTaskMetadata, Options.BackgroundTasks);
             isInitialized = true;
         }
 
@@ -237,6 +271,15 @@ namespace PRTelegramBot.Core
         public virtual async Task StartAsync(CancellationToken cancellationToken = default)
         {
             await Initialize();
+        }
+
+        /// <summary>
+        /// Метод выполняемый после запуска бота.
+        /// </summary>
+        protected virtual Task OnPostStart()
+        {
+            _ = BackgroundTaskRunner.StartAsync();
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -286,10 +329,10 @@ namespace PRTelegramBot.Core
         /// <summary>
         /// Остановка бота.
         /// </summary>
-        public virtual Task StopAsync(CancellationToken cancellationToken = default)
+        public virtual async Task StopAsync(CancellationToken cancellationToken = default)
         {
             isInitialized = false;
-            return Task.CompletedTask;
+            await BackgroundTaskRunner.StopAsync();
         }
 
         #endregion
@@ -335,6 +378,8 @@ namespace PRTelegramBot.Core
 
             if(addBotToCollection)
                 BotCollection.Instance.AddBot(this);
+
+            BackgroundTaskRunner = new PRBackgroundTaskRunner(this);
 
             BotClient = Options.Client ?? new TelegramBotClient(Options.Token);
             Events = new TEvents(this);

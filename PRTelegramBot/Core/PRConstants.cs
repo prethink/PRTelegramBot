@@ -19,5 +19,15 @@
         /// Максимальный размер текста отправляемого сообщения.
         /// </summary>
         public const int MAX_MESSAGE_LENGTH = 4000;
+
+        /// <summary>
+        /// Идентификатор, который указывается для использования для всех ботов.
+        /// </summary>
+        public const long ALL_BOTS_ID = -1;
+
+        /// <summary>
+        /// Значение означающее бесконечность.
+        /// </summary>
+        public const int INFINITY = -1;
     }
 }

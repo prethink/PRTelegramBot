@@ -144,7 +144,7 @@ namespace PRTelegramBot.Utils
                  .SelectMany(t => t.GetMethods(flags))
                  .Where(m => m.GetCustomAttributes()
                      .OfType<IBaseQueryAttribute>()
-                     .Any(attr => (attr.BotIds.Contains(botId)  || attr.BotIds.Any(x => x == -1)) && (attr.GetType().IsGenericType 
+                     .Any(attr => (attr.BotIds.Contains(botId)  || attr.BotIds.Any(x => x == PRConstants.ALL_BOTS_ID)) && (attr.GetType().IsGenericType 
                      ? attr.GetType().GetGenericTypeDefinition() == type 
                      : attr.GetType() == type))
                      )

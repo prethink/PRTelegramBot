@@ -5,7 +5,7 @@ namespace PRTelegramBot.Core.Middlewares
     /// <summary>
     /// Базовый промежуточный обработчик.
     /// </summary>
-    public class MiddlewareBase
+    public abstract class MiddlewareBase
     {
         #region Поля и свойства
 
@@ -18,6 +18,12 @@ namespace PRTelegramBot.Core.Middlewares
         /// Следующий обработчик.
         /// </summary>
         protected MiddlewareBase previousMiddleware;
+
+        /// <summary>
+        /// Порядок выполнения middleware в pipeline.
+        /// Меньшее значение означает более высокий приоритет и раннее выполнение.
+        /// </summary>
+        public abstract int ExecutionOrder { get; }
 
         #endregion
 

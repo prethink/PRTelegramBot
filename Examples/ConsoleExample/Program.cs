@@ -1,4 +1,5 @@
-﻿using ConsoleExample.Examples.InlineClassHandlers;
+﻿using ConsoleExample.BackgroundTask;
+using ConsoleExample.Examples.InlineClassHandlers;
 using ConsoleExample.Middlewares;
 using ConsoleExample.Models.CommandHeaders;
 using ConsoleExample.Services;
@@ -30,7 +31,9 @@ var telegram = new PRBotBuilder("token")
                     .SetInlineMenuConverter(new FileInlineConverter())
                     // ToonSerializerWrapper использует меньше байт при сериализации данных по сравнению с JsonSerializer.
                     .SetInlineSerializer(new ToonSerializerWrapper())
-                    .SetInitializeAction(() => { Console.WriteLine("Hello world init"); })
+                    .SetInitializeAction(() => { Console.WriteLine("Custom initialize complete."); })
+                    .AddBackgroundTask(new HelloWorldBackgroundTask())
+                    .AddBackgroundTask(new AttributeBackgroundTask())
                     .Build();
 
 // Инициализация событий для бота.

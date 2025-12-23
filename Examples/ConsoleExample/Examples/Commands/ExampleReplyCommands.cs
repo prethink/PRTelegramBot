@@ -3,6 +3,7 @@ using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Configs;
+using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
@@ -226,7 +227,7 @@ namespace ConsoleExample.Examples.Commands
         /// Команда отработает для любого бота с любым botid.
         /// Команда отработает при написание в чат "Команда для всех ботов".
         /// </summary>
-        [ReplyMenuHandler(-1, "Команда для всех ботов")]
+        [ReplyMenuHandler(PRConstants.ALL_BOTS_ID, "Команда для всех ботов")]
         public static async Task ReplyExampleAllBots(IBotContext context)
         {
             string msg = nameof(ReplyExampleAllBots);

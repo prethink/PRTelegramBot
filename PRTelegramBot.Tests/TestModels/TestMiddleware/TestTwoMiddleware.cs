@@ -9,6 +9,8 @@ namespace PRTelegramBot.Tests.TestModels.TestMiddleware
         public const string PrevMessage = "TwoPrev";
         private List<string> log;
 
+        public override int ExecutionOrder => 25;
+
         public override async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
             log.Add(NextMessage);

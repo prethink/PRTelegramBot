@@ -1,9 +1,13 @@
 using AspNetExample;
+using AspNetExample.BackgroundTasks;
 using AspNetExample.BotController;
+using AspNetExample.MiddleWares;
 using AspNetExample.Services;
 using Microsoft.EntityFrameworkCore;
+using PRTelegramBot.BackgroundTasks.Interfaces;
 using PRTelegramBot.Builders;
 using PRTelegramBot.Converters.Inline;
+using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.EventsArgs;
@@ -31,6 +35,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("MyInMemoryDb"));
 builder.Services.AddBotHandlers();
 builder.Services.AddSingleton<IInlineMenuConverter>(new FileInlineConverter());
+// Фоновые задачи через DI.
+builder.Services.AddTransient<IPRBackgroundTask, ExampleDIAttributeBackgroundTasks>();
+builder.Services.AddTransient<IPRBackgroundTask, ExampleWithMetadataBackgroundTasks>();
+builder.Services.AddTransient<IPRBackgroundTask, ExampleWithoutMetadataBackgroundTasks>();
+
+//Middleware через DI
+
+builder.Services.AddScoped<MiddlewareBase, DIMiddleware>();
+builder.Services.AddScoped<MiddlewareBase, UserMiddleware>();
 
 async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)
 {
@@ -71,6 +84,7 @@ var prBotInstance = new PRBotBuilder("token")
     .SetClearUpdatesOnStart(true)
     .SetServiceProvider(serviceProvaider)
     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(BotInlineHandlerWithDependency))
+    .AddBackgroundTaskMetadata(new ExampleBackgroundTasksMetadata())
     .Build();
 
 prBotInstance.Events.OnCommonLog += PrBotInstance_OnLogCommon;

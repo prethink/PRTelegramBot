@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using static PRTelegramBot.Tests.CoreTests.FindMethodsTests;
@@ -21,10 +22,10 @@ namespace PRTelegramBot.Tests.Common
         [ReplyMenuDynamicHandler(2, nameof(KEY_DYNAMIC_REPLY_FOUR))]
         public static async Task TestCommonMethodTwo(IBotContext context) { }
 
-        [SlashHandler(-1, nameof(TestCommonMethodForAllBot))]
-        [ReplyMenuHandler(-1, nameof(TestCommonMethodForAllBot))]
-        [InlineCallbackHandler<TestTHeader>(-1, TestTHeader.Eight)]
-        [ReplyMenuDynamicHandler(-1, nameof(KEY_DYNAMIC_REPLY_FIVE))]
+        [SlashHandler(PRConstants.ALL_BOTS_ID, nameof(TestCommonMethodForAllBot))]
+        [ReplyMenuHandler(PRConstants.ALL_BOTS_ID, nameof(TestCommonMethodForAllBot))]
+        [InlineCallbackHandler<TestTHeader>(PRConstants.ALL_BOTS_ID, TestTHeader.Eight)]
+        [ReplyMenuDynamicHandler(PRConstants.ALL_BOTS_ID, nameof(KEY_DYNAMIC_REPLY_FIVE))]
         public static async Task TestCommonMethodForAllBot(IBotContext context) { }
 
 

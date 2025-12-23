@@ -41,6 +41,8 @@ namespace PRTelegramBot.Core
                         dropPendingUpdates: Options.WebHookOptions.DropPendingUpdates,
                         secretToken: Options.WebHookOptions.SecretToken,
                         cancellationToken: Options.CancellationTokenSource.Token);
+
+                    await base.OnPostStart();
                 }
                 catch (Exception ex)
                 {

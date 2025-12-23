@@ -1,7 +1,6 @@
 ﻿using Moq;
 using PRTelegramBot.Interfaces;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Tests
 {

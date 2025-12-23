@@ -6,30 +6,30 @@ namespace PRTelegramBot.Core.Factories
 {
     internal class HandlerFactory
     {
-        public CommandHandler CreateHandler(IBaseQueryAttribute attr, MethodInfo method, IServiceProvider serviceProvider)
+        public CommandHandler CreateHandler(IBaseQueryAttribute attr, MethodInfo method, PRBotBase bot)
         {
             if (attr is IStringQueryAttribute stringAttribute)
-                return CreateStringHandler(stringAttribute, method, serviceProvider);
+                return CreateStringHandler(stringAttribute, method, bot);
             else
-                return new CommandHandler(method, serviceProvider);
+                return new CommandHandler(method, bot);
         }
 
-        public CommandHandler CreateHandler(IBaseQueryAttribute attr, Func<IBotContext, Task> command, IServiceProvider serviceProvider)
+        public CommandHandler CreateHandler(IBaseQueryAttribute attr, Func<IBotContext, Task> command, PRBotBase bot)
         {
             if (attr is IStringQueryAttribute stringAttribute)
-                return CreateStringHandler(stringAttribute, command, serviceProvider);
+                return CreateStringHandler(stringAttribute, command, bot);
             else
-                return new CommandHandler(command, serviceProvider);
+                return new CommandHandler(command, bot);
         }
 
-        private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, MethodInfo method, IServiceProvider serviceProvider)
+        private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, MethodInfo method, PRBotBase bot)
         {
-            return new StringCommandHandler(method, serviceProvider, attribute.CommandComparison, attribute.StringComparison);
+            return new StringCommandHandler(method, bot, attribute.CommandComparison, attribute.StringComparison);
         }
 
-        private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, Func<IBotContext, Task> command, IServiceProvider serviceProvider)
+        private CommandHandler CreateStringHandler(IStringQueryAttribute attribute, Func<IBotContext, Task> command, PRBotBase bot)
         {
-            return new StringCommandHandler(command, serviceProvider, attribute.CommandComparison, attribute.StringComparison);
+            return new StringCommandHandler(command, bot, attribute.CommandComparison, attribute.StringComparison);
         }
     }
 }

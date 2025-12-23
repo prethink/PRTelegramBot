@@ -5,6 +5,8 @@ namespace ConsoleExample.Middlewares
 {
     public class OneMiddleware : MiddlewareBase
     {
+        public override int ExecutionOrder => 0;
+
         public override async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
             Console.WriteLine("Выполнение первого обработчика перед update");

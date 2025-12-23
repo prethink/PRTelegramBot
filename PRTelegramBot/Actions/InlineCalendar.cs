@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
@@ -23,7 +24,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Действие выбор года или месяца.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.YearMonthPicker)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.YearMonthPicker)]
         public static async Task PickYearMonth(IBotContext context)
         {
             try
@@ -46,7 +47,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Действие выбор месяца.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.PickMonth)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.PickMonth)]
         public static async Task PickMonth(IBotContext context)
         {
             try
@@ -71,7 +72,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Действие выбор года.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.PickYear)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.PickYear)]
         public static async Task PickYear(IBotContext context)
         {
             try
@@ -94,7 +95,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Действие перелистывание месяца.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.ChangeTo)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.ChangeTo)]
         public static async Task ChangeToHandler(IBotContext context)
         {
             try
@@ -117,7 +118,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Действие обработка выбранной даты.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.PickDate)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.PickDate)]
         public static async Task PickDate(IBotContext context)
         {
             try

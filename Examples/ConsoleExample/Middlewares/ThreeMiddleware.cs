@@ -6,6 +6,8 @@ namespace ConsoleExample.Middlewares
 {
     public class ThreeMiddleware : MiddlewareBase
     {
+        public override int ExecutionOrder => 99;
+
         public override async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
             var bot = CurrentScope.Bot;

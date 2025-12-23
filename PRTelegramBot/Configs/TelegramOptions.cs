@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Core.Middlewares;
+﻿using PRTelegramBot.BackgroundTasks.Interfaces;
+using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Interfaces.Managers;
 using PRTelegramBot.Models;
@@ -144,6 +145,16 @@ namespace PRTelegramBot.Configs
         /// Дополнительное действие при инициализации бота.
         /// </summary>
         public Action? InitializeAction { get; set; }
+
+        /// <summary>
+        /// Метаданные фоновых задач.
+        /// </summary>
+        public HashSet<IPRBackgroundTaskMetadata> BackgroundTaskMetadata { get; set; } = new();
+
+        /// <summary>
+        /// Метаданные фоновых задач.
+        /// </summary>
+        public HashSet<IPRBackgroundTask> BackgroundTasks { get; set; } = new();
 
         #endregion
     }

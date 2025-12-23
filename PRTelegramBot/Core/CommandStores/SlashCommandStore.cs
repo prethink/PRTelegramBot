@@ -32,7 +32,7 @@ namespace PRTelegramBot.Core.CommandStores
         /// Добавить новую команду.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="delegate">Метод обработки команды.</param
+        /// <param name="delegate">Метод обработки команды.</param>
         /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
         public override bool AddCommand(string command, Func<IBotContext, Task> @delegate)
         {

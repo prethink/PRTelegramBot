@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
@@ -22,7 +23,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Обработка подтверждения действия.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.CallbackWithConfirmation)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.CallbackWithConfirmation)]
         public static async Task ActionWithConfirmation(IBotContext context)
         {
             try
@@ -60,7 +61,7 @@ namespace PRTelegramBot.Actions
         /// <summary>
         /// Базовый обработчик при нажатие на нет.
         /// </summary>
-        [InlineCallbackHandler<PRTelegramBotCommand>(-1, PRTelegramBotCommand.CallbackWithConfirmationResultNo)]
+        [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.CallbackWithConfirmationResultNo)]
         public static async Task ActionWithConfirmationResultNo(IBotContext context)
         {
             try

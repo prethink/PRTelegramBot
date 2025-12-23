@@ -65,9 +65,6 @@ namespace PRTelegramBot.Core
 
         #region IPRUpdateHandler
 
-        /// <inheritdoc />
-        public MiddlewareBase Middleware { get; }
-
         /// <summary>
         /// Обработчик обновлений.
         /// </summary>
@@ -98,7 +95,8 @@ namespace PRTelegramBot.Core
             {
                 try
                 {
-                    await Middleware.InvokeOnPreUpdateAsync(context, async () =>
+                    var middlewares = new MiddlewareBuilder().Build(bot);
+                    await middlewares.InvokeOnPreUpdateAsync(context, async () =>
                     {
                         await UpdateAsync(context);
                     });
@@ -261,7 +259,6 @@ namespace PRTelegramBot.Core
         public Handler(PRBotBase bot)
         {
             this.bot = bot;
-            Middleware = new MiddlewareBuilder().Build(bot.Options.Middlewares);
 
             CallbackQueryCommandsStore = new CallbackQueryCommandStore(bot);
             ReplyCommandsStore = new ReplyCommandStore(bot);

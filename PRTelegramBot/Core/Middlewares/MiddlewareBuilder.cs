@@ -1,4 +1,7 @@
-﻿namespace PRTelegramBot.Core.Middlewares
+﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.Core.BotScope;
+
+namespace PRTelegramBot.Core.Middlewares
 {
     /// <summary>
     /// Билдер для построения цепочки middleware.
@@ -10,32 +13,38 @@
         /// <summary>
         /// Собрать цепочку middleware.
         /// </summary>
-        /// <param name="middlewares">Обработчики.</param>
+        /// <param name="bot">Bot.</param>
         /// <returns>Цепочка обработчиков.</returns>
-        public virtual MiddlewareBase Build(List<MiddlewareBase> middlewares)
+        public virtual MiddlewareBase Build(PRBotBase bot)
         {
-            if (middlewares is null)
-                return new MiddlewareBase();
+            var combineMiddlewares = new List<MiddlewareBase>(bot.Options.Middlewares);
+            var diMiddlewares = CurrentScope.Services?.GetServices<MiddlewareBase>() ?? Enumerable.Empty<MiddlewareBase>();
+            combineMiddlewares.AddRange(diMiddlewares);
 
-            MiddlewareBase current = new MiddlewareBase();
+            if (!combineMiddlewares.Any())
+                return new EmptyMiddleware();
 
-            if (middlewares.Count == 1)
+            MiddlewareBase current = new EmptyMiddleware();
+
+            var orderedMiddlewares = combineMiddlewares.OrderBy(m => m.ExecutionOrder).ToList();
+
+            if (orderedMiddlewares.Count == 1)
             {
-                current = middlewares[0];
+                current = orderedMiddlewares[0];
             }
-            else if(middlewares.Count > 1)
+            else if(orderedMiddlewares.Count > 1)
             {
-                current = middlewares[0];
-                current.SetNext(middlewares[1]);
-                for (int i = 1; i < middlewares.Count; i++) 
+                current = orderedMiddlewares[0];
+                current.SetNext(orderedMiddlewares[1]);
+                for (int i = 1; i < orderedMiddlewares.Count; i++) 
                 {
-                    if(i + 1 < middlewares.Count)
+                    if(i + 1 < orderedMiddlewares.Count)
                     {
-                        middlewares[i].SetNext(middlewares[i + 1], middlewares[i - 1]);
+                        orderedMiddlewares[i].SetNext(orderedMiddlewares[i + 1], orderedMiddlewares[i - 1]);
                     }
                     else
                     {
-                        middlewares[i].SetPrevious(middlewares[i - 1]);
+                        orderedMiddlewares[i].SetPrevious(orderedMiddlewares[i - 1]);
                     }
                 }
             }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Core;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
@@ -20,9 +20,9 @@ namespace PRTelegramBot.Models
         public CommandComparison CommandComparison { get;}
 
         /// <summary>
-        /// Сервис провайдер.
+        /// Бот.
         /// </summary>
-        private IServiceProvider serviceProvider { get; set; }
+        private PRBotBase bot { get; set; }
 
         /// <summary>
         /// Информация о методе.
@@ -49,11 +49,14 @@ namespace PRTelegramBot.Models
             }
             else
             {
-                if (CurrentScope.Services != null)
+                if (bot.HasServiceProvider)
                 {
-                    var instance = CurrentScope.Services.GetRequiredService(Method.DeclaringType);
-                    var instanceMethod = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), instance, Method);
-                    await (((Func<IBotContext, Task>)instanceMethod)).Invoke(context);
+                    using(var scope = bot.CreateServiceScope())
+                    {
+                        var instance = scope.ServiceProvider.GetRequiredService(Method.DeclaringType);
+                        var instanceMethod = Delegate.CreateDelegate(typeof(Func<IBotContext, Task>), instance, Method);
+                        await (((Func<IBotContext, Task>)instanceMethod)).Invoke(context);
+                    }
                 }
                 else
                 {
@@ -87,9 +90,10 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="method">Метод.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
-        public CommandHandler(MethodInfo method, IServiceProvider ServiceProvider)
-            : this(method, ServiceProvider , CommandComparison.Equals) { }
+        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Бот.</param>
+        public CommandHandler(MethodInfo method, PRBotBase bot)
+            : this(method, bot , CommandComparison.Equals) { }
 
         /// <summary>
         /// Конструктор.
@@ -102,9 +106,9 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
-        public CommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider)
-            : this(command, ServiceProvider, CommandComparison.Equals) { }
+        /// <param name="bot">Бот.</param>
+        public CommandHandler(Func<IBotContext, Task> command, PRBotBase bot)
+            : this(command, bot, CommandComparison.Equals) { }
 
         /// <summary>
         /// Конструктор.
@@ -118,20 +122,20 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
+        /// <param name="bot">Бот.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
-        public CommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison)
-            : this(command.Method, ServiceProvider, commandComparison) { }
+        public CommandHandler(Func<IBotContext, Task> command, PRBotBase bot, CommandComparison commandComparison)
+            : this(command.Method, bot, commandComparison) { }
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="method">Метод.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
+        /// <param name="bot">Бот.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
-        public CommandHandler(MethodInfo method, IServiceProvider ServiceProvider, CommandComparison commandComparison)
+        public CommandHandler(MethodInfo method, PRBotBase bot, CommandComparison commandComparison)
         {
-            this.serviceProvider = ServiceProvider;
+            this.bot = bot;
             this.CommandComparison = commandComparison;
             this.Method = method;
         }

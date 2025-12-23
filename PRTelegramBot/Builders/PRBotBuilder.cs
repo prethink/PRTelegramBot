@@ -1,4 +1,7 @@
-﻿using PRTelegramBot.Configs;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PRTelegramBot.BackgroundTasks;
+using PRTelegramBot.BackgroundTasks.Interfaces;
+using PRTelegramBot.Configs;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factory;
 using PRTelegramBot.Core.Middlewares;
@@ -23,6 +26,7 @@ namespace PRTelegramBot.Builders
         private PRBotFactoryBase factory;
         private List<long> adminIds = [];
         private List<long> whiteListIds = [];
+        private Action<IServiceCollection> configureServicesAction;
 
         #endregion
 
@@ -58,7 +62,7 @@ namespace PRTelegramBot.Builders
         /// <summary>
         /// Сбросить параметры.
         /// </summary>
-        /// <param name="client">Клиент телеграм бота.</param>
+        /// <param name="client">Клиент telegram бота.</param>
         public void ClearOptions(TelegramBotClient client)
         {
             options = new TelegramOptions();
@@ -506,6 +510,42 @@ namespace PRTelegramBot.Builders
         public PRBotBuilder SetInitializeAction(Action action)
         {
             options.InitializeAction = action;
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить фоновую задачу.
+        /// ВАЖНО: backgroundTask должен реализовывать <see cref="IPRBackgroundTaskMetadata"/> или использовать атрибут на классе <see cref="PRBackgroundTaskAttribute"/>.
+        /// </summary>
+        /// <param name="backgroundTask">Фоновая задача.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddBackgroundTask(IPRBackgroundTask backgroundTask)
+        {
+            options.BackgroundTasks.Add(backgroundTask);
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить фоновую задачу.
+        /// </summary>
+        /// <param name="backgroundTask">Фоновая задача.</param>
+        /// <param name="metadata">Метаданные фоновой задачи.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddBackgroundTask(IPRBackgroundTask backgroundTask, IPRBackgroundTaskMetadata metadata)
+        {
+            options.BackgroundTasks.Add(backgroundTask);
+            options.BackgroundTaskMetadata.Add(metadata);
+            return this;
+        }
+
+        /// <summary>
+        /// Добавить метаданные фоновой задачи.
+        /// </summary>
+        /// <param name="metadata">Метаданные.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder AddBackgroundTaskMetadata(IPRBackgroundTaskMetadata metadata)
+        {
+            options.BackgroundTaskMetadata.Add(metadata);
             return this;
         }
 

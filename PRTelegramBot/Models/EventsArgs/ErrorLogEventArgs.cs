@@ -33,12 +33,33 @@ namespace PRTelegramBot.Models.EventsArgs
         /// <summary>
         /// Создать аргументы событий с ошибкой.
         /// </summary>
+        /// <param name="message">Сообщение.</param>
+        /// <returns>Аргументы событий логирования ошибок.</returns>
+        public static ErrorLogEventArgs Create(string message)
+        {
+            return new ErrorLogEventArgs(CurrentScope.Context, new Exception(message));
+        }
+
+        /// <summary>
+        /// Создать аргументы событий с ошибкой.
+        /// </summary>
         /// <param name="bot">Экземпляр бота.</param>
         /// <param name="exception">Исключение.</param>
         /// <returns>Аргументы событий логирования ошибок.</returns>
         public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception)
         {
             return new ErrorLogEventArgs(new BotContext(bot), exception);
+        }
+
+        /// <summary>
+        /// Создать аргументы событий с ошибкой.
+        /// </summary>
+        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="message">Сообщение.</param>
+        /// <returns>Аргументы событий логирования ошибок.</returns>
+        public static ErrorLogEventArgs Create(PRBotBase bot, string message)
+        {
+            return new ErrorLogEventArgs(new BotContext(bot), new Exception(message));
         }
 
         /// <summary>

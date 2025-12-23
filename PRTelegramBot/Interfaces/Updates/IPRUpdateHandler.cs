@@ -9,11 +9,6 @@ namespace PRTelegramBot.Interfaces
     public interface IPRUpdateHandler : IUpdateHandler
     {
         /// <summary>
-        /// Промежуточный обработчик перед выполнением update.
-        /// </summary>
-        public MiddlewareBase Middleware { get; }
-
-        /// <summary>
         /// Горячая перезагрузка.
         /// </summary>
         public void HotReload();

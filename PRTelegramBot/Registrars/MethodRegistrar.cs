@@ -35,7 +35,7 @@ namespace PRTelegramBot.Registrars
                 {
                     var attribute = method.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == attributetype.Name);
 
-                    if (attribute is null || !((IBaseQueryAttribute)attribute).BotIds.Contains(bot.Options.BotId) && !((IBaseQueryAttribute)attribute).BotIds.Contains(-1))
+                    if (attribute is null || !((IBaseQueryAttribute)attribute).BotIds.Contains(bot.Options.BotId) && !((IBaseQueryAttribute)attribute).BotIds.Contains(PRConstants.ALL_BOTS_ID))
                         continue;
 
                     bool isValidMethod = ReflectionUtils.IsValidMethodForBaseBaseQueryAttribute(bot, method);
@@ -47,7 +47,7 @@ namespace PRTelegramBot.Registrars
                         continue;
                     }
 
-                    var telegramhandler = new HandlerFactory().CreateHandler((IBaseQueryAttribute)attribute, method, serviceProvider);
+                    var telegramhandler = new HandlerFactory().CreateHandler((IBaseQueryAttribute)attribute, method, bot);
                     foreach (var command in ((ICommandStore<Tkey>)attribute).Commands)
                         commands.Add(command, telegramhandler);
                 }

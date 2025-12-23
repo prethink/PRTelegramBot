@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Core;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using System.Reflection;
 
@@ -39,9 +40,9 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="method">Метод.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
-        public StringCommandHandler(MethodInfo method, IServiceProvider ServiceProvider)
-            : this(method, ServiceProvider, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase) { }
+        /// <param name="bot">Бот.</param>
+        public StringCommandHandler(MethodInfo method, PRBotBase bot)
+            : this(method, bot, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase) { }
 
         /// <summary>
         /// Конструктор.
@@ -54,9 +55,9 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
-        public StringCommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider)
-            : this(command, ServiceProvider, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase) { }
+        /// <param name="bot">Бот.</param>
+        public StringCommandHandler(Func<IBotContext, Task> command, PRBotBase bot)
+            : this(command, bot, CommandComparison.Equals, StringComparison.OrdinalIgnoreCase) { }
 
         /// <summary>
         /// Конструктор.
@@ -64,17 +65,17 @@ namespace PRTelegramBot.Models
         /// <param name="command">Команда.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
         public StringCommandHandler(Func<IBotContext, Task> command, CommandComparison commandComparison) 
-            : this(command,null, commandComparison, StringComparison.OrdinalIgnoreCase) { }
+            : this(command, null, commandComparison, StringComparison.OrdinalIgnoreCase) { }
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="method">Метод.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
+        /// <param name="bot">Бот.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
         /// <param name="stringComparison">Сравнение строк.</param>
-        public StringCommandHandler(MethodInfo method, IServiceProvider ServiceProvider, CommandComparison commandComparison, StringComparison stringComparison) 
-            : base(method, ServiceProvider, commandComparison)
+        public StringCommandHandler(MethodInfo method, PRBotBase bot, CommandComparison commandComparison, StringComparison stringComparison) 
+            : base(method, bot, commandComparison)
         {
             this.StringComparison = stringComparison;
         }
@@ -83,11 +84,11 @@ namespace PRTelegramBot.Models
         /// Конструктор.
         /// </summary>
         /// <param name="command">Команда.</param>
-        /// <param name="ServiceProvider">Сервис провайдер.</param>
+        /// <param name="bot">Бот.</param>
         /// <param name="commandComparison">Сравнение команд.</param>
         /// <param name="stringComparison">Сравнение строк.</param>
-        public StringCommandHandler(Func<IBotContext, Task> command, IServiceProvider ServiceProvider, CommandComparison commandComparison, StringComparison stringComparison)
-            : base(command, ServiceProvider, commandComparison)
+        public StringCommandHandler(Func<IBotContext, Task> command, PRBotBase bot, CommandComparison commandComparison, StringComparison stringComparison)
+            : base(command, bot, commandComparison)
         {
             this.StringComparison = stringComparison;
         }
