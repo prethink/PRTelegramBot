@@ -40,7 +40,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                context.Current.GetLogger<InlineCalendar>().LogErrorInternal(ex);
             }
         }
 
@@ -65,7 +65,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                context.Current.GetLogger<InlineCalendar>().LogErrorInternal(ex);
             }
         }
 
@@ -88,7 +88,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                context.Current.GetLogger<InlineCalendar>().LogErrorInternal(ex);
             }
         }
 
@@ -111,7 +111,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                context.Current.GetLogger<InlineCalendar>().LogErrorInternal(ex);
             }
         }
 
@@ -135,7 +135,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                context.Current.GetLogger<InlineCalendar>().LogErrorInternal(ex);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Models;
-using PRTelegramBot.Models.EventsArgs;
+using PRTelegramBot.Models.InlineButtons;
 using System.Collections.Concurrent;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -115,7 +115,7 @@ namespace PRTelegramBot.Extensions
             }
             catch(Exception ex) 
             {
-                CurrentScope.Bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                CurrentScope.Bot.GetLogger(typeof(UpdateExtension)).LogErrorInternal(ex);
                 return false;
             }
         }

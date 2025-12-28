@@ -1,7 +1,7 @@
 ﻿using PRTelegramBot.Attributes;
 using PRTelegramBot.Core;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
-using PRTelegramBot.Models.EventsArgs;
 using System.Reflection;
 
 namespace PRTelegramBot.Utils
@@ -195,7 +195,7 @@ namespace PRTelegramBot.Utils
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                bot.GetLogger<ReflectionUtils>().LogErrorInternal(ex);
                 return false;
             }
         }

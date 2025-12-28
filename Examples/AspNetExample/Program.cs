@@ -44,6 +44,12 @@ builder.Services.AddTransient<IPRBackgroundTask, ExampleWithoutMetadataBackgroun
 
 builder.Services.AddScoped<MiddlewareBase, DIMiddleware>();
 builder.Services.AddTransient<MiddlewareBase, UserMiddleware>();
+builder.Services.AddLogging(builder =>
+{
+    builder.ClearProviders();
+    builder.AddDebug();
+    builder.SetMinimumLevel(LogLevel.Debug);
+});
 
 async Task PrBotInstance_OnLogError(ErrorLogEventArgs e)
 {

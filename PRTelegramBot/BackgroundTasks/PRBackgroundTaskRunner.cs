@@ -7,7 +7,6 @@ using PRTelegramBot.EventBus;
 using PRTelegramBot.EventBus.Events;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models;
-using PRTelegramBot.Models.EventsArgs;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
@@ -73,7 +72,7 @@ namespace PRTelegramBot.BackgroundTasks
             {
                 if (ActiveTasks.ContainsKey(mtd.Id))
                 {
-                    bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}] {mtd.Name} уже запущена.");
+                    bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] {mtd.Name} уже запущена.");
                     continue;
                 }
 
@@ -103,13 +102,13 @@ namespace PRTelegramBot.BackgroundTasks
 
             if(!this.registeredTaskMetadata.Any(x => x.Id == backgroundTask.Id))
             {
-                bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}] Для задачи с идентификатором {backgroundTask.Id} нет подходящих метаданных. Задача не будет запущена.");
+                bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] Для задачи с идентификатором {backgroundTask.Id} нет подходящих метаданных. Задача не будет запущена.");
                 return Task.CompletedTask;
             }
 
             if (ActiveTasks.ContainsKey(metadata.Id))
             {
-                bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}] {metadata.Name} уже запущена.");
+                bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] {metadata.Name} уже запущена.");
                 return Task.CompletedTask;
             }
 
@@ -128,7 +127,7 @@ namespace PRTelegramBot.BackgroundTasks
             foreach (var mtd in metadata)
                 await StopAsync(mtd);
 
-            bot.Events.OnCommonLogInvoke( $"[{nameof(PRBackgroundTaskRunner)}] Все фоновые задачи остановлены.");
+            bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] Все фоновые задачи остановлены.");
         }
 
         /// <inheritdoc />
@@ -136,8 +135,7 @@ namespace PRTelegramBot.BackgroundTasks
         {
             if (!activeTasks.TryRemove(taskId, out var runningTask))
             {
-                bot.Events.OnCommonLogInvoke(
-                    $"[{nameof(PRBackgroundTaskRunner)}] Задача c идентификатором '{taskId}' не найдена или уже остановлена.");
+                bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] Задача c идентификатором '{taskId}' не найдена или уже остановлена.");
                 return;
             }
 
@@ -151,13 +149,13 @@ namespace PRTelegramBot.BackgroundTasks
             { }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                bot.GetLogger<PRBackgroundTaskRunner>().LogErrorInternal(ex);
             }
             finally
             {
                 runningTask.CancellationTokenSource.Dispose();
 
-                bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}] Задача '{runningTask.Metadata.Name}' остановлена.");
+                bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] Задача '{runningTask.Metadata.Name}' остановлена.");
             }
         }
 
@@ -186,7 +184,7 @@ namespace PRTelegramBot.BackgroundTasks
                 }
                 else
                 {
-                    bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}] Не найдены метаданные для задачи с id '{task.Id}'. Задача не будет запущена.");
+                    bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}] Не найдены метаданные для задачи с id '{task.Id}'. Задача не будет запущена.");
                 }
             }
 
@@ -198,7 +196,7 @@ namespace PRTelegramBot.BackgroundTasks
                     var mtd = item.GetMetadata(this.registeredTaskMetadata, false);
                     if (mtd == null)
                     {
-                        bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}][DI] Не найдены метаданные для задачи с типом {item.GetType()}. Фоновая задача не будет запущена.");
+                        bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}][DI] Не найдены метаданные для задачи с типом {item.GetType()}. Фоновая задача не будет запущена.");
                         continue;
                     }
 
@@ -275,7 +273,7 @@ namespace PRTelegramBot.BackgroundTasks
             {
                 isDependencyInjection = false;
                 Debug.WriteLine($"try {metadata.Name} is initialize.");
-                bot.Events.OnCommonLogInvoke($"[{nameof(PRBackgroundTaskRunner)}][Initialize] Фоновая задача  '{metadata.Name}' инициализирована.");
+                bot.GetLogger<PRBackgroundTaskRunner>().LogInformationInternal($"[{nameof(PRBackgroundTaskRunner)}][Initialize] Фоновая задача  '{metadata.Name}' инициализирована.");
                 data.SetStatus(PRTaskStatus.Initialize);
                 await task.Initialize(bot);
             }
@@ -297,7 +295,7 @@ namespace PRTelegramBot.BackgroundTasks
 
                         if (task == null)
                         {
-                            bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, $"[{nameof(PRBackgroundTaskRunner)}][RUN DI] Фоновая задача '{metadata.Name}' не смогла выполниться. Не найден экземпляр выполнения через DI. Выполнение задачи прекращено."));
+                            bot.GetLogger<PRBackgroundTaskRunner>().LogErrorInternal($"[{nameof(PRBackgroundTaskRunner)}][RUN DI] Фоновая задача '{metadata.Name}' не смогла выполниться. Не найден экземпляр выполнения через DI. Выполнение задачи прекращено.");
                             activeTasks.Remove(metadata.Id, out _);
                             break;
                         }
@@ -324,13 +322,13 @@ namespace PRTelegramBot.BackgroundTasks
                 }
                 catch (Exception ex)
                 {
-                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                    bot.GetLogger<PRBackgroundTaskRunner>().LogErrorInternal(ex);
 
                     data.AddError(ex);
                     data.SetStatus(PRTaskStatus.Error);
                     if (metadata.MaxErrorAttempts.HasValue && metadata.MaxErrorAttempts != -1 && data.ErrorCount >= metadata.MaxErrorAttempts)
                     {
-                        bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, $"[{nameof(PRBackgroundTaskRunner)}] Выполнение фоновой задачи '{metadata.Name}' прекращено. Достигнут лимит ошибок при выполнение {data.ErrorCount} > {metadata.MaxErrorAttempts}"));
+                        bot.GetLogger<PRBackgroundTaskRunner>().LogErrorInternal($"[{nameof(PRBackgroundTaskRunner)}] Выполнение фоновой задачи '{metadata.Name}' прекращено. Достигнут лимит ошибок при выполнение {data.ErrorCount} > {metadata.MaxErrorAttempts}");
                         activeTasks.Remove(metadata.Id, out _);
                         data.SetStatus(PRTaskStatus.Complete);
                         data.SetCompleteStatus(PRTaskCompletionResult.Failed);
@@ -347,7 +345,7 @@ namespace PRTelegramBot.BackgroundTasks
                 var isRepeatLimitReached = metadata.MaxRepeatCount.HasValue && metadata.MaxRepeatCount.Value > -1 && data.ExecutedCount >= metadata.MaxRepeatCount;
                 if (isRepeatLimitReached)
                 {
-                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, $"[{nameof(PRBackgroundTaskRunner)}] Выполнение фоновой задачи '{metadata.Name}' прекращено. Достигнут лимит выполнения задачи."));
+                    bot.GetLogger<PRBackgroundTaskRunner>().LogErrorInternal($"[{nameof(PRBackgroundTaskRunner)}] Выполнение фоновой задачи '{metadata.Name}' прекращено. Достигнут лимит выполнения задачи.");
                     activeTasks.Remove(metadata.Id, out _);
                     data.SetStatus(PRTaskStatus.Complete);
                     data.SetCompleteStatus(PRTaskCompletionResult.Success);

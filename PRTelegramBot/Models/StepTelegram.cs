@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Models
 {
@@ -53,7 +52,7 @@ namespace PRTelegramBot.Models
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                context.Current.GetLogger<StepTelegram>().LogErrorInternal(ex);
                 return ExecuteStepResult.Failure;
             }
         }

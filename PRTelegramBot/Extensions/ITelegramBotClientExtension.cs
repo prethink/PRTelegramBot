@@ -159,7 +159,7 @@ namespace PRTelegramBot.Extensions
             }
             catch (Exception ex)
             {
-                // Обработка ошибки и возврат false
+                //TODO Обработка ошибки и возврат false
                 return false;
             }
         }

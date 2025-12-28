@@ -103,7 +103,7 @@ namespace PRTelegramBot.Core
                 }
                 catch (Exception ex)
                 {
-                    bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                    bot.GetLogger<Handler>().LogErrorInternal(ex);
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace PRTelegramBot.Core
 
                 lastErrorPollingDate = DateTime.Now.AddMinutes(bot.Options.AntiSpamErrorMinute);
             }
-            bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception, cancellationToken));
+            bot.GetLogger<Handler>().LogErrorInternal(exception);
             
             return Task.CompletedTask;
         }

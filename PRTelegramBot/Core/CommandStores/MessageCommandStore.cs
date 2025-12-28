@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -26,7 +27,7 @@ namespace PRTelegramBot.Core.CommandStores
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                bot.GetLogger<MessageCommandStore>().LogErrorInternal(ex);
                 return false;
             }
         }
@@ -45,7 +46,7 @@ namespace PRTelegramBot.Core.CommandStores
             }
             catch (Exception ex)
             {
-                bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                bot.GetLogger<MessageCommandStore>().LogErrorInternal(ex);
                 return false;
             }
         }

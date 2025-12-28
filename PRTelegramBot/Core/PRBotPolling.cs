@@ -1,5 +1,7 @@
-﻿using PRTelegramBot.Configs;
+﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Configs;
 using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot;
@@ -34,7 +36,7 @@ namespace PRTelegramBot.Core
 
                     var client = await BotClient.GetMe(Options.CancellationTokenSource.Token);
                     BotName = client?.Username;
-                    Events.OnCommonLogInvoke($"Bot {BotName} is running.", "Initialization", ConsoleColor.Yellow);
+                    GetLogger<PRBotPolling>().LogInformationInternal($"Bot {BotName} is running.");
                     IsWork = true;
 
                     await base.OnPostStart();
@@ -42,7 +44,7 @@ namespace PRTelegramBot.Core
                 catch (Exception ex)
                 {
                     IsWork = false;
-                    Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                    GetLogger<PRBotPolling>().LogErrorInternal(ex);
                 }
             }
         }
@@ -61,7 +63,7 @@ namespace PRTelegramBot.Core
                 }
                 catch (Exception ex)
                 {
-                    Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                    GetLogger<PRBotPolling>().LogErrorInternal(ex);
                 }
             }
         }
@@ -93,7 +95,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex, cancellationToken));
+                GetLogger<PRBotPolling>().LogErrorInternal(ex);
             }
         }
 

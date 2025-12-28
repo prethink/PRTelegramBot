@@ -1,5 +1,7 @@
 ﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Core.UpdateHandlers;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;
 using Telegram.Bot;
@@ -46,7 +48,7 @@ namespace PRTelegramBot.Core
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    GetLogger<PRBotWebHook>().LogErrorInternal(ex);
                 }
             }
         }

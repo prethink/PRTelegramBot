@@ -5,7 +5,6 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
@@ -16,7 +15,7 @@ namespace PRTelegramBot.Actions
     /// <summary>
     /// Базовый обработчик для подтверждения действия.
     /// </summary>
-    public static class InlineConfirmation
+    public class InlineConfirmation
     {
         #region Методы
 
@@ -54,7 +53,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                context.Current.GetLogger<InlineConfirmation>().LogErrorInternal(ex);
             }
         }
 
@@ -70,7 +69,7 @@ namespace PRTelegramBot.Actions
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                context.Current.GetLogger<InlineConfirmation>().LogErrorInternal(ex);
             }
         }
 

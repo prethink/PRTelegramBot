@@ -89,6 +89,7 @@ namespace PRTelegramBot.Converters.Inline
             }
             catch(Exception ex)
             {
+                CurrentScope.Context.Current.GetLogger<FileInlineConverter>().LogErrorInternal(ex);
                 return null;
             }
         }

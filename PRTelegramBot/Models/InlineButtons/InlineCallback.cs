@@ -184,7 +184,7 @@ namespace PRTelegramBot.Models.InlineButtons
             }
             catch (Exception ex)
             {
-                Context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(Context, ex));
+                Context.Current.GetLogger<InlineCallback>().LogErrorInternal(ex);
             }
         }
 

@@ -3,6 +3,7 @@ using ConsoleExample.Examples.InlineClassHandlers;
 using ConsoleExample.Middlewares;
 using ConsoleExample.Models.CommandHeaders;
 using ConsoleExample.Services;
+using Microsoft.Extensions.Logging;
 using PRTelegramBot.Builders;
 using PRTelegramBot.Converters.Inline;
 using PRTelegramBot.Models.EventsArgs;
@@ -34,6 +35,7 @@ var telegram = new PRBotBuilder("token")
                     .SetInitializeAction(() => { Console.WriteLine("Custom initialize complete."); })
                     .AddBackgroundTask(new HelloWorldBackgroundTask())
                     .AddBackgroundTask(new AttributeBackgroundTask())
+                    .SetLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
                     .Build();
 
 // Инициализация событий для бота.

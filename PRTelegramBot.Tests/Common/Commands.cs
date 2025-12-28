@@ -25,7 +25,7 @@ namespace PRTelegramBot.Tests.Common
         [SlashHandler(PRConstants.ALL_BOTS_ID, nameof(TestCommonMethodForAllBot))]
         [ReplyMenuHandler(PRConstants.ALL_BOTS_ID, nameof(TestCommonMethodForAllBot))]
         [InlineCallbackHandler<TestTHeader>(PRConstants.ALL_BOTS_ID, TestTHeader.Eight)]
-        [ReplyMenuDynamicHandler(PRConstants.ALL_BOTS_ID, nameof(KEY_DYNAMIC_REPLY_FIVE))]
+        [ReplyMenuDynamicHandler(nameof(KEY_DYNAMIC_REPLY_FIVE))]
         public static async Task TestCommonMethodForAllBot(IBotContext context) { }
 
 

@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 
 namespace PRTelegramBot.Core.UpdateHandlers
 {
@@ -32,7 +31,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                context.Current.GetLogger<CallBackQueryUpdateDispatcher>().LogErrorInternal(ex);
                 return UpdateResult.Error;
             }
         }

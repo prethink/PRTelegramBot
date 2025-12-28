@@ -1,5 +1,7 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Core.CommandHandlers;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.EventsArgs;
@@ -21,7 +23,7 @@ namespace PRTelegramBot.Converters.Inline
             }
             catch(Exception ex)
             {
-                CurrentScope.Context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                CurrentScope.Context.Current.GetLogger<TelegramInlineConverter>().LogErrorInternal(ex);
                 return null;
             }
         }
@@ -36,7 +38,7 @@ namespace PRTelegramBot.Converters.Inline
             }
             catch (Exception ex)
             {
-                CurrentScope.Context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                CurrentScope.Context.Current.GetLogger<TelegramInlineConverter>().LogErrorInternal(ex);
                 return null;
             }
         }
@@ -52,7 +54,7 @@ namespace PRTelegramBot.Converters.Inline
             }
             catch (Exception ex)
             {
-                CurrentScope.Context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                CurrentScope.Context.Current.GetLogger<TelegramInlineConverter>().LogErrorInternal(ex);
                 return string.Empty;
             }
         }
@@ -69,7 +71,7 @@ namespace PRTelegramBot.Converters.Inline
             }
             catch (Exception ex)
             {
-                CurrentScope.Context.Current.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                CurrentScope.Context.Current.GetLogger<TelegramInlineConverter>().LogErrorInternal(ex);
                 return string.Empty;
             }
         }

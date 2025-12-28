@@ -1,4 +1,5 @@
 ﻿using PRTelegramBot.Attributes;
+using PRTelegramBot.Core.CommandStores;
 using PRTelegramBot.Core.Executors;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
@@ -78,7 +79,7 @@ namespace PRTelegramBot.Core.CommandHandlers
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                context.Current.GetLogger<SlashCommandHandler>().LogErrorInternal(ex);
                 return CommandResult.Error;
             }
         }

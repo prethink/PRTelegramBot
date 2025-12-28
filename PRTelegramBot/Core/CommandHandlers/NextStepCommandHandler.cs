@@ -3,7 +3,6 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Core.CommandHandlers
@@ -55,7 +54,7 @@ namespace PRTelegramBot.Core.CommandHandlers
             }
             catch (Exception ex)
             {
-                context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
+                context.Current.GetLogger<NextStepCommandHandler>().LogErrorInternal(ex);
                 return UpdateResult.Error;
             }
         }

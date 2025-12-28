@@ -1,5 +1,7 @@
-﻿using PRTelegramBot.Core;
+﻿using PRTelegramBot.BackgroundTasks;
+using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factories;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.EventsArgs;
@@ -43,7 +45,7 @@ namespace PRTelegramBot.Registrars
                     {
                         var exception = new InvalidOperationException($"The method {method.Name} has an invalid signature. " +
                             $"Required return {nameof(Task)} arg1 {nameof(ITelegramBotClient)} arg2 {nameof(Update)}");
-                        bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception));
+                        bot.GetLogger<MethodRegistrar>().LogErrorInternal(exception);
                         continue;
                     }
 
@@ -53,7 +55,7 @@ namespace PRTelegramBot.Registrars
                 }
                 catch (Exception ex)
                 {
-                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                    bot.GetLogger<MethodRegistrar>().LogErrorInternal(ex);
                 }
             }
         }
@@ -86,7 +88,7 @@ namespace PRTelegramBot.Registrars
                         if (!isValidMethod)
                         {
                             var exception = new InvalidOperationException($"The method {method.Name} has an invalid signature for the {attribute.GetType()} attribute. The method will be ignored.");
-                            bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, exception));
+                            bot.GetLogger<PRBackgroundTaskRunner>().LogErrorInternal(exception);
                             continue;
                         }
 
@@ -97,7 +99,7 @@ namespace PRTelegramBot.Registrars
                 }
                 catch (Exception ex)
                 {
-                    bot.Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(bot, ex));
+                    bot.GetLogger<MethodRegistrar>().LogErrorInternal(ex);
                 }
             }
         }

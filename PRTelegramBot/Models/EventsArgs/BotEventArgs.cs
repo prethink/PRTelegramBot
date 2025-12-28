@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Models.EventsArgs
 {

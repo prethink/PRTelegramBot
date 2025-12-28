@@ -46,8 +46,8 @@ namespace PRTelegramBot.Tests.CoreTests
 
         [Test]
         [TestCase(0, 3)]
-        [TestCase(1, 3)]
-        [TestCase(2, 3)]
+        [TestCase(1, 2)]
+        [TestCase(2, 2)]
         public void FindReplyDictionaryMethods(int botId, int exceptedMethodsCount)
         {
             var botBuilder = new PRBotBuilder("55555:Token")

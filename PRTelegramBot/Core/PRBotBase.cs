@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using PRTelegramBot.BackgroundTasks;
 using PRTelegramBot.BackgroundTasks.Interfaces;
 using PRTelegramBot.Configs;
@@ -7,12 +8,13 @@ using PRTelegramBot.Converters.Inline;
 using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Core.CommandHandlers;
 using PRTelegramBot.Core.Events;
+using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Interfaces.Managers;
 using PRTelegramBot.Managers;
 using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.EventsArgs;
+using PRTelegramBot.Models.Logger;
 using PRTelegramBot.Registrars;
 using PRTelegramBot.Wrappers;
 using Telegram.Bot;
@@ -106,7 +108,6 @@ namespace PRTelegramBot.Core
         /// </summary>
         private bool isInitialized;
 
-
         #endregion
 
         #region Методы
@@ -125,7 +126,7 @@ namespace PRTelegramBot.Core
             }
             catch(Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex));
+                GetLogger<PRBotBase>().LogErrorInternal(ex);
                 return false;
             }
         }
@@ -185,7 +186,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                GetLogger<PRBotBase>().LogErrorInternal(ex);
                 return false;
             }
         }
@@ -203,7 +204,7 @@ namespace PRTelegramBot.Core
             }
             catch(Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                GetLogger<PRBotBase>().LogErrorInternal(ex);
             }
         }
 
@@ -221,7 +222,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(ex));
+                GetLogger<PRBotBase>().LogErrorInternal(ex);
             }
         }
 
@@ -238,7 +239,7 @@ namespace PRTelegramBot.Core
             await InitializeWhiteListManager();
 
             if (GetInlineConverter().GetType() == typeof(TelegramInlineConverter))
-                Events.OnCommonLogInvoke($"\nДля генерации Inline-меню используется конвертер по умолчанию, который ограничен длиной callback_data до 64 байт (ограничение Telegram). \nЧтобы обойти это ограничение при создании бота через билдер, используйте:\n.SetInlineMenuConverter(new FileInlineConverter())\nПодробнее про работу конвертеров смотрите в справке {PRConstants.DOCUMENTATION_URL}", "Warning", ConsoleColor.Green);
+                GetLogger<PRBotBase>().LogWarning($"\nДля генерации Inline-меню используется конвертер по умолчанию, который ограничен длиной callback_data до 64 байт (ограничение Telegram). \nЧтобы обойти это ограничение при создании бота через билдер, используйте:\n.SetInlineMenuConverter(new FileInlineConverter())\nПодробнее про работу конвертеров смотрите в справке {PRConstants.DOCUMENTATION_URL}");
 
             Options?.InitializeAction?.Invoke();
             BackgroundTaskRunner.Initialize(Options.BackgroundTaskMetadata, Options.BackgroundTasks);
@@ -261,7 +262,7 @@ namespace PRTelegramBot.Core
             }
             catch (Exception ex)
             {
-                Events.OnErrorLogInvoke(ErrorLogEventArgs.Create(this, ex));
+                GetLogger<PRBotBase>().LogErrorInternal(ex);
             }
         }
 
@@ -288,9 +289,7 @@ namespace PRTelegramBot.Core
         /// <returns>Сериализатор.</returns>
         public IPRSerializer GetSerializer()
         {
-            return Options.PRSerializer
-                ?? CurrentScope.Services?.GetService<IPRSerializer>()
-                ?? new JsonSerializerWrapper();
+            return this.PriorityResolve(Options.PRSerializer, () => new JsonSerializerWrapper());
         }
 
         /// <summary>
@@ -299,9 +298,7 @@ namespace PRTelegramBot.Core
         /// <returns>Inline конвертер.</returns>
         public IInlineMenuConverter GetInlineConverter()
         {
-            return Options.InlineConverter
-                ?? CurrentScope.Services?.GetService<IInlineMenuConverter>()
-                ?? new TelegramInlineConverter();
+            return this.PriorityResolve(Options.InlineConverter, () => new TelegramInlineConverter());
         }
 
         /// <summary>
@@ -310,9 +307,37 @@ namespace PRTelegramBot.Core
         /// <returns>Админ менеджер.</returns>
         public IAdminManager GetAdminManager()
         {
-            return Options.AdminManager
-                ?? CurrentScope.Services?.GetService<IAdminManager>()
-                ?? this.localAdminManager;
+            return this.PriorityResolve(Options.AdminManager, () => this.localAdminManager);
+        }
+
+        /// <summary>
+        /// Получить логер.
+        /// </summary>
+        /// <typeparam name="T">Тип логера.</typeparam>
+        /// <returns>Логер.</returns>
+        public ILogger<T> GetLogger<T>()
+        {
+            return this.GetLoggerFactory().CreateLogger<T>();
+        }
+
+        /// <summary>
+        /// Получить логер по Type.
+        /// </summary>
+        public ILogger GetLogger(Type type)
+        {
+            if (type == null) 
+                throw new ArgumentNullException(nameof(type));
+
+            return this.GetLoggerFactory().CreateLogger(type);
+        }
+
+        /// <summary>
+        /// Получить фабрику создания логеров.
+        /// </summary>
+        /// <returns>Фабрика создания логеров.</returns>
+        public ILoggerFactory GetLoggerFactory()
+        {
+            return this.PriorityResolve(Options.LoggerFactory, () => new PRLoggerEventsFactory(this));
         }
 
         /// <summary>
@@ -321,9 +346,34 @@ namespace PRTelegramBot.Core
         /// <returns>Менеджер белого списка.</returns>
         public IWhiteListManager GetWhiteListManager()
         {
-            return Options.WhiteListManager
-                ?? CurrentScope.Services?.GetService<IWhiteListManager>()
-                ?? this.localWhiteListManager;
+            return this.PriorityResolve(Options.WhiteListManager, () => this.localWhiteListManager);
+        }
+
+        /// <summary>
+        /// Разрешает зависимость с учетом приоритета источников.
+        /// </summary>
+        /// <typeparam name="T">Тип сервиса.</typeparam>
+        /// <param name="optionValue">
+        /// Значение, заданное напрямую в настройках бота (имеет наивысший приоритет).
+        /// </param>
+        /// <param name="fallback">
+        /// Фабрика создания значения по умолчанию, используемая если сервис
+        /// не найден ни в настройках, ни в DI-контейнере.
+        /// </param>
+        /// <returns>
+        /// Экземпляр сервиса, полученный по следующему приоритету:
+        /// <list type="number">
+        /// <item><description>Значение из <paramref name="optionValue"/>.</description></item>
+        /// <item><description>Сервис из DI-контейнера.</description></item>
+        /// <item><description>Результат вызова <paramref name="fallback"/>.</description></item>
+        /// </list>
+        /// </returns>
+        private T PriorityResolve<T>(T? optionValue, Func<T> fallback)
+            where T : class
+        {
+            return optionValue 
+                ?? CurrentScope.Services?.GetService<T>()
+                ?? fallback();
         }
 
         /// <summary>

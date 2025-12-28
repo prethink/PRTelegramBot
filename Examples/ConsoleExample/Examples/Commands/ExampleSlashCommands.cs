@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.Attributes;
+﻿using Microsoft.Extensions.Logging;
+using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
@@ -16,6 +17,7 @@ namespace ConsoleExample.Examples.Commands
         [SlashHandler("/example")]
         public static async Task ExampleSlashCommand(IBotContext context)
         {
+            context.Current.GetLogger<ExampleSlashCommands>().LogWarning("Hello world");
             string msg = $"Команда /example";
             msg += "\n /get_1 - команда 1" +
                 "\n /get_2 - команда 2" +

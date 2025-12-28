@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Logging;
 using PRTelegramBot.BackgroundTasks;
 using PRTelegramBot.BackgroundTasks.Interfaces;
 using PRTelegramBot.Configs;
@@ -26,7 +26,6 @@ namespace PRTelegramBot.Builders
         private PRBotFactoryBase factory;
         private List<long> adminIds = [];
         private List<long> whiteListIds = [];
-        private Action<IServiceCollection> configureServicesAction;
 
         #endregion
 
@@ -546,6 +545,18 @@ namespace PRTelegramBot.Builders
         public PRBotBuilder AddBackgroundTaskMetadata(IPRBackgroundTaskMetadata metadata)
         {
             options.BackgroundTaskMetadata.Add(metadata);
+            return this;
+        }
+
+        /// <summary>
+        /// Установить фабрику логеров.
+        /// Используется, если DI-контейнер не передан или логирование настраивается вручную.
+        /// </summary>
+        /// <param name="loggerFactory">Фабрика логеров.</param>
+        /// <returns>Builder.</returns>
+        public PRBotBuilder SetLoggerFactory(ILoggerFactory loggerFactory)
+        {
+            options.LoggerFactory = loggerFactory;
             return this;
         }
 

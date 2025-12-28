@@ -1,4 +1,5 @@
-﻿using PRTelegramBot.BackgroundTasks.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using PRTelegramBot.BackgroundTasks.Interfaces;
 using PRTelegramBot.Core.Middlewares;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Interfaces.Managers;
@@ -155,6 +156,11 @@ namespace PRTelegramBot.Configs
         /// Метаданные фоновых задач.
         /// </summary>
         public HashSet<IPRBackgroundTask> BackgroundTasks { get; set; } = new();
+
+        /// <summary>
+        /// Фабрика создания логеров.
+        /// </summary>
+        public ILoggerFactory? LoggerFactory { get; set; }
 
         #endregion
     }
