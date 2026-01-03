@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/version-v0.9.4-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.8.1-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
+![Static Badge](https://img.shields.io/badge/version-v0.9.5-brightgreen) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.8.1-blue)  ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot)
 
 
 > Если проект был вам полезен, вы можете поддержать его развитие на Boosty:  

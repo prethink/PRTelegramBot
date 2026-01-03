@@ -151,6 +151,15 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
+        /// Установить сервис провайдер в экземпляре бота.
+        /// </summary>
+        /// <param name="serviceProvider">Сервис провайдер.</param>
+        public void SetServiceProvider(IServiceProvider serviceProvider)
+        {
+            Options.ServiceProvider = serviceProvider;
+        }
+
+        /// <summary>
         /// Признак, того что есть сервис провайдер в боте.
         /// </summary>
         public bool HasServiceProvider => Options?.ServiceProvider != null;
@@ -317,6 +326,13 @@ namespace PRTelegramBot.Core
         /// <returns>Логер.</returns>
         public ILogger<T> GetLogger<T>()
         {
+            if(Options.LoggerFactory == null && CurrentScope.Services != null)
+            {
+                var currentLogger = CurrentScope.Services?.GetService<ILogger<T>>();
+                if (currentLogger != null)
+                    return currentLogger;
+            }
+
             return this.GetLoggerFactory().CreateLogger<T>();
         }
 
@@ -327,6 +343,14 @@ namespace PRTelegramBot.Core
         {
             if (type == null) 
                 throw new ArgumentNullException(nameof(type));
+
+            if (Options.LoggerFactory == null && CurrentScope.Services != null)
+            {
+                var loggerType = typeof(ILogger<>).MakeGenericType(type);
+                var diLogger = CurrentScope.Services.GetService(loggerType) as ILogger;
+                if (diLogger != null)
+                    return diLogger;
+            }
 
             return this.GetLoggerFactory().CreateLogger(type);
         }
