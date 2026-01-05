@@ -7,7 +7,7 @@
 
 [https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/)  - актуальная документация.        
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.     
-[https://t.me/predevchat](https://t.me/predevchat) - чат для вопросов.    
+[https://t.me/prethinkdev](https://t.me/prethinkdev) - чат для вопросов.    
 
 # ⚛️ Ядро фреймворка
 TelegramBot v22.8.1 https://github.com/TelegramBots/Telegram.Bot
