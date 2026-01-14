@@ -15,7 +15,7 @@ TelegramBot v22.8.1 https://github.com/TelegramBots/Telegram.Bot
 # 📰 Описание
 Фреймворк с открытым исходным кодом с гибким и простым функционалом для создания ботов Telegram.     
 Примеры https://github.com/prethink/PRTelegramBot/tree/master/Examples     
-Примеры с видео: https://github.com/prethink/PRTelegramYoutube   
+Примеры с видео: [https://github.com/prethink/PRTelegramYoutube   ](https://github.com/prethink/PRTelegramYoutubeOld)    
 
 # 💎 Функционал
 
