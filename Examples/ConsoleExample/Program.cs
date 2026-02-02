@@ -31,7 +31,7 @@ var telegram = new PRBotBuilder("token")
                     //Обход ограничения telegram на 64 байта для callback_data.
                     .SetInlineMenuConverter(new FileInlineConverter())
                     // ToonSerializerWrapper использует меньше байт при сериализации данных по сравнению с JsonSerializer.
-                    .SetInlineSerializer(new ToonSerializerWrapper())
+                    //.SetInlineSerializer(new ToonSerializerWrapper())
                     .SetInitializeAction(() => { Console.WriteLine("Custom initialize complete."); })
                     .AddBackgroundTask(new HelloWorldBackgroundTask())
                     .AddBackgroundTask(new AttributeBackgroundTask())

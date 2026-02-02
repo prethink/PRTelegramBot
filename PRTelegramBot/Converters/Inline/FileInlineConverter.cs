@@ -3,6 +3,7 @@ using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Utils;
 using System.Collections.Concurrent;
 
 namespace PRTelegramBot.Converters.Inline
@@ -29,15 +30,15 @@ namespace PRTelegramBot.Converters.Inline
         /// <inheritdoc />
         public string GenerateCallbackData(InlineCallback inlineCallback)
         {
-            BaseConvert(inlineCallback.CommandType, () => CurrentScope.Bot.GetSerializer().Serialize(inlineCallback));
-            return GetUserKey(inlineCallback.CommandType);
+            var hash = BaseConvert(inlineCallback.CommandType, () => CurrentScope.Bot.GetSerializer().Serialize(inlineCallback));
+            return GetKey(GetUserKey(inlineCallback.CommandType), hash);
         }
 
         /// <inheritdoc />
         public string GenerateCallbackData<T>(InlineCallback<T> inlineCallback) where T : TCommandBase
         {
-            BaseConvert(inlineCallback.CommandType, () => CurrentScope.Bot.GetSerializer().Serialize<InlineCallback<T>>(inlineCallback));
-            return GetUserKey(inlineCallback.CommandType);
+            var hash = BaseConvert(inlineCallback.CommandType, () => CurrentScope.Bot.GetSerializer().Serialize<InlineCallback<T>>(inlineCallback));
+            return GetKey(GetUserKey(inlineCallback.CommandType), hash);
         }
 
         /// <inheritdoc />
@@ -70,7 +71,7 @@ namespace PRTelegramBot.Converters.Inline
 
         private string GetUserKey(Enum command)
         {
-            return CurrentScope.Context.Update.GetInlineKey(command);
+            return CurrentScope.Context.Update.GetKeyMappingUserTelegram();
         }
 
         private string BaseConvert(Enum command, Func<string> convert)
@@ -78,20 +79,26 @@ namespace PRTelegramBot.Converters.Inline
             try
             {
                 var userKey = GetUserKey(command);
-                var filePath = Path.Combine(basePath, $"{userKey}.json");
                 var data = convert();
+                var hashString = StringUtils.HashForFileName(data, 12);
+                var filePath = Path.Combine(basePath, $"{GetKey(userKey, hashString)}.json");
 
                 if (!Directory.Exists(basePath))
                     Directory.CreateDirectory(basePath);
 
                 File.WriteAllText(filePath, data);
-                return data;
+                return hashString;
             }
             catch(Exception ex)
             {
                 CurrentScope.Context.Current.GetLogger<FileInlineConverter>().LogErrorInternal(ex);
                 return null;
             }
+        }
+
+        private string GetKey(string userKey, string hash)
+        {
+            return $"{userKey}-{hash}";
         }
 
         private string GetAppPath()
