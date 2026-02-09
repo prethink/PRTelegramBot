@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.9.6</Version>
+    <Version>0.9.7</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
@@ -51,7 +51,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.11" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.11" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.11" />
-    <PackageReference Include="Telegram.Bot" Version="22.8.1" />
+    <PackageReference Include="Telegram.Bot" Version="22.9.0" />
     <PackageReference Include="ToonNet" Version="1.0.4" />
   </ItemGroup>
 
