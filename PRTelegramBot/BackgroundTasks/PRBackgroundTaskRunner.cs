@@ -76,7 +76,9 @@ namespace PRTelegramBot.BackgroundTasks
                     continue;
                 }
 
-                activeTasks.TryAdd(mtd.Id, RunningBackgroundTask.Create(RunTaskAsync, mtd, new CancellationTokenSource()));
+                var backgroundTask = RunningBackgroundTask.Create(RunTaskAsync, mtd, new CancellationTokenSource());
+                backgroundTask.StartTask();
+                activeTasks.TryAdd(mtd.Id, backgroundTask);
             }
 
             return Task.CompletedTask;
