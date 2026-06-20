@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-06-20 - v0.9.10
+
+### 🧩 Common
+
+- Обновлены Microsoft.Extensions пакеты до версии 9.0.17:
+- Microsoft.Extensions.Configuration
+- Microsoft.Extensions.Configuration.Binder
+- Microsoft.Extensions.Configuration.Json
+- Microsoft.Extensions.Hosting.Abstractions
+- Microsoft.Extensions.Logging.Abstractions
+- Telegram.Bot обновлён до 22.10.1
+
 ## 2026-04-26 - v0.9.9
 
 ### 🧩 Common
