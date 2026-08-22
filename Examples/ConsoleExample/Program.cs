@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using PRTelegramBot.Builders;
 using PRTelegramBot.Converters.Inline;
 using PRTelegramBot.Models.EventsArgs;
-using PRTelegramBot.Wrappers;
 
 /****************************************************************************************
  * ######################################################################################

@@ -18,7 +18,7 @@ namespace PRTelegramBot.Extensions
         /// <returns>True if the user is an administrator; False otherwise.</returns>
         public static async Task<bool> IsAdmin(this IBotContext context)
         {
-            return await IsAdmin(context);
+            return await IsAdmin(context, context.Update.GetChatId());
         }
 
         /// <summary>

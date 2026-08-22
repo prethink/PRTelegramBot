@@ -1,6 +1,27 @@
 # Changelog
 
-## 2026-06-20 - v0.9.10
+[English](CHANGELOG.md) | **Русский**
+
+
+## 22.08.2026 - v0.9.11
+
+### 🔄 Breaking changes
+
+- Удалено незавершённое пространство имён `PRTelegramBot.Workflow`: `IWorkflowNode`, `IWorkflowState`, `IWorkflowCondition`, `IWorkflowManulTask`, `TelegramStateManager` и остальные типы из него. Это были пустые заглушки без единого члена, нигде не использовались.
+- Удалён интерфейс `IInlineStorage`. Он никогда не реализовывался и не использовался.
+
+### 🧩 Common
+
+- Telegram.Bot обновлён до 22.10.2.1
+- Комментарии в коде и тексты примеров переведены на английский.
+- Добавлены английские версии README и CHANGELOG; русские лежат рядом как `README.ru.md` и `CHANGELOG.ru.md`.
+
+### 🐞 Bugs
+
+- Поправил проблему с рекурсией при проверке администратора через context.
+- `AutoEditMessageСycle` переименован в `AutoEditMessageCycle`: в старом имени была кириллическая «С».
+
+## 20.06.2026 - v0.9.10
 
 ### 🧩 Common
 
@@ -12,7 +33,7 @@
 - Microsoft.Extensions.Logging.Abstractions
 - Telegram.Bot обновлён до 22.10.1
 
-## 2026-04-26 - v0.9.9
+## 26.04.2026 - v0.9.9
 
 ### 🧩 Common
 - Telegram.Bot: обновлен до 22.9.6.1
@@ -20,22 +41,22 @@
 ### 📝 Background Tasks
 - Поправил проблему с запуском фоновых задач.
 
-## 2026-03-02 - v0.9.8
+## 02.03.2026 - v0.9.8
 
 ### 🧩 Common
 - Telegram.Bot: обновлен до 22.9.5
 
-## 2026-02-10 - v0.9.7
+## 10.02.2026 - v0.9.7
 
 ### 🧩 Common
 - Telegram.Bot: обновлен до 22.9.0
 
-## 2026-02-02 - v0.9.6
+## 02.02.2026 - v0.9.6
 
 ### 🧩 Common
 - Поправил баги в FileInlineConverter. Теперь корректно формируется билдер inline кнопок.
 
-## 2026-01-03 - v0.9.5
+## 03.01.2026 - v0.9.5
 
 ### 🧩 Common
 - В PRBotBase добавлен метод SetServiceProvider.
@@ -47,19 +68,17 @@
 3. ILoggerFactory из DI   
 4. Встроенная фабрика логеров (fallback)   
 
-## 2026-01-03 - v0.9.4
+## 03.01.2026 - v0.9.4
 
 ### 🧩 Common
 - Telegram.Bot: обновлен до 22.8.1
 
-## 2026-01-02 - v0.9.3
+## 02.01.2026 - v0.9.3
 
 ### 🧩 Common
 - Telegram.Bot: обновлен до 22.8.0
 
-# Changelog
-
-## 2025-12-28 - v0.9.2
+## 28.12.2025 - v0.9.2
 
 ### 🧩 Common
 - Библиотека `Microsoft.Extensions.Configuration` обновлена до версии 9.0.11
@@ -79,7 +98,7 @@
 3. Встроенная фабрика логеров (fallback)   
 
 
-## 2025-12-23 - v0.9.1
+## 23.12.2025 - v0.9.1
 
 ### 🔄 Breaking changes
 - В `MiddlewareBase` стал абстрактным классом.
@@ -93,7 +112,7 @@
 - Добавлена поддержка шины событий.
 
 
-## 2025-12-13 - v0.9.0
+## 13.12.2025 - v0.9.0
 
 ### 🔄 Breaking changes
 - `PRBotBuilder` перенесён из `PRTelegramBot.Core` в `PRTelegramBot.Builders`
@@ -163,10 +182,10 @@ var services = CurrentScope.Services (IServiceProvider);`
 2. Через DI
 3. Локальные/дефолтные классы.
 
-## 2025.12.08 - V0.8.6
+## 08.12.2025 - V0.8.6
 - Telegram.Bot: обновлен до 22.7.6
 
-## 2025.12.04 - V0.8.5
+## 04.12.2025 - V0.8.5
 - В атрибут SlashHandlerAttribute добавлена возможность указать символ разделителя для аргументов. Пример [SlashHandler('_', "/get")]
 - Добавлена возможность при выполнение slash команд получить список аргументов из контекста. 
 var args = context.GetSlashArgs();
@@ -174,24 +193,24 @@ var args = context.GetSlashArgs<int>();
 var args = context.GetSlashArgs<bool>();
 - /start с deeplink теперь можно использовать в своих slash методах, а не как раньше, только через события.
 
-## 2025.11.29 - V0.8.4
+## 29.11.2025 - V0.8.4
 - В билдере теперь есть возможность указать каким сериализатором пользоваться (SetInlineSerializer) для Inline кнопок. JsonSerializerWrapper или ToonSerializerWrapper. ToonSerializerWrapper использует меньше байт в callback_data.
 - При создание экземпляра сериализатора можно устанавливать параметры сериализации.
 - Добавлен класс глобальных настроек проекта PRSettingsProvider.
 - Добавлена библиотека ToonNet.
 - Добавлена Microsoft.Extensions.Hosting.Abstractions для возможности использования бота как IHostedService сервиса.
 
-## 2025.11.09 - V0.8.3
+## 09.11.2025 - V0.8.3
 - Telegram.Bot: обновлен до 22.7.5
 
-## 2025.10.31 - V0.8.2
+## 31.10.2025 - V0.8.2
 - Telegram.Bot: обновлен до 22.7.4
 
-## 2025.10.27 - V0.8.1
+## 27.10.2025 - V0.8.1
 - Telegram.Bot: обновлен до 22.7.3
 - Рефакторинг метода GetFullNameFromChat
 
-## 2025.09.15 - V0.8
+## 15.09.2025 - V0.8
 - Рефакторинг кода. Так же спасибо за помощь @Harlok13.
 - Добавлен IBotContext который хранит в себе: Всех экземпляры ботов системы. Текущий экземпляр бота. Update. BotClient, CurrentUpdateType, CancelationToken.
 - Сигнатура методов, команд ...ITelegramBotClient botClient, Update update... заменена на IBotContext context
@@ -229,62 +248,62 @@ update -> context.Update
 botClient -> context.BotClient
 
 
-## 2025.09.04 - V0.7.12
+## 04.09.2025 - V0.7.12
 - Исправлена проверка размера callback_data. Автор @Harlok13
 - Telegram.Bot: обновлен до 22.7.2
 
-## 2025.08.31 - V0.7.11
+## 31.08.2025 - V0.7.11
 - Еще доработки по Di Scope для nextStep.
 
-## 2025.08.29 - V0.7.10
+## 29.08.2025 - V0.7.10
 - Исправление Di Scope.
 - Исправлена проблема при выполнение шагов, когда шаг ограничен по времени.
 - В IExecuteStep добавлен метод CanExecute.
 
-## 2025.08.27 - V0.7.9.6
+## 27.08.2025 - V0.7.9.6
 - В CacheExtension добавлен метод удаления ключа кеша через update. RemoveCacheData.
 
-## 2025.08.20 - V0.7.9.5
+## 20.08.2025 - V0.7.9.5
 - Telegram.Bot: обновлен до 22.6.2
 
-## 2025.07.13 - V0.7.9.4
+## 13.07.2025 - V0.7.9.4
 - Telegram.Bot: обновлен до 22.6.0
 
-## 2025.05.05 - V0.7.9.3
+## 05.05.2025 - V0.7.9.3
 - В генератор меню Reply добавлен параметр OneTimeKeyboard
 - Фиксы проверки флагов привилегий
 
-## 2025.02.18 - V0.7.9
+## 18.02.2025 - V0.7.9
 - Telegram.Bot: обновлен до 22.4.3
 - Рефакторинг методов в Messages, чтобы соотвествовали telegram.bot
 
-## 2025.02.13 - V0.7.8
+## 13.02.2025 - V0.7.8
 - Telegram.Bot: обновлен до 22.4.0
 
-## 2025.01.04 - V0.7.7
+## 04.01.2025 - V0.7.7
 - Telegram.Bot: обновлен до 22.3.0
 
-## 2024.12.25 - V0.7.6
+## 25.12.2024 - V0.7.6
 - update: Добавлен inline обработчик для экземпляров классов. Позволяет назначить тип команды для определенного типа класса, который реализует интерфейс ICallbackQueryCommandHandler. Добавлен пример для консольного приложения и для asp.net di.
 - refactoring: RegisterCommand из Options перенесен в CommandOptions.
 - refactoring: Метод SplitIntoChunks перенесен в MessageUtils из класса Message.
 
-## 2024.12.05 - V0.7.5
+## 05.12.2024 - V0.7.5
 - Telegram.Bot: обновлен до 22.2.0
 
-## 2024.11.19 - V0.7.4
+## 19.11.2024 - V0.7.4
 - Telegram.Bot: обновлен до 22.1.0
 
-## 2024.11.10 - V0.7.3
+## 10.11.2024 - V0.7.3
 - Telegram.Bot: обновлен до 22.0.2
 
-## 2024.08.01 - V0.7.2
+## 01.08.2024 - V0.7.2
 - Telegram.Bot: обновлен до 21.8.0
 
-## 2024.07.27 - V0.7.1
+## 27.07.2024 - V0.7.1
 - fix: Добавлена настройка для ограничения спама логов ошибок в случае если пропала сеть. TelegramOptions.AntiSpamErrorMinute значение по умолчанию 1 минута.
 
-## 2024.07.21 - V0.7
+## 21.07.2024 - V0.7
 - update: Проект теперь позиционирует себя как framework.
 - Telegram.Bot: обновлен до 21.7.1
 - feature: Добавлена возможность встраиваться в обработку update типа message и callbackQuery. Позволяет реализовать и добавить собственные обработчики для текстовых и inline команд.
@@ -293,18 +312,18 @@ botClient -> context.BotClient
 - refactoring: Добавлен новый тип событий CommandEvents. Туда перенесены все события связанные с командами.
 - refactoring: Упростил работу с календарем.
 
-## 2024.07.18 - V0.6.6
+## 18.07.2024 - V0.6.6
 - Telegram.Bot: обновлен до 21.7
 
-## 2024.07.14 - V0.6.5
+## 14.07.2024 - V0.6.5
 - Telegram.Bot: обновлен до 21.6.2
 
-## 2024.07.07 - V0.6.4
+## 07.07.2024 - V0.6.4
 - feature: InlineCallback теперь реализует интерфейс IDisposable. Если в данных будет указано ActionWithLastMessage delete сообщение автоматически удалиться.
 - feature: Добавлен класс расширения для типа Message и методы AutoDeleteMessage, AutoEdit, AutoEditCycle.
 - fix: В nuget пакете не отображались xml комментарии
 
-## 2024.07.06 - V0.6.3
+## 06.07.2024 - V0.6.3
 - feature: Добавлены новые inline кнопки InlinePay InlineCallbackGame InlineSwitchInlineQuery InlineSwitchInlineQueryChosenChat InlineSwitchInlineQueryCurrentChat InlineLoginUrl.
 - feature: Добавлены обертка InlineCallbackWithConfirmation для кнопок InlineCallBack. Позволяет вызвать сообщение подтверждения перед выполнением.
 - feature: В TCommandBase и в наследников добавлено свойство ActionWithLastMessage, позволяет указать что делать с последним сообщением. Ничего, удалить, отредактировать.
@@ -312,7 +331,7 @@ botClient -> context.BotClient
 - feature: В UpdateExtension добавлен метод GetChatIdClass который возвращает ChatId в формате класса
 - fix: Если при обработке произошла ошибка, вызывалось событие missingCommand.
 
-## 2024.07.01 - V0.6.2
+## 01.07.2024 - V0.6.2
 - update: Ядро telegram.bot обновлено с 21.2.0 до 21.4.0 версии.
 - feature: В интерфейс IInternalCheck добавлен аргумент CommandHandler
 - feature: Добавлены новые события в update типа сообщения. OnPreReplyCommandHandle, OnPostReplyCommandHandle, OnPreDynamicReplyCommandHandle, OnPostDynamicReplyCommandHandle,
@@ -322,7 +341,7 @@ botClient -> context.BotClient
 - feature: Убраны await для команд reply, slash, inline, dynamicreply чтобы не задерживали обработку других update
 - feature: Добавлен polling режим. Теперь есть classic (функционал telegram.bot), polling, webhook.
 
-## 2024.06.30 - V0.6.1
+## 30.06.2024 - V0.6.1
 - update: Ядро telegram.bot обновлено с 19 до 21.2.0 версии.
 - update: Из-за обновления убран newtonsoft json
 - update: Добавлены новые события для сообщений Giveaway, GiveawayWinners, GiveawayCompleted, BoostAdded, ChatBackgroundSet
@@ -336,7 +355,7 @@ botClient -> context.BotClient
 - refactoring: TEvents события которые относятся к обновлениям перенесены в класс UpdateEvents
 - refactoring: В билдере AddAdmin и AddWhiteListUser заменен параметр long на params long[]
 
-## 2024.06.22 - V0.6
+## 22.06.2024 - V0.6
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Binder до 8 версии
 - update: Обновлена библиотека Microsoft.Extensions.Configuration.Json до 8 версии
 - test: Unit тесты
@@ -373,7 +392,7 @@ botClient -> context.BotClient
 - fix: Кэш и шаги теперь связаны с конкретным ботом и пользователем
 - fix: Для сообщений добавлены все события
 
-## 2024.01.02 - V0.5.5
+## 02.01.2024 - V0.5.5
 - feature: Добавлена возможность подставлять свой enum в common logs
 - feature: Добавлен InlineCommandNotFoundException
 - feature: Добавлена GroupUtils в котором есть метод IsGroupMember, IsGroupAdmin, IsGroupCreator
@@ -384,7 +403,7 @@ botClient -> context.BotClient
 - refactoring: Step.RegisterNextStep переименован в RegisterStepHandler
 - fix: IsSlashCommand теперь проверяет первый символ /
 
-##  2023.12.24 - V0.5.4
+## 24.12.2023 - V0.5.4
 - refactoring: ReflectionUtils перенесен в пространство имен PRTelegramBot.Utils
 - refactoring: ReflectionHelper переименован в ReflectionUtils
 - refactoring: Calendar перенесен в пространство имен PRTelegramBot.Utils
@@ -397,16 +416,16 @@ botClient -> context.BotClient
 - fix: Метод SendPhoto не отправлял сообщения если optionmessage был не пустой
 - fix: Enum записывает правильные значения из int
 
-## 2023.12.18 - V0.5.3
+## 18.12.2023 - V0.5.3
 - delete: Удален атрибут TelegramBotHandler
 - fix: поправлен поиск и создание классов для обработчиков telegram бота
   
-## 2023.12.17 - V0.5.2
+## 17.12.2023 - V0.5.2
 - fix: AddBotHandlers возвращает IServiceProvaider
 
-## 2023.12.17 - V0.5.1
+## 17.12.2023 - V0.5.1
 - fix: Изменен url проекта на https://prtelegrambot.gitbook.io/prtelegrambot/obrabotka-komand/obrabotka-inline-komand
 
-## 2023.12.17 - V0.5
+## 17.12.2023 - V0.5
 - feature: Добавлена динамическая регистрация команд reply и slash
 - feature: Добавлена работа с dependency injection и пример на asp.net

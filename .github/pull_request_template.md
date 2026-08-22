@@ -1,44 +1,43 @@
-# 📌 Описание изменений
-Опишите, что именно сделано в этом PR.  
-Например: добавлена новая функция, исправлен баг, улучшена документация.
+<!-- Русская версия: добавьте ?template=ru.md к URL создания PR — .github/PULL_REQUEST_TEMPLATE/ru.md -->
+
+# 📌 Description of changes
+Describe what exactly this PR does.
+For example: a new feature was added, a bug was fixed, the documentation was improved.
 
 ---
 
-# ✅ Тип изменений
-Отметьте `x` где нужно:
+# ✅ Type of change
+Mark `x` where it applies:
 
-- [ ] 🐞 Исправление бага (non-breaking change)
-- [ ] 🚀 Новая функциональность (non-breaking change)
-- [ ] 💥 Ломающие изменения (требуется миграция, изменены публичные API)
-- [ ] 📝 Обновление документации
-- [ ] 🧪 Тесты (добавлены/обновлены unit/integration тесты)
-- [ ] ⚡ Оптимизация производительности
+- [ ] 🐞 Bug fix (non-breaking change)
+- [ ] 🚀 New functionality (non-breaking change)
+- [ ] 💥 Breaking change (migration required, public API changed)
+- [ ] 📝 Documentation update
+- [ ] 🧪 Tests (unit/integration tests added or updated)
+- [ ] ⚡ Performance optimization
 
 ---
 
-# 🔄 Миграция
-- Нужно ли пользователям библиотеки что-то менять в коде?
-- Если да — опишите шаги миграции.  
-Пример:
+# 🔄 Migration
+- Does anything need to change in the code of the library's users?
+- If so, describe the migration steps.
+Example:
 ```csharp
-// Было
+// Before
 var result = lib.OldMethod();
 
-// Стало
+// After
 var result = lib.NewMethod();
 ```
 
 ---
 
-# 📷 Скриншоты (если есть)
-Прикрепите скриншоты / гифки, если изменения визуальные.
+# 📷 Screenshots (if any)
+Attach screenshots / GIFs if the changes are visual.
 
 ---
 
-# 🧾 Дополнительно
-- Важные заметки для ревьюеров.
+# 🧾 Additional notes
+- Important notes for reviewers.
 
 ---
-
-
-
