@@ -29,13 +29,13 @@ namespace PRTelegramBot.BackgroundTasks.Models
         #region IRunningBackgroundTaskData
 
         /// <inheritdoc />
-        public Task Task { get; protected set; }
+        public Task Task { get; private set; }
 
         /// <inheritdoc />
-        public CancellationTokenSource CancellationTokenSource { get; protected set; }
+        public CancellationTokenSource CancellationTokenSource { get; private set; }
 
         /// <inheritdoc />
-        public IPRBackgroundTaskMetadata Metadata { get; protected set; }
+        public IPRBackgroundTaskMetadata Metadata { get; private set; }
 
         /// <inheritdoc />
         public IReadOnlyList<Exception> Errors => errors.ToList();
@@ -47,17 +47,17 @@ namespace PRTelegramBot.BackgroundTasks.Models
         public int ExecutedCount => executeCount;
 
         /// <inheritdoc />
-        public DateTime? StartDate { get; protected set; }
+        public DateTime? StartDate { get; private set; }
 
         /// <inheritdoc />
-        public DateTime? EndDate { get; protected set; }
+        public DateTime? EndDate { get; private set; }
 
         /// <inheritdoc />
-        public PRTaskStatus Status { get; protected set; }
+        public PRTaskStatus Status { get; private set; }
 
 
         /// <inheritdoc />
-        public PRTaskCompletionResult CompleteStatus { get; protected set; }
+        public PRTaskCompletionResult CompleteStatus { get; private set; }
 
         /// <inheritdoc />
         public void AddError(Exception ex)
@@ -100,6 +100,13 @@ namespace PRTelegramBot.BackgroundTasks.Models
 
         #region Methods
 
+        /// <summary>
+        /// Creates the data of a running background task.
+        /// </summary>
+        /// <param name="StartAsync">Delegate that starts the task.</param>
+        /// <param name="metadata">Background task metadata.</param>
+        /// <param name="cancellationTokenSource">Cancellation token source of the task.</param>
+        /// <returns>Data of the running task.</returns>
         public static IRunningBackgroundTaskData Create(Func<IPRBackgroundTaskMetadata, IRunningBackgroundTaskData, CancellationToken, Task> StartAsync, IPRBackgroundTaskMetadata metadata, CancellationTokenSource cancellationTokenSource)
         {
             var runningBackgroundTaskData = new RunningBackgroundTask();

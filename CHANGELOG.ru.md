@@ -9,17 +9,26 @@
 
 - Удалено незавершённое пространство имён `PRTelegramBot.Workflow`: `IWorkflowNode`, `IWorkflowState`, `IWorkflowCondition`, `IWorkflowManulTask`, `TelegramStateManager` и остальные типы из него. Это были пустые заглушки без единого члена, нигде не использовались.
 - Удалён интерфейс `IInlineStorage`. Он никогда не реализовывался и не использовался.
+- Исправлены опечатки в именах параметров. Затрагивает только тех, кто передаёт эти аргументы по имени:
+  - `StepTelegram.RegisterNextStep` и конструкторы `StepTelegram`: `expiriedTime` -> `expiredTime`
+  - `PRBotBuilder.SetInlineSerializer`: `serializator` -> `serializer`
+  - `BackgroundTaskExtension.GetMetadata`: `metadates` -> `existingMetadata`
 
 ### 🧩 Common
 
 - Telegram.Bot обновлён до 22.10.2.1
 - Комментарии в коде и тексты примеров переведены на английский.
 - Добавлены английские версии README и CHANGELOG; русские лежат рядом как `README.ru.md` и `CHANGELOG.ru.md`.
+- Задокументированы все публичные члены: пробелов в XML-документации больше нет, повреждённые док-комментарии починены. IntelliSense полный.
+- `PageExtension.GetPaged` больше не помечен `async` — он ничего не ожидал. Для вызывающего кода сигнатура не изменилась.
+- Сеттеры `RunningBackgroundTask` и `SlashHandlerAttribute.SplitChar` изменены с `protected` на `private`. Оба класса `sealed`, поэтому снаружи эти сеттеры и так были недоступны.
 
 ### 🐞 Bugs
 
 - Поправил проблему с рекурсией при проверке администратора через context.
 - `AutoEditMessageСycle` переименован в `AutoEditMessageCycle`: в старом имени была кириллическая «С».
+- Исключения больше не проглатываются молча. Теперь они пишутся в лог в `PREventBus` (сбойный подписчик больше не исчезает бесследно), в `MessageAwaiter` при неудачном удалении сообщения-заглушки и в `TryGetConfigValue` при ошибке чтения конфигурации.
+- Обработчики событий по-прежнему вызываются без `await`, чтобы медленный подписчик не задерживал остальные update, — но сбой внутри такого обработчика теперь логируется, а не теряется вместе с необслуженной задачей.
 
 ## 20.06.2026 - v0.9.10
 

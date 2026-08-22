@@ -8,6 +8,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Services.Media
 {
+    /// <summary>
+    /// Edits media that has already been sent, and its caption.
+    /// </summary>
     public class MediaEditor
     {
         #region Methods

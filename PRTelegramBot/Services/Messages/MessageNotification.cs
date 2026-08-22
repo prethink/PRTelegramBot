@@ -3,6 +3,9 @@ using Telegram.Bot;
 
 namespace PRTelegramBot.Services.Messages
 {
+    /// <summary>
+    /// Shows notifications and alerts in response to a callbackQuery.
+    /// </summary>
     public class MessageNotification
     {
         #region Methods

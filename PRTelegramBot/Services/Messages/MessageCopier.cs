@@ -6,6 +6,9 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Services.Messages
 {
+    /// <summary>
+    /// Copies messages between chats.
+    /// </summary>
     public class MessageCopier
     {
         #region Methods

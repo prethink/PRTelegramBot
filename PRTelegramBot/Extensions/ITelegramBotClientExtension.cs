@@ -46,6 +46,7 @@ namespace PRTelegramBot.Extensions
         /// Checks whether the user is present in the bot's white list.
         /// </summary>
         /// <param name="context">Bot context.</param>
+        /// <param name="userId">User identifier.</param>
         /// <returns>True if present in the list; False if not.</returns>
         public static async Task<bool> InWhiteList(this IBotContext context, long userId)
         {
@@ -159,7 +160,7 @@ namespace PRTelegramBot.Extensions
             }
             catch (Exception ex)
             {
-                //TODO Handle the error and return false
+                context.Current.GetLogger(typeof(ITelegramBotClientExtension)).LogErrorInternal(ex);
                 return false;
             }
         }

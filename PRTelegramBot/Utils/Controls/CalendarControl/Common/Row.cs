@@ -16,6 +16,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// </summary>
         /// <param name="date">Date.</param>
         /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Calendar command header identifier.</param>
         /// <returns>Collection of inline buttons.</returns>
         public static IEnumerable<InlineKeyboardButton> Date(in DateTime date, CultureInfo culture, int command = 0)
         {
@@ -31,6 +32,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Collection of the days of the week.
         /// </summary>
         /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Calendar command header identifier.</param>
         /// <returns>Collection of inline buttons.</returns>
         public static IEnumerable<InlineKeyboardButton> DayOfWeek(CultureInfo culture, int command = 0)
         {
@@ -49,6 +51,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// </summary>
         /// <param name="date">Date.</param>
         /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Calendar command header identifier.</param>
         /// <returns>Collection of inline buttons.</returns>
         public static IEnumerable<IEnumerable<InlineKeyboardButton>> Month(DateTime date, CultureInfo culture, int command = 0)
         {
@@ -90,6 +93,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Generates the controls for navigating between months.
         /// </summary>
         /// <param name="date">Date.</param>
+        /// <param name="command">Calendar command header identifier.</param>
         /// <returns>Collection of inline buttons.</returns>
         public static IEnumerable<InlineKeyboardButton> Controls(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[]
@@ -103,6 +107,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Returns to the month-of-year selection.
         /// </summary>
         /// <param name="date">Date.</param>
+        /// <param name="command">Calendar command header identifier.</param>
         /// <returns>Array of inline buttons.</returns>
         public static InlineKeyboardButton[] BackToMonthYearPicker(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[3]
@@ -116,6 +121,7 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         /// Changing the year.
         /// </summary>
         /// <param name="date">Date.</param>
+        /// <param name="command">Calendar command header identifier.</param>
         /// <returns>Array of inline buttons.</returns>
         public static InlineKeyboardButton[] ChangeYear(in DateTime date, int command = 0) =>
             new InlineKeyboardButton[3]

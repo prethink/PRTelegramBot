@@ -36,7 +36,7 @@ namespace PRTelegramBot.Core.CommandStores
         /// Adds a new command.
         /// </summary>
         /// <param name="command">Command.</param>
-        /// <param name="delegate">Method that handles the command.</param
+        /// <param name="delegate">Method that handles the command.</param>
         /// <returns>True if the command was added; False if it could not be added.</returns>
         public override bool AddCommand(Enum command, Func<IBotContext, Task> @delegate)
         {

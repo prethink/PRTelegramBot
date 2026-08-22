@@ -32,6 +32,7 @@ namespace PRTelegramBot.Models.EventsArgs
         /// Constructor.
         /// </summary>
         /// <param name="context">Context.</param>
+        /// <param name="e">Factory that creates the event arguments.</param>
         public CommonLogEventArgs(IBotContext context, CommonLogEventArgsCreator e) : base(context)
         {
             this.Message = e.Message;

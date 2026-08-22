@@ -5,6 +5,9 @@ using Telegram.Bot;
 
 namespace PRTelegramBot.Services.Messages
 {
+    /// <summary>
+    /// Deletes messages.
+    /// </summary>
     public class MessageDeleter
     {
         /// <summary>

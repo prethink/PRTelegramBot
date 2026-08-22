@@ -60,7 +60,11 @@ namespace PRTelegramBot.Utils
             {
                 await context.BotClient.DeleteMessage(chatId, message.MessageId);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                // The waiting message may already be gone; this must not break the caller.
+                context.Current.GetLogger<MessageAwaiter>().LogErrorInternal(ex);
+            }
         }
 
         #endregion

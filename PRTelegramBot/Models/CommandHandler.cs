@@ -91,7 +91,6 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <param name="method">Method.</param>
         /// <param name="bot">Bot.</param>
-        /// <param name="bot">Bot.</param>
         public CommandHandler(MethodInfo method, PRBotBase bot)
             : this(method, bot , CommandComparison.Equals) { }
 

@@ -6,6 +6,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils
 {
+    /// <summary>
+    /// Utilities for building inline buttons and menus.
+    /// </summary>
     public class InlineUtils
     {
         /// <summary>

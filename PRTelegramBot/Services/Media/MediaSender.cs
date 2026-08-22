@@ -8,6 +8,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Services.Media
 {
+    /// <summary>
+    /// Sends media: photos, photo groups, files and media by URL.
+    /// </summary>
     public class MediaSender
     {
         #region Methods

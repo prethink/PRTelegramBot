@@ -3,6 +3,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Models.InlineButtons
 {
+    /// <summary>
+    /// Base class for inline buttons.
+    /// </summary>
     public abstract class InlineBase
     {
         #region Fields and properties

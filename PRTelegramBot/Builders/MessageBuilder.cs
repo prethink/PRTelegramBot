@@ -4,7 +4,7 @@ namespace PRTelegramBot.Builders
 {
     /// <summary>
     /// Message builder with support for named tokens and positional arguments.
-    /// Lets you compose strings in the style of <see cref="string.Format"/>, 
+    /// Lets you compose strings in the style of <see cref="string.Format(string, object?[])"/>,
     /// but extended with tokens such as {QA}, {Dev} and so on.
     /// </summary>
     public class MessageBuilder

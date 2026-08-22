@@ -1,4 +1,7 @@
-﻿namespace PRTelegramBot.EventBus
+﻿using PRTelegramBot.Core.BotScope;
+using PRTelegramBot.Extensions;
+
+namespace PRTelegramBot.EventBus
 {
     /// <summary>
     /// Event bus.
@@ -66,7 +69,8 @@
                 }
                 catch (Exception e)
                 {
-                    //Debug.LogError($"{subscribers.GetType()} - {e}");
+                    // One faulty subscriber must not stop the broadcast to the rest.
+                    CurrentScope.Bot?.GetLogger(typeof(PREventBus)).LogErrorInternal(e);
                 }
             }
             sbrs.Executing = false;

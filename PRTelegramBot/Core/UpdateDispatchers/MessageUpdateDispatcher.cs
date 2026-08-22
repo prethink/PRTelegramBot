@@ -59,7 +59,9 @@ namespace PRTelegramBot.Core.UpdateHandlers
         private async Task<UpdateResult> UpdateMessageCommands(IBotContext context)
         {
             var result = UpdateResult.Continue;
-            bot.Events.MessageEvents.OnTextHandleInvoke(context.CreateBotEventArgs());
+            bot.Events.MessageEvents
+                .OnTextHandleInvoke(context.CreateBotEventArgs())
+                .FireAndForget(context, typeof(MessageUpdateDispatcher));
 
             if (!nextStepHandler.IgnoreBasicCommand(context))
             {
@@ -87,7 +89,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         /// <summary>
         /// Handler for the various events.
         /// </summary>
-        /// <param name="update">Update.</param>
+        /// <param name="context">Bot context.</param>
         /// <returns>The execution result.</returns>
         private async Task<UpdateResult> EventHandler(IBotContext context)
         {

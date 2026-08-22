@@ -13,7 +13,7 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Separator character.
         /// </summary>
-        public char SplitChar { get; protected set; } = default;
+        public char SplitChar { get; private set; } = default;
 
         #endregion
 

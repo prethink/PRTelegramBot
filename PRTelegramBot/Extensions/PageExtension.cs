@@ -17,7 +17,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="page">Page.</param>
         /// <param name="pageSize">Page size.</param>
         /// <returns>A page of data together with additional information.</returns>
-        public static async Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize)
+        public static Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize)
             where T : class
         {
             var result = new PagedResult<T>();
@@ -31,7 +31,7 @@ namespace PRTelegramBot.Extensions
             var skip = (page - 1) * pageSize;
             result.Results = query.Skip(skip).Take(pageSize).ToList();
 
-            return result;
+            return Task.FromResult(result);
         }
 
         #endregion

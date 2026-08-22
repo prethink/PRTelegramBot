@@ -7,6 +7,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Services.Messages
 {
+    /// <summary>
+    /// Edits messages that have already been sent.
+    /// </summary>
     public class MessageEditor
     {
         #region Methods

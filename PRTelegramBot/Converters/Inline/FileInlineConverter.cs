@@ -106,11 +106,18 @@ namespace PRTelegramBot.Converters.Inline
             return AppContext.BaseDirectory;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="path">Folder the inline payloads are stored in.</param>
         public FileInlineConverter(string path)
         {
             basePath = Path.Combine(GetAppPath(), "path");
         }
 
+        /// <summary>
+        /// Constructor. Uses the default "InlineCallbacks" folder.
+        /// </summary>
         public FileInlineConverter()
         {
             basePath = Path.Combine(GetAppPath(), "InlineCallbacks");

@@ -96,22 +96,22 @@ namespace PRTelegramBot.Models
         /// Registers the next step.
         /// </summary>
         /// <param name="nextStep">Method that handles the next step.</param>
-        /// <param name="expiriedTime"> The time until which the command may be executed.</param>
-        public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiriedTime)
+        /// <param name="expiredTime"> The time until which the command may be executed.</param>
+        public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiredTime)
         {
-            RegisterNextStep(nextStep, expiriedTime, false);
+            RegisterNextStep(nextStep, expiredTime, false);
         }
 
         /// <summary>
         /// Registers the next step.
         /// </summary>
         /// <param name="nextStep">Method that handles the next step.</param>
-        /// <param name="expiriedTime"> The time until which the command may be executed.</param>
+        /// <param name="expiredTime"> The time until which the command may be executed.</param>
         /// <param name="ignoreBasicCommands">Ignore the basic commands while steps are running.</param>
-        public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiriedTime, bool ignoreBasicCommands)
+        public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiredTime, bool ignoreBasicCommands)
         {
             CommandDelegate = nextStep;
-            ExpiredTime = expiriedTime;
+            ExpiredTime = expiredTime;
             IgnoreBasicCommands = ignoreBasicCommands;
         }
 
@@ -150,32 +150,32 @@ namespace PRTelegramBot.Models
         /// Creates a new next step.
         /// </summary>
         /// <param name="command">Command to execute.</param>
-        /// <param name="expiriedTime">Maximum lifetime of the command, after which it is ignored.</param>
-        public StepTelegram(Func<IBotContext, Task> command, DateTime expiriedTime)
-            : this(command, expiriedTime, null, false) { }
+        /// <param name="expiredTime">Maximum lifetime of the command, after which it is ignored.</param>
+        public StepTelegram(Func<IBotContext, Task> command, DateTime expiredTime)
+            : this(command, expiredTime, null, false) { }
 
         /// <summary>
         /// Creates a new next step.
         /// </summary>
         /// <param name="command">Command to execute.</param>
-        /// <param name="expiriedTime">Maximum lifetime of the command, after which it is ignored.</param>
+        /// <param name="expiredTime">Maximum lifetime of the command, after which it is ignored.</param>
         /// <param name="cache">Cache.</param>
-        public StepTelegram(Func<IBotContext, Task> command, DateTime? expiriedTime, ITelegramCache cache)
-            : this(command, expiriedTime, cache, false) { }
+        public StepTelegram(Func<IBotContext, Task> command, DateTime? expiredTime, ITelegramCache cache)
+            : this(command, expiredTime, cache, false) { }
 
         /// <summary>
         /// Creates a new next step.
         /// </summary>
         /// <param name="command">Command to execute.</param>
-        /// <param name="expiriedTime">Maximum lifetime of the command, after which it is ignored.</param>
+        /// <param name="expiredTime">Maximum lifetime of the command, after which it is ignored.</param>
         /// <param name="cache">Cache.</param>
         /// <param name="ignoreBasicCommands">Ignore the basic commands while steps are running.</param>
-        public StepTelegram(Func<IBotContext, Task> command, DateTime? expiriedTime, ITelegramCache cache, bool ignoreBasicCommands)
+        public StepTelegram(Func<IBotContext, Task> command, DateTime? expiredTime, ITelegramCache cache, bool ignoreBasicCommands)
         {
             this.cache = cache;
             IgnoreBasicCommands = ignoreBasicCommands;
             CommandDelegate = command;
-            ExpiredTime = expiriedTime;
+            ExpiredTime = expiredTime;
         }
 
         #endregion

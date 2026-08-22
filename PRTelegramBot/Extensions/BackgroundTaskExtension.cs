@@ -13,10 +13,10 @@ namespace PRTelegramBot.Extensions
         /// Gets the task metadata from the task itself.
         /// </summary>
         /// <param name="backgroundTask">Task.</param>
-        /// <param name="metadates">Collection of existing metadata.</param>
+        /// <param name="existingMetadata">Collection of existing metadata.</param>
         /// <param name="throwIfNull">Throw an exception when the value is null.</param>
         /// <returns>The metadata, or null.</returns>
-        public static IPRBackgroundTaskMetadata GetMetadata(this IPRBackgroundTask backgroundTask, IEnumerable<IPRBackgroundTaskMetadata> metadates, bool throwIfNull = true)
+        public static IPRBackgroundTaskMetadata GetMetadata(this IPRBackgroundTask backgroundTask, IEnumerable<IPRBackgroundTaskMetadata> existingMetadata, bool throwIfNull = true)
         {
             var metadata = backgroundTask.GetType().GetCustomAttribute(typeof(PRBackgroundTaskAttribute), false) as IPRBackgroundTaskMetadata;
 
@@ -24,7 +24,7 @@ namespace PRTelegramBot.Extensions
                 metadata = backgroundTask as IPRBackgroundTaskMetadata;
 
             if (metadata == null)
-                metadata = metadates.SingleOrDefault(x => x.Id == backgroundTask.Id);
+                metadata = existingMetadata.SingleOrDefault(x => x.Id == backgroundTask.Id);
 
             if (throwIfNull && metadata == null)
                 throw new InvalidOperationException(

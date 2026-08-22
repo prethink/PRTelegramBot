@@ -213,6 +213,7 @@ namespace PRTelegramBot.Utils
         /// <param name="previousPageMarker">The prevpage marker.</param>
         /// <param name="currentPageMarker">The currentPage marker.</param>
         /// <param name="addMenu">An additional menu the data has to be merged with.</param>
+        /// <param name="enumToInt">Command header the page buttons are built for.</param>
         /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             int currentPage,
@@ -236,6 +237,7 @@ namespace PRTelegramBot.Utils
         /// <param name="previousPageMarker">The prevpage marker.</param>
         /// <param name="button">The handler button placed in the center.</param>
         /// <param name="addMenu">An additional menu the data has to be merged with.</param>
+        /// <param name="enumToInt">Command header the page buttons are built for.</param>
         /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             int currentPage, 
@@ -258,6 +260,7 @@ namespace PRTelegramBot.Utils
         /// <param name="nextPageMarker">The nextpage marker.</param>
         /// <param name="previousPageMarker">The prevpage marker.</param>
         /// <param name="currentPageMarker">The currentPage marker.</param>
+        /// <param name="enumToInt">Command header the page buttons are built for.</param>
         /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             Enum enumToInt, 

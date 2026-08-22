@@ -8,6 +8,9 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Services.Messages
 {
+    /// <summary>
+    /// Sends messages to Telegram.
+    /// </summary>
     public class MessageSender
     {
         #region Methods

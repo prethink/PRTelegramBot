@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Extensions for working with two-dimensional collections
-    /// (<see cref="IEnumerable{IEnumerable{T}}"/>).
+    /// (<c>IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</c>).
     /// They make getting the rows, columns and sizes of a collection simpler.
     /// </summary>
     public static class CollectionExtension

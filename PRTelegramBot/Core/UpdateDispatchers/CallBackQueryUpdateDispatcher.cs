@@ -19,7 +19,9 @@ namespace PRTelegramBot.Core.UpdateHandlers
         {
             try
             {
-                context.Current.Events.UpdateEvents.OnCallbackQueryHandler(context.CreateBotEventArgs());
+                context.Current.Events.UpdateEvents
+                    .OnCallbackQueryHandler(context.CreateBotEventArgs())
+                    .FireAndForget(context, typeof(CallBackQueryUpdateDispatcher));
                 var result = UpdateResult.Continue;
                 foreach (var handler in context.Current.Options.CallbackQueryHandlers)
                 {

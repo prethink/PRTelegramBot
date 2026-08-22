@@ -1,5 +1,8 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
+    /// <summary>
+    /// Controls at which point the white list is checked.
+    /// </summary>
     public enum WhiteListSettings
     {
         /// <summary>

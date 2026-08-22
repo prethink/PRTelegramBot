@@ -22,11 +22,25 @@ namespace PRTelegramBot.Utils
         /// </summary>
         const string Symbols = " ~`@#$%^&*()_+-=[]{};'\\:\"|,./<>?";
 
+        /// <summary>
+        /// Character groups the generated set may be built from.
+        /// </summary>
         [Flags]
         public enum Chars
         {
+            /// <summary>
+            /// Digits 0-9.
+            /// </summary>
             Digits = 0b0001,
+
+            /// <summary>
+            /// Latin letters.
+            /// </summary>
             Alphabet = 0b0010,
+
+            /// <summary>
+            /// Punctuation and special characters.
+            /// </summary>
             Symbols = 0b0100
         }
 

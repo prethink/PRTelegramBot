@@ -476,11 +476,11 @@ namespace PRTelegramBot.Builders
         /// <summary>
         /// Sets the data serializer used for inline buttons.
         /// </summary>
-        /// <param name="serializator">Serializer.</param>
+        /// <param name="serializer">Serializer.</param>
         /// <returns>Builder.</returns>
-        public PRBotBuilder SetInlineSerializer(IPRSerializer serializator)
+        public PRBotBuilder SetInlineSerializer(IPRSerializer serializer)
         {
-            options.PRSerializer = serializator;
+            options.PRSerializer = serializer;
             return this;
         }
 

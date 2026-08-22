@@ -4,6 +4,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PRTelegramBot.Utils
 {
+    /// <summary>
+    /// Utilities for working with messages and their options.
+    /// </summary>
     public static class MessageUtils
     {
         /// <summary>

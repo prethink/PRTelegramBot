@@ -361,7 +361,11 @@ namespace PRTelegramBot.Core
         /// <returns>The logger factory.</returns>
         public ILoggerFactory GetLoggerFactory()
         {
+            // PRLoggerEventsFactory is obsolete on purpose: it is the fallback that keeps the old
+            // event-based logging working when no ILoggerFactory is supplied by the builder or DI.
+#pragma warning disable CS0618
             return this.PriorityResolve(Options.LoggerFactory, () => new PRLoggerEventsFactory(this));
+#pragma warning restore CS0618
         }
 
         /// <summary>

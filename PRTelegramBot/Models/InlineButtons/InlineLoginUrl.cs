@@ -11,6 +11,9 @@ namespace PRTelegramBot.Models.InlineButtons
     {
         #region Fields and properties
 
+        /// <summary>
+        /// Login URL the button opens.
+        /// </summary>
         public LoginUrl LoginUrl { get; set; }
 
         #endregion

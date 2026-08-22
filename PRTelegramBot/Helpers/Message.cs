@@ -6,6 +6,10 @@ using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Helpers
 {
+    /// <summary>
+    /// Obsolete facade over the message and media services.
+    /// </summary>
+    /// <remarks>Kept for backward compatibility. Use MessageSender, MessageEditor, MessageDeleter, MediaSender and MediaEditor instead.</remarks>
     [Obsolete($"This class is obsolete. Look at {nameof(MessageSender)}, {nameof(MessageEditor)}, {nameof(MessageDeleter)}, {nameof(MediaEditor)}, {nameof(MediaSender)} instead")]
     public class Message
     {

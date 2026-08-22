@@ -9,17 +9,26 @@
 
 - Removed the unfinished `PRTelegramBot.Workflow` namespace: `IWorkflowNode`, `IWorkflowState`, `IWorkflowCondition`, `IWorkflowManulTask`, `TelegramStateManager` and the other types in it. They were empty stubs with no members and were used nowhere.
 - Removed the `IInlineStorage` interface. It was never implemented or used.
+- Misspelled parameter names have been corrected. This only affects callers that pass these arguments by name:
+  - `StepTelegram.RegisterNextStep` and the `StepTelegram` constructors: `expiriedTime` -> `expiredTime`
+  - `PRBotBuilder.SetInlineSerializer`: `serializator` -> `serializer`
+  - `BackgroundTaskExtension.GetMetadata`: `metadates` -> `existingMetadata`
 
 ### 🧩 Common
 
 - Telegram.Bot updated to 22.10.2.1
 - The code comments and the example texts have been translated into English.
 - Added English versions of README and CHANGELOG; the Russian versions live alongside them as `README.ru.md` and `CHANGELOG.ru.md`.
+- Every public member is now documented: the XML documentation no longer has gaps, and the malformed doc comments have been repaired. IntelliSense is complete.
+- `PageExtension.GetPaged` is no longer declared `async` — it did not await anything. The signature callers see is unchanged.
+- The setters of `RunningBackgroundTask` and `SlashHandlerAttribute.SplitChar` changed from `protected` to `private`. Both classes are `sealed`, so these setters were never reachable from outside.
 
 ### 🐞 Bugs
 
 - Fixed a recursion problem when checking for an administrator through the context.
 - Renamed `AutoEditMessageСycle` to `AutoEditMessageCycle`: the old name contained a Cyrillic "С".
+- Exceptions are no longer swallowed silently. They are now written to the log in `PREventBus` (a faulty subscriber no longer disappears without a trace), in `MessageAwaiter` when the waiting message cannot be deleted, and in `TryGetConfigValue` when reading the configuration fails.
+- Event handlers are still invoked without an await, so that a slow subscriber cannot hold up other updates — but a failure inside one is now logged instead of being lost with the unobserved task.
 
 ## June 20, 2026 - v0.9.10
 
