@@ -17,8 +17,17 @@ TelegramBot v22.10.2.1 https://github.com/TelegramBots/Telegram.Bot
 
 # 📰 Описание
 Фреймворк с открытым исходным кодом с гибким и простым функционалом для создания ботов Telegram.
-Примеры https://github.com/prethink/PRTelegramBot/tree/master/Examples
 Примеры с видео: [https://github.com/prethink/PRTelegramYoutube](https://github.com/prethink/PRTelegramYoutubeOld)
+
+# 🚀 Примеры
+
+| Пример | Что показывает |
+| --- | --- |
+| [Консольный](Examples/ConsoleExample/README.ru.md) | Почти весь фреймворк в одном месте: команды всех видов, меню, события, middleware, фоновые задачи. Начинать удобнее с него. |
+| [ASP.NET](Examples/AspNetExample/README.ru.md) | Бот внутри ASP.NET Core, всё разрешается через dependency injection. Polling. |
+| [ASP.NET webhook](Examples/AspNetWebHookExample/README.ru.md) | Два бота на одном webhook-endpoint, различаются по секретному токену. |
+
+Есть также [шаблон для быстрого старта](Templates/FastBotTemplate) нового консольного бота.
 
 # 💎 Функционал
 
