@@ -34,23 +34,30 @@ namespace PRTelegramBot.Extensions
         {
             return update.Type switch
             {
-                UpdateType.Message => update.Message.Chat.Id,
-                UpdateType.CallbackQuery => update.CallbackQuery.Message.Chat.Id,
-                UpdateType.BusinessConnection => update.BusinessConnection.UserChatId,
-                UpdateType.BusinessMessage => update.BusinessMessage.Chat.Id,
-                UpdateType.ChannelPost => update.ChannelPost.Chat.Id,
-                UpdateType.ChatBoost => update.ChatBoost.Chat.Id,
-                UpdateType.ChatJoinRequest => update.ChatJoinRequest.Chat.Id,
-                UpdateType.ChatMember => update.ChatMember.Chat.Id,
-                UpdateType.DeletedBusinessMessages => update.DeletedBusinessMessages.Chat.Id,
-                UpdateType.EditedBusinessMessage => update.EditedBusinessMessage.Chat.Id,
-                UpdateType.EditedChannelPost => update.EditedChannelPost.Chat.Id,
-                UpdateType.EditedMessage => update.EditedMessage.Chat.Id,
-                UpdateType.MessageReaction => update.MessageReaction.Chat.Id,
-                UpdateType.MessageReactionCount => update.MessageReactionCount.Chat.Id,
-                UpdateType.MyChatMember => update.MyChatMember.Chat.Id,
-                UpdateType.PollAnswer => update.PollAnswer.VoterChat.Id,
-                UpdateType.RemovedChatBoost => update.RemovedChatBoost.Chat.Id,
+                // Update.Type is derived from which payload property is set, so the payload
+                // itself is never null for its own case — hence the null-forgiving operator.
+                UpdateType.Message => update.Message!.Chat.Id,
+                // A callback query has no message when it comes from an inline message,
+                // or when the original message is too old.
+                UpdateType.CallbackQuery => update.CallbackQuery!.Message?.Chat.Id
+                    ?? throw new InvalidOperationException("The callback query carries no message, so the chat id cannot be determined."),
+                UpdateType.BusinessConnection => update.BusinessConnection!.UserChatId,
+                UpdateType.BusinessMessage => update.BusinessMessage!.Chat.Id,
+                UpdateType.ChannelPost => update.ChannelPost!.Chat.Id,
+                UpdateType.ChatBoost => update.ChatBoost!.Chat.Id,
+                UpdateType.ChatJoinRequest => update.ChatJoinRequest!.Chat.Id,
+                UpdateType.ChatMember => update.ChatMember!.Chat.Id,
+                UpdateType.DeletedBusinessMessages => update.DeletedBusinessMessages!.Chat.Id,
+                UpdateType.EditedBusinessMessage => update.EditedBusinessMessage!.Chat.Id,
+                UpdateType.EditedChannelPost => update.EditedChannelPost!.Chat.Id,
+                UpdateType.EditedMessage => update.EditedMessage!.Chat.Id,
+                UpdateType.MessageReaction => update.MessageReaction!.Chat.Id,
+                UpdateType.MessageReactionCount => update.MessageReactionCount!.Chat.Id,
+                UpdateType.MyChatMember => update.MyChatMember!.Chat.Id,
+                // A poll answer has no voter chat when the answer came from a user rather than a chat.
+                UpdateType.PollAnswer => update.PollAnswer!.VoterChat?.Id
+                    ?? throw new InvalidOperationException("The poll answer carries no voter chat, so the chat id cannot be determined."),
+                UpdateType.RemovedChatBoost => update.RemovedChatBoost!.Chat.Id,
                 _ => throw new NotImplementedException($"Not implemented get chatId for {update.Type}")
             }; 
         }
@@ -95,8 +102,9 @@ namespace PRTelegramBot.Extensions
         {
             return update.Type switch
             {
-                UpdateType.Message => update.Message.MessageId,
-                UpdateType.CallbackQuery => update.CallbackQuery.Message.MessageId,
+                UpdateType.Message => update.Message!.MessageId,
+                UpdateType.CallbackQuery => update.CallbackQuery!.Message?.MessageId
+                    ?? throw new InvalidOperationException("The callback query carries no message, so the message id cannot be determined."),
                 //TODO: messageId still needs work
                 _ => throw new NotImplementedException($"Not implemented get messageId for {update.Type}")
             };
@@ -115,7 +123,7 @@ namespace PRTelegramBot.Extensions
             }
             catch(Exception ex) 
             {
-                CurrentScope.Bot.GetLogger(typeof(UpdateExtension)).LogErrorInternal(ex);
+                CurrentScope.Bot?.GetLogger(typeof(UpdateExtension)).LogErrorInternal(ex);
                 return false;
             }
         }
@@ -129,22 +137,22 @@ namespace PRTelegramBot.Extensions
         {
             return update.Type switch
             {
-                UpdateType.Message => GetFullNameFromChat(update.Message.Chat),
-                UpdateType.CallbackQuery => GetFullNameFromChat(update.CallbackQuery.Message.Chat),
-                UpdateType.BusinessMessage => GetFullNameFromChat(update.BusinessMessage.Chat),
-                UpdateType.ChannelPost => GetFullNameFromChat(update.ChannelPost.Chat),
-                UpdateType.ChatBoost => GetFullNameFromChat(update.ChatBoost.Chat),
-                UpdateType.ChatJoinRequest => GetFullNameFromChat(update.ChatJoinRequest.Chat),
-                UpdateType.ChatMember => GetFullNameFromChat(update.ChatMember.Chat),
-                UpdateType.DeletedBusinessMessages => GetFullNameFromChat(update.DeletedBusinessMessages.Chat),
-                UpdateType.EditedBusinessMessage => GetFullNameFromChat(update.EditedBusinessMessage.Chat),
-                UpdateType.EditedChannelPost => GetFullNameFromChat(update.EditedChannelPost.Chat),
-                UpdateType.EditedMessage => GetFullNameFromChat(update.EditedMessage.Chat),
-                UpdateType.MessageReaction => GetFullNameFromChat(update.MessageReaction.Chat),
-                UpdateType.MessageReactionCount => GetFullNameFromChat(update.MessageReactionCount.Chat),
-                UpdateType.MyChatMember => GetFullNameFromChat(update.MyChatMember.Chat),
-                UpdateType.PollAnswer => GetFullNameFromChat(update.PollAnswer.VoterChat),
-                UpdateType.RemovedChatBoost => GetFullNameFromChat(update.RemovedChatBoost.Chat),
+                UpdateType.Message => GetFullNameFromChat(update.Message!.Chat),
+                UpdateType.CallbackQuery => GetFullNameFromChat(update.CallbackQuery!.Message?.Chat),
+                UpdateType.BusinessMessage => GetFullNameFromChat(update.BusinessMessage!.Chat),
+                UpdateType.ChannelPost => GetFullNameFromChat(update.ChannelPost!.Chat),
+                UpdateType.ChatBoost => GetFullNameFromChat(update.ChatBoost!.Chat),
+                UpdateType.ChatJoinRequest => GetFullNameFromChat(update.ChatJoinRequest!.Chat),
+                UpdateType.ChatMember => GetFullNameFromChat(update.ChatMember!.Chat),
+                UpdateType.DeletedBusinessMessages => GetFullNameFromChat(update.DeletedBusinessMessages!.Chat),
+                UpdateType.EditedBusinessMessage => GetFullNameFromChat(update.EditedBusinessMessage!.Chat),
+                UpdateType.EditedChannelPost => GetFullNameFromChat(update.EditedChannelPost!.Chat),
+                UpdateType.EditedMessage => GetFullNameFromChat(update.EditedMessage!.Chat),
+                UpdateType.MessageReaction => GetFullNameFromChat(update.MessageReaction!.Chat),
+                UpdateType.MessageReactionCount => GetFullNameFromChat(update.MessageReactionCount!.Chat),
+                UpdateType.MyChatMember => GetFullNameFromChat(update.MyChatMember!.Chat),
+                UpdateType.PollAnswer => GetFullNameFromChat(update.PollAnswer!.VoterChat),
+                UpdateType.RemovedChatBoost => GetFullNameFromChat(update.RemovedChatBoost!.Chat),
                 _ => string.Empty
             };
         }
@@ -155,7 +163,7 @@ namespace PRTelegramBot.Extensions
         /// <param name="update">Telegram update.</param>
         /// <param name="bot">The returned bot object.</param>
         /// <returns>True if the bot was found; otherwise False.</returns>
-        public static bool TryGetBot(this Update update, out PRBotBase bot)
+        public static bool TryGetBot(this Update update, out PRBotBase? bot)
         {
             return botLink.TryGetValue(update.Id, out bot);
         }
@@ -169,16 +177,18 @@ namespace PRTelegramBot.Extensions
         {
             return update.Type switch
             {
-                UpdateType.Message => update.Message.From.Id,
-                UpdateType.CallbackQuery => update.CallbackQuery.Message.From.Id,
-                UpdateType.BusinessMessage => update.BusinessMessage.From.Id,
-                UpdateType.ChannelPost => update.ChannelPost.From.Id,
-                UpdateType.ChatJoinRequest => update.ChatJoinRequest.From.Id,
-                UpdateType.ChatMember => update.ChatMember.From.Id,
-                UpdateType.EditedBusinessMessage => update.EditedBusinessMessage.From.Id,
-                UpdateType.EditedChannelPost => update.EditedChannelPost.From.Id,
-                UpdateType.EditedMessage => update.EditedMessage.From.Id,
-                UpdateType.MyChatMember => update.MyChatMember.From.Id,
+                UpdateType.Message => RequireSender(update.Message!.From, update.Type),
+                // CallbackQuery.From is the user who pressed the button. CallbackQuery.Message.From
+                // would be the bot that sent the message, which is not what this method promises.
+                UpdateType.CallbackQuery => update.CallbackQuery!.From.Id,
+                UpdateType.BusinessMessage => RequireSender(update.BusinessMessage!.From, update.Type),
+                UpdateType.ChannelPost => RequireSender(update.ChannelPost!.From, update.Type),
+                UpdateType.ChatJoinRequest => update.ChatJoinRequest!.From.Id,
+                UpdateType.ChatMember => update.ChatMember!.From.Id,
+                UpdateType.EditedBusinessMessage => RequireSender(update.EditedBusinessMessage!.From, update.Type),
+                UpdateType.EditedChannelPost => RequireSender(update.EditedChannelPost!.From, update.Type),
+                UpdateType.EditedMessage => RequireSender(update.EditedMessage!.From, update.Type),
+                UpdateType.MyChatMember => update.MyChatMember!.From.Id,
                 _ => throw new NotImplementedException($"Not implemented get userId for {update.Type}")
             };
         }
@@ -205,7 +215,7 @@ namespace PRTelegramBot.Extensions
         /// <exception cref="KeyNotFoundException">Thrown when no key is found for the bot.</exception>
         internal static string GetKeyMappingUserTelegram(this Update update)
         {
-            if (botLink.TryGetValue(update.Id, out PRBotBase bot))
+            if (botLink.TryGetValue(update.Id, out PRBotBase? bot))
                 return new UserBotMapping(bot.BotId, update.GetChatId()).GetKey;
 
             throw new KeyNotFoundException($"Key update {update.Id} not mapped with prbot.");
@@ -224,20 +234,35 @@ namespace PRTelegramBot.Extensions
         /// <returns>True if it was cleared; False if it was not.</returns>
         internal static bool ClearTelegramClient(this Update update)
         {
-            return botLink.TryRemove(update.Id, out PRBotBase _);
+            return botLink.TryRemove(update.Id, out PRBotBase? _);
         }
 
         /// <summary>
         /// Gets information about the user from the chat.
         /// </summary>
-        /// <param name="chat">Chat.</param>
-        /// <returns>Information.</returns>
-        private static string GetFullNameFromChat(Chat chat)
+        /// <param name="chat">Chat. May be <c>null</c>.</param>
+        /// <returns>Information, or an empty string when there is no chat.</returns>
+        private static string GetFullNameFromChat(Chat? chat)
         {
-            List<string> infos = [chat.Id.ToString(), chat.FirstName, chat.LastName, chat.Username];
-            infos = infos.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+            if (chat is null)
+                return string.Empty;
 
-            return string.Join(' ', infos);
+            List<string?> infos = [chat.Id.ToString(), chat.FirstName, chat.LastName, chat.Username];
+
+            return string.Join(' ', infos.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        /// <summary>
+        /// Returns the identifier of the sender, or throws when the update carries no sender.
+        /// </summary>
+        /// <param name="user">Sender of the update. May be <c>null</c>.</param>
+        /// <param name="type">Update type, used for the error message.</param>
+        /// <returns>The sender identifier.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the update has no sender.</exception>
+        private static long RequireSender(User? user, UpdateType type)
+        {
+            return user?.Id
+                ?? throw new InvalidOperationException($"The update of type {type} carries no sender, so the user id cannot be determined.");
         }
 
         #endregion

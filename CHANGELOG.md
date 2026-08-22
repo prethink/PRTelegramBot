@@ -13,6 +13,10 @@
   - `StepTelegram.RegisterNextStep` and the `StepTelegram` constructors: `expiriedTime` -> `expiredTime`
   - `PRBotBuilder.SetInlineSerializer`: `serializator` -> `serializer`
   - `BackgroundTaskExtension.GetMetadata`: `metadates` -> `existingMetadata`
+- `OptionMessage.thumbnail` renamed to `OptionMessage.Thumbnail`. It was the only public member that did not follow PascalCase.
+- Optional parameters that accept `null` are now declared nullable (`OptionMessage? option = null` and similar). This is metadata only — existing code keeps compiling; projects with nullable checks enabled simply get an accurate picture.
+- `UpdateExtension.TryGetBot` now declares its `out` parameter as `PRBotBase?`, because it is `null` when the bot is not found.
+- `GetChatId`, `GetMessageId` and `GetUserId` now throw `InvalidOperationException` with a clear message instead of a `NullReferenceException` when the update carries no chat, message or sender. `TryGetChatId` still returns `false` in those cases.
 
 ### 🧩 Common
 
@@ -27,6 +31,9 @@
 
 - Fixed a recursion problem when checking for an administrator through the context.
 - Renamed `AutoEditMessageСycle` to `AutoEditMessageCycle`: the old name contained a Cyrillic "С".
+- `UpdateExtension.GetUserId` returned the wrong identifier for a callbackQuery: it read `CallbackQuery.Message.From`, which is the bot that sent the message, instead of `CallbackQuery.From`, the user who pressed the button. Anything keyed by user — cache, steps, access checks — was receiving the bot id for every user.
+- `UpdateExtension.GetUserId` threw a `NullReferenceException` for channel posts, whose `From` is always empty.
+- The `OnPaidMessagePriceChangedHandle` event was declared but never wired into the message dispatcher, so it never fired. It is connected now.
 - Exceptions are no longer swallowed silently. They are now written to the log in `PREventBus` (a faulty subscriber no longer disappears without a trace), in `MessageAwaiter` when the waiting message cannot be deleted, and in `TryGetConfigValue` when reading the configuration fails.
 - Event handlers are still invoked without an await, so that a slow subscriber cannot hold up other updates — but a failure inside one is now logged instead of being lost with the unobserved task.
 

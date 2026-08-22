@@ -15,7 +15,7 @@ namespace PRTelegramBot.Utils
         /// <param name="type">Class type.</param>
         /// <param name="serviceProvider">The service provider used to create the instance through DI.</param>
         /// <returns>An instance of the class.</returns>
-        public static object GetOrCreate(Type type, IServiceProvider serviceProvider = null)
+        public static object GetOrCreate(Type type, IServiceProvider? serviceProvider = null)
         {
             object instance = null;
 

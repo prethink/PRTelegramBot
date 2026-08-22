@@ -33,7 +33,7 @@ namespace PRTelegramBot.Utils
         /// </summary>
         /// <param name="option">Parameters.</param>
         /// <returns>An instance of the OptionMessage class.</returns>
-        public static OptionMessage CreateOptionsIfNull(OptionMessage option = null)
+        public static OptionMessage CreateOptionsIfNull(OptionMessage? option = null)
         {
             if (option is null)
                 option = new OptionMessage();
@@ -72,7 +72,7 @@ namespace PRTelegramBot.Utils
         /// </summary>
         /// <param name="option">Message parameters.</param>
         /// <returns>The generated menu, or null.</returns>
-        public static ReplyMarkup? GetReplyMarkup(OptionMessage option = null)
+        public static ReplyMarkup? GetReplyMarkup(OptionMessage? option = null)
         {
             option = CreateOptionsIfNull(option);
 

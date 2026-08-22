@@ -21,7 +21,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="chatId">Chat identifier.</param>
         /// <param name="option">Message parameters.</param>
         /// <returns>Collection of message identifiers.</returns>
-        public static async Task<List<MessageId>> CopyMessages(IBotContext context, List<Message> messages, long chatId, OptionMessage option = null)
+        public static async Task<List<MessageId>> CopyMessages(IBotContext context, List<Message> messages, long chatId, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             List<MessageId> messageIds = new List<MessageId>();
@@ -40,7 +40,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="chatId">Chat identifier.</param>
         /// <param name="option">Message parameters.</param>
         /// <returns>Message identifier.</returns>
-        public static async Task<MessageId> CopyMessage(IBotContext context, Message message, long chatId, OptionMessage option = null)
+        public static async Task<MessageId> CopyMessage(IBotContext context, Message message, long chatId, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);

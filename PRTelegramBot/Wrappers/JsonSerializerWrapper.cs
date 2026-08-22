@@ -39,7 +39,7 @@ namespace PRTelegramBot.Wrappers
         /// Constructor.
         /// </summary>
         /// <param name="options">Serialization options.</param>
-        public JsonSerializerWrapper(JsonSerializerOptions options = null)
+        public JsonSerializerWrapper(JsonSerializerOptions? options = null)
         {
             this.options = options;
         }

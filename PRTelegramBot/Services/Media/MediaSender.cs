@@ -24,7 +24,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="stream">Stream.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> SendPhoto(IBotContext context, long chatId, string text, Stream stream, OptionMessage option = null)
+        public static async Task<Message> SendPhoto(IBotContext context, long chatId, string text, Stream stream, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);
@@ -53,7 +53,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="filePath">Path to the file.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> SendPhoto(IBotContext context, long chatId, string text, string filePath, OptionMessage option = null)
+        public static async Task<Message> SendPhoto(IBotContext context, long chatId, string text, string filePath, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
@@ -73,7 +73,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="url">url.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> SendPhotoWithUrl(IBotContext context, long chatId, string msg, string url, OptionMessage option = null)
+        public static async Task<Message> SendPhotoWithUrl(IBotContext context, long chatId, string msg, string url, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);
@@ -102,7 +102,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="url">url.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> SendMediaWithUrl(IBotContext context, long chatId, string msg, string url, OptionMessage option = null)
+        public static async Task<Message> SendMediaWithUrl(IBotContext context, long chatId, string msg, string url, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);
@@ -133,7 +133,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="filepaths">Paths to the files.</param>
         /// <param name="option">Message setting.</param>
         /// <returns>Collection of messages.</returns>
-        public static async Task<Message[]> SendPhotoGroup(IBotContext context, long chatId, string text, List<string> filepaths, OptionMessage option = null)
+        public static async Task<Message[]> SendPhotoGroup(IBotContext context, long chatId, string text, List<string> filepaths, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             List<InputMediaPhoto> media = new();
@@ -183,7 +183,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="filePath">Path to the file.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> SendFile(IBotContext context, long chatId, string text, string filePath, OptionMessage option = null)
+        public static async Task<Message> SendFile(IBotContext context, long chatId, string text, string filePath, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);
@@ -201,7 +201,7 @@ namespace PRTelegramBot.Services.Media
                     caption: text,
                     messageThreadId: option.MessageThreadId,
                     replyMarkup: replyMarkup,
-                    thumbnail: option.thumbnail,
+                    thumbnail: option.Thumbnail,
                     parseMode: option.ParseMode,
                     captionEntities: option.Entities,
                     disableContentTypeDetection: option.DisableContentTypeDetection,

@@ -17,7 +17,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="chatId">Chat identifier.</param>
         /// <param name="messageId">Message identifier.</param>
         /// <param name="option">Message setting.</param>
-        public static async Task DeleteMessage(IBotContext context, long chatId, int messageId, OptionMessage option = null)
+        public static async Task DeleteMessage(IBotContext context, long chatId, int messageId, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             await context.BotClient.DeleteMessage(chatId, messageId, option.CancellationToken);

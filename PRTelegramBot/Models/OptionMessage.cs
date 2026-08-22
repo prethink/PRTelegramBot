@@ -100,7 +100,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Message thumbnail.
         /// </summary>
-        public InputFile? thumbnail { get; set; }
+        public InputFile? Thumbnail { get; set; }
 
         /// <summary>
         /// Indicates that the message contains a spoiler.

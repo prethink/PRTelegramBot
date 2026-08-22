@@ -13,6 +13,10 @@
   - `StepTelegram.RegisterNextStep` и конструкторы `StepTelegram`: `expiriedTime` -> `expiredTime`
   - `PRBotBuilder.SetInlineSerializer`: `serializator` -> `serializer`
   - `BackgroundTaskExtension.GetMetadata`: `metadates` -> `existingMetadata`
+- `OptionMessage.thumbnail` переименовано в `OptionMessage.Thumbnail`. Это был единственный публичный член, не соответствующий PascalCase.
+- Необязательные параметры, принимающие `null`, объявлены nullable (`OptionMessage? option = null` и подобные). Это только метаданные — существующий код продолжает компилироваться, а проекты с включёнными проверками nullable просто получат честную картину.
+- `UpdateExtension.TryGetBot` объявляет свой `out`-параметр как `PRBotBase?`, потому что при ненайденном боте там `null`.
+- `GetChatId`, `GetMessageId` и `GetUserId` теперь бросают `InvalidOperationException` с понятным сообщением вместо `NullReferenceException`, когда в update нет чата, сообщения или отправителя. `TryGetChatId` в этих случаях по-прежнему возвращает `false`.
 
 ### 🧩 Common
 
@@ -27,6 +31,9 @@
 
 - Поправил проблему с рекурсией при проверке администратора через context.
 - `AutoEditMessageСycle` переименован в `AutoEditMessageCycle`: в старом имени была кириллическая «С».
+- `UpdateExtension.GetUserId` возвращал неверный идентификатор для callbackQuery: читался `CallbackQuery.Message.From` — это бот, отправивший сообщение, — вместо `CallbackQuery.From`, то есть нажавшего кнопку пользователя. Всё, что завязано на пользователя — кэш, шаги, проверки доступа, — получало идентификатор бота для каждого пользователя.
+- `UpdateExtension.GetUserId` бросал `NullReferenceException` для постов в канале, у которых `From` всегда пуст.
+- Событие `OnPaidMessagePriceChangedHandle` было объявлено, но не подключено к диспетчеру сообщений и потому никогда не срабатывало. Теперь подключено.
 - Исключения больше не проглатываются молча. Теперь они пишутся в лог в `PREventBus` (сбойный подписчик больше не исчезает бесследно), в `MessageAwaiter` при неудачном удалении сообщения-заглушки и в `TryGetConfigValue` при ошибке чтения конфигурации.
 - Обработчики событий по-прежнему вызываются без `await`, чтобы медленный подписчик не задерживал остальные update, — но сбой внутри такого обработчика теперь логируется, а не теряется вместе с необслуженной задачей.
 

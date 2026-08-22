@@ -246,7 +246,7 @@ namespace PRTelegramBot.Utils
             Enum enumToInt, 
             string nextPageMarker = "➡️", 
             string previousPageMarker = "⬅️", 
-            IInlineContent button = null)
+            IInlineContent? button = null)
         {
             var pageMenu = GetPageMenu(currentPage, pageCount, enumToInt, nextPageMarker, previousPageMarker, button);
             return InlineUtils.UnitInlineKeyboard(addMenu, pageMenu);
@@ -270,7 +270,7 @@ namespace PRTelegramBot.Utils
             string previousPageMarker = "⬅️", 
             string currentPageMarker = "")
         {
-            IInlineContent button = null;
+            IInlineContent? button = null;
             if (!string.IsNullOrEmpty(currentPageMarker))
                 button = new InlineCallback<PageTCommand>($"{currentPageMarker}({pageCount - currentPage})", PRTelegramBotCommand.NextPage, new PageTCommand(currentPage, enumToInt));
 
@@ -293,7 +293,7 @@ namespace PRTelegramBot.Utils
             Enum enumToInt, 
             string nextPageMarker = "➡️", 
             string previousPageMarker = "⬅️", 
-            IInlineContent button = null)
+            IInlineContent? button = null)
         {
             List<IInlineContent> buttons = new();
 

@@ -23,7 +23,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="message">Message text.</param>
         /// <param name="option">Message parameters.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> AwaitAnswerBot(IBotContext context, long chatId, string message = "⏳ Generating a reply...", OptionMessage option = null)
+        public static async Task<Message> AwaitAnswerBot(IBotContext context, long chatId, string message = "⏳ Generating a reply...", OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var sentMessage = await Send(context, chatId, message, option);
@@ -38,7 +38,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="text">Text.</param>
         /// <param name="option">Message setting.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> Send(IBotContext context, Update update, string text, OptionMessage option = null)
+        public static async Task<Message> Send(IBotContext context, Update update, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
@@ -53,7 +53,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="text">Text.</param>
         /// <param name="option">Message setting.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> Send(IBotContext context, string text, OptionMessage option = null)
+        public static async Task<Message> Send(IBotContext context, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
@@ -69,7 +69,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="text">Text.</param>
         /// <param name="option">Message setting.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> Send(IBotContext context, long chatId, string text, OptionMessage option = null)
+        public static async Task<Message> Send(IBotContext context, long chatId, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);

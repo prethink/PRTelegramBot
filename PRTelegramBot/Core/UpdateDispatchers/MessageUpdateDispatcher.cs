@@ -176,6 +176,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
             TypeMessage.Add(MessageType.SuggestedPostDeclined, bot.Events.MessageEvents.OnSuggestedPostDeclinedHandleInvoke);
             TypeMessage.Add(MessageType.SuggestedPostPaid, bot.Events.MessageEvents.OnSuggestedPostPaidHandleInvoke);
             TypeMessage.Add(MessageType.SuggestedPostRefunded, bot.Events.MessageEvents.OnSuggestedPostRefundedHandleInvoke);
+            TypeMessage.Add(MessageType.PaidMessagePriceChanged, bot.Events.MessageEvents.OnPaidMessagePriceChangedHandleInvoke);
         }
 
         #endregion

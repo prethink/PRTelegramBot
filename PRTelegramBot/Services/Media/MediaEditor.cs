@@ -25,7 +25,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="filename">File name.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditPhoto(IBotContext context, long chatId, int messageId, Stream stream, string filename = "file", OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> EditPhoto(IBotContext context, long chatId, int messageId, Stream stream, string filename = "file", OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option) as InlineKeyboardMarkup;
@@ -48,7 +48,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="media">Media.</param>
         /// <param name="option">Message parameters.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> EditWithPhoto(IBotContext context, long chatId, int messageId, string text, InputMedia media, OptionMessage option = null)
+        public static async Task<Message> EditWithPhoto(IBotContext context, long chatId, int messageId, string text, InputMedia media, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
@@ -83,7 +83,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="photoPath">Path to the photo.</param>
         /// <param name="option">Message setting.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> EditPhoto(IBotContext context, long chatId, int messageId, string photoPath, OptionMessage option = null)
+        public static async Task<Message> EditPhoto(IBotContext context, long chatId, int messageId, string photoPath, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
@@ -103,7 +103,7 @@ namespace PRTelegramBot.Services.Media
         /// <param name="text">Text.</param>
         /// <param name="option">Message parameters.</param>
         /// <returns>Message.</returns>
-        public static async Task<Message> EditCaption(IBotContext context, long chatId, int messageId, string text, OptionMessage option = null)
+        public static async Task<Message> EditCaption(IBotContext context, long chatId, int messageId, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option) as InlineKeyboardMarkup;

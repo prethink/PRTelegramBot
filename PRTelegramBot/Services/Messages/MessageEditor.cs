@@ -22,7 +22,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="messageId">Message identifier.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option) as InlineKeyboardMarkup;
@@ -49,7 +49,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="text">Text.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, long chatId, int messageId, string text, OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, long chatId, int messageId, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option) as InlineKeyboardMarkup;
@@ -72,7 +72,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="text">Text.</param>
         /// <param name="option">Message options.</param>
         /// <returns>Message.</returns>
-        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, string text, OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
