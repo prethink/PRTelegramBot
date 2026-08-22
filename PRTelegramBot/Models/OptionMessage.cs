@@ -107,6 +107,33 @@ namespace PRTelegramBot.Models
         /// </summary>
         public bool HasSpoiler { get; set; }
 
+        /// <summary>
+        /// Unique identifier of the business connection the message is sent on behalf of.
+        /// </summary>
+        public string? BusinessConnectionId { get; set; }
+
+        /// <summary>
+        /// Unique identifier of the message effect to add to the message. Private chats only.
+        /// </summary>
+        public string? MessageEffectId { get; set; }
+
+        /// <summary>
+        /// Allows up to 1000 messages per second, ignoring the broadcasting limits, for a fee
+        /// in Telegram Stars that is withdrawn from the bot's balance.
+        /// </summary>
+        public bool AllowPaidBroadcast { get; set; }
+
+        /// <summary>
+        /// Identifier of the direct messages topic the message is sent to.
+        /// Required when the message goes to a direct messages chat.
+        /// </summary>
+        public long? DirectMessagesTopicId { get; set; }
+
+        /// <summary>
+        /// Parameters of the suggested post to send. Direct messages chats only.
+        /// </summary>
+        public SuggestedPostParameters? SuggestedPostParameters { get; set; }
+
         #endregion
     }
 }

@@ -18,6 +18,12 @@
 - `UpdateExtension.TryGetBot` объявляет свой `out`-параметр как `PRBotBase?`, потому что при ненайденном боте там `null`.
 - `GetChatId`, `GetMessageId` и `GetUserId` теперь бросают `InvalidOperationException` с понятным сообщением вместо `NullReferenceException`, когда в update нет чата, сообщения или отправителя. `TryGetChatId` в этих случаях по-прежнему возвращает `false`.
 
+### 🚀 New functionality
+
+- В `OptionMessage` добавлены параметры отправки, которые Telegram.Bot уже поддерживал, а фреймворк не пробрасывал: `BusinessConnectionId`, `MessageEffectId`, `AllowPaidBroadcast`, `DirectMessagesTopicId` и `SuggestedPostParameters`. Их передают `MessageSender`, `MediaSender` (фото, группы фото, файлы и медиа по ссылке) и `MessageCopier` — каждый в том объёме, в каком их принимает соответствующий метод Bot API.
+- Добавлены события сообщений, пропущенные при обновлениях Telegram.Bot: `OnGiftUpgradeSentHandle`, `OnChatOwnerChangedHandle`, `OnChatOwnerLeftHandle`, `OnManagedBotCreatedHandle`, `OnPollOptionAddedHandle`, `OnPollOptionDeletedHandle`, `OnLivePhotoHandle`, `OnRichMessageHandle`, `OnCommunityChatAddedHandle` и `OnCommunityChatRemovedHandle`. Диспетчер сообщений теперь покрывает все `MessageType`, кроме `Text` — он всегда шёл через конвейер команд.
+- Добавлены события update, пропущенные по той же причине: `OnManagedBotHandle`, `OnGuestMessageHandle` и `OnSubscriptionHandle`.
+
 ### 🧩 Common
 
 - Telegram.Bot обновлён до 22.10.2.1

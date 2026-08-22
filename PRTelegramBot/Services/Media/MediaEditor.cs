@@ -60,6 +60,7 @@ namespace PRTelegramBot.Services.Media
                     messageId: messageId,
                     media: media,
                     replyMarkup: option.MenuInlineKeyboardMarkup,
+                    businessConnectionId: option.BusinessConnectionId,
                     cancellationToken: option.CancellationToken);
 
                 message = await context.BotClient.EditMessageCaption(
@@ -68,6 +69,7 @@ namespace PRTelegramBot.Services.Media
                     caption: text,
                     parseMode: option.ParseMode,
                     replyMarkup: option.MenuInlineKeyboardMarkup,
+                    businessConnectionId: option.BusinessConnectionId,
                     cancellationToken: option.CancellationToken);
             }
 
@@ -115,6 +117,7 @@ namespace PRTelegramBot.Services.Media
                 parseMode: option.ParseMode,
                 replyMarkup: replyMarkup,
                 captionEntities: option.Entities,
+                businessConnectionId: option.BusinessConnectionId,
                 cancellationToken: option.CancellationToken);
         }
 

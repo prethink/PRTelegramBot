@@ -350,6 +350,57 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuggestedPostRefundedHandle;
 
+        /// <summary>
+        /// Event raised when an upgraded gift is sent.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnGiftUpgradeSentHandle;
+
+        /// <summary>
+        /// Event raised when the chat owner changes.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChatOwnerChangedHandle;
+
+        /// <summary>
+        /// Event raised when the chat owner leaves.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChatOwnerLeftHandle;
+
+        /// <summary>
+        /// Event raised when a managed bot is created.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnManagedBotCreatedHandle;
+
+        /// <summary>
+        /// Event raised when an option is added to a poll.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPollOptionAddedHandle;
+
+        /// <summary>
+        /// Event raised when an option is removed from a poll.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPollOptionDeletedHandle;
+
+        /// <summary>
+        /// Event raised when a message with a live photo is handled.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnLivePhotoHandle;
+
+        /// <summary>
+        /// Event raised when a rich message is handled.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnRichMessageHandle;
+
+        /// <summary>
+        /// Event raised when a community chat is added.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCommunityChatAddedHandle;
+
+        /// <summary>
+        /// Event raised when a community chat is removed.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCommunityChatRemovedHandle;
+
+
         #endregion
 
         #region Methods
@@ -693,6 +744,57 @@ namespace PRTelegramBot.Core.Events
         /// Raises the <see cref="OnSuggestedPostRefundedHandle"/> event.
         /// </summary>
         internal Task OnSuggestedPostRefundedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostRefundedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnGiftUpgradeSentHandle"/> event.
+        /// </summary>
+        internal Task OnGiftUpgradeSentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiftUpgradeSentHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnChatOwnerChangedHandle"/> event.
+        /// </summary>
+        internal Task OnChatOwnerChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatOwnerChangedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnChatOwnerLeftHandle"/> event.
+        /// </summary>
+        internal Task OnChatOwnerLeftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatOwnerLeftHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnManagedBotCreatedHandle"/> event.
+        /// </summary>
+        internal Task OnManagedBotCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnManagedBotCreatedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnPollOptionAddedHandle"/> event.
+        /// </summary>
+        internal Task OnPollOptionAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollOptionAddedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnPollOptionDeletedHandle"/> event.
+        /// </summary>
+        internal Task OnPollOptionDeletedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollOptionDeletedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnLivePhotoHandle"/> event.
+        /// </summary>
+        internal Task OnLivePhotoHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnLivePhotoHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnRichMessageHandle"/> event.
+        /// </summary>
+        internal Task OnRichMessageHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnRichMessageHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnCommunityChatAddedHandle"/> event.
+        /// </summary>
+        internal Task OnCommunityChatAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCommunityChatAddedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnCommunityChatRemovedHandle"/> event.
+        /// </summary>
+        internal Task OnCommunityChatRemovedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCommunityChatRemovedHandle, e);
+
 
         #endregion
     }

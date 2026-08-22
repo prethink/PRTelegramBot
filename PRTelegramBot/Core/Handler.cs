@@ -245,6 +245,15 @@ namespace PRTelegramBot.Core
             if (update.Type == UpdateType.Unknown)
                 await bot.Events.UpdateEvents.OnUnknownHandler(context.CreateBotEventArgs());
 
+            if (update.Type == UpdateType.ManagedBot)
+                await bot.Events.UpdateEvents.OnManagedBotHandler(context.CreateBotEventArgs());
+
+            if (update.Type == UpdateType.GuestMessage)
+                await bot.Events.UpdateEvents.OnGuestMessageHandler(context.CreateBotEventArgs());
+
+            if (update.Type == UpdateType.Subscription)
+                await bot.Events.UpdateEvents.OnSubscriptionHandler(context.CreateBotEventArgs());
+
             await bot.Events.UpdateEvents.OnPostInvoke(context.CreateBotEventArgs());
         }
 

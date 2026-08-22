@@ -18,6 +18,12 @@
 - `UpdateExtension.TryGetBot` now declares its `out` parameter as `PRBotBase?`, because it is `null` when the bot is not found.
 - `GetChatId`, `GetMessageId` and `GetUserId` now throw `InvalidOperationException` with a clear message instead of a `NullReferenceException` when the update carries no chat, message or sender. `TryGetChatId` still returns `false` in those cases.
 
+### 🚀 New functionality
+
+- `OptionMessage` gained the send parameters that Telegram.Bot already supported but the framework did not pass on: `BusinessConnectionId`, `MessageEffectId`, `AllowPaidBroadcast`, `DirectMessagesTopicId` and `SuggestedPostParameters`. They are forwarded by `MessageSender`, `MediaSender` (photos, photo groups, files and media by URL) and `MessageCopier`, each as far as the corresponding Bot API method accepts them.
+- Added the message events that had been missed while Telegram.Bot was being updated: `OnGiftUpgradeSentHandle`, `OnChatOwnerChangedHandle`, `OnChatOwnerLeftHandle`, `OnManagedBotCreatedHandle`, `OnPollOptionAddedHandle`, `OnPollOptionDeletedHandle`, `OnLivePhotoHandle`, `OnRichMessageHandle`, `OnCommunityChatAddedHandle` and `OnCommunityChatRemovedHandle`. The message dispatcher now covers every `MessageType` except `Text`, which has always been routed through the command pipeline instead.
+- Added the update events that had been missed for the same reason: `OnManagedBotHandle`, `OnGuestMessageHandle` and `OnSubscriptionHandle`.
+
 ### 🧩 Common
 
 - Telegram.Bot updated to 22.10.2.1

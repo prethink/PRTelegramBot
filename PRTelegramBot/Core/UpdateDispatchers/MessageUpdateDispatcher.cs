@@ -177,6 +177,16 @@ namespace PRTelegramBot.Core.UpdateHandlers
             TypeMessage.Add(MessageType.SuggestedPostPaid, bot.Events.MessageEvents.OnSuggestedPostPaidHandleInvoke);
             TypeMessage.Add(MessageType.SuggestedPostRefunded, bot.Events.MessageEvents.OnSuggestedPostRefundedHandleInvoke);
             TypeMessage.Add(MessageType.PaidMessagePriceChanged, bot.Events.MessageEvents.OnPaidMessagePriceChangedHandleInvoke);
+            TypeMessage.Add(MessageType.GiftUpgradeSent, bot.Events.MessageEvents.OnGiftUpgradeSentHandleInvoke);
+            TypeMessage.Add(MessageType.ChatOwnerChanged, bot.Events.MessageEvents.OnChatOwnerChangedHandleInvoke);
+            TypeMessage.Add(MessageType.ChatOwnerLeft, bot.Events.MessageEvents.OnChatOwnerLeftHandleInvoke);
+            TypeMessage.Add(MessageType.ManagedBotCreated, bot.Events.MessageEvents.OnManagedBotCreatedHandleInvoke);
+            TypeMessage.Add(MessageType.PollOptionAdded, bot.Events.MessageEvents.OnPollOptionAddedHandleInvoke);
+            TypeMessage.Add(MessageType.PollOptionDeleted, bot.Events.MessageEvents.OnPollOptionDeletedHandleInvoke);
+            TypeMessage.Add(MessageType.LivePhoto, bot.Events.MessageEvents.OnLivePhotoHandleInvoke);
+            TypeMessage.Add(MessageType.RichMessage, bot.Events.MessageEvents.OnRichMessageHandleInvoke);
+            TypeMessage.Add(MessageType.CommunityChatAdded, bot.Events.MessageEvents.OnCommunityChatAddedHandleInvoke);
+            TypeMessage.Add(MessageType.CommunityChatRemoved, bot.Events.MessageEvents.OnCommunityChatRemovedHandleInvoke);
         }
 
         #endregion

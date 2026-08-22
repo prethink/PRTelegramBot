@@ -60,6 +60,10 @@ namespace PRTelegramBot.Services.Messages
                 protectContent: option.ProtectedContent,
                 replyParameters: replyParams,
                 replyMarkup: replyMarkup,
+                messageEffectId: option.MessageEffectId,
+                allowPaidBroadcast: option.AllowPaidBroadcast,
+                directMessagesTopicId: option.DirectMessagesTopicId,
+                suggestedPostParameters: option.SuggestedPostParameters,
                 cancellationToken: option.CancellationToken);
             return messageId;
         }

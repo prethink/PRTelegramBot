@@ -101,6 +101,11 @@ namespace PRTelegramBot.Services.Messages
                 disableNotification: option.DisableNotification,
                 protectContent: option.ProtectedContent,
                 replyParameters: replyParams,
+                messageEffectId: option.MessageEffectId,
+                businessConnectionId: option.BusinessConnectionId,
+                allowPaidBroadcast: option.AllowPaidBroadcast,
+                directMessagesTopicId: option.DirectMessagesTopicId,
+                suggestedPostParameters: option.SuggestedPostParameters,
                 cancellationToken: option.CancellationToken);
         }
 

@@ -92,6 +92,21 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
 
         /// <summary>
+        /// Event raised for an update about a managed bot.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnManagedBotHandle;
+
+        /// <summary>
+        /// Event raised for a guest message update.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnGuestMessageHandle;
+
+        /// <summary>
+        /// Event raised for a subscription update.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSubscriptionHandle;
+
+        /// <summary>
         /// Event raised when a business connection is established.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnBusinessConnectionHandle;
@@ -201,6 +216,15 @@ namespace PRTelegramBot.Core.Events
 
         /// <summary>Raises the <see cref="OnUnknownHandle"/> event.</summary>
         internal Task OnUnknownHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);
+
+        /// <summary>Raises the <see cref="OnManagedBotHandle"/> event.</summary>
+        internal Task OnManagedBotHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnManagedBotHandle, e);
+
+        /// <summary>Raises the <see cref="OnGuestMessageHandle"/> event.</summary>
+        internal Task OnGuestMessageHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGuestMessageHandle, e);
+
+        /// <summary>Raises the <see cref="OnSubscriptionHandle"/> event.</summary>
+        internal Task OnSubscriptionHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSubscriptionHandle, e);
 
         /// <summary>Raises the <see cref="OnBusinessConnectionHandle"/> event.</summary>
         internal Task OnBusinessConnectionHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBusinessConnectionHandle, e);
