@@ -112,22 +112,28 @@ dotnet test PRTelegramBot.Tests/PRTelegramBot.Tests.csproj --collect:"XPlat Code
 
 ## Keeping up with Telegram.Bot
 
-Updating the Telegram.Bot version is not just a version bump. New `MessageType` and `UpdateType` values arrive with it, and events for them have to be added by hand. Several were missed across 22.8–22.10 and only surfaced when the enums were diffed against the dispatcher.
+Updating the Telegram.Bot version is not just a version bump. New `MessageType` and `UpdateType` values, new button kinds and new request parameters arrive with it, and each has to be wired up by hand. Nothing breaks when you miss one — the new kind of update simply never reaches anyone.
 
-After every update, check all three:
+**`PRTelegramBot.Tests/CoverageGuards/` exists for exactly this.** Run it right after bumping the version:
 
 ```bash
-# message types with no handler
-grep -oE 'TypeMessage\.Add\(MessageType\.[A-Za-z]+' \
-  PRTelegramBot/Core/UpdateDispatchers/MessageUpdateDispatcher.cs | sed 's/.*MessageType\.//' | sort -u
-# update types with no route
-grep -oE 'UpdateType\.[A-Za-z]+' PRTelegramBot/Core/Handler.cs | sed 's/.*UpdateType\.//' | sort -u
-# then compare both against the enums in Telegram.Bot.xml
+dotnet test PRTelegramBot.Tests/PRTelegramBot.Tests.csproj --filter "FullyQualifiedName~CoverageGuards"
 ```
 
-Declaring an event is not enough — it must be wired into the dispatcher, or it never fires. `OnPaidMessagePriceChangedHandle` sat declared and unwired for a full release.
+A failure there is not a broken test — it is a to-do list, and the message names what appeared:
 
-Also check whether `SendMessageRequest` and friends gained parameters that `OptionMessage` does not expose yet.
+| Guard | Catches |
+| --- | --- |
+| `EveryMessageTypeIsRoutedToAnEvent` | a `MessageType` with no entry in the dispatcher |
+| `EveryUpdateTypeHasAnEvent` | an `UpdateType` with no `On{Type}Handle` event |
+| `EveryMessageEventIsActuallyRaised` | an event declared but never registered, so it never fires |
+| `EveryInlineButtonKindHasAWrapper` | a new `InlineKeyboardButton.With*` factory with no wrapper |
+| `EveryReplyButtonKindHasABuilderMethod` | a new `KeyboardButton.With*` factory the builder cannot produce |
+| `RequestHasNoUnreviewedParameters` | a new send/edit parameter nobody has looked at |
+
+When a guard fails, do the work, then add the new value to the list inside the guard so it goes green. The lists are the record of what has been reviewed — keep them honest rather than silencing a failure.
+
+These guards were written after the fact: ten message types, three update types, five send parameters, one inline button kind and one reply button kind had all been missed across 22.8–22.10. Declaring an event is not enough either — `OnPaidMessagePriceChangedHandle` sat declared and unwired for a full release.
 
 ## Packaging
 

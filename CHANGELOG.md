@@ -23,6 +23,10 @@
 - `OptionMessage` gained the send parameters that Telegram.Bot already supported but the framework did not pass on: `BusinessConnectionId`, `MessageEffectId`, `AllowPaidBroadcast`, `DirectMessagesTopicId` and `SuggestedPostParameters`. They are forwarded by `MessageSender`, `MediaSender` (photos, photo groups, files and media by URL) and `MessageCopier`, each as far as the corresponding Bot API method accepts them.
 - Added the message events that had been missed while Telegram.Bot was being updated: `OnGiftUpgradeSentHandle`, `OnChatOwnerChangedHandle`, `OnChatOwnerLeftHandle`, `OnManagedBotCreatedHandle`, `OnPollOptionAddedHandle`, `OnPollOptionDeletedHandle`, `OnLivePhotoHandle`, `OnRichMessageHandle`, `OnCommunityChatAddedHandle` and `OnCommunityChatRemovedHandle`. The message dispatcher now covers every `MessageType` except `Text`, which has always been routed through the command pipeline instead.
 - Added the update events that had been missed for the same reason: `OnManagedBotHandle`, `OnGuestMessageHandle` and `OnSubscriptionHandle`.
+- Added `OptionMessage.ShowCaptionAboveMedia`, forwarded by `MediaSender.SendPhoto`, `MessageCopier` and `MediaEditor.EditCaption`.
+- Added `InlineCopyText`, a button that copies the given text to the clipboard. Telegram.Bot has supported it for a while; the framework had no wrapper for it.
+- Added `ReplyKeyboardBuilder.AddRequestManagedBot`, a button that asks the user to create and share a bot managed by this one.
+- Added guard tests that fail when Telegram.Bot is updated and the framework has not caught up: a missing `MessageType` or `UpdateType` handler, an event that is declared but never raised, a new button kind with no wrapper, or a new request parameter nobody has reviewed. All of the gaps listed above went unnoticed precisely because nothing was watching for them.
 
 ### 🧩 Common
 

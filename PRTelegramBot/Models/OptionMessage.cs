@@ -134,6 +134,12 @@ namespace PRTelegramBot.Models
         /// </summary>
         public SuggestedPostParameters? SuggestedPostParameters { get; set; }
 
+        /// <summary>
+        /// Shows the caption above the media instead of below it.
+        /// Applies to photos, copied messages and caption edits.
+        /// </summary>
+        public bool ShowCaptionAboveMedia { get; set; }
+
         #endregion
     }
 }

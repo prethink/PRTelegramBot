@@ -23,6 +23,10 @@
 - В `OptionMessage` добавлены параметры отправки, которые Telegram.Bot уже поддерживал, а фреймворк не пробрасывал: `BusinessConnectionId`, `MessageEffectId`, `AllowPaidBroadcast`, `DirectMessagesTopicId` и `SuggestedPostParameters`. Их передают `MessageSender`, `MediaSender` (фото, группы фото, файлы и медиа по ссылке) и `MessageCopier` — каждый в том объёме, в каком их принимает соответствующий метод Bot API.
 - Добавлены события сообщений, пропущенные при обновлениях Telegram.Bot: `OnGiftUpgradeSentHandle`, `OnChatOwnerChangedHandle`, `OnChatOwnerLeftHandle`, `OnManagedBotCreatedHandle`, `OnPollOptionAddedHandle`, `OnPollOptionDeletedHandle`, `OnLivePhotoHandle`, `OnRichMessageHandle`, `OnCommunityChatAddedHandle` и `OnCommunityChatRemovedHandle`. Диспетчер сообщений теперь покрывает все `MessageType`, кроме `Text` — он всегда шёл через конвейер команд.
 - Добавлены события update, пропущенные по той же причине: `OnManagedBotHandle`, `OnGuestMessageHandle` и `OnSubscriptionHandle`.
+- Добавлено `OptionMessage.ShowCaptionAboveMedia`, пробрасывается в `MediaSender.SendPhoto`, `MessageCopier` и `MediaEditor.EditCaption`.
+- Добавлена `InlineCopyText` — кнопка, копирующая заданный текст в буфер обмена. Telegram.Bot поддерживал её давно, а обёртки во фреймворке не было.
+- Добавлен `ReplyKeyboardBuilder.AddRequestManagedBot` — кнопка, предлагающая пользователю создать и передать бота под управление текущего.
+- Добавлены сторожевые тесты, которые падают, если Telegram.Bot обновился, а фреймворк за ним не успел: пропущенный обработчик `MessageType` или `UpdateType`, объявленное, но никогда не вызываемое событие, новый вид кнопки без обёртки или новый параметр запроса, который никто не просмотрел. Все перечисленные выше пропуски случились ровно потому, что за этим ничего не следило.
 
 ### 🧩 Common
 

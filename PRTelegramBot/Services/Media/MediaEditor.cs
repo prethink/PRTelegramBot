@@ -117,6 +117,7 @@ namespace PRTelegramBot.Services.Media
                 parseMode: option.ParseMode,
                 replyMarkup: replyMarkup,
                 captionEntities: option.Entities,
+                showCaptionAboveMedia: option.ShowCaptionAboveMedia,
                 businessConnectionId: option.BusinessConnectionId,
                 cancellationToken: option.CancellationToken);
         }

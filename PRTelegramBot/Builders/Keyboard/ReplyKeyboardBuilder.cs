@@ -221,6 +221,23 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
+        /// Adds a button that asks the user to create and share a bot managed by this one.
+        /// </summary>
+        /// <remarks>
+        /// Available only to bots that enabled management of other bots in the @BotFather
+        /// Mini App, and only in private chats.
+        /// </remarks>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="requestManagedBot">Managed bot request parameters.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
+        public ReplyKeyboardBuilder AddRequestManagedBot(string buttonName, KeyboardButtonRequestManagedBot requestManagedBot, bool newRow = false)
+        {
+            this.AddButton(KeyboardButton.WithRequestManagedBot(buttonName, requestManagedBot), newRow);
+            return this;
+        }
+
+        /// <summary>
         /// Adds a button that requests a user selection,
         /// with the request parameters specified manually.
         /// </summary>

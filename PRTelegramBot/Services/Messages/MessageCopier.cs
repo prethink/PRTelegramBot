@@ -56,6 +56,7 @@ namespace PRTelegramBot.Services.Messages
                 caption: option.Caption,
                 parseMode: option.ParseMode,
                 captionEntities: option.Entities,
+                showCaptionAboveMedia: option.ShowCaptionAboveMedia,
                 disableNotification: option.DisableNotification,
                 protectContent: option.ProtectedContent,
                 replyParameters: replyParams,

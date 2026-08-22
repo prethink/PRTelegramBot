@@ -1,7 +1,6 @@
 ﻿using PRTelegramBot.Core;
 using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Models;
-using PRTelegramBot.Models.InlineButtons;
 using System.Collections.Concurrent;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
