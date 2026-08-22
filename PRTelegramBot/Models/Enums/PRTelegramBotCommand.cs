@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Идентификаторы для callback команд
+    /// Identifiers for callback commands
     /// </summary>
     [InlineCommand]
     public enum PRTelegramBotCommand

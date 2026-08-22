@@ -6,21 +6,21 @@ namespace ConsoleExample.Models.CommandHeaders
     [InlineCommand]
     public enum CustomTHeader
     {
-        [Description("Бесплатный ВИП")]
+        [Description("Free VIP")]
         GetFreeVIP = 500,
-        [Description("Вип на 1 день")]
+        [Description("VIP for 1 day")]
         GetVipOneDay,
-        [Description("Вип на 1 неделю")]
+        [Description("VIP for 1 week")]
         GetVipOneWeek,
-        [Description("Вип на 1 месяц")]
+        [Description("VIP for 1 month")]
         GetVipOneMonth,
-        [Description("Вип навсегда")]
+        [Description("VIP forever")]
         GetVipOneForever,
-        [Description("Шаг из Inline")]
+        [Description("Step from inline")]
         InlineWithStep,
-        [Description("Кастомная кнопка")]
+        [Description("Custom button")]
         CustomButton,
-        [Description("Callback для календаря")]
+        [Description("Calendar callback")]
         CalendarCallback
     }
 }

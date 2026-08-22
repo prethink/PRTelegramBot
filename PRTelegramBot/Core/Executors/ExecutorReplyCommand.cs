@@ -3,23 +3,23 @@
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Исполнитель reply команд.
+    /// Executor for reply commands.
     /// </summary>
     internal sealed class ExecutorReplyCommand : ExecutorMessageCommand
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override CommandType CommandType => CommandType.Reply;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorReplyCommand(PRBotBase bot) : base(bot) { }
 
         #endregion

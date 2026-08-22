@@ -7,7 +7,7 @@ using System.Reflection;
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Позволяет автоматически находить методы который помечены определенными атрибутами
+    /// Automatically finds the methods marked with specific attributes
     /// </summary>
     public class ReflectionUtils
     {
@@ -23,48 +23,48 @@ namespace PRTelegramBot.Utils
             return Activator.CreateInstance(type, parameters);
         }
         /// <summary>
-        /// Поиск методов в программе для выполнения reply команд
+        /// Searches the program for methods that handle reply commands
         /// </summary>
-        /// <returns>Массив методов для reply команд</returns>
+        /// <returns>Array of methods that handle reply commands</returns>
         public static Type[] FindServicesToRegistration()
         {
             return FindClassesWithBotHandlerAttribute();
         }
         /// <summary>
-        /// Поиск методов в программе для выполнения reply команд
-        /// <param name="botId">Уникальный идентификатор бота</param>
+        /// Searches the program for methods that handle reply commands
+        /// <param name="botId">Unique bot identifier</param>
         /// </summary>
-        /// <returns>Массив методов для reply команд</returns>
+        /// <returns>Array of methods that handle reply commands</returns>
         public static MethodInfo[] FindStaticReplyCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(ReplyMenuHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>
-        /// Поиск методов в программе для выполнения reply команд
-        /// <param name="botId">Уникальный идентификатор бота</param>
+        /// Searches the program for methods that handle reply commands
+        /// <param name="botId">Unique bot identifier</param>
         /// </summary>
-        /// <returns>Массив методов для reply команд</returns>
+        /// <returns>Array of methods that handle reply commands</returns>
         public static MethodInfo[] FindStaticDynamicReplyCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(ReplyMenuDynamicHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>
-        /// Поиск методов в программе для выполнения inline команд
-        /// <param name="botId">Уникальный идентификатор бота</param>
+        /// Searches the program for methods that handle inline commands
+        /// <param name="botId">Unique bot identifier</param>
         /// </summary>
-        /// <returns>Массив методов для inline команд</returns>
+        /// <returns>Array of methods that handle inline commands</returns>
         public static MethodInfo[] FindStaticInlineCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(InlineCallbackHandlerAttribute<>), BindingFlags.Public | BindingFlags.Static, botId);
         }
 
         /// <summary>
-        /// Поиск методов в программе для выполнения слеш команд
-        /// <param name="botId">Уникальный идентификатор бота</param>
+        /// Searches the program for methods that handle slash commands
+        /// <param name="botId">Unique bot identifier</param>
         /// </summary>
-        /// <returns>Массив методов для слеш команд</returns>
+        /// <returns>Array of methods that handle slash commands</returns>
         public static MethodInfo[] FindStaticSlashCommandHandlers(long botId = 0)
         {
             return FindMethods(typeof(SlashHandlerAttribute), BindingFlags.Public | BindingFlags.Static, botId);
@@ -74,10 +74,10 @@ namespace PRTelegramBot.Utils
         {
             EnumHeaders enums = EnumHeaders.Instance;
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            // Обходим все сборки
+            // Iterate over all assemblies
             foreach (Assembly assembly in assemblies)
             {
-                // Получаем все типы из сборки и ищем только перечисления
+                // Get all types from the assembly and keep only the enums
                 var types = assembly
                     .GetTypes()
                     .Where(type => type.IsEnum && type.GetCustomAttributes(typeof(InlineCommandAttribute), true)
@@ -130,10 +130,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Поиск методов которые требуемый атрибут
+        /// Searches for methods that carry the required attribute
         /// </summary>
-        /// <param name="type">Тип атрибута</param>
-        /// <returns>Массив найденных методов</returns>
+        /// <param name="type">Attribute type</param>
+        /// <returns>Array of the methods that were found</returns>
         public static MethodInfo[] FindMethods(Type type, BindingFlags flags, long botId = 0)
         {
             var assemblyes = AppDomain.CurrentDomain.GetAssemblies();

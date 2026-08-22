@@ -5,16 +5,16 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для работы с сообщением
+    /// Extension methods for working with a message
     /// </summary>
     public static class MessageExtension
     {
         /// <summary>
-        /// Автоматическое удаление сообщение через определенное время.
+        /// Automatically deletes the message after a given delay.
         /// </summary>
-        /// <param name="message">Сообщение которое нужно удалить.</param>
-        /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="message">The message to delete.</param>
+        /// <param name="seconds">Number of seconds after which the message will be deleted.</param>
+        /// <param name="context">Bot context.</param>
         public static void AutoDeleteMessage(this Message message, int seconds, IBotContext context)
         {
             if(message is null)
@@ -28,12 +28,12 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Автоматическое редактирования сообщения через определенное время.
+        /// Automatically edits the message after a given delay.
         /// </summary>
-        /// <param name="message">Сообщение которое нужно удалить.</param>
-        /// <param name="messageText">Текст сообщения.</param>
-        /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="message">The message to delete.</param>
+        /// <param name="messageText">Message text.</param>
+        /// <param name="seconds">Number of seconds after which the message will be deleted.</param>
+        /// <param name="context">Bot context.</param>
         public static void AutoEditMessage(this Message message, string messageText, int seconds, IBotContext context)
         {
             if (message is null)
@@ -47,13 +47,13 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Автоматическое редактирования сообщения через определенное время в цикле.
+        /// Automatically edits the message after a given delay, in a loop.
         /// </summary>
-        /// <param name="message">Сообщение которое нужно удалить.</param>
-        /// <param name="messageTexts">Коллекция текстов сообщений.</param>
-        /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
-        /// <param name="context">Контекст бота.</param>
-        public static void AutoEditMessageСycle(this Message message, List<string> messageTexts, int seconds, IBotContext context)
+        /// <param name="message">The message to delete.</param>
+        /// <param name="messageTexts">Collection of message texts.</param>
+        /// <param name="seconds">Number of seconds after which the message will be deleted.</param>
+        /// <param name="context">Bot context.</param>
+        public static void AutoEditMessageCycle(this Message message, List<string> messageTexts, int seconds, IBotContext context)
         {
             if (message is null)
                 return;

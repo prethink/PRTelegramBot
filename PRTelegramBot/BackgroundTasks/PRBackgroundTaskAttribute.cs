@@ -4,7 +4,7 @@ using PRTelegramBot.Extensions;
 namespace PRTelegramBot.BackgroundTasks
 {
     /// <summary>
-    /// Атрибут метаданных фоновой задачи.
+    /// Background task metadata attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class PRBackgroundTaskAttribute : Attribute, IPRBackgroundTaskMetadata
@@ -34,75 +34,75 @@ namespace PRTelegramBot.BackgroundTasks
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="name">Название задачи.</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="name">Task name.</param>
         public PRBackgroundTaskAttribute(string id, string name)
             : this(Array.Empty<long>(), id, name, null, null, null, null) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="name">Название задачи.</param>
-        /// <param name="initialDelaySeconds">Задержка перед запуском задачи</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="name">Task name.</param>
+        /// <param name="initialDelaySeconds">Delay before the task starts</param>
         public PRBackgroundTaskAttribute(string id, int initialDelaySeconds, string name)
             : this(Array.Empty<long>(), id, name, initialDelaySeconds, null, null, null) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="name">Название задачи.</param>
-        /// <param name="repeatSeconds">Через сколько задача должна снова выполниться.</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="name">Task name.</param>
+        /// <param name="repeatSeconds">How long until the task should run again.</param>
         public PRBackgroundTaskAttribute(string id, string name, int repeatSeconds)
             : this(Array.Empty<long>(), id, name, null, null, repeatSeconds, null) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="name">Название задачи.</param>
-        /// <param name="repeatSeconds">Через сколько задача должна снова выполниться.</param>
-        /// <param name="maxRepeatCount">Через сколько задача должна снова выполниться.</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="name">Task name.</param>
+        /// <param name="repeatSeconds">How long until the task should run again.</param>
+        /// <param name="maxRepeatCount">How long until the task should run again.</param>
         public PRBackgroundTaskAttribute(string id, string name, int repeatSeconds, int maxRepeatCount)
             : this(Array.Empty<long>(), id, name, null, maxRepeatCount, repeatSeconds, null) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="initialDelaySeconds">Задержка перед запуском задачи</param>
-        /// <param name="name">Название задачи.</param>
-        /// <param name="repeatSeconds">Через сколько задача должна снова выполниться.</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="initialDelaySeconds">Delay before the task starts</param>
+        /// <param name="name">Task name.</param>
+        /// <param name="repeatSeconds">How long until the task should run again.</param>
         public PRBackgroundTaskAttribute(string id, int initialDelaySeconds, string name, int repeatSeconds)
             : this(Array.Empty<long>(), id, name, initialDelaySeconds, null, repeatSeconds, null) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="initialDelaySeconds">Задержка перед запуском задачи</param>
-        /// <param name="name">Название задачи.</param>
-        /// <param name="maxRepeatCount">Через сколько задача должна снова выполниться.</param>
-        /// <param name="repeatSeconds">Через сколько задача должна снова выполниться.</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="initialDelaySeconds">Delay before the task starts</param>
+        /// <param name="name">Task name.</param>
+        /// <param name="maxRepeatCount">How long until the task should run again.</param>
+        /// <param name="repeatSeconds">How long until the task should run again.</param>
         public PRBackgroundTaskAttribute(string id, int initialDelaySeconds, string name, int repeatSeconds, int maxRepeatCount) 
             : this(Array.Empty<long>(), id, name, initialDelaySeconds, maxRepeatCount, repeatSeconds, null) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botsIds">Идентификатор ботов, для который будет использоваться задача.</param>
-        /// <param name="id">Идентификатор.</param>
-        /// <param name="name">Название задачи.</param>
-        /// <param name="initialDelaySeconds">Задержка перед запуском задачи</param>
-        /// <param name="maxRepeatCount">Через сколько задача должна снова выполниться. Значение -1 означает неограниченное количество попыток.</param>
-        /// <param name="repeatSeconds">Через сколько задача должна снова выполниться.</param>
-        /// <param name="maxErrorAttempts">Максимальное количество ошибок при котором дальнейшее выполнение задачи прекращается. Значение -1 означает неограниченное количество попыток.</param>
+        /// <param name="botsIds">Identifiers of the bots the task will be used for.</param>
+        /// <param name="id">Identifier.</param>
+        /// <param name="name">Task name.</param>
+        /// <param name="initialDelaySeconds">Delay before the task starts</param>
+        /// <param name="maxRepeatCount">How long until the task should run again. A value of -1 means an unlimited number of attempts.</param>
+        /// <param name="repeatSeconds">How long until the task should run again.</param>
+        /// <param name="maxErrorAttempts">Maximum number of errors after which the task stops running. A value of -1 means an unlimited number of attempts.</param>
         public PRBackgroundTaskAttribute(long[] botsIds, string id, string name, int? initialDelaySeconds, int? maxRepeatCount, int? repeatSeconds, int? maxErrorAttempts)
         {
             if (string.IsNullOrWhiteSpace(id))

@@ -1,4 +1,4 @@
-using AspNetExample;
+п»їusing AspNetExample;
 using AspNetExample.BackgroundTasks;
 using AspNetExample.BotController;
 using AspNetExample.MiddleWares;
@@ -16,7 +16,7 @@ using TestDI.Models;
 /****************************************************************************************
  * ######################################################################################
  * 
- * Актуальная документация https://prethink.gitbook.io/prtelegrambot
+ * Up-to-date documentation: https://prethink.gitbook.io/prtelegrambot
  * 
  * ######################################################################################
  ****************************************************************************************/
@@ -26,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Инициализация классов для работы ботов с DI
+//Initialize the classes required for the bots to work with DI
 builder.Services.AddTransient<ServiceTransient>();
 builder.Services.AddScoped<ServiceScoped>();
 builder.Services.AddSingleton<ServiceSingleton>();
@@ -35,12 +35,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("MyInMemoryDb"));
 builder.Services.AddBotHandlers();
 builder.Services.AddSingleton<IInlineMenuConverter>(new FileInlineConverter());
-// Фоновые задачи через DI.
+// Background tasks via DI.
 builder.Services.AddTransient<IPRBackgroundTask, ExampleDIAttributeBackgroundTasks>();
 builder.Services.AddTransient<IPRBackgroundTask, ExampleWithMetadataBackgroundTasks>();
 builder.Services.AddTransient<IPRBackgroundTask, ExampleWithoutMetadataBackgroundTasks>();
 
-//Middleware через DI
+//Middleware via DI
 
 builder.Services.AddScoped<MiddlewareBase, DIMiddleware>();
 builder.Services.AddTransient<MiddlewareBase, UserMiddleware>();
@@ -84,7 +84,7 @@ app.MapControllerRoute(
 
 
 
-//Создание и запуск бота
+//Create and start the bot
 var serviceProvaider = app.Services.GetService<IServiceProvider>();
 var prBotInstance = new PRBotBuilder("token")
     .SetClearUpdatesOnStart(true)

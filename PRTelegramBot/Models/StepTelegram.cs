@@ -5,24 +5,24 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Позволяет выполнить пользователю команды пошагово.
+    /// Lets the user execute commands step by step.
     /// </summary>
     public sealed class StepTelegram : IExecuteStep
     {
-        #region Свойства и константы
+        #region Properties and constants
 
         /// <summary>
-        /// Ссылка на метод который должен быть выполнен.
+        /// Reference to the method that has to be executed.
         /// </summary>
         public Func<IBotContext, Task> CommandDelegate { get; set; }
 
         /// <summary>
-        /// До какого времени команду можно выполнить.
+        /// The time until which the command may be executed.
         /// </summary>
         public DateTime? ExpiredTime { get; set; }
 
         /// <summary>
-        /// Кэш данных.
+        /// Data cache.
         /// </summary>
         private ITelegramCache cache { get; set; }
 
@@ -71,43 +71,43 @@ namespace PRTelegramBot.Models
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Регистрация следующего шага.
+        /// Registers the next step.
         /// </summary>
-        /// <param name="nextStep">Метод для следующей обработки.</param>
+        /// <param name="nextStep">Method that handles the next step.</param>
         public void RegisterNextStep(Func<IBotContext, Task> nextStep)
         {
             RegisterNextStep(nextStep, null);
         }
 
         /// <summary>
-        /// Регистрация следующего шага.
+        /// Registers the next step.
         /// </summary>
-        /// <param name="nextStep">Метод для следующей обработки.</param>
-        /// <param name="addTime">До какого времени команду можно выполнить</param>
+        /// <param name="nextStep">Method that handles the next step.</param>
+        /// <param name="addTime">The time until which the command may be executed</param>
         public void RegisterNextStep(Func<IBotContext, Task> nextStep, TimeSpan addTime)
         {
             RegisterNextStep(nextStep, DateTime.Now.Add(addTime));
         }
 
         /// <summary>
-        /// Регистрация следующего шага.
+        /// Registers the next step.
         /// </summary>
-        /// <param name="nextStep">Метод для следующей обработки.</param>
-        /// <param name="expiriedTime"> До какого времени команду можно выполнить.</param>
+        /// <param name="nextStep">Method that handles the next step.</param>
+        /// <param name="expiriedTime"> The time until which the command may be executed.</param>
         public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiriedTime)
         {
             RegisterNextStep(nextStep, expiriedTime, false);
         }
 
         /// <summary>
-        /// Регистрация следующего шага.
+        /// Registers the next step.
         /// </summary>
-        /// <param name="nextStep">Метод для следующей обработки.</param>
-        /// <param name="expiriedTime"> До какого времени команду можно выполнить.</param>
-        /// <param name="ignoreBasicCommands">Игнорировать базовые команды при выполнение шагов.</param>
+        /// <param name="nextStep">Method that handles the next step.</param>
+        /// <param name="expiriedTime"> The time until which the command may be executed.</param>
+        /// <param name="ignoreBasicCommands">Ignore the basic commands while steps are running.</param>
         public void RegisterNextStep(Func<IBotContext, Task> nextStep, DateTime? expiriedTime, bool ignoreBasicCommands)
         {
             CommandDelegate = nextStep;
@@ -116,10 +116,10 @@ namespace PRTelegramBot.Models
         }
 
         /// <summary>
-        /// Получение текущего кэша
+        /// Gets the current cache
         /// </summary>
-        /// <typeparam name="T">Класс для хранения кэша</typeparam>
-        /// <returns>Кэш</returns>
+        /// <typeparam name="T">The class used to store the cache</typeparam>
+        /// <returns>Cache</returns>
         public T GetCache<T>()
         {
             return cache is T resultCache 
@@ -129,47 +129,47 @@ namespace PRTelegramBot.Models
 
         #endregion
 
-        #region Конструкторы класса
+        #region Class constructors
 
         /// <summary>
-        /// Создать новый следующий шаг.
+        /// Creates a new next step.
         /// </summary>
-        /// <param name="command">Команда для выполнения</param>
+        /// <param name="command">The command to execute</param>
         public StepTelegram(Func<IBotContext, Task> command)
             : this(command, null, null) { }
 
         /// <summary>
-        /// Создать новый следующий шаг.
+        /// Creates a new next step.
         /// </summary>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <param name="cache">Кэш.</param>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="cache">Cache.</param>
         public StepTelegram(Func<IBotContext, Task> command, ITelegramCache cache)
             : this(command, null, cache, false) { }
 
         /// <summary>
-        /// Создать новый следующий шаг.
+        /// Creates a new next step.
         /// </summary>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="expiriedTime">Maximum lifetime of the command, after which it is ignored.</param>
         public StepTelegram(Func<IBotContext, Task> command, DateTime expiriedTime)
             : this(command, expiriedTime, null, false) { }
 
         /// <summary>
-        /// Создать новый следующий шаг.
+        /// Creates a new next step.
         /// </summary>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
-        /// <param name="cache">Кэш.</param>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="expiriedTime">Maximum lifetime of the command, after which it is ignored.</param>
+        /// <param name="cache">Cache.</param>
         public StepTelegram(Func<IBotContext, Task> command, DateTime? expiriedTime, ITelegramCache cache)
             : this(command, expiriedTime, cache, false) { }
 
         /// <summary>
-        /// Создать новый следующий шаг.
+        /// Creates a new next step.
         /// </summary>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <param name="expiriedTime">Максимальный срок выполнения команды после чего команда будет проигнорирована.</param>
-        /// <param name="cache">Кэш.</param>
-        /// <param name="ignoreBasicCommands">Игнорировать базовые команды при выполнение шагов.</param>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="expiriedTime">Maximum lifetime of the command, after which it is ignored.</param>
+        /// <param name="cache">Cache.</param>
+        /// <param name="ignoreBasicCommands">Ignore the basic commands while steps are running.</param>
         public StepTelegram(Func<IBotContext, Task> command, DateTime? expiriedTime, ITelegramCache cache, bool ignoreBasicCommands)
         {
             this.cache = cache;

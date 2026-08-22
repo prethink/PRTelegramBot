@@ -6,14 +6,14 @@ using System.Reflection;
 namespace PRTelegramBot.Core.CommandStores
 {
     /// <summary>
-    /// Хранилище для slash команд.
+    /// Store for slash commands.
     /// </summary>
     public sealed class SlashCommandStore : MessageCommandStore
     {
-        #region Базовый класс
+        #region Base class
 
         /// <summary>
-        /// Зарегистрировать команды.
+        /// Registers the commands.
         /// </summary>
         public override void RegisterCommand()
         {
@@ -29,11 +29,11 @@ namespace PRTelegramBot.Core.CommandStores
         }
 
         /// <summary>
-        /// Добавить новую команду.
+        /// Adds a new command.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="delegate">Метод обработки команды.</param>
-        /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
+        /// <param name="command">Command.</param>
+        /// <param name="delegate">Method that handles the command.</param>
+        /// <returns>True if the command was added; False if it could not be added.</returns>
         public override bool AddCommand(string command, Func<IBotContext, Task> @delegate)
         {
             if (!command.StartsWith('/'))
@@ -44,12 +44,12 @@ namespace PRTelegramBot.Core.CommandStores
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public SlashCommandStore(PRBotBase bot) : base(bot) { }
 
         #endregion

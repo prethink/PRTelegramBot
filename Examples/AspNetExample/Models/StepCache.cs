@@ -3,7 +3,7 @@
 namespace TestDI.Models
 {
     /// <summary>
-    /// Кэш для пошагового выполнения команд
+    /// Cache used for step-by-step command execution
     /// </summary>
     public class StepCache : ITelegramCache
     {

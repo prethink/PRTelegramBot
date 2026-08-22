@@ -3,229 +3,229 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут для работы слэш (/) команд.
+    /// Attribute that enables slash (/) commands.
     /// </summary>
     public sealed class SlashHandlerAttribute : StringQueryAttribute
     {
 
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Символ разделителя.
+        /// Separator character.
         /// </summary>
         public char SplitChar { get; protected set; } = default;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(char splitChar, params string[] commands)
             : this(0, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, splitChar, commands) {  }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commands">Команды.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(params string[] commands)
             : this(0, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, params string[] commands)
             : this(botId, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, char splitChar, params string[] commands)
             : this(botId, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, params string[] commands)
             : this(botIds, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, default, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, char splitChar, params string[] commands)
             : this(botIds, CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(CommandComparison commandComparison, params string[] commands)
             : this(0, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(CommandComparison commandComparison, char splitChar, params string[] commands)
             : this(0, commandComparison, StringComparison.OrdinalIgnoreCase, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, CommandComparison commandComparison, params string[] commands)
             : this(botId, commandComparison, StringComparison.OrdinalIgnoreCase, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, CommandComparison commandComparison, char splitChar, params string[] commands)
             : this(botId, commandComparison, StringComparison.OrdinalIgnoreCase, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, CommandComparison commandComparison, params string[] commands)
             : this(botIds, commandComparison, StringComparison.OrdinalIgnoreCase, default, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, CommandComparison commandComparison, char splitChar, params string[] commands)
             : this(botIds, commandComparison, StringComparison.OrdinalIgnoreCase, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(StringComparison stringComparison, params string[] commands)
             : this(0, CommandComparison.Contains, stringComparison, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(StringComparison stringComparison, char splitChar, params string[] commands)
             : this(0, CommandComparison.Contains, stringComparison, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, StringComparison stringComparison, params string[] commands)
             : this(botId, CommandComparison.Contains, stringComparison, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, StringComparison stringComparison, char splitChar, params string[] commands)
             : this(botId, CommandComparison.Contains, stringComparison, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, StringComparison stringComparison, params string[] commands)
             : this(botIds, CommandComparison.Contains, stringComparison, default, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, StringComparison stringComparison, char splitChar, params string[] commands)
             : this(botIds, CommandComparison.Contains, stringComparison, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
             : this(0, commandComparison, stringComparison, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(CommandComparison commandComparison, StringComparison stringComparison, char splitChar, params string[] commands)
             : this(0, commandComparison, stringComparison, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison, params string[] commands)
             : this([botId], commandComparison, stringComparison, default, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long botId, CommandComparison commandComparison, StringComparison stringComparison, char splitChar, params string[] commands)
             : this([botId], commandComparison, stringComparison, splitChar, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
-        /// <param name="splitChar">Символ разделителя.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
+        /// <param name="splitChar">Separator character.</param>
+        /// <param name="commands">Commands.</param>
         public SlashHandlerAttribute(long[] botIds, CommandComparison commandComparison, StringComparison stringComparison, char splitChar, params string[] commands)
             : base(botIds, commandComparison, stringComparison)
         {

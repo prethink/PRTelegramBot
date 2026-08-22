@@ -9,31 +9,31 @@ namespace ConsoleExample.Examples
     public class ExampleAdminCheck
     {
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Админ".
-        /// Проверка текущего пользователя на привилегии администратора.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Admin" is sent to the chat.
+        /// Checks whether the current user has administrator privileges.
         /// </summary>
-        [ReplyMenuHandler("Админ")]
+        [ReplyMenuHandler("Admin")]
         public static async Task AdminExample(IBotContext context)
         {
             bool isAdminUpdate = await context.IsAdmin();
             bool isAdminById = await context.IsAdmin(context.Update.GetChatId()) ;
-            await MessageSender.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+            await MessageSender.Send(context, $"You are an administrator of the bot: {isAdminById} {isAdminUpdate}");
         }
 
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Только админы".
-        /// Пример работы кастомного чекера и кастомного атрибута.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Admins only" is sent to the chat.
+        /// Example of a custom checker and a custom attribute in action.
         /// </summary>
         [AdminOnlyExample]
-        [ReplyMenuHandler("Только админы")]
+        [ReplyMenuHandler("Admins only")]
         public static async Task AdminOnlyExample(IBotContext context)
         {
             bool isAdminUpdate = await context.IsAdmin();
             bool isAdminById = await context.IsAdmin(context.Update.GetChatId());
-            await MessageSender.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+            await MessageSender.Send(context, $"You are an administrator of the bot: {isAdminById} {isAdminUpdate}");
         }
     }
 }

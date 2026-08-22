@@ -4,84 +4,84 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ConsoleExample.Models
 {
     /// <summary>
-    /// Пользователь
-    /// Для Entity framework
+    /// User
+    /// For Entity Framework
     /// </summary>
     [Table("users")]
     public class UserBot
     {
         /// <summary>
-        /// Идентфикатор телеграм
+        /// Telegram identifier
         /// </summary>
         [Key]
         [Column("telegram_id")]
         public long TelegramId { get; set; }
 
         /// <summary>
-        /// Ссылка на пользователя который привел в бот
+        /// Reference to the user who brought this one to the bot
         /// </summary>
         [Column("parent_user_id")]
         public long? ParentUserId { get; set; }
         public UserBot? ParentUser { get; set; }
 
         /// <summary>
-        /// Дата регистрации
+        /// Registration date
         /// </summary>
         [Column("registered_date")]
         public DateTime RegisteredDate { get; set; }
 
         /// <summary>
-        /// Дата последней активности
+        /// Date of the last activity
         /// </summary>
         [Column("last_activity")]
         public DateTime LastActivity { get; set; }
 
         /// <summary>
-        /// Логин 
+        /// Login 
         /// </summary>
         [Column("login")]
         public string? Login { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Name
         /// </summary>
         [Column("firstname")]
         public string? FirstName { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Last name
         /// </summary>
         [Column("lastname")]
         public string? LastName { get; set; }
 
         /// <summary>
-        /// Забанен или нет
+        /// Whether the user is banned
         /// </summary>
         [Column("is_ban")]
         public bool IsBan { get; set; }
 
         /// <summary>
-        /// Активированная учетка или нет
+        /// Whether the account is activated
         /// </summary>
         [Column("is_active")]
         public bool IsActivate { get; set; }
 
         /// <summary>
-        /// Очки активности пользователя
+        /// The user's activity points
         /// </summary>
         [Column("activity")]
         public long Activity { get; set; }
 
         /// <summary>
-        /// Персональная ссылка
+        /// Personal link
         /// </summary>
         [Column("link")]
         public string Link { get; set; }
 
         /// <summary>
-        /// Получить имя пользователя
+        /// Gets the user name
         /// </summary>
-        /// <returns>Имя пользователя</returns>
+        /// <returns>User name</returns>
         public string GetName()
         {
             if (!string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName))
@@ -95,13 +95,13 @@ namespace ConsoleExample.Models
             {
                 return Login;
             }
-            return "Имя не определено";
+            return "Name is not set";
         }
 
         /// <summary>
-        /// Добавляет очки активности
+        /// Adds activity points
         /// </summary>
-        /// <param name="activity">Очки активности</param>
+        /// <param name="activity">Activity points</param>
         public void AddActivity(long activity)
         {
             Activity += activity;

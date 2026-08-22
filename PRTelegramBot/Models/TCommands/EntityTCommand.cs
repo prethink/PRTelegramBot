@@ -4,26 +4,26 @@ using System.Text.Json.Serialization;
 namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
-    /// Команда для передачи данных о идентификаторе сущности.
+    /// Command that carries the entity identifier.
     /// </summary>
     public class EntityTCommand<T> : TCommandBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Идентификатор сущности
+        /// Entity identifier
         /// </summary>
         [JsonPropertyName("1")]
         public T EntityId { get; set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="entityId">Идентификатор сущности.</param>
+        /// <param name="entityId">Entity identifier.</param>
         public EntityTCommand(T entityId)
             : base(0)
         {
@@ -31,10 +31,10 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="entityId">Идентификатор сущности.</param>
-        /// <param name="lastCommand">Прошлая команда.</param>
+        /// <param name="entityId">Entity identifier.</param>
+        /// <param name="lastCommand">Previous command.</param>
         public EntityTCommand(T entityId, int lastCommand)
             : base(lastCommand)
         {
@@ -42,10 +42,10 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="entityId">Идентификатор сущности.</param>
-        /// <param name="action">Действие с прошлым сообщением.</param>
+        /// <param name="entityId">Entity identifier.</param>
+        /// <param name="action">Action to perform on the previous message.</param>
         public EntityTCommand(T entityId, ActionWithLastMessage action)
             : base(action)
         {
@@ -53,11 +53,11 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="entityId">Идентификатор сущности.</param>
-        /// <param name="lastCommand">Прошлая команда.</param>
-        /// <param name="action">Действие с прошлым сообщением.</param>
+        /// <param name="entityId">Entity identifier.</param>
+        /// <param name="lastCommand">Previous command.</param>
+        /// <param name="action">Action to perform on the previous message.</param>
         public EntityTCommand(T entityId, int lastCommand, ActionWithLastMessage action)
             : base(lastCommand, action)
         {
@@ -65,7 +65,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public EntityTCommand() { }
 

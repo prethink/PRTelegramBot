@@ -3,47 +3,47 @@
 namespace PRTelegramBot.Builders.Keyboard
 {
     /// <summary>
-    /// Базовый класс для построения клавиатур.
+    /// Base class for building keyboards.
     /// </summary>
-    /// <typeparam name="TButton">Тип кнопки.</typeparam>
-    /// <typeparam name="TKeyboard">Тип клавиатуры.</typeparam>
-    /// <typeparam name="TSelf">Тип билдера.</typeparam>
+    /// <typeparam name="TButton">Button type.</typeparam>
+    /// <typeparam name="TKeyboard">Keyboard type.</typeparam>
+    /// <typeparam name="TSelf">Builder type.</typeparam>
     public abstract class KeyboardBuilderBase<TButton, TKeyboard, TSelf>
         where TSelf : KeyboardBuilderBase<TButton, TKeyboard, TSelf>
     {
-        #region Константы
+        #region Constants
 
         /// <summary>
-        /// Название пустой кнопки по умолчанию.    
+        /// Default name of an empty button.    
         /// </summary>
         public const string KEY_EMPTY_BUTTON_NAME = "%EMPTY_BUTTON%";
 
         #endregion
 
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Кнопки клавиатуры.
+        /// Keyboard buttons.
         /// </summary>
         protected List<List<TButton>> buttons = new();
 
         /// <summary>
-        /// Имя кнопки для пустой ячейки. Используется, если нужно визуально указать, что место занято,
-        /// но кнопка не выполняет действий.  
-        /// По умолчанию стоит простой символ "·".
+        /// The button name used for an empty cell. Use it when the slot should visibly look occupied,
+        /// but the button performs no action.  
+        /// The default is the plain "·" character.
         /// </summary>
         protected string emptyButtonName = " ";
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Устанавливает текст, который будет использоваться
-        /// для "пустых" кнопок — декоративных или заполняющих элементов.
+        /// Sets the text that will be used
+        /// for "empty" buttons — decorative or filler elements.
         /// </summary>
-        /// <param name="buttonName">Текст для пустой кнопки.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Text for the empty button.</param>
+        /// <returns>The current builder instance.</returns>
         public TSelf SetEmptyButtonsName(string buttonName)
         {
             this.emptyButtonName = buttonName;
@@ -51,10 +51,10 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавить кнопку.
+        /// Adds a button.
         /// </summary>
-        /// <param name="button">Кнопка.</param>
-        /// <param name="newRow">Если true — каждая кнопка будет добавляться на новую строку.</param>
+        /// <param name="button">Button.</param>
+        /// <param name="newRow">If true, every button is added on a new row.</param>
         public TSelf AddButton(TButton button, bool newRow = false)
         {
             if (buttons.Count == 0)
@@ -72,9 +72,9 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавить кнопки.
+        /// Adds buttons.
         /// </summary>
-        /// <param name="buttons">Коллекция кнопок.</param>
+        /// <param name="buttons">Collection of buttons.</param>
         public TSelf AddButton(params TButton[] buttons)
         {
             foreach (var button in buttons)
@@ -84,7 +84,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавить новую строку.
+        /// Adds a new row.
         /// </summary>
         public TSelf AddRow()
         {
@@ -97,9 +97,9 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавить новую строку с кнопкой.
+        /// Adds a new row with a button.
         /// </summary>
-        /// <param name="button">Кнопка.</param>
+        /// <param name="button">Button.</param>
         public TSelf AddRowWithButton(TButton button)
         {
             this.AddRow();
@@ -108,9 +108,9 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавить новую строку с кнопками.
+        /// Adds a new row with buttons.
         /// </summary>
-        /// <param name="buttons">Кнопки.</param>
+        /// <param name="buttons">Buttons.</param>
         public TSelf AddRowWithButtons(params TButton[] buttons)
         {
             this.AddRow();
@@ -119,7 +119,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Очистить клавиатуру.
+        /// Clears the keyboard.
         /// </summary>
         public void Clear()
         {
@@ -127,7 +127,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Генерирует кнопки из коллекции с фильтром.
+        /// Generates buttons from a collection, applying a filter.
         /// </summary>
         public TSelf GenerateButtons<T>(IEnumerable<T> items, Func<T, TButton> generator, Predicate<T>? filter = null, bool addNewRow = false)
         {
@@ -140,11 +140,11 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Генерирует строку кнопок из коллекции.
+        /// Generates a row of buttons from a collection.
         /// </summary>
-        /// <typeparam name="T">Тип.</typeparam>
-        /// <param name="items">Объекты.</param>
-        /// <param name="generator">Генератор.</param>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="items">Items.</param>
+        /// <param name="generator">Generator.</param>
         /// <returns></returns>
         public TSelf GenerateRow<T>(IEnumerable<T> items, Func<T, TButton> generator)
         {
@@ -157,25 +157,25 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Получает коллекцию кнопок в формате строк и столбцов (таблицы/грида). 
+        /// Gets the buttons as rows and columns (a table / grid). 
         /// </summary>
-        /// <returns>Коллекция кнопок.</returns>
+        /// <returns>Collection of buttons.</returns>
         public IEnumerable<IEnumerable<TButton>> GetButtonGrid()
         {
             return buttons.ToList();
         }
 
         /// <summary>
-        /// Возвращает все кнопки как одну плоскую последовательность.
+        /// Returns all buttons as a single flat sequence.
         /// </summary>
-        /// <returns>Коллекция кнопок.</returns>
+        /// <returns>Collection of buttons.</returns>
         public IEnumerable<TButton> GetAllButtons()
         {
             return buttons.SelectMany(row => row ?? Enumerable.Empty<TButton>());
         }
 
         /// <summary>
-        /// Возвращает общее количество кнопок.
+        /// Returns the total number of buttons.
         /// </summary>
         public long GetAllButtonsCount()
         {
@@ -183,38 +183,38 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Получить коллекцию кнопок из строки.
+        /// Gets the collection of buttons in the row.
         /// </summary>
-        /// <param name="rowIndex">Индекс строки.</param>
-        /// <returns>Коллекция кнопок из строки.</returns>
+        /// <param name="rowIndex">Row index.</param>
+        /// <returns>The collection of buttons in the row.</returns>
         public IEnumerable<TButton> GetRow(int rowIndex)
         {
             return buttons.GetRow(rowIndex);
         }
 
         /// <summary>
-        /// Получить текущее количество строк.
+        /// Gets the current number of rows.
         /// </summary>
-        /// <returns>Количество строк.</returns>
+        /// <returns>Number of rows.</returns>
         public long GetRowCount()
         {
             return buttons.GetRowCount();
         }
 
         /// <summary>
-        /// Получить коллекцию кнопок из столбца.
+        /// Gets the collection of buttons in the column.
         /// </summary>
-        /// <param name="columnIndex">Индекс столбца.</param>
-        /// <returns>Коллекция кнопок из столбца.</returns>
+        /// <param name="columnIndex">Column index.</param>
+        /// <returns>The collection of buttons in the column.</returns>
         public IEnumerable<TButton> GetColumn(int columnIndex)
         {
             return buttons.GetColumn(columnIndex);
         }
 
         /// <summary>
-        /// Получить количество столбцов.
+        /// Gets the number of columns.
         /// </summary>
-        /// <returns>Количество столбцов.</returns>
+        /// <returns>Number of columns.</returns>
         public long GetColumnCount()
         {
             return buttons.GetColumnCount();
@@ -226,9 +226,9 @@ namespace PRTelegramBot.Builders.Keyboard
         protected abstract void ReplaceEmptyButtons();
 
         /// <summary>
-        /// Создать клавиатуру.
+        /// Creates the keyboard.
         /// </summary>
-        /// <returns>Клавиатура.</returns>
+        /// <returns>Keyboard.</returns>
         public abstract TKeyboard Build();
 
         #endregion

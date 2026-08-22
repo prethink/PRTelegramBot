@@ -8,8 +8,8 @@ namespace ConsoleExample.Examples
     internal class ExampleWhiteList
     {
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Если включен белый список и в нем есть пользователи, отработает только для них.
+        /// The command will run for the bot with botId 0.
+        /// If the white list is enabled and holds users, this runs only for them.
         /// </summary>
         [ReplyMenuHandler("OnlyWhiteList")]
         public static async Task OnlyWhiteList(IBotContext context)
@@ -19,8 +19,8 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Если выставлена настройка <see cref="WhiteListSettings.OnlyCommands"></see> и есть люди в белом списке, этот метод будет работать для всех.
+        /// The command will run for the bot with botId 0.
+        /// If the <see cref="WhiteListSettings.OnlyCommands"></see> setting is on and the white list holds people, this method works for everyone.
         /// </summary>
         [WhiteListAnonymous]
         [ReplyMenuHandler("AllUsers")]

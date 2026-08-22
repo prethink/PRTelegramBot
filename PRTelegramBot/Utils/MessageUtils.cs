@@ -7,11 +7,11 @@ namespace PRTelegramBot.Utils
     public static class MessageUtils
     {
         /// <summary>
-        /// Разбивает большое сообщение на блоки.
+        /// Splits a long message into chunks.
         /// </summary>
-        /// <param name="text">Текст.</param>
-        /// <param name="chunkSize">Размер блока.</param>
-        /// <returns>Коллекция сообщений.</returns>
+        /// <param name="text">Text.</param>
+        /// <param name="chunkSize">Chunk size.</param>
+        /// <returns>Collection of messages.</returns>
         public static IList<string> SplitIntoChunks(string text, int chunkSize)
         {
             List<string> chunks = new List<string>();
@@ -26,10 +26,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создает параметры если option null.
+        /// Creates the options when option is null.
         /// </summary>
-        /// <param name="option">Параметры.</param>
-        /// <returns>Экземпляр класса OptionMessage.</returns>
+        /// <param name="option">Parameters.</param>
+        /// <returns>An instance of the OptionMessage class.</returns>
         public static OptionMessage CreateOptionsIfNull(OptionMessage option = null)
         {
             if (option is null)
@@ -38,10 +38,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создаёт объект <see cref="ReplyParameters"/> на основе переданных опций <see cref="OptionMessage"/>.
+        /// Creates a <see cref="ReplyParameters"/> object from the supplied <see cref="OptionMessage"/> options.
         /// </summary>
-        /// <param name="option">Опции сообщения, из которых извлекаются параметры ответа.</param>
-        /// <returns>Экземпляр <see cref="ReplyParameters"/> с заполненными полями <see cref="ReplyParameters.MessageId"/> и <see cref="ReplyParameters.AllowSendingWithoutReply"/>.</returns>
+        /// <param name="option">Message options the reply parameters are taken from.</param>
+        /// <returns>A <see cref="ReplyParameters"/> instance with the <see cref="ReplyParameters.MessageId"/> and <see cref="ReplyParameters.AllowSendingWithoutReply"/> fields filled in.</returns>
         public static ReplyParameters CreateReplyParametersFromOptions(OptionMessage option)
         {
             ReplyParameters parameters = new ReplyParameters();
@@ -53,10 +53,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создаёт объект <see cref="LinkPreviewOptions"/> на основе переданных опций <see cref="OptionMessage"/>.
+        /// Creates a <see cref="LinkPreviewOptions"/> object from the supplied <see cref="OptionMessage"/> options.
         /// </summary>
-        /// <param name="option">Опции сообщения, из которых извлекается настройка предпросмотра ссылки.</param>
-        /// <returns>Экземпляр <see cref="LinkPreviewOptions"/> с заполненным свойством <see cref="LinkPreviewOptions.IsDisabled"/>.</returns>
+        /// <param name="option">Message options the link preview setting is taken from.</param>
+        /// <returns>A <see cref="LinkPreviewOptions"/> instance with the <see cref="LinkPreviewOptions.IsDisabled"/> property filled in.</returns>
         public static LinkPreviewOptions CreateLinkPreviewOptionsFromOption(OptionMessage option)
         {
             LinkPreviewOptions linkOptions = new LinkPreviewOptions();
@@ -65,10 +65,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Получает меню из параметров сообщения.
+        /// Gets the menu from the message options.
         /// </summary>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <returns>Готовое меню или null.</returns>
+        /// <param name="option">Message parameters.</param>
+        /// <returns>The generated menu, or null.</returns>
         public static ReplyMarkup? GetReplyMarkup(OptionMessage option = null)
         {
             option = CreateOptionsIfNull(option);

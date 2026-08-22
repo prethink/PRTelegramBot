@@ -11,139 +11,139 @@ using PRTelegramBot.Services.Messages;
 namespace ConsoleExample.Services
 {
     /// <summary>
-    /// Инициализатор для бота.
+    /// Initializer for the bot.
     /// </summary>
     public static class Initializer
     {
         /// <summary>
-        /// Инициализация событий.
+        /// Initializes the events.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public static void InitEvents(PRBotBase bot)
         {
-            // Обработка не правильный тип сообщений
+            // Handling an invalid message type
             bot.Events.OnWrongTypeMessage += ExampleEvents.OnWrongTypeMessage;
 
-            // Обработка пользователь написал в чат start с deeplink
+            // Handling the case where the user sent start with a deeplink
             bot.Events.OnUserStartWithArgs += ExampleEvents.OnUserStartWithArgs;
 
-            // Обработка проверка привилегий
+            // Handling the privilege check
             bot.Events.OnCheckPrivilege += ExampleEvents.OnCheckPrivilege;
 
-            // Обработка пропущенной  команды
+            // Handling a command that was not matched
             bot.Events.OnMissingCommand += ExampleEvents.OnMissingCommand;
 
-            // Обработка если произошла ошибка при выполнение команды
+            // Handling an error raised while a command was running
             bot.Events.OnErrorCommand += ExampleEvents.OnErrorCommand;
 
-            // Обработка не верного типа чата
+            // Handling an invalid chat type
             bot.Events.OnWrongTypeChat += ExampleEvents.OnWrongTypeChat;
         }
 
         /// <summary>
-        /// Инициализация событий логов.
+        /// Initializes the log events.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public static void InitLogEvents(PRBotBase bot)
         {
-            // Подписка на простые логи.
+            // Subscribe to plain logs.
             bot.Events.OnCommonLog += ExampleLogEvents.OnLogCommon;
-            // Подписка на логи с ошибками.
+            // Subscribe to error logs.
             bot.Events.OnErrorLog += ExampleLogEvents.OnLogError;
         }
 
         /// <summary>
-        /// Инициализация событий для update типа сообщения.
+        /// Initializes the events for message-type updates.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public static void InitMessageEvents(PRBotBase bot)
         {
-            // Обработка локаций
+            // Handling locations
             bot.Events.MessageEvents.OnLocationHandle += ExampleMessageEvents.OnLocationHandle;
 
-            // Обработка контактных данных
+            // Handling contact data
             bot.Events.MessageEvents.OnContactHandle += ExampleMessageEvents.OnContactHandle;
 
-            // Обработка голосований
+            // Handling polls
             bot.Events.MessageEvents.OnPollHandle += ExampleMessageEvents.OnPollHandle;
 
-            // Обработка WebApps
+            // Handling WebApps
             bot.Events.MessageEvents.OnWebAppsHandle += ExampleMessageEvents.OnWebAppsHandle;
 
-            // Обработка, когда пользователю отказано в доступе
+            // Handling the case where the user is denied access
             bot.Events.OnAccessDenied += ExampleMessageEvents.OnAccessDenied;
 
-            //Обработка сообщения с документом
+            //Handling a message with a document
             bot.Events.MessageEvents.OnDocumentHandle += ExampleMessageEvents.OnDocumentHandle;
 
-            //Обработка сообщения с аудио
+            //Handling a message with audio
             bot.Events.MessageEvents.OnAudioHandle += ExampleMessageEvents.OnAudioHandle;
 
-            //Обработка сообщения с видео
+            //Handling a message with a video
             bot.Events.MessageEvents.OnVideoHandle += ExampleMessageEvents.OnVideoHandle;
 
-            //Обработка сообщения с фото
+            //Handling a message with a photo
             bot.Events.MessageEvents.OnPhotoHandle += ExampleMessageEvents.OnPhotoHandle;
 
-            //Обработка сообщения с стикером
+            //Handling a message with a sticker
             bot.Events.MessageEvents.OnStickerHandle += ExampleMessageEvents.OnStickerHandle;
 
-            //Обработка сообщения с голосовым сообщением
+            //Handling a message with a voice message
             bot.Events.MessageEvents.OnVoiceHandle += ExampleMessageEvents.OnVoiceHandle;
 
-            //Обработка сообщения с неизвестным типом
+            //Handling a message of an unknown type
             bot.Events.MessageEvents.OnUnknownHandle += ExampleMessageEvents.OnUnknownHandle;
 
-            //Обработка сообщения с местоположением
+            //Handling a message with a location
             bot.Events.MessageEvents.OnVenueHandle += ExampleMessageEvents.OnVenueHandle;
 
-            //Обработка сообщения с игрой
+            //Handling a message with a game
             bot.Events.MessageEvents.OnGameHandle += ExampleMessageEvents.OnGameHandle;
 
-            //Обработка сообщения с видеозаметкой
+            //Handling a message with a video note
             bot.Events.MessageEvents.OnVideoNoteHandle += ExampleMessageEvents.OnVideoNoteHandle;
 
-            //Обработка сообщения с игральной костью
+            //Handling a message with a dice
             bot.Events.MessageEvents.OnDiceHandle += ExampleMessageEvents.OnDiceHandle;
         }
 
         /// <summary>
-        /// Инициализация событий для типов update.
+        /// Initializes the events for the update types.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public static void InitUpdateEvents(PRBotBase bot)
         {
-            // Обработка до всех update 
+            // Handling before every update 
             bot.Events.UpdateEvents.OnPreUpdate += ExampleUpdateEvents.Handler_OnUpdate;
 
-            // Обработка после всех update
+            // Handling after every update
             bot.Events.UpdateEvents.OnPostUpdate += ExampleUpdateEvents.Handler_OnPostUpdate;
 
-            //Обработка обновления изменения группы/чата
+            //Handling an update about a group/chat change
             bot.Events.UpdateEvents.OnMyChatMemberHandle += ExampleUpdateEvents.OnUpdateMyChatMember;
         }
 
         /// <summary>
-        /// Инициализация новых команд.
+        /// Initializes the new commands.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public static void InitCommands(PRBotBase bot)
         {
             bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommand, async (context) =>
             {
-                await MessageSender.Send(context, "Тест метода TestAddCommand");
+                await MessageSender.Send(context, "Testing the TestAddCommand method");
             });
 
             bot.Register.AddInlineCommand(AddCustomTHeader.TestAddCommandTwo, async (context) =>
             {
-                await MessageSender.Send(context, "Тест метода TestAddCommandTwo");
+                await MessageSender.Send(context, "Testing the TestAddCommandTwo method");
             });
         }
 
         /// <summary>
-        /// Получить список динамических команд из json файла.
+        /// Gets the list of dynamic commands from the json file.
         /// </summary>
-        /// <returns>Команды ключ-значение.</returns>
+        /// <returns>The commands as key-value pairs.</returns>
         public static Dictionary<string, string> GetDynamicCommands()
         {
             var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
@@ -151,9 +151,9 @@ namespace ConsoleExample.Services
         }
 
         /// <summary>
-        /// Получить чекеры для команд.
+        /// Gets the checkers for the commands.
         /// </summary>
-        /// <returns>Список чекеров.</returns>
+        /// <returns>The list of checkers.</returns>
         public static List<InternalChecker> GetCommandChekers()
         {
             var checkerReplyCommand = new InternalChecker(CommandType.Reply, new ReplyExampleChecker());
@@ -162,9 +162,9 @@ namespace ConsoleExample.Services
         }
 
         /// <summary>
-        /// Получить список путей конфигурационных файлов.
+        /// Gets the list of configuration file paths.
         /// </summary>
-        /// <returns>Путь до файлов ключ-значение.</returns>
+        /// <returns>Paths to the files as key-value pairs.</returns>
         public static Dictionary<string, string> GetConfigPaths()
         {
             var dictionary = new Dictionary<string, string>();

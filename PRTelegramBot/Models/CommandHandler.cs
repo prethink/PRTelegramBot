@@ -8,35 +8,35 @@ using System.Reflection;
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Общий обработчик команд.
+    /// Common command handler.
     /// </summary>
     public class CommandHandler 
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Сравнение команд.
+        /// Command comparison.
         /// </summary>
         public CommandComparison CommandComparison { get;}
 
         /// <summary>
-        /// Бот.
+        /// Bot.
         /// </summary>
         private PRBotBase bot { get; set; }
 
         /// <summary>
-        /// Информация о методе.
+        /// Information about the method.
         /// </summary>
         public MethodInfo Method { get; private set; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Выполнить команду.
+        /// Executes the command.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public async Task ExecuteCommand(IBotContext context)
         {
             if (Method is null)
@@ -69,70 +69,70 @@ namespace PRTelegramBot.Models
 
         #endregion
 
-        #region Конструкторы класса
+        #region Class constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="method">Метод.</param>
+        /// <param name="method">Method.</param>
         public CommandHandler(MethodInfo method)
             : this(method, null , CommandComparison.Equals) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="method">Метод.</param>
-        /// <param name="commandComparison">Сравнение команд.</param>
+        /// <param name="method">Method.</param>
+        /// <param name="commandComparison">Command comparison.</param>
         public CommandHandler(MethodInfo method, CommandComparison commandComparison)
             : this(method, null, commandComparison) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="method">Метод.</param>
-        /// <param name="bot">Бот.</param>
-        /// <param name="bot">Бот.</param>
+        /// <param name="method">Method.</param>
+        /// <param name="bot">Bot.</param>
+        /// <param name="bot">Bot.</param>
         public CommandHandler(MethodInfo method, PRBotBase bot)
             : this(method, bot , CommandComparison.Equals) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="command">Команда.</param>
+        /// <param name="command">Command.</param>
         public CommandHandler(Func<IBotContext, Task> command) 
             : this (command, null, CommandComparison.Equals) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="bot">Бот.</param>
+        /// <param name="command">Command.</param>
+        /// <param name="bot">Bot.</param>
         public CommandHandler(Func<IBotContext, Task> command, PRBotBase bot)
             : this(command, bot, CommandComparison.Equals) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="commandComparison">Сравнение команд.</param>
+        /// <param name="command">Command.</param>
+        /// <param name="commandComparison">Command comparison.</param>
         public CommandHandler(Func<IBotContext, Task> command, CommandComparison commandComparison)
             : this(command, null, commandComparison) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="bot">Бот.</param>
-        /// <param name="commandComparison">Сравнение команд.</param>
+        /// <param name="command">Command.</param>
+        /// <param name="bot">Bot.</param>
+        /// <param name="commandComparison">Command comparison.</param>
         public CommandHandler(Func<IBotContext, Task> command, PRBotBase bot, CommandComparison commandComparison)
             : this(command.Method, bot, commandComparison) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="method">Метод.</param>
-        /// <param name="bot">Бот.</param>
-        /// <param name="commandComparison">Сравнение команд.</param>
+        /// <param name="method">Method.</param>
+        /// <param name="bot">Bot.</param>
+        /// <param name="commandComparison">Command comparison.</param>
         public CommandHandler(MethodInfo method, PRBotBase bot, CommandComparison commandComparison)
         {
             this.bot = bot;

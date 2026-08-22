@@ -4,19 +4,19 @@ using ToonNetSerializer;
 namespace PRTelegramBot.Wrappers
 {
     /// <summary>
-    /// Сериализатор данных Toon.
+    /// Toon data serializer.
     /// </summary>
     public class ToonSerializerWrapper : IPRSerializer
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Опции сериализации. 
+        /// Serialization options. 
         /// </summary>
         private readonly ToonDecodeOptions decodeOptions;
 
         /// <summary>
-        /// Опции сериализации. 
+        /// Serialization options. 
         /// </summary>
         private readonly ToonOptions serializeOptions;
 
@@ -40,35 +40,35 @@ namespace PRTelegramBot.Wrappers
 
         #endregion
 
-        #region Конструкторы    
+        #region Constructors    
 
         /// <summary>
-        /// Конструктор.    
+        /// Constructor.    
         /// </summary>
         public ToonSerializerWrapper()
             { }
 
         /// <summary>
-        /// Конструктор.    
+        /// Constructor.    
         /// </summary>
-        /// <param name="decodeOptions">Параметры десериализации.</param>
+        /// <param name="decodeOptions">Deserialization options.</param>
         public ToonSerializerWrapper(ToonDecodeOptions decodeOptions)
             : this(null, decodeOptions)
                 { }
 
         /// <summary>
-        /// Конструктор.    
+        /// Constructor.    
         /// </summary>
-        /// <param name="serializeOptions">Параметры сериализации.</param>
+        /// <param name="serializeOptions">Serialization options.</param>
         public ToonSerializerWrapper(ToonOptions serializeOptions) 
             : this(serializeOptions, null) 
                 { }
 
         /// <summary>
-        /// Конструктор.    
+        /// Constructor.    
         /// </summary>
-        /// <param name="serializeOptions">Параметры сериализации.</param>
-        /// <param name="decodeOptions">Параметры десериализации.</param>
+        /// <param name="serializeOptions">Serialization options.</param>
+        /// <param name="decodeOptions">Deserialization options.</param>
         public ToonSerializerWrapper(ToonOptions serializeOptions, ToonDecodeOptions decodeOptions)
         {
             this.serializeOptions = serializeOptions;

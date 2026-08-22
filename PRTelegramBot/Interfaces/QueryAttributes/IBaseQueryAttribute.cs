@@ -5,7 +5,7 @@ namespace PRTelegramBot.Interfaces
     public interface IBaseQueryAttribute : IBotIdentificatorAttribute
     {
         /// <summary>
-        /// Сравнение команды.
+        /// Command comparison.
         /// </summary>
         public CommandComparison CommandComparison { get; }
     }

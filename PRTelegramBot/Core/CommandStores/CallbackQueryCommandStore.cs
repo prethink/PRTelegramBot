@@ -9,14 +9,14 @@ using System.Reflection;
 namespace PRTelegramBot.Core.CommandStores
 {
     /// <summary>
-    /// Хранилище callbackQuery команд.
+    /// Store for callbackQuery commands.
     /// </summary>
     public sealed class CallbackQueryCommandStore : BaseCommandStore<Enum>
     {
-        #region Базовый класс
+        #region Base class
 
         /// <summary>
-        /// Зарегистрировать команды.
+        /// Registers the commands.
         /// </summary>
         public override void RegisterCommand()
         {
@@ -33,11 +33,11 @@ namespace PRTelegramBot.Core.CommandStores
         }
 
         /// <summary>
-        /// Добавить новую команду.
+        /// Adds a new command.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="delegate">Метод обработки команды.</param
-        /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
+        /// <param name="command">Command.</param>
+        /// <param name="delegate">Method that handles the command.</param
+        /// <returns>True if the command was added; False if it could not be added.</returns>
         public override bool AddCommand(Enum command, Func<IBotContext, Task> @delegate)
         {
             try
@@ -54,10 +54,10 @@ namespace PRTelegramBot.Core.CommandStores
         }
 
         /// <summary>
-        /// Удалить команду.
+        /// Removes the command.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <returns>True - команда удалена, False - не удалось удалить команду.</returns>
+        /// <param name="command">Command.</param>
+        /// <returns>True if the command was removed; False if it could not be removed.</returns>
         public override bool RemoveCommand(Enum command)
         {
             try
@@ -74,12 +74,12 @@ namespace PRTelegramBot.Core.CommandStores
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public CallbackQueryCommandStore(PRBotBase bot) : base(bot) { }
 
         #endregion

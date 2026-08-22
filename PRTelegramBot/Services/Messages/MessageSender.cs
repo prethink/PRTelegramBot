@@ -10,17 +10,17 @@ namespace PRTelegramBot.Services.Messages
 {
     public class MessageSender
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Сообщение ожидание обработки сообщения.
+        /// The waiting message shown while the message is processed.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="message">Текст сообщения.</param>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <returns>Сообщение.</returns>
-        public static async Task<Message> AwaitAnswerBot(IBotContext context, long chatId, string message = "⏳ Генерирую ответ...", OptionMessage option = null)
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="message">Message text.</param>
+        /// <param name="option">Message parameters.</param>
+        /// <returns>Message.</returns>
+        public static async Task<Message> AwaitAnswerBot(IBotContext context, long chatId, string message = "⏳ Generating a reply...", OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
             var sentMessage = await Send(context, chatId, message, option);
@@ -28,13 +28,13 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
-        /// Отправка сообщения.
+        /// Sends a message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="update">Обновление телерграм.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="option">Настройка сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="update">Telegram update.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="option">Message setting.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> Send(IBotContext context, Update update, string text, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -44,12 +44,12 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
-        /// Отправка сообщения.
+        /// Sends a message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="option">Настройка сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="option">Message setting.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> Send(IBotContext context, string text, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -59,13 +59,13 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
-        /// Отправка сообщения.
+        /// Sends a message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="option">Настройка сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="option">Message setting.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> Send(IBotContext context, long chatId, string text, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);

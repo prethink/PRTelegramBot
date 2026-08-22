@@ -1,28 +1,28 @@
 ﻿using PRTelegramBot.Providers;
 
 /// <summary>
-/// Провайдер глобальных настроек.  
+/// Provider of the global settings.  
 /// </summary>
 public class PRSettingsProvider : IPRSettings
 {
-    #region Поля и свойства
+    #region Fields and properties
 
     /// <summary>
-    /// Lazy инициализация глобального экземпляра настроек.
+    /// Lazy initialization of the global settings instance.
     /// </summary>
     private static Lazy<IPRSettings> instance = new Lazy<IPRSettings>(() => new PRSettingsProvider());
 
     /// <summary>
-    /// Глобальный экземпляр настроек.
+    /// The global settings instance.
     /// </summary>
     public static IPRSettings Instance => instance.Value;
 
     #endregion
 
-    #region Методы
+    #region Methods
 
     /// <summary>
-    /// Установить новый экземпляр глобальных настроек.
+    /// Sets a new global settings instance.
     /// </summary>
     /// <param name="settings"></param>
     public static void SetSettings(IPRSettings settings)
@@ -32,10 +32,10 @@ public class PRSettingsProvider : IPRSettings
 
     #endregion
 
-    #region Конструкторы
+    #region Constructors
 
     /// <summary>
-    /// Конструктор.    
+    /// Constructor.    
     /// </summary>
     private PRSettingsProvider() { }
 

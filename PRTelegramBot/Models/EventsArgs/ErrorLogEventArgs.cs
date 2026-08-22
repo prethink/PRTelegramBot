@@ -5,70 +5,70 @@ using PRTelegramBot.Interfaces;
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы событий логирования ошибок.
+    /// Error logging event arguments.
     /// </summary>
     public class ErrorLogEventArgs : BotEventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Исключение.
+        /// Exception.
         /// </summary>
         public Exception Exception { get; private set; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создать аргументы событий с ошибкой.
+        /// Creates event arguments carrying an error.
         /// </summary>
-        /// <param name="exception">Исключение.</param>
-        /// <returns>Аргументы событий логирования ошибок.</returns>
+        /// <param name="exception">Exception.</param>
+        /// <returns>Error logging event arguments.</returns>
         public static ErrorLogEventArgs Create(Exception exception)
         {
             return new ErrorLogEventArgs(CurrentScope.Context, exception);
         }
 
         /// <summary>
-        /// Создать аргументы событий с ошибкой.
+        /// Creates event arguments carrying an error.
         /// </summary>
-        /// <param name="message">Сообщение.</param>
-        /// <returns>Аргументы событий логирования ошибок.</returns>
+        /// <param name="message">Message.</param>
+        /// <returns>Error logging event arguments.</returns>
         public static ErrorLogEventArgs Create(string message)
         {
             return new ErrorLogEventArgs(CurrentScope.Context, new Exception(message));
         }
 
         /// <summary>
-        /// Создать аргументы событий с ошибкой.
+        /// Creates event arguments carrying an error.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <param name="exception">Исключение.</param>
-        /// <returns>Аргументы событий логирования ошибок.</returns>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="exception">Exception.</param>
+        /// <returns>Error logging event arguments.</returns>
         public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception)
         {
             return new ErrorLogEventArgs(new BotContext(bot), exception);
         }
 
         /// <summary>
-        /// Создать аргументы событий с ошибкой.
+        /// Creates event arguments carrying an error.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <param name="message">Сообщение.</param>
-        /// <returns>Аргументы событий логирования ошибок.</returns>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="message">Message.</param>
+        /// <returns>Error logging event arguments.</returns>
         public static ErrorLogEventArgs Create(PRBotBase bot, string message)
         {
             return new ErrorLogEventArgs(new BotContext(bot), new Exception(message));
         }
 
         /// <summary>
-        /// Создать аргументы событий с ошибкой.
+        /// Creates event arguments carrying an error.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <param name="exception">Исключение.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Аргументы событий логирования ошибок.</returns>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="exception">Exception.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Error logging event arguments.</returns>
         public static ErrorLogEventArgs Create(PRBotBase bot, Exception exception, CancellationToken cancellationToken)
         {
             return new ErrorLogEventArgs(new BotContext(bot, cancellationToken), exception);
@@ -76,13 +76,13 @@ namespace PRTelegramBot.Models.EventsArgs
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="exception">Исключение.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="exception">Exception.</param>
         public ErrorLogEventArgs(IBotContext context, Exception exception)
             : base(context)
         {

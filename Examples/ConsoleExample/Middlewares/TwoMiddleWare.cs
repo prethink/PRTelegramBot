@@ -9,13 +9,13 @@ namespace ConsoleExample.Middlewares
 
         public override async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
-            Console.WriteLine("Выполнение второго обработчика перед update");
+            Console.WriteLine("Running the second handler before the update");
             await base.InvokeOnPreUpdateAsync(context, next);
         }
 
         public override Task InvokeOnPostUpdateAsync(IBotContext context)
         {
-            Console.WriteLine("Выполнение второго обработчика после update");
+            Console.WriteLine("Running the second handler after the update");
             return base.InvokeOnPostUpdateAsync(context);
         }
     }

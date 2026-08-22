@@ -19,7 +19,7 @@ namespace FastBotTemplateConsole
 
             _ = bot.StartAsync();
 
-            // Чтобы консолька не закрылась.
+            // Keeps the console from closing.
             while(true) { }
         }
     }

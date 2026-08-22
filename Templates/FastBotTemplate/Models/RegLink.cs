@@ -3,32 +3,32 @@
 namespace FastBotTemplateConsole.Models
 {
     /// <summary>
-    /// Кастомные ссылка для регистрации
-    /// Для Entity framework
+    /// Custom registration link
+    /// For Entity Framework
     /// </summary>
     [Table("register_links")]
     public class RegLink
     {
         /// <summary>
-        /// Идентификатор
+        /// Identifier
         /// </summary>
         [Column("id")]
         public long Id { get; set; }
 
         /// <summary>
-        /// Ссылка для отслеживания
+        /// Tracking link
         /// </summary>
         [Column("link")]
         public string Link { get; set; }
 
         /// <summary>
-        /// Описание откуда пришел человек в бот
+        /// Describes where the person came to the bot from
         /// </summary>
         [Column("description")]
         public string Description { get; set; }
 
         /// <summary>
-        /// Количество регистраций
+        /// Number of registrations
         /// </summary>
         [Column("reg_count")]
         public long RegCount { get; set; }

@@ -3,14 +3,14 @@
 namespace PRTelegramBot.Managers
 {
     /// <summary>
-    /// Менеджер управления администраторами.
+    /// Administrator manager.
     /// </summary>
     public class AdminListManager : IAdminManager
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Пользователи.
+        /// Users.
         /// </summary>
         private List<long> users = new List<long>();
 

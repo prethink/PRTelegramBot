@@ -6,17 +6,17 @@ namespace ConsoleExample.Models.CommandHeaders
     [InlineCommand]
     public enum CustomTHeaderTwo
     {
-        [Description("Пример 1")]
+        [Description("Example 1")]
         ExampleOne = 600,
-        [Description("Пример 2")]
+        [Description("Example 2")]
         ExampleTwo,
-        [Description("Пример 3")]
+        [Description("Example 3")]
         ExampleThree,
-        [Description("Пример возращения назад")]
+        [Description("Going back example")]
         ExampleBack,
-        [Description("Пример страниц")]
+        [Description("Pagination example")]
         CustomPageHeader,
-        [Description("Пример страниц2")]
+        [Description("Pagination example 2")]
         CustomPageHeader2,
     }
 }

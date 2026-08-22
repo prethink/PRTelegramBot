@@ -5,14 +5,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку встроенной клавиатуры. При нажатии на кнопку пользователю будет предложено выбрать один из своих чатов указанного типа, открыть этот чат и вставить имя пользователя бота и указанный инлайн-запрос в поле ввода. Не поддерживается для сообщений, отправленных от имени аккаунта Telegram Business.
+    /// Creates an inline keyboard button. Pressing it prompts the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query into the input field. Not supported for messages sent on behalf of a Telegram Business account.
     /// </summary>
     public class InlineSwitchInlineQueryChosenChat : InlineBase, IInlineContent
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Если установлено, при нажатии на кнопку пользователю будет предложено выбрать один из своих чатов указанного типа, открыть этот чат и вставить имя пользователя бота и указанный инлайн-запрос в поле ввода. Не поддерживается для сообщений, отправленных от имени аккаунта Telegram Business.
+        /// If set, pressing the button prompts the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query into the input field. Not supported for messages sent on behalf of a Telegram Business account.
         /// </summary>
         public SwitchInlineQueryChosenChat SwitchInlineQueryChosenChat { get; set; }
 
@@ -34,13 +34,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="switchInlineQueryChosenChat">Если установлено, при нажатии на кнопку пользователю будет предложено выбрать один из своих чатов указанного типа, открыть этот чат и вставить имя пользователя бота и указанный инлайн-запрос в поле ввода. Не поддерживается для сообщений, отправленных от имени аккаунта Telegram Business.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="switchInlineQueryChosenChat">If set, pressing the button prompts the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query into the input field. Not supported for messages sent on behalf of a Telegram Business account.</param>
         public InlineSwitchInlineQueryChosenChat(string buttonName, SwitchInlineQueryChosenChat switchInlineQueryChosenChat)
             : base(buttonName)
         {

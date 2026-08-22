@@ -7,18 +7,18 @@ using System.Globalization;
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Утилиты для работы с календарем.
+    /// Utilities for working with the calendar.
     /// </summary>
     public static class CalendarUtils
     {
         /// <summary>
-        /// Создать новый календарь.
+        /// Creates a new calendar.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="culture">Язык календаря.</param>
-        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <param name="message">Текст сообщение.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="culture">Calendar language.</param>
+        /// <param name="headerCallbackCommand">Callback command header.</param>
+        /// <param name="option">Message parameters.</param>
+        /// <param name="message">Message text.</param>
         public static async Task Create(IBotContext context, CultureInfo culture, Enum headerCallbackCommand, OptionMessage option, string message)
         {
             var calendarMarkup = Markup.Calendar(DateTime.Today, culture, Convert.ToInt32(headerCallbackCommand));
@@ -28,12 +28,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создать новый календарь.
+        /// Creates a new calendar.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="culture">Язык календаря.</param>
-        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
-        /// <param name="message">Текст сообщение.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="culture">Calendar language.</param>
+        /// <param name="headerCallbackCommand">Callback command header.</param>
+        /// <param name="message">Message text.</param>
         public static async Task Create(IBotContext context, CultureInfo culture, Enum headerCallbackCommand, string message)
         {
             var option = new OptionMessage();
@@ -41,11 +41,11 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создать новый календарь.
+        /// Creates a new calendar.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
-        /// <param name="message">Текст сообщение.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="headerCallbackCommand">Callback command header.</param>
+        /// <param name="message">Message text.</param>
         public static async Task Create(IBotContext context, Enum headerCallbackCommand, string message)
         {
             var culture = CultureInfo.GetCultureInfo("ru-RU", false);

@@ -8,16 +8,16 @@ namespace PRTelegramBot.Services.Messages
 {
     public class MessageCopier
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Копирует коллекцию сообщений.
+        /// Copies a collection of messages.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="messages">Сообщения.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <returns>Коллекция идентификаторов сообщений.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="messages">Messages.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="option">Message parameters.</param>
+        /// <returns>Collection of message identifiers.</returns>
         public static async Task<List<MessageId>> CopyMessages(IBotContext context, List<Message> messages, long chatId, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -30,13 +30,13 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
-        /// Копировать сообщение.
+        /// Copies the message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="message">Сообщение.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <returns>Идентификатор сообщения.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="message">Message.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="option">Message parameters.</param>
+        /// <returns>Message identifier.</returns>
         public static async Task<MessageId> CopyMessage(IBotContext context, Message message, long chatId, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);

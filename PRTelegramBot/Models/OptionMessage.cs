@@ -5,105 +5,105 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Вспомогательный класс который хранит настройки для отправки сообщений в телеграме.
+    /// Helper class that holds the settings used to send messages in Telegram.
     /// </summary>
     public sealed class OptionMessage
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Добавляет Reply меню.
+        /// Adds a reply menu.
         /// </summary>
         public ReplyKeyboardMarkup MenuReplyKeyboardMarkup { get; set; }
 
         /// <summary>
-        /// Добавляет Inline меню.
+        /// Adds an inline menu.
         /// </summary>
         public InlineKeyboardMarkup MenuInlineKeyboardMarkup { get; set; }
 
         /// <summary>
-        /// Тип парсинга.
+        /// Parse mode.
         /// </summary>
         public ParseMode ParseMode { get; set; } = ParseMode.Html;
 
         /// <summary>
-        /// Очищает меню.
+        /// Clears the menu.
         /// </summary>
         public bool ClearMenu { get; set; }
 
         /// <summary>
-        /// Текст сообщения.
+        /// Message text.
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// Идентификатор сообщения.
+        /// Message identifier.
         /// </summary>
         public int? MessageId { get; set; }
 
         /// <summary>
-        /// Проверят что сообщение есть.
+        /// Checks that the message is present.
         /// </summary>
-        /// <returns>True - есть сообщение, False - нет сообщения.</returns>
+        /// <returns>True if a message exists; False if it does not.</returns>
         public bool HasMessage => !string.IsNullOrWhiteSpace(Message);
 
         /// <summary>
-        /// Идентификатор темы/канала.
+        /// Topic / channel identifier.
         /// </summary>
         public int? MessageThreadId { get; set; }
 
         /// <summary>
-        /// Указывает, что контент сообщения защищен.
+        /// Indicates that the message content is protected.
         /// </summary>
         public bool ProtectedContent { get; set; }
 
         /// <summary>
-        /// Токен отмены.
+        /// Cancellation token.
         /// </summary>
         public CancellationToken CancellationToken { get; set; }
 
         /// <summary>
-        /// Сущности сообщения.
+        /// Message entities.
         /// </summary>
         public IEnumerable<MessageEntity>? Entities { get; set; }
 
         /// <summary>
-        /// Отключает предварительный просмотр веб-страниц.
+        /// Disables web page previews.
         /// </summary>
         public bool DisableWebPagePreview { get; set; }
 
         /// <summary>
-        /// Отключает уведомления.
+        /// Disables notifications.
         /// </summary>
         public bool DisableNotification { get; set; }
 
         /// <summary>
-        /// Отключает обнаружение типа контента.
+        /// Disables content type detection.
         /// </summary>
         public bool DisableContentTypeDetection { get; set; }
 
         /// <summary>
-        /// Идентификатор сообщения, на которое следует ответить.
+        /// Identifier of the message to reply to.
         /// </summary>
         public int? ReplyToMessageId { get; set; }
 
         /// <summary>
-        /// Разрешает отправку без ответа.
+        /// Allows sending without a reply.
         /// </summary>
         public bool AllowSendingWithoutReply { get; set; }
 
         /// <summary>
-        /// Заголовок сообщения.
+        /// Message caption.
         /// </summary>
         public string? Caption { get; set; }
 
         /// <summary>
-        /// Миниатюра сообщения.
+        /// Message thumbnail.
         /// </summary>
         public InputFile? thumbnail { get; set; }
 
         /// <summary>
-        /// Признак наличие спойлера в сообщении.
+        /// Indicates that the message contains a spoiler.
         /// </summary>
         public bool HasSpoiler { get; set; }
 

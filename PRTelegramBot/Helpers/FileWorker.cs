@@ -5,23 +5,23 @@ using Telegram.Bot;
 namespace PRTelegramBot.Helpers
 {
     /// <summary>
-    /// Хелпер для работы с файлами
+    /// Helper for working with files
     /// </summary>
     public static class FileWorker
     {
         /// <summary>
-        /// Базовая директория
+        /// Base directory
         /// </summary>
         public static string BaseDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         /// <summary>
-        /// Скачивание файлов с telegram серверов
+        /// Downloads files from the Telegram servers
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="telegramId">Идентификатор пользователя</param>
-        /// <param name="fileId">Идентификатор файла</param>
-        /// <param name="fileName">Название файла</param>
-        /// <returns>Путь до файла</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="telegramId">User identifier</param>
+        /// <param name="fileId">File identifier</param>
+        /// <param name="fileName">File name</param>
+        /// <returns>Path to the file</returns>
         public static async Task<string> DownloadFileFromTelegram(IBotContext context, long telegramId, string fileId, string fileName)
         {
             string folder = Path.Combine("Uploads", "Users", telegramId.ToString());
@@ -38,11 +38,11 @@ namespace PRTelegramBot.Helpers
         }
 
         /// <summary>
-        /// Сохранение файлов в папку пользователя
+        /// Saves files into the user's folder
         /// </summary>
-        /// <param name="telegramId">Идентификатор пользователя</param>
-        /// <param name="stream">Потом</param>
-        /// <param name="fileName">Название файла</param>
+        /// <param name="telegramId">User identifier</param>
+        /// <param name="stream">Stream</param>
+        /// <param name="fileName">File name</param>
         /// <returns></returns>
         public static string SaveFileToUser(long telegramId, MemoryStream stream, string fileName)
         {

@@ -7,14 +7,14 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Контекст бота.
+    /// Bot context.
     /// </summary>
     public class BotContext : IBotContext
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Хранилище кастомных данных.
+        /// Store for custom data.
         /// </summary>
         protected object customData { get; set; }
 
@@ -42,12 +42,12 @@ namespace PRTelegramBot.Models
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создать заглушку контекста.
+        /// Creates a stub context.
         /// </summary>
-        /// <returns>Заглушка.</returns>
+        /// <returns>A stub.</returns>
         public static IBotContext CreateEmpty()
         {
             return new BotContext(new PRBotDummy());
@@ -74,14 +74,14 @@ namespace PRTelegramBot.Models
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <param name="update">Обновление telegram.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="update">Telegram update.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public BotContext(PRBotBase bot, Update update, CancellationToken cancellationToken)
         {
             Current = bot;
@@ -90,23 +90,23 @@ namespace PRTelegramBot.Models
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="bot">Bot instance.</param>
         public BotContext(PRBotBase bot) : this(bot, new Update(), CancellationToken.None) {}
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <param name="update">Обновление telegram.</param>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="update">Telegram update.</param>
         public BotContext(PRBotBase bot, Update update) : this(bot, update, CancellationToken.None) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public BotContext(PRBotBase bot, CancellationToken cancellationToken) : this(bot, new Update(), cancellationToken) { }
 
         #endregion

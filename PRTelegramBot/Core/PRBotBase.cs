@@ -22,100 +22,100 @@ using Telegram.Bot;
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Базовый класс экземпляра бота.
+    /// Base class of a bot instance.
     /// </summary>
     public abstract class PRBotBase : IHostedService
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Имя бота.
+        /// Bot name.
         /// </summary>
         public string BotName { get; protected set; }
 
         /// <summary>
-        /// Клиент для telegram бота.
+        /// The client for the Telegram bot.
         /// </summary>
         public ITelegramBotClient BotClient { get; protected set; }
 
         /// <summary>
-        /// Идентификатор бота в telegram.
+        /// The bot's identifier in Telegram.
         /// </summary>
         public long? TelegramId => BotClient.BotId;
 
         /// <summary>
-        /// Обработчик для telegram бота
+        /// Handler for the Telegram bot
         /// </summary>
         public IPRUpdateHandler Handler { get; protected set; }
 
         /// <summary>
-        /// Работает бот или нет
+        /// Whether the bot is running
         /// </summary>
         public bool IsWork { get; protected set; }
 
         /// <summary>
-        /// Параметры бота.
+        /// Bot options.
         /// </summary>
         public TelegramOptions Options { get; protected set; }
 
         /// <summary>
-        /// Идентификатор бота.
+        /// Bot identifier.
         /// </summary>
         public long BotId => Options.BotId;
 
         /// <summary>
-        /// События.
+        /// Events.
         /// </summary>
         public TEvents Events { get; protected set; }
 
         /// <summary>
-        /// Регистрация команд.
+        /// Registers the commands.
         /// </summary>
         public IRegisterCommand Register { get; protected set; }
 
         /// <summary>
-        /// Созданные экземпляры классов для Inline команд.
+        /// The class instances created for inline commands.
         /// </summary>
         public Dictionary<Enum, ICallbackQueryCommandHandler> InlineClassHandlerInstances { get; protected set; } = new();
 
         /// <summary>
-        /// Тип получения обновления.
+        /// How updates are received.
         /// </summary>
         public abstract DataRetrievalMethod DataRetrieval { get; }
 
         /// <summary>
-        /// Добавлять ли бота в коллекцию при создании.
+        /// Whether to add the bot to the collection when it is created.
         /// </summary>
         protected abstract bool addBotToCollection { get; }
 
         /// <summary>
-        /// Локальный менеджер администраторов.
+        /// The local administrator manager.
         /// </summary>
         protected readonly IAdminManager localAdminManager = new AdminListManager();
 
         /// <summary>
-        /// Локальный менеджер белого списка.
+        /// The local white list manager.
         /// </summary>
         protected readonly IWhiteListManager localWhiteListManager = new WhiteListManager();
 
         /// <summary>
-        /// Обработчик фоновых задач.
+        /// Background task runner.
         /// </summary>
         public IPRBackgroundTaskRunner BackgroundTaskRunner { get; protected set; }
 
         /// <summary>
-        /// Проинициализирован ли бот.
+        /// Whether the bot has been initialized.
         /// </summary>
         private bool isInitialized;
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Перезагрузить обработчики.
+        /// Reloads the handlers.
         /// </summary>
-        /// <returns>True - удачно, False - не удачно.</returns>
+        /// <returns>True on success; False on failure.</returns>
         public bool ReloadHandlers()
         {
             try
@@ -132,9 +132,9 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Создать Scope для serviceProvider.
+        /// Creates a scope for the serviceProvider.
         /// </summary>
-        /// <returns>Disposable объект, который хранит в себе serviceProvider.</returns>
+        /// <returns>A disposable object that holds the serviceProvider.</returns>
         public DisposableScope CreateServiceScope()
         {
            var scope = Options?.ServiceProvider?.GetRequiredService<IServiceScopeFactory>().CreateScope();
@@ -142,32 +142,32 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Получить serviceProvider.
+        /// Gets the serviceProvider.
         /// </summary>
-        /// <returns>IServiceProvider или null.</returns>
+        /// <returns>The IServiceProvider, or null.</returns>
         public IServiceProvider? GetServiceProvider()
         {
             return Options?.ServiceProvider;
         }
 
         /// <summary>
-        /// Установить сервис провайдер в экземпляре бота.
+        /// Sets the service provider on the bot instance.
         /// </summary>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
+        /// <param name="serviceProvider">Service provider.</param>
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
             Options.ServiceProvider = serviceProvider;
         }
 
         /// <summary>
-        /// Признак, того что есть сервис провайдер в боте.
+        /// Indicates that the bot has a service provider.
         /// </summary>
         public bool HasServiceProvider => Options?.ServiceProvider != null;
 
         /// <summary>
-        /// Инициализация обработчиков.
+        /// Initializes the handlers.
         /// </summary>
-        /// <returns>True - инициализация прошла, False - не прошла.</returns>
+        /// <returns>True if initialization succeeded; False if it did not.</returns>
         private bool InitializeHandlers()
         {
             try
@@ -201,7 +201,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Инициализация менеджера администраторов.
+        /// Initializes the administrator manager.
         /// </summary>
         private async Task InitializeAdminManager()
         {
@@ -218,7 +218,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Инициализация менеджера белого списка.
+        /// Initializes the white list manager.
         /// </summary>
         private async Task InitializeWhiteListManager()
         {
@@ -236,7 +236,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Инициализация бота.
+        /// Initializes the bot.
         /// </summary>
         public async Task Initialize()
         {
@@ -248,7 +248,7 @@ namespace PRTelegramBot.Core
             await InitializeWhiteListManager();
 
             if (GetInlineConverter().GetType() == typeof(TelegramInlineConverter))
-                GetLogger<PRBotBase>().LogWarning($"\nДля генерации Inline-меню используется конвертер по умолчанию, который ограничен длиной callback_data до 64 байт (ограничение Telegram). \nЧтобы обойти это ограничение при создании бота через билдер, используйте:\n.SetInlineMenuConverter(new FileInlineConverter())\nПодробнее про работу конвертеров смотрите в справке {PRConstants.DOCUMENTATION_URL}");
+                GetLogger<PRBotBase>().LogWarning($"\nThe inline menu is being generated with the default converter, which limits callback_data to 64 bytes (a Telegram restriction). \nTo work around this limit when creating the bot through the builder, use:\n.SetInlineMenuConverter(new FileInlineConverter())\nFor more on how converters work, see the documentation at {PRConstants.DOCUMENTATION_URL}");
 
             Options?.InitializeAction?.Invoke();
             BackgroundTaskRunner.Initialize(Options.BackgroundTaskMetadata, Options.BackgroundTasks);
@@ -256,7 +256,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Очистка очереди команд перед запуском.
+        /// Clears the command queue before startup.
         /// </summary>
         protected async Task ClearUpdatesAsync(CancellationToken cancellationToken = default)
         {
@@ -276,7 +276,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Запустить бота.
+        /// Starts the bot.
         /// </summary>
         public virtual async Task StartAsync(CancellationToken cancellationToken = default)
         {
@@ -284,7 +284,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Метод выполняемый после запуска бота.
+        /// The method executed after the bot has started.
         /// </summary>
         protected virtual Task OnPostStart()
         {
@@ -293,37 +293,37 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Получить текущий сериализатор для бота.
+        /// Gets the bot's current serializer.
         /// </summary>
-        /// <returns>Сериализатор.</returns>
+        /// <returns>Serializer.</returns>
         public IPRSerializer GetSerializer()
         {
             return this.PriorityResolve(Options.PRSerializer, () => new JsonSerializerWrapper());
         }
 
         /// <summary>
-        /// Получить текущий inline конвертер для бота.
+        /// Gets the bot's current inline converter.
         /// </summary>
-        /// <returns>Inline конвертер.</returns>
+        /// <returns>Inline converter.</returns>
         public IInlineMenuConverter GetInlineConverter()
         {
             return this.PriorityResolve(Options.InlineConverter, () => new TelegramInlineConverter());
         }
 
         /// <summary>
-        /// Получить текущий админ менеджер для бота.
+        /// Gets the bot's current admin manager.
         /// </summary>
-        /// <returns>Админ менеджер.</returns>
+        /// <returns>The admin manager.</returns>
         public IAdminManager GetAdminManager()
         {
             return this.PriorityResolve(Options.AdminManager, () => this.localAdminManager);
         }
 
         /// <summary>
-        /// Получить логер.
+        /// Gets the logger.
         /// </summary>
-        /// <typeparam name="T">Тип логера.</typeparam>
-        /// <returns>Логер.</returns>
+        /// <typeparam name="T">Logger type.</typeparam>
+        /// <returns>Logger.</returns>
         public ILogger<T> GetLogger<T>()
         {
             if(Options.LoggerFactory == null && CurrentScope.Services != null)
@@ -337,7 +337,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Получить логер по Type.
+        /// Gets the logger by Type.
         /// </summary>
         public ILogger GetLogger(Type type)
         {
@@ -356,40 +356,40 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Получить фабрику создания логеров.
+        /// Gets the logger factory.
         /// </summary>
-        /// <returns>Фабрика создания логеров.</returns>
+        /// <returns>The logger factory.</returns>
         public ILoggerFactory GetLoggerFactory()
         {
             return this.PriorityResolve(Options.LoggerFactory, () => new PRLoggerEventsFactory(this));
         }
 
         /// <summary>
-        /// Получить текущий менеджер белого списка для бота.
+        /// Gets the bot's current white list manager.
         /// </summary>
-        /// <returns>Менеджер белого списка.</returns>
+        /// <returns>The white list manager.</returns>
         public IWhiteListManager GetWhiteListManager()
         {
             return this.PriorityResolve(Options.WhiteListManager, () => this.localWhiteListManager);
         }
 
         /// <summary>
-        /// Разрешает зависимость с учетом приоритета источников.
+        /// Resolves a dependency, honouring the priority of the sources.
         /// </summary>
-        /// <typeparam name="T">Тип сервиса.</typeparam>
+        /// <typeparam name="T">Service type.</typeparam>
         /// <param name="optionValue">
-        /// Значение, заданное напрямую в настройках бота (имеет наивысший приоритет).
+        /// The value set directly in the bot options (it has the highest priority).
         /// </param>
         /// <param name="fallback">
-        /// Фабрика создания значения по умолчанию, используемая если сервис
-        /// не найден ни в настройках, ни в DI-контейнере.
+        /// A factory that produces the default value, used when the service
+        /// is found neither in the settings nor in the DI container.
         /// </param>
         /// <returns>
-        /// Экземпляр сервиса, полученный по следующему приоритету:
+        /// The service instance, resolved in the following order of priority:
         /// <list type="number">
-        /// <item><description>Значение из <paramref name="optionValue"/>.</description></item>
-        /// <item><description>Сервис из DI-контейнера.</description></item>
-        /// <item><description>Результат вызова <paramref name="fallback"/>.</description></item>
+        /// <item><description>The value from <paramref name="optionValue"/>.</description></item>
+        /// <item><description>The service from the DI container.</description></item>
+        /// <item><description>The result of calling <paramref name="fallback"/>.</description></item>
         /// </list>
         /// </returns>
         private T PriorityResolve<T>(T? optionValue, Func<T> fallback)
@@ -401,7 +401,7 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Остановка бота.
+        /// Stops the bot.
         /// </summary>
         public virtual async Task StopAsync(CancellationToken cancellationToken = default)
         {
@@ -411,30 +411,30 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         /// <param name="optionsBuilder">
-        /// Делегат конфигурации, позволяющий программно настроить параметры бота.
-        /// Может быть <c>null</c>.  
-        /// Если указан, выполняется перед применением объекта <paramref name="options"/>.
+        /// A configuration delegate that lets the bot options be set up in code.
+        /// May be <c>null</c>.  
+        /// If supplied, it runs before the <paramref name="options"/> object is applied.
         /// </param>
         /// <param name="options">
-        /// Объект параметров <see cref="TelegramOptions"/>, содержащий настройки бота.  
-        /// Может быть <c>null</c>.  
-        /// Если одновременно переданы и <paramref name="optionsBuilder"/>, и <paramref name="options"/>,
-        /// применяется комбинация обоих: сначала вызывается <paramref name="optionsBuilder"/>,
-        /// затем дополняются или переопределяются параметры из <paramref name="options"/>.
+        /// A <see cref="TelegramOptions"/> options object holding the bot settings.  
+        /// May be <c>null</c>.  
+        /// If both <paramref name="optionsBuilder"/> and <paramref name="options"/> are supplied,
+        /// a combination of the two is used: <paramref name="optionsBuilder"/> is called first,
+        /// and then the parameters from <paramref name="options"/> extend or override them.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Выбрасывается, если после выполнения делегата и объединения параметров
-        /// не удалось сформировать валидный экземпляр <see cref="TelegramOptions"/>.
+        /// Thrown when, after the delegate has run and the parameters have been merged,
+        /// a valid <see cref="TelegramOptions"/> instance could not be produced.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Выбрасывается, если параметры конфигурации содержат некорректные значения
-        /// (например, отсутствует токен бота или заданы несовместимые опции).
+        /// Thrown when the configuration parameters contain invalid values
+        /// (for example, the bot token is missing or incompatible options are set).
         /// </exception>
         protected PRBotBase(Action<TelegramOptions>? optionsBuilder, TelegramOptions? options)
         {

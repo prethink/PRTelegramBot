@@ -3,18 +3,18 @@
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Фабрика для создание экземпляров классов.
+    /// Factory that creates class instances.
     /// </summary>
     public static class InstanceFactory
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создать экземпляр класса.
+        /// Creates an instance of the class.
         /// </summary>
-        /// <param name="type">Тип класса.</param>
-        /// <param name="serviceProvider">Сервис провайдер для создание экземпляра с DI.</param>
-        /// <returns>Экземпляр класса.</returns>
+        /// <param name="type">Class type.</param>
+        /// <param name="serviceProvider">The service provider used to create the instance through DI.</param>
+        /// <returns>An instance of the class.</returns>
         public static object GetOrCreate(Type type, IServiceProvider serviceProvider = null)
         {
             object instance = null;

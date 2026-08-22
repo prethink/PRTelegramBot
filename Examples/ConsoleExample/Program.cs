@@ -12,12 +12,12 @@ using PRTelegramBot.Wrappers;
 /****************************************************************************************
  * ######################################################################################
  * 
- * Актуальная документация https://prethink.gitbook.io/prtelegrambot
+ * Up-to-date documentation: https://prethink.gitbook.io/prtelegrambot
  * 
  * ######################################################################################
  ****************************************************************************************/
 
-Console.WriteLine("Запуск программы");
+Console.WriteLine("Starting the program");
 
 var telegram = new PRBotBuilder("token")
                     .SetBotId(0)
@@ -28,9 +28,9 @@ var telegram = new PRBotBuilder("token")
                     .AddCommandChecker(Initializer.GetCommandChekers())
                     .AddMiddlewares(new OneMiddleware(), new TwoMiddleware(), new ThreeMiddleware())
                     .AddInlineClassHandler(ClassTHeader.DefaultTestClass, typeof(InlineDefaultClassHandler))
-                    //Обход ограничения telegram на 64 байта для callback_data.
+                    //Works around Telegram's 64-byte limit on callback_data.
                     .SetInlineMenuConverter(new FileInlineConverter())
-                    // ToonSerializerWrapper использует меньше байт при сериализации данных по сравнению с JsonSerializer.
+                    // ToonSerializerWrapper uses fewer bytes when serializing data than JsonSerializer.
                     //.SetInlineSerializer(new ToonSerializerWrapper())
                     .SetInitializeAction(() => { Console.WriteLine("Custom initialize complete."); })
                     .AddBackgroundTask(new HelloWorldBackgroundTask())
@@ -38,16 +38,16 @@ var telegram = new PRBotBuilder("token")
                     .SetLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
                     .Build();
 
-// Инициализация событий для бота.
+// Initialize events for the bot.
 Initializer.InitEvents(telegram);
 Initializer.InitLogEvents(telegram);
 Initializer.InitMessageEvents(telegram);
 Initializer.InitUpdateEvents(telegram);
 
-// Инициализация новых команд для бота.
+// Initialize new commands for the bot.
 Initializer.InitCommands(telegram);
 
-// Запуск работы бота.
+// Start the bot.
 await telegram.StartAsync();
 
 
@@ -58,7 +58,7 @@ async Task Events_OnErrorLog(ErrorLogEventArgs arg)
     Console.WriteLine(arg.Exception.Message);
 }
 
-// Чтобы консольное приложение не закрылось.
+// Keeps the console application from closing.
 while (true)
 {
     var result = Console.ReadLine();

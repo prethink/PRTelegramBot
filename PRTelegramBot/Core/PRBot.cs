@@ -8,11 +8,11 @@ using Telegram.Bot;
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Классический обработчик telegram.bot.
+    /// The classic telegram.bot handler.
     /// </summary>
     public sealed class PRBot : PRBotBase
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Classic;
@@ -69,7 +69,7 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         internal PRBot(Action<TelegramOptions> options)
             : base(options, null) { }

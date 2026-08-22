@@ -9,11 +9,11 @@ using Telegram.Bot;
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Бот для работы через polling.
+    /// A bot that works over polling.
     /// </summary>
     public sealed class PRBotPolling : PRBotBase
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Polling;
@@ -70,10 +70,10 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Обработка update через polling.
+        /// Handles updates over polling.
         /// </summary>
         private async Task UpdatePollingAsync(CancellationToken cancellationToken)
         {
@@ -101,7 +101,7 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         internal PRBotPolling(Action<TelegramOptions> options)
             : base(options, null) { }

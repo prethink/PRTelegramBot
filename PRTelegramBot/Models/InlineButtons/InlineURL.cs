@@ -5,14 +5,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку с ссылкой.
+    /// Creates a button with a link.
     /// </summary>
     public sealed class InlineURL : InlineBase, IInlineContent
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Ссылка.
+        /// Link.
         /// </summary>
         public string URL { get; set; }
 
@@ -34,13 +34,13 @@ namespace PRTelegramBot.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="url">Ссылка.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="url">Link.</param>
         public InlineURL(string buttonName, string url)
             : base(buttonName)
         {

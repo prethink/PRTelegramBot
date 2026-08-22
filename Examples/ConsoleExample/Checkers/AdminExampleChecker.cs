@@ -18,7 +18,7 @@ namespace ConsoleExample.Checkers
             {
                 var userIsAdmin = await context.IsAdmin(context.Update.GetChatId());
                 if(!userIsAdmin)
-                    await MessageSender.Send(context, "Вы не админ!");
+                    await MessageSender.Send(context, "You are not an admin!");
 
                 return userIsAdmin ? InternalCheckResult.Passed : InternalCheckResult.Custom;
             }

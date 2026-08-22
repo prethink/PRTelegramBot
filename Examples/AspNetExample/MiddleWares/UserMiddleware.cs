@@ -25,7 +25,7 @@ namespace AspNetExample.MiddleWares
         public override Task InvokeOnPostUpdateAsync(IBotContext context)
         {
             var usersCount = db.Users.Count();
-            Console.WriteLine("Выполнение первого обработчика после update");
+            Console.WriteLine("Running the first handler after the update");
             Debug.WriteLine($"PostMiddleWare {nameof(UserMiddleware)} - Users - {usersCount}");
             return base.InvokeOnPostUpdateAsync(context);
         }

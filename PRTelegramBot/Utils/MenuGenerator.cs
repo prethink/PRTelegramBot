@@ -7,20 +7,20 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Класс для удобной генерации меню.
+    /// Class that makes generating menus convenient.
     /// </summary>
     public static class MenuGenerator
     {
-        #region Reply кнопки и меню
+        #region Reply buttons and menus
         /// <summary>
-        /// Генерирует reply меню для бота.
+        /// Generates a reply menu for the bot.
         /// </summary>
-        /// <param name="maxColumn">Максимальное количество столбцов.</param>
-        /// <param name="menu">Коллекция меню.</param>
-        /// <param name="resizeKeyboard">Изменяет размер по вертикали.</param>
-        /// <param name="mainMenu">Если значение не пустое добавляет пункт в самый конец меню.</param>
-        /// <param name="OneTimeKeyboard">Признак, того что клавиатура будет скрыта после нажатия на кнопку.</param>
-        /// <returns>Готовое меню</returns>
+        /// <param name="maxColumn">Maximum number of columns.</param>
+        /// <param name="menu">Collection of menus.</param>
+        /// <param name="resizeKeyboard">Resizes the keyboard vertically.</param>
+        /// <param name="mainMenu">If not empty, adds an item at the very end of the menu.</param>
+        /// <param name="OneTimeKeyboard">Indicates that the keyboard will be hidden after a button is pressed.</param>
+        /// <returns>The generated menu</returns>
         public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<string> menu, bool resizeKeyboard = true, string mainMenu = "", bool OneTimeKeyboard = false)
         {
             var buttons = ReplyButtons(maxColumn, menu, mainMenu);
@@ -28,14 +28,14 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует reply меню для бота.
+        /// Generates a reply menu for the bot.
         /// </summary>
-        /// <param name="maxColumn">Максимальное количество столбцов.</param>
-        /// <param name="keyboardButtons">Коллекция кнопок.</param>
-        /// <param name="resizeKeyboard">Изменяет размер по вертикали.</param>
-        /// <param name="mainMenu">Есть не пусто, добавляет главное меню.</param>
-        /// <param name="OneTimeKeyboard">Признак, того что клавиатура будет скрыта после нажатия на кнопку.</param>
-        /// <returns>Готовое меню</returns>
+        /// <param name="maxColumn">Maximum number of columns.</param>
+        /// <param name="keyboardButtons">Collection of buttons.</param>
+        /// <param name="resizeKeyboard">Resizes the keyboard vertically.</param>
+        /// <param name="mainMenu">If not empty, adds the main menu.</param>
+        /// <param name="OneTimeKeyboard">Indicates that the keyboard will be hidden after a button is pressed.</param>
+        /// <returns>The generated menu</returns>
         public static ReplyKeyboardMarkup ReplyKeyboard(int maxColumn, List<KeyboardButton> keyboardButtons, bool resizeKeyboard = true, string mainMenu = "", bool OneTimeKeyboard = false)
         {
             var buttons = ReplyButtons(maxColumn, keyboardButtons, mainMenu);
@@ -43,13 +43,13 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует reply меню для бота.
+        /// Generates a reply menu for the bot.
         /// </summary>
         /// <param name="buttons"></param>
-        /// <param name="resizeKeyboard">Изменяет размер по вертикали.</param>
-        /// <param name="mainMenu">Есть не пусто, добавляет главное меню.</param>
-        /// <param name="OneTimeKeyboard">Признак, того что клавиатура будет скрыта после нажатия на кнопку.</param>
-        /// <returns>Готовое меню</returns>
+        /// <param name="resizeKeyboard">Resizes the keyboard vertically.</param>
+        /// <param name="mainMenu">If not empty, adds the main menu.</param>
+        /// <param name="OneTimeKeyboard">Indicates that the keyboard will be hidden after a button is pressed.</param>
+        /// <returns>The generated menu</returns>
         public static ReplyKeyboardMarkup ReplyKeyboard(List<List<KeyboardButton>> buttons, bool resizeKeyboard = true, string mainMenu = "", bool OneTimeKeyboard = false)
         {
             if (!string.IsNullOrEmpty(mainMenu))
@@ -68,12 +68,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует reply кнопки для бота.
+        /// Generates reply buttons for the bot.
         /// </summary>
-        /// <param name="maxColumn">Максимальное количество столбцов.</param>
-        /// <param name="menu">Меню.</param>
-        /// <param name="mainMenu">Есть не пусто, добавляет главное меню.</param>
-        /// <returns>Коллекция кнопок.</returns>
+        /// <param name="maxColumn">Maximum number of columns.</param>
+        /// <param name="menu">Menu.</param>
+        /// <param name="mainMenu">If not empty, adds the main menu.</param>
+        /// <returns>Collection of buttons.</returns>
         public static List<List<KeyboardButton>> ReplyButtons(int maxColumn, List<string> menu, string mainMenu = "")
         {
             List<KeyboardButton> buttons = new();
@@ -85,12 +85,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует reply кнопки для бота.
+        /// Generates reply buttons for the bot.
         /// </summary>
-        /// <param name="maxColumn">Максимальное количество столбцов.</param>
-        /// <param name="buttons">Кнопки.</param>
-        /// <param name="mainMenu">Есть не пусто, добавляет главное меню.</param>
-        /// <returns>Коллекция кнопок.</returns>
+        /// <param name="maxColumn">Maximum number of columns.</param>
+        /// <param name="buttons">Buttons.</param>
+        /// <param name="mainMenu">If not empty, adds the main menu.</param>
+        /// <returns>Collection of buttons.</returns>
         public static List<List<KeyboardButton>> ReplyButtons(int maxColumn, List<KeyboardButton> buttons, string mainMenu = "")
         {
             List<List<KeyboardButton>> generateButtons = new();
@@ -131,11 +131,11 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Объединяет reply кнопки для бота.
+        /// Merges the bot's reply buttons.
         /// </summary>
-        /// <param name="buttonsOne">Первая лист кнопок.</param>
-        /// <param name="buttonsTwo">Второй лист кнопок.</param>
-        /// <returns>Коллекция кнопок.</returns>
+        /// <param name="buttonsOne">The first list of buttons.</param>
+        /// <param name="buttonsTwo">The second list of buttons.</param>
+        /// <returns>Collection of buttons.</returns>
         public static List<List<KeyboardButton>> ReplyButtons(List<List<KeyboardButton>> buttonsOne, List<List<KeyboardButton>> buttonsTwo)
         {
             buttonsOne.AddRange(buttonsTwo);
@@ -143,12 +143,12 @@ namespace PRTelegramBot.Utils
         }
         #endregion
 
-        #region Inline кнопки и меню
+        #region Inline buttons and menus
         /// <summary>
-        /// Создает Inline меню для бота.
+        /// Creates an inline menu for the bot.
         /// </summary>
-        /// <param name="buttons">Коллекция кнопок.</param>
-        /// <returns> Inline меню для бота.</returns>
+        /// <param name="buttons">Collection of buttons.</param>
+        /// <returns> An inline menu for the bot.</returns>
         public static InlineKeyboardMarkup InlineKeyboard(List<List<InlineKeyboardButton>> buttons)
         {
             InlineKeyboardMarkup Keyboard = new(buttons);
@@ -156,11 +156,11 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создает Inline меню для бота.
+        /// Creates an inline menu for the bot.
         /// </summary>
-        /// <param name="maxColumn">Максимальное количество столбцов.</param>
-        /// <param name="menu">Коллекция кнопок.</param>
-        /// <returns>Inline меню для бота.</returns>
+        /// <param name="maxColumn">Maximum number of columns.</param>
+        /// <param name="menu">Collection of buttons.</param>
+        /// <returns>An inline menu for the bot.</returns>
         public static InlineKeyboardMarkup InlineKeyboard(int maxColumn, List<IInlineContent> menu)
         {
             var buttons = InlineButtons(maxColumn, menu);
@@ -168,11 +168,11 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создает коллекцию inline кнопок.
+        /// Creates a collection of inline buttons.
         /// </summary>
-        /// <param name="maxColumn">Максимальное количество столбцов.</param>
-        /// <param name="menu">Коллекция меню.</param>
-        /// <returns>Коллекция кнопок.</returns>
+        /// <param name="maxColumn">Maximum number of columns.</param>
+        /// <param name="menu">Collection of menus.</param>
+        /// <returns>Collection of buttons.</returns>
         public static List<List<InlineKeyboardButton>> InlineButtons(int maxColumn, List<IInlineContent> menu)
         {
             List<List<InlineKeyboardButton>> buttons = new();
@@ -205,15 +205,15 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует меню для постраничного вывода.
+        /// Generates a menu for paginated output.
         /// </summary>
-        /// <param name="currentPage">Текущая страница.</param>
-        /// <param name="pageCount">Всего страниц.</param>
-        /// <param name="nextPageMarker">Маркер nextpage.</param>
-        /// <param name="previousPageMarker">Маркер prevpage.</param>
-        /// <param name="currentPageMarker">Маркер currentPage.</param>
-        /// <param name="addMenu">Дополнительное меню с которым требуется объединить данные.</param>
-        /// <returns>Постраничное inline menu.</returns>
+        /// <param name="currentPage">Current page.</param>
+        /// <param name="pageCount">Total number of pages.</param>
+        /// <param name="nextPageMarker">The nextpage marker.</param>
+        /// <param name="previousPageMarker">The prevpage marker.</param>
+        /// <param name="currentPageMarker">The currentPage marker.</param>
+        /// <param name="addMenu">An additional menu the data has to be merged with.</param>
+        /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             int currentPage,
             int pageCount, 
@@ -228,15 +228,15 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует меню для постраничного вывода.
+        /// Generates a menu for paginated output.
         /// </summary>
-        /// <param name="currentPage">Текущая страница.</param>
-        /// <param name="pageCount">Всего страниц.</param>
-        /// <param name="nextPageMarker">Маркер nextpage.</param>
-        /// <param name="previousPageMarker">Маркер prevpage.</param>
-        /// <param name="button">Кнопка обработчик в центре.</param>
-        /// <param name="addMenu">Дополнительное меню с которым требуется объединить данные.</param>
-        /// <returns>Постраничное inline menu.</returns>
+        /// <param name="currentPage">Current page.</param>
+        /// <param name="pageCount">Total number of pages.</param>
+        /// <param name="nextPageMarker">The nextpage marker.</param>
+        /// <param name="previousPageMarker">The prevpage marker.</param>
+        /// <param name="button">The handler button placed in the center.</param>
+        /// <param name="addMenu">An additional menu the data has to be merged with.</param>
+        /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             int currentPage, 
             int pageCount, 
@@ -251,14 +251,14 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует меню для постраничного вывода.
+        /// Generates a menu for paginated output.
         /// </summary>
-        /// <param name="currentPage">Текущая страница.</param>
-        /// <param name="pageCount">Всего страниц.</param>
-        /// <param name="nextPageMarker">Маркер nextpage.</param>
-        /// <param name="previousPageMarker">Маркер prevpage.</param>
-        /// <param name="currentPageMarker">Маркер currentPage.</param>
-        /// <returns>Постраничное inline menu.</returns>
+        /// <param name="currentPage">Current page.</param>
+        /// <param name="pageCount">Total number of pages.</param>
+        /// <param name="nextPageMarker">The nextpage marker.</param>
+        /// <param name="previousPageMarker">The prevpage marker.</param>
+        /// <param name="currentPageMarker">The currentPage marker.</param>
+        /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             Enum enumToInt, 
             int currentPage, 
@@ -275,15 +275,15 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует меню для постраничного вывода.
+        /// Generates a menu for paginated output.
         /// </summary>
-        /// <param name="currentPage">Текущая страница.</param>
-        /// <param name="pageCount">Всего страниц.</param>
-        /// <param name="nextPageMarker">Маркер nextpage.</param>
-        /// <param name="enumToInt">Заголовок команды.</param>
-        /// <param name="previousPageMarker">Маркер prevpage.</param>
-        /// <param name="button">Кнопка обработчик в центре.</param>
-        /// <returns>Постраничное inline menu.</returns>
+        /// <param name="currentPage">Current page.</param>
+        /// <param name="pageCount">Total number of pages.</param>
+        /// <param name="nextPageMarker">The nextpage marker.</param>
+        /// <param name="enumToInt">Command header.</param>
+        /// <param name="previousPageMarker">The prevpage marker.</param>
+        /// <param name="button">The handler button placed in the center.</param>
+        /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             int currentPage, 
             int pageCount, 
@@ -306,15 +306,15 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует меню для постраничного вывода.
+        /// Generates a menu for paginated output.
         /// </summary>
-        /// <param name="currentPage">Текущая страница.</param>
-        /// <param name="pageCount">Всего страниц.</param>
-        /// <param name="nextPageMarker">Маркер nextpage.</param>
-        /// <param name="enumToInt">Заголовок команды.</param>
-        /// <param name="previousPageMarker">Маркер prevpage.</param>
-        /// <param name="customButtons">Кнопки обработчики.</param>
-        /// <returns>Постраничное inline menu.</returns>
+        /// <param name="currentPage">Current page.</param>
+        /// <param name="pageCount">Total number of pages.</param>
+        /// <param name="nextPageMarker">The nextpage marker.</param>
+        /// <param name="enumToInt">Command header.</param>
+        /// <param name="previousPageMarker">The prevpage marker.</param>
+        /// <param name="customButtons">Handler buttons.</param>
+        /// <returns>Paginated inline menu.</returns>
         public static InlineKeyboardMarkup GetPageMenu(
             int currentPage, 
             int pageCount, 

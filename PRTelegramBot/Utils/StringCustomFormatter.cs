@@ -3,18 +3,18 @@
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Утилита для работы с кастомным форматированием строк.
-    /// Позволяет строить строки с позиционными аргументами и именованными токенами.
+    /// Utility for custom string formatting.
+    /// Lets you build strings with positional arguments and named tokens.
     /// </summary>
     public class StringCustomFormatter
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создаёт новый билдера сообщения с указанным шаблоном.
+        /// Creates a new message builder with the given template.
         /// </summary>
-        /// <param name="template">Шаблон строки с токенами, например "{QA} протестировал {PR}, {0}"</param>
-        /// <returns>Экземпляр <see cref="MessageBuilder"/> для дальнейшего добавления аргументов и резолверов.</returns>
+        /// <param name="template">A string template with tokens, for example "{QA} tested {PR}, {0}"</param>
+        /// <returns>The <see cref="MessageBuilder"/> instance, for adding further arguments and resolvers.</returns>
         public MessageBuilder Message(string template) => new MessageBuilder(template);
 
         #endregion

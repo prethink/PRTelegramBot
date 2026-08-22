@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут позволяет игнорировать настройки белого списка.
+    /// The attribute makes the white list settings be ignored.
     /// </summary>
     public class WhiteListAnonymousAttribute
         : Attribute, IBotIdentificatorAttribute
@@ -15,28 +15,28 @@ namespace PRTelegramBot.Attributes
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
+        /// <param name="botId">Bot identifier.</param>
         public WhiteListAnonymousAttribute(long botId)
         {
             this.BotIds.Add(botId);
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы бота.</param>
+        /// <param name="botIds">Bot identifiers.</param>
         public WhiteListAnonymousAttribute(List<long> botIds)
         {
             this.BotIds.AddRange(botIds);
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public WhiteListAnonymousAttribute() : this(0) { }
 

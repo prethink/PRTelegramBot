@@ -1,23 +1,23 @@
 ﻿namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Объект-обертка для выполнения пользовательской логики при освобождении ресурсов.
+    /// A wrapper object that runs custom logic when resources are released.
     /// </summary>
     /// <remarks>
-    /// Используется для регистрации произвольного действия, которое будет выполнено
-    /// при вызове <see cref="Dispose"/>. Удобен для временных подписок, хуков
-    /// и других сценариев, где необходимо гарантированно выполнить завершающую логику.
+    /// Used to register an arbitrary action that will be executed
+    /// when <see cref="Dispose"/> is called. Handy for temporary subscriptions, hooks
+    /// and other cases where the finalizing logic has to run for certain.
     /// </remarks>
     public sealed class DisposableObject : IDisposable
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Действие, выполняемое при освобождении объекта.
+        /// The action executed when the object is disposed.
         /// </summary>
         /// <remarks>
-        /// После вызова <see cref="Dispose"/> устанавливается в <c>null</c>,
-        /// что предотвращает повторное выполнение.
+        /// After <see cref="Dispose"/> is called it is set to <c>null</c>,
+        /// which prevents it from running twice.
         /// </remarks>
         private Action? onDispose;
 
@@ -34,13 +34,13 @@
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструкторы.
+        /// Constructors.
         /// </summary>
-        /// <param name="onDispose">Действие, которое будет выполнено при вызове <see cref="Dispose"/>.</param>
-        /// <exception cref="ArgumentNullException">Выбрасывается, если <paramref name="onDispose"/> равен <c>null</c>.</exception>
+        /// <param name="onDispose">The action executed when <see cref="Dispose"/> is called.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="onDispose"/> is <c>null</c>.</exception>
         public DisposableObject(Action onDispose)
         {
             this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));

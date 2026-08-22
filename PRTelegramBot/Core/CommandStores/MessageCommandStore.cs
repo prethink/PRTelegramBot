@@ -6,18 +6,18 @@ using PRTelegramBot.Models.EventsArgs;
 namespace PRTelegramBot.Core.CommandStores
 {
     /// <summary>
-    /// Базовый класс хранилища для команд типа message.
+    /// Base store class for message-type commands.
     /// </summary>
     public abstract class MessageCommandStore : BaseCommandStore<string>
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Добавить новую команду.
+        /// Adds a new command.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="delegate">Метод обработки команды.</param>
-        /// <returns>True - команда добавлена, False - не удалось добавить команду.</returns>
+        /// <param name="command">Command.</param>
+        /// <param name="delegate">Method that handles the command.</param>
+        /// <returns>True if the command was added; False if it could not be added.</returns>
         public override bool AddCommand(string command, Func<IBotContext, Task> @delegate)
         {
             try
@@ -33,10 +33,10 @@ namespace PRTelegramBot.Core.CommandStores
         }
 
         /// <summary>
-        /// Удалить команду.
+        /// Removes the command.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <returns>True - команда удалена, False - не удалось удалить команду.</returns>
+        /// <param name="command">Command.</param>
+        /// <returns>True if the command was removed; False if it could not be removed.</returns>
         public override bool RemoveCommand(string command)
         {
             try
@@ -53,12 +53,12 @@ namespace PRTelegramBot.Core.CommandStores
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public MessageCommandStore(PRBotBase bot) : base(bot) { }
 
         #endregion

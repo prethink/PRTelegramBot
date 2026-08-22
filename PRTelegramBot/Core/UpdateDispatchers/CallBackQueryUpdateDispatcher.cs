@@ -5,16 +5,16 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Core.UpdateHandlers
 {
     /// <summary>
-    /// Диспатчер update для типа callbackQuery.
+    /// Update dispatcher for the callbackQuery type.
     /// </summary>
     internal sealed class CallBackQueryUpdateDispatcher
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Отправить update на обработку.
+        /// Sends the update to be handled.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public async Task<UpdateResult> Dispatch(IBotContext context)
         {
             try
@@ -38,10 +38,10 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public CallBackQueryUpdateDispatcher() { }
 

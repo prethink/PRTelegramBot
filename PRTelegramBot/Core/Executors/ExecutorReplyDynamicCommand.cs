@@ -3,23 +3,23 @@
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Исполнительно динамических reply команд.
+    /// Executor for dynamic reply commands.
     /// </summary>
     internal sealed class ExecutorReplyDynamicCommand : ExecutorMessageCommand
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override CommandType CommandType => CommandType.ReplyDynamic;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorReplyDynamicCommand(PRBotBase bot) : base(bot) { }
 
         #endregion

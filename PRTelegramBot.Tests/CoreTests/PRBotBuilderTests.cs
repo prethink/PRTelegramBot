@@ -112,9 +112,9 @@ namespace PRTelegramBot.Tests.CoreTests
         }
 
         [Test]
-        [TestCase("Main", "Привет")]
-        [TestCase("Test", "Тест")]
-        [TestCase("Reply", "Бест")]
+        [TestCase("Main", "Hello")]
+        [TestCase("Test", "Test")]
+        [TestCase("Reply", "Best")]
         public void BuilderShouldCreateBotWithReplyDynamicCommand(string key, string command)
         {
             var builder = new PRBotBuilder(TOKEN).AddReplyDynamicCommand(key, command);
@@ -125,9 +125,9 @@ namespace PRTelegramBot.Tests.CoreTests
         }
 
         [Test]
-        [TestCase("Main", "Привет")]
-        [TestCase("Test", "Тест")]
-        [TestCase("Reply", "Бест")]
+        [TestCase("Main", "Hello")]
+        [TestCase("Test", "Test")]
+        [TestCase("Reply", "Best")]
         public void BuilderShouldCreateBotWithReplyDynamicCommands(string key, string command)
         {
             var builder = new PRBotBuilder(TOKEN).AddReplyDynamicCommands(new Dictionary<string, string>() { { key, command } });

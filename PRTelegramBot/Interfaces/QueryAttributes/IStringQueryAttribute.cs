@@ -3,7 +3,7 @@
     internal interface IStringQueryAttribute : IBaseQueryAttribute
     {
         /// <summary>
-        /// Тип сравнение строки.
+        /// The string comparison type.
         /// </summary>
         public StringComparison StringComparison { get; }
     }

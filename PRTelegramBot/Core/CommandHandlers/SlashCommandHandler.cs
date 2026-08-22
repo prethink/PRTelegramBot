@@ -55,14 +55,14 @@ namespace PRTelegramBot.Core.CommandHandlers
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Проверка является ли команда start с аргументом.
+        /// Checks whether the command is start with an argument.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="command">Команда.</param>
-        /// <returns>Результат выполнение команд.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="command">Command.</param>
+        /// <returns>The result of executing the commands.</returns>
         private CommandResult StartHasDeepLink(IBotContext context, string command)
         {
             try

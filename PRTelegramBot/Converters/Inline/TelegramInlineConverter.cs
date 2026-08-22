@@ -78,13 +78,13 @@ namespace PRTelegramBot.Converters.Inline
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Выбросить исключение если результат больше чем 128 байт.
+        /// Throws an exception if the result exceeds 128 bytes.
         /// </summary>
-        /// <param name="result">Результат.</param>
-        /// <exception cref="Exception">Исключение.</exception>
+        /// <param name="result">Result.</param>
+        /// <exception cref="Exception">Exception.</exception>
         protected void ThrowExceptionIfBytesMore64(string result)
         {
             var byteSize = Encoding.UTF8.GetBytes(result);

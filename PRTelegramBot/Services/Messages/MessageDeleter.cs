@@ -8,12 +8,12 @@ namespace PRTelegramBot.Services.Messages
     public class MessageDeleter
     {
         /// <summary>
-        /// Удалить сообщение.
+        /// Deletes the message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="option">Настройка сообщения.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="option">Message setting.</param>
         public static async Task DeleteMessage(IBotContext context, long chatId, int messageId, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);

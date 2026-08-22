@@ -3,24 +3,24 @@
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы события простых логов.
+    /// Event arguments for plain logs.
     /// </summary>
     public class CommonLogEventArgsCreator : EventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Сообщение.
+        /// Message.
         /// </summary>
         public string Message { get; private set; }
 
         /// <summary>
-        /// Тип.
+        /// Type.
         /// </summary>
         public string Type { get; private set; }
 
         /// <summary>
-        /// Цвет.
+        /// Color.
         /// </summary>
         public ConsoleColor Color { get; private set; }
 
@@ -31,41 +31,41 @@ namespace PRTelegramBot.Models.EventsArgs
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="message">Сообщение.</param>
-        /// <param name="type">Тип.</param>
+        /// <param name="message">Message.</param>
+        /// <param name="type">Type.</param>
         public CommonLogEventArgsCreator(string message, string type)
             : this(message, type, ConsoleColor.White, BotContext.CreateEmpty()) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="message">Сообщение.</param>
-        /// <param name="type">Тип.</param>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="message">Message.</param>
+        /// <param name="type">Type.</param>
+        /// <param name="context">Bot context.</param>
         public CommonLogEventArgsCreator(string message, string type, IBotContext context)
             : this(message, type, ConsoleColor.White, context) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="message">Сообщение.</param>
-        /// <param name="type">Тип.</param>
-        /// <param name="color">Цвет.</param>
+        /// <param name="message">Message.</param>
+        /// <param name="type">Type.</param>
+        /// <param name="color">Color.</param>
         public CommonLogEventArgsCreator(string message, string type, ConsoleColor color)
             : this(message, type, color, BotContext.CreateEmpty()) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="message">Сообщение.</param>
-        /// <param name="type">Тип.</param>
-        /// <param name="color">Цвет.</param>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="message">Message.</param>
+        /// <param name="type">Type.</param>
+        /// <param name="color">Color.</param>
+        /// <param name="context">Bot context.</param>
         public CommonLogEventArgsCreator(string message, string type, ConsoleColor color, IBotContext context)
         {
             this.Message = message;

@@ -3,37 +3,37 @@
 namespace PRTelegramBot.Core.Middlewares
 {
     /// <summary>
-    /// Базовый промежуточный обработчик.
+    /// Base middleware handler.
     /// </summary>
     public abstract class MiddlewareBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Следующий обработчик.
+        /// The next handler.
         /// </summary>
         protected MiddlewareBase nextMiddleware;
 
         /// <summary>
-        /// Следующий обработчик.
+        /// The next handler.
         /// </summary>
         protected MiddlewareBase previousMiddleware;
 
         /// <summary>
-        /// Порядок выполнения middleware в pipeline.
-        /// Меньшее значение означает более высокий приоритет и раннее выполнение.
+        /// The order the middleware runs in within the pipeline.
+        /// A lower value means a higher priority and earlier execution.
         /// </summary>
         public abstract int ExecutionOrder { get; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Выполнить следующий асинхронный промежуточный обработчик.
+        /// Executes the next asynchronous middleware handler.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="next">Функция которая должна выполниться после обработчиков.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="next">The function to run after the handlers.</param>
         public virtual async Task InvokeOnPreUpdateAsync(IBotContext context, Func<Task> next)
         {
             if (nextMiddleware is not null)
@@ -48,9 +48,9 @@ namespace PRTelegramBot.Core.Middlewares
         }
 
         /// <summary>
-        /// Выполнить предыдущий асинхронный промежуточный обработчик.
+        /// Executes the previous asynchronous middleware handler.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public virtual async Task InvokeOnPostUpdateAsync(IBotContext context)
         {
             if (previousMiddleware is not null)
@@ -58,19 +58,19 @@ namespace PRTelegramBot.Core.Middlewares
         }
 
         /// <summary>
-        /// Установить следующий обработчик.
+        /// Sets the next handler.
         /// </summary>
-        /// <param name="next">Следующий обработчик.</param>
+        /// <param name="next">The next handler.</param>
         public void SetNext(MiddlewareBase next)
         {
             this.nextMiddleware = next;
         }
 
         /// <summary>
-        /// Установить следующий обработчик.
+        /// Sets the next handler.
         /// </summary>
-        /// <param name="next">Следующий обработчик.</param>
-        /// <param name="previous">Предыдущий обработчик.</param>
+        /// <param name="next">The next handler.</param>
+        /// <param name="previous">The previous handler.</param>
         public void SetNext(MiddlewareBase next, MiddlewareBase previous)
         {
             this.nextMiddleware = next;
@@ -78,9 +78,9 @@ namespace PRTelegramBot.Core.Middlewares
         }
 
         /// <summary>
-        /// Установить предыдущий обработчик.
+        /// Sets the previous handler.
         /// </summary>
-        /// <param name="previous">Предыдущий обработчик.</param>
+        /// <param name="previous">The previous handler.</param>
         public void SetPrevious(MiddlewareBase previous)
         {
             this.previousMiddleware = previous;

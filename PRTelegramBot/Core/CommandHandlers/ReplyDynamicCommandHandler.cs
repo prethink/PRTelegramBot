@@ -5,7 +5,7 @@ namespace PRTelegramBot.Core.CommandHandlers
 {
     internal class ReplyDynamicCommandHandler : ReplyCommandHandler, IMessageCommandHandler
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         protected override Dictionary<string, CommandHandler> GetCommands(IBotContext context)

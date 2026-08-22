@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут для работы с DI и экземплярами классов.
+    /// Attribute for working with DI and class instances.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class BotHandlerAttribute : Attribute { }

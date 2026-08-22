@@ -4,7 +4,7 @@ namespace PRTelegramBot.Tests.UtilsTests
 {
     internal class MenuGeneratorTests
     {
-        private const string MAIN_MENU = "Главное меню";
+        private const string MAIN_MENU = "Main menu";
         private const string MENU_ITEM = "Menu item";
 
         [Test]

@@ -1,32 +1,32 @@
 ﻿namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Константы PRTelegramBot.
+    /// PRTelegramBot constants.
     /// </summary>
     public class PRConstants
     {
         /// <summary>
-        /// Адрес документации.
+        /// Documentation address.
         /// </summary>
         public const string DOCUMENTATION_URL = "https://prethink.gitbook.io/prtelegrambot/";
 
         /// <summary>
-        /// Максимальный допустимый размер данных для обработки.
+        /// Maximum data size that can be processed.
         /// </summary>
         public const int MAX_SIZE_CALLBACK_DATA = 64;
 
         /// <summary>
-        /// Максимальный размер текста отправляемого сообщения.
+        /// Maximum text size of an outgoing message.
         /// </summary>
         public const int MAX_MESSAGE_LENGTH = 4000;
 
         /// <summary>
-        /// Идентификатор, который указывается для использования для всех ботов.
+        /// The identifier used to target all bots.
         /// </summary>
         public const long ALL_BOTS_ID = -1;
 
         /// <summary>
-        /// Значение означающее бесконечность.
+        /// The value that stands for infinity.
         /// </summary>
         public const int INFINITY = -1;
     }

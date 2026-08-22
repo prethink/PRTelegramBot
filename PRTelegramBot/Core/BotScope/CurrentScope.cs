@@ -3,48 +3,48 @@
 namespace PRTelegramBot.Core.BotScope
 {
     /// <summary>
-    /// Предоставляет доступ к текущему состоянию контекста и бота.
-    /// Служит только для чтения. Управление стеком выполняет BotDataScope.
+    /// Provides access to the current state of the context and the bot.
+    /// Read-only. The stack is managed by BotDataScope.
     /// </summary>
     public static class CurrentScope
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Хранит стек контекстов бота для текущего асинхронного потока.
-        /// Используется BotDataScope для управления текущим контекстом, 
-        /// а CurrentScope / BotScopeInfo для безопасного чтения.
+        /// Holds the stack of bot contexts for the current asynchronous flow.
+        /// BotDataScope uses it to manage the current context, 
+        /// while CurrentScope / BotScopeInfo are used for safe reads.
         /// </summary>
         internal static readonly AsyncLocal<Stack<IBotContext>> contextStack = new();
 
         /// <summary>
-        /// Хранит стек экземпляров бота для текущего асинхронного потока.
-        /// Используется BotDataScope для управления текущим экземпляром бота, 
-        /// а CurrentScope / BotScopeInfo для безопасного чтения.
+        /// Holds the stack of bot instances for the current asynchronous flow.
+        /// BotDataScope uses it to manage the current bot instance, 
+        /// while CurrentScope / BotScopeInfo are used for safe reads.
         /// </summary>
         internal static readonly AsyncLocal<Stack<PRBotBase>> botStack = new();
 
         /// <summary>
-        /// Сервис провайдер.
+        /// Service provider.
         /// </summary>
         internal static readonly AsyncLocal<IServiceProvider?> serviceProvider = new();
 
         /// <summary>
-        /// Текущий контекст бота (read-only).
+        /// The current bot context (read-only).
         /// </summary>
         public static IBotContext? Context => contextStack.Value?.Count > 0
             ? contextStack.Value.Peek()
             : null;
 
         /// <summary>
-        /// Текущий бот (read-only).
+        /// The current bot (read-only).
         /// </summary>
         public static PRBotBase? Bot => botStack.Value?.Count > 0
             ? botStack.Value.Peek()
             : null;
 
         /// <summary>
-        /// Сервисы текущего бота (read-only).
+        /// Services of the current bot (read-only).
         /// </summary>
         public static IServiceProvider? Services => serviceProvider.Value;
 

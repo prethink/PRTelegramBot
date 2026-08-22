@@ -43,10 +43,10 @@ namespace PRTelegramBot.Core.CommandHandlers
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Удалить скобки из сообщения
+        /// Removes the brackets from the message
         /// </summary>
         /// <param name="command"></param>
         protected void RemoveBracketsIfExists(ref string command)

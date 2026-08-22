@@ -1,36 +1,36 @@
 ﻿namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Маппинг бота и пользователя.
+    /// Mapping between a bot and a user.
     /// </summary>
     internal sealed class UserBotMapping
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Идентификатор бота.
+        /// Bot identifier.
         /// </summary>
         private long botId;
 
         /// <summary>
-        /// Идентификатор пользователя.
+        /// User identifier.
         /// </summary>
         private long userId;
 
         /// <summary>
-        /// Получить уникальное сочетание ключа для бота и пользователя.
+        /// Gets the unique key combination for the bot and the user.
         /// </summary>
         public string GetKey => $"{botId}-{userId}";
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="UserId">Идентификатор пользователя.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="UserId">User identifier.</param>
         public UserBotMapping(long botId, long UserId)
         {
             this.botId = botId;

@@ -8,12 +8,12 @@ namespace PRTelegramBot.Tests.TestModels.TestHandlers
     {
         public async Task<UpdateResult> Handle(IBotContext context, Message updateType)
         {
-            ///* Если данные пришли которые вам нужны и вы их обработали возращаем результат Handled. 
-            // * Это будет означать, то что действие выполнено и остальные обработчики будут пропущены. */
-            //if (updateType.Text == "Нужные данные")
+            ///* If the data you need has arrived and you have handled it, return the Handled result. 
+            // * This means the action has been handled and the remaining handlers are skipped. */
+            //if (updateType.Text == "The data you need")
             //    return UpdateResult.Handled;
 
-            //// Команда не обработана, попытаемся обработать следующим обработчиком.
+            //// The command was not handled; let the next handler try.
             return UpdateResult.Continue;
         }
     }

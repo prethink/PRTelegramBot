@@ -1,24 +1,24 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Тип обработки данных.
+    /// The data handling type.
     /// </summary>
     public enum DataRetrievalMethod
     {
         /// <summary>
-        /// Классическая обработка из telegram.bot.
+        /// The classic handling from telegram.bot.
         /// </summary>
         Classic,
         /// <summary>
-        /// Обработка данных polling.
+        /// Polling data handling.
         /// </summary>
         Polling,
         /// <summary>
-        /// Обработка данных webhook.
+        /// Webhook data handling.
         /// </summary>
         WebHook,
         /// <summary>
-        /// Заглушка.
+        /// Stub.
         /// </summary>
         Dummy,
     }

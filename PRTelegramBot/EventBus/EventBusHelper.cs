@@ -1,28 +1,28 @@
 ﻿namespace PRTelegramBot.EventBus
 {
     /// <summary>
-    /// Вспомогательный класс для работы с подписчиками EventBus.
-    /// Отвечает за определение и кэширование типов событий,
-    /// на которые подписан глобальный подписчик.
+    /// Helper class for working with EventBus subscribers.
+    /// Responsible for determining and caching the event types,
+    /// the global subscriber is subscribed to.
     /// </summary>
     internal static class EventBusHelper
     {
         /// <summary>
-        /// Кэш соответствий типа подписчика и списка интерфейсов событий,
-        /// которые он реализует.
-        /// Используется для ускорения повторных подписок/отписок
-        /// и уменьшения количества reflection-вызовов.
+        /// Cache that maps a subscriber type to its list of event interfaces,
+        /// that it implements.
+        /// Used to speed up repeated subscribe/unsubscribe calls
+        /// and to cut down the number of reflection calls.
         /// </summary>
         private static Dictionary<Type, List<Type>> cashedSubscriberTypes = new Dictionary<Type, List<Type>>();
 
         /// <summary>
-        /// Возвращает список типов подписчиков (интерфейсов),
-        /// реализуемых указанным глобальным подписчиком.
+        /// Returns the list of subscriber types (interfaces),
+        /// implemented by the specified global subscriber.
         /// </summary>
-        /// <param name="globalSubscriber">Экземпляр глобального подписчика.</param>
+        /// <param name="globalSubscriber">The global subscriber instance.</param>
         /// <returns>
-        /// Список интерфейсов, реализующих <see cref="IPRGlobalSubscriber"/>,
-        /// которые используются EventBus для маршрутизации событий.
+        /// The list of interfaces that implement <see cref="IPRGlobalSubscriber"/>,
+        /// that EventBus uses to route the events.
         /// </returns>
         public static List<Type> GetSubscriberTypes(IPRGlobalSubscriber globalSubscriber)
         {

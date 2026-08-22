@@ -9,27 +9,27 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для update в telegram.
+    /// Extension methods for Telegram updates.
     /// </summary>
     public static class UpdateExtension
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Словарь для связи update и бота.
+        /// Dictionary that links an update with its bot.
         /// </summary>
         static ConcurrentDictionary<long, PRBotBase> botLink = new();
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Получает идентификатор чата в зависимости от типа сообщений.
+        /// Gets the chat identifier depending on the message type.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Идентификатор чата.</returns>
-        /// <exception cref="NotImplementedException">Выбрасывается если не реализована обработка обновления.</exception>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>Chat identifier.</returns>
+        /// <exception cref="NotImplementedException">Thrown when handling of the update is not implemented.</exception>
         public static long GetChatId(this Update update)
         {
             return update.Type switch
@@ -56,21 +56,21 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получает идентификатор в формате класса.
+        /// Gets the identifier as a class.
         /// </summary>
         /// <param name="update">Update.</param>
-        /// <returns>Идентификатор в формате класса</returns>
+        /// <returns>The identifier as a class</returns>
         public static ChatId GetChatIdClass(this Update update)
         {
             return new ChatId(update.GetChatId());
         }
 
         /// <summary>
-        /// Попытаться получить идентификатор чата.
+        /// Tries to get the chat identifier.
         /// </summary>
         /// <param name="update">Update.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <returns>True - удалось получить, false - нет.</returns>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <returns>True if it was retrieved; false otherwise.</returns>
         public static bool TryGetChatId(this Update update, out long chatId)
         {
             chatId = 0;
@@ -86,27 +86,27 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получает идентификатор сообщения.
+        /// Gets the message identifier.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Идентификатор сообщения.</returns>
-        /// <exception cref="NotImplementedException">Выбрасывается если не реализована обработка обновления.</exception>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>Message identifier.</returns>
+        /// <exception cref="NotImplementedException">Thrown when handling of the update is not implemented.</exception>
         public static int GetMessageId(this Update update)
         {
             return update.Type switch
             {
                 UpdateType.Message => update.Message.MessageId,
                 UpdateType.CallbackQuery => update.CallbackQuery.Message.MessageId,
-                //TODO: Доработка messageId
+                //TODO: messageId still needs work
                 _ => throw new NotImplementedException($"Not implemented get messageId for {update.Type}")
             };
         }
 
         /// <summary>
-        /// Является ли идентификатор пользователским чатом.
+        /// Whether the identifier belongs to a private user chat.
         /// </summary>
         /// <param name="update">Update.</param>
-        /// <returns>True - да, False - нет.</returns>
+        /// <returns>True for yes; False for no.</returns>
         public static bool IsUserChatId(this Update update)
         {
             try 
@@ -121,10 +121,10 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Информация о пользователе.
+        /// Information about the user.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Информация о пользователе.</returns>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>Information about the user.</returns>
         public static string GetInfoUser(this Update update)
         {
             return update.Type switch
@@ -150,21 +150,21 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Попытаться получить бота из update.
+        /// Tries to get the bot from the update.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <param name="bot">Возвращаемый объект бота.</param>
-        /// <returns>True, если бот найден; иначе False.</returns>
+        /// <param name="update">Telegram update.</param>
+        /// <param name="bot">The returned bot object.</param>
+        /// <returns>True if the bot was found; otherwise False.</returns>
         public static bool TryGetBot(this Update update, out PRBotBase bot)
         {
             return botLink.TryGetValue(update.Id, out bot);
         }
 
         /// <summary>
-        /// Получает идентификатор пользователя из обновления Telegram.
+        /// Gets the user identifier from the Telegram update.
         /// </summary>
-        /// <param name="update">Объект обновления Telegram.</param>
-        /// <returns>Идентификатор пользователя (UserId).</returns>
+        /// <param name="update">The Telegram update object.</param>
+        /// <returns>The user identifier (UserId).</returns>
         public static long GetUserId(this Update update)
         {
             return update.Type switch
@@ -184,11 +184,11 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Связать update с PRBotBase.
+        /// Links the update with a PRBotBase.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <param name="bot">Экземпляр PRBotBase.</param>
-        /// <returns>True - удалось добавить, False - не удалось.</returns>
+        /// <param name="update">Telegram update.</param>
+        /// <param name="bot">The PRBotBase instance.</param>
+        /// <returns>True if it was added; False if it was not.</returns>
         internal static bool AddTelegramClient(this Update update, PRBotBase bot)
         {
             if(update is null) 
@@ -198,11 +198,11 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получить маппинг пользователя и бота.
+        /// Gets the mapping between the user and the bot.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Сгенерированное значение id+botkey</returns>
-        /// <exception cref="KeyNotFoundException">Выбрасывается если ее найден ключ для бота.</exception>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>The generated id+botkey value</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when no key is found for the bot.</exception>
         internal static string GetKeyMappingUserTelegram(this Update update)
         {
             if (botLink.TryGetValue(update.Id, out PRBotBase bot))
@@ -218,20 +218,20 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Очистить маппинг update и telegram bot.
+        /// Clears the mapping between the update and the Telegram bot.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>True - удалось очистить, False - не удалось.</returns>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>True if it was cleared; False if it was not.</returns>
         internal static bool ClearTelegramClient(this Update update)
         {
             return botLink.TryRemove(update.Id, out PRBotBase _);
         }
 
         /// <summary>
-        /// Получить информацию о пользователе из чата.
+        /// Gets information about the user from the chat.
         /// </summary>
-        /// <param name="chat">Чат.</param>
-        /// <returns>Информация.</returns>
+        /// <param name="chat">Chat.</param>
+        /// <returns>Information.</returns>
         private static string GetFullNameFromChat(Chat chat)
         {
             List<string> infos = [chat.Id.ToString(), chat.FirstName, chat.LastName, chat.Username];

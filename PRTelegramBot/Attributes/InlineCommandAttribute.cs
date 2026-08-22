@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут для отметки inline команд.
+    /// Attribute that marks inline commands.
     /// </summary>
     [AttributeUsage(AttributeTargets.Enum)]
     public sealed class InlineCommandAttribute : Attribute { }

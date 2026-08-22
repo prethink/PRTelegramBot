@@ -9,49 +9,49 @@ namespace ConsoleExample.Examples
     internal class ExampleUtils
     {
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Awaiter message".
-        /// Сначало будет отправлено сообщение 'Обработка данных...', после двух секунд старое сообщение будет удалено и сразу появится новое. 
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Awaiter message" is sent to the chat.
+        /// First the message 'Processing data...' is sent; after two seconds the old message is deleted and a new one appears at once. 
         /// </summary>
         [ReplyMenuHandler("Awaiter message")]
         public static async Task AwaiterExample (IBotContext context)
         {
-            using(var messageAwaiter = new MessageAwaiter(context, "Обработка данных..."))
+            using(var messageAwaiter = new MessageAwaiter(context, "Processing data..."))
             {
-                // Симуляция тяжелой операции.
+                // Simulate a heavy operation.
                 await Task.Delay(2000);
-                await MessageSender.Send(context, $"Генерация данных завершена.");
+                await MessageSender.Send(context, $"Data generation finished.");
             }
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "AutoDelete".
-        /// Сообщение будет удалено по истечению 10 секунд.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "AutoDelete" is sent to the chat.
+        /// The message is deleted after 10 seconds.
         /// </summary>
         [ReplyMenuHandler("AutoDelete")]
         public static async Task AutoDelete(IBotContext context)
         {
-            var message = await MessageSender.Send(context, $"Автоматическое удаление сообщения через 10 секунд");
+            var message = await MessageSender.Send(context, $"The message will be deleted automatically in 10 seconds");
             message.AutoDeleteMessage(10, context);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "AutoEdit".
-        /// Сообщение будет отредактировано по истечению 10 секунд.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "AutoEdit" is sent to the chat.
+        /// The message is edited after 10 seconds.
         /// </summary>
         [ReplyMenuHandler("AutoEdit")]
         public static async Task AutoEdit(IBotContext context)
         {
-            var message = await MessageSender.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
-            message.AutoEditMessage("Текст изменился.", 10, context);
+            var message = await MessageSender.Send(context, $"The message will be edited automatically in 10 seconds");
+            message.AutoEditMessage("The text has changed.", 10, context);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "AutoEditCycle".
-        /// Сообщение постепенно будет редактироваться.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "AutoEditCycle" is sent to the chat.
+        /// The message is edited gradually.
         /// </summary>
         [ReplyMenuHandler("AutoEditCycle")]
         public static async Task AutoEditCycle(IBotContext context)
@@ -68,10 +68,10 @@ namespace ConsoleExample.Examples
                 "3",
                 "2",
                 "1",
-                "Все готово.",
+                "All done.",
             };
-            var message = await MessageSender.Send(context, $"Автоматическое редактирование сообщения через 10 секунд");
-            message.AutoEditMessageСycle(messages, 1, context);
+            var message = await MessageSender.Send(context, $"The message will be edited automatically in 10 seconds");
+            message.AutoEditMessageCycle(messages, 1, context);
         }
     }
 }

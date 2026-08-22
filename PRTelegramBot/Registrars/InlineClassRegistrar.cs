@@ -7,9 +7,9 @@ namespace PRTelegramBot.Registrars
     internal class InlineClassRegistrar
     {
         /// <summary>
-        /// Регистратор inline классов обработчиков.
+        /// Registrar for inline handler classes.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="bot">Bot instance.</param>
         public static void Register(PRBotBase bot)
         {
             bot.InlineClassHandlerInstances.Clear();

@@ -3,38 +3,38 @@
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы при логирование ошибок.
+    /// Arguments used when logging errors.
     /// </summary>
     public class ErrorLogEventArgsCreator : EventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Исключение.
+        /// Exception.
         /// </summary>
         public Exception Exception { get; private set; }
 
         /// <summary>
-        /// Обновление.
+        /// Update.
         /// </summary>
         public Update Update { get; private set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="exception">Исключение.</param>
+        /// <param name="exception">Exception.</param>
         public ErrorLogEventArgsCreator(Exception exception)
             : this(exception, new Update()) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="exception">Исключение.</param>
-        /// <param name="update">Обновление.</param>
+        /// <param name="exception">Exception.</param>
+        /// <param name="update">Update.</param>
         public ErrorLogEventArgsCreator(Exception exception, Update update)
         {
             Exception = exception;

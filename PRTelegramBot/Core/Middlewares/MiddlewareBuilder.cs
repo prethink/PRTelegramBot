@@ -4,17 +4,17 @@ using PRTelegramBot.Core.BotScope;
 namespace PRTelegramBot.Core.Middlewares
 {
     /// <summary>
-    /// Билдер для построения цепочки middleware.
+    /// Builder for constructing the middleware chain.
     /// </summary>
     public class MiddlewareBuilder
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Собрать цепочку middleware.
+        /// Builds the middleware chain.
         /// </summary>
         /// <param name="bot">Bot.</param>
-        /// <returns>Цепочка обработчиков.</returns>
+        /// <returns>The handler chain.</returns>
         public virtual MiddlewareBase Build(PRBotBase bot)
         {
             var combineMiddlewares = new List<MiddlewareBase>(bot.Options.Middlewares);

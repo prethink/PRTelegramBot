@@ -8,17 +8,17 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Core.CommandHandlers
 {
     /// <summary>
-    /// Обработчик пошагового выполнение команд.
+    /// Handler for step-by-step command execution.
     /// </summary>
     internal sealed class NextStepCommandHandler
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Обработать следующий шаг.
+        /// Handles the next step.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Результат обработки.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The processing result.</returns>
         public async Task<UpdateResult> Handle(IBotContext context)
         {
             try
@@ -60,10 +60,10 @@ namespace PRTelegramBot.Core.CommandHandlers
         }
 
         /// <summary>
-        /// Игнорировать базовые команды.
+        /// Ignore the basic commands.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - игнорировать основные команды, False - не игнорировать.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True to ignore the basic commands; False not to ignore them.</returns>
         public bool IgnoreBasicCommand(IBotContext context)
         {
             if (!context.Update.HasStepHandler())
@@ -73,10 +73,10 @@ namespace PRTelegramBot.Core.CommandHandlers
         }
 
         /// <summary>
-        /// Последний шаг выполненен.
+        /// The last step has been executed.
         /// </summary>
-        /// <param name="update">Обновление.</param>
-        /// <returns>True - последний шаг выполнен, False - не выполнен или это не последний шаг.</returns>
+        /// <param name="update">Update.</param>
+        /// <returns>True if the last step was executed; False if it was not, or if this is not the last step.</returns>
         public bool LastStepExecuted(Update update)
         {
             if (!update.HasStepHandler())
@@ -86,9 +86,9 @@ namespace PRTelegramBot.Core.CommandHandlers
         }
 
         /// <summary>
-        /// Очистить шаги.
+        /// Clears the steps.
         /// </summary>
-        /// <param name="update">Обновление.</param>
+        /// <param name="update">Update.</param>
         public void ClearSteps(Update update)
         {
             if (!update.HasStepHandler())
@@ -99,10 +99,10 @@ namespace PRTelegramBot.Core.CommandHandlers
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public NextStepCommandHandler() { }
 

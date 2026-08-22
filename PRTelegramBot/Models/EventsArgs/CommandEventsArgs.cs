@@ -3,25 +3,25 @@
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Событие с сылкой на команду.
+    /// Event that carries a reference to the command.
     /// </summary>
     public class CommandEventsArgs : BotEventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Метод для выполнения.
+        /// The method to execute.
         /// </summary>
         public Func<IBotContext, Task> ExecuteMethod { get; private set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         /// <param name="executeMethod"></param>
         public CommandEventsArgs(IBotContext context, Func<IBotContext, Task> executeMethod)
             : base(context)

@@ -9,16 +9,16 @@ namespace PRTelegramBot.Services.Messages
 {
     public class MessageEditor
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Редактирование меню inline.
+        /// Edits the inline menu.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -38,14 +38,14 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
-        /// Редактирование сообщения.
+        /// Edits a message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, long chatId, int messageId, string text, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -63,12 +63,12 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
-        /// Редактирование сообщения.
+        /// Edits a message.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, string text, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);

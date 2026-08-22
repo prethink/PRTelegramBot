@@ -4,693 +4,693 @@ using PRTelegramBot.Utils;
 namespace PRTelegramBot.Core.Events
 {
     /// <summary>
-    /// События для обновления типа сообщения.
+    /// Events for message-type updates.
     /// </summary>
     public sealed class MessageEvents
     {
-        #region События
+        #region Events
 
         /// <summary>
-        /// Событие Обработки контактных данных.
+        /// Event raised when contact data is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnContactHandle;
 
         /// <summary>
-        /// Событие обработки голосований.
+        /// Event raised when polls are handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPollHandle;
 
         /// <summary>
-        /// Событие обработки локации.
+        /// Event raised when a location is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnLocationHandle;
 
         /// <summary>
-        /// Событие обработки WebApps.
+        /// Event raised when WebApps are handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWebAppsHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с документом.
+        /// Event raised when a message with a document is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnDocumentHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с аудио.
+        /// Event raised when a message with audio is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnAudioHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с видео.
+        /// Event raised when a message with a video is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с фото.
+        /// Event raised when a message with a photo is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPhotoHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с стикером.
+        /// Event raised when a message with a sticker is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnStickerHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с голосовым сообщением.
+        /// Event raised when a message with a voice message is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVoiceHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с неизвестный типом сообщения.
+        /// Event raised when a message of an unknown type is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с местом.
+        /// Event raised when a message with a venue is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVenueHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с игрой.
+        /// Event raised when a message with a game is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGameHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с видеозаметкой.
+        /// Event raised when a message with a video note is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoNoteHandle;
 
         /// <summary>
-        /// Событие обработки сообщением с игральной кости.
+        /// Event raised when a message with a dice is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnDiceHandle;
 
         /// <summary>
-        /// Событие анимации в чате.
+        /// Event raised for an animation in the chat.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnAnimationHandle;
 
         /// <summary>
-        /// Событие создание канала.
+        /// Event raised when a channel is created.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChannelCreatedHandle;
 
         /// <summary>
-        /// Событие выхода пользователя из канала.
+        /// Event raised when a user leaves the channel.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatMemberLeftHandle;
 
         /// <summary>
-        /// Событие входа пользователя в канала.
+        /// Event raised when a user joins the channel.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatMembersAddedHandle;
 
         /// <summary>
-        /// Событие изменения фото чата.
+        /// Event raised when the chat photo changes.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatPhotoChangedHandle;
 
         /// <summary>
-        /// Событие удаления фото чата.
+        /// Event raised when the chat photo is deleted.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatPhotoDeletedHandle;
 
         /// <summary>
-        /// Событие общего доступа к чату.
+        /// Event raised when a chat is shared.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatSharedHandle;
 
         /// <summary>
-        /// Событие изменения названия чата.
+        /// Event raised when the chat title changes.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatTitleChangedHandle;
 
         /// <summary>
-        /// Событие закрытия темы форума.
+        /// Event raised when a forum topic is closed.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicClosedHandle;
 
         /// <summary>
-        /// Событие создания темы форума.
+        /// Event raised when a forum topic is created.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicCreatedHandle;
 
         /// <summary>
-        /// Событие редактирования темы форума.
+        /// Event raised when a forum topic is edited.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicEditedHandle;
 
         /// <summary>
-        /// Событие повторного открытия темы форума.
+        /// Event raised when a forum topic is reopened.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnForumTopicReopenedHandle;
 
         /// <summary>
-        /// Событие скрытия общей темы форума.
+        /// Event raised when the general forum topic is hidden.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGeneralForumTopicHiddenHandle;
 
         /// <summary>
-        /// Событие отмены скрытия общей темы форума.
+        /// Event raised when the general forum topic is unhidden.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGeneralForumTopicUnhiddenHandle;
 
         /// <summary>
-        /// Событие создания группы.
+        /// Event raised when a group is created.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGroupCreatedHandle;
 
         /// <summary>
-        /// Событие обработки счета.
+        /// Event raised when an invoice is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnInvoiceHandle;
 
         /// <summary>
-        /// Событие изменения таймера автоудаления сообщений.
+        /// Event raised when the message auto-delete timer changes.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessageAutoDeleteTimerChangedHandle;
 
         /// <summary>
-        /// Событие закрепления сообщения.
+        /// Event raised when a message is pinned.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessagePinnedHandle;
 
         /// <summary>
-        /// Событие миграции из группы
+        /// Event raised on migration from a group
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMigratedFromGroupHandle;
 
         /// <summary>
-        /// Событие миграции в супергруппу.
+        /// Event raised on migration to a supergroup.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMigratedToSupergroupHandle;
 
         /// <summary>
-        /// Событие срабатывания оповещения о приближении.
+        /// Event raised when a proximity alert is triggered.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnProximityAlertTriggeredHandle;
 
         /// <summary>
-        /// Событие успешного платежа.
+        /// Event raised on a successful payment.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuccessfulPaymentHandle;
 
         /// <summary>
-        /// Событие создания супергруппы.
+        /// Event raised when a supergroup is created.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSupergroupCreatedHandle;
 
         /// <summary>
-        /// Событие общего доступа пользователя.
+        /// Event raised when users are shared.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUserSharedHandle;
 
         /// <summary>
-        /// Событие завершения видеочата.
+        /// Event raised when a video chat ends.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatEndedHandle;
 
         /// <summary>
-        /// Событие приглашения участников в видеочат.
+        /// Event raised when participants are invited to a video chat.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatParticipantsInvitedHandle;
 
         /// <summary>
-        /// Событие планирования видеочата.
+        /// Event raised when a video chat is scheduled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatScheduledHandle;
 
         /// <summary>
-        /// Событие начала видеочата.
+        /// Event raised when a video chat starts.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnVideoChatStartedHandle;
 
         /// <summary>
-        /// Событие подключения веб-сайта.
+        /// Event raised when a website is connected.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWebsiteConnectedHandle;
 
         /// <summary>
-        /// Событие разрешения записи.
+        /// Event raised when write access is allowed.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnWriteAccessAllowedHandle;
 
         /// <summary>
-        /// Событие, которое происходит при обработке розыгрыша.
+        /// Event raised when a giveaway is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayHandle;
 
         /// <summary>
-        /// Событие, которое происходит при объявлении победителей розыгрыша.
+        /// Event raised when the giveaway winners are announced.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayWinnersHandle;
 
         /// <summary>
-        /// Событие, которое происходит при завершении розыгрыша. 
+        /// Event raised when a giveaway is completed. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayCompletedHandle;
 
         /// <summary>
-        /// Событие, которое происходит при добавлении буста. 
+        /// Event raised when a boost is added. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnBoostAddedHandle;
 
         /// <summary>
-        /// Событие, которое происходит при установке фона чата. 
+        /// Event raised when the chat background is set. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatBackgroundSetHandle;
 
         /// <summary>
-        /// Событие, которое происходит при создании розыгрыша. 
+        /// Event raised when a giveaway is created. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiveawayCreatedHandle;
 
         /// <summary>
-        /// Событие, которое происходит при получении текстового сообщения. 
+        /// Event raised when a text message is received. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnTextHandle;
 
         /// <summary>
-        /// Событие, которое происходит при получении сообщения в формате "Story". 
+        /// Event raised when a message in "Story" form is received. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnStoryHandle;
 
         /// <summary>
-        /// Событие, которое происходит при получении данных паспорта. 
+        /// Event raised when passport data is received. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPassportDataHandle;
 
         /// <summary>
-        /// Событие обработки платного медиа.
+        /// Event raised when paid media is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPaidMediaHandle;
 
         /// <summary>
-        /// Событие обработки возврата платежа.
+        /// Event raised when a payment refund is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnRefundedPaymentHandle;
 
         /// <summary>
-        /// Событие получения подарка.
+        /// Event raised when a gift is received.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnGiftHandle;
 
         /// <summary>
-        /// Событие получения уникального подарка.
+        /// Event raised when a unique gift is received.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUniqueGiftHandle;
 
         /// <summary>
-        /// Событие изменения стоимости платного сообщения.
+        /// Event raised when the price of a paid message changes.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPaidMessagePriceChangedHandle;
 
         /// <summary>
-        /// Событие получения чеклиста.
+        /// Event raised when a checklist is received.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChecklistHandle;
 
         /// <summary>
-        /// Событие выполнения задач чеклиста.
+        /// Event raised when checklist tasks are completed.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChecklistTasksDoneHandle;
 
         /// <summary>
-        /// Событие добавления задач в чеклист.
+        /// Event raised when tasks are added to a checklist.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChecklistTasksAddedHandle;
 
         /// <summary>
-        /// Событие изменения цены прямого сообщения.
+        /// Event raised when the direct message price changes.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnDirectMessagePriceChangedHandle;
 
         /// <summary>
-        /// Событие подтверждения предложенного поста.
+        /// Event raised when a suggested post is approved.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuggestedPostApprovedHandle;
 
         /// <summary>
-        /// Событие ошибки подтверждения предложенного поста.
+        /// Event raised when approving a suggested post fails.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuggestedPostApprovalFailedHandle;
 
         /// <summary>
-        /// Событие отклонения предложенного поста.
+        /// Event raised when a suggested post is declined.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuggestedPostDeclinedHandle;
 
         /// <summary>
-        /// Событие успешной оплаты предложенного поста.
+        /// Event raised when a suggested post is paid for successfully.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuggestedPostPaidHandle;
 
         /// <summary>
-        /// Событие возврата оплаты предложенного поста.
+        /// Event raised when a suggested post payment is refunded.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnSuggestedPostRefundedHandle;
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Вызвать событие <see cref="OnContactHandle"/>.
+        /// Raises the <see cref="OnContactHandle"/> event.
         /// </summary>
         internal Task OnContactHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnContactHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnAudioHandle"/>.
+        /// Raises the <see cref="OnAudioHandle"/> event.
         /// </summary>
         internal Task OnAudioHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnAudioHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnLocationHandle"/>.
+        /// Raises the <see cref="OnLocationHandle"/> event.
         /// </summary>
         internal Task OnLocationHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnLocationHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnDiceHandle"/>.
+        /// Raises the <see cref="OnDiceHandle"/> event.
         /// </summary>
         internal Task OnDiceHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDiceHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnDocumentHandle"/>.
+        /// Raises the <see cref="OnDocumentHandle"/> event.
         /// </summary>
         internal Task OnDocumentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDocumentHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnWebAppsHandle"/>.
+        /// Raises the <see cref="OnWebAppsHandle"/> event.
         /// </summary>
         internal Task OnWebAppsHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWebAppsHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPollHandle"/>.
+        /// Raises the <see cref="OnPollHandle"/> event.
         /// </summary>
         internal Task OnPollHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGameHandle"/>.
+        /// Raises the <see cref="OnGameHandle"/> event.
         /// </summary>
         internal Task OnGameHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGameHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVideoHandle"/>.
+        /// Raises the <see cref="OnVideoHandle"/> event.
         /// </summary>
         internal Task OnVideoHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPhotoHandle"/>.
+        /// Raises the <see cref="OnPhotoHandle"/> event.
         /// </summary>
         internal Task OnPhotoHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPhotoHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnStickerHandle"/>.
+        /// Raises the <see cref="OnStickerHandle"/> event.
         /// </summary>
         internal Task OnStickerHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnStickerHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVoiceHandle"/>.
+        /// Raises the <see cref="OnVoiceHandle"/> event.
         /// </summary>
         internal Task OnVoiceHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVoiceHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVenueHandle"/>.
+        /// Raises the <see cref="OnVenueHandle"/> event.
         /// </summary>
         internal Task OnVenueHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVenueHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnUnknownHandle"/>.
+        /// Raises the <see cref="OnUnknownHandle"/> event.
         /// </summary>
         internal Task OnUnknownHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVideoNoteHandle"/>.
+        /// Raises the <see cref="OnVideoNoteHandle"/> event.
         /// </summary>
         internal Task OnVideoNoteHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoNoteHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnAnimationHandle"/>.
+        /// Raises the <see cref="OnAnimationHandle"/> event.
         /// </summary>
         internal Task OnAnimationHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnAnimationHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChannelCreatedHandle"/>.
+        /// Raises the <see cref="OnChannelCreatedHandle"/> event.
         /// </summary>
         internal Task OnChannelCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChannelCreatedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatMemberLeftHandle"/>.
+        /// Raises the <see cref="OnChatMemberLeftHandle"/> event.
         /// </summary>
         internal Task OnChatMemberLeftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatMemberLeftHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatMembersAddedHandle"/>.
+        /// Raises the <see cref="OnChatMembersAddedHandle"/> event.
         /// </summary>
         internal Task OnChatMembersAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatMembersAddedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatPhotoChangedHandle"/>.
+        /// Raises the <see cref="OnChatPhotoChangedHandle"/> event.
         /// </summary>
         internal Task OnChatPhotoChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatPhotoChangedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatPhotoDeletedHandle"/>.
+        /// Raises the <see cref="OnChatPhotoDeletedHandle"/> event.
         /// </summary>
         internal Task OnChatPhotoDeletedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatPhotoDeletedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatSharedHandle"/>.
+        /// Raises the <see cref="OnChatSharedHandle"/> event.
         /// </summary>
         internal Task OnChatSharedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatSharedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatTitleChangedHandle"/>.
+        /// Raises the <see cref="OnChatTitleChangedHandle"/> event.
         /// </summary>
         internal Task OnChatTitleChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatTitleChangedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnForumTopicClosedHandle"/>.
+        /// Raises the <see cref="OnForumTopicClosedHandle"/> event.
         /// </summary>
         internal Task OnForumTopicClosedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicClosedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnForumTopicCreatedHandle"/>.
+        /// Raises the <see cref="OnForumTopicCreatedHandle"/> event.
         /// </summary>
         internal Task OnForumTopicCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicCreatedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnForumTopicEditedHandle"/>.
+        /// Raises the <see cref="OnForumTopicEditedHandle"/> event.
         /// </summary>
         internal Task OnForumTopicEditedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicEditedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnForumTopicReopenedHandle"/>.
+        /// Raises the <see cref="OnForumTopicReopenedHandle"/> event.
         /// </summary>
         internal Task OnForumTopicReopenedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnForumTopicReopenedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGeneralForumTopicHiddenHandle"/>.
+        /// Raises the <see cref="OnGeneralForumTopicHiddenHandle"/> event.
         /// </summary>
         internal Task OnGeneralForumTopicHiddenHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGeneralForumTopicHiddenHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGeneralForumTopicUnhiddenHandle"/>.
+        /// Raises the <see cref="OnGeneralForumTopicUnhiddenHandle"/> event.
         /// </summary>
         internal Task OnGeneralForumTopicUnhiddenHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGeneralForumTopicUnhiddenHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGroupCreatedHandle"/>.
+        /// Raises the <see cref="OnGroupCreatedHandle"/> event.
         /// </summary>
         internal Task OnGroupCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGroupCreatedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnInvoiceHandle"/>.
+        /// Raises the <see cref="OnInvoiceHandle"/> event.
         /// </summary>
         internal Task OnInvoiceHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnInvoiceHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnMessageAutoDeleteTimerChangedHandle"/>.
+        /// Raises the <see cref="OnMessageAutoDeleteTimerChangedHandle"/> event.
         /// </summary>
         internal Task OnMessageAutoDeleteTimerChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessageAutoDeleteTimerChangedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnMessagePinnedHandle"/>.
+        /// Raises the <see cref="OnMessagePinnedHandle"/> event.
         /// </summary>
         internal Task OnMessagePinnedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessagePinnedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnMigratedFromGroupHandle"/>.
+        /// Raises the <see cref="OnMigratedFromGroupHandle"/> event.
         /// </summary>
         internal Task OnMigratedFromGroupHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMigratedFromGroupHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnMigratedToSupergroupHandle"/>.
+        /// Raises the <see cref="OnMigratedToSupergroupHandle"/> event.
         /// </summary>
         internal Task OnMigratedToSupergroupHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMigratedToSupergroupHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSuccessfulPaymentHandle"/>.
+        /// Raises the <see cref="OnSuccessfulPaymentHandle"/> event.
         /// </summary>
         internal Task OnSuccessfulPaymentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuccessfulPaymentHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSupergroupCreatedHandle"/>.
+        /// Raises the <see cref="OnSupergroupCreatedHandle"/> event.
         /// </summary>
         internal Task OnSupergroupCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSupergroupCreatedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnUserSharedHandle"/>.
+        /// Raises the <see cref="OnUserSharedHandle"/> event.
         /// </summary>
         internal Task OnUserSharedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUserSharedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVideoChatEndedHandle"/>.
+        /// Raises the <see cref="OnVideoChatEndedHandle"/> event.
         /// </summary>
         internal Task OnVideoChatEndedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatEndedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVideoChatParticipantsInvitedHandle"/>.
+        /// Raises the <see cref="OnVideoChatParticipantsInvitedHandle"/> event.
         /// </summary>
         internal Task OnVideoChatParticipantsInvitedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatParticipantsInvitedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVideoChatScheduledHandle"/>.
+        /// Raises the <see cref="OnVideoChatScheduledHandle"/> event.
         /// </summary>
         internal Task OnVideoChatScheduledHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatScheduledHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnVideoChatStartedHandle"/>.
+        /// Raises the <see cref="OnVideoChatStartedHandle"/> event.
         /// </summary>
         internal Task OnVideoChatStartedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnVideoChatStartedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnWebsiteConnectedHandle"/>.
+        /// Raises the <see cref="OnWebsiteConnectedHandle"/> event.
         /// </summary>
         internal Task OnWebsiteConnectedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWebsiteConnectedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnWriteAccessAllowedHandle"/>.
+        /// Raises the <see cref="OnWriteAccessAllowedHandle"/> event.
         /// </summary>
         internal Task OnWriteAccessAllowedInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWriteAccessAllowedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnProximityAlertTriggeredHandle"/>.
+        /// Raises the <see cref="OnProximityAlertTriggeredHandle"/> event.
         /// </summary>
         internal Task OnProximityAlertTriggeredHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnProximityAlertTriggeredHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGiveawayHandle"/>.
+        /// Raises the <see cref="OnGiveawayHandle"/> event.
         /// </summary>
         internal Task OnGiveawayHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGiveawayWinnersHandle"/>.
+        /// Raises the <see cref="OnGiveawayWinnersHandle"/> event.
         /// </summary>
         internal Task OnGiveawayWinnersHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayWinnersHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGiveawayCompletedHandle"/>.
+        /// Raises the <see cref="OnGiveawayCompletedHandle"/> event.
         /// </summary>
         internal Task OnGiveawayCompletedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayCompletedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnBoostAddedHandle"/>.
+        /// Raises the <see cref="OnBoostAddedHandle"/> event.
         /// </summary>
         internal Task OnBoostAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBoostAddedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChatBackgroundSetHandle"/>.
+        /// Raises the <see cref="OnChatBackgroundSetHandle"/> event.
         /// </summary>
         internal Task OnChatBackgroundSetHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatBackgroundSetHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnTextHandle"/>.
+        /// Raises the <see cref="OnTextHandle"/> event.
         /// </summary>
         internal Task OnTextHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnTextHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnStoryHandle"/>.
+        /// Raises the <see cref="OnStoryHandle"/> event.
         /// </summary>
         internal Task OnStoryHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnStoryHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPassportDataHandle"/>.
+        /// Raises the <see cref="OnPassportDataHandle"/> event.
         /// </summary>
         internal Task OnPassportDataHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPassportDataHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGiveawayCreatedHandle"/>.
+        /// Raises the <see cref="OnGiveawayCreatedHandle"/> event.
         /// </summary>
         internal Task OnGiveawayCreatedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiveawayCreatedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPaidMediaHandle"/>.
+        /// Raises the <see cref="OnPaidMediaHandle"/> event.
         /// </summary>
         internal Task OnPaidMediaHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPaidMediaHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnRefundedPaymentHandle"/>.
+        /// Raises the <see cref="OnRefundedPaymentHandle"/> event.
         /// </summary>
         internal Task OnRefundedPaymentHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnRefundedPaymentHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnGiftHandle"/>.
+        /// Raises the <see cref="OnGiftHandle"/> event.
         /// </summary>
         internal Task OnGiftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnGiftHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnUniqueGiftHandle"/>.
+        /// Raises the <see cref="OnUniqueGiftHandle"/> event.
         /// </summary>
         internal Task OnUniqueGiftHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUniqueGiftHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPaidMessagePriceChangedHandle"/>.
+        /// Raises the <see cref="OnPaidMessagePriceChangedHandle"/> event.
         /// </summary>
         internal Task OnPaidMessagePriceChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPaidMessagePriceChangedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChecklistHandle"/>.
+        /// Raises the <see cref="OnChecklistHandle"/> event.
         /// </summary>
         internal Task OnChecklistHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChecklistHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChecklistTasksDoneHandle"/>.
+        /// Raises the <see cref="OnChecklistTasksDoneHandle"/> event.
         /// </summary>
         internal Task OnChecklistTasksDoneHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChecklistTasksDoneHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnChecklistTasksAddedHandle"/>.
+        /// Raises the <see cref="OnChecklistTasksAddedHandle"/> event.
         /// </summary>
         internal Task OnChecklistTasksAddedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChecklistTasksAddedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnDirectMessagePriceChangedHandle"/>.
+        /// Raises the <see cref="OnDirectMessagePriceChangedHandle"/> event.
         /// </summary>
         internal Task OnDirectMessagePriceChangedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDirectMessagePriceChangedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSuggestedPostApprovedHandle"/>.
+        /// Raises the <see cref="OnSuggestedPostApprovedHandle"/> event.
         /// </summary>
         internal Task OnSuggestedPostApprovedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostApprovedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSuggestedPostApprovalFailedHandle"/>.
+        /// Raises the <see cref="OnSuggestedPostApprovalFailedHandle"/> event.
         /// </summary>
         internal Task OnSuggestedPostApprovalFailedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostApprovalFailedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSuggestedPostDeclinedHandle"/>.
+        /// Raises the <see cref="OnSuggestedPostDeclinedHandle"/> event.
         /// </summary>
         internal Task OnSuggestedPostDeclinedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostDeclinedHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSuggestedPostPaidHandle"/>.
+        /// Raises the <see cref="OnSuggestedPostPaidHandle"/> event.
         /// </summary>
         internal Task OnSuggestedPostPaidHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostPaidHandle, e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnSuggestedPostRefundedHandle"/>.
+        /// Raises the <see cref="OnSuggestedPostRefundedHandle"/> event.
         /// </summary>
         internal Task OnSuggestedPostRefundedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSuggestedPostRefundedHandle, e);
 

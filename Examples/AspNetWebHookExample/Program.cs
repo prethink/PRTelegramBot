@@ -1,4 +1,4 @@
-using AspNetWebHook;
+п»їusing AspNetWebHook;
 using AspNetWebHook.Controllers;
 using AspNetWebHook.Services;
 using PRTelegramBot.Builders;
@@ -7,21 +7,21 @@ using PRTelegramBot.Core.Factory;
 /****************************************************************************************
  * ######################################################################################
  * 
- * Актуальная документация https://prethink.gitbook.io/prtelegrambot
+ * Up-to-date documentation: https://prethink.gitbook.io/prtelegrambot
  * 
  * ######################################################################################
  ****************************************************************************************/
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Для работы webhook нужны контроллеры и newtonsoftJson!!!
+//Webhooks require controllers and newtonsoftJson!!!
 builder.Services.AddControllers().AddNewtonsoftJson();
 
-#region Сервис запуска ботов
+#region Bot startup service
 
 builder.Services.AddHostedService<BotHostedService>();
 
-#region Добавляем ботов
+#region Adding the bots
 
 new PRBotBuilder("5623652365:Token")
     .UseFactory(new PRBotWebHookFactory())
@@ -36,7 +36,7 @@ new PRBotBuilder("555555:Token")
     .SetBotId(1)
     .Build();
 
-// Найти экземпляры этих ботов можно через класс BotCollection
+// Instances of these bots can be found through the BotCollection class
 
 #endregion
 
@@ -63,7 +63,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-#region создание маршрута для webhook
+#region creating the webhook route
 
 app.MapBotWebhookRoute<BotController>("/botendpoint");
 app.MapControllers();

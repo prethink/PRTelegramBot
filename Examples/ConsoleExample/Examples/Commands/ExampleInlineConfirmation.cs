@@ -15,32 +15,32 @@ namespace ConsoleExample.Examples.Commands
     internal class ExampleInlineConfirmation
     {
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает если пользователь напишет InlineConfirm.
-        /// Так же при проверки будет проигнорирован регистр команды.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when the user sends InlineConfirm.
+        /// The command's letter case is also ignored during the check.
         /// </summary>
         [ReplyMenuHandler("InlineConfirm")]
         public static async Task InlineConfirm(IBotContext context)
         {
-            //Кнопка для которой нужно создать подтверждение.
-            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтверждением", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
-            //Обертка кнопки.
+            //The button that a confirmation has to be created for.
+            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Button with confirmation", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
+            //Button wrapper.
             var exampleWithConfirmation = new InlineCallbackWithConfirmation(exampleInlineCallback, ActionWithLastMessage.Delete);
 
-            //Создание нового меню.
+            //Create a new menu.
             List<IInlineContent> menu = new() { exampleWithConfirmation };
             var testMenu = MenuGenerator.InlineKeyboard(1, menu);
             var option = new OptionMessage();
 
-            //Передача меню в настройки
+            //Pass the menu into the options
             option.MenuInlineKeyboardMarkup = testMenu;
-            string msg = "InlineCallback с подтверждением";
-            //Отправка сообщение с меню
+            string msg = "InlineCallback with confirmation";
+            //Send a message with the menu
             await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
-        /// Пример обработки inline класса.
+        /// Example of handling an inline class.
         /// </summary>
         [ReplyMenuHandler("InlineClass")]
         public static async Task InlineClass(IBotContext context)
@@ -49,7 +49,7 @@ namespace ConsoleExample.Examples.Commands
             var exampleInlineCallbackTwo = new InlineCallback<StringTCommand>("Test2", ClassTHeader.DefaultTestClass, new StringTCommand("Test2"));
             var exampleInlineCallbackThree = new InlineCallback<StringTCommand>("Test3", ClassTHeader.DefaultTestClass, new StringTCommand("Test3"));
 
-            //Создание нового меню.
+            //Create a new menu.
             List<IInlineContent> menu = new() { exampleInlineCallback, exampleInlineCallbackTwo, exampleInlineCallbackThree };
 
             var keyboard = new InlineKeyboardBuilder()
@@ -62,40 +62,40 @@ namespace ConsoleExample.Examples.Commands
 
             var option = new OptionMessage();
 
-            //Передача меню в настройки
+            //Pass the menu into the options
             option.MenuInlineKeyboardMarkup = keyboard;
             string msg = "InlineClass";
 
-            //Отправка сообщение с меню
+            //Send a message with the menu
             await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает если пользователь напишет InlineConfirm.
-        /// Так же при проверки будет проигнорирован регистр команды.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when the user sends InlineConfirm.
+        /// The command's letter case is also ignored during the check.
         /// </summary>
         [ReplyMenuHandler("InlineConfirmWithBack")]
         [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleBack)]
         public static async Task InlineConfirmWithBack(IBotContext context)
         {
-            //Кнопка для которой нужно создать подтверждение.
-            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтвержением", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
-            //Кнопка обработчик назад или кастомная.
-            var exampleBack = new InlineCallback("Назад", CustomTHeaderTwo.ExampleBack);
+            //The button that a confirmation has to be created for.
+            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Button with confirmation", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
+            //The back button handler, or a custom one.
+            var exampleBack = new InlineCallback("Back", CustomTHeaderTwo.ExampleBack);
 
-            //Обертка кнопки.
+            //Button wrapper.
             var exampleWithConfirmation = new InlineCallbackWithConfirmation(exampleInlineCallback, ActionWithLastMessage.Edit, exampleBack);
 
-            //Создание нового меню.
+            //Create a new menu.
             List<IInlineContent> menu = new() { exampleWithConfirmation };
             var testMenu = MenuGenerator.InlineKeyboard(1, menu);
             var option = new OptionMessage();
 
-            //Передача меню в настройки
+            //Pass the menu into the options
             option.MenuInlineKeyboardMarkup = testMenu;
-            string msg = "InlineCallback с подтверждением и обработкой кнопки назад или кастомной";
-            //Отправка сообщение с меню
+            string msg = "InlineCallback with confirmation and a back or custom button handler";
+            //Send a message with the menu
             if (context.Update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
                 await MessageEditor.Edit(context, msg, option);
             else

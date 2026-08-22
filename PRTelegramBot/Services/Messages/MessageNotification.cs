@@ -5,15 +5,15 @@ namespace PRTelegramBot.Services.Messages
 {
     public class MessageNotification
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Вывод уведомления пользователю.
+        /// Shows a notification to the user.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="callbackQueryId">Идентификатор callback.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="showAlert">Показывать уведомление.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="callbackQueryId">Callback identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="showAlert">Whether to show an alert.</param>
         /// <param name="url">.</param>
         /// <param name="cacheTime">.</param>
         /// <returns>Task</returns>

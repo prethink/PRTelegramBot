@@ -6,80 +6,80 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для контекста бота.
+    /// Extension methods for the bot context.
     /// </summary>
     public static class BotContextExtension
     {
         #region UpdateExtension
 
         /// <summary>
-        /// Получает идентификатор чата в зависимости от типа сообщений.
+        /// Gets the chat identifier depending on the message type.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Идентификатор чата.</returns>
-        /// <exception cref="NotImplementedException">Выбрасывается если не реализована обработка обновления.</exception>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Chat identifier.</returns>
+        /// <exception cref="NotImplementedException">Thrown when handling of the update is not implemented.</exception>
         public static long GetChatId(this IBotContext context)
         {
             return context.Update.GetChatId();
         }
 
         /// <summary>
-        /// Получает идентификатор в формате класса.
+        /// Gets the identifier as a class.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Идентификатор в формате класса</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The identifier as a class</returns>
         public static ChatId GetChatIdClass(this IBotContext context)
         {
             return context.Update.GetChatIdClass();
         }
 
         /// <summary>
-        /// Попытаться получить идентификатор чата.
+        /// Tries to get the chat identifier.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <returns>True - удалось получить, false - нет.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <returns>True if it was retrieved; false otherwise.</returns>
         public static bool TryGetChatId(this IBotContext context, out long chatId)
         {
             return context.Update.TryGetChatId(out chatId);
         }
 
         /// <summary>
-        /// Получает идентификатор сообщения.
+        /// Gets the message identifier.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Идентификатор сообщения.</returns>
-        /// <exception cref="NotImplementedException">Выбрасывается если не реализована обработка обновления.</exception>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Message identifier.</returns>
+        /// <exception cref="NotImplementedException">Thrown when handling of the update is not implemented.</exception>
         public static int GetMessageId(this IBotContext context)
         {
             return context.Update.GetMessageId();
         }
 
         /// <summary>
-        /// Является ли идентификатор пользователским чатом.
+        /// Whether the identifier belongs to a private user chat.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - да, False - нет.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True for yes; False for no.</returns>
         public static bool IsUserChatId(this IBotContext context)
         {
             return context.Update.IsUserChatId();
         }
 
         /// <summary>
-        /// Информация о пользователе.
+        /// Information about the user.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Информация о пользователе.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Information about the user.</returns>
         public static string GetInfoUser(this IBotContext context)
         {
             return context.Update.GetInfoUser();
         }
 
         /// <summary>
-        /// Получает идентификатор пользователя из обновления Telegram.
+        /// Gets the user identifier from the Telegram update.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Идентификатор пользователя (UserId).</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The user identifier (UserId).</returns>
         public static long GetUserId(this IBotContext context)
         {
             return context.Update.GetUserId();
@@ -90,62 +90,62 @@ namespace PRTelegramBot.Extensions
         #region CacheExtension
 
         /// <summary>
-        /// Создает кеш для пользователя.
+        /// Creates a cache for the user.
         /// </summary>
-        /// <typeparam name="TCache">Тип кэша.</typeparam>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Кэш.</returns>
+        /// <typeparam name="TCache">Cache type.</typeparam>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Cache.</returns>
         public static TCache CreateCacheData<TCache>(this IBotContext context) where TCache : ITelegramCache
         {
             return context.Update.CreateCacheData<TCache>();
         }
 
         /// <summary>
-        /// Получает существующий кэш или создает новый.
+        /// Gets the existing cache, or creates a new one.
         /// </summary>
-        /// <typeparam name="TCache">Тип кэша.</typeparam>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Кэш.</returns>
-        /// <remarks>Если тип кэша отличается от существующего, будет создан кэш нового типа.</remarks>
+        /// <typeparam name="TCache">Cache type.</typeparam>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Cache.</returns>
+        /// <remarks>If the cache type differs from the existing one, a cache of the new type is created.</remarks>
         public static TCache GetOrCreate<TCache>(this IBotContext context) where TCache : ITelegramCache
         {
             return context.Update.GetOrCreate<TCache>();
         }
 
         /// <summary>
-        /// Получает кэш пользователя.
+        /// Gets the user's cache.
         /// </summary>
-        /// <typeparam name="TCache">Тип кэша.</typeparam>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Кэш.</returns>
+        /// <typeparam name="TCache">Cache type.</typeparam>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Cache.</returns>
         public static TCache GetCacheData<TCache>(this IBotContext context) where TCache : ITelegramCache
         {
             return context.Update.GetCacheData<TCache>();
         }
 
         /// <summary>
-        /// Очищает кеш пользователя.
+        /// Clears the user's cache.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public static void ClearCacheData(this IBotContext context)
         {
             context.Update.ClearCacheData();
         }
 
         /// <summary>
-        /// Проверяет существуют ли кеш данные пользователя.
+        /// Checks whether cached data exists for the user.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - есть кэш, False - нет кэша.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True if a cache exists; False if it does not.</returns>
         public static bool HasCacheData(this IBotContext context)
         {
             return context.Update.HasCacheData();
         }
 
         /// <summary>
-        /// Полностью удаляет кэш пользователя из словаря.
+        /// Removes the user's cache from the dictionary entirely.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public static void RemoveCacheData(this IBotContext context)
         {
             context.Update.RemoveCacheData();
@@ -156,49 +156,49 @@ namespace PRTelegramBot.Extensions
         #region StepExtension
 
         /// <summary>
-        /// Регистрация следующего шага.
+        /// Registers the next step.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="command">Следующая команда которая должна быть выполнена.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="command">The next command that has to be executed.</param>
         public static void RegisterStepHandler(this IBotContext context, IExecuteStep command)
         {
             context.Update.RegisterStepHandler(command);
         }
 
         /// <summary>
-        /// Получает обработчик или null пользователя.
+        /// Gets the user's handler, or null.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>обработчик или null.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>the handler, or null.</returns>
         public static TExecuteStep? GetStepHandler<TExecuteStep>(this IBotContext context) where TExecuteStep : IExecuteStep
         {
             return context.Update.GetStepHandler<TExecuteStep>();
         }
 
         /// <summary>
-        /// Получить текущий обработчик шага.
+        /// Gets the current step handler.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Обработчик или null.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The handler, or null.</returns>
         public static IExecuteStep? GetStepHandler(this IBotContext context)
         {
             return context.Update.GetStepHandler();
         }
 
         /// <summary>
-        /// Очищает шаги пользователя.
+        /// Clears the user's steps.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public static void ClearStepUserHandler(this IBotContext context)
         {
             context.Update.ClearStepUserHandler();
         }
 
         /// <summary>
-        /// Проверяет есть ли шаг у пользователя.
+        /// Checks whether the user has a step registered.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - есть обработчик, False - нет обработчика.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True if a handler exists; False if it does not.</returns>
         public static bool HasStepHandler(this IBotContext context)
         {
             return context.Update.HasStepHandler();
@@ -209,21 +209,21 @@ namespace PRTelegramBot.Extensions
         #region Other
 
         /// <summary>
-        /// Получить inline команду из callback данных используя контекст бота.
+        /// Gets the inline command from the callback data using the bot context.
         /// </summary>
-        /// <param name="context">Контекст.</param>
-        /// <returns>Команда или null.</returns>
+        /// <param name="context">Context.</param>
+        /// <returns>The command, or null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(this IBotContext context)
         {
             return new InlineCallback(context).GetCommandByCallbackOrNull();
         }
 
         /// <summary>
-        /// Получить inline команду из callback данных используя контекст бота.
+        /// Gets the inline command from the callback data using the bot context.
         /// </summary>
-        /// <typeparam name="T">Тип данных.</typeparam>
-        /// <param name="context">Контекст.</param>
-        /// <returns>Команда или null.</returns>
+        /// <typeparam name="T">Data type.</typeparam>
+        /// <param name="context">Context.</param>
+        /// <returns>The command, or null.</returns>
         public static InlineCallback<T> GetCommandByCallbackOrNull<T>(this IBotContext context) 
             where T : TCommandBase
         {
@@ -231,10 +231,10 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получить аргументы слэш-команды.
+        /// Gets the arguments of the slash command.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Коллекция аргументов.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Collection of arguments.</returns>
         public static List<string> GetSlashArgs(this IBotContext context)
         {
             if(context.TryGetCustomValue<List<string>>(out var args))
@@ -244,13 +244,13 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получить аргументы слэш-команды конкретного типа.
+        /// Gets the arguments of a slash command of a specific type.
         /// </summary>
-        /// <typeparam name="T">Тип.</typeparam>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="throwOnError">Признак, что требуется выбросить исключение.</param>
-        /// <returns>Коллекция аргументов.</returns>
-        /// <exception cref="FormatException">Исключение.</exception>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="context">Bot context.</param>
+        /// <param name="throwOnError">Indicates that an exception has to be thrown.</param>
+        /// <returns>Collection of arguments.</returns>
+        /// <exception cref="FormatException">Exception.</exception>
         public static List<T> GetSlashArgs<T>(this IBotContext context, bool throwOnError = false)
         {
             var args = context.GetSlashArgs();
@@ -270,7 +270,7 @@ namespace PRTelegramBot.Extensions
                 catch (Exception ex)
                 {
                     if (throwOnError)
-                        throw new FormatException($"Не удалось преобразовать '{arg}' в тип {typeof(T).Name}.", ex);
+                        throw new FormatException($"Could not convert '{arg}' to type {typeof(T).Name}.", ex);
                 }
             }
 

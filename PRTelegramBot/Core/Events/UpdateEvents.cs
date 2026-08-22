@@ -5,145 +5,145 @@ using PRTelegramBot.Utils;
 namespace PRTelegramBot.Core.Events
 {
     /// <summary>
-    /// События обновлений.
+    /// Update events.
     /// </summary>
     public sealed class UpdateEvents
     {
-        #region События
+        #region Events
 
         /// <summary>
-        /// Событие вызывается после обработки update типа Message и CallbackQuery.
+        /// Raised after a Message or CallbackQuery update has been handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPostUpdate;
 
         /// <summary>
-        /// Событие вызывается до обработки update, может быть прекращено выполнение.
+        /// Raised before the update is handled; processing can be stopped from it.
         /// </summary>
         public event Func<BotEventArgs, Task<UpdateResult>>? OnPreUpdate;
 
         /// <summary>
-        /// Событие обновления поста в канале. 
+        /// Event raised for a channel post update. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChannelPostHandle;
 
         /// <summary>
-        /// Событие обработки запроса на присоединение к чату. 
+        /// Event raised when a chat join request is handled. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatJoinRequestHandle;
 
         /// <summary>
-        /// Событие обновления участника чата.
+        /// Event raised when a chat member is updated.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatMemberHandle;
 
         /// <summary>
-        /// Событие выбора inline результата. 
+        /// Event raised when an inline result is chosen. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChosenInlineResultHandle;
 
         /// <summary>
-        /// Событие обновления отредактированного поста в канале. 
+        /// Event raised for an edited channel post update. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnEditedChannelPostHandle;
 
         /// <summary>
-        /// Событие обновления отредактированного сообщения. 
+        /// Event raised for an edited message update. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnEditedMessageHandle;
 
         /// <summary>
-        /// Событие обработки inline запроса. 
+        /// Event raised when an inline query is handled. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnInlineQueryHandle;
 
         /// <summary>
-        /// Событие обновления моего участника чата.
+        /// Event raised when my chat member is updated.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMyChatMemberHandle;
 
         /// <summary>
-        /// Событие обновления голосования. 
+        /// Event raised when a poll is updated. 
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPollHandle;
 
         /// <summary>
-        /// Событие обновления ответа на голосование.
+        /// Event raised when a poll answer is updated.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPollAnswerHandle;
 
         /// <summary>
-        /// Событие обработки предзаказа.
+        /// Event raised when a pre-checkout query is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPreCheckoutQueryHandle;
 
         /// <summary>
-        /// Событие обработки запроса на доставку.
+        /// Event raised when a shipping query is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnShippingQueryHandle;
 
         /// <summary>
-        /// Событие вызываемое при покупке платного медиа.
+        /// Event raised when paid media is purchased.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPurchasedPaidMediaHandle;
 
         /// <summary>
-        /// Событие обновления неизвестного типа.
+        /// Event raised for an update of an unknown type.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
 
         /// <summary>
-        /// Событие вызываемое при установлении бизнес-соединения.
+        /// Event raised when a business connection is established.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnBusinessConnectionHandle;
 
         /// <summary>
-        /// Событие вызываемое при редактировании бизнес-сообщения.
+        /// Event raised when a business message is edited.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnEditedBusinessMessageHandle;
 
         /// <summary>
-        /// Событие вызываемое при бизнес-сообщение.
+        /// Event raised for a business message.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnBusinessMessageHandle;
 
         /// <summary>
-        /// Событие вызываемое при удалении бизнес-сообщений.
+        /// Event raised when business messages are deleted.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnDeletedBusinessMessagesHandle;
 
         /// <summary>
-        /// Событие вызываемое при реакции на сообщение.
+        /// Event raised on a message reaction.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessageReactionHandle;
 
         /// <summary>
-        /// Событие вызываемое при изменении количества реакций на сообщение.
+        /// Event raised when the reaction count of a message changes.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnMessageReactionCountHandle;
 
         /// <summary>
-        /// Событие вызываемое при увеличении активности в чате.
+        /// Event raised when a chat boost is added.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnChatBoostHandle;
 
         /// <summary>
-        /// Событие вызываемое при отмене увеличения активности в чате.
+        /// Event raised when a chat boost is removed.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnRemovedChatBoostHandle;
 
         /// <summary>
-        /// Событие вызываемое при обработке update callbackquery
+        /// Event raised when a callbackQuery update is handled
         /// </summary>
         public event Func<BotEventArgs, Task>? OnCallbackQueryHandle;
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPreUpdate"/> и получить результат продолжения/остановки обработки.
+        /// Raises the <see cref="OnPreUpdate"/> event and returns whether processing should continue or stop.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal async Task<UpdateResult> OnPreInvoke(BotEventArgs e)
         {
             if (HasEventOnPreUpdate())
@@ -153,80 +153,80 @@ namespace PRTelegramBot.Core.Events
         }
 
         /// <summary>
-        /// Проверить наличие подписчиков на <see cref="OnPreUpdate"/>.
+        /// Checks whether <see cref="OnPreUpdate"/> has any subscribers.
         /// </summary>
         internal bool HasEventOnPreUpdate() => OnPreUpdate is not null;
 
-        /// <summary>Вызвать событие <see cref="OnPostUpdate"/>.</summary>
+        /// <summary>Raises the <see cref="OnPostUpdate"/> event.</summary>
         internal Task OnPostInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPostUpdate, e);
 
-        /// <summary>Вызвать событие <see cref="OnChannelPostHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnChannelPostHandle"/> event.</summary>
         internal Task OnChannelPostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChannelPostHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnChatJoinRequestHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnChatJoinRequestHandle"/> event.</summary>
         internal Task OnChatJoinRequestHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatJoinRequestHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnChatMemberHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnChatMemberHandle"/> event.</summary>
         internal Task OnChatMemberHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatMemberHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnChosenInlineResultHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnChosenInlineResultHandle"/> event.</summary>
         internal Task OnChosenInlineResultHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChosenInlineResultHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnEditedChannelPostHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnEditedChannelPostHandle"/> event.</summary>
         internal Task OnEditedChannelPostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnEditedChannelPostHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnEditedMessageHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnEditedMessageHandle"/> event.</summary>
         internal Task OnEditedMessageHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnEditedMessageHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnInlineQueryHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnInlineQueryHandle"/> event.</summary>
         internal Task OnInlineQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnInlineQueryHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnMyChatMemberHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnMyChatMemberHandle"/> event.</summary>
         internal Task OnMyChatMemberHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMyChatMemberHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnPollHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnPollHandle"/> event.</summary>
         internal Task OnPollHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnPollAnswerHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnPollAnswerHandle"/> event.</summary>
         internal Task OnPollAnswerHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPollAnswerHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnPreCheckoutQueryHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnPreCheckoutQueryHandle"/> event.</summary>
         internal Task OnPreCheckoutQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPreCheckoutQueryHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnShippingQueryHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnShippingQueryHandle"/> event.</summary>
         internal Task OnShippingQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnShippingQueryHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnPurchasedPaidMediaHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnPurchasedPaidMediaHandle"/> event.</summary>
         internal Task OnPurchasedPaidMediaHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPurchasedPaidMediaHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnUnknownHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnUnknownHandle"/> event.</summary>
         internal Task OnUnknownHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnBusinessConnectionHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnBusinessConnectionHandle"/> event.</summary>
         internal Task OnBusinessConnectionHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBusinessConnectionHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnEditedBusinessMessageHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnEditedBusinessMessageHandle"/> event.</summary>
         internal Task OnEditedBusinessHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnEditedBusinessMessageHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnBusinessMessageHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnBusinessMessageHandle"/> event.</summary>
         internal Task OnBusinessMessageHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnBusinessMessageHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnDeletedBusinessMessagesHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnDeletedBusinessMessagesHandle"/> event.</summary>
         internal Task OnDeletedBusinessConnectionHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnDeletedBusinessMessagesHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnMessageReactionHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnMessageReactionHandle"/> event.</summary>
         internal Task OnMessageReactionHandleHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessageReactionHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnMessageReactionCountHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnMessageReactionCountHandle"/> event.</summary>
         internal Task OnMessageReactionCountHandleHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnMessageReactionCountHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnChatBoostHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnChatBoostHandle"/> event.</summary>
         internal Task OnChatBoostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnChatBoostHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnRemovedChatBoostHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnRemovedChatBoostHandle"/> event.</summary>
         internal Task OnRemovedChatBoostHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnRemovedChatBoostHandle, e);
 
-        /// <summary>Вызвать событие <see cref="OnCallbackQueryHandle"/>.</summary>
+        /// <summary>Raises the <see cref="OnCallbackQueryHandle"/> event.</summary>
         internal Task OnCallbackQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCallbackQueryHandle, e);
 
         #endregion

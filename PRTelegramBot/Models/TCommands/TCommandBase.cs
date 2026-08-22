@@ -4,42 +4,42 @@ using System.Text.Json.Serialization;
 namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
-    /// Базовая команда.
+    /// Base command.
     /// </summary>
     public class TCommandBase
     {
-        #region Свойства и поля
+        #region Properties and fields
 
         /// <summary>
-        /// Заголовок callback команды.
+        /// Callback command header.
         /// </summary>
         [JsonPropertyName("l")]
         public int HeaderCallbackCommand { get; set; }
 
         /// <summary>
-        /// Действие с предыдущим сообщением.
+        /// Action to perform on the previous message.
         /// </summary>
         [JsonPropertyName("a")]
         public int ActionWithLastMessage { get; set; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// получить команду нужного типа enum.
+        /// gets the command as the required enum type.
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления.</typeparam>
-        /// <returns>Команда в enum типе.</returns>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <returns>The command as an enum value.</returns>
         public TEnum GetLastCommandEnum<TEnum>() where TEnum : Enum
         {
             return (TEnum)Enum.ToObject(typeof(TEnum), HeaderCallbackCommand);
         }
 
         /// <summary>
-        /// Действие с последним сообщением.
+        /// Action to perform on the last message.
         /// </summary>
-        /// <returns>Enum что сделать с последним сообщением.</returns>
+        /// <returns>An enum describing what to do with the last message.</returns>
         public ActionWithLastMessage GetActionWithLastMessage()
         {
             return (ActionWithLastMessage)Enum.ToObject(typeof(ActionWithLastMessage), ActionWithLastMessage);
@@ -47,28 +47,28 @@ namespace PRTelegramBot.Models.CallbackCommands
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public TCommandBase()
             : this(0) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="command">Команда.</param>
+        /// <param name="command">Command.</param>
         public TCommandBase(int command)
         {
             HeaderCallbackCommand = command;
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <param name="action">Действие с последним сообщением.</param>
+        /// <param name="command">Command.</param>
+        /// <param name="action">Action to perform on the last message.</param>
         public TCommandBase(int command, ActionWithLastMessage action)
             : this (action)
         {
@@ -76,9 +76,9 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="action">Действие с последним сообщением.</param>
+        /// <param name="action">Action to perform on the last message.</param>
         public TCommandBase(ActionWithLastMessage action)
             : this(0)
         {

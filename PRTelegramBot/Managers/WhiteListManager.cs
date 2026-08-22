@@ -4,14 +4,14 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Managers
 {
     /// <summary>
-    /// Менеджер управления белым списком.
+    /// White list manager.
     /// </summary>
     public class WhiteListManager : IWhiteListManager
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Пользователи.
+        /// Users.
         /// </summary>
         private List<long> users = new List<long>();
 

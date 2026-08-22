@@ -9,10 +9,10 @@ namespace PRTelegramBot.Utils
     public class InlineUtils
     {
         /// <summary>
-        /// Создает inline кнопку.
+        /// Creates an inline button.
         /// </summary>
-        /// <param name="inlineData">Данные inline кнопки.</param>
-        /// <returns>Inline кнопка.</returns>
+        /// <param name="inlineData">Inline button data.</param>
+        /// <returns>Inline button.</returns>
         public static InlineKeyboardButton GetInlineButton(IInlineContent inlineData)
         {
             return inlineData switch
@@ -32,10 +32,10 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Создает одно inline меню из нескольких.
+        /// Merges several inline menus into one.
         /// </summary>
-        /// <param name="keyboards">Массив меню.</param>
-        /// <returns> Inline меню для бота.</returns>
+        /// <param name="keyboards">Array of menus.</param>
+        /// <returns> An inline menu for the bot.</returns>
         public static InlineKeyboardMarkup UnitInlineKeyboard(params InlineKeyboardMarkup[] keyboards)
         {
             List<IEnumerable<InlineKeyboardButton>> buttons = new();

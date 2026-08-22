@@ -4,16 +4,16 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для обработки результатов update.
+    /// Extension methods for handling update results.
     /// </summary>
     internal static class UpdateResultExtension
     {
         /// <summary>
-        /// Продолжить обработку.
+        /// Continue processing.
         /// </summary>
-        /// <param name="result">Результат update.</param>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - продолжить, False - нет.</returns>
+        /// <param name="result">The update result.</param>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True to continue; False otherwise.</returns>
         public static bool IsContinueHandle(this UpdateResult result, IBotContext context)
         {
             if (result == UpdateResult.Error)

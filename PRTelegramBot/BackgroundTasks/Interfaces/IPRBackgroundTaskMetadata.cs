@@ -3,57 +3,57 @@
 namespace PRTelegramBot.BackgroundTasks.Interfaces
 {
     /// <summary>
-    /// Интерфейс метаданных фоновой задачи.
-    /// Содержит информацию, необходимую для планирования и управления выполнением задачи
-    /// без описания её бизнес-логики.
+    /// Interface for background task metadata.
+    /// Holds the information needed to schedule the task and control how it runs
+    /// without describing its business logic.
     /// </summary>
     public interface IPRBackgroundTaskMetadata
     {
         /// <summary>
-        /// Идентификаторы ботов, для которых предназначена фоновая задача.
-        /// Необязательный параметр.
-        /// Используется для разграничения фоновых задач для разных ботов при работе через DI.
-        /// Пустая коллекция или наличие значения <see cref="PRConstants.ALL_BOTS_ID"/>
-        /// означает, что задача применяется ко всем ботам.
+        /// Identifiers of the bots the background task is intended for.
+        /// An optional parameter.
+        /// Used to separate background tasks per bot when working through DI.
+        /// An empty collection, or the presence of <see cref="PRConstants.ALL_BOTS_ID"/>,
+        /// means the task applies to every bot.
         /// </summary>
         HashSet<long> BotIds { get; }
 
         /// <summary>
-        /// Уникальный идентификатор фоновой задачи.
-        /// Используется для сопоставления метаданных и реализации задачи.
+        /// Unique identifier of the background task.
+        /// Used to match the metadata with the task implementation.
         /// </summary>
         Guid Id { get; }
 
         /// <summary>
-        /// Уникальное имя фоновой задачи.
-        /// Используется для логирования, диагностики и идентификации задачи.
+        /// Unique name of the background task.
+        /// Used for logging, diagnostics and identifying the task.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Задержка перед первым запуском фоновой задачи в секундах.
-        /// Значение <c>null</c> или значение меньше либо равное 0 означает немедленный запуск.
+        /// Delay in seconds before the background task runs for the first time.
+        /// A value of <c>null</c>, or a value less than or equal to 0, means the task starts immediately.
         /// </summary>
         int? InitialDelaySeconds { get; }
 
         /// <summary>
-        /// Интервал повторного выполнения фоновой задачи в секундах.
-        /// Минимальный интервал повторения всегда будет 1 секунда.
+        /// Interval in seconds at which the background task repeats.
+        /// The minimum repeat interval is always 1 second.
         /// </summary>
         int? RepeatSeconds { get; }
 
         /// <summary>
-        /// Максимальное количество запусков фоновой задачи
-        /// (включая успешные и неуспешные попытки).
-        /// Значение <c>null</c> или <c>-1</c> означает неограниченное количество запусков.
+        /// Maximum number of runs of the background task
+        /// (including both successful and failed attempts).
+        /// A value of <c>null</c> or <c>-1</c> means an unlimited number of runs.
         /// </summary>
         int? MaxRepeatCount { get; }
 
         /// <summary>
-        /// Максимальное количество попыток выполнения фоновой задачи при ошибках
-        /// (включая первый запуск).
-        /// Значение <c>null</c> или <c>-1</c> означает отсутствие ограничения.
-        /// Значение 1 означает однократное выполнение без повторных попыток при ошибке.
+        /// Maximum number of attempts to run the background task when errors occur
+        /// (including the first run).
+        /// A value of <c>null</c> or <c>-1</c> means no limit.
+        /// A value of 1 means a single run with no retries on error.
         /// </summary>
         int? MaxErrorAttempts { get; }
     }

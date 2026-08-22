@@ -3,32 +3,32 @@
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Обертка над <see cref="IServiceScope"/>, обеспечивающая безопасное освобождение ресурсов.
+    /// A wrapper around <see cref="IServiceScope"/> that makes releasing resources safe.
     /// </summary>
     /// <remarks>
-    /// Используется для управления временем жизни scope при работе с Dependency Injection.
-    /// Гарантирует однократный вызов <see cref="Dispose"/> даже при повторном освобождении.
+    /// Used to manage the scope lifetime when working with Dependency Injection.
+    /// Guarantees that <see cref="Dispose"/> is called only once, even on repeated disposal.
     /// </remarks>
     public sealed class DisposableScope : IDisposable
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Провайдер сервисов, связанный с текущим scope.
+        /// The service provider bound to the current scope.
         /// </summary>
         /// <remarks>
-        /// Используется для разрешения зависимостей с жизненным циклом <c>Scoped</c>.
-        /// Может быть <c>null</c>, если <see cref="IServiceScope"/> не был передан.
+        /// Used to resolve dependencies with a <c>Scoped</c> lifetime.
+        /// May be <c>null</c> if no <see cref="IServiceScope"/> was supplied.
         /// </remarks>
         public IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// Внутренний scope Dependency Injection.
+        /// The internal Dependency Injection scope.
         /// </summary>
         private readonly IServiceScope scope;
 
         /// <summary>
-        /// Флаг, указывающий, что объект уже был освобожден.
+        /// Flag indicating that the object has already been disposed.
         /// </summary>
         private bool disposed;
 
@@ -48,12 +48,12 @@ namespace PRTelegramBot.Models
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="scope">Scope, созданный через <see cref="IServiceScopeFactory"/>.</param>
+        /// <param name="scope">The scope created through <see cref="IServiceScopeFactory"/>.</param>
         public DisposableScope(IServiceScope scope)
         {
             this.scope = scope;

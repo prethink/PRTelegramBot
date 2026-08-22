@@ -3,17 +3,17 @@
 namespace FastBotTemplateConsole.Models.Enums
 {
     /// <summary>
-    /// Типы сообщения для рекламы
+    /// Message types for ads
     /// </summary>
     public enum MessageType
     {
-        [Description("Текст")]
+        [Description("Text")]
         Text = 0,
-        [Description("Фото")]
+        [Description("Photo")]
         Photo,
-        [Description("Видео")]
+        [Description("Video")]
         Video,
-        [Description("Документ")]
+        [Description("Document")]
         Document,
     }
 }

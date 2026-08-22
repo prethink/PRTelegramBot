@@ -8,13 +8,13 @@ using Telegram.Bot.Types;
 namespace ConsoleExample.Examples.InlineClassHandlers
 {
     /// <summary>
-    /// Пример класса обработки inline команды.
+    /// Example of a class that handles an inline command.
     /// </summary>
     public class InlineDefaultClassHandler : ICallbackQueryCommandHandler
     {
-        #region Константы
+        #region Constants
 
-        public const string TEST_ADD_MESSAGE = "Данные из класса, здесь может быть какая-нибудь обработка...";
+        public const string TEST_ADD_MESSAGE = "Data from the class; some processing could happen here...";
 
         #endregion
 

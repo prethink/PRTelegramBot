@@ -16,37 +16,37 @@ namespace ConsoleExample.Examples
 {
     public class ExamplePage
     {
-        //Тестовые данные 1
+        //Test data 1
         static List<string> pageData = new List<string>()
         {
-            "Данные страница 1",
-            "Данные страница 2",
-            "Данные страница 3",
-            "Данные страница 4",
-            "Данные страница 5"
+            "Data page 1",
+            "Data page 2",
+            "Data page 3",
+            "Data page 4",
+            "Data page 5"
         };
 
-        //Тестовые данные 2
+        //Test data 2
         static List<string> pageDataTwo = new List<string>()
         {
-            "TestДанные страница 1",
-            "TestДанные страница 2",
-            "TestДанные страница 3",
-            "TestДанные страница 4",
-            "TestДанные страница 5"
+            "TestData page 1",
+            "TestData page 2",
+            "TestData page 3",
+            "TestData page 4",
+            "TestData page 5"
         };
 
         /// <summary>
-        /// Напишите в чате "pages"
+        /// Send "pages" in the chat
         /// </summary>
         [ReplyMenuHandler("pages")]
         public static async Task ExamplePages(IBotContext context)
         {
-            //Беру текст для первого сообщения
+            //Take the text for the first message
             string msg = pageData[0];
-            //Получаю контент с 1 страницы с размером страницы 1
+            //Get the content of page 1 with a page size of 1
             var data = await pageData.GetPaged<string>(1, 1);
-            //Генерирую меню постраничного вывода с заголовком
+            //Generate the paginated menu with a header
             var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
@@ -54,16 +54,16 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Напишите в чате "pagestwo"
+        /// Send "pagestwo" in the chat
         /// </summary>
         [ReplyMenuHandler("pagestwo")]
         public static async Task ExamplePagesTwo(IBotContext context)
         {
-            //Беру текст для первого сообщения
+            //Take the text for the first message
             string msg = pageDataTwo[0];
-            //Получаю контент с 1 страницы с размером страницы 1
+            //Get the content of page 1 with a page size of 1
             var data = await pageDataTwo.GetPaged<string>(1, 1);
-            //Генерирую меню постраничного вывода с заголовком
+            //Generate the paginated menu with a header
             var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader2);
             var option = new OptionMessage();
             option.MenuInlineKeyboardMarkup = generateMenu;
@@ -72,31 +72,31 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// callback обработка постраничного вывода
-        /// Обрабатывает одну точку входа
+        /// callback handling for paginated output
+        /// Handles a single entry point
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRTelegramBotCommand.NextPage, PRTelegramBotCommand.PreviousPage, PRTelegramBotCommand.CurrentPage)]
         public static async Task InlinenPage(IBotContext context)
         {
             try
             {
-                //Попытка преобразовать callback данные к требуемому типу
+                //Try to convert the callback data to the required type
                 if (context.Update.CallbackQuery?.Data != null)
                 {
                     var command = context.GetCommandByCallbackOrNull<PageTCommand>();
                     if (command != null)
                     {
-                        //Получаю заголовок из данных
+                        //Get the header out of the data
                         CustomTHeaderTwo header = (CustomTHeaderTwo)command.Data.Header;
-                        //обрабатываю данные по заголовку
+                        //handle the data by its header
                         if(header == CustomTHeaderTwo.CustomPageHeader)
                         {
-                            //Получаю номер страницы и указываю размер страницы
+                            //Get the page number and set the page size
                             var data = await pageData.GetPaged<string>(command.Data.Page, 1);
-                            //Генерирую постраничное меню
+                            //Generate the paginated menu
                             var button = new InlineCallback("⭐", CustomTHeader.CustomButton);
                             var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader, button: button);
-                            //Получаю результат из постраничного вывода
+                            //Get the result of the paginated output
                             var pageResult = data.Results;
                             var option = new OptionMessage();
                             option.MenuInlineKeyboardMarkup = generateMenu;
@@ -107,19 +107,19 @@ namespace ConsoleExample.Examples
                             }
                             else
                             {
-                                msg = "Нечего не найдено";
+                                msg = "Nothing was found";
                             }
-                            //Редактирую текущую страницу
+                            //Edit the current page
                             await MessageEditor.Edit(context, msg, option);
                         }
-                        //обрабатываю данные по заголовку
+                        //handle the data by its header
                         else if (header == CustomTHeaderTwo.CustomPageHeader2)
                         {
-                            //Получаю номер страницы и указываю размер страницы
+                            //Get the page number and set the page size
                             var data = await pageDataTwo.GetPaged<string>(command.Data.Page, 1);
-                            //Генерирую постраничное меню
+                            //Generate the paginated menu
                             var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader2);
-                            //Получаю результат из постраничного вывода
+                            //Get the result of the paginated output
                             var pageResult = data.Results;
                             var option = new OptionMessage();
                             option.MenuInlineKeyboardMarkup = generateMenu;
@@ -130,9 +130,9 @@ namespace ConsoleExample.Examples
                             }
                             else
                             {
-                                msg = "Нечего не найдено";
+                                msg = "Nothing was found";
                             }
-                            //Редактирую текущую страницу
+                            //Edit the current page
                             await MessageEditor.Edit(context, msg, option);
                         }
                     }
@@ -141,37 +141,37 @@ namespace ConsoleExample.Examples
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                //Exception handling
             }
         }
 
         [InlineCallbackHandler<CustomTHeader>(CustomTHeader.CustomButton)]
         public static async Task FavoriteMessage(IBotContext context)
         {
-            string msg = "Меню";
-            //Создаем настройки сообщения
+            string msg = "Menu";
+            //Create the message options
             var option = new OptionMessage();
-            //Создаем список для меню
+            //Create the list for the menu
             var menuList = new List<KeyboardButton>();
-            //Добавляем кнопку с текстом
-            menuList.Add(new KeyboardButton("Кнопка 1"));
-            //Добавляем кнопку с запросом на контакт пользователя
-            menuList.Add(KeyboardButton.WithRequestContact("Отправить свой контакт"));
-            //Добавляем кнопку с запросом на локацию пользователя
-            menuList.Add(KeyboardButton.WithRequestLocation("Отправить свою локацию"));
-            //Добавляем кнопку с запросом отправки чата боту
-            menuList.Add(KeyboardButton.WithRequestChat("Отправить группу боту", new KeyboardButtonRequestChat(2, true) ));
-            //Добавляем кнопку с запросом отправки пользователя боту
-            menuList.Add(KeyboardButton.WithRequestUsers("Отправить пользователя боту", new KeyboardButtonRequestUsers() { RequestId = 1 }));
-            //Добавляем кнопку с отправкой опроса
-            menuList.Add(KeyboardButton.WithRequestPoll("Отправить свою голосование", new KeyboardButtonPollType()));
-            //Добавляем кнопку с запросом работы с WebApp
+            //Add a button with text
+            menuList.Add(new KeyboardButton("Button 1"));
+            //Add a button that requests the user's contact
+            menuList.Add(KeyboardButton.WithRequestContact("Share my contact"));
+            //Add a button that requests the user's location
+            menuList.Add(KeyboardButton.WithRequestLocation("Share my location"));
+            //Add a button that requests a chat to be sent to the bot
+            menuList.Add(KeyboardButton.WithRequestChat("Send a group to the bot", new KeyboardButtonRequestChat(2, true) ));
+            //Add a button that requests a user to be sent to the bot
+            menuList.Add(KeyboardButton.WithRequestUsers("Send a user to the bot", new KeyboardButtonRequestUsers() { RequestId = 1 }));
+            //Add a button that sends a poll
+            menuList.Add(KeyboardButton.WithRequestPoll("Send a poll", new KeyboardButtonPollType()));
+            //Add a button that opens a WebApp
             menuList.Add(KeyboardButton.WithWebApp("WebApp", new WebAppInfo() { Url = "https://prethink.github.io/telegram/webapp.html" }));
 
-            //Генерируем reply меню
-            //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
-            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
-            //Добавляем в настройки меню
+            //Generate the reply menu
+            //1 column, the collection of menu items, vertical menu stretching, the item pinned at the very bottom by default
+            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Main menu");
+            //Add the menu to the options
             option.MenuReplyKeyboardMarkup = menu;
             await MessageSender.Send(context, msg, option);
         }

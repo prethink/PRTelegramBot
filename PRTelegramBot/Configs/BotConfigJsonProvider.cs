@@ -5,16 +5,16 @@ using System.Text.Json;
 namespace PRTelegramBot.Configs
 {
     /// <summary>
-    /// Провайдер работы с конфигурационными json файлами.
+    /// Provider that works with json configuration files.
     /// </summary>
     public sealed class BotConfigJsonProvider : IBotConfigProvider
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         private IConfigurationRoot configuration { get; set; }
 
         /// <summary>
-        /// Путь до json файла.
+        /// Path to the json file.
         /// </summary>
         private string configPath { get; set; }
 
@@ -62,17 +62,17 @@ namespace PRTelegramBot.Configs
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public BotConfigJsonProvider() { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="configPath">Путь до json файла.</param>
+        /// <param name="configPath">Path to the json file.</param>
         public BotConfigJsonProvider(string configPath)
         {
             SetConfigPath(configPath);

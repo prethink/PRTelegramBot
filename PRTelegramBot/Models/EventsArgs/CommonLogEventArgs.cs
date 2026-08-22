@@ -3,35 +3,35 @@
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы события простых логов.
+    /// Event arguments for plain logs.
     /// </summary>
     public class CommonLogEventArgs : BotEventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Сообщение.
+        /// Message.
         /// </summary>
         public string Message { get; private set; }
 
         /// <summary>
-        /// Тип.
+        /// Type.
         /// </summary>
         public string Type { get; private set; }
 
         /// <summary>
-        /// Цвет.
+        /// Color.
         /// </summary>
         public ConsoleColor Color { get; private set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст.</param>
+        /// <param name="context">Context.</param>
         public CommonLogEventArgs(IBotContext context, CommonLogEventArgsCreator e) : base(context)
         {
             this.Message = e.Message;

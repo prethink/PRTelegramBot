@@ -11,11 +11,11 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Бот для работы через webhook.
+    /// A bot that works over a webhook.
     /// </summary>
     public sealed class PRBotWebHook : PRBotBase
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.WebHook;
@@ -71,7 +71,7 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         internal PRBotWebHook(TelegramOptions options)
             : base(null, options) { }

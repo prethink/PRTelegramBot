@@ -3,20 +3,20 @@
 namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Пример привилегии пользователя.
+    /// Example of a user privilege.
     /// </summary>
     [Flags]
     public enum UserPrivilege
     {
-        [Description("Гость")]
+        [Description("Guest")]
         Guest = 1,
-        [Description("Зарегистрированный")]
+        [Description("Registered")]
         Registered = 2,
-        [Description("Администратор")]
+        [Description("Administrator")]
         Admin = 4,
         [Description("VIP")]
         VIP = 8,
-        [Description("Модератор")]
+        [Description("Moderator")]
         Moderator = 16,
     }
 }

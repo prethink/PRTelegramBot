@@ -6,24 +6,24 @@ namespace PRTelegramBot.Models.Logger
 {
 
     /// <summary>
-    /// Логер на основе событий бота.
-    /// Используется для обратной совместимости со старой системой логирования,
-    /// основанной на событиях <see cref="PRBotBase.Events"/>.
+    /// A logger built on top of the bot's events.
+    /// Kept for backward compatibility with the old logging system,
+    /// which is built on the <see cref="PRBotBase.Events"/> events.
     /// </summary>
-    /// <typeparam name="T">Категория логера.</typeparam>
-    [Obsolete("Устаревший вариант логирования. Создан для обратной совместимости.")]
+    /// <typeparam name="T">Logger category.</typeparam>
+    [Obsolete("Obsolete logging approach. Kept for backward compatibility.")]
     public class PRLoggerEvents<T> : ILogger<T>
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Экземпляр бота, через события которого выполняется логирование.
+        /// The bot instance whose events the logging goes through.
         /// </summary>
         private readonly PRBotBase bot;
 
         /// <summary>
-        /// Название категории логирования.
-        /// Используется при вызове событий общего логирования.
+        /// Name of the logging category.
+        /// Used when raising the general logging events.
         /// </summary>
         private readonly string categoryName;
 
@@ -79,13 +79,13 @@ namespace PRTelegramBot.Models.Logger
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Логирует сообщение об ошибке через событие бота.
+        /// Logs an error message through the bot's event.
         /// </summary>
-        /// <param name="message">Текст сообщения.</param>
-        /// <param name="exception">Исключение (если есть).</param>
+        /// <param name="message">Message text.</param>
+        /// <param name="exception">Exception, if any.</param>
         private void LogError(string message, Exception? exception)
         {
             if (exception != null)
@@ -95,27 +95,27 @@ namespace PRTelegramBot.Models.Logger
         }
 
         /// <summary>
-        /// Логирует предупреждение.
+        /// Logs a warning.
         /// </summary>
-        /// <param name="message">Текст сообщения.</param>
+        /// <param name="message">Message text.</param>
         private void LogWarning(string message)
         {
             bot.Events.OnCommonLogInvoke(message, categoryName, ConsoleColor.Yellow);
         }
 
         /// <summary>
-        /// Логирует информационное сообщение.
+        /// Logs an informational message.
         /// </summary>
-        /// <param name="message">Текст сообщения.</param>
+        /// <param name="message">Message text.</param>
         private void LogInformation(string message)
         {
             bot.Events.OnCommonLogInvoke(message, categoryName, ConsoleColor.White);
         }
 
         /// <summary>
-        /// Логирует отладочное сообщение.
+        /// Logs a debug message.
         /// </summary>
-        /// <param name="message">Текст сообщения.</param>
+        /// <param name="message">Message text.</param>
         private void LogDebug(string message)
         {
             bot.Events.OnCommonLogInvoke(message, categoryName, ConsoleColor.DarkGray);
@@ -123,13 +123,13 @@ namespace PRTelegramBot.Models.Logger
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Создаёт экземпляр событийного логера для указанного бота.
+        /// Creates an event-based logger instance for the specified bot.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
-        /// <exception cref="ArgumentNullException">Если bot равен null.</exception>
+        /// <param name="bot">Bot instance.</param>
+        /// <exception cref="ArgumentNullException">Thrown when bot is null.</exception>
         public PRLoggerEvents(PRBotBase bot)
         {
             this.bot = bot ?? throw new ArgumentNullException(nameof(bot));

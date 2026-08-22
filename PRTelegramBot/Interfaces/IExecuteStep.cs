@@ -3,37 +3,37 @@
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс пошагового выполнения команд.
+    /// Interface for step-by-step command execution.
     /// </summary>
     public interface IExecuteStep
     {
         /// <summary>
-        /// Игнорировать базовые команды при выполнение шагов.
+        /// Ignore the basic commands while steps are running.
         /// </summary>
         public bool IgnoreBasicCommands { get; set; }
 
         /// <summary>
-        /// Это последний шаг завершен.
+        /// Whether this was the last step and it has completed.
         /// </summary>
         public bool LastStepExecuted { get; set; }
 
         /// <summary>
-        /// Получить ссылку на метод, который нужно выполнить.
+        /// Gets the reference to the method that has to be executed.
         /// </summary>
-        /// <returns>Метод для выполнения.</returns>
+        /// <returns>The method to execute.</returns>
         Func<IBotContext, Task> GetExecuteMethod();
 
         /// <summary>
-        /// Выполнить команду.
+        /// Executes the command.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Результат выполнения команды.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The command execution result.</returns>
         Task<ExecuteStepResult> ExecuteStep(IBotContext context);
 
         /// <summary>
-        /// Может ли быть выполнен шаг
+        /// Whether the step can be executed
         /// </summary>
-        /// <returns>True - да/False - нет.</returns>
+        /// <returns>True for yes / False for no.</returns>
         bool CanExecute();
     }
 }

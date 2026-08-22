@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Варианты времени жизни сервиса.
+/// The available service lifetimes.
 /// </summary>
 public enum TestServiceLifetime
 {
@@ -90,7 +90,7 @@ public sealed class TestServiceProvider :
 
     public object? GetService(Type serviceType)
     {
-        // 🔥 IServiceScopeFactory должен резолвиться всегда
+        // 🔥 IServiceScopeFactory must always resolve
         if (serviceType == typeof(IServiceScopeFactory))
             return this;
 
@@ -105,7 +105,7 @@ public sealed class TestServiceProvider :
         if (!descriptors.TryGetValue(serviceType, out var list))
             return null;
 
-        // ASP.NET DI: возвращается ПОСЛЕДНЯЯ регистрация
+        // ASP.NET DI: the LAST registration is returned
         return Resolve(list.Last());
     }
 

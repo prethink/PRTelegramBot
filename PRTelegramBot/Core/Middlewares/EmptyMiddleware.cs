@@ -2,7 +2,7 @@
 {
     internal class EmptyMiddleware : MiddlewareBase
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override int ExecutionOrder => 0;

@@ -9,11 +9,11 @@ using System.Reflection;
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Исполнитель для callbackQuery команд.
+    /// Executor for callbackQuery commands.
     /// </summary>
     internal sealed class ExecutorCallbackQueryCommand : ExecutorCommandBase<Enum>
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override CommandType CommandType => CommandType.Inline;
@@ -73,12 +73,12 @@ namespace PRTelegramBot.Core.Executors
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorCallbackQueryCommand(PRBotBase bot) : base(bot) { }
 
         #endregion

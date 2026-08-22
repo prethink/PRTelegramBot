@@ -3,124 +3,124 @@
 namespace PRTelegramBot.Core.Events
 {
     /// <summary>
-    /// События для команд.
+    /// Events for the commands.
     /// </summary>
     public sealed class CommandsEvents
     {
-        #region События
+        #region Events
 
         /// <summary>
-        /// Событие до обработки reply команды.
+        /// Event raised before a reply command is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPreReplyCommandHandle;
 
         /// <summary>
-        /// Событие после обработки reply команды.
+        /// Event raised after a reply command has been handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPostReplyCommandHandle;
 
         /// <summary>
-        /// Событие до обработки dynamic reply команды.
+        /// Event raised before a dynamic reply command is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPreDynamicReplyCommandHandle;
 
         /// <summary>
-        /// Событие после обработки dynamic reply команды.
+        /// Event raised after a dynamic reply command has been handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPostDynamicReplyCommandHandle;
 
         /// <summary>
-        /// Событие до обработки slash команды.
+        /// Event raised before a slash command is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPreSlashCommandHandle;
 
         /// <summary>
-        /// Событие после обработки slash команды.
+        /// Event raised after a slash command has been handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPostSlashCommandHandle;
 
         /// <summary>
-        /// Событие до обработки inline команды.
+        /// Event raised before an inline command is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPreInlineCommandHandle;
 
         /// <summary>
-        /// Событие после обработки inline команды.
+        /// Event raised after an inline command has been handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPostInlineCommandHandle;
 
         /// <summary>
-        /// Событие до обработки next step команды.
+        /// Event raised before a next step command is handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPreNextStepCommandHandle;
 
         /// <summary>
-        /// Событие после обработки next step команды.
+        /// Event raised after a next step command has been handled.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPostNextStepCommandHandle;
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPreReplyCommandHandle"/>.
+        /// Raises the <see cref="OnPreReplyCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPreReplyCommandHandleInvoke(BotEventArgs e) => OnPreReplyCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPostReplyCommandHandle"/>.
+        /// Raises the <see cref="OnPostReplyCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPostReplyCommandHandleInvoke(BotEventArgs e) => OnPostReplyCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPreDynamicReplyCommandHandle"/>.
+        /// Raises the <see cref="OnPreDynamicReplyCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPreDynamicReplyCommandHandleInvoke(BotEventArgs e) => OnPreDynamicReplyCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPostDynamicReplyCommandHandle"/>.
+        /// Raises the <see cref="OnPostDynamicReplyCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPostDynamicReplyCommandHandleInvoke(BotEventArgs e) => OnPostDynamicReplyCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPreSlashCommandHandle"/>.
+        /// Raises the <see cref="OnPreSlashCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPreSlashCommandHandleInvoke(BotEventArgs e) => OnPreSlashCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPostSlashCommandHandle"/>.
+        /// Raises the <see cref="OnPostSlashCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPostSlashCommandHandleInvoke(BotEventArgs e) => OnPostSlashCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPreInlineCommandHandle"/>.
+        /// Raises the <see cref="OnPreInlineCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPreInlineCommandHandleInvoke(BotEventArgs e) => OnPreInlineCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPostInlineCommandHandle"/>.
+        /// Raises the <see cref="OnPostInlineCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPostInlineCommandHandleInvoke(BotEventArgs e) => OnPostInlineCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPreNextStepCommandHandle"/>.
+        /// Raises the <see cref="OnPreNextStepCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPreNextStepCommandHandleInvoke(BotEventArgs e) => OnPreNextStepCommandHandle?.Invoke(e);
 
         /// <summary>
-        /// Вызвать событие <see cref="OnPostNextStepCommandHandle"/>.
+        /// Raises the <see cref="OnPostNextStepCommandHandle"/> event.
         /// </summary>
-        /// <param name="e">Аргументы события.</param>
+        /// <param name="e">Event arguments.</param>
         internal void OnPostNextStepCommandHandleInvoke(BotEventArgs e) => OnPostNextStepCommandHandle?.Invoke(e);
 
         #endregion

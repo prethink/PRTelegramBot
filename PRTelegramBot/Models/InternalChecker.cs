@@ -4,14 +4,14 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Класс для хранения типа команд и их проверок.
+    /// Class that stores a command type together with its checks.
     /// </summary>
     public class InternalChecker
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Для какого типа команд проверка.
+        /// Which command type the check applies to.
         /// </summary>
         public List<CommandType> CommandTypes { get; private set; } = new();
 
@@ -20,19 +20,19 @@ namespace PRTelegramBot.Models
         #region IInternalCheck
 
         /// <summary>
-        /// Класс который будет выполнять проверку.
+        /// The class that will perform the check.
         /// </summary>
         public IInternalCheck Checker { get; private set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commandType">Тип команды.</param>
-        /// <param name="checker">Чекер.</param>
+        /// <param name="commandType">Command type.</param>
+        /// <param name="checker">Checker.</param>
         public InternalChecker(CommandType commandType, IInternalCheck checker)
         {
             this.CommandTypes.Add(commandType);
@@ -40,10 +40,10 @@ namespace PRTelegramBot.Models
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commandTypes">Типы команд.</param>
-        /// <param name="checker">Чекер.</param>
+        /// <param name="commandTypes">Command types.</param>
+        /// <param name="checker">Checker.</param>
         public InternalChecker(List<CommandType> commandTypes, IInternalCheck checker)
         {
             this.CommandTypes.AddRange(commandTypes);

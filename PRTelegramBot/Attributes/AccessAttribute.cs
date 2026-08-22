@@ -1,25 +1,25 @@
 ﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут для проверки прав доступа на запуск методов.
+    /// Attribute that checks access rights for running methods.
     /// </summary>
     public class AccessAttribute : Attribute
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Маска доступа.
+        /// Access mask.
         /// </summary>
         public int Mask { get; private set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="mask">Маска доступа.</param>
+        /// <param name="mask">Access mask.</param>
         public AccessAttribute(int mask)
         {
             Mask = mask;

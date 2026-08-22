@@ -6,45 +6,45 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс контекста бота.
+    /// Interface of the bot context.
     /// </summary>
     public interface IBotContext
     {
         /// <summary>
-        /// Все экземпляры ботов.
+        /// All bot instances.
         /// </summary>
         public IEnumerable<PRBotBase> Bots { get; }
 
         /// <summary>
-        /// Экземпляр бота.
+        /// Bot instance.
         /// </summary>
         public PRBotBase Current { get; }
 
         /// <summary>
-        /// Клиент Telegram.Bot.
+        /// The Telegram.Bot client.
         /// </summary>
         public ITelegramBotClient BotClient { get; }
 
         /// <summary>
-        /// Обновление.
+        /// Update.
         /// </summary>
         public Update Update { get; }
 
         /// <summary>
-        /// Текущий тип обновления.
+        /// The current update type.
         /// </summary>
         public UpdateType CurrentUpdateType { get; }
 
         /// <summary>
-        /// Токен отмены.
+        /// Cancellation token.
         /// </summary>
         public CancellationToken CancellationToken { get; }
 
         /// <summary>
-        /// Попытаться получить кастомное значени.
+        /// Tries to get a custom value.
         /// </summary>
-        /// <typeparam name="T">Тип.</typeparam>
-        /// <returns>True если значение есть.</returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <returns>True if the value is present.</returns>
         public bool TryGetCustomValue<T>(out T? value);
     }
 }

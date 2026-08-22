@@ -10,18 +10,18 @@ namespace PRTelegramBot.Services.Media
 {
     public class MediaEditor
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Редактирование фото. 
+        /// Edits a photo. 
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="stream">Поток.</param>
-        /// <param name="filename">Название файла.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="stream">Stream.</param>
+        /// <param name="filename">File name.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Telegram.Bot.Types.Message> EditPhoto(IBotContext context, long chatId, int messageId, Stream stream, string filename = "file", OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -36,15 +36,15 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Редактировать inline меню вместе с фото.
+        /// Edits the inline menu together with the photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="media">Медиа.</param>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="media">Media.</param>
+        /// <param name="option">Message parameters.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> EditWithPhoto(IBotContext context, long chatId, int messageId, string text, InputMedia media, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -72,14 +72,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Редактирование фото.
+        /// Edits a photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="photoPath">Путь к фото.</param>
-        /// <param name="option">Настройка сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="photoPath">Path to the photo.</param>
+        /// <param name="option">Message setting.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> EditPhoto(IBotContext context, long chatId, int messageId, string photoPath, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -92,14 +92,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Редактировать текст под фото.
+        /// Edits the caption under the photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="messageId">Идентификатор сообщения.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="option">Параметры сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="messageId">Message identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="option">Message parameters.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> EditCaption(IBotContext context, long chatId, int messageId, string text, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);

@@ -3,23 +3,23 @@
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Исполнитель slash команд.
+    /// Executor for slash commands.
     /// </summary>
     internal sealed class ExecutorSlashCommand : ExecutorMessageCommand
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override CommandType CommandType => CommandType.Slash;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorSlashCommand(PRBotBase bot) : base(bot) { }
 
         #endregion

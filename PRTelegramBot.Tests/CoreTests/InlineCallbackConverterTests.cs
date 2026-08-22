@@ -43,7 +43,7 @@ namespace PRTelegramBot.Tests.CoreTests
             using (var botData = new BotDataScope(context, botInstance))
             {
                 var exceptedCommandType = PRTelegramBotCommand.PickYear;
-                var command = new InlineCallback<EntityTCommand<long>>("Пример 2", exceptedCommandType, new EntityTCommand<long>(exceptedLong, exceptedCommandId));
+                var command = new InlineCallback<EntityTCommand<long>>("Example 2", exceptedCommandType, new EntityTCommand<long>(exceptedLong, exceptedCommandId));
                 var json = command.GetContent() as string;
                 var exportCommand = InlineCallback<EntityTCommand<long>>.GetCommandByCallbackOrNull(json);
 
@@ -62,7 +62,7 @@ namespace PRTelegramBot.Tests.CoreTests
             using (var botData = new BotDataScope(context, botInstance))
             {
                 var exceptedCommandType = PRTelegramBotCommand.PickYear;
-                var command = new InlineCallback<EntityTCommand<string>>("Пример 2", exceptedCommandType, new EntityTCommand<string>(exceptedString, exceptedCommandId));
+                var command = new InlineCallback<EntityTCommand<string>>("Example 2", exceptedCommandType, new EntityTCommand<string>(exceptedString, exceptedCommandId));
                 var json = command.GetContent() as string;
                 var exportCommand = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(json);
 
@@ -81,7 +81,7 @@ namespace PRTelegramBot.Tests.CoreTests
             using (var botData = new BotDataScope(context, botInstance))
             {
                 var exceptedCommandType = PRTelegramBotCommand.PickYear;
-                var command = new InlineCallback<PageTCommand>("Пример 2", exceptedCommandType, new PageTCommand(exceptedPage, PRTelegramBotCommand.None, exceptedCommandId));
+                var command = new InlineCallback<PageTCommand>("Example 2", exceptedCommandType, new PageTCommand(exceptedPage, PRTelegramBotCommand.None, exceptedCommandId));
                 var json = command.GetContent() as string;
                 var exportCommand = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(json);
 
@@ -100,7 +100,7 @@ namespace PRTelegramBot.Tests.CoreTests
             using (var botData = new BotDataScope(context, botInstance))
             {
                 var exceptedCommandType = PRTelegramBotCommand.PickYear;
-                var command = new InlineCallback<TCommandBase>("Пример 2", exceptedCommandType, new TCommandBase(exceptedCommandId));
+                var command = new InlineCallback<TCommandBase>("Example 2", exceptedCommandType, new TCommandBase(exceptedCommandId));
                 var json = command.GetContent() as string;
                 var exportCommand = InlineCallback<TCommandBase>.GetCommandByCallbackOrNull(json);
 
@@ -119,7 +119,7 @@ namespace PRTelegramBot.Tests.CoreTests
         {
             using (var botData = new BotDataScope(context, botInstance))
             {
-                var command = new InlineCallback("Пример 2", exceptedCommand);
+                var command = new InlineCallback("Example 2", exceptedCommand);
                 var json = command.GetContent() as string;
 
                 var exportCommand = InlineCallback.GetCommandByCallbackOrNull(json);
@@ -138,7 +138,7 @@ namespace PRTelegramBot.Tests.CoreTests
             {
                 int exceptedCommandId = 5;
                 var exceptedCommandType = PRTelegramBotCommand.PickYear;
-                var command = new InlineCallback<CalendarTCommand>("Тест", exceptedCommandType, new CalendarTCommand(exceptedDate, exceptedCommandId));
+                var command = new InlineCallback<CalendarTCommand>("Test", exceptedCommandType, new CalendarTCommand(exceptedDate, exceptedCommandId));
                 var json = command.GetContent() as string;
 
                 var exportCommand = InlineCallback<CalendarTCommand>.GetCommandByCallbackOrNull(json);

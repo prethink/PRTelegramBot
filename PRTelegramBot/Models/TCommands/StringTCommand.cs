@@ -5,26 +5,26 @@ using System.Text.Json.Serialization;
 namespace PRTelegramBot.Models.TCommands
 {
     /// <summary>
-    /// Строковые данные для команд.
+    /// String data for commands.
     /// </summary>
     public class StringTCommand : TCommandBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Текстовые данные.
+        /// Text data.
         /// </summary>
         [JsonPropertyName("1")]
         public string StrData { get; set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="data">Идентификатор сущности.</param>
+        /// <param name="data">Entity identifier.</param>
         public StringTCommand(string data)
             : base(0)
         {
@@ -32,10 +32,10 @@ namespace PRTelegramBot.Models.TCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="data">Идентификатор сущности.</param>
-        /// <param name="lastCommand">Прошлая команда.</param>
+        /// <param name="data">Entity identifier.</param>
+        /// <param name="lastCommand">Previous command.</param>
         public StringTCommand(string data, int lastCommand)
             : base(lastCommand)
         {
@@ -43,10 +43,10 @@ namespace PRTelegramBot.Models.TCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="data">Идентификатор сущности.</param>
-        /// <param name="action">Действие с прошлым сообщением.</param>
+        /// <param name="data">Entity identifier.</param>
+        /// <param name="action">Action to perform on the previous message.</param>
         public StringTCommand(string data, ActionWithLastMessage action)
             : base(action)
         {
@@ -54,11 +54,11 @@ namespace PRTelegramBot.Models.TCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="data">Идентификатор сущности.</param>
-        /// <param name="lastCommand">Прошлая команда.</param>
-        /// <param name="action">Действие с прошлым сообщением.</param>
+        /// <param name="data">Entity identifier.</param>
+        /// <param name="lastCommand">Previous command.</param>
+        /// <param name="action">Action to perform on the previous message.</param>
         public StringTCommand(string data, int lastCommand, ActionWithLastMessage action)
             : base(lastCommand, action)
         {
@@ -66,7 +66,7 @@ namespace PRTelegramBot.Models.TCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public StringTCommand() { }
 

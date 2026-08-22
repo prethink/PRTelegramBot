@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Internal расширения для логирования в стиле ILogger
+    /// Internal extensions for ILogger-style logging
     /// </summary>
     internal static class InternalLoggerExtensions
     {

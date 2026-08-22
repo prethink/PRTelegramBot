@@ -13,14 +13,14 @@ using Telegram.Bot;
 namespace PRTelegramBot.Actions
 {
     /// <summary>
-    /// Базовый обработчик для подтверждения действия.
+    /// Base handler for action confirmation.
     /// </summary>
     public class InlineConfirmation
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Обработка подтверждения действия.
+        /// Handles the action confirmation.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.CallbackWithConfirmation)]
         public static async Task ActionWithConfirmation(IBotContext context)
@@ -46,7 +46,7 @@ namespace PRTelegramBot.Actions
                     }
                     else
                     {
-                        string msg = "Ошибка при выполнение команды, попробуйте еще раз.";
+                        string msg = "Something went wrong while running the command, please try again.";
                         await MessageEditor.Edit(context, msg);
                     }
                 }
@@ -58,7 +58,7 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Базовый обработчик при нажатие на нет.
+        /// Base handler invoked when "no" is pressed.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.CallbackWithConfirmationResultNo)]
         public static async Task ActionWithConfirmationResultNo(IBotContext context)

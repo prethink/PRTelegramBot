@@ -4,7 +4,7 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Общий атрибут для команд с типом string.
+    /// Common attribute for commands of type string.
     /// </summary>
     public abstract class StringQueryAttribute 
         : BaseQueryAttribute<string> , IStringQueryAttribute
@@ -12,20 +12,20 @@ namespace PRTelegramBot.Attributes
         #region IStringQueryAttribute
 
         /// <summary>
-        /// Как сравнивать строку.
+        /// How to compare the string.
         /// </summary>
         public StringComparison StringComparison { get; protected set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commandComparison">Как сравнивать команду.</param>
-        /// <param name="stringComparison">Как сравнивать строку.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commandComparison">How to compare the command.</param>
+        /// <param name="stringComparison">How to compare the string.</param>
         public StringQueryAttribute(long[] botIds, CommandComparison commandComparison, StringComparison stringComparison)
             : base(botIds, commandComparison)
         {

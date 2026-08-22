@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс обработчика для message команд.
+    /// Interface of the handler for message commands.
     /// </summary>
     public interface IMessageCommandHandler : ICommandHandlerBase<Message>
     {

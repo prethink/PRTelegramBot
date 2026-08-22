@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Interfaces.Managers
 {
     /// <summary>
-    /// Интерфейс менеджера администраторов.    
+    /// Interface of the administrator manager.    
     /// </summary>
     public interface IAdminManager : IUserManager
     {

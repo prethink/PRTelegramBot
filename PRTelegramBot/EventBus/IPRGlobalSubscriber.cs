@@ -1,18 +1,18 @@
 ﻿namespace PRTelegramBot.EventBus
 {
     /// <summary>
-    /// Интерфейс глобального подписчика.
-    /// Используется для EventBus (шина событий) системы.
+    /// Interface of a global subscriber.
+    /// Used by the EventBus system.
     /// </summary>
     public interface IPRGlobalSubscriber : IDisposable
     {
         /// <summary>
-        /// Подписывает экземпляр на события EventBus.
+        /// Subscribes the instance to the EventBus events.
         /// </summary>
         void Subscribe();
 
         /// <summary>
-        /// Отписывает экземпляр от событий EventBus.
+        /// Unsubscribes the instance from the EventBus events.
         /// </summary>
         void Unsubscribe();
     }

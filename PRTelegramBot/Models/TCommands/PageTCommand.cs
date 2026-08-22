@@ -4,33 +4,33 @@ using System.Text.Json.Serialization;
 namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
-    /// Обработка TCommand в формате страницы.
+    /// Handles a TCommand in page form.
     /// </summary>
     public class PageTCommand : TCommandBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Номер страницы.
+        /// Page number.
         /// </summary>
         [JsonPropertyName("1")]
         public int Page { get; set; }
 
         /// <summary>
-        /// Заголовок команды.
+        /// Command header.
         /// </summary>
         [JsonPropertyName("2")]
         public int Header { get; set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="page">Номер страницы.</param>
-        /// <param name="enumValueInt">Заголовок enum в формате int.</param>
+        /// <param name="page">Page number.</param>
+        /// <param name="enumValueInt">Enum header as an int.</param>
         public PageTCommand(int page, Enum enumValueInt)
             : base(0)
         {
@@ -39,10 +39,10 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="page">Номер страницы.</param>
-        /// <param name="enumValueInt">Заголовок enum в формате int.</param>
+        /// <param name="page">Page number.</param>
+        /// <param name="enumValueInt">Enum header as an int.</param>
         /// <param name="lastCommand"></param>
         public PageTCommand(int page, Enum enumValueInt, int lastCommand)
             : base(lastCommand)
@@ -52,11 +52,11 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="page">Номер страницы.</param>
-        /// <param name="enumValueInt">Заголовок enum в формате int.</param>
-        /// <param name="action">Действие с прошлым сообщением.</param>
+        /// <param name="page">Page number.</param>
+        /// <param name="enumValueInt">Enum header as an int.</param>
+        /// <param name="action">Action to perform on the previous message.</param>
         public PageTCommand(int page, Enum enumValueInt, ActionWithLastMessage action)
             : base(action)
         {
@@ -65,12 +65,12 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="page">Номер страницы.</param>
-        /// <param name="enumValueInt">Заголовок enum в формате int.</param>
-        /// <param name="lastCommand">Прошлая команда.</param>
-        /// <param name="action">Действие с прошлым сообщением.</param>
+        /// <param name="page">Page number.</param>
+        /// <param name="enumValueInt">Enum header as an int.</param>
+        /// <param name="lastCommand">Previous command.</param>
+        /// <param name="action">Action to perform on the previous message.</param>
         public PageTCommand(int page, Enum enumValueInt, int lastCommand, ActionWithLastMessage action)
             : base(lastCommand, action)
         {
@@ -79,7 +79,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public PageTCommand() { }
 

@@ -5,12 +5,12 @@ using Telegram.Bot;
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Экземпляр заглушки бота.
+    /// A stub bot instance.
     /// </summary>
     public class PRBotDummy : PRBotBase
     {
 
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override DataRetrievalMethod DataRetrieval => DataRetrievalMethod.Dummy;
@@ -20,18 +20,18 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="optionsBuilder">Билдер.</param>
-        /// <param name="options">Опции.</param>
+        /// <param name="optionsBuilder">Builder.</param>
+        /// <param name="options">Options.</param>
         public PRBotDummy(Action<TelegramOptions>? optionsBuilder, TelegramOptions? options) : base(optionsBuilder, options)
         { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public PRBotDummy()
             : this(opt =>

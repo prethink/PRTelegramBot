@@ -1,75 +1,75 @@
 ﻿namespace PRTelegramBot.BackgroundTasks.Models
 {
     /// <summary>
-    /// Статус фоновой задачи.
+    /// Background task status.
     /// </summary>
     public enum PRTaskStatus
     {
         /// <summary>
-        /// Создана, но не стартовала.
+        /// Created, but not started.
         /// </summary>
         Pending,     
         /// <summary>
-        /// Ждёт времени старта.
+        /// Waiting for its start time.
         /// </summary>
         Scheduled,        
         /// <summary>
-        /// Начала выполнение.
+        /// Started running.
         /// </summary>
         Started,
         /// <summary>
-        /// Инициализация.
+        /// Initialization.
         /// </summary>
         Initialize,
         /// <summary>
-        /// Задача выполняется.
+        /// The task is running.
         /// </summary>
         Executing,          
         /// <summary>
-        /// Временно приостановлена.
+        /// Temporarily paused.
         /// </summary>
         Paused,           
         /// <summary>
-        /// Попытка повтора после ошибки.
+        /// Retrying after an error.
         /// </summary>
         Retrying,         
         /// <summary>
-        /// Между повторными запусками.
+        /// Between repeat runs.
         /// </summary>
         WaitingNextRun,
         /// <summary>
-        /// Выполнение пропущено.
+        /// The run was skipped.
         /// </summary>
         Skipped,
         /// <summary>
-        /// Возникла ошибка.
+        /// An error occurred.
         /// </summary>
         Error,
         /// <summary>
-        /// Отменена/
+        /// Cancelled.
         /// </summary>
         Complete
     }
 
     /// <summary>
-    /// Статусы завершения задачи.
+    /// The task completion statuses.
     /// </summary>
     public enum PRTaskCompletionResult
     {
         /// <summary>
-        /// Нет статуса.
+        /// No status.
         /// </summary>
         None,
         /// <summary>
-        /// Успешно завершена.
+        /// Completed successfully.
         /// </summary>
         Success,
         /// <summary>
-        /// Завершилась с ошибкой.
+        /// Finished with an error.
         /// </summary>
         Failed,
         /// <summary>
-        /// Отменена.
+        /// Cancelled.
         /// </summary>
         Canceled
     }

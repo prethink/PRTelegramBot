@@ -4,7 +4,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку встроенной клавиатуры с описанием игры, которая будет запущена при нажатии пользователем на кнопку.<br/><br/><b>ПРИМЕЧАНИЕ:</b> Этот тип кнопки <b>должен</b> всегда быть первой кнопкой в первой строке.
+    /// Creates an inline keyboard button describing the game that starts when the user presses the button.<br/><br/><b>NOTE:</b> This kind of button <b>must</b> always be the first button in the first row.
     /// </summary>
     public class InlineCallbackGame : InlineBase, IInlineContent
     {
@@ -24,12 +24,12 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="buttonName">Button name.</param>
         public InlineCallbackGame(string buttonName)
             : base(buttonName) { }
 

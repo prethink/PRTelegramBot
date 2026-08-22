@@ -5,58 +5,58 @@ using PRTelegramBot.Utils;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для ServiceProviderExtension.
+    /// Extension methods for ServiceProviderExtension.
     /// </summary>
     public static class ServiceProviderExtension
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Добавить обработчики ботов с временным временем жизни (Transient) в DI.
+        /// Adds the bot handlers to DI with a Transient lifetime.
         /// </summary>
-        /// <param name="services">Коллекция сервисов.</param>
-        /// <returns>Обновленная коллекция сервисов.</returns>
+        /// <param name="services">Service collection.</param>
+        /// <returns>The updated service collection.</returns>
         public static IServiceCollection AddBotHandlers(this IServiceCollection services)
         {
             return AddTransientBotHandlers(services);
         }
 
         /// <summary>
-        /// Добавить обработчики ботов с областью видимости (Scoped) в DI.
+        /// Adds the bot handlers to DI with a Scoped lifetime.
         /// </summary>
-        /// <param name="services">Коллекция сервисов.</param>
-        /// <returns>Обновленная коллекция сервисов.</returns>
+        /// <param name="services">Service collection.</param>
+        /// <returns>The updated service collection.</returns>
         public static IServiceCollection AddScopedBotHandlers(this IServiceCollection services)
         {
             return AddBotHandlersInDI(services, LifeCycle.Scoped);
         }
 
         /// <summary>
-        /// Добавить обработчики ботов с временным временем жизни (Transient) в DI.
+        /// Adds the bot handlers to DI with a Transient lifetime.
         /// </summary>
-        /// <param name="services">Коллекция сервисов.</param>
-        /// <returns>Обновленная коллекция сервисов.</returns>
+        /// <param name="services">Service collection.</param>
+        /// <returns>The updated service collection.</returns>
         public static IServiceCollection AddTransientBotHandlers(this IServiceCollection services)
         {
             return AddBotHandlersInDI(services, LifeCycle.Transient);
         }
 
         /// <summary>
-        /// Добавить обработчики ботов с одиночным временем жизни (Singleton) в DI.
+        /// Adds the bot handlers to DI with a Singleton lifetime.
         /// </summary>
-        /// <param name="services">Коллекция сервисов.</param>
-        /// <returns>Обновленная коллекция сервисов.</returns>
+        /// <param name="services">Service collection.</param>
+        /// <returns>The updated service collection.</returns>
         public static IServiceCollection AddSingletonBotHandlers(this IServiceCollection services)
         {
             return AddBotHandlersInDI(services, LifeCycle.Singleton);
         }
 
         /// <summary>
-        /// Добавить обработчики ботов в DI с указанным временем жизни.
+        /// Adds the bot handlers to DI with the specified lifetime.
         /// </summary>
-        /// <param name="services">Коллекция сервисов.</param>
-        /// <param name="lifeCycle">Время жизни сервиса.</param>
-        /// <returns>Обновленная коллекция сервисов.</returns>
+        /// <param name="services">Service collection.</param>
+        /// <param name="lifeCycle">Service lifetime.</param>
+        /// <returns>The updated service collection.</returns>
         private static IServiceCollection AddBotHandlersInDI(this IServiceCollection services, LifeCycle lifeCycle)
         {
             if (services is null)

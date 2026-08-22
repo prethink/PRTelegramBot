@@ -1,21 +1,21 @@
 ﻿namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Расширения для работы с двумерными коллекциями
+    /// Extensions for working with two-dimensional collections
     /// (<see cref="IEnumerable{IEnumerable{T}}"/>).
-    /// Упрощают получение строк, столбцов и размеров коллекции.
+    /// They make getting the rows, columns and sizes of a collection simpler.
     /// </summary>
     public static class CollectionExtension
     {
         /// <summary>
-        /// Возвращает строку (row) по указанному индексу.
+        /// Returns the row at the specified index.
         /// </summary>
-        /// <typeparam name="T">Тип элементов коллекции.</typeparam>
-        /// <param name="source">Двумерная коллекция.</param>
-        /// <param name="rowIndex">Индекс строки (начиная с 0).</param>
+        /// <typeparam name="T">Type of the collection elements.</typeparam>
+        /// <param name="source">Two-dimensional collection.</param>
+        /// <param name="rowIndex">Row index (zero-based).</param>
         /// <returns>
-        /// Коллекция элементов строки или пустая коллекция,
-        /// если индекс некорректен или строка отсутствует.
+        /// The collection of items in the row, or an empty collection
+        /// if the index is invalid or the row does not exist.
         /// </returns>
         public static IEnumerable<T> GetRow<T>(this IEnumerable<IEnumerable<T>> source, int rowIndex)
         {
@@ -30,8 +30,8 @@
         }
 
         /// <summary>
-        /// Добавляет элементы в <see cref="HashSet{T}"/>.
-        /// Возвращает количество реально добавленных элементов.
+        /// Adds the items to a <see cref="HashSet{T}"/>.
+        /// Returns the number of items that were actually added.
         /// </summary>
         public static int AddRange<T>(this HashSet<T> set, IEnumerable<T> items)
         {
@@ -52,14 +52,14 @@
         }
 
         /// <summary>
-        /// Возвращает столбец (column) по указанному индексу.
+        /// Returns the column at the specified index.
         /// </summary>
-        /// <typeparam name="T">Тип элементов коллекции.</typeparam>
-        /// <param name="source">Двумерная коллекция.</param>
-        /// <param name="columnIndex">Индекс столбца (начиная с 0).</param>
+        /// <typeparam name="T">Type of the collection elements.</typeparam>
+        /// <param name="source">Two-dimensional collection.</param>
+        /// <param name="columnIndex">Column index (zero-based).</param>
         /// <returns>
-        /// Коллекция элементов столбца или пустая коллекция,
-        /// если индекс некорректен или столбец отсутствует.
+        /// The collection of items in the column, or an empty collection
+        /// if the index is invalid or the column does not exist.
         /// </returns>
         public static IEnumerable<T> GetColumn<T>(this IEnumerable<IEnumerable<T>> source, int columnIndex)
         {
@@ -81,23 +81,23 @@
         }
 
         /// <summary>
-        /// Возвращает количество строк в двумерной коллекции.
+        /// Returns the number of rows in the two-dimensional collection.
         /// </summary>
-        /// <typeparam name="T">Тип элементов коллекции.</typeparam>
-        /// <param name="source">Двумерная коллекция.</param>
-        /// <returns>Количество строк.</returns>
+        /// <typeparam name="T">Type of the collection elements.</typeparam>
+        /// <param name="source">Two-dimensional collection.</param>
+        /// <returns>Number of rows.</returns>
         public static long GetRowCount<T>(this IEnumerable<IEnumerable<T>> source)
         {
             return source.Count();
         }
 
         /// <summary>
-        /// Возвращает максимальное количество элементов в строках
-        /// (фактическое количество столбцов).
+        /// Returns the maximum number of items across the rows
+        /// (the actual number of columns).
         /// </summary>
-        /// <typeparam name="T">Тип элементов коллекции.</typeparam>
-        /// <param name="source">Двумерная коллекция.</param>
-        /// <returns>Количество столбцов.</returns>
+        /// <typeparam name="T">Type of the collection elements.</typeparam>
+        /// <param name="source">Two-dimensional collection.</param>
+        /// <returns>Number of columns.</returns>
         public static long GetColumnCount<T>(this IEnumerable<IEnumerable<T>> source)
         {
             return source.Max(row => row.Count());

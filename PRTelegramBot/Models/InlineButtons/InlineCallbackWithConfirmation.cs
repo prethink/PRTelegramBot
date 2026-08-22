@@ -7,44 +7,44 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Позволяет выполнить inlineCallBack с подтверждением.
+    /// Lets an inlineCallBack be executed with a confirmation.
     /// </summary>
     public class InlineCallbackWithConfirmation : InlineCallback<EntityTCommand<string>>, IInlineContent
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Коллекция InlineCallbackWithConfirmation для поиска и обработки данных.
+        /// Collection of InlineCallbackWithConfirmation used to look up and handle the data.
         /// </summary>
         [JsonIgnore]
         public static Dictionary<string, InlineCallbackWithConfirmation> DataCollection = new();
 
         /// <summary>
-        /// Название кнопки да.
+        /// Name of the "yes" button.
         /// </summary>
         [JsonIgnore]
-        public string YesButton = "Да";
+        public string YesButton = "Yes";
 
         /// <summary>
-        /// Название кнопки нет.
+        /// Name of the "no" button.
         /// </summary>
         [JsonIgnore]
-        public string NoButton = "Нет";
+        public string NoButton = "No";
 
         /// <summary>
-        /// Текст сообщения подтверждения.
+        /// Text of the confirmation message.
         /// </summary>
         [JsonIgnore]
-        public string BaseMessage = "Подтвердите действие";
+        public string BaseMessage = "Confirm the action";
 
         /// <summary>
-        /// Обработка при нажатие на да.
+        /// Handler invoked when "yes" is pressed.
         /// </summary>
         [JsonIgnore]
         public InlineCallback YesCallback { get; set; }
 
         /// <summary>
-        /// Обработка при нажатие на нет.
+        /// Handler invoked when "no" is pressed.
         /// </summary>
         [JsonIgnore]
         public InlineCallback NoCallback { get; set; }
@@ -61,7 +61,7 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override InlineKeyboardButton GetInlineButton()
@@ -71,29 +71,29 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack)
             : this(inlineCallBack, ActionWithLastMessage.Nothing, PRTelegramBotCommand.CallbackWithConfirmation) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage)
             : this(inlineCallBack, actionWithLastMessage, PRTelegramBotCommand.CallbackWithConfirmation) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="callbackWithConfirmation">Заголовок для обработки подтверждения.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="callbackWithConfirmation">Header used to handle the confirmation.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, Enum callbackWithConfirmation)
             : base(inlineCallBack.ButtonName, callbackWithConfirmation)
         {
@@ -106,10 +106,10 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="noCallBack">Callback при нажатие на кнопку нет.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="noCallBack">Callback invoked when the "no" button is pressed.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, InlineCallback noCallBack)
             : this(inlineCallBack, ActionWithLastMessage.Nothing, PRTelegramBotCommand.CallbackWithConfirmation)
         {
@@ -117,11 +117,11 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="noCallBack">Callback при нажатие на кнопку нет.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="noCallBack">Callback invoked when the "no" button is pressed.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, InlineCallback noCallBack)
             : this(inlineCallBack, actionWithLastMessage, PRTelegramBotCommand.CallbackWithConfirmation)
         {
@@ -129,12 +129,12 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="callbackWithConfirmation">Заголовок для обработки подтверждения.</param>
-        /// <param name="noCallBack">Callback при нажатие на кнопку нет.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="callbackWithConfirmation">Header used to handle the confirmation.</param>
+        /// <param name="noCallBack">Callback invoked when the "no" button is pressed.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, Enum callbackWithConfirmation, InlineCallback noCallBack)
             : this(inlineCallBack, actionWithLastMessage, callbackWithConfirmation)
         {
@@ -142,35 +142,35 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="yesButton">Названия кнопки действия да.</param>
-        /// <param name="noButton">Название кнопки действия нет.</param>
-        /// <param name="messageText">Текст сообщения.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="yesButton">Name of the "yes" action button.</param>
+        /// <param name="noButton">Name of the "no" action button.</param>
+        /// <param name="messageText">Message text.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, string yesButton, string noButton, string messageText)
             : this(inlineCallBack, ActionWithLastMessage.Nothing, PRTelegramBotCommand.CallbackWithConfirmation, yesButton, noButton, messageText) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="yesButton">Названия кнопки действия да.</param>
-        /// <param name="noButton">Название кнопки действия нет.</param>
-        /// <param name="messageText">Текст сообщения.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="yesButton">Name of the "yes" action button.</param>
+        /// <param name="noButton">Name of the "no" action button.</param>
+        /// <param name="messageText">Message text.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, string yesButton, string noButton, string messageText)
             : this(inlineCallBack, actionWithLastMessage, PRTelegramBotCommand.CallbackWithConfirmation, yesButton, noButton, messageText) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="callbackWithConfirmation">Заголовок для обработки подтверждения.</param>
-        /// <param name="yesButton">Названия кнопки действия да.</param>
-        /// <param name="noButton">Название кнопки действия нет.</param>
-        /// <param name="messageText">Текст сообщения.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="callbackWithConfirmation">Header used to handle the confirmation.</param>
+        /// <param name="yesButton">Name of the "yes" action button.</param>
+        /// <param name="noButton">Name of the "no" action button.</param>
+        /// <param name="messageText">Message text.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, Enum callbackWithConfirmation, string yesButton, string noButton, string messageText)
             : this(inlineCallBack, actionWithLastMessage, callbackWithConfirmation)
         {
@@ -180,35 +180,35 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="yesButton">Названия кнопки действия да.</param>
-        /// <param name="messageText">Текст сообщения.</param>
-        /// <param name="noCallBack">Callback при нажатие на кнопку нет.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="yesButton">Name of the "yes" action button.</param>
+        /// <param name="messageText">Message text.</param>
+        /// <param name="noCallBack">Callback invoked when the "no" button is pressed.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, string yesButton, string messageText, InlineCallback noCallBack)
             : this(inlineCallBack, ActionWithLastMessage.Nothing, PRTelegramBotCommand.CallbackWithConfirmation, yesButton, messageText, noCallBack) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="yesButton">Названия кнопки действия да.</param>
-        /// <param name="messageText">Текст сообщения.</param>
-        /// <param name="noCallBack">Callback при нажатие на кнопку нет.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="yesButton">Name of the "yes" action button.</param>
+        /// <param name="messageText">Message text.</param>
+        /// <param name="noCallBack">Callback invoked when the "no" button is pressed.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, string yesButton, string messageText, InlineCallback noCallBack)
             : this(inlineCallBack, actionWithLastMessage, PRTelegramBotCommand.CallbackWithConfirmation, yesButton, messageText, noCallBack) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="inlineCallBack">InlineCallback кнопка.</param>
-        /// <param name="actionWithLastMessage">Действие с последним сообщение.</param>
-        /// <param name="callbackWithConfirmation">Заголовок для обработки подтверждения.</param>
-        /// <param name="yesButton">Названия кнопки действия да.</param>
-        /// <param name="messageText">Текст сообщения.</param>
-        /// <param name="noCallBack">Callback при нажатие на кнопку нет.</param>
+        /// <param name="inlineCallBack">InlineCallback button.</param>
+        /// <param name="actionWithLastMessage">Action to perform on the last message.</param>
+        /// <param name="callbackWithConfirmation">Header used to handle the confirmation.</param>
+        /// <param name="yesButton">Name of the "yes" action button.</param>
+        /// <param name="messageText">Message text.</param>
+        /// <param name="noCallBack">Callback invoked when the "no" button is pressed.</param>
         public InlineCallbackWithConfirmation(InlineCallback inlineCallBack, ActionWithLastMessage actionWithLastMessage, Enum callbackWithConfirmation, string yesButton, string messageText, InlineCallback noCallBack)
             : this(inlineCallBack, actionWithLastMessage, callbackWithConfirmation, yesButton, noCallBack.ButtonName, messageText)
         {

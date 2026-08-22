@@ -3,17 +3,17 @@
 namespace PRTelegramBot.Configs
 {
     /// <summary>
-    /// Параметры команд.
+    /// Command options.
     /// </summary>
     public class CommandOptions
     {
         /// <summary>
-        /// Обработчика inline для экзепляров класса.
+        /// Inline handlers for class instances.
         /// </summary>
         public Dictionary<Enum, Type> InlineClassHandlers { get; set; } = new();
 
         /// <summary>
-        /// Регистратор команд.
+        /// Command registrar.
         /// </summary>
         public IRegisterCommand RegisterCommand { get; set; }
     }

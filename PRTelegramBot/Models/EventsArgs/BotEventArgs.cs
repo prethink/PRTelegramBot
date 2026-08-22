@@ -4,26 +4,26 @@ using PRTelegramBot.Interfaces;
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Базовые аргументы события для ботов.
+    /// Base event arguments for bots.
     /// </summary>
     public class BotEventArgs : EventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Контекст бота.
+        /// Bot context.
         /// </summary>
         public IBotContext Context { get; private set; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создать аргументы событий для бота.
+        /// Creates the event arguments for the bot.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Базовые аргументы события для ботов</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Base event arguments for bots</returns>
         public static BotEventArgs CreateEventArgs(IBotContext context)
         {
             return new BotEventArgs(context);
@@ -31,12 +31,12 @@ namespace PRTelegramBot.Models.EventsArgs
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public BotEventArgs(IBotContext context)
         {
             Context = context;

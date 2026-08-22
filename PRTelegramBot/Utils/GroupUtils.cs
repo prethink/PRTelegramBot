@@ -4,19 +4,19 @@ using Telegram.Bot;
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Утилиты для работы с группами.
+    /// Utilities for working with groups.
     /// </summary>
     public static class GroupUtils
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Проверяет находится ли пользователь в группе.
+        /// Checks whether the user is a member of the group.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="groupId">Идентификатор группы.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - есть иначе false.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="groupId">Group identifier.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if present; otherwise false.</returns>
         public static async Task<bool> IsGroupMember(IBotContext context, long groupId, long userId)
         {
             var data = await context.BotClient.GetChatMember(groupId, userId);
@@ -26,12 +26,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Проверяет является ли администратором группы.
+        /// Checks whether the user is an administrator of the group.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="groupId">Идентификатор группы.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - администратор иначе false.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="groupId">Group identifier.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if the user is an administrator; otherwise false.</returns>
         public static async Task<bool> IsGroupAdmin(IBotContext context, long groupId, long userId)
         {
             var data = await context.BotClient.GetChatMember(groupId, userId);
@@ -39,12 +39,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Проверяет является ли создателем группы.
+        /// Checks whether the user is the creator of the group.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="groupId">Идентификатор группы.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - создатель иначе false.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="groupId">Group identifier.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if the user is the creator; otherwise false.</returns>
         public static async Task<bool> IsGroupCreator(IBotContext context, long groupId, long userId)
         {
             var data = await context.BotClient.GetChatMember(groupId, userId);

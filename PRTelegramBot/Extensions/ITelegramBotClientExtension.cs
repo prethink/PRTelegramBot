@@ -5,102 +5,102 @@ using Telegram.Bot;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для ITelegramBotClient.
+    /// Extension methods for ITelegramBotClient.
     /// </summary>
     public static class ITelegramBotClientExtension
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Проверяет пользователя, является ли он администратором бота.
+        /// Checks whether the user is an administrator of the bot.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - администратор, False - не администратор.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True if the user is an administrator; False otherwise.</returns>
         public static async Task<bool> IsAdmin(this IBotContext context)
         {
             return await IsAdmin(context);
         }
 
         /// <summary>
-        /// Проверяет пользователя, является ли он администратором бота.
+        /// Checks whether the user is an administrator of the bot.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - администратор, False - не администратор.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if the user is an administrator; False otherwise.</returns>
         public static async Task<bool> IsAdmin(this IBotContext context, long userId)
         {
             return await context.Current.GetAdminManager().HasUser(userId);
         }
 
         /// <summary>
-        /// Проверяет пользователя, присутствует ли в белом списке бота.
+        /// Checks whether the user is present in the bot's white list.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - есть в списке, False - нет в списке.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True if present in the list; False if not.</returns>
         public static async Task<bool> InWhiteList(this IBotContext context)
         {
             return await InWhiteList(context, context.Update.GetChatId());
         }
 
         /// <summary>
-        /// Проверяет пользователя, присутствует ли в белом списке бота.
+        /// Checks whether the user is present in the bot's white list.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>True - есть в списке, False - нет в списке.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>True if present in the list; False if not.</returns>
         public static async Task<bool> InWhiteList(this IBotContext context, long userId)
         {
             return await context.Current.GetWhiteListManager().HasUser(userId);
         }
 
         /// <summary>
-        /// Возвращает список администраторов бота.
+        /// Returns the list of the bot's administrators.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Список идентификаторов.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>List of identifiers.</returns>
         public static async Task<List<long>> GetAdminsIds(this IBotContext context)
         {
             return await context.Current.GetAdminManager().GetUsersIds();
         }
 
         /// <summary>
-        /// Возвращает белый список пользователей.
+        /// Returns the white list of users.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Список идентификаторов.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>List of identifiers.</returns>
         public static async Task<List<long>> GetWhiteListIds(this IBotContext context)
         {
             return await context.Current.GetWhiteListManager().GetUsersIds();
         }
 
         /// <summary>
-        /// Вызов события простого лога.
+        /// Raises the plain log event.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="msg">Сообщение.</param>
-        /// <param name="typeEvent">Тип события.</param>
-        /// <param name="color">Цвет.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="msg">Message.</param>
+        /// <param name="typeEvent">Event type.</param>
+        /// <param name="color">Color.</param>
         public static void InvokeCommonLog(this IBotContext context, string msg, string typeEvent = "", ConsoleColor color = ConsoleColor.Blue)
         {
             context.Current.Events.OnCommonLogInvoke(msg, typeEvent, color);
         }
 
         /// <summary>
-        /// Вызов события логирование ошибок.
+        /// Raises the error logging event.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="ex">Исключение.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="ex">Exception.</param>
         public static void InvokeErrorLog(this IBotContext context, Exception ex)
         {
             context.Current.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
         }
 
         /// <summary>
-        /// Генерация реферальной ссылки.
+        /// Generates a referral link.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="refLink">Текст реферальной ссылки.</param>
-        /// <returns>Сгенерированная реферальная ссылка https://t.me/{bot.Username}?start={refLink}.</returns>
-        /// <exception cref="ArgumentNullException">Вызывается в случае пустого текста.</exception>
+        /// <param name="context">Bot context.</param>
+        /// <param name="refLink">Text of the referral link.</param>
+        /// <returns>The generated referral link https://t.me/{bot.Username}?start={refLink}.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the text is empty.</exception>
         public async static Task<string> GetGeneratedRefLink(this IBotContext context, string refLink)
         {
             if (string.IsNullOrEmpty(refLink))
@@ -111,14 +111,14 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получить значение из конфиг файла по ключу
+        /// Gets a value from the config file by key
         /// </summary>
-        /// <typeparam name="TBotProvider">Провайдера работы с файлами.</typeparam>
-        /// <typeparam name="TReturn">Возращаемый тип.</typeparam>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="configKey">Ключ конфига.</param>
-        /// <param name="key">Ключ для значения.</param>
-        /// <returns>Значение из конфиг файла.</returns>
+        /// <typeparam name="TBotProvider">The provider that works with files.</typeparam>
+        /// <typeparam name="TReturn">The return type.</typeparam>
+        /// <param name="context">Bot context.</param>
+        /// <param name="configKey">Config key.</param>
+        /// <param name="key">Key of the value.</param>
+        /// <returns>The value from the config file.</returns>
         public static TReturn GetConfigValue<TBotProvider, TReturn>(this IBotContext context, string configKey, string key)
             where TBotProvider : IBotConfigProvider
         {
@@ -129,37 +129,37 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Попытаться получить значение из конфиг файла по ключу
+        /// Tries to get a value from the config file by key
         /// </summary>
-        /// <typeparam name="TBotProvider">Провайдера работы с файлами.</typeparam>
-        /// <typeparam name="TReturn">Возращаемый тип.</typeparam>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="configKey">Ключ конфига.</param>
-        /// <param name="key">Ключ для значения.</param>
-        /// <param name="result">Значение.</param>
-        /// <returns>True - значение получено, False - не удалось получить значение.</returns>
+        /// <typeparam name="TBotProvider">The provider that works with files.</typeparam>
+        /// <typeparam name="TReturn">The return type.</typeparam>
+        /// <param name="context">Bot context.</param>
+        /// <param name="configKey">Config key.</param>
+        /// <param name="key">Key of the value.</param>
+        /// <param name="result">Value.</param>
+        /// <returns>True if the value was retrieved; False if it could not be retrieved.</returns>
         public static bool TryGetConfigValue<TBotProvider, TReturn>(this IBotContext context, string configKey, string key, out TReturn result)
             where TBotProvider : IBotConfigProvider, new()
         {
             result = default(TReturn);
             try
             {
-                var botConfiguration = new TBotProvider(); // Создание экземпляра поставщика конфигурации
+                var botConfiguration = new TBotProvider(); // Create the configuration provider instance
                 string configPath = context.Current.Options?.ConfigPaths?.GetValueOrDefault(configKey);
 
                 if (configPath is null)
                 {
-                    // Если путь конфигурации не найден, возвращаем false
+                    // If the configuration path is not found, return false
                     return false;
                 }
 
-                botConfiguration.SetConfigPath(configPath); // Установка пути конфигурации
-                result = botConfiguration.GetValue<TReturn>(key); // Получение значения конфигурации
-                return true; // Успешно получили значение конфигурации
+                botConfiguration.SetConfigPath(configPath); // Set the configuration path
+                result = botConfiguration.GetValue<TReturn>(key); // Get the configuration value
+                return true; // The configuration value was retrieved successfully
             }
             catch (Exception ex)
             {
-                //TODO Обработка ошибки и возврат false
+                //TODO Handle the error and return false
                 return false;
             }
         }

@@ -3,11 +3,11 @@
 namespace PRTelegramBot.Core.Factory
 {
     /// <summary>
-    /// Фабрика создания PRBot с функционалом polling.
+    /// Factory that creates a PRBot with polling support.
     /// </summary>
     public class PRBotFactory : PRBotFactoryBase
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override PRBotBase CreateBot(TelegramOptions options)

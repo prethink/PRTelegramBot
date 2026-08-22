@@ -6,13 +6,13 @@ namespace PRTelegramBot.Models.Logger
     /// <summary>
     /// 
     /// </summary>
-    [Obsolete("Устаревшая фабрика логеров. Используется для обратной совместимости.")]
+    [Obsolete("Obsolete logger factory. Kept for backward compatibility.")]
     public sealed class PRLoggerEventsFactory : ILoggerFactory
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Экземпляр бота, через события которого выполняется логирование.
+        /// The bot instance whose events the logging goes through.
         /// </summary>
         private readonly PRBotBase bot;
 
@@ -48,13 +48,13 @@ namespace PRTelegramBot.Models.Logger
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
-        /// <exception cref="ArgumentNullException">Экземпляр бота.</exception>
+        /// <param name="bot">Bot.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the bot instance is null.</exception>
         internal PRLoggerEventsFactory(PRBotBase bot)
         {
             this.bot = bot ?? throw new ArgumentNullException(nameof(bot));

@@ -4,14 +4,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку встроенной клавиатуры. При нажатии на кнопку в поле ввода текущего чата будет вставлено имя пользователя бота и указанный инлайн-запрос. Может быть пустым, в этом случае будет вставлено только имя пользователя бота.<br/><br/>Это предлагает быстрый способ для пользователя открыть вашего бота в инлайн-режиме в том же чате - подходит для выбора чего-либо из нескольких вариантов. Не поддерживается в каналах и для сообщений, отправленных от имени аккаунта Telegram Business.
+    /// Creates an inline keyboard button. Pressing it inserts the bot's username and the specified inline query into the input field of the current chat. May be empty, in which case only the bot's username is inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat — good for picking something out of several options. Not supported in channels and for messages sent on behalf of a Telegram Business account.
     /// </summary>
     public class InlineSwitchInlineQueryCurrentChat : InlineBase, IInlineContent
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Если установлено, при нажатии на кнопку в поле ввода текущего чата будет вставлено имя пользователя бота и указанный инлайн-запрос. Может быть пустым, в этом случае будет вставлено только имя пользователя бота.<br/><br/>Это предлагает быстрый способ для пользователя открыть вашего бота в инлайн-режиме в том же чате - подходит для выбора чего-либо из нескольких вариантов. Не поддерживается в каналах и для сообщений, отправленных от имени аккаунта Telegram Business.
+        /// If set, pressing the button inserts the bot's username and the specified inline query into the input field of the current chat. May be empty, in which case only the bot's username is inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat — good for picking something out of several options. Not supported in channels and for messages sent on behalf of a Telegram Business account.
         /// </summary>
         public string SwitchInlineQueryCurrentChat { get; set; }
 
@@ -33,13 +33,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="switchInlineQueryCurrentChat">Если установлено, при нажатии на кнопку в поле ввода текущего чата будет вставлено имя пользователя бота и указанный инлайн-запрос. Может быть пустым, в этом случае будет вставлено только имя пользователя бота.<br/><br/>Это предлагает быстрый способ для пользователя открыть вашего бота в инлайн-режиме в том же чате - подходит для выбора чего-либо из нескольких вариантов. Не поддерживается в каналах и для сообщений, отправленных от имени аккаунта Telegram Business.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="switchInlineQueryCurrentChat">If set, pressing the button inserts the bot's username and the specified inline query into the input field of the current chat. May be empty, in which case only the bot's username is inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat — good for picking something out of several options. Not supported in channels and for messages sent on behalf of a Telegram Business account.</param>
         public InlineSwitchInlineQueryCurrentChat(string buttonName, string switchInlineQueryCurrentChat)
             : base(buttonName)
         {

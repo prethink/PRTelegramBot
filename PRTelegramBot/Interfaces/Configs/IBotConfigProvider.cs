@@ -1,42 +1,42 @@
 ﻿namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс провайдера конфигурации бота.
+    /// Interface of the bot configuration provider.
     /// </summary>
     public interface IBotConfigProvider
     {
         /// <summary>
-        /// Установить путь до конфигурационного файла.
+        /// Sets the path to the configuration file.
         /// </summary>
-        /// <param name="configPath">Путь до файла.</param>
+        /// <param name="configPath">Path to the file.</param>
         public void SetConfigPath(string configPath);
 
         /// <summary>
-        /// Получить параметры из конфигурационного файла.
+        /// Gets the parameters from the configuration file.
         /// </summary>
-        /// <typeparam name="TOptions">Класс параметров.</typeparam>
-        /// <returns>Параметры.</returns>
+        /// <typeparam name="TOptions">The options class.</typeparam>
+        /// <returns>Parameters.</returns>
         public TOptions GetOptions<TOptions>() where TOptions : class;
 
         /// <summary>
-        /// Получить значение из параметра.
+        /// Gets the value of the parameter.
         /// </summary>
-        /// <typeparam name="TReturn">Тип возвращаемого значения.</typeparam>
-        /// <param name="optionName">Название параметра.</param>
-        /// <returns>Значение параметра.</returns>
+        /// <typeparam name="TReturn">Type of the returned value.</typeparam>
+        /// <param name="optionName">Parameter name.</param>
+        /// <returns>The parameter value.</returns>
         public TReturn GetValue<TReturn>(string optionName);
 
         /// <summary>
-        /// Получить словарь ключ-значение из конфигурационного файла.
+        /// Gets a key-value dictionary from the configuration file.
         /// </summary>
-        /// <returns>Словарь ключ-значение.</returns>
+        /// <returns>A key-value dictionary.</returns>
         public Dictionary<string, string> GetKeysAndValues();
 
         /// <summary>
-        /// Получить коллекцию ключ-значение из параметров конфигурационного файла.
+        /// Gets the key-value pairs from the configuration file's parameters.
         /// </summary>
-        /// <typeparam name="TOptions">Класс параметров.</typeparam>
-        /// <returns>Словарь ключ-значение.</returns>
+        /// <typeparam name="TOptions">The options class.</typeparam>
+        /// <returns>A key-value dictionary.</returns>
         public Dictionary<string, string> GetKeysAndValuesByOptions<TOptions>() where TOptions : class;
     }
 }

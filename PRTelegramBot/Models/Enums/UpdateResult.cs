@@ -1,28 +1,28 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Результат выполнения update.
+    /// The result of handling the update.
     /// </summary>
     public enum UpdateResult
     {
         /// <summary>
-        /// Продолжить выполнение.
+        /// Continue execution.
         /// </summary>
         Continue = 0,
         /// <summary>
-        /// Не найдено.
+        /// Not found.
         /// </summary>
         NotFound = 1,
         /// <summary>
-        /// Обработан.
+        /// Handled.
         /// </summary>
         Handled = 2,
         /// <summary>
-        /// Остановить обработку.
+        /// Stop processing.
         /// </summary>
         Stop = 3,
         /// <summary>
-        /// Ошибка при обработке.
+        /// An error occurred while processing.
         /// </summary>
         Error = 4,
     }

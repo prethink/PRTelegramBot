@@ -74,7 +74,7 @@ namespace PRTelegramBot.Tests.Builders
 
             Assert.AreEqual("Alice approved the request", result);
 
-            // поменяли значение и билдим заново
+            // change the value and build again
             dynamicName = "Bob";
 
             result = formatter

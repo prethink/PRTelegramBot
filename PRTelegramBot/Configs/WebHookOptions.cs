@@ -3,39 +3,39 @@
 namespace PRTelegramBot.Configs
 {
     /// <summary>
-    /// Параметры telegram бота для работы с WebHook.
+    /// Telegram bot options for working over a webhook.
     /// </summary>
     public class WebHookOptions
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// URL для WebHook.
+        /// The webhook URL.
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// Сертификат для HTTPS соединений.
+        /// Certificate for HTTPS connections.
         /// </summary>
         public InputFileStream? Certificate { get; set; }
 
         /// <summary>
-        /// IP-адрес для прослушивания входящих соединений.
+        /// The IP address to listen for incoming connections on.
         /// </summary>
         public string? IpAddress { get; set; }
 
         /// <summary>
-        /// Максимальное количество одновременных соединений.
+        /// Maximum number of simultaneous connections.
         /// </summary>
         public int? MaxConnections { get; set; }
 
         /// <summary>
-        /// Флаг для сброса ожидающих обновлений при запуске.
+        /// Flag that drops pending updates at startup.
         /// </summary>
         public bool DropPendingUpdates { get; set; }
 
         /// <summary>
-        /// Секретный токен для верификации запросов от Telegram.
+        /// Secret token used to verify requests coming from Telegram.
         /// </summary>
         public string? SecretToken { get; set; }
 

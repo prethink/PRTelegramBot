@@ -6,8 +6,8 @@ using PRTelegramBot.Models.Enums;
 namespace AspNetWebHook.Filter
 {
     /// <summary>
-    /// Проверка заголовка "X-Telegram-Bot-Api-Secret-Token" при обработке webook.
-    /// Подробнее: <see href="https://core.telegram.org/bots/api#setwebhook"/> "secret_token"
+    /// Validates the "X-Telegram-Bot-Api-Secret-Token" header while handling a webhook.
+    /// See also: <see href="https://core.telegram.org/bots/api#setwebhook"/> "secret_token"
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class ValidateTelegramBotAttribute : TypeFilterAttribute
@@ -32,10 +32,10 @@ namespace AspNetWebHook.Filter
             }
 
             /// <summary>
-            /// Проверка секретного токена при обработке webhook запроса.
+            /// Validates the secret token while handling a webhook request.
             /// </summary>
-            /// <param name="request">Запрос.</param>
-            /// <returns>True - запрос валидный, False - невалидный.</returns>
+            /// <param name="request">Request.</param>
+            /// <returns>True if the request is valid; False otherwise.</returns>
             private bool IsValidRequest(HttpRequest request)
             {
                 var bots = BotCollection.Instance.GetBots().Where(x => x.DataRetrieval == DataRetrievalMethod.WebHook);

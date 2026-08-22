@@ -8,36 +8,36 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Core.UpdateHandlers
 {
     /// <summary>
-    /// Диспетчер для обработчик update типа message.
+    /// Dispatcher that handles message-type updates.
     /// </summary>
     internal sealed class MessageUpdateDispatcher
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Коллекция типов сообщений и событий для вызова.
+        /// Collection of message types and the events to raise for them.
         /// </summary>
         public Dictionary<MessageType, Func<BotEventArgs, Task>> TypeMessage { get; private set; }
 
         /// <summary>
-        /// Обработчик пошаговых команд.
+        /// Handler for step commands.
         /// </summary>
         private NextStepCommandHandler nextStepHandler;
 
         /// <summary>
-        /// Бот.
+        /// Bot.
         /// </summary>
         private readonly PRBotBase bot;
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Вызвать обработку update типа message.
+        /// Triggers handling of a message-type update.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Результат выполнения.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The execution result.</returns>
         public async Task<UpdateResult> Dispatch(IBotContext context)
         {
             var eventResult = await EventHandler(context);
@@ -52,10 +52,10 @@ namespace PRTelegramBot.Core.UpdateHandlers
         }
 
         /// <summary>
-        /// Логика обработки сообщений.
+        /// Message handling logic.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Результат выполнения.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>The execution result.</returns>
         private async Task<UpdateResult> UpdateMessageCommands(IBotContext context)
         {
             var result = UpdateResult.Continue;
@@ -85,10 +85,10 @@ namespace PRTelegramBot.Core.UpdateHandlers
         }
 
         /// <summary>
-        /// Обработчик для разных событий.
+        /// Handler for the various events.
         /// </summary>
-        /// <param name="update">Обновление.</param>
-        /// <returns>Результат выполнения.</returns>
+        /// <param name="update">Update.</param>
+        /// <returns>The execution result.</returns>
         private async Task<UpdateResult> EventHandler(IBotContext context)
         {
             foreach (var item in TypeMessage)
@@ -103,7 +103,7 @@ namespace PRTelegramBot.Core.UpdateHandlers
         }
 
         /// <summary>
-        /// Обновление ссылок для событий и сообщений.
+        /// Refreshes the links between events and messages.
         /// </summary>
         private void UpdateEventLink()
         {
@@ -178,12 +178,12 @@ namespace PRTelegramBot.Core.UpdateHandlers
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public MessageUpdateDispatcher(PRBotBase bot)
         {
             this.bot = bot;

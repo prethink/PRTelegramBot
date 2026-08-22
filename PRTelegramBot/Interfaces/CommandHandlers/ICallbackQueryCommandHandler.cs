@@ -3,7 +3,7 @@
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс обработчика для callbackQuery команд.
+    /// Interface of the handler for callbackQuery commands.
     /// </summary>
     public interface ICallbackQueryCommandHandler : ICommandHandlerBase<CallbackQuery> { }
 }

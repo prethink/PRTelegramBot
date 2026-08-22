@@ -4,16 +4,16 @@ using System.Text;
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Утилиты для работы со строками.
+    /// Utilities for working with strings.
     /// </summary>
     public static class StringUtils
     {
         /// <summary>
-        /// Хеш для имени файла.
+        /// Hash used for the file name.
         /// </summary>
-        /// <param name="input">Строка.</param>
-        /// <param name="limit">Строка.</param>
-        /// <returns>Хэш.</returns>
+        /// <param name="input">String.</param>
+        /// <param name="limit">String.</param>
+        /// <returns>Hash.</returns>
         public static string HashForFileName(string input, int limit = 16)
         {
             using var sha = SHA256.Create();

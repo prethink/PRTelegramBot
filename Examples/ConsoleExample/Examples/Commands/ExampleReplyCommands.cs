@@ -20,11 +20,11 @@ namespace ConsoleExample.Examples.Commands
         static int count = 0;
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает если 'Команда содержит текст' будет содержаться в тексте сообщения.
-        /// Так же при проверки будет проигнорирован регистр команды.
+        /// The command will run for the bot with botId 0.
+        /// The command runs if 'Command contains text' is contained in the message text.
+        /// The command's letter case is also ignored during the check.
         /// </summary>
-        [ReplyMenuHandler(CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, "Команда содержит текст")]
+        [ReplyMenuHandler(CommandComparison.Contains, StringComparison.OrdinalIgnoreCase, "Command contains text")]
         public static async Task ReplyExampleOne(IBotContext context)
         {
             string msg = nameof(ReplyExampleOne);
@@ -32,10 +32,10 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает если 'Точное совпадение команды' будет точное совпадения текста сообщения за исключением регистра.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when the message text matches 'Exact command match' exactly, ignoring case.
         /// </summary>
-        [ReplyMenuHandler("Точное совпадение команды")]
+        [ReplyMenuHandler("Exact command match")]
         public static async Task ReplyExampleTwo(IBotContext context)
         {
             string msg = nameof(ReplyExampleTwo);
@@ -43,11 +43,11 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Напишите в чате "Пример 1" или "Пример 2".
-        /// Пример с использованием разных reply команд для работы с 1 функцией.
+        /// The command will run for the bot with botId 0.
+        /// Send "Example 1" or "Example 2" in the chat.
+        /// Example of binding several reply commands to a single method.
         /// </summary>
-        [ReplyMenuHandler("Пример 1", "Пример 2")]
+        [ReplyMenuHandler("Example 1", "Example 2")]
         public static async Task ExampleReplyMany(IBotContext context)
         {
             string msg = nameof(ExampleReplyMany);
@@ -55,103 +55,103 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Меню".
-        /// В результате сгенерируется меню.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Menu" is sent to the chat.
+        /// As a result, a menu is generated.
         /// </summary>
-        [ReplyMenuHandler("Reply Меню")]
+        [ReplyMenuHandler("Reply menu")]
         public static async Task ExampleReplyMenu(IBotContext context)
         {
-            string msg = "Меню";
-            //Создаем настройки сообщения
+            string msg = "Menu";
+            //Create the message options
             var option = new OptionMessage();
             var keyboard = new ReplyKeyboardBuilder()
                             .SetResizeKeyboard(true)
-                            .AddButton("Кнопка 1")
-                            .AddRequestContact("Отправить свой контакт", newRow:true)
-                            .AddRequestLocation("Отправить свою локацию")
+                            .AddButton("Button 1")
+                            .AddRequestContact("Share my contact", newRow:true)
+                            .AddRequestLocation("Share my location")
                             .AddRow()
-                            .AddRequestChat("Отправить группу боту", new KeyboardButtonRequestChat(2, true))
-                            .AddRequestUsers("Отправить пользователя боту", new KeyboardButtonRequestUsers() { RequestId = 1 })
-                            .AddRequestPoll("Отправить свою голосование", new KeyboardButtonPollType())
+                            .AddRequestChat("Send a group to the bot", new KeyboardButtonRequestChat(2, true))
+                            .AddRequestUsers("Send a user to the bot", new KeyboardButtonRequestUsers() { RequestId = 1 })
+                            .AddRequestPoll("Send a poll", new KeyboardButtonPollType())
                             .AddEmptyButton(3, newRow:true)
                             .AddRow()
                             .AddButtonWebApp("WebApp", "https://prethink.github.io/telegram/webapp.html")
-                            .SetMainMenuButton("Главное меню")
+                            .SetMainMenuButton("Main menu")
                             .Build();
 
-            //Добавляем в настройки меню
+            //Add the menu to the options
             option.MenuReplyKeyboardMarkup = keyboard;
             await MessageSender.Send(context, msg, option);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Пример динамического текста сообщения".
-        /// Пример работы с текстом из json файла.
-        /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Dynamic message text example" is sent to the chat.
+        /// Example of working with text from a json file.
+        /// Configuration file setup performed when a PRBot instance is created <see cref="Program"/>
         /// </summary>
-        [ReplyMenuHandler("Пример динамического текста сообщения")]
+        [ReplyMenuHandler("Dynamic message text example")]
         public static async Task ExampleDynamicReply(IBotContext context)
         {
             /*
-             *  В program.cs создается экземпляр бота:
+             *  A bot instance is created in program.cs:
              *   
              *  var telegram = new PRBotBuilder(string.Empty)
              *      .AddConfigPath(ExampleConstants.MESSAGES_FILE_KEY, ".\\Configs\\messages.json")
              *      .Build();
              *  
-             *  AddConfigPath - добавляет путь для конфигурационного файла.
-             *  ExampleConstants.MESSAGES_FILE_KEY - ключ 
-             *  ".\\Configs\\messages.json" - путь до конфигурационного файла.
+             *  AddConfigPath - adds the path to the configuration file.
+             *  ExampleConstants.MESSAGES_FILE_KEY - the key 
+             *  ".\\Configs\\messages.json" - path to the configuration file.
              *  
              */
 
             /*
              *  botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT")
-             *  BotConfigJsonProvider - провайдер который работает с json файлами.
-             *  string - возращаемый тип.
-             *  ExampleConstants.MESSAGES_FILE_KEY - ключ конфига.
-             *  MSG_EXAMPLE_TEXT - ключ текста сообщения из json файла messages.json
+             *  BotConfigJsonProvider - the provider that works with json files.
+             *  string - the return type.
+             *  ExampleConstants.MESSAGES_FILE_KEY - the config key.
+             *  MSG_EXAMPLE_TEXT - key of the message text in the messages.json file
              * 
              */
 
-            // Получаем текст сообщения по ключу из json файла.
+            // Get the message text by key from the json file.
             string msg = context.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.MESSAGES_FILE_KEY, "MSG_EXAMPLE_TEXT");
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Скобки".
-        /// Пример работы меню со скобками.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Brackets" is sent to the chat.
+        /// Example of a menu with brackets.
         /// </summary>
-        [ReplyMenuHandler("Скобки")]
+        [ReplyMenuHandler("Brackets")]
         public static async Task ExampleBracket(IBotContext context)
         {
-            string msg = $"Значени {count}";
-            //Создаем настройки сообщения
+            string msg = $"Value {count}";
+            //Create the message options
             var option = new OptionMessage();
-            //Создаем список для меню
+            //Create the list for the menu
             var menuList = new List<KeyboardButton>();
-            //Добавляем кнопку с текстом
-            menuList.Add(new KeyboardButton($"Скобки ({count})"));
-            //Генерируем reply меню
-            //1 столбец, коллекция пунктов меню, вертикальное растягивание меню, пункт в самом низу по умолчанию
-            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
-            //Добавляем в настройки меню
+            //Add a button with text
+            menuList.Add(new KeyboardButton($"Brackets ({count})"));
+            //Generate the reply menu
+            //1 column, the collection of menu items, vertical menu stretching, the item pinned at the very bottom by default
+            var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Main menu");
+            //Add the menu to the options
             option.MenuReplyKeyboardMarkup = menu;
             await MessageSender.Send(context, msg, option);
             count++;
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "Проверка доступа".
-        /// Перед выполнение метода срабатывает событие проверки привилегий <see cref="ExampleEvents.OnCheckPrivilege"/>
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "Access check" is sent to the chat.
+        /// Before the method runs, the privilege check event <see cref="ExampleEvents.OnCheckPrivilege"/> is raised
         /// </summary>
         [Access((int)(UserPrivilege.Guest | UserPrivilege.Registered))]
-        [ReplyMenuHandler("Проверка доступа")]
+        [ReplyMenuHandler("Access check")]
         public static async Task ExampleAccess(IBotContext context)
         {
             string msg = nameof(ExampleAccess);
@@ -159,28 +159,28 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат значения по ключу "DYNAMIC_COMMANT_EXAMPLE" из файла commands.json.
-        /// Настройка конфигурационных файла при создание экземпляра PRBot <see cref="Program"/>
-        /// "DYNAMIC_COMMANT_EXAMPLE": "Динамическая команда"
+        /// The command will run for the bot with botId 0.
+        /// The command runs when the value stored under the "DYNAMIC_COMMANT_EXAMPLE" key in commands.json is sent to the chat.
+        /// Configuration file setup performed when a PRBot instance is created <see cref="Program"/>
+        /// "DYNAMIC_COMMANT_EXAMPLE": "Dynamic command"
         /// </summary>
         [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))]
         public static async Task ExampleReplyDynamicCommand(IBotContext context)
         {
             /*
-             *  Создание провайдера работы с json файлом commands.json
+             *  Creating a provider that works with the commands.json file
              *  var botJsonProvider = new BotConfigJsonProvider(".\\Configs\\commands.json");
              *  
-             *  Выгрузка всех команд в формате ключ:значение
+             *  Retrieving all commands as key:value pairs
              *  var dynamicCommands = botJsonProvider.GetKeysAndValues();
              *
              *  var telegram = new PRBotBuilder(string.Empty)
              *                      .AddReplyDynamicCommands(dynamicCommands)
              *                      .Build();
              * 
-             * .AddReplyDynamicCommands(dynamicCommands) - добавляет в список все динамические команды.
+             * .AddReplyDynamicCommands(dynamicCommands) - adds all dynamic commands to the list.
              * 
-             * [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))] - работа динамической команды по ключу DYNAMIC_COMMANT_EXAMPLE
+             * [ReplyMenuDynamicHandler(nameof(ExampleConstants.DYNAMIC_COMMANT_EXAMPLE))] - runs the dynamic command bound to the DYNAMIC_COMMANT_EXAMPLE key
              */
 
             string msg = nameof(ExampleReplyDynamicCommand);
@@ -188,10 +188,10 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Напишите в чате "Приватная команда"
-        /// Требуемый чат должнен быть приватным.
+        /// Send "Private command" in the chat
+        /// The required chat must be a private one.
         /// </summary>
-        [ReplyMenuHandler("Приватная команда")]
+        [ReplyMenuHandler("Private command")]
         [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
         public static async Task ExampleReplyRequeretPrivate(IBotContext context)
         {
@@ -200,10 +200,10 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Напишите в чате "Сообщение только из текста"
-        /// Требуемый тип сообщения должен содержать только текст.
+        /// Send "Text-only message" in the chat
+        /// The required message type must contain text only.
         /// </summary>
-        [ReplyMenuHandler("Сообщение только из текста")]
+        [ReplyMenuHandler("Text-only message")]
         [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
         public static async Task ExampleReplyRequiredText(IBotContext context)
         {
@@ -212,11 +212,11 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 1.
-        /// Команда отработает при написание в чат "Пример команды для бота id 1".
-        /// Пример работы с текстом из json файла.
+        /// The command will run for the bot with botId 1.
+        /// The command runs when "Example command for bot id 1" is sent to the chat.
+        /// Example of working with text from a json file.
         /// </summary>
-        [ReplyMenuHandler(1, "Пример команды для бота id 1")]
+        [ReplyMenuHandler(1, "Example command for bot id 1")]
         public static async Task ExampleReplyBotIdOne(IBotContext context)
         {
             string msg = nameof(ExampleReplyBotIdOne);
@@ -224,10 +224,10 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для любого бота с любым botid.
-        /// Команда отработает при написание в чат "Команда для всех ботов".
+        /// The command will run for any bot with any botId.
+        /// The command runs when "Command for all bots" is sent to the chat.
         /// </summary>
-        [ReplyMenuHandler(PRConstants.ALL_BOTS_ID, "Команда для всех ботов")]
+        [ReplyMenuHandler(PRConstants.ALL_BOTS_ID, "Command for all bots")]
         public static async Task ReplyExampleAllBots(IBotContext context)
         {
             string msg = nameof(ReplyExampleAllBots);
@@ -235,7 +235,7 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Reply команда которая задерживает обработку update.
+        /// A reply command that delays processing of the update.
         /// </summary>
         [ReplyMenuHandler("Block10")]
         public static async Task ReplyBlockUpdate(IBotContext context)
@@ -245,7 +245,7 @@ namespace ConsoleExample.Examples.Commands
 
             await Task.Delay(10000);
 
-            await MessageSender.Send(context, "Конец ожидания");
+            await MessageSender.Send(context, "Done waiting");
         }
 
     }

@@ -4,17 +4,17 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Базовый атрибут для обработки команд.
+    /// Base attribute for handling commands.
     /// </summary>
-    /// <typeparam name="T">Тип параметра.</typeparam>
+    /// <typeparam name="T">Parameter type.</typeparam>
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public abstract class BaseQueryAttribute<T> 
         : Attribute, IBaseQueryAttribute, ICommandStore<T>
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Команды для методов.
+        /// Commands bound to the methods.
         /// </summary>
         protected List<T> commands = new List<T>();
 
@@ -37,13 +37,13 @@ namespace PRTelegramBot.Attributes
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commandComparison">Сравнение команд.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commandComparison">Command comparison.</param>
         public BaseQueryAttribute(long[] botIds, CommandComparison commandComparison)
         {
             BotIds.AddRange(botIds);

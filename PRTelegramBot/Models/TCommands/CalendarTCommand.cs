@@ -4,33 +4,33 @@ using System.Text.Json.Serialization;
 namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
-    /// Команда для передачи даты из календаря.
+    /// Command that carries a date from the calendar.
     /// </summary>
     public class CalendarTCommand : TCommandBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Дата.
+        /// Date.
         /// </summary>
         [JsonPropertyName("1")]
         [JsonConverter(typeof(DateOnlyConverter))]
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Культура.
+        /// Culture.
         /// </summary>
         [JsonPropertyName("2")]
         public string Culture { get; set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="date">Дата.</param>
+        /// <param name="date">Date.</param>
         public CalendarTCommand(DateTime date)
             : this(date, CultureInfo.GetCultureInfo("ru-RU", false), 0)
         {
@@ -38,10 +38,10 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="date">Дата.</param>
-        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
+        /// <param name="date">Date.</param>
+        /// <param name="headerCallbackCommand">Callback command header.</param>
         public CalendarTCommand(DateTime date, int headerCallbackCommand)
             : this(date, CultureInfo.GetCultureInfo("ru-RU", false), headerCallbackCommand)
         {
@@ -49,11 +49,11 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="date">Дата.</param>
-        /// <param name="headerCallbackCommand">Заголовок callback команды.</param>
-        /// <param name="culture">Язык календаря.</param>
+        /// <param name="date">Date.</param>
+        /// <param name="headerCallbackCommand">Callback command header.</param>
+        /// <param name="culture">Calendar language.</param>
         public CalendarTCommand(DateTime date, CultureInfo culture, int headerCallbackCommand)
             : base(headerCallbackCommand, Enums.ActionWithLastMessage.Edit)
         {
@@ -62,7 +62,7 @@ namespace PRTelegramBot.Models.CallbackCommands
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public CalendarTCommand() { }
 

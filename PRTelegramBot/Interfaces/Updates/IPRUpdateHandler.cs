@@ -4,12 +4,12 @@ using Telegram.Bot.Polling;
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Обработчик обновлений telegram.
+    /// Telegram update handler.
     /// </summary>
     public interface IPRUpdateHandler : IUpdateHandler
     {
         /// <summary>
-        /// Горячая перезагрузка.
+        /// Hot reload.
         /// </summary>
         public void HotReload();
     }

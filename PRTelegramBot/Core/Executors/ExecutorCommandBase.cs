@@ -5,13 +5,13 @@ using PRTelegramBot.Models.Enums;
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Базовый исполнитель команд.
+    /// Base command executor.
     /// </summary>
-    /// <typeparam name="TKey">Тип ключа для команд.</typeparam>
+    /// <typeparam name="TKey">Type of the command key.</typeparam>
     internal abstract class ExecutorCommandBase<TKey> 
         where TKey : notnull
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
         /// Telegram bot.
@@ -19,21 +19,21 @@ namespace PRTelegramBot.Core.Executors
         protected PRBotBase bot;
 
         /// <summary>
-        /// Тип команд.
+        /// Command type.
         /// </summary>
         public abstract CommandType CommandType { get; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Выполнить команду.
+        /// Executes the command.
         /// </summary>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="commands">Команды.</param>
-        /// <returns>Результат выполнения команды.</returns>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="commands">Commands.</param>
+        /// <returns>The command execution result.</returns>
         public async Task<CommandResult> Execute(TKey command, IBotContext context, Dictionary<TKey, CommandHandler> commands)
         {
             foreach (var commandExecute in commands.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
@@ -45,23 +45,23 @@ namespace PRTelegramBot.Core.Executors
         }
 
         /// <summary>
-        /// Выполнить команду.
+        /// Executes the command.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <returns>Результат выполнения команды.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="command">Command to execute.</param>
+        /// <returns>The command execution result.</returns>
         public async Task<CommandResult> Execute(IBotContext context, CommandHandler command)
         {
             return await ExecuteMethod(context, command);
         }
 
         /// <summary>
-        /// Получить обработчик для выполнения команды.
+        /// Gets the handler that executes the command.
         /// </summary>
-        /// <param name="command">Команда для выполнения.</param>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="commands">Команды.</param>
-        /// <returns>Обработчик выполения команды или null.</returns>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="commands">Commands.</param>
+        /// <returns>The handler that executes the command, or null.</returns>
         public CommandHandler GetExecuteHandlerOrNull(TKey command, IBotContext context, Dictionary<TKey, CommandHandler> commands)
         {
             foreach (var commandExecute in commands.OrderByDescending(x => x.Value.CommandComparison == CommandComparison.Equals))
@@ -74,11 +74,11 @@ namespace PRTelegramBot.Core.Executors
         }
 
         /// <summary>
-        /// Выполнить метод.
+        /// Executes the method.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="handler">Обработчик.</param>
-        /// <returns>Результат выполнения команды.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="handler">Handler.</param>
+        /// <returns>The command execution result.</returns>
         public virtual async Task<CommandResult> ExecuteMethod(IBotContext context, CommandHandler handler)
         {
             var result = await InternalCheck(context, handler);
@@ -90,30 +90,30 @@ namespace PRTelegramBot.Core.Executors
         }
 
         /// <summary>
-        /// Внутрення проверка для <see cref="ExecuteMethod"/>
+        /// Internal check for <see cref="ExecuteMethod"/>
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="handler">Обработчик.</param>
-        /// <returns>Результат выполнения проверки.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="handler">Handler.</param>
+        /// <returns>The result of the check.</returns>
         protected abstract Task<InternalCheckResult> InternalCheck(IBotContext context, CommandHandler handler);
 
         /// <summary>
-        /// Можно ли выполнить команду.
+        /// Whether the command can be executed.
         /// </summary>
-        /// <param name="currentCommand">Текущая команда.</param>
-        /// <param name="commandFromCollection">Команда из коллекции.</param>
-        /// <param name="handler">Обработчик команды.</param>
-        /// <returns>True - можно выполнить команду, False - нельзя выполнить команду.</returns>
+        /// <param name="currentCommand">Current command.</param>
+        /// <param name="commandFromCollection">The command from the collection.</param>
+        /// <param name="handler">Command handler.</param>
+        /// <returns>True if the command may be executed; False if it may not.</returns>
         protected abstract bool CanExecute(TKey currentCommand, TKey commandFromCollection, CommandHandler handler);
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorCommandBase(PRBotBase bot)
         {
             this.bot = bot;

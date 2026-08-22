@@ -11,112 +11,112 @@ namespace ConsoleExample.Examples.Commands
     internal class ExampleSlashCommands
     {
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/example".
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/example" is sent to the chat.
         /// </summary>
         [SlashHandler("/example")]
         public static async Task ExampleSlashCommand(IBotContext context)
         {
             context.Current.GetLogger<ExampleSlashCommands>().LogWarning("Hello world");
-            string msg = $"Команда /example";
-            msg += "\n /get_1 - команда 1" +
-                "\n /get_2 - команда 2" +
-                "\n /get_3 - команда 3" +
-                "\n /get_4 - команда 4";
+            string msg = $"Command /example";
+            msg += "\n /get_1 - command 1" +
+                "\n /get_2 - command 2" +
+                "\n /get_3 - command 3" +
+                "\n /get_4 - command 4";
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/get".
-        /// Команда отработает при написание в чат "/get_1", значение 1 можно обработать.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/get" is sent to the chat.
+        /// The command runs when "/get_1" is sent to the chat; the value 1 can be processed.
         /// </summary>
         [SlashHandler('_', "/get")]
         public static async Task ExampleSlashCommandGet(IBotContext context)
         {
             var args = context.GetSlashArgs();
 
-            // Нет аргументов
+            // No arguments
             if (args.Count == 0)
             {
-                await MessageSender.Send(context, "Команда /get");
+                await MessageSender.Send(context, "Command /get");
                 return;
             }
 
-            // Один аргумент
+            // One argument
             if (args.Count == 1)
             {
-                await MessageSender.Send(context, $"Команда /get со значением: {args[0]}");
+                await MessageSender.Send(context, $"Command /get with the value: {args[0]}");
                 return;
             }
 
-            // Несколько аргументов
+            // Several arguments
             string joinedArgs = string.Join(", ", args);
-            await MessageSender.Send(context, $"Команда /get со значениями: {joinedArgs}");
+            await MessageSender.Send(context, $"Command /get with the values: {joinedArgs}");
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/int".
-        /// Команда отработает при написание в чат "/int_1", значение 1 можно обработать.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/int" is sent to the chat.
+        /// The command runs when "/int_1" is sent to the chat; the value 1 can be processed.
         /// </summary>
         [SlashHandler('_', "/int")]
         public static async Task ExampleSlashIntCommandGet(IBotContext context)
         {
             var args = context.GetSlashArgs<int>();
 
-            // Нет аргументов
+            // No arguments
             if (args.Count == 0)
             {
-                await MessageSender.Send(context, "Команда /int");
+                await MessageSender.Send(context, "Command /int");
                 return;
             }
 
-            // Один аргумент
+            // One argument
             if (args.Count == 1)
             {
-                await MessageSender.Send(context, $"Команда /int со значением: {args[0]}");
+                await MessageSender.Send(context, $"Command /int with the value: {args[0]}");
                 return;
             }
 
-            // Несколько аргументов
+            // Several arguments
             string joinedArgs = string.Join(", ", args);
-            await MessageSender.Send(context, $"Команда /int со значениями: {joinedArgs}");
+            await MessageSender.Send(context, $"Command /int with the values: {joinedArgs}");
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/bool".
-        /// Команда отработает при написание в чат "/bool_true", значение 1 можно обработать.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/bool" is sent to the chat.
+        /// The command runs when "/bool_true" is sent to the chat; the value 1 can be processed.
         /// </summary>
         [SlashHandler('_', "/bool")]
         public static async Task ExampleSlashBoolCommandGet(IBotContext context)
         {
             var args = context.GetSlashArgs<bool>();
 
-            // Нет аргументов
+            // No arguments
             if (args.Count == 0)
             {
-                await MessageSender.Send(context, "Команда /bool");
+                await MessageSender.Send(context, "Command /bool");
                 return;
             }
 
-            // Один аргумент
+            // One argument
             if (args.Count == 1)
             {
-                await MessageSender.Send(context, $"Команда /bool со значением: {args[0]}");
+                await MessageSender.Send(context, $"Command /bool with the value: {args[0]}");
                 return;
             }
 
-            // Несколько аргументов
+            // Several arguments
             string joinedArgs = string.Join(", ", args);
-            await MessageSender.Send(context, $"Команда /bool со значениями: {joinedArgs}");
+            await MessageSender.Send(context, $"Command /bool with the values: {joinedArgs}");
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/start".
-        /// Команда отработает при написание в чат "/start 1", значение 1 можно обработать.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/start" is sent to the chat.
+        /// The command runs when "/start 1" is sent to the chat; the value 1 can be processed.
         /// </summary>
         [SlashHandler(' ', "/start")]
         public static async Task ExampleSlashCommandStart(IBotContext context)
@@ -124,19 +124,19 @@ namespace ConsoleExample.Examples.Commands
             var args = context.GetSlashArgs();
             if (args.Count > 0)
             {
-                string msgWithArgs = $"Команда /start со значением {args[0]}";
+                string msgWithArgs = $"Command /start with the value {args[0]}";
                 await MessageSender.Send(context, msgWithArgs);
                 return;
             }
 
-            string msg = $"Команда /start";
+            string msg = $"Command /start";
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/equals", сработает только если текст сообщения будет /equals но при этом регистро не зависимо.
-        /// /equals_1 не сработает.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/equals" is sent to the chat; it triggers only if the message text is /equals, case-insensitively.
+        /// /equals_1 will not trigger.
         /// </summary>
         [SlashHandler(CommandComparison.Equals, "/equals")]
         public static async Task ExampleSlashEqualsCommand(IBotContext context)
@@ -146,9 +146,9 @@ namespace ConsoleExample.Examples.Commands
         }
 
         /// <summary>
-        /// Команда отработает для бота с botId 0.
-        /// Команда отработает при написание в чат "/equalsreg", сработает только если текст сообщения будет /equalsreg но при этом регистро зависимо.
-        /// Не сработает/equals_1, /equalsreG, /Equalsreg.
+        /// The command will run for the bot with botId 0.
+        /// The command runs when "/equalsreg" is sent to the chat; it triggers only if the message text is /equalsreg, case-sensitively.
+        /// Will not trigger for /equals_1, /equalsreG, /Equalsreg.
         /// </summary>
         [SlashHandler(CommandComparison.Equals, StringComparison.Ordinal, "/equalsreg")]
         public static async Task ExampleSlashEqualsRegisterCommand(IBotContext context)

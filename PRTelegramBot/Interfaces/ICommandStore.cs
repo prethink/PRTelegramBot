@@ -1,13 +1,13 @@
 ﻿namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс хранилища команд.
+    /// Interface of the command store.
     /// </summary>
-    /// <typeparam name="T">Тип команд.</typeparam>
+    /// <typeparam name="T">Command type.</typeparam>
     internal interface ICommandStore<T>
     {
         /// <summary>
-        /// Команды.
+        /// Commands.
         /// </summary>
         IEnumerable<T> Commands { get; }
     }

@@ -3,17 +3,17 @@
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Базовый интерфейс обработки команд.
+    /// Base interface for command handling.
     /// </summary>
-    /// <typeparam name="T">Тип update для проверки.</typeparam>
+    /// <typeparam name="T">The update type to check.</typeparam>
     public interface ICommandHandlerBase<T>
     {
         /// <summary>
-        /// Обработка.
+        /// Handling.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="updateType">Конкретный класс update.</param>
-        /// <returns>Результат обновления.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="updateType">The concrete update class.</param>
+        /// <returns>The update result.</returns>
         public Task<UpdateResult> Handle(IBotContext context, T updateType);
     }
 }

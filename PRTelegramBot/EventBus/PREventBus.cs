@@ -1,25 +1,25 @@
 ﻿namespace PRTelegramBot.EventBus
 {
     /// <summary>
-    /// Шина событий.
+    /// Event bus.
     /// </summary>
     public static class PREventBus
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Подписчики событий.
+        /// Event subscribers.
         /// </summary>
         private static Dictionary<Type, SubscribersList<IPRGlobalSubscriber>> subscribers = new Dictionary<Type, SubscribersList<IPRGlobalSubscriber>>();
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Подписаться.
+        /// Subscribes.
         /// </summary>
-        /// <param name="subscriber">Подписчик.</param>
+        /// <param name="subscriber">Subscriber.</param>
         public static void Subscribe(IPRGlobalSubscriber subscriber)
         {
             List<Type> subscriberTypes = EventBusHelper.GetSubscriberTypes(subscriber);
@@ -33,9 +33,9 @@
         }
 
         /// <summary>
-        /// Отписаться.
+        /// Unsubscribes.
         /// </summary>
-        /// <param name="subscriber">Подписчик.</param>
+        /// <param name="subscriber">Subscriber.</param>
         public static void Unsubscribe(IPRGlobalSubscriber subscriber)
         {
             List<Type> subscriberTypes = EventBusHelper.GetSubscriberTypes(subscriber);
@@ -47,10 +47,10 @@
         }
 
         /// <summary>
-        /// Вызвать событие.
+        /// Raises the event.
         /// </summary>
-        /// <typeparam name="TSubscriber">Тип подписчика.</typeparam>
-        /// <param name="action">Метод вызова.</param>
+        /// <typeparam name="TSubscriber">Subscriber type.</typeparam>
+        /// <param name="action">The method to invoke.</param>
         public static void RaiseEvent<TSubscriber>(Action<TSubscriber> action) where TSubscriber : class, IPRGlobalSubscriber
         {
             if (!subscribers.ContainsKey(typeof(TSubscriber)))

@@ -3,24 +3,24 @@
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Класс хранящий всех ботов.
+    /// Class that holds all bots.
     /// </summary>
     public sealed class BotCollection : IBotCollection
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Глобальный экземпляр настроек.
+        /// The global settings instance.
         /// </summary>
         public static IBotCollection Instance => instance.Value;
 
         /// <summary>
-        /// Lazy инициализация глобального экземпляра настроек.
+        /// Lazy initialization of the global settings instance.
         /// </summary>
         private static Lazy<IBotCollection> instance = new Lazy<IBotCollection>(() => new BotCollection());
 
         /// <summary>
-        /// Коллекция ботов.
+        /// Collection of bots.
         /// </summary>
         private Dictionary<long, PRBotBase> botList = new();
 
@@ -63,10 +63,10 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         private BotCollection() { }
 

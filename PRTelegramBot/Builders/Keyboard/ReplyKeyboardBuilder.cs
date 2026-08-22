@@ -4,70 +4,70 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Builders.Keyboard
 {
     /// <summary>
-    /// Билдер для удобного построения ReplyKeyboardMarkup.
-    /// Позволяет задавать параметры клавиатуры и динамически добавлять кнопки и строки.
+    /// Builder for conveniently constructing a ReplyKeyboardMarkup.
+    /// Lets you set keyboard options and add buttons and rows dynamically.
     /// </summary>
     public class ReplyKeyboardBuilder : KeyboardBuilderBase<KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardBuilder>
     {
-        #region Поля и свойства 
+        #region Fields and properties 
 
         /// <summary>
-        /// Запрашивает у клиентов Telegram всегда показывать
-        /// пользовательскую клавиатуру, даже если обычная системная клавиатура скрыта.
-        /// По умолчанию: false.  
-        /// Если false — пользовательская клавиатура может быть скрыта и открыта иконкой клавиатуры.
+        /// Asks Telegram clients to always show
+        /// the custom keyboard, even when the regular system keyboard is hidden.
+        /// Default: false.  
+        /// If false, the custom keyboard can be hidden and reopened with the keyboard icon.
         /// </summary>
         private bool isPersistent;
 
         /// <summary>
-        /// Запрашивает у клиентов автоматически изменять высоту
-        /// клавиатуры для оптимального отображения (например, уменьшить высоту, если всего
-        /// две строки кнопок).  
-        /// По умолчанию: false.  
-        /// Если false — клавиатура всегда отображается той же высоты, что и стандартная.
+        /// Asks clients to automatically adjust the height
+        /// of the keyboard for an optimal layout (for example, to reduce the height when there are only
+        /// two rows of buttons).  
+        /// Default: false.  
+        /// If false, the keyboard is always shown with the same height as the standard one.
         /// </summary>
         private bool resizeKeyboard;
 
         /// <summary>
-        /// Запрашивает у клиентов скрывать клавиатуру сразу после того,
-        /// как пользователь нажал на кнопку.  
-        /// Клавиатура остаётся доступной, но Telegram автоматически переключится на обычную клавиатуру,
-        /// и пользователь сможет повторно открыть кастомную клавиатуру кнопкой в поле ввода.
-        /// По умолчанию: false.
+        /// Asks clients to hide the keyboard right after
+        /// the user presses a button.  
+        /// The keyboard stays available, but Telegram automatically switches back to the regular keyboard,
+        /// and the user can reopen the custom keyboard with the button in the input field.
+        /// Default: false.
         /// </summary>
         private bool oneTimeKeyboard;
 
         /// <summary>
-        /// Текст-заполнитель, отображаемый в поле ввода, пока клавиатура
-        /// активна. Может содержать от 1 до 64 символов.
+        /// The placeholder text shown in the input field while the keyboard
+        /// is active. May contain from 1 to 64 characters.
         /// </summary>
         private string? inputFieldPlaceholder;
 
         /// <summary>
-        /// Используется, если нужно показать клавиатуру только
-        /// определённым пользователям.  
-        /// Клавиатура будет видна:
-        /// 1) Пользователям, упомянутым в тексте сообщения (@username).  
-        /// 2) Если сообщение — ответ, то отправителю оригинального сообщения в этом же чате/треде.
+        /// Use it when the keyboard should be shown only
+        /// specific users.  
+        /// The keyboard will be visible to:
+        /// 1) Users mentioned in the message text (@username).  
+        /// 2) If the message is a reply, the sender of the original message in the same chat/thread.
         /// </summary>
         private bool selective;
 
         /// <summary>
-        /// Название кнопки главного меню. Если не указано, кнопки нет.
+        /// Name of the main menu button. If not specified, there is no button.
         /// </summary>
         private string? mainMenuButton;
 
         /// <summary>
-        /// Позиция кнопки главного меню, если кнопка есть.
+        /// Position of the main menu button, if there is one.
         /// </summary>
         private MainMenuButtonPosition mainMenuButtonPosition;
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Установить флаг постоянной клавиатуры.
+        /// Sets the persistent keyboard flag.
         /// </summary>
         public ReplyKeyboardBuilder SetPersistent(bool value = true)
         {
@@ -76,7 +76,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Установить флаг изменения размера клавиатуры.
+        /// Sets the keyboard resize flag.
         /// </summary>
         public ReplyKeyboardBuilder SetResizeKeyboard(bool value = true)
         {
@@ -85,7 +85,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Установить флаг временной клавиатуры.
+        /// Sets the one-time keyboard flag.
         /// </summary>
         public ReplyKeyboardBuilder SetOneTimeKeyboard(bool value = true)
         {
@@ -94,7 +94,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Установить текст-подсказку в поле ввода.
+        /// Sets the placeholder text in the input field.
         /// </summary>
         public ReplyKeyboardBuilder SetInputFieldPlaceholder(string placeholder)
         {
@@ -103,7 +103,7 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Показ клавиатуры только определённым пользователям.
+        /// Shows the keyboard only to specific users.
         /// </summary>
         public ReplyKeyboardBuilder SetSelective(bool value = true)
         {
@@ -112,13 +112,13 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Устанавливает название кнопки главного меню и позицию,
-        /// в которой она будет добавлена (сверху или снизу клавиатуры).
-        /// Если название не указано — кнопка не будет добавлена.
+        /// Sets the name of the main menu button and the position
+        /// it is added at (the top or the bottom of the keyboard).
+        /// If no name is given, the button is not added.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки главного меню.</param>
-        /// <param name="mainMenuButtonPosition">Позиция кнопки в клавиатуре (по умолчанию — Bottom).</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Text of the main menu button.</param>
+        /// <param name="mainMenuButtonPosition">Position of the button on the keyboard (Bottom by default).</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder SetMainMenuButton(string buttonName, MainMenuButtonPosition mainMenuButtonPosition = MainMenuButtonPosition.Bottom)
         {
             this.mainMenuButton = buttonName;
@@ -127,12 +127,12 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет обычную кнопку с указанным текстом.
-        /// Можно указать, должна ли кнопка быть добавлена в новую строку.
+        /// Adds a regular button with the specified text.
+        /// You can specify whether the button should be added on a new row.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddButton(string buttonName, bool newRow = false)
         {
             this.AddButton(new KeyboardButton(buttonName), newRow);
@@ -140,12 +140,12 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку, открывающую WebApp по ссылке.
+        /// Adds a button that opens a WebApp by its link.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
+        /// <param name="buttonName">Button text.</param>
         /// <param name="url">URL WebApp.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddButtonWebApp(string buttonName, string url, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithWebApp(buttonName, new WebAppInfo() { Url = url }), newRow);
@@ -153,12 +153,12 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса контакта пользователя.
-        /// При нажатии Telegram отправит контакт пользователя.
+        /// Adds a button that requests the user's contact.
+        /// When pressed, Telegram sends the user's contact.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddRequestContact(string buttonName, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithRequestContact(buttonName), newRow);
@@ -166,12 +166,12 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса геолокации.
-        /// При нажатии Telegram отправит текущее местоположение пользователя.
+        /// Adds a button that requests the user's location.
+        /// When pressed, Telegram sends the user's current location.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddRequestLocation(string buttonName, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithRequestLocation(buttonName), newRow);
@@ -179,13 +179,13 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса выбора чата.
-        /// Позволяет пользователю выбрать чат согласно параметрам запроса.
+        /// Adds a button that requests a chat selection.
+        /// Lets the user pick a chat according to the request parameters.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="requestChat">Объект параметров запроса чата.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="requestChat">The chat request parameters object.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddRequestChat(string buttonName, KeyboardButtonRequestChat requestChat, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithRequestChat(buttonName, requestChat), newRow);
@@ -193,13 +193,13 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса выбора чата, указывая параметры запроса вручную.
+        /// Adds a button that requests a chat selection, with the request parameters specified manually.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="requestId">ID запроса.</param>
-        /// <param name="chatIsChannel">True — выбирать только каналы; false — только группы/чаты.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="requestId">Request ID.</param>
+        /// <param name="chatIsChannel">True to pick channels only; false for groups/chats only.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddRequestChat(string buttonName, int requestId, bool chatIsChannel, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithRequestChat(buttonName, requestId, chatIsChannel), newRow);
@@ -207,12 +207,12 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса выбора пользователей.
+        /// Adds a button that requests a user selection.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="requestUsers">Параметры запроса пользователей.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="requestUsers">User request parameters.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         /// <returns></returns>
         public ReplyKeyboardBuilder AddRequestUsers(string buttonName, KeyboardButtonRequestUsers requestUsers, bool newRow = false)
         {
@@ -221,14 +221,14 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса выбора пользователей,
-        /// указывая параметры запроса вручную.
+        /// Adds a button that requests a user selection,
+        /// with the request parameters specified manually.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="requestId">ID запроса.</param>
-        /// <param name="maxQuantity">Максимальное количество выбираемых пользователей.</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="requestId">Request ID.</param>
+        /// <param name="maxQuantity">Maximum number of users that can be selected.</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddRequestUsers(string buttonName, int requestId, int? maxQuantity = null, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithRequestUsers(buttonName, requestId, maxQuantity), newRow);
@@ -236,13 +236,13 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет кнопку запроса создания опроса.
-        /// При нажатии Telegram предложит пользователю создать опрос указанного типа.
+        /// Adds a button that requests a poll to be created.
+        /// When pressed, Telegram prompts the user to create a poll of the specified type.
         /// </summary>
-        /// <param name="buttonName">Текст кнопки.</param>
-        /// <param name="pollType">Тип опроса (обычный или квиз).</param>
-        /// <param name="newRow">Если true — кнопка добавляется в новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="buttonName">Button text.</param>
+        /// <param name="pollType">Poll type (regular or quiz).</param>
+        /// <param name="newRow">If true, the button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddRequestPoll(string buttonName, KeyboardButtonPollType pollType, bool newRow = false)
         {
             this.AddButton(KeyboardButton.WithRequestPoll(buttonName, pollType), newRow);
@@ -250,12 +250,12 @@ namespace PRTelegramBot.Builders.Keyboard
         }
 
         /// <summary>
-        /// Добавляет указанное количество "пустых" кнопок — декоративных элементов,
-        /// используемых для выравнивания или заполнения свободного места.
+        /// Adds the specified number of "empty" buttons — decorative elements
+        /// used to align the layout or fill up free space.
         /// </summary>
-        /// <param name="count">Сколько пустых кнопок добавить.</param>
-        /// <param name="newRow">Если true — каждая кнопка будет добавляться на новую строку.</param>
-        /// <returns>Текущий экземпляр билдера.</returns>
+        /// <param name="count">How many empty buttons to add.</param>
+        /// <param name="newRow">If true, every button is added on a new row.</param>
+        /// <returns>The current builder instance.</returns>
         public ReplyKeyboardBuilder AddEmptyButton(int count = 1, bool newRow = false)
         {
             for (int i = 0; i < count; i++)
@@ -269,7 +269,7 @@ namespace PRTelegramBot.Builders.Keyboard
 
         #endregion
 
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc/>
         protected override void ReplaceEmptyButtons()
@@ -322,16 +322,16 @@ namespace PRTelegramBot.Builders.Keyboard
     }
 
     /// <summary>
-    /// Перечисление позиции кнопки главного меню.
+    /// Enum for the position of the main menu button.
     /// </summary>
     public enum MainMenuButtonPosition
     {
         /// <summary>
-        /// Сверху.
+        /// Top.
         /// </summary>
         Top,
         /// <summary>
-        /// Снизу.
+        /// Bottom.
         /// </summary>
         Bottom
     }

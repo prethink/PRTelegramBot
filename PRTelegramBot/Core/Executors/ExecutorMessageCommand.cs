@@ -9,11 +9,11 @@ using System.Reflection;
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Базовый исполнитель для команд типа сообщения.
+    /// Base executor for message-type commands.
     /// </summary>
     internal abstract class ExecutorMessageCommand : ExecutorCommandBase<string>
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         protected override async Task<InternalCheckResult> InternalCheck(IBotContext context, CommandHandler handler)
@@ -98,12 +98,12 @@ namespace PRTelegramBot.Core.Executors
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorMessageCommand(PRBotBase bot) : base(bot) { }
 
         #endregion

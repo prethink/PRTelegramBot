@@ -3,15 +3,15 @@
 namespace PRTelegramBot.Core.Factory
 {
     /// <summary>
-    /// Абстрактная фабрика.
+    /// Abstract factory.
     /// </summary>
     public abstract class PRBotFactoryBase
     {
         /// <summary>
-        /// Создание экземпляра класса PRBot.
+        /// Creates an instance of the PRBot class.
         /// </summary>
-        /// <param name="options">Параметры.</param>
-        /// <returns>Экземпляр PRBot в зависимости от фабрики.</returns>
+        /// <param name="options">Parameters.</param>
+        /// <returns>A PRBot instance produced by the factory.</returns>
         public abstract PRBotBase CreateBot(TelegramOptions options);
     }
 }

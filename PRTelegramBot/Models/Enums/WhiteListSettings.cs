@@ -3,12 +3,12 @@
     public enum WhiteListSettings
     {
         /// <summary>
-        /// Проверка перед update.
+        /// The check performed before the update.
         /// </summary>
         OnPreUpdate = 0,
 
         /// <summary>
-        /// Проверка только Reply, Slash, Inline команд.
+        /// Only reply, slash and inline commands are checked.
         /// </summary>
         OnlyCommands = 1,
     }

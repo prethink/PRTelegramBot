@@ -4,14 +4,14 @@ using System.Text.Json;
 namespace PRTelegramBot.Wrappers
 {
     /// <summary>
-    /// Сериализатор данных Json.
+    /// Json data serializer.
     /// </summary>
     public class JsonSerializerWrapper : IPRSerializer
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Опции сериализации. 
+        /// Serialization options. 
         /// </summary>
         private readonly JsonSerializerOptions options;
 
@@ -33,19 +33,19 @@ namespace PRTelegramBot.Wrappers
 
         #endregion
 
-        #region Конструкторы    
+        #region Constructors    
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="options">Параметры сериализации.</param>
+        /// <param name="options">Serialization options.</param>
         public JsonSerializerWrapper(JsonSerializerOptions options = null)
         {
             this.options = options;
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public JsonSerializerWrapper()
         {

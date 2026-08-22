@@ -1,14 +1,14 @@
 ﻿namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Кэш для данных.
+    /// Cache for the data.
     /// </summary>
     public interface ITelegramCache
     {
         /// <summary>
-        /// Очистка данных
+        /// Clears the data
         /// </summary>
-        /// <returns>True - данные очищены, False - нет.</returns>
+        /// <returns>True if the data was cleared; False otherwise.</returns>
         public bool ClearData();
     }
 }

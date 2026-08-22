@@ -3,15 +3,15 @@
 namespace FastBotTemplateConsole.Models.Enums
 {
     /// <summary>
-    /// Типы меню для рекламы
+    /// Menu types for ads
     /// </summary>
     public enum MenuType
     {
-        [Description("Без меню")]
+        [Description("No menu")]
         None = 0,
-        [Description("Обычное кнопочное меню")]
+        [Description("Regular button menu")]
         Reply,
-        [Description("Inline меню")]
+        [Description("Inline menu")]
         Inline
     }
 }

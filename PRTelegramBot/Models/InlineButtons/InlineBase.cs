@@ -5,10 +5,10 @@ namespace PRTelegramBot.Models.InlineButtons
 {
     public abstract class InlineBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Название кнопки.
+        /// Button name.
         /// </summary>
         [JsonIgnore]
         public string ButtonName { get; set; }
@@ -16,12 +16,12 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Получить текст кнопки.
+        /// Gets the button text.
         /// </summary>
-        /// <returns>Текст кнопки.</returns>
+        /// <returns>Button text.</returns>
         public virtual string GetButtonName()
         {
             return ButtonName;
@@ -29,9 +29,9 @@ namespace PRTelegramBot.Models.InlineButtons
 
 
         /// <summary>
-        /// Установить новое значение кнопки.
+        /// Sets a new value for the button.
         /// </summary>
-        /// <returns>Название кнопки.</returns>
+        /// <returns>Button name.</returns>
         public virtual string SetButtonName(string name)
         {
             ButtonName = name;
@@ -39,26 +39,26 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Получить Inline кнопку.
+        /// Gets the inline button.
         /// </summary>
-        /// <returns>Inline кнопка.</returns>
+        /// <returns>Inline button.</returns>
         public abstract InlineKeyboardButton GetInlineButton();
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="buttonName">Button name.</param>
         public InlineBase(string buttonName)
         {
             ButtonName = buttonName;
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public InlineBase() { }
 

@@ -5,14 +5,14 @@ using System.Reflection;
 namespace PRTelegramBot.Core.CommandStores
 {
     /// <summary>
-    /// Хранилище для динамических reply команд.
+    /// Store for dynamic reply commands.
     /// </summary>
     public sealed class ReplyDynamicCommandStore : ReplyCommandStore
     {
-        #region Базовый класс
+        #region Base class
 
         /// <summary>
-        /// Зарегистрировать команды.
+        /// Registers the commands.
         /// </summary>
         public override void RegisterCommand()
         {
@@ -29,12 +29,12 @@ namespace PRTelegramBot.Core.CommandStores
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ReplyDynamicCommandStore(PRBotBase bot) : base(bot) { }
 
         #endregion

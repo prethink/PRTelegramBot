@@ -11,154 +11,154 @@ using Telegram.Bot.Polling;
 namespace PRTelegramBot.Configs
 {
     /// <summary>
-    /// Параметры telegram бота.
+    /// Telegram bot options.
     /// </summary>
     public class TelegramOptions 
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Клиент telegram.
+        /// The Telegram client.
         /// </summary>
         public ITelegramBotClient? Client { get; set; }
 
         /// <summary>
-        /// Токен telegram бота.
+        /// Telegram bot token.
         /// </summary>
         public string Token { get; set; } = null!;
 
         /// <summary>
-        /// Перед запуском очищает список обновлений, которые накопились когда бот не работал.
+        /// Before startup, clears the updates that piled up while the bot was down.
         /// </summary>
         public bool ClearUpdatesOnStart { get; set; }
 
         /// <summary>
-        /// Уникальный идентификатор для бота, используется, чтобы в одном приложение запускать несколько ботов.
+        /// Unique identifier of the bot; it lets several bots run in a single application.
         /// </summary>
         public long BotId { get; set; }
 
         /// <summary>
-        /// Дополнительные конфигурационные файлы.
+        /// Additional configuration files.
         /// </summary>
         public Dictionary<string, string> ReplyDynamicCommands { get; set; } = new();
 
         /// <summary>
-        /// Дополнительные конфигурационные файлы.
+        /// Additional configuration files.
         /// </summary>
         public Dictionary<string, string> ConfigPaths { get; set; } = new();
 
         /// <summary>
-        /// Источник токена отмены.
+        /// The cancellation token source.
         /// </summary>
         public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
         /// <summary>
-        /// Настройки telegram бота.
+        /// Telegram bot settings.
         /// </summary>
         public ReceiverOptions ReceiverOptions { get; set; } = new ReceiverOptions { AllowedUpdates = { } } ;
 
         /// <summary>
-        /// Сервис провайдер.
+        /// Service provider.
         /// </summary>
         public IServiceProvider? ServiceProvider { get; set; }
 
         /// <summary>
-        /// Обработчик обновлений Telegram.
+        /// Telegram update handler.
         /// </summary>
         public IPRUpdateHandler? UpdateHandler { get; set; }
 
         /// <summary>
-        /// Менеджер управления администраторами.
+        /// Administrator manager.
         /// </summary>
         public IAdminManager? AdminManager { get; set; }
 
         /// <summary>
-        /// Менеджер управления белым списком.
+        /// White list manager.
         /// </summary>
         public IWhiteListManager? WhiteListManager { get; set; }
 
         /// <summary>
-        /// Промежуточные обработчики перед update.
+        /// Middleware handlers that run before the update.
         /// </summary>
         public List<MiddlewareBase> Middlewares { get; set; } = [];
 
         /// <summary>
-        /// Дополнительные проверки перед обработкой команд.
+        /// Additional checks performed before commands are handled.
         /// </summary>
         public List<InternalChecker> CommandCheckers { get; set; } = [];
 
         /// <summary>
-        /// Таймаут для получения update в режиме polling.
+        /// Timeout for receiving updates in polling mode.
         /// </summary>
         public int? Timeout { get; set; }
 
         /// <summary>
-        /// Обработчики callbackQuery (inline) команд.
+        /// Handlers for callbackQuery (inline) commands.
         /// </summary>
         public List<ICallbackQueryCommandHandler> CallbackQueryHandlers { get; set; } = [];
 
         /// <summary>
-        /// Обработчики для message.
+        /// Handlers for message.
         /// </summary>
         public List<IMessageCommandHandler> MessageHandlers { get; set; } = [];
 
         /// <summary>
-        /// Параметр предотвращает спам об ошибке, если пропала сеть. По умолчанию значение 1 минута, можно поменять.
+        /// This parameter prevents error spam when the network drops. The default is 1 minute and can be changed.
         /// </summary>
         public int AntiSpamErrorMinute { get; set; } = 1;
         
         /// <summary>
-        /// Параметры для webhook.
+        /// Webhook options.
         /// </summary>
         public readonly WebHookOptions WebHookOptions = new();
 
         /// <summary>
-        /// Параметры команд.
+        /// Command options.
         /// </summary>
         public readonly CommandOptions CommandOptions = new();
 
         /// <summary>
-        /// Сериализатор.
+        /// Serializer.
         /// </summary>
         public IPRSerializer? PRSerializer { get; set; }
         
         /// <summary>
-        /// Конвертер для inline меню.
+        /// Converter for the inline menu.
         /// </summary>
         public IInlineMenuConverter? InlineConverter { get; set; }
 
         /// <summary>
-        /// Предопределенные идентификаторы администраторов.
+        /// Predefined administrator identifiers.
         /// </summary>
         public HashSet<long> AdminIds { get; set; } = new();
 
         /// <summary>
-        /// Предопределенные идентификаторы пользователей в белом списке.
+        /// Predefined identifiers of the users on the white list.
         /// </summary>
         public HashSet<long> WhiteListIds { get; set; } = new();
 
         /// <summary>
-        /// Настройки белого списка.
+        /// White list settings.
         /// </summary>
         public WhiteListSettings WhiteListSettings { get; set; } = WhiteListSettings.OnPreUpdate;
 
         /// <summary>
-        /// Дополнительное действие при инициализации бота.
+        /// An additional action to run when the bot is initialized.
         /// </summary>
         public Action? InitializeAction { get; set; }
 
         /// <summary>
-        /// Метаданные фоновых задач.
+        /// Background task metadata.
         /// </summary>
         public HashSet<IPRBackgroundTaskMetadata> BackgroundTaskMetadata { get; set; } = new();
 
         /// <summary>
-        /// Метаданные фоновых задач.
+        /// Background task metadata.
         /// </summary>
         public HashSet<IPRBackgroundTask> BackgroundTasks { get; set; } = new();
 
         /// <summary>
-        /// Фабрика создания логеров.
+        /// Logger factory.
         /// </summary>
         public ILoggerFactory? LoggerFactory { get; set; }
 

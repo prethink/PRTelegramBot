@@ -3,23 +3,23 @@
 namespace PRTelegramBot.Core.Executors
 {
     /// <summary>
-    /// Исполнитель для пошагового выполнения команд.
+    /// Executor for step-by-step command execution.
     /// </summary>
     internal sealed class ExecutorNextStepCommand : ExecutorMessageCommand
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override CommandType CommandType => CommandType.NextStep;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public ExecutorNextStepCommand(PRBotBase bot) : base(bot) { }
 
         #endregion

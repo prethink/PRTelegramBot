@@ -4,14 +4,14 @@ using PRTelegramBot.Core;
 namespace PRTelegramBot.BackgroundTasks
 {
     /// <summary>
-    /// Базовый класс фоновых задач.
+    /// Base class for background tasks.
     /// </summary>
     public abstract class PRBackgroundTaskBase : IPRBackgroundTask, IPRBackgroundTaskMetadata
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Экземпляр бота.
+        /// Bot instance.
         /// </summary>
         protected PRBotBase bot;
 

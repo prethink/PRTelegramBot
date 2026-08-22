@@ -5,27 +5,27 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Класс для работы с временными данными
+    /// Class for working with temporary data
     /// </summary>
     public static class CacheExtension
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Словарь для работы который хранит идентификатор пользователя и его кеш.
+        /// The working dictionary that maps a user identifier to that user's cache.
         /// </summary>
         static ConcurrentDictionary<string, ITelegramCache> userHandlerData = new();
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создает кеш для пользователя.
+        /// Creates a cache for the user.
         /// </summary>
-        /// <typeparam name="TCache">Тип кэша.</typeparam>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Кэш.</returns>
+        /// <typeparam name="TCache">Cache type.</typeparam>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>Cache.</returns>
         public static TCache CreateCacheData<TCache>(this Update update) where TCache : ITelegramCache
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -35,12 +35,12 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получает существующий кэш или создает новый.
+        /// Gets the existing cache, or creates a new one.
         /// </summary>
-        /// <typeparam name="TCache">Тип кэша.</typeparam>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Кэш.</returns>
-        /// <remarks>Если тип кэша отличается от существующего, будет создан кэш нового типа.</remarks>
+        /// <typeparam name="TCache">Cache type.</typeparam>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>Cache.</returns>
+        /// <remarks>If the cache type differs from the existing one, a cache of the new type is created.</remarks>
         public static TCache GetOrCreate<TCache>(this Update update) where TCache : ITelegramCache
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -62,11 +62,11 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получает кэш пользователя.
+        /// Gets the user's cache.
         /// </summary>
-        /// <typeparam name="TCache">Тип кэша.</typeparam>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Кэш.</returns>
+        /// <typeparam name="TCache">Cache type.</typeparam>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>Cache.</returns>
         public static TCache GetCacheData<TCache>(this Update update) where TCache : ITelegramCache
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -79,9 +79,9 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Очищает кеш пользователя.
+        /// Clears the user's cache.
         /// </summary>
-        /// <param name="update">Обновление данных telegram.</param>
+        /// <param name="update">Telegram data update.</param>
         public static void ClearCacheData(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -91,10 +91,10 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Проверяет существуют ли кеш данные пользователя.
+        /// Checks whether cached data exists for the user.
         /// </summary>
-        /// <param name="update">Обновление данных telegram.</param>
-        /// <returns>True - есть кэш, False - нет кэша.</returns>
+        /// <param name="update">Telegram data update.</param>
+        /// <returns>True if a cache exists; False if it does not.</returns>
         public static bool HasCacheData(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -102,9 +102,9 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Полностью удаляет кэш пользователя из словаря.
+        /// Removes the user's cache from the dictionary entirely.
         /// </summary>
-        /// <param name="update">Обновление данных telegram.</param>
+        /// <param name="update">Telegram data update.</param>
         public static void RemoveCacheData(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();

@@ -5,59 +5,59 @@ using PRTelegramBot.Models;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для PRBotBase.
+    /// Extension methods for PRBotBase.
     /// </summary>
     public static class PRBotBaseExtension
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Проверяет пользователя, является ли он администратором бота.
+        /// Checks whether the user is an administrator of the bot.
         /// </summary>
-        /// <param name="botClient">Бот.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - администратор, False - не администратор.</returns>
+        /// <param name="botClient">Bot.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if the user is an administrator; False otherwise.</returns>
         public static async Task<bool> IsAdmin(this PRBotBase botClient, long userId)
         {
             return await botClient.GetAdminManager().HasUser(userId);
         }
 
         /// <summary>
-        /// Проверяет пользователя, присутствует ли в белом списке бота.
+        /// Checks whether the user is present in the bot's white list.
         /// </summary>
-        /// <param name="botClient">Бот.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - есть в списке, False - нет в списке.</returns>
+        /// <param name="botClient">Bot.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if present in the list; False if not.</returns>
         public static async Task<bool> InWhiteList(this PRBotBase botClient, long userId)
         {
             return await botClient.GetWhiteListManager().HasUser(userId);
         }
 
         /// <summary>
-        /// Возвращает список администраторов бота.
+        /// Returns the list of the bot's administrators.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <returns>Список идентификаторов.</returns>
+        /// <param name="botClient">Bot client.</param>
+        /// <returns>List of identifiers.</returns>
         public static async Task<List<long>> GetAdminsIds(this PRBotBase botClient)
         {
             return await botClient.GetAdminManager().GetUsersIds();
         }
 
         /// <summary>
-        /// Возвращает белый список пользователей.
+        /// Returns the white list of users.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <returns>Список идентификаторов.</returns>
+        /// <param name="botClient">Bot client.</param>
+        /// <returns>List of identifiers.</returns>
         public static async Task<List<long>> GetWhiteListIds(this PRBotBase botClient)
         {
             return await botClient.GetWhiteListManager().GetUsersIds();
         }
 
         /// <summary>
-        /// Создать контекст бота.
+        /// Creates the bot context.
         /// </summary>
-        /// <param name="botClient">Бот клиент.</param>
-        /// <returns>Контекст бота.</returns>
+        /// <param name="botClient">Bot client.</param>
+        /// <returns>Bot context.</returns>
         public static IBotContext CreateContext(this PRBotBase botClient)
         {
             return new BotContext(botClient);

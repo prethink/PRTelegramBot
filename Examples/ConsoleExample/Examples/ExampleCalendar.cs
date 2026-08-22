@@ -14,15 +14,15 @@ namespace ConsoleExample.Examples
     public class ExampleCalendar
     {
         /// <summary>
-        /// Напишите в чат Calendar
-        /// Вызов команды календаря
+        /// Send Calendar to the chat
+        /// Invokes the calendar command
         /// </summary>
         [ReplyMenuHandler("Calendar")]
         public static async Task PickCalendar(IBotContext context)
         {
             try
             {
-                await CalendarUtils.Create(context, CustomTHeader.CalendarCallback, "Выберите дату:");
+                await CalendarUtils.Create(context, CustomTHeader.CalendarCallback, "Pick a date:");
             }
             catch (Exception ex)
             {
@@ -31,8 +31,8 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Напишите в чат EngCalendar
-        /// Вызов команды календаря на английском языке
+        /// Send EngCalendar to the chat
+        /// Invokes the calendar command in English
         /// </summary>
         [ReplyMenuHandler("EngCalendar")]
         public static async Task EngPickCalendar(IBotContext context)
@@ -48,7 +48,7 @@ namespace ConsoleExample.Examples
         }
 
         /// <summary>
-        /// Обработка выбраной даты
+        /// Handles the selected date
         /// </summary>
         [InlineCallbackHandler<CustomTHeader>(CustomTHeader.CalendarCallback)]
         public static async Task PickDate(IBotContext context)

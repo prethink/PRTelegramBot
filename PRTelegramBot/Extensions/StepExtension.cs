@@ -5,26 +5,26 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Позволяет пользователю выполнять команды пошагово
+    /// Lets the user execute commands step by step
     /// </summary>
     public static class StepExtension
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Список шагов для пользователя.
+        /// The list of steps for the user.
         /// </summary>
         static ConcurrentDictionary<string, IExecuteStep> step = new();
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Регистрация следующего шага.
+        /// Registers the next step.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <param name="command">Следующая команда которая должна быть выполнена.</param>
+        /// <param name="update">Telegram update.</param>
+        /// <param name="command">The next command that has to be executed.</param>
         public static void RegisterStepHandler(this Update update, IExecuteStep command)
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -33,10 +33,10 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получает обработчик или null пользователя.
+        /// Gets the user's handler, or null.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>обработчик или null.</returns>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>the handler, or null.</returns>
         public static TExecuteStep? GetStepHandler<TExecuteStep>(this Update update) where TExecuteStep : IExecuteStep
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -46,19 +46,19 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Получить текущий обработчик шага.
+        /// Gets the current step handler.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
-        /// <returns>Обработчик или null.</returns>
+        /// <param name="update">Telegram update.</param>
+        /// <returns>The handler, or null.</returns>
         public static IExecuteStep? GetStepHandler(this Update update)
         {
             return GetStepHandler<IExecuteStep>(update);
         }
 
         /// <summary>
-        /// Очищает шаги пользователя.
+        /// Clears the user's steps.
         /// </summary>
-        /// <param name="update">Обновление telegram.</param>
+        /// <param name="update">Telegram update.</param>
         public static void ClearStepUserHandler(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();
@@ -67,10 +67,10 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Проверяет есть ли шаг у пользователя.
+        /// Checks whether the user has a step registered.
         /// </summary>
-        /// <param name="update">Обновление полученное с telegram</param>
-        /// <returns>True - есть обработчик, False - нет обработчика.</returns>
+        /// <param name="update">The update received from Telegram</param>
+        /// <returns>True if a handler exists; False if it does not.</returns>
         public static bool HasStepHandler(this Update update)
         {
             string userKey = update.GetKeyMappingUserTelegram();

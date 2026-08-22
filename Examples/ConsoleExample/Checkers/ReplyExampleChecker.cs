@@ -8,8 +8,8 @@ namespace ConsoleExample.Checkers
     {
         public async Task<InternalCheckResult> Check(IBotContext context, CommandHandler handler)
         {
-            // Что-то проверяем перед выполнением reply команд.
-            // InternalCheckResult.Passed - продолжить выполнение команды, любые другие результаты остановят выполнение команды.
+            // Perform some check before reply commands run.
+            // InternalCheckResult.Passed continues command execution; any other result stops it.
             return InternalCheckResult.Passed;
         }
     }

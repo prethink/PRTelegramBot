@@ -5,16 +5,16 @@ using System.Text.Json.Serialization;
 namespace PRTelegramBot.Converters.Json
 {
     /// <summary>
-    /// Конвертер enum в json.
+    /// Converter for enums in json.
     /// </summary>
     public sealed class HeaderConverter : JsonConverter<Enum>
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override Enum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            // Обработка десериализации JSON в тип Enum
+            // Handles deserialization of JSON into an Enum type
             if (reader.TokenType == JsonTokenType.Number)
             {
                 int numericValue = Convert.ToInt32(reader.GetInt32());
@@ -29,7 +29,7 @@ namespace PRTelegramBot.Converters.Json
         /// <inheritdoc />
         public override void Write(Utf8JsonWriter writer, Enum value, JsonSerializerOptions options)
         {
-            // Обработка сериализации типа Enum в JSON
+            // Handles serialization of an Enum type into JSON
             if (value is not null)
                 writer.WriteNumberValue(EnumHeaders.Instance.Get(value));
             else

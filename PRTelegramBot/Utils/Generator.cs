@@ -3,22 +3,22 @@
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Генератор разных данных.
+    /// Generator for various kinds of data.
     /// </summary>
     public static class Generator
     {
         /// <summary>
-        /// Цифры.
+        /// Digits.
         /// </summary>
         const string Digits = "0123456789";
 
         /// <summary>
-        /// Алфавит.
+        /// Alphabet.
         /// </summary>
         const string Alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
-        /// Символы.
+        /// Characters.
         /// </summary>
         const string Symbols = " ~`@#$%^&*()_+-=[]{};'\\:\"|,./<>?";
 
@@ -31,12 +31,12 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует случайный набор символов.
+        /// Generates a random character set.
         /// </summary>
-        /// <param name="chars">Указывает какого типа должны быть символы.</param>
-        /// <param name="length">Длина набора символов.</param>
-        /// <param name="prefix">Префикс ставится перед сгенерированным набором символов.</param>
-        /// <returns>Сгенерированный набор символов.</returns>
+        /// <param name="chars">Specifies which kind of characters to use.</param>
+        /// <param name="length">Length of the character set.</param>
+        /// <param name="prefix">The prefix placed before the generated character set.</param>
+        /// <returns>The generated character set.</returns>
         public static string RandomSymbols(Chars chars, int length, string prefix = "")
         {
             var random = new Random();
@@ -63,13 +63,13 @@ namespace PRTelegramBot.Utils
         }
 
         /// <summary>
-        /// Генерирует купон.
-        /// Можно использовать для разных акций или промо кодов.
+        /// Generates a coupon.
+        /// Can be used for various campaigns or promo codes.
         /// </summary>
-        /// <param name="segmentLength">Длина сегмента кода.</param>
-        /// <param name="countSplit">Количество разделителей.</param>
-        /// <param name="symbolSplit">Символ разделителя, по умолчанию - .</param>
-        /// <returns>Сгенерированный купон.</returns>
+        /// <param name="segmentLength">Length of the code segment.</param>
+        /// <param name="countSplit">Number of separators.</param>
+        /// <param name="symbolSplit">Separator character; the default is - .</param>
+        /// <returns>The generated coupon.</returns>
         public static string Coupon(int segmentLength = 6, int countSplit = 1, char symbolSplit = '-')
         {
             var random = new Random((int)DateTime.Now.Ticks);

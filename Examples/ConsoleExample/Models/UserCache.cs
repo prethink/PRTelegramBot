@@ -3,13 +3,13 @@
 namespace ConsoleExample.Models
 {
     /// <summary>
-    /// Пример кэша.
+    /// Cache example.
     /// </summary>
     public class UserCache : ITelegramCache
     {
         public long Id { get; set; }
         /// <summary>
-        /// Временные данные
+        /// Temporary data
         /// </summary>
         public string Data { get; set; }
 

@@ -1,73 +1,73 @@
 ﻿namespace PRTelegramBot.BackgroundTasks.Interfaces
 {
     /// <summary>
-    /// Интерфейс исполнителя фоновых задач.
-    /// Отвечает за запуск, остановку и управление жизненным циклом фоновых задач.
+    /// Interface of the background task runner.
+    /// Responsible for starting, stopping and managing the lifetime of background tasks.
     /// </summary>
     public interface IPRBackgroundTaskRunner
     {
         /// <summary>
-        /// Текущий список запущенных задач. Содержит ключ метаданных и ссылку на запущенный Task.
+        /// The current list of running tasks. Holds the metadata key and a reference to the running Task.
         /// </summary>
         IReadOnlyDictionary<Guid, IRunningBackgroundTaskData> ActiveTasks { get; }
 
         /// <summary>
-        /// Завершенные задачи.
+        /// Finished tasks.
         /// </summary>
         IReadOnlyCollection<IRunningBackgroundTaskData> EndTasks { get; }
 
         /// <summary>
-        /// Экземпляры задач.
+        /// Task instances.
         /// </summary>
         IReadOnlyCollection<IPRBackgroundTask> TaskInstance { get; }
 
         /// <summary>
-        /// Метаданные задач.
+        /// Task metadata.
         /// </summary>
         IReadOnlyCollection<IPRBackgroundTaskMetadata> Metadata { get; }
 
         /// <summary>
-        /// Инициализация фоновых задач.
+        /// Initializes the background tasks.
         /// </summary>
-        /// <param name="metadata">Метаданные.</param>
-        /// <param name="tasks">Фоновые задачи.</param>
+        /// <param name="metadata">Metadata.</param>
+        /// <param name="tasks">Background tasks.</param>
         void Initialize(IEnumerable<IPRBackgroundTaskMetadata> metadata, IEnumerable<IPRBackgroundTask> tasks);
 
         /// <summary>
-        /// Запустить фоновые задачи.
+        /// Starts the background tasks.
         /// </summary>
         Task StartAsync();
 
         /// <summary>
-        /// Запустить фоновую задачу.
-        /// ВАЖНО. Перед вызовом данного метода убедитесь, что метаданные либо уже загружены в раннер, либо сама задача хранит в себе метаданные. 
-        /// Например через атрибут <see cref="PRBackgroundTaskAttribute"/> или реализовывает интерфейс <see cref="IPRBackgroundTaskMetadata"/>
+        /// Starts the background task.
+        /// IMPORTANT. Before calling this method, make sure the metadata is either already loaded into the runner or carried by the task itself. 
+        /// For example through the <see cref="PRBackgroundTaskAttribute"/> attribute, or by implementing the <see cref="IPRBackgroundTaskMetadata"/> interface
         /// </summary>
-        /// <param name="backgroundTask">Фоновая задача.</param>
+        /// <param name="backgroundTask">Background task.</param>
         Task StartAsync(IPRBackgroundTask backgroundTask);
 
         /// <summary>
-        /// Запустить фоновую задачу.
+        /// Starts the background task.
         /// </summary>
-        /// <param name="backgroundTask">Фоновая задача.</param>
-        /// <param name="metadata">Метаданные.</param>
+        /// <param name="backgroundTask">Background task.</param>
+        /// <param name="metadata">Metadata.</param>
         Task StartAsync(IPRBackgroundTask backgroundTask, IPRBackgroundTaskMetadata metadata);
 
         /// <summary>
-        /// Останавливает выполнение всех запущенных фоновых задач.
+        /// Stops all running background tasks.
         /// </summary>
         Task StopAsync();
 
         /// <summary>
-        /// Останавливает выполнение указанной фоновой задачи.
+        /// Stops the specified background task.
         /// </summary>
-        /// <param name="taskId">Идентификатор задачи.</param>
+        /// <param name="taskId">Task identifier.</param>
         Task StopAsync(Guid taskId);
 
         /// <summary>
-        /// Останавливает выполнение указанной фоновой задачи.
+        /// Stops the specified background task.
         /// </summary>
-        /// <param name="metadata">Метаданные фоновой задачи.</param>
+        /// <param name="metadata">Background task metadata.</param>
         Task StopAsync(IPRBackgroundTaskMetadata metadata);
     }
 }

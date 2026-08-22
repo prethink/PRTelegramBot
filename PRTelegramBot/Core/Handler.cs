@@ -15,49 +15,49 @@ using Telegram.Bot.Types.Enums;
 namespace PRTelegramBot.Core
 {
     /// <summary>
-    /// Обработчик.
+    /// Handler.
     /// </summary>
     public sealed class Handler : IPRUpdateHandler
     {
-        #region Поля и свойства
+        #region Fields and properties
         
         /// <summary>
-        /// Хранилище callbackQuery команд.
+        /// Store for callbackQuery commands.
         /// </summary>
         public CallbackQueryCommandStore CallbackQueryCommandsStore { get; private set; }
 
         /// <summary>
-        /// Хранилище reply команд.
+        /// Store for reply commands.
         /// </summary>
         public ReplyCommandStore ReplyCommandsStore { get; private set; }
 
         /// <summary>
-        /// Хранилище reply dynamic команд.
+        /// Store for dynamic reply commands.
         /// </summary>
         public ReplyDynamicCommandStore ReplyDynamicCommandsStore { get; private set; }
 
         /// <summary>
-        /// Хранилище slash команд.
+        /// Store for slash commands.
         /// </summary>
         public SlashCommandStore SlashCommandsStore { get; private set; }
 
         /// <summary>
-        /// Диспетчер для обработки update типа message.
+        /// Dispatcher that handles message-type updates.
         /// </summary>
         internal MessageUpdateDispatcher MessageDispatcher { get; private set; }
 
         /// <summary>
-        /// Диспетчер для обработки update типа callbackQuery.
+        /// Dispatcher that handles callbackQuery-type updates.
         /// </summary>
         internal CallBackQueryUpdateDispatcher CallBackQueryDispatcher { get; private set; }
 
         /// <summary>
-        /// Ограничитель спама логов.
+        /// Log spam limiter.
         /// </summary>
         private DateTime lastErrorPollingDate;
 
         /// <summary>
-        /// Бот.
+        /// Bot.
         /// </summary>
         private readonly PRBotBase bot;
 
@@ -66,17 +66,17 @@ namespace PRTelegramBot.Core
         #region IPRUpdateHandler
 
         /// <summary>
-        /// Обработчик обновлений.
+        /// Update handler.
         /// </summary>
-        /// <param name="botClient">Клиент telegram бота.</param>
-        /// <param name="update">Обновление telegram.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <param name="botClient">Telegram bot client.</param>
+        /// <param name="update">Telegram update.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if (update == null)
                 return Task.CompletedTask;
 
-            // Связь update вместе ITelegramBotClient.
+            // Pairs the update with its ITelegramBotClient.
             update.AddTelegramClient(bot);
             var context = new BotContext(bot, update, cancellationToken);
             _ = HandleUpdateInternalAsync(context);
@@ -84,11 +84,11 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Обработать update в отдельном потоке.
+        /// Handles the update on a separate thread.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         /// <returns>Task.</returns>
-        /// <remarks>Требуется, чтобы 1 update не повесил обработку всего приложения.</remarks>
+        /// <remarks>Needed so that a single update cannot stall processing for the whole application.</remarks>
         private async Task HandleUpdateInternalAsync(BotContext context)
         {
             using (var scope = new BotDataScope(context, bot))
@@ -123,12 +123,12 @@ namespace PRTelegramBot.Core
         }
 
         /// <summary>
-        /// Обработчик ошибок API.
+        /// API error handler.
         /// </summary>
-        /// <param name="botClient">Клиент telegram бота.</param>
-        /// <param name="exception">Исключение.</param>
-        /// <param name="source">Исходник ошибки</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <param name="botClient">Telegram bot client.</param>
+        /// <param name="exception">Exception.</param>
+        /// <param name="source">Source of the error</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
         {
             if (source == HandleErrorSource.PollingError &&  exception.Message.Contains("Exception during making request"))
@@ -145,12 +145,12 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Обработка обновлений.
+        /// Handles updates.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public async Task UpdateAsync(IBotContext context)
         {
             var whiteListManager = bot.GetWhiteListManager();
@@ -250,12 +250,12 @@ namespace PRTelegramBot.Core
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="bot">Бот.</param>
+        /// <param name="bot">Bot.</param>
         public Handler(PRBotBase bot)
         {
             this.bot = bot;

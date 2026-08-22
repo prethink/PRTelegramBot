@@ -1,32 +1,32 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Внутренняя проверка в командах перед их выполнением.
+    /// Internal check performed on commands before they run.
     /// </summary>
     public enum InternalCheckResult
     {
         /// <summary>
-        /// Проверка пройдена.
+        /// The check passed.
         /// </summary>
         Passed = 0,
         /// <summary>
-        /// Проверка привилегий.
+        /// Privilege check.
         /// </summary>
         PrivilegeCheck,
         /// <summary>
-        /// Не верный тип сообщения.
+        /// Invalid message type.
         /// </summary>
         WrongMessageType,
         /// <summary>
-        /// Не верный тип чата.
+        /// Invalid chat type.
         /// </summary>
         WrongChatType,
         /// <summary>
-        /// Пользователь не в белом списке.
+        /// The user is not on the white list.
         /// </summary>
         NotInWhiteList,
         /// <summary>
-        /// Кастомный ответ.
+        /// A custom response.
         /// </summary>
         Custom,
     }

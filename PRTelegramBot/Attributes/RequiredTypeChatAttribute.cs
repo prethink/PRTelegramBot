@@ -3,25 +3,25 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Метод сможет обработать только определенный тип чата.
+    /// The method will only be able to handle a specific chat type.
     /// </summary>
     public sealed class RequiredTypeChatAttribute : Attribute
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Коллекция типов чатов.
+        /// Collection of chat types.
         /// </summary>
         public List<ChatType> TypesChat { get; private set; } = new List<ChatType>();
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="typesChat">Коллекция типов чатов.</param>
+        /// <param name="typesChat">Collection of chat types.</param>
         public RequiredTypeChatAttribute(params ChatType[] typesChat)
         {
             TypesChat.AddRange(typesChat.ToList());

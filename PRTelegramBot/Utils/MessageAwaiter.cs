@@ -7,24 +7,24 @@ using Message = Telegram.Bot.Types.Message;
 namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Создает сообщение перед обработкой, и удаляет после.
+    /// Sends a message before processing and deletes it afterwards.
     /// </summary>
     public class MessageAwaiter : IDisposable
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Контекст бота.
+        /// Bot context.
         /// </summary>
         private IBotContext context;
 
         /// <summary>
-        /// Сообщение.
+        /// Message.
         /// </summary>
         private Message message;
 
         /// <summary>
-        /// Идентификатор чата.
+        /// Chat identifier.
         /// </summary>
         private ChatId chatId;
 
@@ -40,19 +40,19 @@ namespace PRTelegramBot.Utils
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Создать сообщение ожидание перед основной обработкой данных.
+        /// Sends a waiting message before the main data processing.
         /// </summary>
-        /// <param name="messageText">Текст сообщения.</param>
+        /// <param name="messageText">Message text.</param>
         public async Task CreateAwaitMessage(string messageText)
         {
             message = await context.BotClient.SendMessage(chatId, messageText);
         }
 
         /// <summary>
-        /// Удалить сообщение после всех обработок.
+        /// Deletes the message once all processing is done.
         /// </summary>
         public async Task DeleteMessage()
         {
@@ -65,21 +65,21 @@ namespace PRTelegramBot.Utils
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
         
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
         public MessageAwaiter(IBotContext context, long chatId) 
-            : this(context, "⏳ Генерирую ответ...") { }
+            : this(context, "⏳ Generating a reply...") { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="messageAwaiterText">тест сообщения ожидания.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="messageAwaiterText">Text of the waiting message.</param>
         public MessageAwaiter(IBotContext context, string messageAwaiterText)
         {
             this.context = context;

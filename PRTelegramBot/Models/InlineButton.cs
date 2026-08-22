@@ -19,9 +19,9 @@ namespace PRTelegramBot.Models
         }
 
         /// <summary>
-        /// Установить новое значение кнопки.
+        /// Sets a new value for the button.
         /// </summary>
-        /// <returns>Название кнопки.</returns>
+        /// <returns>Button name.</returns>
         public virtual string SetButtonName(string name)
         {
             buttonName = name;

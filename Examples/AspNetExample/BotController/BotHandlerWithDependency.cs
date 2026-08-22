@@ -50,7 +50,7 @@ namespace AspNetExample.BotController
         public async Task InlineTest(IBotContext context)
         {
             var options = new OptionMessage();
-            var exampleItemThree = new InlineCallback<EntityTCommand<string>>("Пример с большим текстом", CustomTHeaderTwo.ExampleThree, new EntityTCommand<string>("И нет сомнений, что диаграммы связей будут объявлены нарушающими общечеловеческие нормы этики и морали. Имеется спорная точка зрения, гласящая примерно следующее: ключевые особенности структуры проекта, инициированные исключительно синтетически, своевременно верифицированы. Значимость этих проблем настолько очевидна, что высокотехнологичная концепция общественного уклада обеспечивает широкому кругу (специалистов) участие в формировании переосмысления внешнеэкономических политик. Таким образом, высокотехнологичная концепция общественного уклада играет важную роль в формировании экспериментов, поражающих по своей масштабности и грандиозности. Картельные сговоры не допускают ситуации, при которой тщательные исследования конкурентов, превозмогая сложившуюся непростую экономическую ситуацию, заблокированы в рамках своих собственных рациональных ограничений. Каждый из нас понимает очевидную вещь: реализация намеченных плановых заданий выявляет срочную потребность как самодостаточных, так и внешне зависимых концептуальных решений. Равным образом, убеждённость некоторых оппонентов однозначно определяет каждого участника как способного принимать собственные решения касаемо первоочередных требований. Повседневная практика показывает, что реализация намеченных плановых заданий обеспечивает актуальность распределения внутренних резервов и ресурсов. В своём стремлении повысить качество жизни, они забывают, что базовый вектор развития обеспечивает актуальность поставленных обществом задач."));
+            var exampleItemThree = new InlineCallback<EntityTCommand<string>>("Example with a long text", CustomTHeaderTwo.ExampleThree, new EntityTCommand<string>("There is no doubt that relationship diagrams will be declared a violation of universal ethical and moral standards. There is a debatable point of view stating roughly the following: the key features of the project structure, initiated purely synthetically, have been verified in a timely manner. The significance of these problems is so obvious that a high-technology concept of the social order gives a wide circle of specialists a part in shaping a rethinking of foreign economic policies. Thus, a high-technology concept of the social order plays an important role in shaping experiments that are striking in their scale and grandeur. Cartel agreements do not allow a situation in which thorough studies of competitors, overcoming the difficult economic situation that has developed, are blocked within the bounds of their own rational constraints. Each of us understands the obvious thing: the implementation of the planned targets reveals an urgent need for both self-sufficient and externally dependent conceptual solutions. Equally, the conviction of some opponents unambiguously defines every participant as capable of making their own decisions regarding the highest-priority requirements. Everyday practice shows that the implementation of the planned targets ensures the relevance of the distribution of internal reserves and resources. In their striving to improve the quality of life, they forget that the basic vector of development ensures the relevance of the tasks set by society."));
             var menu = new InlineKeyboardBuilder().AddButton(exampleItemThree).Build();
             options.MenuInlineKeyboardMarkup = menu;
             await MessageSender.Send(context, nameof(InlineTest), options);
@@ -81,19 +81,19 @@ namespace AspNetExample.BotController
         }
 
         /// <summary>
-        /// callback обработка
-        /// Данный метод может обработать несколько точек входа
+        /// callback handling
+        /// This method can handle several entry points
         /// </summary>
         [InlineCallbackHandler<CustomTHeaderTwo>(CustomTHeaderTwo.ExampleThree)]
         public static async Task InlineThree(IBotContext context)
         {
             try
             {
-                //Попытка преобразовать callback данные к требуемому типу
+                //Try to convert the callback data to the required type
                 var command = context.GetCommandByCallbackOrNull<EntityTCommand<string>>();
                 if (command != null)
                 {
-                    string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
+                    string msg = $"The identifier you passed: {command.Data.EntityId}";
                     if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                     {
                         await MessageEditor.Edit(context, msg);
@@ -110,88 +110,88 @@ namespace AspNetExample.BotController
             }
             catch (Exception ex)
             {
-                //Обработка исключения
+                //Exception handling
             }
         }
 
         /// <summary>
-        /// Напишите в чате "stepstart"
-        /// Метод регистрирует следующий шаг пользователя
+        /// Send "stepstart" in the chat
+        /// Registers the user's next step
         /// </summary>
         [ReplyMenuHandler("stepstart")]
         public async Task StepStart(IBotContext context)
         {
-            string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
-            //Регистрация обработчика для последовательной обработки шагов и сохранение данных
+            string msg = "Testing the step-by-step execution feature\nEnter your name";
+            //Register a handler for sequential step processing and data storage
             context.Update.RegisterStepHandler(new StepTelegram(StepOne, new StepCache()));
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// При написание любого текста сообщения или нажатие на любую кнопку из reply для пользователя будет выполнен этот метод.
-        /// Метод регистрирует следующий шаг с максимальным времени выполнения
+        /// This method runs for the user on any text message or any reply button press.
+        /// Registers the next step with a maximum execution time
         /// </summary>
         public async Task StepOne(IBotContext context)
         {
-            string msg = $"Шаг 1 - Ваше имя {context.Update.Message.Text}" +
-                        $"\nВведите дату рождения";
-            //Получаем текущий обработчик
+            string msg = $"Step 1 - Your name: {context.Update.Message.Text}" +
+                        $"\nEnter your date of birth";
+            //Get the current handler
             var handler = context.Update.GetStepHandler<StepTelegram>();
-            //Записываем имя пользователя в кэш 
+            //Store the user name in the cache 
             handler!.GetCache<StepCache>().Name = context.Update.Message.Text;
-            //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
+            //Register the next step with a maximum wait of 5 minutes from the moment of registration
             handler.RegisterNextStep(StepTwo);
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Напишите в чат любой текст и будет выполнена эта команда если у пользователя был записан следующий шаг
+        /// Send any text to the chat and this command will run if a next step was registered for the user
         /// </summary>
         public async Task StepTwo(IBotContext context)
         {
-            string msg = $"Шаг 2 - дата рождения {context.Update.Message.Text}" +
-                         $"\nНапиши любой текст, чтобы увидеть результат";
-            //Получаем текущий обработчик
+            string msg = $"Step 2 - Date of birth: {context.Update.Message.Text}" +
+                         $"\nType any text to see the result";
+            //Get the current handler
             var handler = context.Update.GetStepHandler<StepTelegram>();
-            //Записываем дату рождения
+            //Store the date of birth
             handler!.GetCache<StepCache>().BirthDay = context.Update.Message.Text;
-            //Регистрация следующего шага с максимальным ожиданием выполнения этого шага 5 минут от момента регистрации
+            //Register the next step with a maximum wait of 5 minutes from the moment of registration
             handler.RegisterNextStep(StepThree, DateTime.Now.AddMinutes(1));
-            //Настройки для сообщения
+            //Options for the message
             var option = new OptionMessage();
-            //Добавление пустого reply меню с кнопкой "Главное меню"
-            //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
+            //Add an empty reply menu with a "Main menu" button
+            //This method is a priority one: if the user presses this button, the main menu method runs instead of the next step.
             //option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, botClient.GetConfigValue<BotConfigJsonProvider, string>(ExampleConstants.BUTTONS_FILE_KEY, "RP_MAIN_MENU"));
             await MessageSender.Send(context, msg, option);
         }
 
 
         /// <summary>
-        /// Напишите в чат любой текст и будет выполнена эта команда если у пользователя был записан следующий шаг
+        /// Send any text to the chat and this command will run if a next step was registered for the user
         /// </summary>
         public async Task StepThree(IBotContext context)
         {
-            //Получение текущего обработчика
+            //Get the current handler
             var handler = context.Update.GetStepHandler<StepTelegram>();
-            //Получение текущего кэша
+            //Get the current cache
             var cache = handler!.GetCache<StepCache>(); ;
-            string msg = $"Шаг 3 - Результат: Имя:{cache.Name} дата рождения:{cache.BirthDay}" +
-                         $"\nПоследовательность шагов очищена.";
-            //Последний шаг
+            string msg = $"Step 3 - Result: Name: {cache.Name}, date of birth: {cache.BirthDay}" +
+                         $"\nThe step sequence has been cleared.";
+            //Last step
             handler.LastStepExecuted = true;
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Если есть следующий шаг, он будет проигнорирован при выполнение данной команды
-        /// Потому что в ReplyMenuHandler значение первого аргумента установлено в true, что значит приоритетная команда
+        /// If a next step exists, it is ignored while this command runs
+        /// Because the first argument of ReplyMenuHandler is set to true, which marks the command as a priority command
         /// </summary>
         [ReplyMenuHandler("ignorestep")]
         public static async Task IngoreStep(IBotContext context)
         {
             string msg = context.Update.HasStepHandler()
-                ? "Следующий шаг проигнорирован"
-                : "Следующий шаг отсутствовал";
+                ? "The next step was ignored"
+                : "There was no next step";
 
             await MessageSender.Send(context, msg);
         }

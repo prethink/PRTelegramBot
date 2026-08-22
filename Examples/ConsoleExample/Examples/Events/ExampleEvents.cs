@@ -9,53 +9,53 @@ namespace ConsoleExample.Examples.Events
     {
         public static async Task OnWrongTypeChat(BotEventArgs e)
         {
-            string msg = "Неверный тип чата";
+            string msg = "Invalid chat type";
             await MessageSender.Send(e.Context, msg);
         }
 
         public static async Task OnMissingCommand(BotEventArgs args)
         {
-            string msg = "Не найдена команда";
+            string msg = "Command not found";
             await MessageSender.Send(args.Context, msg);
         }
 
         public static async Task OnErrorCommand(BotEventArgs args)
         {
-            string msg = "Произошла ошибка при обработке команды";
+            string msg = "An error occurred while handling the command";
             await MessageSender.Send(args.Context, msg);
         }
 
         /// <summary>
-        /// Событие проверки привилегий пользователя
+        /// Event raised to check the user's privileges
         /// </summary>
-        /// <param name="callback">callback функция выполняется в случае успеха</param>
-        /// <param name="mask">Маска доступа</param>
-        /// Подписка на событие проверки привелегий <see cref="Program"/>
+        /// <param name="callback">callback invoked on success</param>
+        /// <param name="mask">Access mask</param>
+        /// Subscribes to the privilege check event <see cref="Program"/>
         public static async Task OnCheckPrivilege(PrivilegeEventArgs e)
         {
             if (!e.Mask.HasValue)
             {
-                // Нет маски доступа, выполняем метод.
+                // No access mask, run the method.
                 await e.ExecuteMethod(e.Context);
                 return;
             }
 
-            // Получаем значение маски требуемого доступа.
+            // Get the value of the required access mask.
             var requiredAccess = e.Mask.Value;
 
-            // Получаем флаги доступа пользователя.
-            // Здесь вы на свое усмотрение реализываете логику получение флагов, например можно из базы данных получить.
+            // Get the user's access flags.
+            // Here you implement the flag lookup however you like — for example, they can be read from a database.
             var userFlags = e.Context.Update.LoadExampleFlagPrivilege();
 
             if (requiredAccess.HasFlag(userFlags))
             {
-                // Доступ есть, выполняем метод.
+                // Access granted, run the method.
                 await e.ExecuteMethod(e.Context);
                 return;
             }
 
-            // Доступа нет.
-            string errorMsg = "У вас нет доступа к данной функции";
+            // No access.
+            string errorMsg = "You do not have access to this feature";
             await MessageSender.Send(e.Context, errorMsg);
             return;
 
@@ -63,12 +63,12 @@ namespace ConsoleExample.Examples.Events
 
         public static async Task OnUserStartWithArgs(StartEventArgs args)
         {
-            string msg = "Пользователь отправил старт с аргументом";
+            string msg = "The user sent start with an argument";
             await MessageSender.Send(args.Context, msg);
         }
         public static async Task OnWrongTypeMessage(BotEventArgs e)
         {
-            string msg = "Неверный тип сообщения";
+            string msg = "Invalid message type";
             await MessageSender.Send(e.Context, msg);
         }
     }

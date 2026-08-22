@@ -3,40 +3,40 @@
 namespace PRTelegramBot.Builders
 {
     /// <summary>
-    /// Строитель сообщений с поддержкой именованных токенов и позиционных аргументов.
-    /// Позволяет формировать строки наподобие <see cref="string.Format"/>, 
-    /// но с расширением для токенов вида {QA}, {Dev} и т.д.
+    /// Message builder with support for named tokens and positional arguments.
+    /// Lets you compose strings in the style of <see cref="string.Format"/>, 
+    /// but extended with tokens such as {QA}, {Dev} and so on.
     /// </summary>
     public class MessageBuilder
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Шаблона сообщения.
+        /// The message template.
         /// </summary>
         private string template;
 
         /// <summary>
-        /// Словарь резолверов для именованных токенов.
-        /// Ключ — имя токена, значение — функция, возвращающая строку.
+        /// Dictionary of resolvers for the named tokens.
+        /// The key is the token name, the value is a function that returns a string.
         /// </summary>
         private readonly Dictionary<string, Func<string>> resolvers = new();
 
         /// <summary>
-        /// Список позиционных аргументов для подстановки в {0}, {1} и т.д.
+        /// The list of positional arguments to substitute into {0}, {1} and so on.
         /// </summary>
         private readonly List<object> args = new();
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Добавляет именованный токен с ленивым резолвером (Func&lt;string&gt;).
+        /// Adds a named token with a lazy resolver (Func&lt;string&gt;).
         /// </summary>
-        /// <param name="key">Имя токена в шаблоне, например "QA".</param>
-        /// <param name="resolver">Функция, возвращающая значение токена при вызове Build().</param>
-        /// <returns>Текущий экземпляр <see cref="MessageBuilder"/> для fluent API.</returns>
+        /// <param name="key">Name of the token in the template, for example "QA".</param>
+        /// <param name="resolver">A function that returns the token value when Build() is called.</param>
+        /// <returns>The current <see cref="MessageBuilder"/> instance for the fluent API.</returns>
         public MessageBuilder AddResolver(string key, Func<string> resolver)
         {
             resolvers[key] = resolver;
@@ -44,11 +44,11 @@ namespace PRTelegramBot.Builders
         }
 
         /// <summary>
-        /// Добавляет именованный токен со статическим значением.
+        /// Adds a named token with a static value.
         /// </summary>
-        /// <param name="key">Имя токена в шаблоне.</param>
-        /// <param name="value">Строковое значение токена.</param>
-        /// <returns>Текущий экземпляр <see cref="MessageBuilder"/> для fluent API.</returns>
+        /// <param name="key">Name of the token in the template.</param>
+        /// <param name="value">The token's string value.</param>
+        /// <returns>The current <see cref="MessageBuilder"/> instance for the fluent API.</returns>
         public MessageBuilder AddResolver(string key, string value)
         {
             resolvers[key] = () => value;
@@ -56,10 +56,10 @@ namespace PRTelegramBot.Builders
         }
 
         /// <summary>
-        /// Добавляет один позиционный аргумент для подстановки в {0}, {1} и т.д.
+        /// Adds a single positional argument to substitute into {0}, {1} and so on.
         /// </summary>
-        /// <param name="arg">Аргумент для подстановки.</param>
-        /// <returns>Текущий экземпляр <see cref="MessageBuilder"/> для fluent API.</returns>
+        /// <param name="arg">Argument to substitute.</param>
+        /// <returns>The current <see cref="MessageBuilder"/> instance for the fluent API.</returns>
         public MessageBuilder AddArgument(object arg)
         {
             args.Add(arg);
@@ -67,10 +67,10 @@ namespace PRTelegramBot.Builders
         }
 
         /// <summary>
-        /// Добавляет несколько позиционных аргументов сразу.
+        /// Adds several positional arguments at once.
         /// </summary>
-        /// <param name="arguments">Массив аргументов для подстановки.</param>
-        /// <returns>Текущий экземпляр <see cref="MessageBuilder"/> для fluent API.</returns>
+        /// <param name="arguments">Array of arguments to substitute.</param>
+        /// <returns>The current <see cref="MessageBuilder"/> instance for the fluent API.</returns>
         public MessageBuilder AddArguments(params object[] arguments)
         {
             args.AddRange(arguments);
@@ -78,43 +78,43 @@ namespace PRTelegramBot.Builders
         }
 
         /// <summary>
-        /// Генерирует итоговую строку, подставляя позиционные аргументы и значения именованных токенов.
-        /// Не найденные токены остаются в виде {TokenName}.
+        /// Builds the final string, substituting the positional arguments and the values of the named tokens.
+        /// Tokens that are not found are left as {TokenName}.
         /// </summary>
-        /// <returns>Сформированная строка с подставленными значениями.</returns>
+        /// <returns>The resulting string with the values substituted in.</returns>
         public string Build()
         {
             return Regex.Replace(template, @"\{(.*?)\}", match =>
             {
                 var key = match.Groups[1].Value;
 
-                // Проверка на позиционный аргумент
+                // Check for a positional argument
                 if (int.TryParse(key, out var index))
                 {
                     if (index < args.Count)
                         return args[index]?.ToString();
 
-                    // Если индекс отсутствует, возвращаем оригинальный токен
+                    // If the index is missing, return the original token
                     return match.Value;
                 }
 
-                // Проверка именованного токена
+                // Check for a named token
                 if (resolvers.TryGetValue(key, out var resolver))
                     return resolver()?.ToString();
 
-                // Если токен не найден, возвращаем как есть
+                // If the token is not found, return it as is
                 return match.Value;
             });
         }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Инициализирует новый билдера сообщений с заданным шаблоном.
+        /// Initializes a new message builder with the given template.
         /// </summary>
-        /// <param name="template">Строка-шаблон с токенами и позиционными аргументами.</param>
+        /// <param name="template">A template string with tokens and positional arguments.</param>
         public MessageBuilder(string template)
         {
             this.template = template;

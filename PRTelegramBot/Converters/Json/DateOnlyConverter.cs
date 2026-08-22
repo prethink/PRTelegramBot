@@ -2,20 +2,20 @@
 using System.Text.Json.Serialization;
 
 /// <summary>
-/// Конвертер даты в json.
+/// Converter for dates in json.
 /// </summary>
 public class DateOnlyConverter : JsonConverter<DateTime>
 {
-    #region Константы
+    #region Constants
 
     /// <summary>
-    /// Формат даты.
+    /// Date format.
     /// </summary>
     private const string DATE_FORMAT = "yyyy-MM-dd";
 
     #endregion
 
-    #region Базовый класс
+    #region Base class
 
     /// <inheritdoc />
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

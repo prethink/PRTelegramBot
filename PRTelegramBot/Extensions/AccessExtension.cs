@@ -3,19 +3,19 @@
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для проверки доступа.
+    /// Extension methods for access checks.
     /// </summary>
     public static class AccessExtension
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Проверяет есть ли флаг в маске доступа.
+        /// Checks whether the flag is present in the access mask.
         /// </summary>
-        /// <typeparam name="TEnum">Тип enum который проверяем.</typeparam>
-        /// <param name="mask">Маска доступа.</param>
-        /// <param name="flag">Проверяемый флаг.</param>
-        /// <returns>True - есть флаг, False - нет флага.</returns>
+        /// <typeparam name="TEnum">The enum type being checked.</typeparam>
+        /// <param name="mask">Access mask.</param>
+        /// <param name="flag">The flag being checked.</param>
+        /// <returns>True if the flag is set; False if it is not.</returns>
         public static bool HasFlag<TEnum>(this int mask, TEnum flag) where TEnum : Enum
         {
             return AccessUtils.HasFlag(mask, flag);

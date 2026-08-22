@@ -3,11 +3,11 @@
 namespace PRTelegramBot.Core.Factory
 {
     /// <summary>
-    /// Фабрика для создания PRBot с функционалом webhook.
+    /// Factory that creates a PRBot with webhook support.
     /// </summary>
     public class PRBotWebHookFactory : PRBotFactoryBase
     {
-        #region Базовый класс
+        #region Base class
 
         /// <inheritdoc />
         public override PRBotBase CreateBot(TelegramOptions options)

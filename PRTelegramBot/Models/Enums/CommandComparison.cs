@@ -1,16 +1,16 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Сравнение команд.
+    /// Command comparison.
     /// </summary>
     public enum CommandComparison
     {
         /// <summary>
-        /// Точное совпадение команды.
+        /// Exact command match.
         /// </summary>
         Equals = 0,
         /// <summary>
-        /// Содержит команду.
+        /// Contains the command.
         /// </summary>
         Contains
     }

@@ -5,14 +5,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку для обработки WebApp.
+    /// Creates a button that opens a WebApp.
     /// </summary>
     public sealed class InlineWebApp : InlineBase, IInlineContent
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Данные для WebApp.
+        /// Data for the WebApp.
         /// </summary>
         public string WebAppUrl { get; set; }
 
@@ -35,13 +35,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="webAppUrl">Ссылка на webApp.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="webAppUrl">Link to the webApp.</param>
         public InlineWebApp(string buttonName, string webAppUrl)
             : base(buttonName)
         {

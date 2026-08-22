@@ -3,25 +3,25 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Метод сможет обработать только определенный тип сообщений.
+    /// The method will only be able to handle a specific message type.
     /// </summary>
     public sealed class RequireTypeMessageAttribute : Attribute
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Типы сообщений.
+        /// Message types.
         /// </summary>
         public List<MessageType> TypeMessages { get; private set; } = new List<MessageType>();
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="typeMessages">Тип сообщений.</param>
+        /// <param name="typeMessages">Message type.</param>
         public RequireTypeMessageAttribute(params MessageType[] typeMessages)
         {
             TypeMessages.AddRange(typeMessages.ToList());

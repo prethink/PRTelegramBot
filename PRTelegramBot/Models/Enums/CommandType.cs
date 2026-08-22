@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Типы команд.
+    /// Command types.
     /// </summary>
     public enum CommandType
     {

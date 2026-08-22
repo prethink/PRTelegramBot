@@ -5,28 +5,28 @@ using PRTelegramBot.Interfaces;
 namespace PRTelegramBot.Core.BotScope
 {
     /// <summary>
-    /// Scope для текущего бота и контекста бота.
-    /// Позволяет в любом месте кода безопасно получить текущий <see cref="IBotContext"/> и <see cref="PRBotBase"/>.
-    /// Использует <see cref="AsyncLocal{T}"/> для корректной работы в асинхронном коде.
+    /// Scope for the current bot and its bot context.
+    /// Lets any part of the code safely obtain the current <see cref="IBotContext"/> and <see cref="PRBotBase"/>.
+    /// Uses <see cref="AsyncLocal{T}"/> so it behaves correctly in asynchronous code.
     /// </summary>
     public sealed class BotDataScope : IDisposable
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Scope сервисов для текущего бота.
+        /// Service scope for the current bot.
         /// </summary>
         private readonly IServiceScope? scope;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Создаёт новый scope для текущего контекста и бота.
+        /// Creates a new scope for the current context and bot.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="prBot">Экземпляр бота.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="prBot">Bot instance.</param>
         public BotDataScope(IBotContext context, PRBotBase prBot)
         {
             CurrentScope.contextStack.Value ??= new Stack<IBotContext>();
@@ -43,9 +43,9 @@ namespace PRTelegramBot.Core.BotScope
         }
 
         /// <summary>
-        /// Создаёт новый scope для текущего бота.
+        /// Creates a new scope for the current bot.
         /// </summary>
-        /// <param name="prBot">Экземпляр бота.</param>
+        /// <param name="prBot">Bot instance.</param>
         public BotDataScope(PRBotBase prBot) 
             : this(prBot.CreateContext(), prBot) { }
 
@@ -54,7 +54,7 @@ namespace PRTelegramBot.Core.BotScope
         #region IDisposable
 
         /// <summary>
-        /// Освобождает scope и очищает контекст и бота для текущего потока/асинхронного контекста.
+        /// Disposes the scope and clears the context and the bot for the current thread / asynchronous context.
         /// </summary>
         public void Dispose()
         {

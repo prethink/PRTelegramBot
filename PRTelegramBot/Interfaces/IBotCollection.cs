@@ -3,78 +3,78 @@
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс для работы с коллекцией ботов.
-    /// Позволяет получать ботов по различным критериям, а также управлять коллекцией.
+    /// Interface for working with the bot collection.
+    /// Lets you look bots up by various criteria and manage the collection.
     /// </summary>
     public interface IBotCollection
     {
         /// <summary>
-        /// Количество ботов в коллекции.
+        /// Number of bots in the collection.
         /// </summary>
         long BotCount { get; }
 
         /// <summary>
-        /// Получить бота по Telegram Id.
+        /// Gets a bot by its Telegram Id.
         /// </summary>
-        /// <param name="telegramId">Идентификатор Telegram.</param>
-        /// <returns>Экземпляр бота или null, если не найден.</returns>
+        /// <param name="telegramId">Telegram identifier.</param>
+        /// <returns>The bot instance, or null if it was not found.</returns>
         PRBotBase? GetBotByTelegramIdOrNull(long? telegramId);
 
         /// <summary>
-        /// Получить бота по его внутреннему Id.
+        /// Gets a bot by its internal Id.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <returns>Экземпляр бота или null, если не найден.</returns>
+        /// <param name="botId">Bot identifier.</param>
+        /// <returns>The bot instance, or null if it was not found.</returns>
         PRBotBase? GetBotOrNull(long botId);
 
         /// <summary>
-        /// Получить бота по условию фильтрации.
+        /// Gets a bot matching a filter condition.
         /// </summary>
-        /// <param name="predicate">Функция фильтрации.</param>
-        /// <returns>Экземпляр бота или null.</returns>
+        /// <param name="predicate">Filter function.</param>
+        /// <returns>The bot instance, or null.</returns>
         PRBotBase? GetBotOrNull(Func<PRBotBase, bool> predicate);
 
         /// <summary>
-        /// Получить бота по имени или логину.
+        /// Gets a bot by its name or login.
         /// </summary>
-        /// <param name="botName">Название/логин бота.</param>
-        /// <returns>Экземпляр бота или null.</returns>
+        /// <param name="botName">Bot name / login.</param>
+        /// <returns>The bot instance, or null.</returns>
         PRBotBase? GetBotOrNull(string botName);
 
         /// <summary>
-        /// Получить всех ботов.
+        /// Gets all bots.
         /// </summary>
-        /// <returns>Список всех ботов.</returns>
+        /// <returns>The list of all bots.</returns>
         IEnumerable<PRBotBase> GetBots();
 
         /// <summary>
-        /// Получить всех ботов с условием фильтрации.
+        /// Gets all bots matching a filter condition.
         /// </summary>
-        /// <param name="predicate">Функция фильтрации.</param>
-        /// <returns>Список ботов, удовлетворяющих условию.</returns>
+        /// <param name="predicate">Filter function.</param>
+        /// <returns>The list of bots that match the condition.</returns>
         IEnumerable<PRBotBase> GetBots(Func<PRBotBase, bool> predicate);
 
         /// <summary>
-        /// Добавить нового бота в коллекцию.
+        /// Adds a new bot to the collection.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="bot">Bot instance.</param>
         void AddBot(PRBotBase bot);
 
         /// <summary>
-        /// Удалить бота из коллекции.
+        /// Removes a bot from the collection.
         /// </summary>
-        /// <param name="bot">Экземпляр бота.</param>
+        /// <param name="bot">Bot instance.</param>
         void RemoveBot(PRBotBase bot);
 
         /// <summary>
-        /// Очистить всю коллекцию ботов.
+        /// Clears the entire bot collection.
         /// </summary>
         void ClearBots();
 
         /// <summary>
-        /// Получить следующий уникальный идентификатор для нового бота.
+        /// Gets the next unique identifier for a new bot.
         /// </summary>
-        /// <returns>Следующий Id.</returns>
+        /// <returns>The next Id.</returns>
         long GetNextId();
     }
 }

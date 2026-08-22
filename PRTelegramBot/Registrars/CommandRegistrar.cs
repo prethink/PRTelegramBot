@@ -4,14 +4,14 @@ using PRTelegramBot.Interfaces;
 namespace PRTelegramBot.Registrars
 {
     /// <summary>
-    /// Регистрация новых команд с помощью кода в процессе работы бота.
+    /// Registers new commands from code while the bot is running.
     /// </summary>
     public class RegisterCommand : IRegisterCommand
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Бот.
+        /// Bot.
         /// </summary>
         private PRBotBase bot;
 

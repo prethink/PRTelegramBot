@@ -5,13 +5,13 @@ using PRTelegramBot.Tests.BackgroundTasksTests.Models;
 namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
 {
     /// <summary>
-    /// Фабрика тестовых метаданных фоновых задач.
-    /// Используется для упрощения создания различных сценариев в тестах.
+    /// Factory for background task metadata used in tests.
+    /// Used to make building the various test scenarios simpler.
     /// </summary>
     public static class TaskMetadataFactory
     {
         /// <summary>
-        /// Базовые валидные метаданные с дефолтными значениями.
+        /// Valid baseline metadata with default values.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateDefault(Guid? id = null, string? name = null)
         {
@@ -23,7 +23,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные для задачи с бесконечными повторами.
+        /// Metadata for a task that repeats indefinitely.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateInfiniteRepeat(Guid? id = null, string? name = null)
         {
@@ -38,7 +38,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные для одноразовой задачи без повторов.
+        /// Metadata for a one-shot task with no repeats.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateOneTime(Guid? id = null)
         {
@@ -52,7 +52,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные для задачи с ограниченным количеством запусков.
+        /// Metadata for a task with a limited number of runs.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateWithLimitedRepeats(int? repeatSeconds, int maxRepeatCount, Guid? id = null)
         {
@@ -68,7 +68,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные для задачи с ограниченным количеством ошибок.
+        /// Metadata for a task with a limited number of errors.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateWithErrorLimit(
             int? maxRepeatCount,
@@ -86,7 +86,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные для задачи, предназначенной только для конкретного бота.
+        /// Metadata for a task intended for one specific bot only.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateForBot(long botId, Guid? id = null)
         {
@@ -102,7 +102,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные с кастомными параметрами (универсальный вариант).
+        /// Metadata with custom parameters (the general-purpose variant).
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateCustom(
             Guid? id = null,
@@ -128,8 +128,8 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Метаданные без указанных параметров выполнения.
-        /// Все опциональные значения равны null.
+        /// Metadata with no execution parameters specified.
+        /// All optional values are null.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateWithAllNulls(Guid? id = null)
         {
@@ -146,7 +146,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Одноразовая задача (RepeatSeconds = null).
+        /// A one-shot task (RepeatSeconds = null).
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateOneTimeWithNullRepeat(Guid? id = null)
         {
@@ -163,7 +163,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Задача без начальной задержки (InitialDelaySeconds = null).
+        /// A task with no initial delay (InitialDelaySeconds = null).
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateWithoutInitialDelay(Guid? id = null)
         {
@@ -180,7 +180,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Задача с неограниченным количеством запусков (MaxRepeatCount = null).
+        /// A task with an unlimited number of runs (MaxRepeatCount = null).
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateInfiniteByNullRepeatCount(Guid? id = null)
         {
@@ -196,7 +196,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Задача без ограничения на количество ошибок (MaxErrorAttempts = null).
+        /// A task with no limit on the number of errors (MaxErrorAttempts = null).
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateWithoutErrorLimit(Guid? id = null)
         {
@@ -212,7 +212,7 @@ namespace PRTelegramBot.Tests.BackgroundTasksTests.Factories
         }
 
         /// <summary>
-        /// Смешанный сценарий с частично заданными параметрами.
+        /// A mixed scenario with only some parameters specified.
         /// </summary>
         public static IPRBackgroundTaskMetadata CreateMixedNulls(Guid? id = null)
         {

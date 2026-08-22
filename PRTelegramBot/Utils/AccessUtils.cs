@@ -1,18 +1,18 @@
 ﻿namespace PRTelegramBot.Utils
 {
     /// <summary>
-    /// Утилиты для работы с доступом.
+    /// Utilities for working with access rights.
     /// </summary>
     public static class AccessUtils
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Чтение флагов.
+        /// Reads the flags.
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления.</typeparam>
-        /// <param name="mask">Маска доступа.</param>
-        /// <returns>Перечисление флагов доступа.</returns>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="mask">Access mask.</param>
+        /// <returns>The access flags enum.</returns>
         public static TEnum ReadFlags<TEnum>(int mask)
             where TEnum : Enum
         {
@@ -20,11 +20,11 @@
         }
 
         /// <summary>
-        /// Записать флаги.
+        /// Writes the flags.
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления.</typeparam>
-        /// <param name="flags">Набор флагов.</param>
-        /// <returns>Маска доступа.</returns>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="flags">Set of flags.</param>
+        /// <returns>Access mask.</returns>
         public static int WriteFlags<TEnum>(TEnum flags)
             where TEnum : Enum
         {
@@ -34,10 +34,10 @@
         }
 
         /// <summary>
-        /// Проверяет является ли перечесление типом флагов.
+        /// Checks whether the enum is a flags enum.
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления.</typeparam>
-        /// <returns>True - перечисление типа флагов, false - не является перечислением флагов.</returns>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <returns>True if the enum is a flags enum; false if it is not.</returns>
         public static bool IsFlagsEnum<TEnum>()
             where TEnum : Enum
         {
@@ -45,12 +45,12 @@
         }
 
         /// <summary>
-        /// Проверяет в маске доступа, есть нужный флаг.
+        /// Checks whether the access mask carries the required flag.
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления.</typeparam>
-        /// <param name="mask">Маска доступа</param>
-        /// <param name="flag">Флаг который проверяем.</param>
-        /// <returns>True - есть флаг, False - нет флага.</returns>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="mask">Access mask</param>
+        /// <param name="flag">The flag being checked.</param>
+        /// <returns>True if the flag is set; False if it is not.</returns>
         public static bool HasFlag<TEnum>(int mask, TEnum flag)
             where TEnum : Enum
         {

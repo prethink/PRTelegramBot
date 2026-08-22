@@ -11,48 +11,48 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку обработкой данных.
+    /// Creates a button that carries data to be handled.
     /// </summary>
-    /// <typeparam name="T">Тип данных.</typeparam>
+    /// <typeparam name="T">Data type.</typeparam>
     public class InlineCallback<T> : InlineCallback
         where T : TCommandBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Данные для обработки.
+        /// The data to process.
         /// </summary>
         [JsonPropertyName("d")]
         public new T Data { get; set; }
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Преобразовать данные в команду.
+        /// Converts the data into a command.
         /// </summary>
-        /// <param name="data">Данные.</param>
-        /// <returns>InlineCallback или null.</returns>
+        /// <param name="data">Data.</param>
+        /// <returns>InlineCallback, or null.</returns>
         public new static InlineCallback<T> GetCommandByCallbackOrNull(string data)
         {
             return CurrentScope.Bot.GetInlineConverter().GetCommandByCallbackOrNull<T>(data);
         }
 
         /// <summary>
-        /// Преобразовать данные в команду.
+        /// Converts the data into a command.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>InlineCallback или null.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>InlineCallback, or null.</returns>
         public new static InlineCallback<T> GetCommandByCallbackOrNull(IBotContext context)
         {
             return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
-        /// Преобразовать данные в команду.
+        /// Converts the data into a command.
         /// </summary>
-        /// <returns>InlineCallback или null.</returns>
+        /// <returns>InlineCallback, or null.</returns>
         public new InlineCallback<T> GetCommandByCallbackOrNull()
         {
             return GetCommandByCallbackOrNull(Context?.Update?.CallbackQuery?.Data ?? string.Empty);
@@ -66,14 +66,14 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="commandType">Command header.</param>
+        /// <param name="data">Data.</param>
         public InlineCallback(string buttonName, Enum commandType, T data) : base(buttonName, commandType, data)
         {
             ButtonName = buttonName;
@@ -82,10 +82,10 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="commandType">Command header.</param>
         public InlineCallback(string buttonName, Enum commandType) : base(buttonName, commandType)
         {
             ButtonName = buttonName;
@@ -93,14 +93,14 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public InlineCallback(IBotContext context) : base(context)
         { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public InlineCallback() { }
 
@@ -108,21 +108,21 @@ namespace PRTelegramBot.Models.InlineButtons
     }
 
     /// <summary>
-    /// Создает кнопку обработкой данных.
+    /// Creates a button that carries data to be handled.
     /// </summary>
     public class InlineCallback : InlineBase, IInlineContent, IDisposable
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Тип команды.
+        /// Command type.
         /// </summary>
         [JsonPropertyName("c")]
         [JsonConverter(typeof(HeaderConverter))]
         public Enum CommandType { get; set; }
 
         /// <summary>
-        /// Данные для обработки.
+        /// The data to process.
         /// </summary>
         [JsonPropertyName("d")]
         public TCommandBase Data { get; set; }
@@ -135,39 +135,39 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Преобразовать данные в команду.
+        /// Converts the data into a command.
         /// </summary>
-        /// <param name="data">Данные.</param>
-        /// <returns>InlineCallback или null.</returns>
+        /// <param name="data">Data.</param>
+        /// <returns>InlineCallback, or null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(string data)
         {
             return CurrentScope.Bot.GetInlineConverter().GetCommandByCallbackOrNull(data);
         }
 
         /// <summary>
-        /// Преобразовать данные в команду.
+        /// Converts the data into a command.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>InlineCallback или null.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>InlineCallback, or null.</returns>
         public static InlineCallback GetCommandByCallbackOrNull(IBotContext context)
         {
             return GetCommandByCallbackOrNull(context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
-        /// Преобразовать данные в команду.
+        /// Converts the data into a command.
         /// </summary>
-        /// <returns>InlineCallback или null.</returns>
+        /// <returns>InlineCallback, or null.</returns>
         public InlineCallback GetCommandByCallbackOrNull()
         {
             return GetCommandByCallbackOrNull(Context?.Update?.CallbackQuery?.Data ?? string.Empty);
         }
 
         /// <summary>
-        /// Действие с последним сообщением.
+        /// Action to perform on the last message.
         /// </summary>
         /// <returns></returns>
         public async Task ExecuteActionWithLastMessage()
@@ -189,7 +189,7 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Попытка обновить данные.
+        /// Attempts to update the data.
         /// </summary>
         public void TryUpdateData()
         {
@@ -228,14 +228,14 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
-        /// <param name="data">Данные.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="commandType">Command header.</param>
+        /// <param name="data">Data.</param>
         public InlineCallback(string buttonName, Enum commandType, TCommandBase data)
             : base(buttonName)
         {
@@ -244,10 +244,10 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="commandType">Заголовок команды.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="commandType">Command header.</param>
         public InlineCallback(string buttonName, Enum commandType)
             : base(buttonName)
         {
@@ -256,9 +256,9 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
+        /// <param name="context">Bot context.</param>
         public InlineCallback(IBotContext context)
         {
             Context = context;
@@ -266,7 +266,7 @@ namespace PRTelegramBot.Models.InlineButtons
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public InlineCallback() : base() { }
 

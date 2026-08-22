@@ -1,26 +1,26 @@
 ﻿namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Общий интерфейс для Inline кнопок.
+    /// Common interface for inline buttons.
     /// </summary>
     public interface IInlineContent
     {
         /// <summary>
-        /// Получает название кнопки.
+        /// Gets the button name.
         /// </summary>
-        /// <returns>Название кнопки.</returns>
+        /// <returns>Button name.</returns>
         public string GetButtonName();
 
         /// <summary>
-        /// Установить новое значение кнопки.
+        /// Sets a new value for the button.
         /// </summary>
-        /// <returns>Название кнопки.</returns>
+        /// <returns>Button name.</returns>
         public string SetButtonName(string name);
 
         /// <summary>
-        /// Получает контент.
+        /// Gets the content.
         /// </summary>
-        /// <returns>Контент кнопки.</returns>
+        /// <returns>The button content.</returns>
         public object GetContent();
     }
 }

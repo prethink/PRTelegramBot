@@ -3,19 +3,19 @@
 namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс белого менеджера белого списка пользователей.
+    /// Interface of the user white list manager.
     /// </summary>
     public interface IWhiteListManager : IUserManager
     {
         /// <summary>
-        /// Настройки работы с белым списком.
+        /// Settings that control how the white list works.
         /// </summary>
         public WhiteListSettings Settings { get; }
 
         /// <summary>
-        /// Установить настройки белого списка.
+        /// Sets the white list settings.
         /// </summary>
-        /// <param name="settings">Настройки.</param>
+        /// <param name="settings">Settings.</param>
         public void SetSettings(WhiteListSettings settings);
     }
 }

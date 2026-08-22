@@ -1,34 +1,34 @@
 ﻿namespace PRTelegramBot.Models
 {
     /// <summary>
-    /// Класс для постраничного вывода данных.
+    /// Class for paginated data output.
     /// </summary>
     public abstract class PagedResultBase
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Номер текущей страницы.
+        /// Number of the current page.
         /// </summary>
         public int CurrentPage { get; set; }
 
         /// <summary>
-        /// Количество страниц.
+        /// Number of pages.
         /// </summary>
         public int PageCount { get; set; }
 
         /// <summary>
-        /// Размер страницы.
+        /// Page size.
         /// </summary>
         public int PageSize { get; set; }
 
         /// <summary>
-        /// Количество строк.
+        /// Number of rows.
         /// </summary>
         public int RowCount { get; set; }
 
         /// <summary>
-        /// Первый элемент строки на странице.
+        /// The first row item on the page.
         /// </summary>
         public int FirstRowOnPage
         {
@@ -37,7 +37,7 @@
         }
 
         /// <summary>
-        /// Последний элемент строки на странице.
+        /// The last row item on the page.
         /// </summary>
         public int LastRowOnPage
         {
@@ -48,25 +48,25 @@
     }
 
     /// <summary>
-    /// Класс для постраничного вывода данных.
+    /// Class for paginated data output.
     /// </summary>
-    /// <typeparam name="T">Любой тип класса.</typeparam>
+    /// <typeparam name="T">Any class type.</typeparam>
     public class PagedResult<T> : PagedResultBase 
         where T : class
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Результат.
+        /// Result.
         /// </summary>
         public IList<T> Results { get; set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public PagedResult()
         {

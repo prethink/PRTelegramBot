@@ -3,20 +3,20 @@
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Помогает разбить данные постранично.
+    /// Helps split the data into pages.
     /// </summary>
     public static class PageExtension
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Вывод данных постранично.
+        /// Outputs the data page by page.
         /// </summary>
-        /// <typeparam name="T">Тип.</typeparam>
-        /// <param name="query">Коллекция данных.</param>
-        /// <param name="page">Страница.</param>
-        /// <param name="pageSize">Размер страницы.</param>
-        /// <returns>Страница данных с доп информацией.</returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="query">Collection of data.</param>
+        /// <param name="page">Page.</param>
+        /// <param name="pageSize">Page size.</param>
+        /// <returns>A page of data together with additional information.</returns>
         public static async Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize)
             where T : class
         {

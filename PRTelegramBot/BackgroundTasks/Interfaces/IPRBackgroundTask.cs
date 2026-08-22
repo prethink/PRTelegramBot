@@ -3,34 +3,34 @@
 namespace PRTelegramBot.BackgroundTasks.Interfaces
 {
     /// <summary>
-    /// Интерфейс фоновой задачи.
+    /// Interface of a background task.
     /// </summary>
     public interface IPRBackgroundTask
     {
         /// <summary>
-        /// Идентификатор задачи.
+        /// Task identifier.
         /// </summary>
         Guid Id { get; }
 
         /// <summary>
-        /// Проверяет, может ли фоновая задача быть выполнена в текущий момент.
-        /// Метод вызывается фреймворком перед каждой попыткой выполнения.
-        /// Возврат false означает, что выполнение будет пропущено и
-        /// повторная проверка произойдёт при следующем плановом запуске.
+        /// Checks whether the background task can run right now.
+        /// The framework calls this method before every execution attempt.
+        /// Returning false means execution is skipped and
+        /// the check is repeated at the next scheduled run.
         /// </summary>
         Task<bool> CanExecute();
 
         /// <summary>
-        /// Запустить выполнение фоновой задачи.
+        /// Starts running the background task.
         /// </summary>
-        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         Task ExecuteAsync(CancellationToken cancellationToken);
 
         /// <summary>
-        /// Устанавливает экземпляр бота для доступа к его контексту и сервисам.
-        /// Метод вызывается фреймворком при инициализации фоновой задачи.
+        /// Sets the bot instance so its context and services can be accessed.
+        /// The framework calls this method when the background task is initialized.
         /// </summary>
-        /// <param name="bot">Экземпляр базового класса бота.</param>
+        /// <param name="bot">Instance of the bot base class.</param>
         Task Initialize(PRBotBase bot);
     }
 }

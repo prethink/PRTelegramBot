@@ -3,27 +3,27 @@
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы при проверки привилегий.
+    /// Arguments used when checking privileges.
     /// </summary>
     public class PrivilegeEventArgs : CommandEventsArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Маска доступа.
+        /// Access mask.
         /// </summary>
         public int? Mask { get; private set; }
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="executeMethod">Метод для выполнения.</param>
-        /// <param name="mask">Маска доступа.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="executeMethod">The method to execute.</param>
+        /// <param name="mask">Access mask.</param>
         public PrivilegeEventArgs(IBotContext context, Func<IBotContext, Task> executeMethod, int? mask)
             : base(context, executeMethod)
         {

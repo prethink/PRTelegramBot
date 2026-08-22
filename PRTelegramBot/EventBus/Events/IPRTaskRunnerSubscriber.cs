@@ -1,21 +1,21 @@
 ﻿namespace PRTelegramBot.EventBus.Events
 {
     /// <summary>
-    /// Подписчик раннера фоновой задачи.
+    /// Subscriber of the background task runner.
     /// </summary>
     public interface IPRTaskRunnerSubscriber : IPRGlobalSubscriber
     {
         /// <summary>
-        /// Событие остановки фоновой задачи.
+        /// Event raised when a background task stops.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="taskId">Идентификатор задачи.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="taskId">Task identifier.</param>
         void StopEvent(IEnumerable<long> botIds, Guid taskId);
 
         /// <summary>
-        /// Событие остановки фоновой задачи.
+        /// Event raised when a background task stops.
         /// </summary>
-        /// <param name="taskId">Идентификатор задачи.</param>
+        /// <param name="taskId">Task identifier.</param>
         void StopEvent(Guid taskId);
     }
 }

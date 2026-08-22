@@ -1,59 +1,59 @@
 ﻿namespace PRTelegramBot.Interfaces
 {
     /// <summary>
-    /// Интерфейс менеджера управления пользователем.
+    /// Interface of the user management manager.
     /// </summary>
     public interface IUserManager
     {
         /// <summary>
-        /// Количество пользователей.
+        /// Number of users.
         /// </summary>
         public long Count { get; }
 
         /// <summary>
-        /// Перезагрузить пользователей.
+        /// Reloads the users.
         /// </summary>
-        /// <returns>True - удалось выполнить перезагрузку, False - не удалось.</returns>
+        /// <returns>True if the reload succeeded; False if it did not.</returns>
         public Task<bool> Reload();
 
         /// <summary>
-        /// Инициализация менеджера.
+        /// Initializes the manager.
         /// </summary>
-        /// <returns>True - инициализация прошла успешно.</returns>
+        /// <returns>True if initialization succeeded.</returns>
         public Task<bool> Initialize();
 
         /// <summary>
-        /// Добавить пользователя.
+        /// Adds a user.
         /// </summary>
-        /// <param name="userId">Идентификатор.</param>
-        /// <returns>True - удачно, False не удачно.</returns>
+        /// <param name="userId">Identifier.</param>
+        /// <returns>True on success; False on failure.</returns>
         public Task<bool> AddUser(long userId);
 
         /// <summary>
-        /// Добавить пользователей.
+        /// Adds users.
         /// </summary>
-        /// <param name="userIds">Идентификаторы пользователей.</param>
-        /// <returns>True - удачно, False не удачно.</returns>
+        /// <param name="userIds">User identifiers.</param>
+        /// <returns>True on success; False on failure.</returns>
         public Task<bool> AddUsers(params long[] userIds);
 
         /// <summary>
-        /// Получить идентификаторы пользователей.
+        /// Gets the user identifiers.
         /// </summary>
-        /// <returns>Идентификаторы.</returns>
+        /// <returns>Identifiers.</returns>
         public Task<List<long>> GetUsersIds();
 
         /// <summary>
-        /// Удалить пользователя из списка.
+        /// Removes a user from the list.
         /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - удачно, False не удачно.</returns>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True on success; False on failure.</returns>
         public Task<bool> RemoveUser(long userId);
 
         /// <summary>
-        /// Проверка есть ли пользователь в списке.
+        /// Checks whether the user is in the list.
         /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>True - есть, False - нет.</returns>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>True if present; False if not.</returns>
         public Task<bool> HasUser(long userId);
     }
 }

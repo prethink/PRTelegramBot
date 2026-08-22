@@ -3,33 +3,33 @@
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
-    /// Атрибут для inline команд.
+    /// Attribute for inline commands.
     /// </summary>
     public sealed class InlineCallbackHandlerAttribute<T> : BaseQueryAttribute<Enum>
         where T : Enum
     {
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="commands">Команды.</param>
+        /// <param name="commands">Commands.</param>
         public InlineCallbackHandlerAttribute(params T[] commands)
             : this(0, commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botId">Идентификатор бота.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botId">Bot identifier.</param>
+        /// <param name="commands">Commands.</param>
         public InlineCallbackHandlerAttribute(long botId, params T[] commands) 
             : this([botId], commands) { }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="botIds">Идентификаторы ботов.</param>
-        /// <param name="commands">Команды.</param>
+        /// <param name="botIds">Bot identifiers.</param>
+        /// <param name="commands">Commands.</param>
         public InlineCallbackHandlerAttribute(long[] botIds, params T[] commands)
             : base(botIds, CommandComparison.Equals)
         {

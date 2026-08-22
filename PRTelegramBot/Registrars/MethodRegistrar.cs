@@ -13,21 +13,21 @@ using Telegram.Bot.Types;
 namespace PRTelegramBot.Registrars
 {
     /// <summary>
-    /// Класс для регистрации методов для дальнейшей обработки команд.
+    /// Class that registers methods for later command handling.
     /// </summary>
     public sealed class MethodRegistrar
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Регистрация методов из классов.
+        /// Registers the methods found in the classes.
         /// </summary>
-        /// <typeparam name="Tkey">Тип для команды.</typeparam>
-        /// <param name="bot">Бот.</param>
-        /// <param name="attributetype">Тип атрибута.</param>
-        /// <param name="methods">Методы.</param>
-        /// <param name="commands">Команды.</param>
-        /// <param name="serviceProvider">Сервис провайдер.</param>
+        /// <typeparam name="Tkey">The command type.</typeparam>
+        /// <param name="bot">Bot.</param>
+        /// <param name="attributetype">Attribute type.</param>
+        /// <param name="methods">Methods.</param>
+        /// <param name="commands">Commands.</param>
+        /// <param name="serviceProvider">Service provider.</param>
         public void RegisterMethodFromClass<Tkey>(PRBotBase bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands, IServiceProvider serviceProvider)
             where Tkey : notnull
         {
@@ -61,13 +61,13 @@ namespace PRTelegramBot.Registrars
         }
 
         /// <summary>
-        /// Регистрация статических команд.
+        /// Registers the static commands.
         /// </summary>
-        /// <typeparam name="Tkey">Тип для команды.</typeparam>
-        /// <param name="bot">Бот.</param>
-        /// <param name="attributetype">Тип атрибута.</param>
-        /// <param name="methods">Методы.</param>
-        /// <param name="commands">Команды.</param>
+        /// <typeparam name="Tkey">The command type.</typeparam>
+        /// <param name="bot">Bot.</param>
+        /// <param name="attributetype">Attribute type.</param>
+        /// <param name="methods">Methods.</param>
+        /// <param name="commands">Commands.</param>
         public void RegisterStaticCommand<Tkey>(PRBotBase bot, Type attributetype, MethodInfo[] methods, Dictionary<Tkey, CommandHandler> commands)
             where Tkey : notnull
         {

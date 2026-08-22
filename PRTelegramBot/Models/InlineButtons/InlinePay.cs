@@ -4,8 +4,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку встроенной клавиатуры <a href="https://core.telegram.org/bots/api#payments">Кнопка оплаты</a>. Подстроки “⭐” и “XTR” в тексте кнопки будут заменены на иконку звезды Telegram.
-    /// Этот тип кнопки должен всегда быть первой кнопкой в первой строке и может использоваться только в сообщениях invoice.
+    /// Creates an inline keyboard <a href="https://core.telegram.org/bots/api#payments">Pay button</a>. The substrings “⭐” and “XTR” in the button text are replaced with the Telegram Star icon.
+    /// This kind of button must always be the first button in the first row, and can only be used in invoice messages.
     /// </summary>
     public class InlinePay : InlineBase, IInlineContent
     {
@@ -25,12 +25,12 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
+        /// <param name="buttonName">Button name.</param>
         public InlinePay(string buttonName)
             : base(buttonName) { }
 

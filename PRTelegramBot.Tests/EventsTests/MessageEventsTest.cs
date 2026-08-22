@@ -976,7 +976,7 @@ namespace PRTelegramBot.Tests.EventsTests
             bot.Events.MessageEvents.OnVideoChatParticipantsInvitedHandle -= EventHandler;
         }
 
-        /* TODO Тесты для
+        /* TODO Tests for
          *  OnPreReplyCommandHandle
             OnPostReplyCommandHandle
             OnPreDynamicReplyCommandHandle

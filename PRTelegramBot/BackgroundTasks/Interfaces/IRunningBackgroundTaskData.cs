@@ -3,90 +3,90 @@
 namespace PRTelegramBot.BackgroundTasks.Interfaces
 {
     /// <summary>
-    /// Интерфейс данных запущенной задачи.
+    /// Interface for the data of a running task.
     /// </summary>
     public interface IRunningBackgroundTaskData
     {
         /// <summary>
-        /// Задача.
+        /// Task.
         /// </summary>
         Task Task { get; }
 
         /// <summary>
-        /// Метаданные.
+        /// Metadata.
         /// </summary>
         IPRBackgroundTaskMetadata Metadata { get; }
 
         /// <summary>
-        /// Ошибки
+        /// Errors
         /// </summary>
         IReadOnlyList<Exception> Errors { get; }
 
         /// <summary>
-        /// Количество ошибок.
+        /// Number of errors.
         /// </summary>
         int ErrorCount { get; }
 
         /// <summary>
-        /// Количество выполнений
+        /// Number of runs
         /// </summary>
         int ExecutedCount { get; }
 
         /// <summary>
-        /// Дата и время начала задачи.
+        /// Date and time the task started.
         /// </summary>
         DateTime? StartDate { get; }
 
         /// <summary>
-        /// Дата и время завершения задачи.
+        /// Date and time the task finished.
         /// </summary>
         DateTime? EndDate { get; }
 
         /// <summary>
-        /// Статус задачи.
+        /// Task status.
         /// </summary>
         PRTaskStatus Status { get; }
 
         /// <summary>
-        /// Статус завершения задачи.
+        /// The task's completion status.
         /// </summary>
         PRTaskCompletionResult CompleteStatus { get; }
 
         /// <summary>
-        /// Выполнить инкремент выполнения задачи.
+        /// Increments the task's run counter.
         /// </summary>
         void IncrementExecutionCount();
 
         /// <summary>
-        /// Добавить ошибку.
+        /// Records an error.
         /// </summary>
-        /// <param name="ex">Исключение.</param>
+        /// <param name="ex">Exception.</param>
         void AddError(Exception ex);
 
         /// <summary>
-        /// Установить статус задачи.
+        /// Sets the task status.
         /// </summary>
-        /// <param name="status">Статус.</param>
+        /// <param name="status">Status.</param>
         void SetStatus(PRTaskStatus status);
 
         /// <summary>
-        /// Установить статус завершения задачи.
+        /// Sets the task's completion status.
         /// </summary>
-        /// <param name="status">Статус.</param>
+        /// <param name="status">Status.</param>
         void SetCompleteStatus(PRTaskCompletionResult status);
 
         /// <summary>
-        /// Запуск задачи.
+        /// Starts the task.
         /// </summary>
         void StartTask();
 
         /// <summary>
-        /// Завершение задачи.
+        /// Finishes the task.
         /// </summary>
         void EndTask();
 
         /// <summary>
-        /// Исходник токена отмены.
+        /// The cancellation token source.
         /// </summary>
         CancellationTokenSource CancellationTokenSource { get; }
     }

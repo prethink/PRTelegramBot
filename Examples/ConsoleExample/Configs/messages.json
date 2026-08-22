@@ -1,4 +1,4 @@
 {
-  "MSG_MAIN_MENU": "Текст главного меню",
-  "MSG_EXAMPLE_TEXT": "Пример текста из файла"
+  "MSG_MAIN_MENU": "Main menu text",
+  "MSG_EXAMPLE_TEXT": "Example of text loaded from a file"
 }

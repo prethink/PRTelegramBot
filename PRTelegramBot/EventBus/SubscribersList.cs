@@ -1,48 +1,48 @@
 ﻿namespace PRTelegramBot.EventBus
 {
     /// <summary>
-    /// Вспомогательный контейнер для хранения подписчиков одного типа события.
-    /// Обеспечивает безопасное добавление и удаление подписчиков
-    /// во время выполнения рассылки событий.
+    /// Helper container that stores the subscribers of a single event type.
+    /// Makes adding and removing subscribers safe
+    /// while an event broadcast is running.
     /// </summary>
-    /// <typeparam name="TSubscriber">Тип подписчика.</typeparam>
+    /// <typeparam name="TSubscriber">Subscriber type.</typeparam>
     internal class SubscribersList<TSubscriber> where TSubscriber : class
     {
         /// <summary>
-        /// Флаг, указывающий, что после завершения рассылки
-        /// требуется очистка списка от удалённых подписчиков.
+        /// Flag indicating that once the broadcast finishes,
+        /// the list has to be cleaned up of the removed subscribers.
         /// </summary>
         private bool needsCleanUp = false;
 
         /// <summary>
-        /// Указывает, что в данный момент выполняется рассылка событий.
-        /// Используется для отложенного удаления подписчиков,
-        /// чтобы избежать модификации коллекции во время перебора.
+        /// Indicates that an event broadcast is currently running.
+        /// Used for deferred removal of subscribers,
+        /// so the collection is not modified while it is being iterated.
         /// </summary>
         public bool Executing;
 
         /// <summary>
-        /// Список подписчиков.
-        /// Во время выполнения рассылки элементы могут временно
-        /// заменяться на <c>null</c> и удаляться позднее.
+        /// The list of subscribers.
+        /// While the broadcast is running, the items may temporarily
+        /// be replaced with <c>null</c> and removed later.
         /// </summary>
         public readonly List<TSubscriber> List = new List<TSubscriber>();
 
         /// <summary>
-        /// Добавляет подписчика в список.
+        /// Adds a subscriber to the list.
         /// </summary>
-        /// <param name="subscriber">Экземпляр подписчика.</param>
+        /// <param name="subscriber">The subscriber instance.</param>
         public void Add(TSubscriber subscriber)
         {
             List.Add(subscriber);
         }
 
         /// <summary>
-        /// Удаляет подписчика из списка.
-        /// Если удаление происходит во время рассылки событий,
-        /// подписчик помечается для последующей очистки.
+        /// Removes a subscriber from the list.
+        /// If the removal happens while events are being broadcast,
+        /// the subscriber is marked for later cleanup.
         /// </summary>
-        /// <param name="subscriber">Экземпляр подписчика.</param>
+        /// <param name="subscriber">The subscriber instance.</param>
         public void Remove(TSubscriber subscriber)
         {
             if (Executing)
@@ -61,8 +61,8 @@
         }
 
         /// <summary>
-        /// Очищает список от подписчиков, помеченных на удаление
-        /// во время выполнения рассылки событий.
+        /// Removes the subscribers marked for removal from the list
+        /// while an event broadcast is running.
         /// </summary>
         public void Cleanup()
         {

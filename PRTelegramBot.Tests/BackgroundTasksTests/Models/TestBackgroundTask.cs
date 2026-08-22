@@ -4,30 +4,30 @@ using PRTelegramBot.Core;
 namespace PRTelegramBot.Tests.BackgroundTasksTests.Models
 {
     /// <summary>
-    /// Тестовая реализация фоновой задачи.
-    /// Считает количество вызовов ExecuteAsync.
+    /// Test implementation of a background task.
+    /// Counts the ExecuteAsync calls.
     /// </summary>
     public class TestBackgroundTask : IPRBackgroundTask
     {
         protected int executeCallCount;
 
         /// <summary>
-        /// Идентификатор задачи.
+        /// Task identifier.
         /// </summary>
         public Guid Id { get; protected set; }
 
         /// <summary>
-        /// Идентификатор задачи.
+        /// Task identifier.
         /// </summary>
         public PRBotBase Bot { get; protected set; }
 
         /// <summary>
-        /// Количество вызовов ExecuteAsync.
+        /// Number of ExecuteAsync calls.
         /// </summary>
         public int ExecuteCallCount => executeCallCount;
 
         /// <summary>
-        /// Был ли вызван Initialize.
+        /// Whether Initialize was called.
         /// </summary>
         public bool IsInitialized { get; private set; }
 

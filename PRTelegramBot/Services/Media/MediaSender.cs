@@ -10,17 +10,17 @@ namespace PRTelegramBot.Services.Media
 {
     public class MediaSender
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Отправка сообщения с фото.
+        /// Sends a message with a photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="stream">Поток.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="stream">Stream.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> SendPhoto(IBotContext context, long chatId, string text, Stream stream, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -42,14 +42,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Отправка сообщения с фото.
+        /// Sends a message with a photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="filePath">Путь к файлу.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="filePath">Path to the file.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> SendPhoto(IBotContext context, long chatId, string text, string filePath, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -62,14 +62,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Отправка сообщения с фото.
+        /// Sends a message with a photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="msg">Текст.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="msg">Text.</param>
         /// <param name="url">url.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> SendPhotoWithUrl(IBotContext context, long chatId, string msg, string url, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -91,14 +91,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Отправка сообщения с фото.
+        /// Sends a message with a photo.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="msg">Текст.</param>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="msg">Text.</param>
         /// <param name="url">url.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> SendMediaWithUrl(IBotContext context, long chatId, string msg, string url, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -122,14 +122,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Отправка группы фото.
+        /// Sends a group of photos.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="filepaths">Путь к файлам.</param>
-        /// <param name="option">Настройка сообщения.</param>
-        /// <returns>Коллекция сообщений.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="filepaths">Paths to the files.</param>
+        /// <param name="option">Message setting.</param>
+        /// <returns>Collection of messages.</returns>
         public static async Task<Message[]> SendPhotoGroup(IBotContext context, long chatId, string text, List<string> filepaths, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
@@ -172,14 +172,14 @@ namespace PRTelegramBot.Services.Media
         }
 
         /// <summary>
-        /// Отправка файла.
+        /// Sends a file.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <param name="chatId">Идентификатор чата.</param>
-        /// <param name="text">Текст.</param>
-        /// <param name="filePath">Путь к файлу.</param>
-        /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <param name="chatId">Chat identifier.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="filePath">Path to the file.</param>
+        /// <param name="option">Message options.</param>
+        /// <returns>Message.</returns>
         public static async Task<Message> SendFile(IBotContext context, long chatId, string text, string filePath, OptionMessage option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);

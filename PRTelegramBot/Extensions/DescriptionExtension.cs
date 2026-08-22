@@ -3,18 +3,18 @@
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для описания.
+    /// Extension methods for descriptions.
     /// </summary>
     public static class DescriptionExtension
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Получить атрибут из перечисления.
+        /// Gets the attribute from the enum value.
         /// </summary>
-        /// <typeparam name="TAttribute">Тип атрибута.</typeparam>
-        /// <param name="enum">Значение из перечисления.</param>
-        /// <returns>Атрибут.</returns>
+        /// <typeparam name="TAttribute">Attribute type.</typeparam>
+        /// <param name="enum">A value from the enum.</param>
+        /// <returns>Attribute.</returns>
         internal static TAttribute GetAttribute<TAttribute>(this Enum @enum) where TAttribute : Attribute
         {
             var enumType = @enum.GetType();
@@ -23,10 +23,10 @@ namespace PRTelegramBot.Extensions
         }
 
         /// <summary>
-        /// Позволяет получить описание у Enum.
+        /// Lets you get the description of an enum value.
         /// </summary>
-        /// <param name="enum">Значение из перечисления.</param>
-        /// <returns>Описание.</returns>
+        /// <param name="enum">A value from the enum.</param>
+        /// <returns>Description.</returns>
         public static string GetDescription(this Enum @enum)
         {
             return @enum.GetAttribute<DescriptionAttribute>()?.Description ?? string.Empty;

@@ -7,53 +7,53 @@ using PRTelegramBot.Services.Messages;
 namespace ConsoleExample.Examples
 {
     /// <summary>
-    /// Пример работы с кэшем пользователей
+    /// Example of working with the user cache
     /// </summary>
     public class ExampleUserCache
     {
         /// <summary>
-        /// Напишите в боте "cache"
-        /// Функция записывает данные в кэш
+        /// Send "cache" to the bot
+        /// Writes the data into the cache
         /// </summary>
         [ReplyMenuHandler("cache")]
         public static async Task GetCache(IBotContext context)
         {
-            string msg = $"Запись в кэш пользователя данных: {context.GetChatId()}";
-            //Записываем данные в кеш пользователя
+            string msg = $"Writing data into the user's cache: {context.GetChatId()}";
+            //Write the data into the user's cache
             context.GetCacheData<UserCache>().Id = context.GetChatId();
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Напишите в боте "resultcache"
-        /// Функция получает данные из кэша
+        /// Send "resultcache" to the bot
+        /// Reads the data from the cache
         /// </summary>
         [ReplyMenuHandler("resultcache")]
         public static async Task CheckCache(IBotContext context)
         {
-            //Получаем данные с кеша
+            //Read the data from the cache
             var cache = context.GetCacheData<UserCache>();
             string msg = string.Empty;
             if(cache.Id != null)
             {
-                msg = $"Данные в кэше пользователя: {cache.Id}";
+                msg = $"Data in the user's cache: {cache.Id}";
             }
             else
             {
-                msg = $"Данные в кэше пользователя отсутствуют.";
+                msg = $"There is no data in the user's cache.";
             }
             await MessageSender.Send(context, msg);
         }
 
         /// <summary>
-        /// Напишите в боте "clearcache"
-        /// Функция очищает данные в кэше пользователя
+        /// Send "clearcache" to the bot
+        /// Clears the data in the user's cache
         /// </summary>
         [ReplyMenuHandler("clearcache")]
         public static async Task ClearCache(IBotContext context)
         {
-            string msg = "Очистка данных";
-            //Очищаем кеш для пользователя
+            string msg = "Clearing the data";
+            //Clear the user's cache
             context.GetCacheData<UserCache>().ClearData();
             await MessageSender.Send(context, msg);
         }

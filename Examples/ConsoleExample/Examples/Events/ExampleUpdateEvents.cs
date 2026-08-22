@@ -8,7 +8,7 @@ namespace ConsoleExample.Examples.Events
     {
         public static async Task OnUpdateMyChatMember(BotEventArgs args)
         {
-            //Обработка информации из myChatHandle
+            //Handling the information from myChatHandle
             var myChatHandle = args.Context.Update.MyChatMember;
             try
             {
@@ -20,7 +20,7 @@ namespace ConsoleExample.Examples.Events
                     }
                     else
                     {
-                        //Другие персонажи
+                        //Other actors
                     }
                 }
             }
@@ -33,19 +33,19 @@ namespace ConsoleExample.Examples.Events
         public async static Task<UpdateResult> Handler_OnUpdate(BotEventArgs e)
         {
             /*
-             Для примера можно рассмотреть зарегистрирован ли пользователь или нет.
-                Если зарегистрирован
-                    return UpdateResult.Continue; - данный результат позволит продолжить обработку.
-                Если не зарегистрирован то вызвать метод регистрации
+             As an example, consider whether the user is registered or not.
+                If they are registered
+                    return UpdateResult.Continue; - this result lets processing continue.
+                If they are not registered, call the registration method
                     RegisterMethod();
-                    return UpdateResult.Stop или return UpdateResult.Handled - позволит прервать текущую обработку и отправить пользователя на регистрацию
+                    return UpdateResult.Stop or return UpdateResult.Handled - stops the current processing and sends the user to registration
              */
             return UpdateResult.Continue;
         }
 
         public async static Task Handler_OnPostUpdate(BotEventArgs e)
         {
-            // Пример. Регистрация последней активности пользователя в боте. Допустим дата и время
+            // Example. Recording the user's last activity in the bot — a date and time, say
         }
     }
 }

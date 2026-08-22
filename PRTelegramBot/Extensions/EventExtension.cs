@@ -4,15 +4,15 @@ using PRTelegramBot.Models.EventsArgs;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для событий.
+    /// Extension methods for events.
     /// </summary>
     public static class EventExtension
     {
         /// <summary>
-        /// Создать базовые аргументы событий для контекста.
+        /// Creates the base event arguments for the context.
         /// </summary>
-        /// <param name="context">Контекст бота.</param>
-        /// <returns>Аргументы.</returns>
+        /// <param name="context">Bot context.</param>
+        /// <returns>Arguments.</returns>
         public static BotEventArgs CreateBotEventArgs(this IBotContext context)
         {
             return new BotEventArgs(context);

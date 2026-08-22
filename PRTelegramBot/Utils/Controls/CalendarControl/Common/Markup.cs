@@ -7,19 +7,19 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
 {
     /// <summary>
-    /// Генерация разметки календаря.
+    /// Generates the calendar markup.
     /// </summary>
     public static class Markup
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Разметка календаря.
+        /// Calendar markup.
         /// </summary>
-        /// <param name="date">Дата.</param>
-        /// <param name="culture">Язык календаря.</param>
-        /// <param name="command">Заголовок команды.</param>
-        /// <returns>Inline меню.</returns>
+        /// <param name="date">Date.</param>
+        /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Command header.</param>
+        /// <returns>Inline menu.</returns>
         public static InlineKeyboardMarkup Calendar(in DateTime date, CultureInfo culture, int command = 0)
         {
             var keyboardRows = new List<IEnumerable<InlineKeyboardButton>>();
@@ -33,12 +33,12 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         }
 
         /// <summary>
-        /// Разметка месяца года.
+        /// Markup for the month of the year.
         /// </summary>
-        /// <param name="date">Дата.</param>
-        /// <param name="culture">Язык календаря.</param>
-        /// <param name="command">Заголовок команды.</param>
-        /// <returns>Inline меню.</returns>
+        /// <param name="date">Date.</param>
+        /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Command header.</param>
+        /// <returns>Inline menu.</returns>
         public static InlineKeyboardMarkup PickMonthYear(in DateTime date, CultureInfo culture, int command = 0)
         {
             var dtfi = culture.DateTimeFormat;
@@ -60,12 +60,12 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         }
 
         /// <summary>
-        /// Разметка выбора месяца.
+        /// Markup for selecting a month.
         /// </summary>
-        /// <param name="date">Дата.</param>
-        /// <param name="culture">Язык календаря.</param>
-        /// <param name="command">Заголовок команды.</param>
-        /// <returns>Inline меню.</returns>
+        /// <param name="date">Date.</param>
+        /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Command header.</param>
+        /// <returns>Inline menu.</returns>
         public static InlineKeyboardMarkup PickMonth(in DateTime date, CultureInfo culture, int command = 0)
         {
             var dtfi = culture.DateTimeFormat;
@@ -89,12 +89,12 @@ namespace PRTelegramBot.Utils.Controls.CalendarControl.Common
         }
 
         /// <summary>
-        /// Разметка выбора года.
+        /// Markup for selecting a year.
         /// </summary>
-        /// <param name="date">Дата.</param>
-        /// <param name="culture">Язык календаря.</param>
-        /// <param name="command">Заголовок команды.</param>
-        /// <returns>Inline меню.</returns>
+        /// <param name="date">Date.</param>
+        /// <param name="culture">Calendar language.</param>
+        /// <param name="command">Command header.</param>
+        /// <returns>Inline menu.</returns>
         public static InlineKeyboardMarkup PickYear(in DateTime date, CultureInfo culture, int command = 0)
         {
             var dtfi = culture.DateTimeFormat;

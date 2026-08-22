@@ -1,7 +1,7 @@
 ﻿namespace PRTelegramBot.Providers
 {
     /// <summary>
-    /// Глобальные настройки.
+    /// Global settings.
     /// </summary>
     public interface IPRSettings
     {

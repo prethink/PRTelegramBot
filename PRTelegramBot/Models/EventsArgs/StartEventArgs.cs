@@ -3,26 +3,26 @@
 namespace PRTelegramBot.Models.EventsArgs
 {
     /// <summary>
-    /// Аргументы события при написание пользователем /start_data.
+    /// Event arguments used when the user sends /start_data.
     /// </summary>
     public class StartEventArgs : BotEventArgs
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         /// <summary>
-        /// Данные.
+        /// Data.
         /// </summary>
         public string Data;
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="context">Контекст.</param>
-        /// <param name="data">Данные.</param>
+        /// <param name="context">Context.</param>
+        /// <param name="data">Data.</param>
         public StartEventArgs(IBotContext context, string data)
             : base(context)
         {

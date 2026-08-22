@@ -1,20 +1,20 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Действие с последним сообщения для inline кнопок.
+    /// Action to perform on the last message, for inline buttons.
     /// </summary>
     public enum ActionWithLastMessage
     {
         /// <summary>
-        /// Ничего не делать.
+        /// Do nothing.
         /// </summary>
         Nothing = 0,
         /// <summary>
-        /// Редактировать.
+        /// Edit.
         /// </summary>
         Edit,
         /// <summary>
-        /// Удалить.
+        /// Delete.
         /// </summary>
         Delete
     }

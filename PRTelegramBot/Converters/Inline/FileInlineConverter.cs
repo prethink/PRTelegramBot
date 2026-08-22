@@ -9,19 +9,19 @@ using System.Collections.Concurrent;
 namespace PRTelegramBot.Converters.Inline
 {
     /// <summary>
-    /// Конвертер inline меню в файлы.
-    /// Сохраняет временные данные в формате файлов "{Ид бота}-{Ид пользователя}-{Ид команды}".
-    /// Файлы сохраняются в папке "InlineCallbacks" в директории приложения. При создание экзепляра можно указать другое название папки.
+    /// Converter that stores inline menus in files.
+    /// Stores the temporary data as files named "{bot id}-{user id}-{command id}".
+    /// The files are saved in the "InlineCallbacks" folder inside the application directory. A different folder name can be given when the instance is created.
     /// </summary>
     public class FileInlineConverter : IInlineMenuConverter
     {
         /// <summary>
-        /// Базовый путь для сохранения файлов.
+        /// Base path where files are saved.
         /// </summary>
         protected string basePath;
 
         /// <summary>
-        /// Локи против raceCondition.
+        /// Locks that guard against race conditions.
         /// </summary>
         private static readonly ConcurrentDictionary<string, object> fileLocks = new();
 

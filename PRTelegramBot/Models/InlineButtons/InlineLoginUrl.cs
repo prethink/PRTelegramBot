@@ -5,11 +5,11 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
-    /// Создает кнопку встроенной клавиатуры с HTTPS URL для автоматической авторизации пользователя. Может использоваться как замена для <a href="https://core.telegram.org/widgets/login">Виджета входа в Telegram</a>
+    /// Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>
     /// </summary>
     public class InlineLoginUrl : InlineBase, IInlineContent
     {
-        #region Поля и свойства
+        #region Fields and properties
 
         public LoginUrl LoginUrl { get; set; }
 
@@ -31,13 +31,13 @@ namespace PRTelegramBot.Models.InlineButtons
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        /// <param name="buttonName">Название кнопки.</param>
-        /// <param name="loginUrl">HTTPS URL для автоматической авторизации пользователя. Может использоваться как замена для <a href="https://core.telegram.org/widgets/login">Виджета входа в Telegram</a>.</param>
+        /// <param name="buttonName">Button name.</param>
+        /// <param name="loginUrl">An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</param>
         public InlineLoginUrl(string buttonName, LoginUrl loginUrl)
             : base(buttonName)
         {

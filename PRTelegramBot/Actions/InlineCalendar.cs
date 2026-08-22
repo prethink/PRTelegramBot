@@ -15,14 +15,14 @@ using System.Globalization;
 namespace PRTelegramBot.Actions
 {
     /// <summary>
-    /// Класс обработчик календаря.
+    /// Calendar handler class.
     /// </summary>
     public class InlineCalendar
     {
-        #region Методы
+        #region Methods
 
         /// <summary>
-        /// Действие выбор года или месяца.
+        /// Action: selecting a year or a month.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.YearMonthPicker)]
         public static async Task PickYearMonth(IBotContext context)
@@ -45,7 +45,7 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Действие выбор месяца.
+        /// Action: selecting a month.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.PickMonth)]
         public static async Task PickMonth(IBotContext context)
@@ -70,7 +70,7 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Действие выбор года.
+        /// Action: selecting a year.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.PickYear)]
         public static async Task PickYear(IBotContext context)
@@ -93,7 +93,7 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Действие перелистывание месяца.
+        /// Action: paging through the months.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.ChangeTo)]
         public static async Task ChangeToHandler(IBotContext context)
@@ -116,7 +116,7 @@ namespace PRTelegramBot.Actions
         }
 
         /// <summary>
-        /// Действие обработка выбранной даты.
+        /// Action: handling the selected date.
         /// </summary>
         [InlineCallbackHandler<PRTelegramBotCommand>(PRConstants.ALL_BOTS_ID, PRTelegramBotCommand.PickDate)]
         public static async Task PickDate(IBotContext context)

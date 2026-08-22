@@ -8,94 +8,94 @@ namespace FastBotTemplateConsole.Models
 {
 
     /// <summary>
-    /// Реклама / объявления.
+    /// Ads / announcements.
     /// Entity framework
     /// </summary>
     [Table("Announcements")]
     public class Announcement
     {
         /// <summary>
-        /// Идентификатор.
+        /// Identifier.
         /// </summary>
         [Column("id")]
         public long Id { get; set; }
 
         /// <summary>
-        /// Описание.
+        /// Description.
         /// </summary>
         [Column("description")]
         public string Description { get; set; }
 
         /// <summary>
-        /// Ссылка на медиа, фото, видео.
+        /// Link to the media — a photo or a video.
         /// </summary>
         [Column("media")]
         public string? Media { get; set; }
 
         /// <summary>
-        /// Текст сообщения рекламы.
+        /// Text of the ad message.
         /// </summary>
         [Column("text")]
         public string Text { get; set; }
 
         /// <summary>
-        /// Дата создания.
+        /// Creation date.
         /// </summary>
         [Column("create_date")]
         public DateTime CreateDate { get; set; }
 
         /// <summary>
-        /// Активна или нет.
+        /// Whether it is active.
         /// </summary>
         [Column("is_active")]
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Данные для меню.
+        /// Data for the menu.
         /// </summary>
         [Column("menu_data")]
         public string? MenuData { get; set; }
 
         /// <summary>
-        /// Тип меню рекламы.
+        /// Type of the ad menu.
         /// </summary>
         [Column("menu_type")]
         public MenuType MenuType { get; set; }
 
         /// <summary>
-        /// Тип сообщения рекламы.
+        /// Type of the ad message.
         /// </summary>
         [Column("message_type")]
         public MessageType MessageType { get; set; }
 
         /// <summary>
-        /// Минимальный возраст для показа рекламы.
+        /// Minimum age the ad is shown to.
         /// </summary>
         [Column("start_age")]
         public long? StartAge { get; set; }
 
         /// <summary>
-        /// Максимальный возраст для показа рекламы.
+        /// Maximum age the ad is shown to.
         /// </summary>
         [Column("end_age")]
         public long? EndAge { get; set; }
 
         /// <summary>
-        /// Список тегов, перечисление через ";".
+        /// The list of tags, separated by ";".
         /// </summary>
         [Column("tags")]
         public string? Tags { get; set; }
 
         /// <summary>
-        /// Количество просмотров.
+        /// Number of views.
         /// </summary>
         [Column("viewed")]
         public long Viewed { get; set; }
 
         /// <summary>
-        /// Генерирует inline меню со ссылками есть есть данные для меню в MenuData.
+        /// Generates an inline menu with links if MenuData holds menu data.
         /// </summary>
-        /// <returns>Возвращает меню или пустой список.</returns>
+        /// <returns>The menu, or an empty list.</returns>
         public List<InlineURL> GetMenu()
         {
             try
@@ -110,9 +110,9 @@ namespace FastBotTemplateConsole.Models
         }
 
         /// <summary>
-        /// Сериализация inline меню.
+        /// Serialization of the inline menu.
         /// </summary>
-        /// <param name="menu">Меню</param>
+        /// <param name="menu">Menu</param>
         /// <returns></returns>
         public static string WriteMenu(List<IInlineContent> menu)
         {

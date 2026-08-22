@@ -13,7 +13,7 @@ namespace ConsoleExample.Middlewares
             var bot = CurrentScope.Bot;
             var ctx = CurrentScope.Context;
 
-            Console.WriteLine("Выполнение третьего обработчика перед update");
+            Console.WriteLine("Running the third handler before the update");
             await base.InvokeOnPreUpdateAsync(context, next);
         }
 
@@ -22,7 +22,7 @@ namespace ConsoleExample.Middlewares
             var bot = CurrentScope.Bot;
             var ctx = CurrentScope.Context;
 
-            Console.WriteLine("Выполнение третьего обработчика после update");
+            Console.WriteLine("Running the third handler after the update");
             return base.InvokeOnPostUpdateAsync(context);
         }
     }

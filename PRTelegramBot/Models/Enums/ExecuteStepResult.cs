@@ -1,20 +1,20 @@
 ﻿namespace PRTelegramBot.Models.Enums
 {
     /// <summary>
-    /// Результат выполнение шага.
+    /// The result of executing the step.
     /// </summary>
     public enum ExecuteStepResult
     {
         /// <summary>
-        /// Шаг выполнен удачно.
+        /// The step completed successfully.
         /// </summary>
         Success,
         /// <summary>
-        /// Не удалось выполнить шаг.
+        /// The step could not be executed.
         /// </summary>
         Failure,
         /// <summary>
-        /// Истекло время возможного выполнения шага.
+        /// The time window for executing the step has expired.
         /// </summary>
         ExpiredTime
     }

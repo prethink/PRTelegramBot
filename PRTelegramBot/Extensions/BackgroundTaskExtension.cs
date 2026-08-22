@@ -5,17 +5,17 @@ using System.Reflection;
 namespace PRTelegramBot.Extensions
 {
     /// <summary>
-    /// Методы расширения для фоновых задач.
+    /// Extension methods for background tasks.
     /// </summary>
     public static class BackgroundTaskExtension
     {
         /// <summary>
-        /// Получить метаданные задачи из задачи.
+        /// Gets the task metadata from the task itself.
         /// </summary>
-        /// <param name="backgroundTask">Задача.</param>
-        /// <param name="metadates">Коллекция существующих метаданных.</param>
-        /// <param name="throwIfNull">Выбросить exception если null.</param>
-        /// <returns>Метаданные или null.</returns>
+        /// <param name="backgroundTask">Task.</param>
+        /// <param name="metadates">Collection of existing metadata.</param>
+        /// <param name="throwIfNull">Throw an exception when the value is null.</param>
+        /// <returns>The metadata, or null.</returns>
         public static IPRBackgroundTaskMetadata GetMetadata(this IPRBackgroundTask backgroundTask, IEnumerable<IPRBackgroundTaskMetadata> metadates, bool throwIfNull = true)
         {
             var metadata = backgroundTask.GetType().GetCustomAttribute(typeof(PRBackgroundTaskAttribute), false) as IPRBackgroundTaskMetadata;
@@ -28,28 +28,28 @@ namespace PRTelegramBot.Extensions
 
             if (throwIfNull && metadata == null)
                 throw new InvalidOperationException(
-                    $"Не найдены метаданные для фоновой задачи '{backgroundTask.GetType().FullName}'. " +
-                    $"Убедитесь, что метаданные предварительно загружены в {nameof(PRBackgroundTaskRunner)}, " +
-                    $"или задача реализует {nameof(IPRBackgroundTaskMetadata)}, " +
-                    $"или использует атрибут {nameof(PRBackgroundTaskAttribute)}.");
+                    $"No metadata found for background task '{backgroundTask.GetType().FullName}'. " +
+                    $"Make sure the metadata is preloaded into {nameof(PRBackgroundTaskRunner)}, " +
+                    $"or that the task implements {nameof(IPRBackgroundTaskMetadata)}, " +
+                    $"or uses the {nameof(PRBackgroundTaskAttribute)} attribute.");
 
             return metadata;
         }
 
         /// <summary>
-        /// Получить метаданные задачи из задачи.
+        /// Gets the task metadata from the task itself.
         /// </summary>
-        /// <param name="backgroundTask">Задача.</param>
-        /// <param name="throwIfNull">Выбросить exception если null.</param>
-        /// <returns>Метаданные или null.</returns>
+        /// <param name="backgroundTask">Task.</param>
+        /// <param name="throwIfNull">Throw an exception when the value is null.</param>
+        /// <returns>The metadata, or null.</returns>
         public static IPRBackgroundTaskMetadata GetMetadata(this IPRBackgroundTask backgroundTask, bool throwIfNull = true)
         {
             return GetMetadata(backgroundTask, Enumerable.Empty<IPRBackgroundTaskMetadata>(), throwIfNull);
         }
 
         /// <summary>
-        /// Возвращает интервал повторного выполнения.
-        /// Null или значение ≤ 0 означает отсутствие повторов.
+        /// Returns the repeat interval.
+        /// Null or a value ≤ 0 means no repeats.
         /// </summary>
         public static int GetRepeatSeconds(this IPRBackgroundTaskMetadata metadata)
         {
