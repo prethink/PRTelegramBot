@@ -25,6 +25,12 @@
 
 
   <ItemGroup>
+    <!-- The test project needs the internal members: the cache and the step handlers are
+         keyed through internal helpers that link an update to its bot. -->
+    <InternalsVisibleTo Include="PRTelegramBot.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- LICENSE and the icon are taken from the repository root, so there is a single source of truth. -->
     <None Include="../LICENSE">
       <Pack>True</Pack>

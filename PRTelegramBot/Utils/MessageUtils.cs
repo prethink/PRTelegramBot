@@ -13,10 +13,20 @@ namespace PRTelegramBot.Utils
         /// Splits a long message into chunks.
         /// </summary>
         /// <param name="text">Text.</param>
-        /// <param name="chunkSize">Chunk size.</param>
+        /// <param name="chunkSize">Chunk size. Must be greater than zero.</param>
         /// <returns>Collection of messages.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="text"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="chunkSize"/> is zero or negative: such a size can never
+        /// consume the text and would loop forever.
+        /// </exception>
         public static IList<string> SplitIntoChunks(string text, int chunkSize)
         {
+            ArgumentNullException.ThrowIfNull(text);
+
+            if (chunkSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(chunkSize), chunkSize, "Chunk size must be greater than zero.");
+
             List<string> chunks = new List<string>();
             int offset = 0;
             while (offset < text.Length)
