@@ -145,7 +145,7 @@ dotnet pack PRTelegramBot/PRTelegramBot.csproj -c Release -o ./artifacts
 
 ## Before you finish
 
-1. `dotnet build TelegramBotTemplate.sln` — zero errors
+1. `dotnet build PRTelegramBot.sln` — zero errors
 2. `dotnet test` — everything green
 3. `dotnet pack` if the csproj or packed files changed
 4. CHANGELOG updated in both languages
