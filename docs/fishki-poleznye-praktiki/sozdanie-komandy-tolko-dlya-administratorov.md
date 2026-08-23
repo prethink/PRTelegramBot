@@ -31,7 +31,7 @@ namespace ConsoleExample.Checkers
             {
                 var userIsAdmin = await context.IsAdmin(update.GetChatId());
                 if(!userIsAdmin)
-                    await PRTelegramBot.Helpers.Message.Send(context, "Вы не админ!");
+                    await MessageSender.Send(context, "Вы не админ!");
                 // Пользователь админ возращаем результат Passed, что позволяет выполнить метод, иначе выполнение метода будет приостановлено.
                 return userIsAdmin ? InternalCheckResult.Passed : InternalCheckResult.Custom;
             }
@@ -66,7 +66,7 @@ public static async Task AdminOnlyExample(IBotContext context)
 {
     bool isAdminUpdate = await context.IsAdmin(update);
     bool isAdminById = await context.IsAdmin(update.GetChatId());
-    await PRTelegramBot.Helpers.Message.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
+    await MessageSender.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
 }
 
 ```

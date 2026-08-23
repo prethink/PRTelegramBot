@@ -227,19 +227,19 @@ namespace ConsoleExample.Examples.Events
         public static async Task OnWrongTypeChat(BotEventArgs e)
         {
             string msg = "Неверный тип чата";
-            await Helpers.Message.Send(e.Context, msg);
+            await MessageSender.Send(e.Context, msg);
         }
 
         public static async Task OnMissingCommand(BotEventArgs args)
         {
             string msg = "Не найдена команда";
-            await Helpers.Message.Send(args.Context, msg);
+            await MessageSender.Send(args.Context, msg);
         }
 
         public static async Task OnErrorCommand(BotEventArgs args)
         {
             string msg = "Произошла ошибка при обработке команды";
-            await Helpers.Message.Send(args.Context, msg);
+            await MessageSender.Send(args.Context, msg);
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace ConsoleExample.Examples.Events
 
             // Доступа нет.
             string errorMsg = "У вас нет доступа к данной функции";
-            await Helpers.Message.Send(e.Context, errorMsg);
+            await MessageSender.Send(e.Context, errorMsg);
             return;
 
         }
@@ -281,12 +281,12 @@ namespace ConsoleExample.Examples.Events
         public static async Task OnUserStartWithArgs(StartEventArgs args)
         {
             string msg = "Пользователь отправил старт с аргументом";
-            await Helpers.Message.Send(args.Context, msg);
+            await MessageSender.Send(args.Context, msg);
         }
         public static async Task OnWrongTypeMessage(BotEventArgs e)
         {
             string msg = "Неверный тип сообщения";
-            await Helpers.Message.Send(e.Context, msg);
+            await MessageSender.Send(e.Context, msg);
         }
     }
 }

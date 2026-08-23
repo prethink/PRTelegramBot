@@ -15,7 +15,7 @@
 public static async Task ReplyExampleAllBots(IBotContext context)
 {
    string msg = nameof(ReplyExampleAllBots);
-   await Helpers.Message.Send(context, msg);
+   await MessageSender.Send(context, msg);
 }
 ```
 

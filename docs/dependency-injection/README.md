@@ -85,13 +85,13 @@ public async Task Название метода(IBotContext context)
         [ReplyMenuHandler("Test")]
         public async Task TestMethod(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, $"{nameof(TestMethod)} {_logger != null}");
+            await MessageSender.Send(context, $"{nameof(TestMethod)} {_logger != null}");
         }
 
         [SlashHandler("/test")]
         public async Task Slash(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(Slash));
+            await MessageSender.Send(context, nameof(Slash));
         }
 
         [ReplyMenuHandler("inline")]
@@ -103,7 +103,7 @@ public async Task Название метода(IBotContext context)
                 new InlineCallback("TestStatic", THeader.NextPage) 
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineTest), options);
+            await MessageSender.Send(context, nameof(InlineTest), options);
         }
 
         [ReplyMenuHandler("inlinestatic")]
@@ -115,25 +115,25 @@ public async Task Название метода(IBotContext context)
                 new InlineCallback("TestStatic", THeader.NextPage)
             });
             options.MenuInlineKeyboardMarkup = MenuGenerator.InlineKeyboard(menuItemns);
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(StaticInlineTest), options);
+            await MessageSender.Send(context, nameof(StaticInlineTest), options);
         }
 
         [InlineCallbackHandler&#x3C;THeader>(THeader.CurrentPage)]
         public async Task InlineHandler(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineHandler));
+            await MessageSender.Send(context, nameof(InlineHandler));
         }
 
         [InlineCallbackHandler&#x3C;THeader>(THeader.NextPage)]
         public async static Task InlineHandlerStatic(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(InlineHandlerStatic));
+            await MessageSender.Send(context, nameof(InlineHandlerStatic));
         }
 
         [ReplyMenuHandler("Test1")]
         public async static Task StaticTestMethod(IBotContext context)
         {
-            await PRTelegramBot.Helpers.Message.Send(context, nameof(StaticTestMethod));
+            await MessageSender.Send(context, nameof(StaticTestMethod));
         }
     }
 }

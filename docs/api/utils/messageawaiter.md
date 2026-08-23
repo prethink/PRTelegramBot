@@ -43,7 +43,7 @@ namespace ConsoleExample.Examples
             {
                 // Симуляция тяжелой операции.
                 await Task.Delay(2000);
-                await PRTelegramBot.Helpers.Message.Send(context, $"Генерация данных завершена.");
+                await MessageSender.Send(context, $"Генерация данных завершена.");
             }
         }
     }

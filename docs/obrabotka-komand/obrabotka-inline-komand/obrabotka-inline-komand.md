@@ -43,7 +43,7 @@ public static async Task Inline(IBotContext context)
     if (command != null)
     {
         string msg = "Выполнена команда callback";
-        await PRTelegramBot.Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 }
  
@@ -60,7 +60,7 @@ public static async Task InlineTwo(IBotContext context)
     if (command != null)
     {
         string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
-        await PRTelegramBot.Helpers.Message.Send(context);
+        await MessageSender.Send(context);
     }
  
 }
