@@ -1,5 +1,5 @@
 ---
-description: Sends media: photos, photo groups, files and media by URL.
+description: "Sends media: photos, photo groups, files and media by URL."
 ---
 
 # MediaSender
