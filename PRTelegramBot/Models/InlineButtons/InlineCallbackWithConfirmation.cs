@@ -14,10 +14,19 @@ namespace PRTelegramBot.Models.InlineButtons
         #region Fields and properties
 
         /// <summary>
-        /// Collection of InlineCallbackWithConfirmation used to look up and handle the data.
+        /// How long a pending confirmation stays available before it is discarded.
         /// </summary>
-        [JsonIgnore]
-        public static Dictionary<string, InlineCallbackWithConfirmation> DataCollection = new();
+        private static readonly TimeSpan lifetime = TimeSpan.FromHours(1);
+
+        /// <summary>
+        /// Pending confirmations, keyed by the identifier carried in the callback data.
+        /// </summary>
+        /// <remarks>
+        /// A confirmation is registered when the button is built and is needed only until the
+        /// user answers it. Entries that nobody ever answers are swept once they grow older
+        /// than <see cref="lifetime"/>, so a long-running bot does not accumulate them forever.
+        /// </remarks>
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, (InlineCallbackWithConfirmation Item, DateTime CreatedUtc)> pending = new();
 
         /// <summary>
         /// Name of the "yes" button.
@@ -48,6 +57,54 @@ namespace PRTelegramBot.Models.InlineButtons
         /// </summary>
         [JsonIgnore]
         public InlineCallback NoCallback { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Registers a pending confirmation and discards the ones that have expired.
+        /// </summary>
+        /// <param name="id">Identifier carried in the callback data.</param>
+        /// <param name="confirmation">The confirmation to remember.</param>
+        private static void Register(string id, InlineCallbackWithConfirmation confirmation)
+        {
+            var now = DateTime.UtcNow;
+            pending[id] = (confirmation, now);
+
+            foreach (var entry in pending)
+            {
+                if (now - entry.Value.CreatedUtc > lifetime)
+                    pending.TryRemove(entry.Key, out _);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a pending confirmation by the identifier from the callback data.
+        /// </summary>
+        /// <param name="id">Identifier carried in the callback data.</param>
+        /// <param name="confirmation">The confirmation that was found.</param>
+        /// <returns>True if the confirmation is still pending; False if it is unknown or expired.</returns>
+        internal static bool TryGetPending(string id, out InlineCallbackWithConfirmation? confirmation)
+        {
+            if (pending.TryGetValue(id, out var entry))
+            {
+                confirmation = entry.Item;
+                return true;
+            }
+
+            confirmation = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Forgets a confirmation once it has been answered.
+        /// </summary>
+        /// <param name="id">Identifier carried in the callback data.</param>
+        internal static void Complete(string id)
+        {
+            pending.TryRemove(id, out _);
+        }
 
         #endregion
 
@@ -101,7 +158,7 @@ namespace PRTelegramBot.Models.InlineButtons
             var id = guidString.Replace("-", string.Empty).Remove(0, guidString.Length / 2);
             YesCallback = inlineCallBack;
             Data = new EntityTCommand<string>(id, actionWithLastMessage);
-            DataCollection.Add(id, this);
+            Register(id, this);
             NoCallback = new InlineCallback<EntityTCommand<string>>(NoButton, PRTelegramBotCommand.CallbackWithConfirmationResultNo, Data);
         }
 

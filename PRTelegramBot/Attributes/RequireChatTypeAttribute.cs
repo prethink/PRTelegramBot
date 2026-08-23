@@ -1,18 +1,19 @@
-﻿using Telegram.Bot.Types.Enums;
+﻿﻿using Telegram.Bot.Types.Enums;
 
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// The method will only be able to handle a specific chat type.
     /// </summary>
-    public sealed class RequiredTypeChatAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    public sealed class RequireChatTypeAttribute : Attribute
     {
         #region Fields and properties
 
         /// <summary>
         /// Collection of chat types.
         /// </summary>
-        public List<ChatType> TypesChat { get; private set; } = new List<ChatType>();
+        public List<ChatType> ChatTypes { get; private set; } = new List<ChatType>();
 
         #endregion
 
@@ -21,10 +22,10 @@ namespace PRTelegramBot.Attributes
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="typesChat">Collection of chat types.</param>
-        public RequiredTypeChatAttribute(params ChatType[] typesChat)
+        /// <param name="chatTypes">Collection of chat types.</param>
+        public RequireChatTypeAttribute(params ChatType[] chatTypes)
         {
-            TypesChat.AddRange(typesChat.ToList());
+            ChatTypes.AddRange(chatTypes.ToList());
         }
 
         #endregion

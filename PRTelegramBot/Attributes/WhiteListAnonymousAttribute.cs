@@ -1,11 +1,12 @@
-﻿using PRTelegramBot.Interfaces;
+﻿﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// The attribute makes the white list settings be ignored.
     /// </summary>
-    public class WhiteListAnonymousAttribute
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    public sealed class WhiteListAnonymousAttribute
         : Attribute, IBotIdentificatorAttribute
     {
         #region IBaseQueryAttribute

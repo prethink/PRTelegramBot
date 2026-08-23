@@ -1,4 +1,4 @@
-﻿using PRTelegramBot.InlineButtons;
+﻿﻿using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types;
@@ -18,20 +18,16 @@ namespace PRTelegramBot.Utils
         /// <returns>Inline button.</returns>
         public static InlineKeyboardButton GetInlineButton(IInlineContent inlineData)
         {
-            return inlineData switch
-            {
-                InlineCallback inlineCallback => InlineKeyboardButton.WithCallbackData(inlineCallback.GetButtonName(), inlineCallback.GetContent() as string),
-                InlinePay inlinePay => InlineKeyboardButton.WithPay(inlinePay.GetButtonName()),
-                InlineURL inlineUrl => InlineKeyboardButton.WithUrl(inlineUrl.GetButtonName(), inlineUrl.GetContent() as string),
-                InlineWebApp inlineWebApp => InlineKeyboardButton.WithWebApp(inlineWebApp.GetButtonName(), inlineWebApp.GetContent() as WebAppInfo),
-                InlineLoginUrl inlineLogin => InlineKeyboardButton.WithLoginUrl(inlineLogin.GetButtonName(), inlineLogin.GetContent() as LoginUrl),
-                InlineCallbackGame inlineCallbackGame => InlineKeyboardButton.WithCallbackGame(inlineCallbackGame.GetButtonName()),
-                InlineSwitchInlineQuery inlineSwitchInlineQuery => InlineKeyboardButton.WithSwitchInlineQuery(inlineSwitchInlineQuery.GetButtonName(), inlineSwitchInlineQuery.GetContent() as string),
-                InlineSwitchInlineQueryCurrentChat inlineSwitchInlineQueryCurrentChat => InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(inlineSwitchInlineQueryCurrentChat.GetButtonName(), inlineSwitchInlineQueryCurrentChat.GetContent() as string),
-                InlineSwitchInlineQueryChosenChat inlineSwitchInlineQueryChosenChat => InlineKeyboardButton.WithSwitchInlineQueryChosenChat(inlineSwitchInlineQueryChosenChat.GetButtonName(), inlineSwitchInlineQueryChosenChat.GetContent() as SwitchInlineQueryChosenChat),
+            ArgumentNullException.ThrowIfNull(inlineData);
 
-                _ => throw new NotImplementedException($"{inlineData.GetType()} is not implemented yet.")
-            };
+            // Every button in the library derives from InlineBase and already knows how to turn
+            // itself into an InlineKeyboardButton. Dispatching through that method instead of a
+            // switch over concrete types means a newly added button kind works here at once,
+            // and a subclass that overrides the conversion is honoured.
+            if (inlineData is InlineBase inlineBase)
+                return inlineBase.GetInlineButton();
+
+            throw new NotImplementedException($"{inlineData.GetType()} is not implemented yet.");
         }
 
         /// <summary>

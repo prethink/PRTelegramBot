@@ -1,9 +1,9 @@
-﻿using PRTelegramBot.Interfaces;
+﻿﻿using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.InlineButtons;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace PRTelegramBot.InlineButtons
+namespace PRTelegramBot.Models.InlineButtons
 {
     /// <summary>
     /// Creates a button that copies the given text to the clipboard when it is pressed.

@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿﻿using Microsoft.Extensions.Logging;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Services.Messages;
-using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples.Commands
 {

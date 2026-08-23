@@ -6,13 +6,13 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.9.11</Version>
+    <Version>1.0.0</Version>
     <Authors>Ilya Samarin</Authors>
     <Company />
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/prethink/PRTelegramBot</RepositoryUrl>
     <PackageTags>Telegram, TelegramBot</PackageTags>
-    <Description>An open-source framework with flexible and simple functionality for creating Telegram bots</Description>
+    <Description>A .NET framework for building Telegram bots on top of Telegram.Bot: attribute-based command routing, menus, middleware, DI and background tasks</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>PRTelegramBot</Title>
     <PackageIcon>LogoBot.png</PackageIcon>

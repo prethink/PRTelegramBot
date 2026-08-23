@@ -1,7 +1,7 @@
-﻿using FluentAssertions;
+﻿﻿using FluentAssertions;
 using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Interfaces;
-using PRTelegramBot.InlineButtons;
+using PRTelegramBot.Models.InlineButtons;
 
 namespace PRTelegramBot.Tests.Builders
 {

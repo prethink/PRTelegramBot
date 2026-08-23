@@ -1,7 +1,7 @@
-﻿using PRTelegramBot.Core.BotScope;
+﻿﻿using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Core.CommandStores;
 using PRTelegramBot.Core.Middlewares;
-using PRTelegramBot.Core.UpdateHandlers;
+using PRTelegramBot.Core.UpdateDispatchers;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models;

@@ -1,7 +1,7 @@
-﻿using PRTelegramBot.Extensions;
+﻿﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
-using PRTelegramBot.Models.TCommands;
+using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Services.Messages;
 using Telegram.Bot.Types;
 

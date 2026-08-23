@@ -1,4 +1,4 @@
-﻿using ConsoleExample.Models.CommandHeaders;
+﻿﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
@@ -7,7 +7,6 @@ using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using System.Globalization;
-using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples
 {

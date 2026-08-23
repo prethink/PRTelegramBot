@@ -3,7 +3,7 @@
 [English](CHANGELOG.md) | **Русский**
 
 
-## 22.08.2026 - v0.9.11
+## 23.08.2026 - v1.0.0
 
 ### 🔄 Breaking changes
 
@@ -17,6 +17,19 @@
 - Необязательные параметры, принимающие `null`, объявлены nullable (`OptionMessage? option = null` и подобные). Это только метаданные — существующий код продолжает компилироваться, а проекты с включёнными проверками nullable просто получат честную картину.
 - `UpdateExtension.TryGetBot` объявляет свой `out`-параметр как `PRBotBase?`, потому что при ненайденном боте там `null`.
 - `GetChatId`, `GetMessageId` и `GetUserId` теперь бросают `InvalidOperationException` с понятным сообщением вместо `NullReferenceException`, когда в update нет чата, сообщения или отправителя. `TryGetChatId` в этих случаях по-прежнему возвращает `false`.
+- Расщеплённые надвое пространства имён объединены. Каждое из них жило в одной папке, но файлы объявляли два разных namespace — из-за чего для сборки меню могло требоваться два `using` без всякой причины:
+  - `PRTelegramBot.InlineButtons` -> `PRTelegramBot.Models.InlineButtons`
+  - `PRTelegramBot.Core.Factory` -> `PRTelegramBot.Core.Factories`
+  - `PRTelegramBot.Models.TCommands` -> `PRTelegramBot.Models.CallbackCommands` (папка переименована следом)
+- Удалён устаревший фасад `PRTelegramBot.Helpers.Message` вместе с 21 методом. Он был помечен устаревшим в v0.9.0 и лишь перенаправлял вызовы в `MessageSender`, `MessageEditor`, `MessageDeleter`, `MessageCopier`, `MediaSender` и `MediaEditor` — используйте их напрямую.
+- Удалён `PRTelegramBot.Models.InlineButton`. Он нигде не использовался, а его `GetContent` бросал `NotImplementedException`.
+- `PRLoggerEvents<T>` и `PRLoggerEventsFactory` стали `internal`. Они остаются fallback'ом, который сохраняет работу логирования через события, когда `ILoggerFactory` не задан, но создавать их вручную не предполагалось.
+- `InlineCallbackWithConfirmation.DataCollection` больше не публичное. Ожидающие подтверждения ищет сам фреймворк, а публичное поле лишь позволяло испортить это состояние снаружи.
+- Два атрибута, выражающие одну и ту же идею, назывались по-разному и ставили слова в порядке, обратном типам Telegram.Bot, по которым фильтруют. Теперь они читаются одинаково и совпадают с `ChatType` и `MessageType`:
+  - `RequiredTypeChatAttribute` -> `RequireChatTypeAttribute`, свойство `TypesChat` -> `ChatTypes`
+  - `RequireTypeMessageAttribute` -> `RequireMessageTypeAttribute`, свойство `TypeMessages` -> `MessageTypes`
+- `AccessAttribute`, `RequireChatTypeAttribute`, `RequireMessageTypeAttribute` и `WhiteListAnonymousAttribute` объявляют `[AttributeUsage(AttributeTargets.Method)]`. Без него их можно было повесить на класс, поле или параметр — туда фреймворк не смотрит, и об ошибке никто не сообщал.
+- `AccessAttribute` и `WhiteListAnonymousAttribute` стали `sealed`, как и все остальные атрибуты библиотеки.
 
 ### 🚀 New functionality
 
@@ -33,9 +46,12 @@
 - Telegram.Bot обновлён до 22.10.2.1
 - Комментарии в коде и тексты примеров переведены на английский.
 - Добавлены английские версии README и CHANGELOG; русские лежат рядом как `README.ru.md` и `CHANGELOG.ru.md`.
+- README перестроен под читателя, который приходит, ничего не зная о проекте: он начинается с того, что фреймворк добавляет поверх Telegram.Bot, и содержит раздел быстрого старта с требованиями, установкой и hello world, который компилируется как есть. Список функционала сгруппирован по темам вместо плоского перечня из сорока пунктов, добавлены разделы про версионирование, участие в разработке и лицензию, а также badge с поддерживаемой версией Bot API.
+- Описание пакета теперь `A .NET framework for building Telegram bots on top of Telegram.Bot: attribute-based command routing, menus, middleware, DI and background tasks`. Прежнее нигде не называло платформу, а это первое, что нужно знать человеку, увидевшему пакет в результатах поиска. Именно этот текст показывает NuGet в выдаче; той же формулировкой открывается раздел «О проекте» в обоих README.
 - Задокументированы все публичные члены: пробелов в XML-документации больше нет, повреждённые док-комментарии починены. IntelliSense полный.
 - `PageExtension.GetPaged` больше не помечен `async` — он ничего не ожидал. Для вызывающего кода сигнатура не изменилась.
 - Сеттеры `RunningBackgroundTask` и `SlashHandlerAttribute.SplitChar` изменены с `protected` на `private`. Оба класса `sealed`, поэтому снаружи эти сеттеры и так были недоступны.
+- `InlineUtils.GetInlineButton` больше не разбирает конкретные типы кнопок через switch, а вызывает `GetInlineButton()` у самой кнопки. Встроенные кнопки конвертируются ровно как раньше, но тип, которого в switch не было — добавленный позже или объявленный вне библиотеки, — теперь конвертируется, а не падает с `NotImplementedException`; переопределённая в наследнике конвертация тоже учитывается. Кроме того, метод бросает `ArgumentNullException`, если ему передали null. Это касается всего, что строит inline-клавиатуры: `InlineKeyboardBuilder`, `MenuGenerator` и календаря.
 
 ### 🐞 Bugs
 
@@ -43,10 +59,13 @@
 - `AutoEditMessageСycle` переименован в `AutoEditMessageCycle`: в старом имени была кириллическая «С».
 - `UpdateExtension.GetUserId` возвращал неверный идентификатор для callbackQuery: читался `CallbackQuery.Message.From` — это бот, отправивший сообщение, — вместо `CallbackQuery.From`, то есть нажавшего кнопку пользователя. Всё, что завязано на пользователя — кэш, шаги, проверки доступа, — получало идентификатор бота для каждого пользователя.
 - `UpdateExtension.GetUserId` бросал `NullReferenceException` для постов в канале, у которых `From` всегда пуст.
+- Ожидающие подтверждения, создаваемые `InlineCallbackWithConfirmation`, хранились вечно: каждая построенная кнопка добавлялась в статический словарь, из которого ничего никогда не удалялось, — долгоживущий бот утекал ими вместе с вложенными callback'ами. Теперь запись удаляется, как только подтверждение отвечено, а неотвеченные отбрасываются через час после создания.
+- Тот же словарь был обычным `Dictionary`, в который писали из параллельно обрабатываемых update, что может его испортить. Заменён на `ConcurrentDictionary`.
 - `MessageUtils.SplitIntoChunks` зацикливался навсегда при размере блока ноль или меньше: смещение не росло, вызов подвисал, а список результатов рос до исчерпания памяти. Теперь метод бросает `ArgumentOutOfRangeException` при неположительном размере блока и `ArgumentNullException` при пустом тексте. Сам фреймворк всегда передаёт `PRConstants.MAX_MESSAGE_LENGTH`, поэтому под ударом были только прямые вызовы этого публичного метода.
 - Событие `OnPaidMessagePriceChangedHandle` было объявлено, но не подключено к диспетчеру сообщений и потому никогда не срабатывало. Теперь подключено.
 - Исключения больше не проглатываются молча. Теперь они пишутся в лог в `PREventBus` (сбойный подписчик больше не исчезает бесследно), в `MessageAwaiter` при неудачном удалении сообщения-заглушки и в `TryGetConfigValue` при ошибке чтения конфигурации.
 - Обработчики событий по-прежнему вызываются без `await`, чтобы медленный подписчик не задерживал остальные update, — но сбой внутри такого обработчика теперь логируется, а не теряется вместе с необслуженной задачей.
+- Консольный шаблон `FastBotTemplate` удерживал процесс пустым `while(true) { }`, который всё время работы бота крутит ядро процессора на 100%. Теперь используется `await Task.Delay(Timeout.Infinite)`. Там же `bot.StartAsync()` вызывался без ожидания (`_ = ...`), поэтому сбой при запуске бота пропадал бесследно; теперь вызов ожидается.
 
 ## 20.06.2026 - v0.9.10
 

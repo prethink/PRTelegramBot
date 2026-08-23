@@ -1,6 +1,6 @@
-﻿using PRTelegramBot.Configs;
+﻿﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.BotScope;
-using PRTelegramBot.Core.UpdateHandlers;
+using PRTelegramBot.Core.UpdateDispatchers;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Utils;

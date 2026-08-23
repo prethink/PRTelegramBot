@@ -1,8 +1,8 @@
-﻿using PRTelegramBot.Extensions;
+﻿﻿using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 
-namespace PRTelegramBot.Core.UpdateHandlers
+namespace PRTelegramBot.Core.UpdateDispatchers
 {
     /// <summary>
     /// Update dispatcher for the callbackQuery type.

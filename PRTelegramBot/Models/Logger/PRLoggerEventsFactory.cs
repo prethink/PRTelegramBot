@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿﻿using Microsoft.Extensions.Logging;
 using PRTelegramBot.Core;
 
 namespace PRTelegramBot.Models.Logger
@@ -6,8 +6,7 @@ namespace PRTelegramBot.Models.Logger
     /// <summary>
     /// 
     /// </summary>
-    [Obsolete("Obsolete logger factory. Kept for backward compatibility.")]
-    public sealed class PRLoggerEventsFactory : ILoggerFactory
+    internal sealed class PRLoggerEventsFactory : ILoggerFactory
     {
         #region Fields and properties
 

@@ -1,9 +1,10 @@
-﻿namespace PRTelegramBot.Attributes
+﻿﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Attribute that checks access rights for running methods.
     /// </summary>
-    public class AccessAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    public sealed class AccessAttribute : Attribute
     {
         #region Fields and properties
 

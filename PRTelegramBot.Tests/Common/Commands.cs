@@ -43,7 +43,7 @@ namespace PRTelegramBot.Tests.Common
         [ReplyMenuHandler([2, 1], nameof(TestReplyWithCustomIdTwo))]
         public static async Task TestReplyWithCustomIdTwo(IBotContext context) { }
 
-        [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Photo)]
+        [RequireMessageType(Telegram.Bot.Types.Enums.MessageType.Photo)]
         [ReplyMenuHandler(nameof(TestTypeMessage))]
         public static async Task TestTypeMessage(IBotContext context) { }
 

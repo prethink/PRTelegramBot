@@ -20,14 +20,14 @@ namespace PRTelegramBot.Core.Executors
         {
             var method = handler.Method;
             var privileges = method.GetCustomAttribute<AccessAttribute>();
-            var requireDate = method.GetCustomAttribute<RequireTypeMessageAttribute>();
-            var requireChat = method.GetCustomAttribute<RequiredTypeChatAttribute>();
+            var requireDate = method.GetCustomAttribute<RequireMessageTypeAttribute>();
+            var requireChat = method.GetCustomAttribute<RequireChatTypeAttribute>();
             var whiteListAttribute = method.GetCustomAttribute<WhiteListAnonymousAttribute>();
 
             if (requireChat is not null)
             {
                 var currentType = context.Update?.Message?.Chat?.Type;
-                if (currentType is null || !requireChat.TypesChat.Contains(currentType.Value))
+                if (currentType is null || !requireChat.ChatTypes.Contains(currentType.Value))
                 {
                     bot.Events.OnWrongTypeChatInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.WrongChatType;
@@ -37,7 +37,7 @@ namespace PRTelegramBot.Core.Executors
             if (requireDate is not null)
             {
                 var currentType = context.Update?.Message?.Type;
-                if (currentType is null || !requireDate.TypeMessages.Contains(currentType.Value))
+                if (currentType is null || !requireDate.MessageTypes.Contains(currentType.Value))
                 {
                     bot.Events.OnWrongTypeMessageInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.WrongMessageType;

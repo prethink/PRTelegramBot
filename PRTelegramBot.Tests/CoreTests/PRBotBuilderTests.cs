@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
+﻿﻿using FluentAssertions;
 using PRTelegramBot.Builders;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factories;
-using PRTelegramBot.Core.Factory;
 using PRTelegramBot.Models.Enums;
 
 namespace PRTelegramBot.Tests.CoreTests

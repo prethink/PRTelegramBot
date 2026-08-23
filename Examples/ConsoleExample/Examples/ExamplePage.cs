@@ -1,4 +1,4 @@
-﻿using ConsoleExample.Models.CommandHeaders;
+﻿﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
@@ -10,7 +10,6 @@ using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples
 {

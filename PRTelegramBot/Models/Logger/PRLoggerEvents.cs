@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿﻿using Microsoft.Extensions.Logging;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.EventsArgs;
 
@@ -11,8 +11,7 @@ namespace PRTelegramBot.Models.Logger
     /// which is built on the <see cref="PRBotBase.Events"/> events.
     /// </summary>
     /// <typeparam name="T">Logger category.</typeparam>
-    [Obsolete("Obsolete logging approach. Kept for backward compatibility.")]
-    public class PRLoggerEvents<T> : ILogger<T>
+    internal class PRLoggerEvents<T> : ILogger<T>
     {
         #region Fields and properties
 

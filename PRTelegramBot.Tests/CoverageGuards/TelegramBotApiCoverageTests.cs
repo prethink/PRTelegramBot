@@ -1,8 +1,8 @@
-﻿using System.Reflection;
+﻿﻿using System.Reflection;
 using FluentAssertions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Events;
-using PRTelegramBot.Core.UpdateHandlers;
+using PRTelegramBot.Core.UpdateDispatchers;
 using Telegram.Bot;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Enums;

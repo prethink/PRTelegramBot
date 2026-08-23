@@ -1,11 +1,11 @@
-﻿using PRTelegramBot.Core.CommandHandlers;
+﻿﻿using PRTelegramBot.Core.CommandHandlers;
 using PRTelegramBot.Extensions;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
 using Telegram.Bot.Types.Enums;
 
-namespace PRTelegramBot.Core.UpdateHandlers
+namespace PRTelegramBot.Core.UpdateDispatchers
 {
     /// <summary>
     /// Dispatcher that handles message-type updates.

@@ -1,4 +1,4 @@
-﻿using ConsoleExample.Examples.Events;
+﻿﻿using ConsoleExample.Examples.Events;
 using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Builders.Keyboard;
@@ -11,7 +11,6 @@ using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Utils;
 using Telegram.Bot.Types.ReplyMarkups;
-using Helpers = PRTelegramBot.Helpers;
 
 namespace ConsoleExample.Examples.Commands
 {
@@ -192,10 +191,10 @@ namespace ConsoleExample.Examples.Commands
         /// The required chat must be a private one.
         /// </summary>
         [ReplyMenuHandler("Private command")]
-        [RequiredTypeChat(Telegram.Bot.Types.Enums.ChatType.Private)]
-        public static async Task ExampleReplyRequeretPrivate(IBotContext context)
+        [RequireChatType(Telegram.Bot.Types.Enums.ChatType.Private)]
+        public static async Task ExampleReplyRequirePrivate(IBotContext context)
         {
-            string msg = nameof(ExampleReplyRequeretPrivate);
+            string msg = nameof(ExampleReplyRequirePrivate);
             await MessageSender.Send(context, msg);
         }
 
@@ -204,7 +203,7 @@ namespace ConsoleExample.Examples.Commands
         /// The required message type must contain text only.
         /// </summary>
         [ReplyMenuHandler("Text-only message")]
-        [RequireTypeMessage(Telegram.Bot.Types.Enums.MessageType.Text)]
+        [RequireMessageType(Telegram.Bot.Types.Enums.MessageType.Text)]
         public static async Task ExampleReplyRequiredText(IBotContext context)
         {
             string msg = nameof(ExampleReplyRequiredText);

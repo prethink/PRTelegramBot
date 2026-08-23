@@ -3,7 +3,7 @@
 **English** | [Русский](CHANGELOG.ru.md)
 
 
-## August 22, 2026 - v0.9.11
+## August 23, 2026 - v1.0.0
 
 ### 🔄 Breaking changes
 
@@ -17,6 +17,19 @@
 - Optional parameters that accept `null` are now declared nullable (`OptionMessage? option = null` and similar). This is metadata only — existing code keeps compiling; projects with nullable checks enabled simply get an accurate picture.
 - `UpdateExtension.TryGetBot` now declares its `out` parameter as `PRBotBase?`, because it is `null` when the bot is not found.
 - `GetChatId`, `GetMessageId` and `GetUserId` now throw `InvalidOperationException` with a clear message instead of a `NullReferenceException` when the update carries no chat, message or sender. `TryGetChatId` still returns `false` in those cases.
+- Namespaces that had been split in two are unified. Each of these lived in a single folder while its files declared two different namespaces, so building a menu could require two `using` directives for no reason:
+  - `PRTelegramBot.InlineButtons` -> `PRTelegramBot.Models.InlineButtons`
+  - `PRTelegramBot.Core.Factory` -> `PRTelegramBot.Core.Factories`
+  - `PRTelegramBot.Models.TCommands` -> `PRTelegramBot.Models.CallbackCommands` (the folder was renamed to match)
+- Removed the obsolete `PRTelegramBot.Helpers.Message` facade together with its 21 methods. It was marked obsolete in v0.9.0 and only forwarded to `MessageSender`, `MessageEditor`, `MessageDeleter`, `MessageCopier`, `MediaSender` and `MediaEditor`; use those directly.
+- Removed `PRTelegramBot.Models.InlineButton`. It was used nowhere and its `GetContent` threw `NotImplementedException`.
+- `PRLoggerEvents<T>` and `PRLoggerEventsFactory` are now `internal`. They remain the fallback that keeps event-based logging working when no `ILoggerFactory` is supplied, but they were never meant to be built by hand.
+- `InlineCallbackWithConfirmation.DataCollection` is no longer public. Pending confirmations are looked up by the framework itself; the public field only allowed callers to corrupt that state.
+- Two attributes that express the same idea were named differently and put the words in the opposite order to the Telegram.Bot types they filter on. They now read the same way and match `ChatType` and `MessageType`:
+  - `RequiredTypeChatAttribute` -> `RequireChatTypeAttribute`, its `TypesChat` property -> `ChatTypes`
+  - `RequireTypeMessageAttribute` -> `RequireMessageTypeAttribute`, its `TypeMessages` property -> `MessageTypes`
+- `AccessAttribute`, `RequireChatTypeAttribute`, `RequireMessageTypeAttribute` and `WhiteListAnonymousAttribute` now declare `[AttributeUsage(AttributeTargets.Method)]`. Without it they could be placed on a class, a field or a parameter, where the framework never looks at them and nothing reports the mistake.
+- `AccessAttribute` and `WhiteListAnonymousAttribute` are now `sealed`, like every other attribute in the library.
 
 ### 🚀 New functionality
 
@@ -33,9 +46,12 @@
 - Telegram.Bot updated to 22.10.2.1
 - The code comments and the example texts have been translated into English.
 - Added English versions of README and CHANGELOG; the Russian versions live alongside them as `README.ru.md` and `CHANGELOG.ru.md`.
+- The README was restructured for readers who arrive without knowing the project: it now opens with what the framework adds on top of Telegram.Bot, and has a Getting started section with prerequisites, installation and a hello world that compiles as written. The feature list is grouped by topic instead of being one flat list of forty bullets, and Versioning, Contributing and License sections were added, along with a badge for the supported Bot API version.
+- The package description is now `A .NET framework for building Telegram bots on top of Telegram.Bot: attribute-based command routing, menus, middleware, DI and background tasks`. The previous one never named the platform, which is the first thing anyone looking at a search result needs to know. This is the text NuGet shows in search results, and the same wording opens the About section of both READMEs.
 - Every public member is now documented: the XML documentation no longer has gaps, and the malformed doc comments have been repaired. IntelliSense is complete.
 - `PageExtension.GetPaged` is no longer declared `async` — it did not await anything. The signature callers see is unchanged.
 - The setters of `RunningBackgroundTask` and `SlashHandlerAttribute.SplitChar` changed from `protected` to `private`. Both classes are `sealed`, so these setters were never reachable from outside.
+- `InlineUtils.GetInlineButton` no longer switches over concrete button types; it calls `GetInlineButton()` on the button itself. The built-in buttons convert exactly as before, but a type the switch did not list — one added later, or one defined outside the library — is now converted instead of failing with `NotImplementedException`, and a subclass that overrides the conversion is honoured. The method now also throws `ArgumentNullException` when it is given null. This affects everything that builds inline keyboards: `InlineKeyboardBuilder`, `MenuGenerator` and the calendar.
 
 ### 🐞 Bugs
 
@@ -43,10 +59,13 @@
 - Renamed `AutoEditMessageСycle` to `AutoEditMessageCycle`: the old name contained a Cyrillic "С".
 - `UpdateExtension.GetUserId` returned the wrong identifier for a callbackQuery: it read `CallbackQuery.Message.From`, which is the bot that sent the message, instead of `CallbackQuery.From`, the user who pressed the button. Anything keyed by user — cache, steps, access checks — was receiving the bot id for every user.
 - `UpdateExtension.GetUserId` threw a `NullReferenceException` for channel posts, whose `From` is always empty.
+- Pending confirmations created by `InlineCallbackWithConfirmation` were kept forever: every button ever built was added to a static dictionary that nothing ever removed from, so a long-running bot leaked them along with the callbacks they held. They are now dropped once the confirmation is answered, and any that nobody answers are discarded an hour after they were created.
+- That same dictionary was a plain `Dictionary` written to from concurrently handled updates, which can corrupt it. It is now a `ConcurrentDictionary`.
 - `MessageUtils.SplitIntoChunks` looped forever when it was given a chunk size of zero or less: the offset never advanced, so the call hung and the result list grew until the process ran out of memory. It now throws `ArgumentOutOfRangeException` for a non-positive chunk size, and `ArgumentNullException` for null text. The framework itself always passes `PRConstants.MAX_MESSAGE_LENGTH`, so only direct callers of this public method were exposed.
 - The `OnPaidMessagePriceChangedHandle` event was declared but never wired into the message dispatcher, so it never fired. It is connected now.
 - Exceptions are no longer swallowed silently. They are now written to the log in `PREventBus` (a faulty subscriber no longer disappears without a trace), in `MessageAwaiter` when the waiting message cannot be deleted, and in `TryGetConfigValue` when reading the configuration fails.
 - Event handlers are still invoked without an await, so that a slow subscriber cannot hold up other updates — but a failure inside one is now logged instead of being lost with the unobserved task.
+- The `FastBotTemplate` console template held the process open with an empty `while(true) { }`, which spins a CPU core at 100% for as long as the bot runs. It now awaits `Task.Delay(Timeout.Infinite)`. In the same template `bot.StartAsync()` was fire-and-forget (`_ = ...`), so a failure while the bot was starting vanished without a trace; it is awaited now.
 
 ## June 20, 2026 - v0.9.10
 

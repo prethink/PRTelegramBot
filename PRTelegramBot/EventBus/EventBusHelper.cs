@@ -13,7 +13,7 @@
         /// Used to speed up repeated subscribe/unsubscribe calls
         /// and to cut down the number of reflection calls.
         /// </summary>
-        private static Dictionary<Type, List<Type>> cashedSubscriberTypes = new Dictionary<Type, List<Type>>();
+        private static Dictionary<Type, List<Type>> cachedSubscriberTypes = new Dictionary<Type, List<Type>>();
 
         /// <summary>
         /// Returns the list of subscriber types (interfaces),
@@ -27,8 +27,8 @@
         public static List<Type> GetSubscriberTypes(IPRGlobalSubscriber globalSubscriber)
         {
             Type type = globalSubscriber.GetType();
-            if (cashedSubscriberTypes.ContainsKey(type))
-                return cashedSubscriberTypes[type];
+            if (cachedSubscriberTypes.ContainsKey(type))
+                return cachedSubscriberTypes[type];
 
             List<Type> subscriberTypes = type
                 .GetInterfaces()
@@ -36,7 +36,7 @@
                     .Contains(typeof(IPRGlobalSubscriber)))
                 .ToList();
 
-            cashedSubscriberTypes[type] = subscriberTypes;
+            cachedSubscriberTypes[type] = subscriberTypes;
             return subscriberTypes;
         }
     }

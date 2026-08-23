@@ -30,7 +30,8 @@ namespace PRTelegramBot.Actions
                 using (var inlineHandler = new InlineCallback<EntityTCommand<string>>(context))
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
-                    if (InlineCallbackWithConfirmation.DataCollection.TryGetValue(command.Data.EntityId, out var inlineCommand))
+                    if (InlineCallbackWithConfirmation.TryGetPending(command.Data.EntityId, out var inlineCommand)
+                        && inlineCommand is not null)
                     {
                         inlineCommand.YesCallback.ButtonName = inlineCommand.YesButton;
                         var yesButton = inlineCommand.YesCallback;
@@ -65,6 +66,14 @@ namespace PRTelegramBot.Actions
         {
             try
             {
+                // The confirmation has been answered, so it no longer needs to be remembered.
+                using (var inlineHandler = new InlineCallback<EntityTCommand<string>>(context))
+                {
+                    var command = inlineHandler.GetCommandByCallbackOrNull();
+                    if (command?.Data?.EntityId is not null)
+                        InlineCallbackWithConfirmation.Complete(command.Data.EntityId);
+                }
+
                 await context.BotClient.DeleteMessage(context.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
             }
             catch (Exception ex)

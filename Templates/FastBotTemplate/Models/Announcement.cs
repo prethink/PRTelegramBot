@@ -1,5 +1,5 @@
-﻿using FastBotTemplateConsole.Models.Enums;
-using PRTelegramBot.InlineButtons;
+﻿﻿using FastBotTemplateConsole.Models.Enums;
+using PRTelegramBot.Models.InlineButtons;
 using PRTelegramBot.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;

@@ -1,6 +1,6 @@
-﻿using PRTelegramBot.Configs;
+﻿﻿using PRTelegramBot.Configs;
 
-namespace PRTelegramBot.Core.Factory
+namespace PRTelegramBot.Core.Factories
 {
     /// <summary>
     /// Factory that creates a PRBot with webhook support.
