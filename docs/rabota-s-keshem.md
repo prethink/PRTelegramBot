@@ -88,7 +88,7 @@ public static async Task GetCache(IBotContext context)
     string msg = $"Запись в кэш пользователя данных: {context.GetChatId()}";
     //Записываем данные в кеш пользователя
     context.GetCacheData<UserCache>().Id = update.GetChatId();
-    await PRTelegramBot.Helpers.Message.Send(context, msg);
+    await MessageSender.Send(context, msg);
 }
  
 /// <summary>
@@ -109,7 +109,7 @@ public static async Task CheckCache(IBotContext context)
     {
         msg = $"Данные в кэше пользователя отсутствуют.";
     }
-    await PRTelegramBot.Helpers.Message.Send(context, msg);
+    await MessageSender.Send(context, msg);
 }
  
 /// <summary>
@@ -122,6 +122,6 @@ public static async Task ClearCache(IBotContext context)
     string msg = "Тестирование функции пошагового выполнения";
     //Очищаем кеш для пользователя
     context.GetCacheData<UserCache>().ClearData();
-    await PRTelegramBot.Helpers.Message.Send(context, msg);
+    await MessageSender.Send(context, msg);
 }
 ```

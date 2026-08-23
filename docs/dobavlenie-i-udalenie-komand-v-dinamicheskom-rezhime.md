@@ -14,7 +14,7 @@ description: >-
 var method = async (IBotContext context) =>
 {
         string message = "Сообщение";
-        PRTelegramBot.Helpers.Message.Send(context, message);
+        MessageSender.Send(context, message);
 };
 ```
 

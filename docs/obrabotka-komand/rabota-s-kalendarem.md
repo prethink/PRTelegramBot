@@ -62,7 +62,7 @@ public static async Task PickDate(IBotContext context)
         using (var inlineHandler = new InlineCallback&#x3C;CalendarTCommand>(botClient, update))
         {
             var command = inlineHandler.GetCommandByCallbackOrNull();
-            await Helpers.Message.Send(botClient, update, command.Data.Date.ToString());
+            await MessageSender.Send(botClient, update, command.Data.Date.ToString());
         }
     }
     catch (Exception ex)

@@ -9,7 +9,7 @@ using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using System.Text.Json.Serialization;
 
-namespace PRTelegramBot.Models.TCommands
+namespace PRTelegramBot.Models.CallbackCommands
 {
     /// <summary>
     /// Обработка TCommand в формате страницы.

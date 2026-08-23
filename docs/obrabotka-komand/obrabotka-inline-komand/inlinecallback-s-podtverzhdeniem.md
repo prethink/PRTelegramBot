@@ -17,7 +17,7 @@
 public static async Task InlineConfirm(IBotContext context)
 {
     //Кнопка для которой нужно создать подтверждение.
-    var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтвержением", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
+    var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтвержением", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
     //Обертка кнопки.
     var exampleWithConfirmation = new InlineCallbackWithConfirmation(exampleInlineCallback, ActionWithLastMessage.Delete);
 
@@ -30,7 +30,7 @@ public static async Task InlineConfirm(IBotContext context)
     option.MenuInlineKeyboardMarkup = testMenu;
     string msg = "InlineCallback с подтверждением";
     //Отправка сообщение с меню
-    await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+    await MessageSender.Send(context, msg, option);
 }
 ```
 
@@ -54,7 +54,7 @@ public static async Task InlineConfirm(IBotContext context)
 public static async Task InlineConfirmWithBack(IBotContext context)
 {
     //Кнопка для которой нужно создать подтверждение.
-    var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтвержением", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
+    var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Кнопка с подтвержением", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
     //Кнопка обработчик назад или кастомная.
     var exampleBack = new InlineCallback("Назад", CustomTHeaderTwo.ExampleBack);
 
@@ -71,9 +71,9 @@ public static async Task InlineConfirmWithBack(IBotContext context)
     string msg = "InlineCallback с подтверждением и обработкой кнопки назад или кастомной";
     //Отправка сообщение с меню
     if(update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
-        await PRTelegramBot.Helpers.Message.Edit(context, msg, option);
+        await MessageEditor.Edit(context, msg, option);
     else
-        await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+        await MessageSender.Send(context, msg, option);
 }
 ```
 

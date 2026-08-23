@@ -67,7 +67,7 @@ namespace ConsoleExample.Examples.Commands
                 "\n /get_2 - команда 2" +
                 "\n /get_3 - команда 3" +
                 "\n /get_4 - команда 4";
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -83,20 +83,20 @@ namespace ConsoleExample.Examples.Commands
             // Нет аргументов
             if (args.Count == 0)
             {
-                await Helpers.Message.Send(context, "Команда /get");
+                await MessageSender.Send(context, "Команда /get");
                 return;
             }
 
             // Один аргумент
             if (args.Count == 1)
             {
-                await Helpers.Message.Send(context, $"Команда /get со значением: {args[0]}");
+                await MessageSender.Send(context, $"Команда /get со значением: {args[0]}");
                 return;
             }
 
             // Несколько аргументов
             string joinedArgs = string.Join(", ", args);
-            await Helpers.Message.Send(context, $"Команда /get со значениями: {joinedArgs}");
+            await MessageSender.Send(context, $"Команда /get со значениями: {joinedArgs}");
         }
 
         /// <summary>
@@ -112,20 +112,20 @@ namespace ConsoleExample.Examples.Commands
             // Нет аргументов
             if (args.Count == 0)
             {
-                await Helpers.Message.Send(context, "Команда /int");
+                await MessageSender.Send(context, "Команда /int");
                 return;
             }
 
             // Один аргумент
             if (args.Count == 1)
             {
-                await Helpers.Message.Send(context, $"Команда /int со значением: {args[0]}");
+                await MessageSender.Send(context, $"Команда /int со значением: {args[0]}");
                 return;
             }
 
             // Несколько аргументов
             string joinedArgs = string.Join(", ", args);
-            await Helpers.Message.Send(context, $"Команда /int со значениями: {joinedArgs}");
+            await MessageSender.Send(context, $"Команда /int со значениями: {joinedArgs}");
         }
 
         /// <summary>
@@ -141,20 +141,20 @@ namespace ConsoleExample.Examples.Commands
             // Нет аргументов
             if (args.Count == 0)
             {
-                await Helpers.Message.Send(context, "Команда /bool");
+                await MessageSender.Send(context, "Команда /bool");
                 return;
             }
 
             // Один аргумент
             if (args.Count == 1)
             {
-                await Helpers.Message.Send(context, $"Команда /bool со значением: {args[0]}");
+                await MessageSender.Send(context, $"Команда /bool со значением: {args[0]}");
                 return;
             }
 
             // Несколько аргументов
             string joinedArgs = string.Join(", ", args);
-            await Helpers.Message.Send(context, $"Команда /bool со значениями: {joinedArgs}");
+            await MessageSender.Send(context, $"Команда /bool со значениями: {joinedArgs}");
         }
 
         /// <summary>
@@ -169,12 +169,12 @@ namespace ConsoleExample.Examples.Commands
             if (args.Count > 0)
             {
                 string msgWithArgs = $"Команда /start со значением {args[0]}";
-                await Helpers.Message.Send(context, msgWithArgs);
+                await MessageSender.Send(context, msgWithArgs);
                 return;
             }
 
             string msg = $"Команда /start";
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleSlashEqualsCommand(IBotContext context)
         {
             string msg = nameof(ExampleSlashEqualsCommand);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task ExampleSlashEqualsRegisterCommand(IBotContext context)
         {
             string msg = nameof(ExampleSlashEqualsRegisterCommand);
-            await Helpers.Message.Send(context, msg);
+            await MessageSender.Send(context, msg);
         }
     }
 }
@@ -222,7 +222,7 @@ public class Commands
     public static async Task ExampleReply(IBotContext context)
     {
         string msg = "Бот: ответ бота тест";
-        await PRTelegramBot.Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 }
 ```

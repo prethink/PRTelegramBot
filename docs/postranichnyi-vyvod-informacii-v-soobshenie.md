@@ -244,7 +244,7 @@ public class ExamplePage
         var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
         var option = new OptionMessage();
         option.MenuInlineKeyboardMarkup = generateMenu;
-        var message = await Helpers.Message.Send(botClient, update, msg, option);
+        var message = await MessageSender.Send(botClient, update, msg, option);
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ public class ExamplePage
         var option = new OptionMessage();
         option.MenuInlineKeyboardMarkup = generateMenu;
 
-        var message = await Helpers.Message.Send(botClient, update, msg, option);
+        var message = await MessageSender.Send(botClient, update, msg, option);
     }
 
     /// <summary>
@@ -304,7 +304,7 @@ public class ExamplePage
                             msg = "Нечего не найдено";
                         }
                         //Редактирую текущую страницу
-                        await Helpers.Message.Edit(context, msg, option);
+                        await MessageEditor.Edit(context, msg, option);
                     }
                     //обрабатываю данные по заголовку
                     else if (header == CustomTHeaderTwo.CustomPageHeader2)
@@ -327,7 +327,7 @@ public class ExamplePage
                             msg = "Нечего не найдено";
                         }
                         //Редактирую текущую страницу
-                        await Helpers.Message.Edit(context, msg, option);
+                        await MessageEditor.Edit(context, msg, option);
                     }
                 }
             }
@@ -367,7 +367,7 @@ public class ExamplePage
         var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
         //Добавляем в настройки меню
         option.MenuReplyKeyboardMarkup = menu;
-        await Helpers.Message.Send(context, msg, option);
+        await MessageSender.Send(context, msg, option);
     }
 }
 ```

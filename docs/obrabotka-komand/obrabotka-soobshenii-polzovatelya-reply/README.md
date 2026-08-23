@@ -54,7 +54,7 @@ public class Commands
     public static async Task ReplyExampleOne(IBotContext context)
     {
         string msg = nameof(ReplyExampleOne);
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
     
     /// <summary>
@@ -65,7 +65,7 @@ public class Commands
     public static async Task ReplyExampleTwo(IBotContext context)
     {
         string msg = nameof(ReplyExampleTwo);
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
  
     /// <summary>
@@ -77,7 +77,7 @@ public class Commands
     public static async Task ExampleReplyMany(IBotContext context)
     {
         string msg = nameof(ExampleReplyMany);
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
  
     /// <summary>
@@ -89,7 +89,7 @@ public class Commands
     public static async Task ExampleReplyBotIdOne(IBotContext context)
     {
         string msg = nameof(ExampleReplyBotIdOne);
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
     
     /// <summary>
@@ -100,7 +100,7 @@ public class Commands
     public static async Task ReplyExampleAllBots(IBotContext context)
     {
         string msg = nameof(ReplyExampleAllBots);
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 }
 ```

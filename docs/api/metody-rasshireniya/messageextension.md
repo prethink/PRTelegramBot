@@ -30,5 +30,5 @@ public static async Task AutoEditMessage(this Message message, string messageTex
 /// <param name="seconds">Через сколько секунд будет удалено сообщение.</param>
 /// <param name="botClient">Бот клиент.</param>
 /// <param name="update">Update.</param>
-public static async Task AutoEditMessageСycle(this Message message, List<string> messageTexts, int seconds, ITelegramBotClient botClient, Update update)
+public static async Task AutoEditMessageCycle(this Message message, List<string> messageTexts, int seconds, ITelegramBotClient botClient, Update update)
 ```

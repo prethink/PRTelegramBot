@@ -27,7 +27,7 @@ _**Даже если вы укажите одновременно MenuReplyKeybo
 * resizeKeyboard – флаг **resize** из telegram api.
 * mainMenu – если не пустой, добавляет в конце меню пункт простой кнопки. (Например может использоваться для показа кнопки “Главное меню”).
 
-**PRTelegramBot.Helpers.Message.Send** – вспомогательный метод обертка над Telegram.Bot. Может принимать помимо самого сообщения еще и параметры с помощью OptionMessage. Так же если размер сообщения будет больше 4000 символов, разделит текст на несколько сообщений.
+**PRTelegramBot.Services.Messages.MessageSender.Send** – вспомогательный метод обертка над Telegram.Bot. Может принимать помимо самого сообщения еще и параметры с помощью OptionMessage. Так же если размер сообщения будет больше 4000 символов, разделит текст на несколько сообщений.
 
 Пример с комментариями простого меню представлен ниже
 
@@ -61,7 +61,7 @@ public static async Task ExampleReplyMenu(IBotContext context)
     var menu = MenuGenerator.ReplyKeyboard(1, menuList, true, "Главное меню");
     //Добавляем в настройки меню
     option.MenuReplyKeyboardMarkup = menu;
-    await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+    await MessageSender.Send(context, msg, option);
 }
 ```
 

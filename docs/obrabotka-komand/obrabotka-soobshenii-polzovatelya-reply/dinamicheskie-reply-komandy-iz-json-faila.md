@@ -85,7 +85,7 @@ public static async Task ExampleReplyDynamicCommand(IBotContext context)
 	 */
 
 	string msg = nameof(ExampleReplyDynamicCommand);
-	await Helpers.Message.Send(context, msg);
+	await MessageSender.Send(context, msg);
 }
 
 ```

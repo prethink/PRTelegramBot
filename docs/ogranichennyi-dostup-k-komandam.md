@@ -39,7 +39,7 @@ public enum UserPrivilege
 public static async Task ExampleAccess(IBotContext context)
 {
     string msg = nameof(ExampleAccess);
-    await Helpers.Message.Send(context, msg);
+    await MessageSender.Send(context, msg);
 }
 ```
 
@@ -90,7 +90,7 @@ public static async Task OnCheckPrivilege(PrivilegeEventArgs e)
 
     // Доступа нет.
     string errorMsg = "У вас нет доступа к данной функции";
-    await Helpers.Message.Send(e.Context, errorMsg);
+    await MessageSender.Send(e.Context, errorMsg);
     return;
 
 }

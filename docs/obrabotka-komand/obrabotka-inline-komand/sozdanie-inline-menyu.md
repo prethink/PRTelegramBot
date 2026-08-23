@@ -81,7 +81,7 @@ public class Commands
         //Передача меню в настройки
         option.MenuInlineKeyboardMarkup = testMenu;
         string msg = "Пример работы меню";
-        await PRTelegramBot.Helpers.Message.Send(context, msg, option);
+        await MessageSender.Send(context, msg, option);
     }
 }
 ```

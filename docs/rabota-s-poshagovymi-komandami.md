@@ -222,7 +222,7 @@ public class ExampleStepCommand
         string msg = "Тестирование функции пошагового выполнения\nНапишите ваше имя";
         //Регистрация обработчика для последовательной обработки шагов и сохранение данных
         context.RegisterStepHandler(new StepTelegram(StepOne, new StepCache()));
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class ExampleStepCommand
         handler!.GetCache<StepCache>().Name = update.Message.Text;
         //Регистрация следующего шага
         handler.RegisterNextStep(StepTwo);
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 
     /// <summary>
@@ -260,7 +260,7 @@ public class ExampleStepCommand
         //Добавление пустого reply меню с кнопкой "Главное меню"
         //Функция является приоритетной, если пользователь нажмет эту кнопку будет выполнена функция главного меню, а не следующего шага.
         option.MenuReplyKeyboardMarkup = MenuGenerator.ReplyKeyboard(1, new List<string>(), true, new DictionaryJSON().GetButton(nameof(ReplyKeys.RP_MAIN_MENU)));
-        await Helpers.Message.Send(context, msg, option);
+        await MessageSender.Send(context, msg, option);
     }
 
 
@@ -277,7 +277,7 @@ public class ExampleStepCommand
                      $"\nПоследовательность шагов очищена.";
         //Последний шаг
         context.ClearStepUserHandler();
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 
     /// <summary>
@@ -291,7 +291,7 @@ public class ExampleStepCommand
             ? "Следующий шаг проигнорирован" 
         : "Следующий шаг отсутствовал";
     
-        await Helpers.Message.Send(context, msg);
+        await MessageSender.Send(context, msg);
     }
 }
 ```
