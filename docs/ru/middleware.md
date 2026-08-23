@@ -36,7 +36,7 @@ namespace ConsoleExample.Middlewares
         public override Task InvokeOnPostUpdateAsync(IBotContext context)
         {
             Console.WriteLine("Выполнение первого обработчика после update");
-            return base.InvokeOnPostUpdatesAsync(context);
+            return base.InvokeOnPostUpdateAsync(context);
         }
     }
 }

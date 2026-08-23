@@ -231,12 +231,12 @@ public class ExampleStepCommand
     /// </summary>
     public static async Task StepOne(IBotContext context)
     {
-        string msg = $"Шаг 1 - Ваше имя {update.Message.Text}" +
+        string msg = $"Шаг 1 - Ваше имя {context.Update.Message.Text}" +
                     $"\nВведите дату рождения";
         //Получаем текущий обработчик
         var handler = context.GetStepHandler<StepTelegram>();
         //Записываем имя пользователя в кэш 
-        handler!.GetCache<StepCache>().Name = update.Message.Text;
+        handler!.GetCache<StepCache>().Name = context.Update.Message.Text;
         //Регистрация следующего шага
         handler.RegisterNextStep(StepTwo);
         await MessageSender.Send(context, msg);

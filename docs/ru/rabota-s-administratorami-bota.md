@@ -16,7 +16,7 @@ var telegram = new PRBotBuilder("")
 [ReplyMenuHandler("Admin menu")]
 public static async Task AdminMenu(IBotContext context)
 {
-    if (context.IsAdmin(update.GetChatId()))
+    if (await context.IsAdmin(context.GetChatId()))
     {
        //Пользователь админ что-то делаем
     }

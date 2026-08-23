@@ -168,9 +168,11 @@ public static class Commands
 
 # 🤝 Участие в разработке и обратная связь
 
-Pull request'ы с исправлениями, новой функциональностью и документацией приветствуются — для крупных изменений сначала заведите issue, чтобы обсудить решение до того, как работа будет сделана.
+Pull request'ы с исправлениями, новой функциональностью и документацией приветствуются — для крупных изменений сначала заведите issue, чтобы обсудить решение до того, как работа будет сделана. В [CONTRIBUTING.ru.md](CONTRIBUTING.ru.md) описаны сборка, тесты и принятые в проекте соглашения.
 
-Если у вас вопрос по использованию фреймворка — спрашивайте в [Telegram-чате](https://t.me/prethinkdev). Про баги и пожелания заводите [issue на GitHub](https://github.com/prethink/PRTelegramBot/issues).
+Проект принял [Code of Conduct .NET Foundation](https://dotnetfoundation.org/about/policies/code-of-conduct) — см. [CODE_OF_CONDUCT.ru.md](CODE_OF_CONDUCT.ru.md).
+
+Если у вас вопрос по использованию фреймворка — спрашивайте в [Telegram-чате](https://t.me/prethinkdev). Про баги и пожелания заводите [issue на GitHub](https://github.com/prethink/PRTelegramBot/issues). Про проблему с безопасностью публичный issue заводить не нужно — порядок описан в [SECURITY.ru.md](SECURITY.ru.md).
 
 # 📄 Лицензия
 

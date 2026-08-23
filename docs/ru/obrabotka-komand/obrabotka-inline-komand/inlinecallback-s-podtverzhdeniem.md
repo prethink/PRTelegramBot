@@ -70,7 +70,7 @@ public static async Task InlineConfirmWithBack(IBotContext context)
     option.MenuInlineKeyboardMarkup = testMenu;
     string msg = "InlineCallback с подтверждением и обработкой кнопки назад или кастомной";
     //Отправка сообщение с меню
-    if(update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
+    if (context.Update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
         await MessageEditor.Edit(context, msg, option);
     else
         await MessageSender.Send(context, msg, option);

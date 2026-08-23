@@ -168,9 +168,11 @@ Every release is described in the [changelog](https://github.com/prethink/PRTele
 
 # 🤝 Contributing and feedback
 
-Pull requests for bug fixes, features and documentation are welcome — please open an issue first for anything large, so the design can be agreed before the work is done.
+Pull requests for bug fixes, features and documentation are welcome — please open an issue first for anything large, so the design can be agreed before the work is done. [CONTRIBUTING.md](https://github.com/prethink/PRTelegramBot/blob/master/CONTRIBUTING.md) covers building, testing and the conventions this project follows.
 
-If you have a question about using the framework, ask in the [Telegram chat](https://t.me/prethinkdev). For bugs and feature requests, open a [GitHub issue](https://github.com/prethink/PRTelegramBot/issues).
+This project has adopted the [.NET Foundation Code of Conduct](https://dotnetfoundation.org/about/policies/code-of-conduct) — see [CODE_OF_CONDUCT.md](https://github.com/prethink/PRTelegramBot/blob/master/CODE_OF_CONDUCT.md).
+
+If you have a question about using the framework, ask in the [Telegram chat](https://t.me/prethinkdev). For bugs and feature requests, open a [GitHub issue](https://github.com/prethink/PRTelegramBot/issues). For a security problem, please do not open a public issue — follow [SECURITY.md](https://github.com/prethink/PRTelegramBot/blob/master/SECURITY.md) instead.
 
 # 📄 License
 

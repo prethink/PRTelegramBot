@@ -275,7 +275,7 @@ public class ExamplePage
         try
         {
             //Попытка преобразовать callback данные к требуемому типу
-            if (update.CallbackQuery?.Data != null)
+            if (context.Update.CallbackQuery?.Data != null)
             {
                 var command = InlineCallback<PageTCommand>.GetCommandByCallbackOrNull(context);
                 if (command != null)

@@ -37,7 +37,7 @@ public class UserCache : ITelegramCache
 /// <typeparam name="TCache">Тип кэша.</typeparam>
 /// <param name="context">Контекст бота.</param>
 /// <returns>Кэш.</returns>
-public static void CreateCacheData<T>(this IBotContext context) where T : ITelegramCache
+public static TCache CreateCacheData<TCache>(this IBotContext context) where TCache : ITelegramCache
 
 /// <summary>
 /// Получает существующий кэш или создает новый.
@@ -87,7 +87,7 @@ public static async Task GetCache(IBotContext context)
 {
     string msg = $"Запись в кэш пользователя данных: {context.GetChatId()}";
     //Записываем данные в кеш пользователя
-    context.GetCacheData<UserCache>().Id = update.GetChatId();
+    context.GetCacheData<UserCache>().Id = context.GetChatId();
     await MessageSender.Send(context, msg);
 }
  
@@ -101,7 +101,7 @@ public static async Task CheckCache(IBotContext context)
     //Получаем данные с кэша
     var cache = context.GetCacheData<UserCache>();
     string msg = "";
-    if(cache.Id != null)
+    if (cache.Id != 0)
     {
         msg = $"Данные в кэше пользователя: {cache.Id}";
     }
@@ -119,7 +119,7 @@ public static async Task CheckCache(IBotContext context)
 [ReplyMenuHandler("clearcache")]
 public static async Task ClearCache(IBotContext context)
 {
-    string msg = "Тестирование функции пошагового выполнения";
+    string msg = "Очистка данных";
     //Очищаем кеш для пользователя
     context.GetCacheData<UserCache>().ClearData();
     await MessageSender.Send(context, msg);

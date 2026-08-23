@@ -29,7 +29,7 @@ namespace ConsoleExample.Checkers
             var adminAttribute = method.GetCustomAttribute<AdminOnlyExampleAttribute>();
             if(adminAttribute != null)
             {
-                var userIsAdmin = await context.IsAdmin(update.GetChatId());
+                var userIsAdmin = await context.IsAdmin(context.Update.GetChatId());
                 if(!userIsAdmin)
                     await MessageSender.Send(context, "Вы не админ!");
                 // Пользователь админ возращаем результат Passed, что позволяет выполнить метод, иначе выполнение метода будет приостановлено.
@@ -64,8 +64,8 @@ var telegram = new PRBotBuilder("Token")
 [ReplyMenuHandler("Только админы")]
 public static async Task AdminOnlyExample(IBotContext context)
 {
-    bool isAdminUpdate = await context.IsAdmin(update);
-    bool isAdminById = await context.IsAdmin(update.GetChatId());
+    bool isAdminUpdate = await context.IsAdmin();
+    bool isAdminById = await context.IsAdmin(context.Update.GetChatId());
     await MessageSender.Send(context, $"Вы администратор бота: {isAdminById} {isAdminUpdate}");
 }
 

@@ -21,6 +21,17 @@
     <PackageProjectUrl>https://prethink.gitbook.io/prtelegrambot/</PackageProjectUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Source Link: lets consumers step into this library's source from their debugger,
+         and is required by the .NET Foundation eligibility criteria. -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- Debug symbols travel inside the package, so no separate symbol server is needed. -->
+    <DebugType>embedded</DebugType>
+
+    <!-- Reproducible builds: normalises source paths so a CI build does not embed local ones. -->
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
 

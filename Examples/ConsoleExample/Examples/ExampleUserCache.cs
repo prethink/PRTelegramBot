@@ -34,7 +34,7 @@ namespace ConsoleExample.Examples
             //Read the data from the cache
             var cache = context.GetCacheData<UserCache>();
             string msg = string.Empty;
-            if(cache.Id != null)
+            if (cache.Id != 0)
             {
                 msg = $"Data in the user's cache: {cache.Id}";
             }
