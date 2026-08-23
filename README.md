@@ -32,8 +32,6 @@ public static async Task Start(IBotContext context)
 }
 ```
 
-Video examples: [https://github.com/prethink/PRTelegramYoutube](https://github.com/prethink/PRTelegramYoutubeOld)
-
 # 🚀 Getting started
 
 ### Prerequisites
