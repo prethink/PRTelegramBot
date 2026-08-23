@@ -2,6 +2,7 @@
 
 * [PRTelegramBot](README.md)
 * [F.A.Q.](f.a.q..md)
+* [Переход на 1.0](perekhod-na-1.0.md)
 * [Быстрый старт](bystryi-start/README.md)
   * [Webhook](bystryi-start/webhook/README.md)
     * [Debugging WebHook](bystryi-start/webhook/debugging-webhook.md)
@@ -58,6 +59,7 @@
     * [ReplyKeyboardBuilder](api/klassy/replykeyboardbuilder.md)
     * [KeyboardBuilderBase](api/klassy/keyboardbuilderbase.md)
     * [InlineKeyboardBuilder](api/klassy/inlinekeyboardbuilder.md)
+    * [MessageBuilder](api/klassy/messagebuilder.md)
     * [MediaSender](api/klassy/mediasender.md)
     * [MediaEditor](api/klassy/mediaeditor.md)
     * [MessageCopier](api/klassy/messagecopier.md)
@@ -76,6 +78,7 @@
     * [WhiteListManager](api/klassy/whitelistmanager.md)
     * [Фабрики ботов](api/klassy/fabriki-botov.md)
     * [InlineCallbackWithConfirmation](api/klassy/inlinecallbackwithconfirmation.md)
+    * [InlineCopyText](api/klassy/inlinecopytext.md)
     * [TCommands](api/klassy/tcommands/README.md)
       * [TCommandBase](api/klassy/tcommands/tcommandbase.md)
       * [EntityTCommand](api/klassy/tcommands/entitytcommand.md)

@@ -158,7 +158,7 @@ public static InlineKeyboardMarkup GetPageMenu(
 /// <param name="page">Страница</param>
 /// <param name="pageSize">Размер страницы</param>
 /// <returns>Страница данных с доп информацией</returns>
-public static async Task<PagedResult<T>> GetPaged<T>(this IList<T> query,
+public static Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query,
                                  int page, int pageSize) where T : class
 {
     var result = new PagedResult<T>();
@@ -182,7 +182,7 @@ public static async Task<PagedResult<T>> GetPaged<T>(this IList<T> query,
         /// <param name="page">Страница.</param>
         /// <param name="pageSize">Размер страницы.</param>
         /// <returns>Страница данных с доп информацией.</returns>
-        public static async Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize)
+        public static Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize)
             where T : class
         {
             var result = new PagedResult<T>();
