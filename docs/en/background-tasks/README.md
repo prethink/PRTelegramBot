@@ -8,7 +8,7 @@ Available since version 0.9.1.
 
 A **background task** runs alongside the bot's main loop. It is not tied to an incoming message, callback or update — it exists for periodic or long-running work: a nightly digest, a queue drained every ten seconds, a cache refreshed each hour.
 
-Each bot has its own runner, [`PRBackgroundTaskRunner`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/prbackgroundtaskrunner), reachable from the bot:
+Each bot has its own runner, [`PRBackgroundTaskRunner`](../api/classes/prbackgroundtaskrunner.md), reachable from the bot:
 
 ```csharp
 bot.BackgroundTaskRunner
@@ -16,8 +16,8 @@ bot.BackgroundTaskRunner
 
 A task is two pieces:
 
-* [`IPRBackgroundTask`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iprbackgroundtask) — what the task does.
-* [`IPRBackgroundTaskMetadata`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iprbackgroundtaskmetadata) — when and how often it does it.
+* [`IPRBackgroundTask`](../api/interfaces/iprbackgroundtask.md) — what the task does.
+* [`IPRBackgroundTaskMetadata`](../api/interfaces/iprbackgroundtaskmetadata.md) — when and how often it does it.
 
 {% hint style="warning" %}
 The `Id` on the task and the `Id` on its metadata **must be the same value**. That is what pairs them up. A mismatch leaves the task with no schedule, and it never runs.

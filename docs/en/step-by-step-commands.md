@@ -162,7 +162,7 @@ Once the deadline passes, the handler is cleared and the step returns `ExecuteSt
 
 ## Methods
 
-The extension methods live in [`StepExtension`](https://prethink.gitbook.io/prtelegrambot/ru/api/metody-rasshireniya/stepextension):
+The extension methods live in [`StepExtension`](api/extension-methods/stepextension.md):
 
 | Method | What it does |
 | --- | --- |

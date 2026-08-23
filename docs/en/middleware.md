@@ -16,7 +16,7 @@ Both are virtual, so you override the ones you need.
 
 **`ExecutionOrder`** sets the position in the pipeline. A lower value means higher priority and earlier execution.
 
-To write your own, derive from [`MiddlewareBase`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/middlewarebase) and override the two methods. Do not forget to call the base implementation — that is what passes control along the chain.
+To write your own, derive from [`MiddlewareBase`](api/classes/middlewarebase.md) and override the two methods. Do not forget to call the base implementation — that is what passes control along the chain.
 
 ## Example
 

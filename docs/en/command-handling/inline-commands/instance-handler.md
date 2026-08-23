@@ -8,7 +8,7 @@ Available since version 0.7.6.
 
 Ordinary inline handlers are static methods, which means they cannot take dependencies. An **instance inline handler** is a class dedicated to one command, so it can have a constructor — and therefore be resolved from DI with whatever it needs.
 
-The class implements [`ICallbackQueryCommandHandler`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/icallbackquerycommandhandler), whose `Handle` method returns the result of handling.
+The class implements [`ICallbackQueryCommandHandler`](../../api/interfaces/icallbackquerycommandhandler.md), whose `Handle` method returns the result of handling.
 
 <figure><img src="../../.gitbook/assets/изображение (7).png" alt="A class implementing ICallbackQueryCommandHandler with its Handle method"><figcaption>The class implements <code>Handle</code> and returns an <code>UpdateResult</code></figcaption></figure>
 

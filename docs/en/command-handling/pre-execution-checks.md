@@ -6,7 +6,7 @@ description: Running your own check before a command executes, and stopping it i
 
 Every command kind can be given checks of its own. A check runs before the command, and can stop it.
 
-The example below adds a checker for [Reply](https://prethink.gitbook.io/prtelegrambot/ru/api/perechisleniya-enum/commandtype) commands only:
+The example below adds a checker for [Reply](../api/enums/commandtype.md) commands only:
 
 ```csharp
 // A checker used only for reply commands.
@@ -23,7 +23,7 @@ var telegram = new PRBotBuilder("Token")
 
 ## Writing a checker
 
-A checker implements [`IInternalCheck`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iinternalcheck) and returns a verdict:
+A checker implements [`IInternalCheck`](../api/interfaces/iinternalcheck.md) and returns a verdict:
 
 ```csharp
 namespace ConsoleExample.Checkers

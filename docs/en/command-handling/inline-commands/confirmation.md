@@ -114,4 +114,4 @@ Two consequences worth knowing:
 * the state does not survive a bot restart — a button built before a restart reports that something went wrong;
 * the state is per process, so it is not shared between instances if you run several.
 
-Constructors also let you set the wording — the Yes and No captions and the confirmation text — see [`InlineCallbackWithConfirmation`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/inlinecallbackwithconfirmation).
+Constructors also let you set the wording — the Yes and No captions and the confirmation text — see [`InlineCallbackWithConfirmation`](../../api/classes/inlinecallbackwithconfirmation.md).

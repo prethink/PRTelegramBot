@@ -8,9 +8,9 @@ A reply menu is the keyboard that replaces the user's normal one. Tapping a butt
 
 Three things build one:
 
-* [`OptionMessage`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/optionmessage) — the settings a message is sent with
-* `MenuGenerator.ReplyKeyboard` or [`ReplyKeyboardBuilder`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/replykeyboardbuilder) — the keyboard itself
-* [`MessageSender.Send`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/messagesender) — sending it
+* [`OptionMessage`](../../api/classes/optionmessage.md) — the settings a message is sent with
+* `MenuGenerator.ReplyKeyboard` or [`ReplyKeyboardBuilder`](../../api/classes/replykeyboardbuilder.md) — the keyboard itself
+* [`MessageSender.Send`](../../api/classes/messagesender.md) — sending it
 
 ## OptionMessage
 

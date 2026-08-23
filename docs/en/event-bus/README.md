@@ -8,8 +8,8 @@ An **event bus** lets components exchange messages without knowing about each ot
 
 Two pieces make it work:
 
-* [`PREventBus`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/preventbus) — a static class that registers subscribers, removes them, and raises events to them.
-* [`IPRGlobalSubscriber`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iprglobalsubscriber) — the base interface every subscriber derives from.
+* [`PREventBus`](../api/classes/preventbus.md) — a static class that registers subscribers, removes them, and raises events to them.
+* [`IPRGlobalSubscriber`](../api/interfaces/iprglobalsubscriber.md) — the base interface every subscriber derives from.
 
 A class that wants to receive events implements an interface **derived from** `IPRGlobalSubscriber` rather than that interface directly. Any number of subscribers may share a type — all of them receive the event.
 

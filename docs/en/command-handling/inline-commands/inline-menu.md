@@ -32,11 +32,11 @@ Two things build an inline menu:
 
 There are two levers, and they solve different problems.
 
-**A more compact serialiser.** [`ToonSerializerWrapper`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/toonserializerwrapper) implements [`IPRSerializer`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iprserializer) and encodes the same data in fewer bytes than JSON. This buys headroom; it does not remove the ceiling.
+**A more compact serialiser.** [`ToonSerializerWrapper`](../../api/classes/toonserializerwrapper.md) implements [`IPRSerializer`](../../api/interfaces/iprserializer.md) and encodes the same data in fewer bytes than JSON. This buys headroom; it does not remove the ceiling.
 
 <figure><img src="../../.gitbook/assets/изображение (1).png" alt="The same payload encoded by the JSON and the ToonNet serialisers, side by side"><figcaption>The same data, and how many bytes each serialiser spends on it</figcaption></figure>
 
-**A different converter.** [`FileInlineConverter`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/fileinlineconverter) implements [`IInlineMenuConverter`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iinlinemenuconverter) and removes the limit altogether: the payload is written to a local JSON file named `{bot id}-{user id}-{command id}`, and only that short key travels in `callback_data`.
+**A different converter.** [`FileInlineConverter`](../../api/classes/fileinlineconverter.md) implements [`IInlineMenuConverter`](../../api/interfaces/iinlinemenuconverter.md) and removes the limit altogether: the payload is written to a local JSON file named `{bot id}-{user id}-{command id}`, and only that short key travels in `callback_data`.
 
 ```csharp
 var telegram = new PRBotBuilder("token")
@@ -99,7 +99,7 @@ public class Commands
 
 ## Building a menu with the builder
 
-[`InlineKeyboardBuilder`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/inlinekeyboardbuilder) gives explicit control over rows.
+[`InlineKeyboardBuilder`](../../api/classes/inlinekeyboardbuilder.md) gives explicit control over rows.
 
 The example also shows captions coming from a configuration file, so button text can be changed without a rebuild — the same idea as [dynamic reply commands](../reply-commands/dynamic-reply-commands.md).
 

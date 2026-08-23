@@ -16,7 +16,7 @@ It is based on [CalendarPicker by karb0f0s](https://github.com/karb0f0s/Calendar
 
 <figure><img src="../.gitbook/assets/изображение-21.png" alt="The bot answering with the date the user selected"><figcaption>The selected date arrives at your handler</figcaption></figure>
 
-Everything goes through [`CalendarUtils`](https://prethink.gitbook.io/prtelegrambot/ru/api/utils/calendarutils).
+Everything goes through [`CalendarUtils`](../api/utils/calendarutils.md).
 
 ## Showing the calendar
 

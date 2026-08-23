@@ -22,14 +22,14 @@ Since version 0.7 you can register handlers of your own, and **they run before t
 
 ## The contract
 
-A handler returns an [`UpdateResult`](https://prethink.gitbook.io/prtelegrambot/ru/api/perechisleniya-enum/updateresult):
+A handler returns an [`UpdateResult`](../api/enums/updateresult.md):
 
 * `UpdateResult.Handled` — this update is dealt with; stop.
 * `UpdateResult.Continue` — not mine; try the next handler.
 
 ## Message handlers
 
-Implement [`IMessageCommandHandler`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/imessagecommandhandler):
+Implement [`IMessageCommandHandler`](../api/interfaces/imessagecommandhandler.md):
 
 ```csharp
 public class MessageTestHandler : IMessageCommandHandler
@@ -59,7 +59,7 @@ From then on a `message` update reaches your handler first. If it returns `Conti
 
 ## CallbackQuery handlers
 
-Implement [`ICallbackQueryCommandHandler`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/icallbackquerycommandhandler):
+Implement [`ICallbackQueryCommandHandler`](../api/interfaces/icallbackquerycommandhandler.md):
 
 ```csharp
 public class CallbackQueryTestHandler : ICallbackQueryCommandHandler
