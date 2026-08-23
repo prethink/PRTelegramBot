@@ -1,4 +1,4 @@
-﻿﻿namespace PRTelegramBot.Attributes
+﻿namespace PRTelegramBot.Attributes
 {
     /// <summary>
     /// Attribute that checks access rights for running methods.

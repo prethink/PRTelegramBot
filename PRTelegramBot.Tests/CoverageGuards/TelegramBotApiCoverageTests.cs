@@ -1,4 +1,4 @@
-﻿﻿using System.Reflection;
+﻿using System.Reflection;
 using FluentAssertions;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Events;

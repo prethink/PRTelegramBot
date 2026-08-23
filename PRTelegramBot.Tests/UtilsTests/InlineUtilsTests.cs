@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.InlineButtons;

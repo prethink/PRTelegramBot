@@ -66,6 +66,8 @@
 - Exceptions are no longer swallowed silently. They are now written to the log in `PREventBus` (a faulty subscriber no longer disappears without a trace), in `MessageAwaiter` when the waiting message cannot be deleted, and in `TryGetConfigValue` when reading the configuration fails.
 - Event handlers are still invoked without an await, so that a slow subscriber cannot hold up other updates — but a failure inside one is now logged instead of being lost with the unobserved task.
 - The `FastBotTemplate` console template held the process open with an empty `while(true) { }`, which spins a CPU core at 100% for as long as the bot runs. It now awaits `Task.Delay(Timeout.Infinite)`. In the same template `bot.StartAsync()` was fire-and-forget (`_ = ...`), so a failure while the bot was starting vanished without a trace; it is awaited now.
+- The confirmation example in `ConsoleExample` wrapped a button whose header was `ExampleThree`, but the handler for that header reads `EntityTCommand<string>` while the button carried `EntityTCommand<long>`. Pressing "Yes" therefore threw a `JsonException` inside the converter, which logged it and returned null, so the handler quietly did nothing. The example now uses `ExampleTwo`, whose handler reads the type the button actually carries.
+- Removed a duplicated byte order mark from 32 source files. It was introduced by the tooling used for the comment translation; the files compiled, but each one began with a stray zero-width character.
 
 ## June 20, 2026 - v0.9.10
 

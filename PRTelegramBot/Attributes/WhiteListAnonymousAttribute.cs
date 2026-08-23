@@ -1,4 +1,4 @@
-﻿﻿using PRTelegramBot.Interfaces;
+﻿using PRTelegramBot.Interfaces;
 
 namespace PRTelegramBot.Attributes
 {

@@ -1,4 +1,4 @@
-﻿﻿using FluentAssertions;
+﻿using FluentAssertions;
 using PRTelegramBot.Builders;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.Factories;

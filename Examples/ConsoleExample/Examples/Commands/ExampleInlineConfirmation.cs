@@ -1,4 +1,4 @@
-﻿﻿using ConsoleExample.Models.CommandHeaders;
+﻿using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Builders.Keyboard;
 using PRTelegramBot.Interfaces;
@@ -22,7 +22,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task InlineConfirm(IBotContext context)
         {
             //The button that a confirmation has to be created for.
-            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Button with confirmation", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
+            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Button with confirmation", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
             //Button wrapper.
             var exampleWithConfirmation = new InlineCallbackWithConfirmation(exampleInlineCallback, ActionWithLastMessage.Delete);
 
@@ -79,7 +79,7 @@ namespace ConsoleExample.Examples.Commands
         public static async Task InlineConfirmWithBack(IBotContext context)
         {
             //The button that a confirmation has to be created for.
-            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Button with confirmation", CustomTHeaderTwo.ExampleThree, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
+            var exampleInlineCallback = new InlineCallback<EntityTCommand<long>>("Button with confirmation", CustomTHeaderTwo.ExampleTwo, new EntityTCommand<long>(3, ActionWithLastMessage.Delete));
             //The back button handler, or a custom one.
             var exampleBack = new InlineCallback("Back", CustomTHeaderTwo.ExampleBack);
 

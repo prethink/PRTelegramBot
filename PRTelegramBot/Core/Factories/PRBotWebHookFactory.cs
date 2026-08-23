@@ -1,4 +1,4 @@
-﻿﻿using PRTelegramBot.Configs;
+﻿using PRTelegramBot.Configs;
 
 namespace PRTelegramBot.Core.Factories
 {

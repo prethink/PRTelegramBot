@@ -1,4 +1,4 @@
-﻿﻿﻿using ConsoleExample.Models;
+﻿using ConsoleExample.Models;
 using ConsoleExample.Models.CommandHeaders;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Builders.Keyboard;

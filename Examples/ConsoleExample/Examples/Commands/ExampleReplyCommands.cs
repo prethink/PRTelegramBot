@@ -1,4 +1,4 @@
-﻿﻿using ConsoleExample.Examples.Events;
+﻿using ConsoleExample.Examples.Events;
 using ConsoleExample.Models;
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Builders.Keyboard;

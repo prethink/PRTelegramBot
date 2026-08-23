@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using PRTelegramBot.Core;
 using PRTelegramBot.Models.EventsArgs;
 

@@ -1,4 +1,4 @@
-﻿﻿using PRTelegramBot.Configs;
+﻿using PRTelegramBot.Configs;
 using PRTelegramBot.Core.BotScope;
 using PRTelegramBot.Core.UpdateDispatchers;
 using PRTelegramBot.Extensions;
