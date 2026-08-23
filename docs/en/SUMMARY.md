@@ -142,3 +142,7 @@
   * [Before and after an update](tips/before-and-after-update.md)
   * [A command for administrators only](tips/admin-only-command.md)
 * [Video tutorials](video-tutorials.md)
+* [Developer's Telegram](https://t.me/prethink)
+* [Telegram group](https://t.me/prethinkdev)
+* [Support via Boosty](https://boosty.to/prethink)
+* [Support](https://pay.cloudtips.ru/p/b9e413e9)
