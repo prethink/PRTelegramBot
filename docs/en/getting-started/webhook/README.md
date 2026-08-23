@@ -1,36 +1,38 @@
+---
+description: Running a bot behind a public URL instead of polling.
+---
+
 # Webhook
 
-Пример будет на основе [ASP.NET приложения](../../../AspNetWebHookExample).\
-nuget пакеты установленные в примере<br>
+The example below is based on the [ASP.NET webhook example](https://github.com/prethink/PRTelegramBot/tree/master/Examples/AspNetWebHookExample), which runs two bots on a single endpoint.
 
-<figure><img src="../../.gitbook/assets/изображение (30).png" alt=""><figcaption></figcaption></figure>
+A webhook bot needs a **secret token**. It is the only thing that proves a request really came from Telegram. If you do not set one on the builder, the framework generates it for you.
 
-Program.cs
+## Program.cs
 
-Для корректной работы webhook ботов, требуется добавить секретный токен. Если в билдере не указать секретный токен для webhook бота, он будет сгенерирован автоматически.
-
-<pre class="language-csharp"><code class="lang-csharp">...
-<strong>builder.Services.AddControllers().AddNewtonsoftJson();
-</strong><strong>...
-</strong>new PRBotBuilder("5623652365:Token")
+```csharp
+...
+builder.Services.AddControllers().AddNewtonsoftJson();
+...
+new PRBotBuilder("5623652365:Token")
     .UseFactory(new PRBotWebHookFactory())
     .SetUrlWebHook("https://domain.ru/botendpoint")
     .SetClearUpdatesOnStart(true)
     .Build();
-// Найти экземпляр бота можно через класс BotCollection
+// The bot instance can be found later through the BotCollection class.
 ...
-// Сервис который запустит ботов после запуска приложения
-builder.Services.AddHostedService&#x3C;BotHostedService>();
+// The service that starts the bots once the application is up.
+builder.Services.AddHostedService<BotHostedService>();
 ...
-// Регистрация маршрута для получения данных через WebHook.
-// В данном примере будет https://domain.ru/botendpoint
-// Обратите внимание на метод SetUrlWebHook, который используется выше.
-app.MapBotWebhookRoute&#x3C;BotController>("/botendpoint");
+// Registers the route that receives updates over the webhook.
+// With the code above that is https://domain.ru/botendpoint —
+// it must match the URL passed to SetUrlWebHook.
+app.MapBotWebhookRoute<BotController>("/botendpoint");
 ...
 app.Run();
-</code></pre>
+```
 
-WebHookExtensions.cs
+## WebHookExtensions.cs
 
 ```csharp
 using Microsoft.AspNetCore.Mvc;
@@ -38,24 +40,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace AspNetWebHook
 {
     /// <summary>
-    /// Статический класс, содержащий методы расширения для маршрутизации webhook'ов.
+    /// Extension methods for routing webhooks.
     /// </summary>
     public static class WebHookExtensions
     {
         /// <summary>
-        /// Сопоставляет маршрут webhook с указанным действием контроллера.
+        /// Maps a webhook route to the given controller action.
         /// </summary>
-        /// <typeparam name="TContoller">Тип контроллера.</typeparam>
-        /// <param name="endpoints">Объект для добавления маршрута.</param>
-        /// <param name="route">Шаблон маршрута.</param>
-        /// <returns>Строитель для настройки конечной точки действия контроллера.</returns>
+        /// <typeparam name="TContoller">Controller type.</typeparam>
+        /// <param name="endpoints">The object the route is added to.</param>
+        /// <param name="route">Route template.</param>
+        /// <returns>A builder for configuring the controller action endpoint.</returns>
         public static ControllerActionEndpointConventionBuilder MapBotWebhookRoute<TContoller>(this IEndpointRouteBuilder endpoints, string route)
             where TContoller : Controller
         {
-            // Название контроллера без Controller.
+            // The controller name without the "Controller" suffix.
             var controllerName = typeof(TContoller).Name.Replace("Controller", "", StringComparison.Ordinal);
 
-            // Метод, который будет обрабатывать маршрут.
+            // The method that will handle the route.
             var actionName = typeof(TContoller).GetMethods()[0].Name;
 
             return endpoints.MapControllerRoute(
@@ -65,24 +67,23 @@ namespace AspNetWebHook
         }
     }
 }
-
 ```
 
-Constants.cs
+## Constants.cs
 
 ```csharp
 public class Constants
 {
     /// <summary>
-    /// Заголовок запроса с секретным токеном.
+    /// The request header carrying the secret token.
     /// </summary>
     public const string TELEGRAM_SECRET_TOKEN_HEADER = "X-Telegram-Bot-Api-Secret-Token";
 }
 ```
 
-BotHostedService.cs
+## BotHostedService.cs
 
-Сервис который запускает ботов, после запуска приложения.
+Starts the bots once the application has started.
 
 ```csharp
 public class BotHostedService : IHostedService
@@ -101,21 +102,21 @@ public class BotHostedService : IHostedService
 
     private async Task StartBots()
     {
-        // На всякий случай задержка перед запуском.
+        // A short delay before starting, just in case.
         await Task.Delay(2000);
         var bots = BotCollection.Instance.GetBots();
         foreach (var bot in bots)
         {
-            // Проброс serviceProvider через DI
+            // Pass the serviceProvider through for DI.
             bot.Options.ServiceProvider = serviceProvider;
-            // На всякий случай обновление обработчиков.
+            // Refresh the handlers, just in case.
             bot.ReloadHandlers();
             await bot.StartAsync();
 
             if (bot.DataRetrieval == DataRetrievalMethod.WebHook)
             {
-                // Если бот запускается в формате webhook оповещаем в логах в случае ошибки.
-                var webHookResult = await((PRBotWebHook)bot).GetWebHookInfo();
+                // For a webhook bot, report a failure through the log.
+                var webHookResult = await ((PRBotWebHook)bot).GetWebHookInfo();
                 if (!string.IsNullOrEmpty(webHookResult.LastErrorMessage))
                     bot.Events.OnErrorLogInvoke(new Exception(webHookResult.LastErrorMessage));
             }
@@ -133,7 +134,7 @@ public class BotHostedService : IHostedService
 }
 ```
 
-ValidateTelegramBotAttribute.cs
+## ValidateTelegramBotAttribute.cs
 
 ```csharp
 using Microsoft.AspNetCore.Mvc;
@@ -145,8 +146,8 @@ using PRTelegramBot.Models.Enums;
 namespace AspNetWebHook.Filter
 {
     /// <summary>
-    /// Проверка заголовка "X-Telegram-Bot-Api-Secret-Token" при обработке webook.
-    /// Подробнее: <see href="https://core.telegram.org/bots/api#setwebhook"/> "secret_token"
+    /// Checks the "X-Telegram-Bot-Api-Secret-Token" header while handling a webhook request.
+    /// See <see href="https://core.telegram.org/bots/api#setwebhook"/>, "secret_token".
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class ValidateTelegramBotAttribute : TypeFilterAttribute
@@ -171,10 +172,10 @@ namespace AspNetWebHook.Filter
             }
 
             /// <summary>
-            /// Проверка секретного токена при обработке webhook запроса.
+            /// Validates the secret token of an incoming webhook request.
             /// </summary>
-            /// <param name="request">Запрос.</param>
-            /// <returns>True - запрос валидный, False - невалидный.</returns>
+            /// <param name="request">The request.</param>
+            /// <returns>True if the request is valid, False otherwise.</returns>
             private bool IsValidRequest(HttpRequest request)
             {
                 var bots = BotCollection.Instance.GetBots().Where(x => x.DataRetrieval == DataRetrievalMethod.WebHook);
@@ -186,7 +187,7 @@ namespace AspNetWebHook.Filter
 
                 foreach (var bot in bots)
                 {
-                    var secretToken = ((WebHookTelegramOptions)bot.Options).SecretToken;
+                    var secretToken = bot.Options.WebHookOptions.SecretToken;
                     if (string.Equals(secretTokenHeader, secretToken, StringComparison.Ordinal))
                         return true;
                 }
@@ -195,10 +196,13 @@ namespace AspNetWebHook.Filter
         }
     }
 }
-
 ```
 
-BotController.cs
+{% hint style="warning" %}
+Note the shape of that last comparison. A stray semicolon after the `if` turns the check into an empty statement and makes `return true` unconditional — the filter would then accept any request that merely carries the header, whatever its value. This exact typo lived in the example project until version 1.0.0.
+{% endhint %}
+
+## BotController.cs
 
 ```csharp
 public class BotController : Controller
@@ -207,18 +211,18 @@ public class BotController : Controller
     [ValidateTelegramBot]
     public async Task<IActionResult> Post([FromBody] Update update)
     {
-        // Получение секретного токена если есть.
+        // Read the secret token, if present.
         if (Request.Headers.TryGetValue(Constants.TELEGRAM_SECRET_TOKEN_HEADER, out var secretTokenHeader))
         {
-            //Выгрузка только webHook ботов.
+            // Only the webhook bots.
             var webHookbots = BotCollection.Instance.GetBots().Where(x => x.DataRetrieval == DataRetrievalMethod.WebHook);
             foreach (var bot in webHookbots)
             {
-                // Сравнение секретных токенов, если идентичны, выполняем обработку.
-                var secretToken = ((WebHookTelegramOptions)bot.Options).SecretToken;
+                // Compare the secret tokens; on a match, handle the update.
+                var secretToken = bot.Options.WebHookOptions.SecretToken;
                 if (string.Equals(secretTokenHeader, secretToken, StringComparison.Ordinal))
                 {
-                    await bot.Handler.HandleUpdateAsync(bot.botClient, update, bot.Options.CancellationToken.Token);
+                    await bot.Handler.HandleUpdateAsync(bot.BotClient, update, bot.Options.CancellationTokenSource.Token);
                     return Ok();
                 }
             }
@@ -227,3 +231,5 @@ public class BotController : Controller
     }
 }
 ```
+
+This is what lets several bots share one endpoint: the secret token decides which bot an update belongs to.
