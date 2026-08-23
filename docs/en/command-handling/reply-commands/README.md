@@ -6,6 +6,8 @@ description: Reacting to the plain text a user sends.
 
 The user writes something, the bot answers. This is the simplest kind of command, and the one most bots are built from.
 
+<figure><img src="../../.gitbook/assets/изображение-6.png" alt="A chat where the user's message is followed by the bot's reply"><figcaption>The user writes, the bot answers</figcaption></figure>
+
 See [Parameters](../parameters.md) for what `botId`, `CommandComparison` and `StringComparison` mean.
 
 ## The attribute

@@ -282,6 +282,126 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnPassportDataHandle;
 
+        /// <summary>
+        /// Событие, которое происходит при получении платного медиа.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPaidMediaHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при возврате платежа.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnRefundedPaymentHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при получении подарка.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnGiftHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при получении уникального подарка.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnUniqueGiftHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при отправке улучшения подарка.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnGiftUpgradeSentHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при изменении цены платного сообщения.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPaidMessagePriceChangedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при изменении цены прямого сообщения.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnDirectMessagePriceChangedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при получении чеклиста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChecklistHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при выполнении задач чеклиста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChecklistTasksDoneHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при добавлении задач в чеклист.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChecklistTasksAddedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при одобрении предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostApprovedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при неудачном одобрении предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostApprovalFailedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при отклонении предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostDeclinedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при оплате предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostPaidHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при возврате оплаты предложенного поста.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSuggestedPostRefundedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при смене владельца чата.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChatOwnerChangedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит, когда владелец покинул чат.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnChatOwnerLeftHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при добавлении чата сообщества.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCommunityChatAddedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при удалении чата сообщества.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCommunityChatRemovedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при создании управляемого бота.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnManagedBotCreatedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при добавлении варианта в опрос.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPollOptionAddedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при удалении варианта из опроса.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPollOptionDeletedHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при получении live-фото.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnLivePhotoHandle;
+
+        /// <summary>
+        /// Событие, которое происходит при получении rich-сообщения.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnRichMessageHandle;
+
         #endregion
     }
 }

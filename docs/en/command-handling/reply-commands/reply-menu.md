@@ -8,9 +8,9 @@ A reply menu is the keyboard that replaces the user's normal one. Tapping a butt
 
 Three things build one:
 
-* [`OptionMessage`](https://prethink.gitbook.io/prtelegrambot/api/klassy/optionmessage) — the settings a message is sent with
-* `MenuGenerator.ReplyKeyboard` or [`ReplyKeyboardBuilder`](https://prethink.gitbook.io/prtelegrambot/api/klassy/replykeyboardbuilder) — the keyboard itself
-* [`MessageSender.Send`](https://prethink.gitbook.io/prtelegrambot/api/klassy/messagesender) — sending it
+* [`OptionMessage`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/optionmessage) — the settings a message is sent with
+* `MenuGenerator.ReplyKeyboard` or [`ReplyKeyboardBuilder`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/replykeyboardbuilder) — the keyboard itself
+* [`MessageSender.Send`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/messagesender) — sending it
 
 ## OptionMessage
 
@@ -75,6 +75,8 @@ public static async Task ExampleReplyMenu(IBotContext context)
 }
 ```
 
+<figure><img src="../../.gitbook/assets/изображение-16.png" alt="A reply keyboard with one button per row and a Main menu button at the bottom"><figcaption>One column, with the <code>mainMenu</code> button last</figcaption></figure>
+
 ## Example: using the builder
 
 The builder says the same thing with less ceremony, and gives you explicit control over rows.
@@ -105,5 +107,7 @@ public static async Task ExampleReplyMenuBuilder(IBotContext context)
     await MessageSender.Send(context, msg, option);
 }
 ```
+
+<figure><img src="../../.gitbook/assets/изображение.png" alt="The same keyboard built with the builder, with several buttons sharing a row"><figcaption>The builder version — note how the rows differ from the one-column example above</figcaption></figure>
 
 `AddRow` starts a new row explicitly; `newRow: true` on a button does the same thing inline. `AddEmptyButton` inserts blank placeholders, which is how you centre a button or keep a grid aligned.

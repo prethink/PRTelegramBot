@@ -9,7 +9,7 @@ description: >-
 > #### <mark style="color:$info;">**If this project has been useful to you, you can support its development on Boosty:**</mark> [<mark style="color:orange;">**https://boosty.to/prethink**</mark>](https://boosty.to/prethink) <mark style="color:$info;">**A ⭐ on the**</mark> [<mark style="color:blue;">**repository**</mark>](https://github.com/prethink/PRTelegramBot) <mark style="color:$info;">**is great support too.**</mark>
 
 {% hint style="info" %}
-The English documentation is being written. Until a page exists here, the [Russian documentation](https://prethink.gitbook.io/prtelegrambot/) covers the whole framework — the code samples in it are language-neutral.
+The guide is complete in English. The **API reference** has not been translated yet — pages linking to it lead to the [Russian documentation](https://prethink.gitbook.io/prtelegrambot/ru/), where the signatures are language-neutral.
 {% endhint %}
 
 ## Source code

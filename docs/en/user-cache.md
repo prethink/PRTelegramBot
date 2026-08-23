@@ -6,7 +6,7 @@ description: Keeping short-lived per-user data between messages.
 
 PRTelegramBot provides a basic per-user cache. It is the simplest way to remember something about a user between two messages without reaching for a database.
 
-The cache is keyed by the user, and what it stores is a type you define. Implement [`ITelegramCache`](https://prethink.gitbook.io/prtelegrambot/api/interfeisy/itelegramcache) and the framework takes care of the rest.
+The cache is keyed by the user, and what it stores is a type you define. Implement [`ITelegramCache`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/itelegramcache) and the framework takes care of the rest.
 
 ## Define your cache type
 

@@ -11,7 +11,7 @@
 > https://boosty.to/prethink
 > A ⭐ on the repository is great support too.
 
-[https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/) - up-to-date documentation.
+[https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/) - documentation. Also available [in Russian](https://prethink.gitbook.io/prtelegrambot/ru/).
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - NuGet.
 [https://t.me/prethinkdev](https://t.me/prethinkdev) - chat for questions.
 [CHANGELOG.md](https://github.com/prethink/PRTelegramBot/blob/master/CHANGELOG.md) - release history.
@@ -88,6 +88,17 @@ By default the bot receives updates through [polling](https://core.telegram.org/
 
 > [!WARNING]
 > Keep your bot token out of version control. Use [user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets), environment variables or a configuration file that is excluded from the repository.
+
+From here the documentation covers the rest:
+
+| | |
+| --- | --- |
+| [Getting started](https://prethink.gitbook.io/prtelegrambot/getting-started) | the same walkthrough in more detail, plus [webhooks](https://prethink.gitbook.io/prtelegrambot/getting-started/webhook) |
+| [Command handling](https://prethink.gitbook.io/prtelegrambot/command-handling) | reply, slash and inline commands, menus and keyboards |
+| [PRBotBuilder](https://prethink.gitbook.io/prtelegrambot/prbotbuilder) | everything a bot can be configured with |
+| [Dependency injection](https://prethink.gitbook.io/prtelegrambot/dependency-injection) | handlers resolved from a container |
+| [Migrating to 1.0](https://prethink.gitbook.io/prtelegrambot/migrating-to-1.0) | what to change when coming from 0.9.x |
+| [F.A.Q.](https://prethink.gitbook.io/prtelegrambot/faq) | the problems people hit most often |
 
 # 🧩 Examples
 

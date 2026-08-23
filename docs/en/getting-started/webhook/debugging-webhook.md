@@ -19,7 +19,11 @@ ngrok http 8443
 
 Replace `8443` with your own port.
 
+<figure><img src="../../.gitbook/assets/изображение (25).png" alt="Running ngrok http 8443 at a command prompt"><figcaption>Starting ngrok against your application's port</figcaption></figure>
+
 3. ngrok prints a **Forwarding** line with a public HTTPS address, something like `https://a1b2-c3d4.ngrok-free.app`.
+
+<figure><img src="../../.gitbook/assets/изображение (26).png" alt="The ngrok status screen, with the Forwarding line holding the public HTTPS address"><figcaption>The address to copy is on the <strong>Forwarding</strong> line</figcaption></figure>
 4. Pass that address to the builder, adding the route you registered:
 
 ```csharp

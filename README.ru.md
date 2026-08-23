@@ -11,7 +11,7 @@
 > https://boosty.to/prethink
 > Звезда ⭐ репозиторию тоже будет отличной поддержкой.
 
-[https://prethink.gitbook.io/prtelegrambot/](https://prethink.gitbook.io/prtelegrambot/) - актуальная документация.
+[https://prethink.gitbook.io/prtelegrambot/ru/](https://prethink.gitbook.io/prtelegrambot/ru/) - документация. Есть также [английская версия](https://prethink.gitbook.io/prtelegrambot/).
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.
 [https://t.me/prethinkdev](https://t.me/prethinkdev) - чат для вопросов.
 [CHANGELOG.ru.md](CHANGELOG.ru.md) - история версий.
@@ -88,6 +88,17 @@ public static class Commands
 
 > [!WARNING]
 > Не храните токен бота в системе контроля версий. Используйте [user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets), переменные окружения или конфигурационный файл, исключённый из репозитория.
+
+Дальше — документация:
+
+| | |
+| --- | --- |
+| [Быстрый старт](https://prethink.gitbook.io/prtelegrambot/ru/bystryi-start) | то же самое подробнее, плюс [webhook](https://prethink.gitbook.io/prtelegrambot/ru/bystryi-start/webhook) |
+| [Обработка команд](https://prethink.gitbook.io/prtelegrambot/ru/obrabotka-komand) | reply, slash и inline команды, меню и клавиатуры |
+| [PRBotBuilder](https://prethink.gitbook.io/prtelegrambot/ru/prbotbuilder-sozdanie-botov) | всё, что можно настроить у бота |
+| [Dependency injection](https://prethink.gitbook.io/prtelegrambot/ru/dependency-injection) | обработчики через контейнер зависимостей |
+| [Переход на 1.0](https://prethink.gitbook.io/prtelegrambot/ru/perekhod-na-1.0) | что править при переходе с 0.9.x |
+| [F.A.Q.](https://prethink.gitbook.io/prtelegrambot/ru/f.a.q.) | частые проблемы |
 
 # 🧩 Примеры
 

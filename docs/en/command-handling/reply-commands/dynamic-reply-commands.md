@@ -81,6 +81,8 @@ public static async Task ExampleReplyDynamicCommand(IBotContext context)
 
 Write "Dynamic command" to the bot and the handler runs.
 
+<figure><img src="../../.gitbook/assets/изображение (28).png" alt="The bot answering the caption that the JSON file currently maps the key to"><figcaption>The handler answers whatever the file currently says</figcaption></figure>
+
 ## Renaming without a rebuild
 
 Edit the file:
@@ -94,10 +96,12 @@ Edit the file:
 }
 ```
 
+<figure><img src="../../.gitbook/assets/изображение (29).png" alt="The same handler now answering the new caption after only the JSON file changed"><figcaption>Same handler, new caption — only the file changed</figcaption></figure>
+
 Now the same handler answers "Test command". Nothing was recompiled.
 
 {% hint style="info" %}
 This is also how a bot gets translated. Ship one `commands.json` per language, load the right one at startup, and every caption changes while the handlers stay untouched.
 {% endhint %}
 
-The file is read when the bot is built, so a change takes effect on the next restart rather than instantly. If you need commands to appear and disappear while the bot is running, see [Adding and removing commands at runtime](https://prethink.gitbook.io/prtelegrambot/dobavlenie-i-udalenie-komand-v-dinamicheskom-rezhime).
+The file is read when the bot is built, so a change takes effect on the next restart rather than instantly. If you need commands to appear and disappear while the bot is running, see [Adding and removing commands at runtime](../../dynamic-command-management.md).

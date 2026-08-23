@@ -16,6 +16,10 @@ description: >-
 
 Переходите с 0.9.x? Начните с [страницы миграции](perekhod-na-1.0.md) — в 1.0 есть ломающие изменения.
 
+{% hint style="info" %}
+Есть также [английская версия документации](https://prethink.gitbook.io/prtelegrambot/) — она пока неполная и пополняется.
+{% endhint %}
+
 ## ⚛️ Ядро фреймворка
 
 _**Внимание! В основе PRTelegramBot лежит библиотека**_ [_**TelegramBot**_](https://github.com/TelegramBots/Telegram.Bot)_**, поэтому вы можете использовать все функции которые задействует эта библиотека.**_ [_**Документация**_](https://telegrambots.github.io/book/)

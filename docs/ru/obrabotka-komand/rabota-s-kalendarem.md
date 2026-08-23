@@ -25,7 +25,7 @@ public static async Task PickCalendar(IBotContext context)
 {
     try
     {
-        await CalendarUtils.Create(botClient, update, CustomTHeader.CalendarCallback, "Выберите дату:");
+        await CalendarUtils.Create(context, CustomTHeader.CalendarCallback, "Выберите дату:");
     }
     catch (Exception ex)
     {
@@ -42,7 +42,7 @@ public static async Task EngPickCalendar(IBotContext context)
 {
     try
     {
-        await CalendarUtils.Create(botClient, update, CultureInfo.GetCultureInfo("en-US", false), CustomTHeader.CalendarCallback, "Choose date:");
+        await CalendarUtils.Create(context, CultureInfo.GetCultureInfo("en-US", false), CustomTHeader.CalendarCallback, "Choose date:");
     }
     catch (Exception ex)
     {
@@ -56,18 +56,18 @@ public static async Task EngPickCalendar(IBotContext context)
 [InlineCallbackHandler&#x3C;CustomTHeader>(CustomTHeader.CalendarCallback)]
 public static async Task PickDate(IBotContext context)
 {
-    var bot = botClient.GetBotDataOrNull();
+    var bot = context.Current;
     try
     {
-        using (var inlineHandler = new InlineCallback&#x3C;CalendarTCommand>(botClient, update))
+        using (var inlineHandler = new InlineCallback&#x3C;CalendarTCommand>(context))
         {
             var command = inlineHandler.GetCommandByCallbackOrNull();
-            await MessageSender.Send(botClient, update, command.Data.Date.ToString());
+            await MessageSender.Send(context, command.Data.Date.ToString());
         }
     }
     catch (Exception ex)
     {
-        bot.Events.OnErrorLogInvoke(ex);
+        bot.Events.OnErrorLogInvoke(new ErrorLogEventArgs(context, ex));
     }
 }
 </code></pre>

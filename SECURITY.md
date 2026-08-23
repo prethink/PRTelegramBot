@@ -9,7 +9,7 @@
 | 1.0.x | ✅ |
 | 0.9.x and earlier | ❌ |
 
-Only the latest release receives security fixes. If you are on 0.9.x, see [Migrating to 1.0](https://prethink.gitbook.io/prtelegrambot/perekhod-na-1.0).
+Only the latest release receives security fixes. If you are on 0.9.x, see [Migrating to 1.0](https://prethink.gitbook.io/prtelegrambot/migrating-to-1.0).
 
 ## Reporting a vulnerability
 

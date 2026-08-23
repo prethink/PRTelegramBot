@@ -6,6 +6,8 @@ description: Handling clickable /commands, with typed arguments.
 
 Telegram renders slash commands as clickable links, so a bot can offer actions the user taps rather than types — `/users` to list people, `/get_1` to open the one with id 1.
 
+<figure><img src="../.gitbook/assets/изображение-8.png" alt="A chat message listing slash commands, each rendered by Telegram as a clickable link"><figcaption>Telegram makes every <code>/command</code> in the text clickable</figcaption></figure>
+
 See [Parameters](parameters.md) for what `botId`, `CommandComparison` and `StringComparison` mean.
 
 ## The attribute
@@ -108,6 +110,8 @@ public static async Task ExampleSlashBoolCommandGet(IBotContext context)
 ```
 
 Arguments that cannot be converted are dropped rather than throwing, so check `args.Count` before indexing.
+
+<figure><img src="../.gitbook/assets/изображение-9.png" alt="The bot answering /get, /get_1 and a multi-argument variant differently"><figcaption>The same handler answering with no argument, one argument and several</figcaption></figure>
 
 ### /start and deeplinks
 

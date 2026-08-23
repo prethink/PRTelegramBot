@@ -58,14 +58,14 @@ public PRBotBuilder SetUpdateHandler(IPRUpdateHandler updateHandler)
 /// &#x3C;/summary>
 /// &#x3C;param name="adminManager">Менеджер управления администраторами.&#x3C;/param>
 /// &#x3C;returns>Builder.&#x3C;/returns>
-public PRBotBuilder SetAdminManager(IUserManager adminManager)
+public PRBotBuilder SetAdminManager(IAdminManager adminManager)
 
 /// &#x3C;summary>
 /// Установить менеджер управления белым списком.
 /// &#x3C;/summary>
 /// &#x3C;param name="whiteListManager">Менеджер управления белым списком.&#x3C;/param>
 /// &#x3C;returns>Builder.&#x3C;/returns>
-public PRBotBuilder SetWhiteListManager(IUserManager whiteListManager)
+public PRBotBuilder SetWhiteListManager(IWhiteListManager whiteListManager)
 
 /// &#x3C;summary>
 /// Установить новые настройки для белого списка.
@@ -311,6 +311,14 @@ public PRBotBuilder SetAntiSpamErrorMinute(int minute)
 /// &#x3C;param name="serializator">Сериализатор.&#x3C;/param>
 /// &#x3C;returns>Builder.&#x3C;/returns>
 public PRBotBuilder SetInlineSerializer(IPRSerializer serializator)
+
+/// &#x3C;summary>
+/// Добавить экземплярный обработчик класса для inline команды.
+/// &#x3C;/summary>
+/// &#x3C;param name="enum">Заголовок команды.&#x3C;/param>
+/// &#x3C;param name="type">Тип класса-обработчика.&#x3C;/param>
+/// &#x3C;returns>Builder.&#x3C;/returns>
+public PRBotBuilder AddInlineClassHandler(Enum @enum, Type type)
 
 /// &#x3C;summary>
 /// Установить конвертер для inline меню.

@@ -6,6 +6,8 @@ description: Problems people run into most often, and what fixes them.
 
 ## The bot fails to start with "404 not found"
 
+<figure><img src=".gitbook/assets/изображение (22).png" alt="An ApiRequestException with 404 Not Found shown in the debugger"><figcaption>The exception you get from an invalid token</figcaption></figure>
+
 The token is not valid. Check that it was copied from BotFather in full, with no stray whitespace, and that it still belongs to an existing bot.
 
 ## The bot ignores inline commands, or does not respond at all
@@ -15,6 +17,8 @@ Several people have hit this and the fix each time was to regenerate the bot's t
 If only *some* commands are ignored, check the **BotId** instead: a handler attribute with a bot id that does not match the one on the builder is simply never called.
 
 ## "Unable to find package Telegram.Bot with version xxx"
+
+<figure><img src=".gitbook/assets/изображение (38).png" alt="NuGet reporting that the Telegram.Bot package could not be found"><figcaption>NuGet cannot find the package</figcaption></figure>
 
 From version 20 the Telegram.Bot team published to their own feed at `https://nuget.voids.site/`, and NuGet could not find the package on nuget.org.
 
@@ -27,6 +31,8 @@ dotnet nuget add source https://nuget.voids.site/v3/index.json -n voids
 ```
 
 In Visual Studio the same setting lives under **Tools → Options → NuGet Package Manager → Package Sources**.
+
+<figure><img src=".gitbook/assets/изображение (39).png" alt="The package sources list in the NuGet options, with the extra feed added"><figcaption>Where the extra package source is added</figcaption></figure>
 
 ## A callback button does nothing, and the log shows a JsonException
 

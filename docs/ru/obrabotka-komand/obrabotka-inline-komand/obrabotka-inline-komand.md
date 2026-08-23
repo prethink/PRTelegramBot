@@ -60,7 +60,7 @@ public static async Task InlineTwo(IBotContext context)
     if (command != null)
     {
         string msg = $"Идентификатор который вы передали {command.Data.EntityId}";
-        await MessageSender.Send(context);
+        await MessageSender.Send(context, msg);
     }
  
 }

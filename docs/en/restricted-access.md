@@ -110,6 +110,12 @@ if ((requiredAccess & userFlags) != 0)
 This handler is your code, so the framework imposes neither reading — but the difference matters as soon as a user can hold more than one privilege at a time.
 {% endhint %}
 
+## The result
+
+<figure><img src=".gitbook/assets/izobrazhenie.png" alt="The bot running the command for a user who holds the required privilege"><figcaption>A user who has the privilege: the command runs</figcaption></figure>
+
+<figure><img src=".gitbook/assets/izobrazhenie-1.png" alt="The bot refusing the command for a user without the privilege"><figcaption>A user who does not: the refusal from your own handler</figcaption></figure>
+
 ## Related
 
 For the simpler case of "administrators only", see [Bot administrators](bot-administrators.md), which needs no privilege enum at all.

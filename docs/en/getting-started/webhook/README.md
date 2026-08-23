@@ -6,6 +6,8 @@ description: Running a bot behind a public URL instead of polling.
 
 The example below is based on the [ASP.NET webhook example](https://github.com/prethink/PRTelegramBot/tree/master/Examples/AspNetWebHookExample), which runs two bots on a single endpoint.
 
+<figure><img src="../../.gitbook/assets/изображение (30).png" alt="The NuGet packages installed in the webhook example project"><figcaption>The packages the example project installs</figcaption></figure>
+
 A webhook bot needs a **secret token**. It is the only thing that proves a request really came from Telegram. If you do not set one on the builder, the framework generates it for you.
 
 ## Program.cs

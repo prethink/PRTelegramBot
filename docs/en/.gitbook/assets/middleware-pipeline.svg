@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 620" width="1240" height="620" role="img" aria-label="Middleware pipeline: the pre-update pass runs through OneMiddleware, TwoMiddleware and ThreeMiddleware in order, then the update is handled, then the post-update pass unwinds back through the same middleware in reverse order. Returning without calling the base method short-circuits the chain.">
+  <rect width="1240" height="620" fill="#ffffff"/>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333"/>
+    </marker>
+    <style>
+      .col   { fill: none; stroke: #333333; stroke-width: 1.5; }
+      .name  { font: 20px 'Segoe UI', Arial, sans-serif; fill: #111111; text-anchor: middle; }
+      .hex   { fill: #ffffff; stroke: #333333; stroke-width: 1.5; }
+      .meth  { font: 11px 'Segoe UI', Arial, sans-serif; fill: #111111; text-anchor: middle; }
+      .flow  { stroke: #333333; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+      .box   { fill: #ffffff; stroke: #333333; stroke-width: 1.5; }
+      .label { font: 15px 'Segoe UI', Arial, sans-serif; fill: #111111; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- columns -->
+  <rect class="col" x="65"  y="20" width="215" height="560"/>
+  <rect class="col" x="345" y="20" width="215" height="560"/>
+  <rect class="col" x="625" y="20" width="215" height="560"/>
+
+  <text class="name" x="172" y="58">OneMiddleware</text>
+  <text class="name" x="452" y="58">TwoMiddleware</text>
+  <text class="name" x="732" y="58">ThreeMiddleware</text>
+
+  <!-- pre-update row -->
+  <path class="hex" d="M 100 140 L 245 140 L 268 180 L 245 220 L 100 220 L 77 180 Z"/>
+  <text class="meth" x="172" y="185">InvokeOnPreUpdateAsync</text>
+
+  <path class="hex" d="M 380 140 L 525 140 L 548 180 L 525 220 L 380 220 L 357 180 Z"/>
+  <text class="meth" x="452" y="185">InvokeOnPreUpdateAsync</text>
+
+  <path class="hex" d="M 660 140 L 805 140 L 828 180 L 805 220 L 660 220 L 637 180 Z"/>
+  <text class="meth" x="732" y="185">InvokeOnPreUpdateAsync</text>
+
+  <line class="flow" x1="270" y1="180" x2="352" y2="180"/>
+  <line class="flow" x1="550" y1="180" x2="632" y2="180"/>
+
+  <!-- into the update handler -->
+  <path class="flow" d="M 830 180 L 1100 180 L 1100 215"/>
+
+  <rect class="box" x="995" y="220" width="210" height="150" rx="14"/>
+  <text class="label" x="1100" y="302">Update handling</text>
+
+  <!-- back out of the update handler -->
+  <path class="flow" d="M 1100 372 L 1100 405 L 833 405"/>
+
+  <!-- post-update row -->
+  <path class="hex" d="M 100 365 L 245 365 L 268 405 L 245 445 L 100 445 L 77 405 Z"/>
+  <text class="meth" x="172" y="410">InvokeOnPostUpdateAsync</text>
+
+  <path class="hex" d="M 380 365 L 525 365 L 548 405 L 525 445 L 380 445 L 357 405 Z"/>
+  <text class="meth" x="452" y="410">InvokeOnPostUpdateAsync</text>
+
+  <path class="hex" d="M 660 365 L 805 365 L 828 405 L 805 445 L 660 445 L 637 405 Z"/>
+  <text class="meth" x="732" y="410">InvokeOnPostUpdateAsync</text>
+
+  <line class="flow" x1="635" y1="405" x2="553" y2="405"/>
+  <line class="flow" x1="355" y1="405" x2="273" y2="405"/>
+
+  <!-- short circuit -->
+  <line class="flow" x1="452" y1="222" x2="452" y2="258"/>
+  <ellipse class="box" cx="452" cy="293" rx="76" ry="34"/>
+  <text class="label" x="452" y="288">returned without</text>
+  <text class="label" x="452" y="307">calling base</text>
+
+  <path class="flow" d="M 376 293 L 20 293"/>
+
+  <!-- exit arrow from the first middleware -->
+  <path class="flow" d="M 75 405 L 20 405"/>
+</svg>

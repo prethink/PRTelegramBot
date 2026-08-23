@@ -18,9 +18,11 @@ var telegram = new PRBotBuilder("token")
                     .Build();
 ```
 
-When even that is not enough, [Creating an inline menu](https://prethink.gitbook.io/prtelegrambot/obrabotka-komand/obrabotka-inline-komand/sozdanie-inline-menyu) explains how to sidestep the 64-byte limit entirely by keeping the payload outside `callback_data`.
+When even that is not enough, [Creating an inline menu](inline-menu.md) explains how to sidestep the 64-byte limit entirely by keeping the payload outside `callback_data`.
 
 See [Parameters](../parameters.md) for the arguments shared with the other handler attributes.
+
+<figure><img src="../../.gitbook/assets/изображение (6).png" alt="A message carrying an inline keyboard beneath it"><figcaption>An inline keyboard: the buttons belong to the message, not to the chat</figcaption></figure>
 
 ## The three kinds of inline button
 
@@ -60,11 +62,15 @@ public enum CustomTHeader
 }
 ```
 
+<figure><img src="../../.gitbook/assets/изображение (37).png" alt="An enum marked with the InlineCommand attribute and its numbered members"><figcaption>The <code>[InlineCommand]</code> attribute is what makes the enum usable as a command set</figcaption></figure>
+
 {% hint style="warning" %}
 The enum value travels inside `callback_data` as a number. Reordering the members, or inserting one in the middle, renumbers the rest — and every button already sitting in a user's chat history then points at the wrong handler. Append new values at the end.
 {% endhint %}
 
 ## Pages
 
-* [Creating an inline menu](https://prethink.gitbook.io/prtelegrambot/obrabotka-komand/obrabotka-inline-komand/sozdanie-inline-menyu)
+* [Creating an inline menu](inline-menu.md)
+* [Handling inline commands](handling-inline-commands.md)
 * [InlineCallback with confirmation](confirmation.md)
+* [Instance inline handler](instance-handler.md)

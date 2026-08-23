@@ -244,7 +244,7 @@ public class ExamplePage
         var generateMenu = MenuGenerator.GetPageMenu(data.CurrentPage, data.PageCount, CustomTHeaderTwo.CustomPageHeader);
         var option = new OptionMessage();
         option.MenuInlineKeyboardMarkup = generateMenu;
-        var message = await MessageSender.Send(botClient, update, msg, option);
+        var message = await MessageSender.Send(context, msg, option);
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ public class ExamplePage
         var option = new OptionMessage();
         option.MenuInlineKeyboardMarkup = generateMenu;
 
-        var message = await MessageSender.Send(botClient, update, msg, option);
+        var message = await MessageSender.Send(context, msg, option);
     }
 
     /// <summary>

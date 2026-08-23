@@ -18,9 +18,11 @@ var telegram = new PRBotBuilder("")
 
 ## Using your own white list
 
-The list lives behind the `WhiteListManager` property on [`TelegramOptions`](https://prethink.gitbook.io/prtelegrambot/api/klassy/telegramoptions). The built-in [`WhiteListManager`](https://prethink.gitbook.io/prtelegrambot/api/klassy/whitelistmanager) implements [`IWhiteListManager`](https://prethink.gitbook.io/prtelegrambot/api/interfeisy/iwhitelistmanager), so you can substitute your own — one reading from a database, for example.
+The list lives behind the `WhiteListManager` property on [`TelegramOptions`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/telegramoptions). The built-in [`WhiteListManager`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/whitelistmanager) implements [`IWhiteListManager`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iwhitelistmanager), so you can substitute your own — one reading from a database, for example.
 
 Register it in **DI**, or pass it with `SetWhiteListManager` when building the bot. See [Component resolution priorities](dependency-injection/resolution-priorities.md) for which one takes effect.
+
+<figure><img src=".gitbook/assets/изображение (34).png" alt="The IWhiteListManager interface and the WhiteListManager class that implements it"><figcaption>The interface to implement, and the built-in implementation to replace</figcaption></figure>
 
 ## Leaving some commands open to everyone
 

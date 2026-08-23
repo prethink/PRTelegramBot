@@ -33,6 +33,5 @@ context.InvokeCommonLog("Записать в обычные логи");
 Логи ошибок
 
 <pre class="language-csharp"><code class="lang-csharp">/// &#x3C;param name="ex">Исключение&#x3C;/param>
-/// &#x3C;param name="id">Идентификатор пользователя (не обязательно)&#x3C;/param>
-<strong>context.InvokeErrorLog(new Exception("что-то пошло не так"), update.GetChatId());
+<strong>context.InvokeErrorLog(new Exception("что-то пошло не так"));
 </strong></code></pre>

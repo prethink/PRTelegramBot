@@ -38,9 +38,11 @@ public static async Task AdminMenu(IBotContext context)
 
 ## Using your own administrator list
 
-The list lives behind the `AdminManager` property on [`TelegramOptions`](https://prethink.gitbook.io/prtelegrambot/api/klassy/telegramoptions). The built-in [`AdminListManager`](https://prethink.gitbook.io/prtelegrambot/api/klassy/adminlistmanager) implements [`IAdminManager`](https://prethink.gitbook.io/prtelegrambot/api/interfeisy/iadminmanager), which means you can substitute your own — one backed by a database, for instance, so administrators can be changed without a redeploy.
+The list lives behind the `AdminManager` property on [`TelegramOptions`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/telegramoptions). The built-in [`AdminListManager`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/adminlistmanager) implements [`IAdminManager`](https://prethink.gitbook.io/prtelegrambot/ru/api/interfeisy/iadminmanager), which means you can substitute your own — one backed by a database, for instance, so administrators can be changed without a redeploy.
 
 Register your implementation in **DI**, or pass it with `SetAdminManager` when building the bot. Which one wins is described in [Component resolution priorities](dependency-injection/resolution-priorities.md).
+
+<figure><img src=".gitbook/assets/изображение (33).png" alt="The IAdminManager interface and the AdminListManager class that implements it"><figcaption>The interface to implement, and the built-in implementation to replace</figcaption></figure>
 
 ## Related
 

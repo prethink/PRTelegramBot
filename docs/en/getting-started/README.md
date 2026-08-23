@@ -31,6 +31,10 @@ dotnet add package PRTelegramBot
 
 Or install **PRTelegramBot** from the NuGet package manager in your IDE. The package page is [here](https://www.nuget.org/packages/PRTelegramBot), and the source is on [GitHub](https://github.com/prethink/PRTelegramBot).
 
+<figure><img src="../.gitbook/assets/изображение (27).png" alt="Right-click the project and choose the NuGet package manager"><figcaption>Right-click the project, then open the NuGet package manager (screenshots are from a Russian-language IDE)</figcaption></figure>
+
+<figure><img src="../.gitbook/assets/изображение-1-1024x551.png" alt="Search for PRTelegramBot in the Browse tab and install the latest version"><figcaption>Search for <code>PRTelegramBot</code> in the Browse tab and install the latest version</figcaption></figure>
+
 ## Start the bot
 
 ```csharp
@@ -59,7 +63,9 @@ async Task Telegram_OnLogCommon(CommonLogEventArgs e)
 }
 ```
 
-Everything the builder can configure — admins, white lists, middleware, converters, background tasks, webhook settings — is passed through `PRBotBuilder`. That page has not been translated yet; until it is, see the Russian [PRBotBuilder](https://prethink.gitbook.io/prtelegrambot/prbotbuilder-sozdanie-botov) page, where the code is language-neutral.
+<figure><img src="../.gitbook/assets/изображение-2.png" alt="The console shows the bot starting and the log events firing"><figcaption>What a started bot looks like in the console</figcaption></figure>
+
+Everything the builder can configure — admins, white lists, middleware, converters, background tasks, webhook settings — is described on the [PRBotBuilder](../prbotbuilder.md) page.
 
 ## Add a command
 

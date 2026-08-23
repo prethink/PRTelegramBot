@@ -128,6 +128,31 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnCallbackQueryHandle;
 
+        /// <summary>
+        /// Событие покупки платного медиа.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPurchasedPaidMediaHandle;
+
+        /// <summary>
+        /// Событие обновления управляемого бота.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnManagedBotHandle;
+
+        /// <summary>
+        /// Событие сообщения от гостя.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnGuestMessageHandle;
+
+        /// <summary>
+        /// Событие подписки.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSubscriptionHandle;
+
+        /// <summary>
+        /// Событие сообщения в бизнес-аккаунте.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnBusinessMessageHandle;
+
         #endregion
     }
 }

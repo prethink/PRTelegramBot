@@ -63,4 +63,4 @@
 
 ---
 
-Смотрите также: [основной README](../../README.ru.md) · [документация](https://prethink.gitbook.io/prtelegrambot/)
+Смотрите также: [основной README](../../README.ru.md) · [документация](https://prethink.gitbook.io/prtelegrambot/ru/)

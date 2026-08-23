@@ -6,6 +6,8 @@ description: Wrapping the update pipeline with your own code, before and after h
 
 Middleware are building blocks that wrap and extend the bot's main update handler. Each component receives the context and passes it to the next one in the chain, exactly like middleware in ASP.NET. The chain runs once before the update is handled and once after.
 
+<figure><img src=".gitbook/assets/middleware-pipeline.svg" alt="The pre-update pass runs through the middleware in order, the update is handled, then the post-update pass unwinds back through them in reverse"><figcaption></figcaption></figure>
+
 **`InvokeOnPreUpdateAsync`** runs before the update is handled.
 
 **`InvokeOnPostUpdateAsync`** runs after it.
@@ -14,7 +16,7 @@ Both are virtual, so you override the ones you need.
 
 **`ExecutionOrder`** sets the position in the pipeline. A lower value means higher priority and earlier execution.
 
-To write your own, derive from [`MiddlewareBase`](https://prethink.gitbook.io/prtelegrambot/api/klassy/middlewarebase) and override the two methods. Do not forget to call the base implementation — that is what passes control along the chain.
+To write your own, derive from [`MiddlewareBase`](https://prethink.gitbook.io/prtelegrambot/ru/api/klassy/middlewarebase) and override the two methods. Do not forget to call the base implementation — that is what passes control along the chain.
 
 ## Example
 
