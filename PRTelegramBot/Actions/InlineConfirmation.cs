@@ -30,7 +30,8 @@ namespace PRTelegramBot.Actions
                 using (var inlineHandler = new InlineCallback<EntityTCommand<string>>(context))
                 {
                     var command = inlineHandler.GetCommandByCallbackOrNull();
-                    if (InlineCallbackWithConfirmation.TryGetPending(command.Data.EntityId, out var inlineCommand)
+                    if (command?.Data?.EntityId is not null
+                        && InlineCallbackWithConfirmation.TryGetPending(command.Data.EntityId, out var inlineCommand)
                         && inlineCommand is not null)
                     {
                         inlineCommand.YesCallback.ButtonName = inlineCommand.YesButton;
@@ -39,7 +40,6 @@ namespace PRTelegramBot.Actions
                         var menu = new List<IInlineContent>() { yesButton, noButton };
                         var testMenu = MenuGenerator.InlineKeyboard(2, menu);
                         var option = new OptionMessage() { MenuInlineKeyboardMarkup = testMenu };
-                        var actionLastMessage = command.Data.GetActionWithLastMessage();
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                             await MessageEditor.Edit(context, inlineCommand.BaseMessage, option);
                         else

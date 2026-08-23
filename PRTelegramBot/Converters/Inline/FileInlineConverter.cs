@@ -112,7 +112,10 @@ namespace PRTelegramBot.Converters.Inline
         /// <param name="path">Folder the inline payloads are stored in.</param>
         public FileInlineConverter(string path)
         {
-            basePath = Path.Combine(GetAppPath(), "path");
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("The folder name must not be empty.", nameof(path));
+
+            basePath = Path.Combine(GetAppPath(), path);
         }
 
         /// <summary>
