@@ -9,5 +9,5 @@
 /// <param name="page">Страница.</param>
 /// <param name="pageSize">Размер страницы.</param>
 /// <returns>Страница данных с доп информацией.</returns>
-public static async Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize) where T : class
+public static Task<PagedResult<T>> GetPaged<T>(this IEnumerable<T> query, int page, int pageSize) where T : class
 ```

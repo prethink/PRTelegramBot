@@ -103,7 +103,7 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Миниатюра сообщения.
         /// </summary>
-        public InputFile? thumbnail { get; set; }
+        public InputFile? Thumbnail { get; set; }
 
         /// <summary>
         /// Признак наличие спойлера в сообщении.
