@@ -55,9 +55,9 @@ Telegram.Bot начиная с версии 20, стали размещать с
 var telegram = new PRBotBuilder("Token").Build();
  
 //Подписка на простые логи
-telegram.OnLogCommon += Telegram_OnLogCommon;
+telegram.Events.OnCommonLog += Telegram_OnLogCommon;
 //Подписка на логи с ошибками
-telegram.OnLogError += Telegram_OnLogError;
+telegram.Events.OnErrorLog += Telegram_OnLogError;
  
 //Запуск бота
 await telegram.StartAsync();
