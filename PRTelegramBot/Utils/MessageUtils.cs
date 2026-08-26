@@ -54,12 +54,28 @@ namespace PRTelegramBot.Utils
         /// Creates a <see cref="ReplyParameters"/> object from the supplied <see cref="OptionMessage"/> options.
         /// </summary>
         /// <param name="option">Message options the reply parameters are taken from.</param>
-        /// <returns>A <see cref="ReplyParameters"/> instance with the <see cref="ReplyParameters.MessageId"/> and <see cref="ReplyParameters.AllowSendingWithoutReply"/> fields filled in.</returns>
-        public static ReplyParameters CreateReplyParametersFromOptions(OptionMessage option)
+        /// <returns>
+        /// A <see cref="ReplyParameters"/> instance with the reply target filled in, or
+        /// <see langword="null"/> when the options name no message to reply to.
+        /// </returns>
+        /// <remarks>
+        /// The Bot API requires reply parameters to carry either <see cref="ReplyParameters.MessageId"/>
+        /// or <see cref="ReplyParameters.EphemeralMessageId"/>. Sending the object with neither used to
+        /// pass unnoticed on ordinary messages, which Telegram ignored, but it is rejected with
+        /// <c>MESSAGE_ID_INVALID</c> on the paths that validate it — an ephemeral message replacing the
+        /// one whose button was pressed, for instance. Returning nothing leaves the field off the
+        /// request entirely, which is what "no reply" is supposed to look like.
+        /// </remarks>
+        public static ReplyParameters? CreateReplyParametersFromOptions(OptionMessage option)
         {
+            if (option.ReplyToMessageId is null && option.ReplyToEphemeralMessageId is null)
+                return null;
+
             ReplyParameters parameters = new ReplyParameters();
             if (option.ReplyToMessageId is not null)
                 parameters.MessageId = option.ReplyToMessageId.Value;
+            if (option.ReplyToEphemeralMessageId is not null)
+                parameters.EphemeralMessageId = option.ReplyToEphemeralMessageId.Value;
             parameters.AllowSendingWithoutReply = option.AllowSendingWithoutReply;
 
             return parameters;

@@ -47,6 +47,7 @@ namespace PRTelegramBot.Services.Media
                 allowPaidBroadcast: option.AllowPaidBroadcast,
                 directMessagesTopicId: option.DirectMessagesTopicId,
                 suggestedPostParameters: option.SuggestedPostParameters,
+                ephemeralMessageParameters: option.EphemeralMessageParameters,
                 cancellationToken: option.CancellationToken);
         }
 
@@ -102,6 +103,7 @@ namespace PRTelegramBot.Services.Media
                 allowPaidBroadcast: option.AllowPaidBroadcast,
                 directMessagesTopicId: option.DirectMessagesTopicId,
                 suggestedPostParameters: option.SuggestedPostParameters,
+                ephemeralMessageParameters: option.EphemeralMessageParameters,
                 cancellationToken: option.CancellationToken);
         }
 
@@ -136,6 +138,7 @@ namespace PRTelegramBot.Services.Media
                 allowPaidBroadcast: option.AllowPaidBroadcast,
                 directMessagesTopicId: option.DirectMessagesTopicId,
                 suggestedPostParameters: option.SuggestedPostParameters,
+                ephemeralMessageParameters: option.EphemeralMessageParameters,
                 cancellationToken: option.CancellationToken);
 
             #endregion
@@ -234,6 +237,7 @@ namespace PRTelegramBot.Services.Media
                     allowPaidBroadcast: option.AllowPaidBroadcast,
                     directMessagesTopicId: option.DirectMessagesTopicId,
                     suggestedPostParameters: option.SuggestedPostParameters,
+                    ephemeralMessageParameters: option.EphemeralMessageParameters,
                     cancellationToken: context.CancellationToken);
 
                 return message;

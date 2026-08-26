@@ -47,5 +47,21 @@ namespace ConsoleExample.Examples.Events
         {
             // Example. Recording the user's last activity in the bot — a date and time, say
         }
+
+        /// <summary>
+        /// Bot API 10.3. The user pressed the stop button on a draft the bot was streaming.
+        /// </summary>
+        public static async Task OnStoppedMessageGeneration(BotEventArgs e)
+        {
+            var stopped = e.Context.Update.StoppedMessageGeneration;
+            if (stopped is null)
+                return;
+
+            /* stopped.DraftId identifies the draft the user cut short, so a bot that streams a
+             * long answer can cancel the work behind it instead of finishing a reply nobody
+             * is waiting for any more.
+             */
+            //Data handling: cancel the generation for stopped.DraftId
+        }
     }
 }

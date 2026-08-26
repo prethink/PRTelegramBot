@@ -85,6 +85,16 @@ public static async Task ExampleSlashCommandGet(IBotContext context)
 }
 ```
 
+
+### Commands addressed to the bot in a group
+
+In a group, Telegram addresses a command to a specific bot by appending its username: tapping `/get_3` in the command list sends `/get_3@my_bot`.
+
+The framework takes that suffix off before anything else reads the text, so `args` holds `3` in both a private chat and a group. This matters most when the bot's own username contains the separator — with a bot named `cs2_server_bot`, the raw text `/get_3@cs2_server_bot` split on `_` would otherwise yield `3@cs2`, `server` and `bot` instead of the single argument.
+
+The suffix comes off whoever it names, so a group holding several bots is left to sort itself out: each bot answers the commands it recognises. If you want yours to keep quiet when another bot was addressed, compare the mention against `bot.BotName` in a
+[pre-execution check](pre-execution-checks.md).
+
 ### Typed arguments
 
 ```csharp

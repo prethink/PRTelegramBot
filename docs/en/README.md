@@ -16,14 +16,14 @@ The [API reference](api/) is generated from the XML documentation comments in th
 
 [https://github.com/prethink/PRTelegramBot](https://github.com/prethink/PRTelegramBot)
 
-This documentation covers version 1.0.0.
+This documentation covers version 1.1.0.
 
 ## ⚛️ Framework core
 
 PRTelegramBot is built on top of [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot), so every method and type that library gives you stays available. Its [documentation](https://telegrambots.github.io/book/) applies here too.
 
-* Telegram.Bot v22.10.2.1 [https://github.com/TelegramBots/Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot)
-* Supports [Bot API 10.2](https://core.telegram.org/bots/api)
+* Telegram.Bot v22.10.3 [https://github.com/TelegramBots/Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot)
+* Supports [Bot API 10.3](https://core.telegram.org/bots/api)
 
 The library targets .NET 6.0 and runs on any newer version.
 
@@ -95,6 +95,9 @@ Keep your bot token out of version control. Use [user secrets](https://learn.mic
 * **Keyboard builders.** `ReplyKeyboardBuilder` and `InlineKeyboardBuilder` for building keyboards fluently, with rows, columns, filler buttons and request buttons (contact, location, poll, chat, users, WebApp).
 * **Message builder.** `MessageBuilder` composes texts from a template with positional arguments and named tokens such as `{QA}`, including lazily resolved values.
 * **Inline confirmations.** `InlineCallbackWithConfirmation` wraps a button so the user is asked to confirm before the action runs.
+* **Disabled buttons.** `InlineDisabled` shows a button greyed out, so a menu keeps its shape while an option is unavailable instead of losing a button and jumping.
+* **Ephemeral messages.** `MessageSender.SendEphemeral` answers one person in a group with a message only they see, which never enters the chat history.
+* **Rich messages.** `MessageSender.SendRichMessage` sends a message built from blocks — headings, lists, tables, quotations and embedded media — with the same options as any other message.
 * **Paginated messages.** Message management with page-by-page navigation.
 * **Waiting messages.** `MessageAwaiter` posts a placeholder message while the data is being processed and removes it afterwards.
 * **Built-in calendar.** Working with dates and calendars.

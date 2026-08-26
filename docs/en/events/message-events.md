@@ -77,6 +77,7 @@ There are 78 of them, grouped below. If Telegram adds a message type and the fra
 | `OnChatOwnerLeftHandle` | the owner left |
 | `OnCommunityChatAddedHandle` | a community chat was added |
 | `OnCommunityChatRemovedHandle` | a community chat was removed |
+| `OnCommunityChatJoinedHandle` | a user joined the chat from a community |
 | `OnManagedBotCreatedHandle` | a managed bot was created |
 
 ## Forum topics

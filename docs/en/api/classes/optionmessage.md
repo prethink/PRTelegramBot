@@ -24,6 +24,7 @@ Helper class that holds the settings used to send messages in Telegram.
 | `bool DisableNotification { get; set; }` | Disables notifications. |
 | `bool DisableContentTypeDetection { get; set; }` | Disables content type detection. |
 | `int? ReplyToMessageId { get; set; }` | Identifier of the message to reply to. |
+| `int? ReplyToEphemeralMessageId { get; set; }` | Identifier of the incoming ephemeral message to reply to. A reply to an ephemeral message must itself be ephemeral, and Telegram accepts it only within 15 seconds of the original. |
 | `bool AllowSendingWithoutReply { get; set; }` | Allows sending without a reply. |
 | `string? Caption { get; set; }` | Message caption. |
 | `InputFile? Thumbnail { get; set; }` | Message thumbnail. |
@@ -34,6 +35,7 @@ Helper class that holds the settings used to send messages in Telegram.
 | `long? DirectMessagesTopicId { get; set; }` | Identifier of the direct messages topic the message is sent to. Required when the message goes to a direct messages chat. |
 | `SuggestedPostParameters? SuggestedPostParameters { get; set; }` | Parameters of the suggested post to send. Direct messages chats only. |
 | `bool ShowCaptionAboveMedia { get; set; }` | Shows the caption above the media instead of below it. Applies to photos, copied messages and caption edits. |
+| `EphemeralMessageParameters? EphemeralMessageParameters { get; set; }` | Parameters of the ephemeral message to send. An ephemeral message is shown to a single user as an overlay over the chat and is never stored in the chat history. A plain `long` converts to it implicitly. |
 
 ## Methods
 

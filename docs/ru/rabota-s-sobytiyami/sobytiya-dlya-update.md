@@ -134,6 +134,11 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnPurchasedPaidMediaHandle;
 
         /// <summary>
+        /// Событие остановки пользователем генерации сообщения.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnStoppedMessageGenerationHandle;
+
+        /// <summary>
         /// Событие обновления управляемого бота.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnManagedBotHandle;

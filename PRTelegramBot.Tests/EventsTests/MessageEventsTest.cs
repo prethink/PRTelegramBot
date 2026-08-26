@@ -989,5 +989,26 @@ namespace PRTelegramBot.Tests.EventsTests
             OnPostNextStepCommandHandle
          * 
          */
+
+        /// <summary>
+        /// Bot API 10.3: someone from a community joined the chat.
+        /// </summary>
+        [Test]
+        public async Task OnCommunityChatJoinedShouldBeInvoked()
+        {
+            var update = TestDataFactory.CreateMessageTypeCommunityChatJoined();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.MessageEvents.OnCommunityChatJoinedHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.MessageEvents.OnCommunityChatJoinedHandle)} event was not called.");
+            bot.Events.MessageEvents.OnCommunityChatJoinedHandle -= EventHandler;
+        }
     }
 }

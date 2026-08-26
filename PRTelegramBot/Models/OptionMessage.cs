@@ -88,6 +88,16 @@ namespace PRTelegramBot.Models
         public int? ReplyToMessageId { get; set; }
 
         /// <summary>
+        /// Identifier of the incoming ephemeral message to reply to.
+        /// </summary>
+        /// <remarks>
+        /// A reply to an ephemeral message must itself be ephemeral, and Telegram accepts it
+        /// only within 15 seconds of the original. Set this instead of
+        /// <see cref="ReplyToMessageId"/> — an ephemeral message has no ordinary message id.
+        /// </remarks>
+        public int? ReplyToEphemeralMessageId { get; set; }
+
+        /// <summary>
         /// Allows sending without a reply.
         /// </summary>
         public bool AllowSendingWithoutReply { get; set; }
@@ -139,6 +149,18 @@ namespace PRTelegramBot.Models
         /// Applies to photos, copied messages and caption edits.
         /// </summary>
         public bool ShowCaptionAboveMedia { get; set; }
+
+        /// <summary>
+        /// Parameters of the ephemeral message to send.
+        /// </summary>
+        /// <remarks>
+        /// An ephemeral message is shown to a single user as an overlay over the chat and is
+        /// never stored in the chat history. Set at least
+        /// <see cref="Telegram.Bot.Types.EphemeralMessageParameters.ReceiverUserId"/>; a plain
+        /// <see cref="long"/> converts to it implicitly, so
+        /// <c>EphemeralMessageParameters = userId</c> is enough for the simple case.
+        /// </remarks>
+        public EphemeralMessageParameters? EphemeralMessageParameters { get; set; }
 
         #endregion
     }

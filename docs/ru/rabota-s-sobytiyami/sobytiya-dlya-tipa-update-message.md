@@ -378,6 +378,11 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnCommunityChatRemovedHandle;
 
         /// <summary>
+        /// Событие, которое происходит, когда пользователь заходит в чат из сообщества.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCommunityChatJoinedHandle;
+
+        /// <summary>
         /// Событие, которое происходит при создании управляемого бота.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnManagedBotCreatedHandle;

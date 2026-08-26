@@ -18,9 +18,11 @@ namespace PRTelegramBot.Core.CommandHandlers
         /// <inheritdoc />
         public async Task<UpdateResult> Handle(IBotContext context, Message updateType)
         {
-            string command = context.Update.Message.Text;
-            if (command.StartsWith('/'))
+            string text = context.Update.Message.Text;
+            if (text.StartsWith('/'))
             {
+                var command = RemoveBotMention(text);
+
                 var resultExecute = StartHasDeepLink(context, command);
 
                 var executer = new ExecutorSlashCommand(context.Current);
@@ -56,6 +58,30 @@ namespace PRTelegramBot.Core.CommandHandlers
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Strips the <c>@botusername</c> suffix Telegram appends to a command in a group chat.
+        /// </summary>
+        /// <param name="text">Raw message text.</param>
+        /// <returns>The command with the mention removed.</returns>
+        /// <remarks>
+        /// In a group, tapping /get_3 in the command list sends "/get_3@cs2_server_bot". Splitting
+        /// that on the argument separator yielded "3@cs2", "server" and "bot" instead of the single
+        /// argument the command carries, so the mention has to come off before anything else reads
+        /// the text. The suffix only ever sits on the first whitespace-delimited token, and any
+        /// arguments that follow a space are left untouched.
+        /// </remarks>
+        internal static string RemoveBotMention(string text)
+        {
+            var separator = text.IndexOf(' ');
+            var token = separator < 0 ? text : text.Substring(0, separator);
+
+            var at = token.IndexOf('@');
+            if (at < 0)
+                return text;
+
+            return token.Substring(0, at) + (separator < 0 ? string.Empty : text.Substring(separator));
+        }
 
         /// <summary>
         /// Checks whether the command is start with an argument.

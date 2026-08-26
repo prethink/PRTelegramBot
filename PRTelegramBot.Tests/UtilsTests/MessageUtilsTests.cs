@@ -101,25 +101,49 @@ namespace PRTelegramBot.Tests.UtilsTests
         {
             var option = new OptionMessage { ReplyToMessageId = 77 };
 
-            MessageUtils.CreateReplyParametersFromOptions(option).MessageId.Should().Be(77);
+            MessageUtils.CreateReplyParametersFromOptions(option)!.MessageId.Should().Be(77);
         }
 
+        /// <summary>
+        /// The Bot API needs reply parameters to name either a message or an ephemeral message.
+        /// An object naming neither is rejected on the paths that validate it, so there must not
+        /// be one at all when nothing is being replied to.
+        /// </summary>
         [Test]
-        public void ReplyParametersLeaveTheMessageUnsetWhenThereIsNoReply()
+        public void ThereAreNoReplyParametersWhenThereIsNoReply()
         {
             var option = new OptionMessage();
 
-            MessageUtils.CreateReplyParametersFromOptions(option).MessageId.Should().BeNull();
+            MessageUtils.CreateReplyParametersFromOptions(option).Should().BeNull();
+        }
+
+        [Test]
+        public void ReplyParametersCarryTheEphemeralMessageBeingRepliedTo()
+        {
+            var option = new OptionMessage { ReplyToEphemeralMessageId = 77 };
+
+            MessageUtils.CreateReplyParametersFromOptions(option)!.EphemeralMessageId.Should().Be(77);
         }
 
         [TestCase(true)]
         [TestCase(false)]
         public void ReplyParametersCarryAllowSendingWithoutReply(bool allow)
         {
-            var option = new OptionMessage { AllowSendingWithoutReply = allow };
+            var option = new OptionMessage { ReplyToMessageId = 77, AllowSendingWithoutReply = allow };
 
-            MessageUtils.CreateReplyParametersFromOptions(option)
+            MessageUtils.CreateReplyParametersFromOptions(option)!
                 .AllowSendingWithoutReply.Should().Be(allow);
+        }
+
+        /// <summary>
+        /// Without a reply target the flag has nothing to apply to.
+        /// </summary>
+        [Test]
+        public void AllowSendingWithoutReplyAloneDoesNotMakeReplyParameters()
+        {
+            var option = new OptionMessage { AllowSendingWithoutReply = true };
+
+            MessageUtils.CreateReplyParametersFromOptions(option).Should().BeNull();
         }
 
         #endregion

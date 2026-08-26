@@ -102,5 +102,14 @@ namespace ConsoleExample.Examples.Events
             var location = e.Context.Update.Message.Location;
             //Data handling
         }
+
+        /// <summary>
+        /// Bot API 10.3. A user joined this chat through a community it belongs to.
+        /// </summary>
+        public static async Task OnCommunityChatJoinedHandle(BotEventArgs e)
+        {
+            var community = e.Context.Update.Message.CommunityChatJoined?.Community;
+            //Data handling: greet them, or record which community they came from
+        }
     }
 }

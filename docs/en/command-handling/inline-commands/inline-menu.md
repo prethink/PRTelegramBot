@@ -165,3 +165,19 @@ public static async Task InlineMenu(IBotContext context)
 <figure><img src="../../.gitbook/assets/изображение (3).png" alt="The resulting inline keyboard, with buttons laid out across several rows"><figcaption>The builder version, with the rows the chain above describes</figcaption></figure>
 
 The "example with a long text" button is the point of the `FileInlineConverter` section above: with the default converter that payload does not fit in 64 bytes, and the button will not work.
+
+## Buttons that do nothing
+
+Bot API 10.3 added a third state for a button. `InlineDisabled` is drawn greyed out, and pressing it sends nothing at all — the handler is never reached.
+
+```csharp
+var keyboard = new InlineKeyboardBuilder()
+    .AddButton(new InlineCallback("Step 1 — done", MyHeader.StepOne))
+    .AddRowWithButton(new InlineDisabled("Step 2 — finish step 1 first"))
+    .AddRowWithButton(new InlineDisabled("Step 3 — locked"))
+    .Build();
+```
+
+The reason to reach for it is layout. An option that is temporarily unavailable used to leave two choices: drop the button, and the menu shifts under the user's finger between one message and the next, or keep it live and explain the refusal after the tap. A disabled button keeps its place and says why in its own label.
+
+It carries no payload — the label is the whole button — so there is nothing to route and no header to declare.

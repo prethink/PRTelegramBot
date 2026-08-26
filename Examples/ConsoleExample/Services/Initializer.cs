@@ -70,6 +70,9 @@ namespace ConsoleExample.Services
             // Handling WebApps
             bot.Events.MessageEvents.OnWebAppsHandle += ExampleMessageEvents.OnWebAppsHandle;
 
+            // Handling a user who joined the chat from a community
+            bot.Events.MessageEvents.OnCommunityChatJoinedHandle += ExampleMessageEvents.OnCommunityChatJoinedHandle;
+
             // Handling the case where the user is denied access
             bot.Events.OnAccessDenied += ExampleMessageEvents.OnAccessDenied;
 
@@ -121,6 +124,9 @@ namespace ConsoleExample.Services
 
             //Handling an update about a group/chat change
             bot.Events.UpdateEvents.OnMyChatMemberHandle += ExampleUpdateEvents.OnUpdateMyChatMember;
+
+            // Handling a user stopping the generation of a streamed message
+            bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle += ExampleUpdateEvents.OnStoppedMessageGeneration;
         }
 
         /// <summary>

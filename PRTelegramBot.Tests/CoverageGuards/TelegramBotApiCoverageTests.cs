@@ -136,8 +136,7 @@ namespace PRTelegramBot.Tests.CoverageGuards
                 "MessageThreadId", "DisableNotification", "ProtectContent",
                 "BusinessConnectionId", "MessageEffectId", "AllowPaidBroadcast",
                 "DirectMessagesTopicId", "SuggestedPostParameters",
-                // reviewed and deliberately not exposed
-                "ReceiverUserId", "CallbackQueryId"
+                "EphemeralMessageParameters"
             };
 
             var actual = typeof(SendMessageRequest)
@@ -163,7 +162,7 @@ namespace PRTelegramBot.Tests.CoverageGuards
             var forwarded = new[]
             {
                 "BusinessConnectionId", "MessageEffectId", "AllowPaidBroadcast",
-                "DirectMessagesTopicId", "SuggestedPostParameters"
+                "DirectMessagesTopicId", "SuggestedPostParameters", "EphemeralMessageParameters"
             };
 
             var actual = typeof(SendMessageRequest)

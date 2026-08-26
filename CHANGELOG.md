@@ -3,6 +3,35 @@
 **English** | [Русский](CHANGELOG.ru.md)
 
 
+## August 26, 2026 - v1.1.0
+
+> Support for [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot updated from 22.10.2.1 to 22.10.3.
+
+### 🔄 Breaking changes
+
+- `MessageUtils.CreateReplyParametersFromOptions` now returns `ReplyParameters?` and gives back `null` when the options name no message to reply to. Callers in a nullable-enabled project will get a warning until they account for it. See the fix below for why.
+
+### 🐞 Bugs
+
+- Slash commands in a group lost their arguments. Telegram addresses a command to a bot by appending its username — tapping `/get_3` sends `/get_3@my_bot` — and the suffix survived into the argument split. A bot named `cs2_server_bot` turned the single argument `3` into `3@cs2`, `server` and `bot`. The mention is now taken off before the text is read.
+- A webhook bot never learned its own username: `PRBotWebHook` skipped the `getMe` call that `PRBotPolling` and `PRBot` make at startup, so `BotName` stayed `null` for the life of the bot. `BotCollection.GetBotOrNull` reads that property and threw a `NullReferenceException` when a webhook bot sat in the collection. The call is now made on the webhook path too, and the lookup no longer assumes the name is there — `getMe` can still fail.
+- Every message the framework sent carried a `reply_parameters` object even when there was nothing to reply to. The Bot API requires those parameters to name either a message or an ephemeral message, and Telegram had been quietly ignoring the empty object on ordinary sends. It is not ignored everywhere: an ephemeral message replacing the one whose button was pressed was rejected with `MESSAGE_ID_INVALID`. The field is now left off the request entirely when there is no reply target.
+
+### 🚀 New functionality
+
+- Added `InlineDisabled`, a button that Telegram shows greyed out and never sends a callback for. Until now an unavailable option had to be either dropped from the menu, which makes the layout jump, or left live and refused after the tap.
+- Added `OptionMessage.EphemeralMessageParameters`, forwarded by `MessageSender` and by `MediaSender` (photos, files and media by URL). An ephemeral message is drawn as an overlay for one user and never enters the chat history, so a bot can answer one person in a group without the rest reading along.
+- Added `MessageSender.SendEphemeral`, which fills those parameters in from the current update: the receiver, and — when the update is a button press — the callback query it answers. An overload takes an explicit user id for replying to somebody other than the sender, and `replaceCallbackQueryMessage` shows the reply in place of the original message rather than over it.
+- Added `OptionMessage.ReplyToEphemeralMessageId`, mapped onto `ReplyParameters.EphemeralMessageId`. `SendEphemeral` fills it in from the incoming update, which is what lets a bot that is not a chat administrator carry on a conversation inside an ephemeral overlay. Telegram allows an ephemeral message in three situations only — within 15 seconds of a callback query, within 15 seconds of an incoming ephemeral message, or at any time if the bot is an administrator of the chat — and answers `BOT_NOT_ADMIN` otherwise.
+- Added `MessageSender.SendRichMessage`. The framework could already receive a rich message through `OnRichMessageHandle` but had no way to send one, so callers had to drop down to `ITelegramBotClient` and lost every `OptionMessage` setting on the way. Four overloads take either HTML or a hand-built `InputRichMessage`, for the current chat or a given one, and map the options exactly as an ordinary message does — menus, thread, protected content, business connection, effect, paid broadcast, direct messages topic, suggested post and ephemeral parameters. The block types themselves are not wrapped: `InputRichMessage` accepts HTML directly, so there is nothing for a wrapper to simplify.
+- Added `MessageEvents.OnCommunityChatJoinedHandle`, raised when a user joins the chat from a community.
+- Added `UpdateEvents.OnStoppedMessageGenerationHandle`, raised when a user presses the stop button on a message the bot is streaming. The update carries the draft identifier, so the work behind it can be cancelled.
+
+### ♻️ Refactoring
+
+- `SendRichMessageRequest` is now watched by `RequestParameterCoverageTests`. It was never listed there, so a parameter added to it would have gone unnoticed — exactly the failure the guards exist to prevent.
+- Telegram.Bot replaced the `receiverUserId` and `callbackQueryId` send parameters with a single `EphemeralMessageParameters` object. The framework never exposed the two of them, so nothing that uses this library needs changing.
+
 ## August 23, 2026 - v1.0.0
 
 ### 🔄 Breaking changes

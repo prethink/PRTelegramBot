@@ -44,6 +44,10 @@ namespace PRTelegramBot.Core
                         secretToken: Options.WebHookOptions.SecretToken,
                         cancellationToken: Options.CancellationTokenSource.Token);
 
+                    var client = await BotClient.GetMe(Options.CancellationTokenSource.Token);
+                    BotName = client?.Username;
+                    GetLogger<PRBotWebHook>().LogInformationInternal($"Bot {BotName} is running.");
+
                     await base.OnPostStart();
                 }
                 catch (Exception ex)

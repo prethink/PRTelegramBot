@@ -26,7 +26,7 @@ namespace PRTelegramBot.Tests.CoverageGuards
                 "MessageThreadId", "DisableNotification", "ProtectContent",
                 "BusinessConnectionId", "MessageEffectId", "AllowPaidBroadcast",
                 "DirectMessagesTopicId", "SuggestedPostParameters",
-                "ReceiverUserId", "CallbackQueryId"
+                "EphemeralMessageParameters"
             },
             [typeof(SendPhotoRequest)] = new[]
             {
@@ -36,7 +36,7 @@ namespace PRTelegramBot.Tests.CoverageGuards
                 "ShowCaptionAboveMedia",
                 "BusinessConnectionId", "MessageEffectId", "AllowPaidBroadcast",
                 "DirectMessagesTopicId", "SuggestedPostParameters",
-                "ReceiverUserId", "CallbackQueryId"
+                "EphemeralMessageParameters"
             },
             [typeof(SendDocumentRequest)] = new[]
             {
@@ -46,7 +46,16 @@ namespace PRTelegramBot.Tests.CoverageGuards
                 "DisableContentTypeDetection",
                 "BusinessConnectionId", "MessageEffectId", "AllowPaidBroadcast",
                 "DirectMessagesTopicId", "SuggestedPostParameters",
-                "ReceiverUserId", "CallbackQueryId"
+                "EphemeralMessageParameters"
+            },
+            [typeof(SendRichMessageRequest)] = new[]
+            {
+                "ChatId", "RichMessage",
+                "ReplyParameters", "ReplyMarkup",
+                "MessageThreadId", "DisableNotification", "ProtectContent",
+                "BusinessConnectionId", "MessageEffectId", "AllowPaidBroadcast",
+                "DirectMessagesTopicId", "SuggestedPostParameters",
+                "EphemeralMessageParameters"
             },
             [typeof(SendMediaGroupRequest)] = new[]
             {

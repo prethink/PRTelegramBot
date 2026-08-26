@@ -187,6 +187,7 @@ namespace PRTelegramBot.Core.UpdateDispatchers
             TypeMessage.Add(MessageType.RichMessage, bot.Events.MessageEvents.OnRichMessageHandleInvoke);
             TypeMessage.Add(MessageType.CommunityChatAdded, bot.Events.MessageEvents.OnCommunityChatAddedHandleInvoke);
             TypeMessage.Add(MessageType.CommunityChatRemoved, bot.Events.MessageEvents.OnCommunityChatRemovedHandleInvoke);
+            TypeMessage.Add(MessageType.CommunityChatJoined, bot.Events.MessageEvents.OnCommunityChatJoinedHandleInvoke);
         }
 
         #endregion

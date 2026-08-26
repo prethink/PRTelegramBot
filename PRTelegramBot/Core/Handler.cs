@@ -242,6 +242,9 @@ namespace PRTelegramBot.Core
             if (update.Type == UpdateType.PurchasedPaidMedia)
                 await bot.Events.UpdateEvents.OnPurchasedPaidMediaHandler(context.CreateBotEventArgs());
 
+            if (update.Type == UpdateType.StoppedMessageGeneration)
+                await bot.Events.UpdateEvents.OnStoppedMessageGenerationHandler(context.CreateBotEventArgs());
+
             if (update.Type == UpdateType.Unknown)
                 await bot.Events.UpdateEvents.OnUnknownHandler(context.CreateBotEventArgs());
 

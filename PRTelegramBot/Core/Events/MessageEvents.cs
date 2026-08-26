@@ -400,6 +400,11 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnCommunityChatRemovedHandle;
 
+        /// <summary>
+        /// Event raised when a user from a community joins the chat.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnCommunityChatJoinedHandle;
+
 
         #endregion
 
@@ -794,6 +799,11 @@ namespace PRTelegramBot.Core.Events
         /// Raises the <see cref="OnCommunityChatRemovedHandle"/> event.
         /// </summary>
         internal Task OnCommunityChatRemovedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCommunityChatRemovedHandle, e);
+
+        /// <summary>
+        /// Raises the <see cref="OnCommunityChatJoinedHandle"/> event.
+        /// </summary>
+        internal Task OnCommunityChatJoinedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCommunityChatJoinedHandle, e);
 
 
         #endregion

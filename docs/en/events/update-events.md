@@ -76,6 +76,7 @@ That makes it the natural place for a ban list, a rate limiter, or logging every
 | `OnShippingQueryHandle` | a shipping query |
 | `OnPreCheckoutQueryHandle` | a pre-checkout query — answer this within 10 seconds or Telegram cancels the payment |
 | `OnPurchasedPaidMediaHandle` | paid media was bought |
+| `OnStoppedMessageGenerationHandle` | the user pressed stop on a message the bot was streaming — `Update.StoppedMessageGeneration.DraftId` says which draft |
 | `OnSubscriptionHandle` | a subscription event |
 
 ## Business accounts

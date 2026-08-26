@@ -2,7 +2,7 @@
 
 # PRTelegramBot
 
-![Static Badge](https://img.shields.io/badge/version-v1.0.0-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.2-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.2.1-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/prethink/PRTelegramBot/blob/master/LICENSE)
+![Static Badge](https://img.shields.io/badge/version-v1.1.0-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.3-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.3-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/prethink/PRTelegramBot/blob/master/LICENSE)
 
 **English** | [Русский](https://github.com/prethink/PRTelegramBot/blob/master/README.ru.md)
 
@@ -20,7 +20,7 @@
 
 A .NET framework for building Telegram bots on top of Telegram.Bot: attribute-based command routing, menus, middleware, DI and background tasks.
 
-In development since 2023, currently tracking **Bot API 10.2** through [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot). The wrapper is not hidden: every method and type it gives you stays available. What the framework adds on top is the layer that otherwise gets rewritten by hand in every project — command routing, menus, state between messages, access control, configuration and background work.
+In development since 2023, currently tracking **Bot API 10.3** through [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot). The wrapper is not hidden: every method and type it gives you stays available. What the framework adds on top is the layer that otherwise gets rewritten by hand in every project — command routing, menus, state between messages, access control, configuration and background work.
 
 Handlers are ordinary methods marked with an attribute. There is no registration table to keep in sync — the framework finds them by reflection at startup, so adding a command means adding a method:
 
@@ -130,6 +130,9 @@ There is also a [quick-start template](https://github.com/prethink/PRTelegramBot
  - **Keyboard builders.** `ReplyKeyboardBuilder` and `InlineKeyboardBuilder` for building keyboards fluently, with rows, columns, filler buttons and request buttons (contact, location, poll, chat, users, WebApp).
  - **Message builder.** `MessageBuilder` composes texts from a template with positional arguments and named tokens such as `{QA}`, including lazily resolved values.
  - **Inline confirmations.** `InlineCallbackWithConfirmation` wraps a button so the user is asked to confirm before the action runs.
+ - **Disabled buttons.** `InlineDisabled` shows a button greyed out, so a menu keeps its shape while an option is unavailable instead of losing a button and jumping.
+ - **Ephemeral messages.** `MessageSender.SendEphemeral` answers one person in a group with a message only they see, which never enters the chat history.
+ - **Rich messages.** `MessageSender.SendRichMessage` sends a message built from blocks — headings, lists, tables, quotations and embedded media — with the same options as any other message.
  - **Paginated messages.** Message management with page-by-page navigation.
  - **Waiting messages.** `MessageAwaiter` posts a placeholder message while the data is being processed and removes it afterwards.
  - **Built-in calendar.** Working with dates and calendars.
@@ -173,7 +176,7 @@ There is also a [quick-start template](https://github.com/prethink/PRTelegramBot
 
 # 🛡️ Versioning
 
-Version 1.0.0 is the first stable release. From this point the public API follows [semantic versioning](https://semver.org/): breaking changes land only in major versions, new functionality in minor ones, fixes in patches. Members that are going to be removed are marked `[Obsolete]` first, so an upgrade warns you at compile time before anything breaks.
+Version 1.0.0 was the first stable release. From that point the public API follows [semantic versioning](https://semver.org/): breaking changes land only in major versions, new functionality in minor ones, fixes in patches. Members that are going to be removed are marked `[Obsolete]` first, so an upgrade warns you at compile time before anything breaks.
 
 Every release is described in the [changelog](https://github.com/prethink/PRTelegramBot/blob/master/CHANGELOG.md), breaking changes first.
 

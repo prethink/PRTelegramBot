@@ -16,6 +16,7 @@ The classes that make up the framework's public surface.
 | [FileInlineConverter](fileinlineconverter.md) | Converter that stores inline menus in files. Stores the temporary data as files named "{bot id}-{user id}-{command id}". The files are saved in the "InlineCallbacks" folder inside the application directory. A different folder name can be given when the instance is created. |
 | [InlineCallbackWithConfirmation](inlinecallbackwithconfirmation.md) | Lets an inlineCallBack be executed with a confirmation. |
 | [InlineCopyText](inlinecopytext.md) | Creates a button that copies the given text to the clipboard when it is pressed. |
+| [InlineDisabled](inlinedisabled.md) | Creates a button that is shown but does nothing when it is pressed. |
 | [InlineKeyboardBuilder](inlinekeyboardbuilder.md) | Builder for conveniently constructing an InlineKeyboardMarkup. Lets you set keyboard options and add buttons and rows dynamically. |
 | [JsonSerializerWrapper](jsonserializerwrapper.md) | Json data serializer. |
 | [KeyboardBuilderBase](keyboardbuilderbase.md) | Base class for building keyboards. |

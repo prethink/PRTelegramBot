@@ -53,6 +53,7 @@ namespace PRTelegramBot.Tests.CoverageGuards
             ["WithCallbackData"] = nameof(InlineCallback),
             ["WithCallbackGame"] = nameof(InlineCallbackGame),
             ["WithCopyText"] = "InlineCopyText",
+            ["WithDisabled"] = "InlineDisabled",
             ["WithLoginUrl"] = "InlineLoginUrl",
             ["WithPay"] = "InlinePay",
             ["WithSwitchInlineQuery"] = "InlineSwitchInlineQuery",

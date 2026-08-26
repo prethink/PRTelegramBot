@@ -109,6 +109,13 @@ namespace PRTelegramBot.Tests
             return update;
         }
 
+
+        public static Update CreateMessageTypeCommunityChatJoined()
+        {
+            var update = CreateUpdateWithTypeMessage();
+            update.Message.CommunityChatJoined = new CommunityChatJoined { Community = new Community() };
+            return update;
+        }
         public static Update CreateMessageTypeContact()
         {
             var update = CreateUpdateWithTypeMessage();
@@ -428,6 +435,17 @@ namespace PRTelegramBot.Tests
             return update;
         }
 
+
+        public static Update CreateUpdateTypeStoppedMessageGeneration()
+        {
+            var update = CreateUpdate();
+            update.StoppedMessageGeneration = new MessageGenerationStopped
+            {
+                Chat = new Chat { Id = 555555 },
+                DraftId = 1
+            };
+            return update;
+        }
         public static Update CreateUpdateTypeEditedMessage()
         {
             var update = CreateUpdate();

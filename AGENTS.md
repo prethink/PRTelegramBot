@@ -143,6 +143,8 @@ When a guard fails, do the work, then add the new value to the list inside the g
 
 These guards were written after the fact: ten message types, three update types, five send parameters, one inline button kind and one reply button kind had all been missed across 22.8–22.10. Declaring an event is not enough either — `OnPaidMessagePriceChangedHandle` sat declared and unwired for a full release.
 
+They have since paid for themselves. The 22.10.3 upgrade tripped ten of them at once and the failures were the whole work list: one button factory (`WithDisabled`), one message type (`CommunityChatJoined`), one update type (`StoppedMessageGeneration`) and one send parameter (`EphemeralMessageParameters`, which replaced `ReceiverUserId` and `CallbackQueryId`). Bump the package, run the guards, and they will tell you what the release added.
+
 ## Packaging
 
 `README.md`, `LICENSE` and `LogoBot.png` are packed from the repository root via `../` includes — single source of truth, no copies inside the project folder. Verify packaging after touching the csproj:

@@ -399,5 +399,48 @@ namespace PRTelegramBot.Tests.EventsTests
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.UpdateEvents.OnPreUpdate)} event was not called.");
             bot.Events.UpdateEvents.OnPreUpdate -= EventHandler;
         }
+
+        /// <summary>
+        /// Bot API 10.3: the user pressed the stop button on a streamed draft.
+        /// </summary>
+        [Test]
+        public async Task OnStoppedMessageGenerationShouldBeInvoked()
+        {
+            var update = TestDataFactory.CreateUpdateTypeStoppedMessageGeneration();
+            bool eventCalled = false;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                eventCalled = true;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
+            Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle)} event was not called.");
+            bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle -= EventHandler;
+        }
+
+        /// <summary>
+        /// The update tells the bot which draft was stopped, so the handler can clean it up.
+        /// </summary>
+        [Test]
+        public async Task StoppedMessageGenerationCarriesTheDraft()
+        {
+            var update = TestDataFactory.CreateUpdateTypeStoppedMessageGeneration();
+            int? draftId = null;
+
+            Task EventHandler(BotEventArgs e)
+            {
+                draftId = e.Context.Update.StoppedMessageGeneration?.DraftId;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle += EventHandler;
+            await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
+            bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle -= EventHandler;
+
+            Assert.That(draftId, Is.EqualTo(1));
+        }
     }
 }

@@ -87,6 +87,11 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnPurchasedPaidMediaHandle;
 
         /// <summary>
+        /// Event raised when a user asks the bot to stop generating a message.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnStoppedMessageGenerationHandle;
+
+        /// <summary>
         /// Event raised for an update of an unknown type.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
@@ -213,6 +218,9 @@ namespace PRTelegramBot.Core.Events
 
         /// <summary>Raises the <see cref="OnPurchasedPaidMediaHandle"/> event.</summary>
         internal Task OnPurchasedPaidMediaHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPurchasedPaidMediaHandle, e);
+
+        /// <summary>Raises the <see cref="OnStoppedMessageGenerationHandle"/> event.</summary>
+        internal Task OnStoppedMessageGenerationHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnStoppedMessageGenerationHandle, e);
 
         /// <summary>Raises the <see cref="OnUnknownHandle"/> event.</summary>
         internal Task OnUnknownHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);

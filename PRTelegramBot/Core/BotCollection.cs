@@ -59,7 +59,7 @@ namespace PRTelegramBot.Core
         public IEnumerable<PRBotBase> GetBots(Func<PRBotBase, bool> predicate) => botList.Values.Where(predicate).ToList();
 
         /// <inheritdoc />
-        public PRBotBase? GetBotOrNull(string botName) => botList.Values.SingleOrDefault(x => x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
+        public PRBotBase? GetBotOrNull(string botName) => botList.Values.SingleOrDefault(x => x.BotName is not null && x.BotName.Contains(botName, StringComparison.OrdinalIgnoreCase));
 
         #endregion
 
