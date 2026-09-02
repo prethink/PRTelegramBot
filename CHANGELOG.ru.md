@@ -32,6 +32,10 @@
 - `SendRichMessageRequest` теперь под присмотром `RequestParameterCoverageTests`. Раньше его там не было, поэтому добавленный в него параметр прошёл бы незамеченным — ровно тот случай, ради которого guard-тесты и существуют.
 - Telegram.Bot заменил параметры отправки `receiverUserId` и `callbackQueryId` одним объектом `EphemeralMessageParameters`. Фреймворк эти два наружу никогда не отдавал, поэтому пользователям библиотеки менять ничего не нужно.
 
+### 🧩 Common
+
+- В README и документацию добавлена ссылка на PRTelegramBot в официальном каталоге библиотек Telegram Bot API.
+
 ## 23.08.2026 - v1.0.0
 
 ### 🔄 Breaking changes

@@ -16,6 +16,8 @@ The [API reference](api/) is generated from the XML documentation comments in th
 
 [https://github.com/prethink/PRTelegramBot](https://github.com/prethink/PRTelegramBot)
 
+PRTelegramBot is listed in Telegram's official [Bot API library examples](https://core.telegram.org/bots/samples).
+
 This documentation covers version 1.1.0.
 
 ## ⚛️ Framework core

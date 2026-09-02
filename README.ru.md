@@ -15,6 +15,7 @@
 [https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.
 [https://t.me/prethinkdev](https://t.me/prethinkdev) - чат для вопросов.
 [CHANGELOG.ru.md](CHANGELOG.ru.md) - история версий.
+[PRTelegramBot представлен в официальном каталоге библиотек Telegram Bot API](https://core.telegram.org/bots/samples).
 
 # 📰 О проекте
 

@@ -12,6 +12,8 @@ description: >-
 
 [https://github.com/prethink/PRTelegramBot](https://github.com/prethink/PRTelegramBot)
 
+PRTelegramBot представлен в официальном каталоге Telegram [Bot API Library Examples](https://core.telegram.org/bots/samples).
+
 Документация актуальна для версии 1.1.0
 
 Переходите с 0.9.x? Начните с [страницы миграции](perekhod-na-1.0.md) — в 1.0 есть ломающие изменения.
