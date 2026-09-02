@@ -11,11 +11,11 @@
 > https://boosty.to/prethink
 > Звезда ⭐ репозиторию тоже будет отличной поддержкой.
 
-[https://prethink.gitbook.io/prtelegrambot/ru/](https://prethink.gitbook.io/prtelegrambot/ru/) - документация. Есть также [английская версия](https://prethink.gitbook.io/prtelegrambot/).
-[https://www.nuget.org/packages/PRTelegramBot/](https://www.nuget.org/packages/PRTelegramBot/) - nuget.
-[https://t.me/prethinkdev](https://t.me/prethinkdev) - чат для вопросов.
-[CHANGELOG.ru.md](CHANGELOG.ru.md) - история версий.
-[PRTelegramBot представлен в официальном каталоге библиотек Telegram Bot API](https://core.telegram.org/bots/samples).
+- [Документация](https://prethink.gitbook.io/prtelegrambot/ru/) — есть также [английская версия](https://prethink.gitbook.io/prtelegrambot/).
+- [Пакет NuGet](https://www.nuget.org/packages/PRTelegramBot/).
+- [Чат в Telegram](https://t.me/prethinkdev) — вопросы и поддержка сообщества.
+- [История версий](CHANGELOG.ru.md).
+- [Официальный каталог библиотек Telegram Bot API](https://core.telegram.org/bots/samples) — PRTelegramBot представлен в списке.
 
 # 📰 О проекте
 
