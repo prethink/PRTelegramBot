@@ -37,7 +37,7 @@ public static async Task Report(IBotContext context)
 {% hint style="warning" %}
 The HTML here is the **rich message dialect**, not the one `ParseMode.Html` accepts. `<h1>`, `<ul>` and `<table>` mean something in a rich message and nothing in a formatted one. The Bot API's rich message formatting options page has the tag list.
 
-The framework passes the HTML through as HTML — Telegram does the parsing. Nothing is validated on the way out.
+The framework passes the HTML through Telegram.Bot's rich-message converter, then Telegram parses the markup. PRTelegramBot does not validate it on the way out.
 {% endhint %}
 
 ## Options
@@ -81,8 +81,18 @@ await MessageSender.SendRichMessage(context, rich);
 
 There are 26 block types and around 30 text types in `Telegram.Bot.Types`, and the framework does not wrap them — they are used directly, exactly like every other Telegram.Bot type.
 
+## Reusing Telegram media
+
+HTML can reference a file that is already stored by Telegram instead of uploading it again. Use the media kind and its `file_id` in the source:
+
+```html
+<img src="tg://photo?file_id=<file-id>"/>
+```
+
+The supported kinds are `photo`, `video`, `document` and `audio`. `MessageSender.SendRichMessage` turns this reference into the media attachment expected by Telegram.Bot.
+
 ## Receiving one
 
 An incoming rich message raises `OnRichMessageHandle`, and `MessageType.RichMessage` identifies it. See [Message events](events/message-events.md).
 
-Round-tripping works: `msg.RichMessage.ToHtml()` gives you HTML with the media references intact, and passing that HTML back to `SendRichMessage` resolves them again, so a message can be read, edited and sent on without losing its pictures.
+Round-tripping works: `msg.RichMessage.ToHtml()` produces these `file_id` references, and passing that HTML back to `SendRichMessage` resolves them again, so a message can be read, edited and sent on without uploading its media again.

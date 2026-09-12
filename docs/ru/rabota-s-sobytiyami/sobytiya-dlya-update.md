@@ -163,3 +163,5 @@ namespace PRTelegramBot.Core.Events
 }
 
 ```
+
+У остановленного черновика идентификатор имеет тип `long`: `e.Context.Update.StoppedMessageGeneration?.DraftId`.

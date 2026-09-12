@@ -428,7 +428,7 @@ namespace PRTelegramBot.Tests.EventsTests
         public async Task StoppedMessageGenerationCarriesTheDraft()
         {
             var update = TestDataFactory.CreateUpdateTypeStoppedMessageGeneration();
-            int? draftId = null;
+            long? draftId = null;
 
             Task EventHandler(BotEventArgs e)
             {
@@ -440,7 +440,7 @@ namespace PRTelegramBot.Tests.EventsTests
             await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             bot.Events.UpdateEvents.OnStoppedMessageGenerationHandle -= EventHandler;
 
-            Assert.That(draftId, Is.EqualTo(1));
+            Assert.That(draftId, Is.EqualTo(3_000_000_000L));
         }
     }
 }

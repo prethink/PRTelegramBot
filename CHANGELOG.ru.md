@@ -3,6 +3,28 @@
 [English](CHANGELOG.md) | **Русский**
 
 
+## 12.09.2026 - v1.1.1
+
+> Поддержка [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot обновлён с 22.10.3 до 22.10.3.1.
+
+### 🔄 Breaking changes
+
+- Telegram.Bot исправил тип всех идентификаторов черновика rich-сообщения с `int` на `long`: параметры `draftId` методов `SendMessageDraft` и `SendRichMessageDraft`, оба класса запросов и `MessageGenerationStopped.DraftId`. Обычные вызовы с `int` продолжат компилироваться благодаря неявному расширению типа; переменные, делегаты и обёртки, объявленные именно как `int` или `int?`, нужно заменить на `long` или `long?`.
+- `RichMessageButton.Text` теперь обязательное свойство. При ручной сборке кнопки нужно задать `Text` в инициализаторе объекта или передать его в новый конструктор `RichMessageButton(RichText text)`.
+
+### 🚀 New functionality
+
+- В HTML rich-сообщения, отправляемого через `MessageSender.SendRichMessage`, теперь можно повторно использовать уже загруженное в Telegram фото, видео, документ или аудиофайл, указав источник вида `src="tg://photo?file_id=<file-id>"`. Такой же вид создаёт `RichMessage.ToHtml()`, поэтому медиа теперь сохраняются в описанном сценарии «прочитать — изменить — отправить».
+
+### 🐞 Bugs
+
+- Telegram.Bot теперь правильно регистрирует `RichText[]` для source-generated JSON-сериализации, что исправляет десериализацию массивов rich-текста в Native AOT-сборках.
+- При создании исходного `InlineKeyboardButton` Telegram.Bot из tuple или с пустым `callbackDataOrUrl` теперь получается отключённая кнопка вместо попытки отправить некорректные пустые callback-данные. Явная обёртка фреймворка `InlineDisabled` не изменилась.
+
+### 🧩 Common
+
+- Telegram.Bot обновлён до 22.10.3.1.
+
 ## 26.08.2026 - v1.1.0
 
 > Поддержка [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot обновлён с 22.10.2.1 до 22.10.3.

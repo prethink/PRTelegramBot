@@ -442,7 +442,7 @@ namespace PRTelegramBot.Tests
             update.StoppedMessageGeneration = new MessageGenerationStopped
             {
                 Chat = new Chat { Id = 555555 },
-                DraftId = 1
+                DraftId = 3_000_000_000L
             };
             return update;
         }

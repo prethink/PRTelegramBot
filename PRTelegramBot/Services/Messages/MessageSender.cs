@@ -219,6 +219,8 @@ namespace PRTelegramBot.Services.Messages
         /// The HTML is run through <c>HtmlText.ToInputRichMessage</c>, which also resolves the media
         /// references a round-tripped message carries, so HTML that came back from
         /// <c>RichMessage.ToHtml()</c> can be edited and sent again with its media intact.
+        /// An existing Telegram file can also be referenced explicitly with a source such as
+        /// <c>tg://photo?file_id=&lt;file-id&gt;</c>; photo, video, document and audio are supported.
         /// </remarks>
         public static async Task<Message> SendRichMessage(IBotContext context, long chatId, string html, OptionMessage? option = null)
         {

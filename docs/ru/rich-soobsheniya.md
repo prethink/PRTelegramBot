@@ -37,7 +37,7 @@ public static async Task Report(IBotContext context)
 {% hint style="warning" %}
 Здесь **диалект HTML для rich-сообщений**, а не тот, который понимает `ParseMode.Html`. `<h1>`, `<ul>` и `<table>` что-то значат в rich-сообщении и ничего не значат в форматированном. Список тегов — на странице rich message formatting options в документации Bot API.
 
-Фреймворк передаёт HTML как HTML — разбирает его Telegram. На нашей стороне ничего не валидируется.
+Фреймворк передаёт HTML через конвертер rich-сообщений Telegram.Bot, после чего разметку разбирает Telegram. PRTelegramBot не валидирует её перед отправкой.
 {% endhint %}
 
 ## Настройки
@@ -81,8 +81,18 @@ await MessageSender.SendRichMessage(context, rich);
 
 В `Telegram.Bot.Types` 26 типов блоков и около 30 типов текста — фреймворк их не оборачивает, они используются напрямую, как и любые другие типы Telegram.Bot.
 
+## Повторное использование медиа Telegram
+
+В HTML можно сослаться на уже сохранённый Telegram файл и не загружать его повторно. В источнике укажите вид медиа и его `file_id`:
+
+```html
+<img src="tg://photo?file_id=<file-id>"/>
+```
+
+Поддерживаются виды `photo`, `video`, `document` и `audio`. `MessageSender.SendRichMessage` преобразует такую ссылку в медиа-вложение, ожидаемое Telegram.Bot.
+
 ## Приём
 
 Входящее rich-сообщение поднимает `OnRichMessageHandle`, а опознаётся оно по `MessageType.RichMessage`. См. [События для типа update message](rabota-s-sobytiyami/sobytiya-dlya-tipa-update-message.md).
 
-Круговой сценарий работает: `msg.RichMessage.ToHtml()` отдаёт HTML со ссылками на медиа, а переданный обратно в `SendRichMessage` тот же HTML их снова разрешает — сообщение можно прочитать, отредактировать и отправить дальше, не потеряв картинки.
+Круговой сценарий работает: `msg.RichMessage.ToHtml()` создаёт такие ссылки с `file_id`, а переданный обратно в `SendRichMessage` HTML снова их разрешает — сообщение можно прочитать, отредактировать и отправить дальше, не загружая медиа повторно.

@@ -3,6 +3,28 @@
 **English** | [Русский](CHANGELOG.ru.md)
 
 
+## September 12, 2026 - v1.1.1
+
+> Support for [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot updated from 22.10.3 to 22.10.3.1.
+
+### 🔄 Breaking changes
+
+- Telegram.Bot corrected every rich-message draft identifier from `int` to `long`: the `draftId` parameters of `SendMessageDraft` and `SendRichMessageDraft`, both request classes, and `MessageGenerationStopped.DraftId`. Ordinary calls that passed an `int` still compile because it widens implicitly; variables, delegates and wrappers declared specifically as `int` or `int?` must change to `long` or `long?`.
+- `RichMessageButton.Text` is now a required member. Code that builds a button by hand must set `Text` in the object initializer or pass it to the new `RichMessageButton(RichText text)` constructor.
+
+### 🚀 New functionality
+
+- Rich-message HTML sent through `MessageSender.SendRichMessage` can now reuse an existing Telegram photo, video, document or audio file with a source such as `src="tg://photo?file_id=<file-id>"`. This is the same form produced by `RichMessage.ToHtml()`, so media now survives the documented read-edit-send round trip.
+
+### 🐞 Bugs
+
+- Telegram.Bot now registers `RichText[]` correctly for source-generated JSON serialization, fixing rich-text array deserialization in Native AOT builds.
+- Constructing a raw Telegram.Bot `InlineKeyboardButton` from a tuple or with an empty `callbackDataOrUrl` now creates a disabled button instead of attempting to send invalid empty callback data. The framework's explicit `InlineDisabled` wrapper is unchanged.
+
+### 🧩 Common
+
+- Telegram.Bot updated to 22.10.3.1.
+
 ## August 26, 2026 - v1.1.0
 
 > Support for [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot updated from 22.10.2.1 to 22.10.3.

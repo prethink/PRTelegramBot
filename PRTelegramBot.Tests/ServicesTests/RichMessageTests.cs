@@ -67,6 +67,24 @@ namespace PRTelegramBot.Tests.ServicesTests
         }
 
         [Test]
+        public async Task TelegramFileIdInHtmlBecomesRequestMedia()
+        {
+            var bot = new BotClientMock();
+
+            await MessageSender.SendRichMessage(
+                bot.Context.Object,
+                ChatId,
+                "<img src=\"tg://photo?file_id=existing-photo\"/>");
+
+            var rich = bot.Single<SendRichMessageRequest>().RichMessage;
+            rich.Html.Should().Contain("src=\"tg://photo?id=file0\"");
+            rich.Media.Should().ContainSingle();
+            var media = rich.Media!.Single();
+            media.Id.Should().Be("file0");
+            media.Media.Should().BeOfType<InputMediaPhoto>();
+        }
+
+        [Test]
         public async Task TheChatComesFromTheUpdateWhenItIsNotGiven()
         {
             var bot = new BotClientMock(MessageUpdate());
