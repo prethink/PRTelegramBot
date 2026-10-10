@@ -53,21 +53,21 @@ namespace PRTelegramBot.Tests.ExtensionsTests
 
         private static IEnumerable<TestCaseData> ChatIdCases()
         {
-            yield return new TestCaseData(new Update { Message = Msg() }).SetName("GetChatId_Message");
-            yield return new TestCaseData(new Update { BusinessMessage = Msg() }).SetName("GetChatId_BusinessMessage");
-            yield return new TestCaseData(new Update { ChannelPost = Msg(fromId: null) }).SetName("GetChatId_ChannelPost");
-            yield return new TestCaseData(new Update { EditedMessage = Msg() }).SetName("GetChatId_EditedMessage");
-            yield return new TestCaseData(new Update { EditedChannelPost = Msg(fromId: null) }).SetName("GetChatId_EditedChannelPost");
-            yield return new TestCaseData(new Update { EditedBusinessMessage = Msg() }).SetName("GetChatId_EditedBusinessMessage");
-            yield return new TestCaseData(new Update { ChatBoost = new ChatBoostUpdated { Chat = NewChat() } }).SetName("GetChatId_ChatBoost");
-            yield return new TestCaseData(new Update { RemovedChatBoost = new ChatBoostRemoved { Chat = NewChat() } }).SetName("GetChatId_RemovedChatBoost");
-            yield return new TestCaseData(new Update { ChatJoinRequest = new ChatJoinRequest { Chat = NewChat(), From = NewUser() } }).SetName("GetChatId_ChatJoinRequest");
-            yield return new TestCaseData(new Update { ChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetName("GetChatId_ChatMember");
-            yield return new TestCaseData(new Update { MyChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetName("GetChatId_MyChatMember");
-            yield return new TestCaseData(new Update { DeletedBusinessMessages = new BusinessMessagesDeleted { Chat = NewChat() } }).SetName("GetChatId_DeletedBusinessMessages");
-            yield return new TestCaseData(new Update { MessageReaction = new MessageReactionUpdated { Chat = NewChat() } }).SetName("GetChatId_MessageReaction");
-            yield return new TestCaseData(new Update { MessageReactionCount = new MessageReactionCountUpdated { Chat = NewChat() } }).SetName("GetChatId_MessageReactionCount");
-            yield return new TestCaseData(new Update { PollAnswer = new PollAnswer { VoterChat = NewChat() } }).SetName("GetChatId_PollAnswer");
+            yield return new TestCaseData(new Update { Message = Msg() }).SetArgDisplayNames("Message");
+            yield return new TestCaseData(new Update { BusinessMessage = Msg() }).SetArgDisplayNames("BusinessMessage");
+            yield return new TestCaseData(new Update { ChannelPost = Msg(fromId: null) }).SetArgDisplayNames("ChannelPost");
+            yield return new TestCaseData(new Update { EditedMessage = Msg() }).SetArgDisplayNames("EditedMessage");
+            yield return new TestCaseData(new Update { EditedChannelPost = Msg(fromId: null) }).SetArgDisplayNames("EditedChannelPost");
+            yield return new TestCaseData(new Update { EditedBusinessMessage = Msg() }).SetArgDisplayNames("EditedBusinessMessage");
+            yield return new TestCaseData(new Update { ChatBoost = new ChatBoostUpdated { Chat = NewChat() } }).SetArgDisplayNames("ChatBoost");
+            yield return new TestCaseData(new Update { RemovedChatBoost = new ChatBoostRemoved { Chat = NewChat() } }).SetArgDisplayNames("RemovedChatBoost");
+            yield return new TestCaseData(new Update { ChatJoinRequest = new ChatJoinRequest { Chat = NewChat(), From = NewUser() } }).SetArgDisplayNames("ChatJoinRequest");
+            yield return new TestCaseData(new Update { ChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetArgDisplayNames("ChatMember");
+            yield return new TestCaseData(new Update { MyChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetArgDisplayNames("MyChatMember");
+            yield return new TestCaseData(new Update { DeletedBusinessMessages = new BusinessMessagesDeleted { Chat = NewChat() } }).SetArgDisplayNames("DeletedBusinessMessages");
+            yield return new TestCaseData(new Update { MessageReaction = new MessageReactionUpdated { Chat = NewChat() } }).SetArgDisplayNames("MessageReaction");
+            yield return new TestCaseData(new Update { MessageReactionCount = new MessageReactionCountUpdated { Chat = NewChat() } }).SetArgDisplayNames("MessageReactionCount");
+            yield return new TestCaseData(new Update { PollAnswer = new PollAnswer { VoterChat = NewChat() } }).SetArgDisplayNames("PollAnswer");
         }
 
         [TestCaseSource(nameof(ChatIdCases))]
@@ -133,14 +133,14 @@ namespace PRTelegramBot.Tests.ExtensionsTests
 
         private static IEnumerable<TestCaseData> UserIdCases()
         {
-            yield return new TestCaseData(new Update { Message = Msg() }).SetName("GetUserId_Message");
-            yield return new TestCaseData(new Update { BusinessMessage = Msg() }).SetName("GetUserId_BusinessMessage");
-            yield return new TestCaseData(new Update { EditedMessage = Msg() }).SetName("GetUserId_EditedMessage");
-            yield return new TestCaseData(new Update { EditedBusinessMessage = Msg() }).SetName("GetUserId_EditedBusinessMessage");
-            yield return new TestCaseData(new Update { EditedChannelPost = Msg() }).SetName("GetUserId_EditedChannelPost");
-            yield return new TestCaseData(new Update { ChatJoinRequest = new ChatJoinRequest { Chat = NewChat(), From = NewUser() } }).SetName("GetUserId_ChatJoinRequest");
-            yield return new TestCaseData(new Update { ChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetName("GetUserId_ChatMember");
-            yield return new TestCaseData(new Update { MyChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetName("GetUserId_MyChatMember");
+            yield return new TestCaseData(new Update { Message = Msg() }).SetArgDisplayNames("Message");
+            yield return new TestCaseData(new Update { BusinessMessage = Msg() }).SetArgDisplayNames("BusinessMessage");
+            yield return new TestCaseData(new Update { EditedMessage = Msg() }).SetArgDisplayNames("EditedMessage");
+            yield return new TestCaseData(new Update { EditedBusinessMessage = Msg() }).SetArgDisplayNames("EditedBusinessMessage");
+            yield return new TestCaseData(new Update { EditedChannelPost = Msg() }).SetArgDisplayNames("EditedChannelPost");
+            yield return new TestCaseData(new Update { ChatJoinRequest = new ChatJoinRequest { Chat = NewChat(), From = NewUser() } }).SetArgDisplayNames("ChatJoinRequest");
+            yield return new TestCaseData(new Update { ChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetArgDisplayNames("ChatMember");
+            yield return new TestCaseData(new Update { MyChatMember = new ChatMemberUpdated { Chat = NewChat(), From = NewUser() } }).SetArgDisplayNames("MyChatMember");
         }
 
         [TestCaseSource(nameof(UserIdCases))]

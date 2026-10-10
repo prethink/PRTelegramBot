@@ -2,7 +2,7 @@
 
 # PRTelegramBot
 
-![Static Badge](https://img.shields.io/badge/version-v1.1.1-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.3-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.3.1-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+![Static Badge](https://img.shields.io/badge/version-v1.1.2-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.3-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.3.3-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 [English](README.md) | **Русский**
 

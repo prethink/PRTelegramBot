@@ -3,6 +3,35 @@
 **English** | [Русский](CHANGELOG.ru.md)
 
 
+## October 10, 2026 - v1.1.2
+
+> Support for [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot updated from 22.10.3.1 to 22.10.3.3.
+
+### 🔄 Breaking changes
+
+- Telegram.Bot expanded two media interfaces. Custom implementations must provide the getters below; built-in `InputMedia*` classes already implement them.
+
+| Interface | Before | Now required |
+| --- | --- | --- |
+| `IAlbumInputMedia` | Marker interface | `Type`, `Media`, `Caption`, `ParseMode`, `CaptionEntities` getters |
+| `IInputRichMedia` | `Type` getter | Additional `Media`, `Caption`, `ParseMode`, `CaptionEntities` getters |
+
+### 🚀 New functionality
+
+- Telegram.Bot supports implicit conversions from HTML or `InputRichBlock[]` to `InputRichMessage`, and from `RichText` to a paragraph block. These work with the existing `MessageSender.SendRichMessage` overloads.
+- `IInputMediaSettings` provides shared setters for `ShowCaptionAboveMedia` and `HasSpoiler` on photos, videos, animations and live photos.
+
+### 🐞 Bugs
+
+- JSON deserialization through the abstract `ReplyMarkup` type now restores inline keyboards, reply keyboards, keyboard removal and force-reply markup.
+- Polymorphic JSON now supports documents through `IInputRichMedia` and live photos through `IAlbumInputMedia`.
+- `HtmlText.PlainLength` counts Unicode characters instead of UTF-16 code units, matching `HtmlText.Truncate` for emoji.
+
+### 🧩 Common
+
+- Telegram.Bot updated to 22.10.3.3; [upstream changes](https://github.com/TelegramBots/Telegram.Bot/compare/v22.10.3.1...v22.10.3.3).
+- Package README version badges updated for 1.1.2.
+
 ## September 12, 2026 - v1.1.1
 
 > Support for [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot updated from 22.10.3 to 22.10.3.1.

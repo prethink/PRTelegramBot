@@ -84,3 +84,22 @@ namespace PRTelegramBot.Services.Media
 }
 
 ```
+
+## Интерфейсы медиа Telegram.Bot в 1.1.2
+
+При прямом вызове Telegram.Bot интерфейсы `IAlbumInputMedia` и `IInputRichMedia` предоставляют свойства `Type`, `Media`, `Caption`, `ParseMode` и `CaptionEntities`. JSON-сериализация поддерживает live photos в альбомах и документы в rich-сообщениях.
+
+`IInputMediaSettings` позволяет задавать расположение подписи и спойлеры для фото, видео, анимаций и live photos через общий интерфейс:
+
+```csharp
+using Telegram.Bot.Types;
+
+IAlbumInputMedia media = new InputMediaPhoto(InputFile.FromFileId("existing-photo"));
+IInputMediaSettings settings = (IInputMediaSettings)media;
+settings.ShowCaptionAboveMedia = true;
+settings.HasSpoiler = true;
+```
+
+{% hint style="warning" %}
+Если вы сами реализуете `IAlbumInputMedia` или `IInputRichMedia`, добавьте новые getter-свойства: `InputMediaType Type`, `InputFile Media`, `string? Caption`, `ParseMode ParseMode` и `MessageEntity[]? CaptionEntities`. В `IInputRichMedia` свойство `Type` требовалось и раньше. Перечисления находятся в `Telegram.Bot.Types.Enums`, остальные типы — в `Telegram.Bot.Types`. Встроенные классы `InputMedia*` уже реализуют эти свойства.
+{% endhint %}

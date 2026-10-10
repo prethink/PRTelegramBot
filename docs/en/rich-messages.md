@@ -81,6 +81,26 @@ await MessageSender.SendRichMessage(context, rich);
 
 There are 26 block types and around 30 text types in `Telegram.Bot.Types`, and the framework does not wrap them — they are used directly, exactly like every other Telegram.Bot type.
 
+Starting with 1.1.2, Telegram.Bot also accepts HTML and block arrays through implicit conversions. A `RichText` becomes a paragraph block:
+
+```csharp
+using Telegram.Bot.Types;
+
+InputRichMessage htmlMessage = "<h1>Weekly report</h1>";
+RichText paragraph = "Revenue is up 12% on last week.";
+InputRichMessage blockMessage = new InputRichBlock[]
+{
+    new InputRichBlockSectionHeading { Text = "Weekly report" },
+    paragraph,
+    new InputRichBlockDivider()
+};
+
+await MessageSender.SendRichMessage(context, htmlMessage);
+await MessageSender.SendRichMessage(context, blockMessage);
+```
+
+The HTML conversion resolves the same `tg://...?file_id=...` media references as the framework's string overload.
+
 ## Reusing Telegram media
 
 HTML can reference a file that is already stored by Telegram instead of uploading it again. Use the media kind and its `file_id` in the source:

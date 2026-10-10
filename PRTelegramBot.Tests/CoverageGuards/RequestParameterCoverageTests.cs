@@ -106,7 +106,7 @@ namespace PRTelegramBot.Tests.CoverageGuards
         private static IEnumerable<TestCaseData> Requests()
         {
             foreach (var pair in ReviewedParameters)
-                yield return new TestCaseData(pair.Key, pair.Value).SetName($"Reviewed_{pair.Key.Name}");
+                yield return new TestCaseData(pair.Key, pair.Value).SetArgDisplayNames(pair.Key.Name, "reviewed parameters");
         }
 
         [TestCaseSource(nameof(Requests))]

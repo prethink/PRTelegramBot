@@ -81,6 +81,26 @@ await MessageSender.SendRichMessage(context, rich);
 
 В `Telegram.Bot.Types` 26 типов блоков и около 30 типов текста — фреймворк их не оборачивает, они используются напрямую, как и любые другие типы Telegram.Bot.
 
+Начиная с 1.1.2 Telegram.Bot также принимает HTML и массивы блоков через неявные преобразования. `RichText` превращается в блок-абзац:
+
+```csharp
+using Telegram.Bot.Types;
+
+InputRichMessage htmlMessage = "<h1>Weekly report</h1>";
+RichText paragraph = "Revenue is up 12% on last week.";
+InputRichMessage blockMessage = new InputRichBlock[]
+{
+    new InputRichBlockSectionHeading { Text = "Weekly report" },
+    paragraph,
+    new InputRichBlockDivider()
+};
+
+await MessageSender.SendRichMessage(context, htmlMessage);
+await MessageSender.SendRichMessage(context, blockMessage);
+```
+
+Преобразование HTML разрешает те же ссылки на медиа `tg://...?file_id=...`, что и строковая перегрузка фреймворка.
+
 ## Повторное использование медиа Telegram
 
 В HTML можно сослаться на уже сохранённый Telegram файл и не загружать его повторно. В источнике укажите вид медиа и его `file_id`:

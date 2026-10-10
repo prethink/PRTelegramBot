@@ -109,6 +109,44 @@ namespace PRTelegramBot.Tests.ServicesTests
         }
 
         [Test]
+        public async Task ImplicitHtmlConversionKeepsTelegramMedia()
+        {
+            var bot = new BotClientMock();
+            InputRichMessage rich = "<img src=\"tg://photo?file_id=existing-photo\"/>";
+
+            await MessageSender.SendRichMessage(bot.Context.Object, ChatId, rich);
+
+            var request = bot.Single<SendRichMessageRequest>();
+            request.RichMessage.Should().BeSameAs(rich);
+            rich.Html.Should().Contain("src=\"tg://photo?id=file0\"");
+            var media = rich.Media.Should().ContainSingle().Subject;
+            media.Id.Should().Be("file0");
+            media.Media.Should().BeOfType<InputMediaPhoto>().Which.Media
+                .Should().BeOfType<InputFileId>().Which.Id.Should().Be("existing-photo");
+        }
+
+        [Test]
+        public async Task ImplicitBlockAndRichTextConversionsKeepParagraphContent()
+        {
+            var bot = new BotClientMock();
+            RichText paragraph = "Revenue is up 12% on last week.";
+            InputRichMessage rich = new InputRichBlock[]
+            {
+                new InputRichBlockSectionHeading { Text = "Weekly report" },
+                paragraph,
+                new InputRichBlockDivider()
+            };
+
+            await MessageSender.SendRichMessage(bot.Context.Object, ChatId, rich);
+
+            var sent = bot.Single<SendRichMessageRequest>().RichMessage;
+            sent.Should().BeSameAs(rich);
+            sent.Blocks.Should().HaveCount(3);
+            sent.Blocks!.ElementAt(1).Should().BeOfType<InputRichBlockParagraph>().Which.Text.Should().BeSameAs(paragraph);
+            sent.Html.Should().BeNull();
+        }
+
+        [Test]
         public void SendingNothingIsRejected()
         {
             var bot = new BotClientMock();

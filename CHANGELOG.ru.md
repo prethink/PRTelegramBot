@@ -3,6 +3,35 @@
 [English](CHANGELOG.md) | **Русский**
 
 
+## 10.10.2026 - v1.1.2
+
+> Поддержка [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot обновлён с 22.10.3.1 до 22.10.3.3.
+
+### 🔄 Breaking changes
+
+- Telegram.Bot расширил два интерфейса медиа. В собственных реализациях нужно добавить перечисленные ниже getter-свойства; встроенные классы `InputMedia*` уже их реализуют.
+
+| Интерфейс | Раньше | Теперь обязательны |
+| --- | --- | --- |
+| `IAlbumInputMedia` | Интерфейс-маркер | Getter-свойства `Type`, `Media`, `Caption`, `ParseMode`, `CaptionEntities` |
+| `IInputRichMedia` | Getter-свойство `Type` | Дополнительные getter-свойства `Media`, `Caption`, `ParseMode`, `CaptionEntities` |
+
+### 🚀 New functionality
+
+- Telegram.Bot поддерживает неявные преобразования HTML или `InputRichBlock[]` в `InputRichMessage`, а также `RichText` в блок-абзац. Они работают с существующими перегрузками `MessageSender.SendRichMessage`.
+- `IInputMediaSettings` даёт общие setter-свойства `ShowCaptionAboveMedia` и `HasSpoiler` для фото, видео, анимаций и live photos.
+
+### 🐞 Bugs
+
+- JSON-десериализация через абстрактный тип `ReplyMarkup` теперь восстанавливает inline-клавиатуру, reply-клавиатуру, удаление клавиатуры и принудительный ответ.
+- Полиморфный JSON теперь поддерживает документы через `IInputRichMedia` и live photos через `IAlbumInputMedia`.
+- `HtmlText.PlainLength` считает Unicode-символы вместо кодовых единиц UTF-16, согласуя длину emoji с `HtmlText.Truncate`.
+
+### 🧩 Common
+
+- Telegram.Bot обновлён до 22.10.3.3; [изменения зависимости](https://github.com/TelegramBots/Telegram.Bot/compare/v22.10.3.1...v22.10.3.3).
+- Бейджи версии в README пакета обновлены для 1.1.2.
+
 ## 12.09.2026 - v1.1.1
 
 > Поддержка [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot обновлён с 22.10.3 до 22.10.3.1.
