@@ -38,6 +38,20 @@ namespace PRTelegramBot.Tests.ServicesTests
         #region Sending
 
         [Test]
+        public async Task SendRichMessageCanQuoteTheOriginalRichText()
+        {
+            var bot = new BotClientMock();
+            var quote = new RichText[] { "Original excerpt" };
+            var option = new OptionMessage { ReplyToMessageId = 42, QuoteRichTexts = quote };
+
+            await MessageSender.SendRichMessage(bot.Context.Object, 123L, "<p>Response</p>", option);
+
+            var reply = bot.Single<SendRichMessageRequest>().ReplyParameters!;
+            reply.MessageId.Should().Be(42);
+            reply.QuoteRichTexts.Should().Equal(quote);
+        }
+
+        [Test]
         public async Task HtmlBecomesARichMessage()
         {
             var bot = new BotClientMock();

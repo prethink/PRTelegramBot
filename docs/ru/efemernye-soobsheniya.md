@@ -1,8 +1,3 @@
-| | Нужны права админа? | Окно | Работает в личке? |
-| --- | --- | --- | --- |
-| Ответ на callback query с указанием его id | нет | 15 секунд | да |
-| Ответ на входящее эфемерное сообщение | нет | 15 секунд | да |
-| Отправка любому участнику чата, кроме ботов | **да** | в любой момент | нет — в личке админов не бывает |
 ---
 description: Ответить одному человеку в группе так, чтобы остальные не читали.
 ---
@@ -39,21 +34,26 @@ Bad Request: BOT_NOT_ADMIN
 
 ## Ответ на нажатие кнопки
 
-Обычный случай, и никаких особых прав он не требует.
+Для эфемерного ответа на кнопку права администратора не нужны. Обобщённый атрибут inline-обработчика в примере требует C# 11 или новее.
 
 ```csharp
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Services.Messages;
+using Telegram.Bot;
 
 [InlineCallbackHandler<MyHeader>(MyHeader.ShowBalance)]
 public static async Task ShowBalance(IBotContext context)
 {
+    var callback = context.Update.CallbackQuery!;
+    await context.BotClient.AnswerCallbackQuery(callback.Id, cancellationToken: context.CancellationToken);
     await MessageSender.SendEphemeral(context, "Ваш баланс — 42 ⭐.");
 }
 ```
 
-`SendEphemeral` берёт нужное из текущего update: пользователя, который увидит сообщение, и callback query, на который отвечает, — чтобы Telegram понимал, к какому нажатию это относится и что мы укладываемся в 15 секунд.
+Начиная с Bot API 10.4 `SendEphemeral(context, text)` использует `CallbackQueryId` как адрес ответа. Telegram определяет получателя по нажатию кнопки. Это работает и для inline-сообщений, когда в update нет `CallbackQuery.Message`. Окно ответа составляет 15 секунд. Исключение — чаты личных сообщений канала. [Параметры эфемерной отправки](https://core.telegram.org/bots/api#ephemeralmessageparameters).
+
+Для закрытия индикатора нажатия вызовите также `AnswerCallbackQuery` из `Telegram.Bot`, если ваш обработчик ещё не подтвердил нажатие.
 
 ## Продолжение внутри оверлея
 
@@ -105,7 +105,7 @@ await MessageSender.SendEphemeral(context, "Меню исчезло — для �
 
 ## Через OptionMessage
 
-`SendEphemeral` — это удобная обёртка над одним свойством. Любой метод, принимающий [`OptionMessage`](api/klassy/optionmessage.md), можно сделать эфемерным, задав его напрямую — так отправляются фото, файлы и [rich-сообщения](rich-soobsheniya.md):
+`SendEphemeral` — это удобная обёртка над одним свойством. Задайте [`OptionMessage.EphemeralMessageParameters`](api/klassy/optionmessage.md) для эфемерной отправки фото, файлов и [rich-сообщений](rich-soobsheniya.md).
 
 ```csharp
 var option = new OptionMessage

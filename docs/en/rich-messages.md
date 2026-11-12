@@ -111,6 +111,25 @@ HTML can reference a file that is already stored by Telegram instead of uploadin
 
 The supported kinds are `photo`, `video`, `document` and `audio`. `MessageSender.SendRichMessage` turns this reference into the media attachment expected by Telegram.Bot.
 
+## Replying with a rich quote
+
+Set `ReplyToMessageId` to the original message ID and pass the excerpts through `QuoteRichTexts`. For example, a reply handler can reuse the text the user selected.
+
+```csharp
+if (context.Update.Message is { ReplyToMessage: { } original, Quote.RichTexts: { Length: > 0 } excerpts })
+{
+    var options = new OptionMessage
+    {
+        ReplyToMessageId = original.Id,
+        QuoteRichTexts = excerpts,
+    };
+
+    await MessageSender.SendRichMessage(context, "<p>Here is the requested clarification.</p>", options);
+}
+```
+
+When building the quote by hand, preserve the order and formatting of the excerpts. Telegram accepts up to 32 excerpts totaling at most 1024 characters. [Bot API ReplyParameters](https://core.telegram.org/bots/api#replyparameters).
+
 ## Receiving one
 
 An incoming rich message raises `OnRichMessageHandle`, and `MessageType.RichMessage` identifies it. See [Message events](events/message-events.md).

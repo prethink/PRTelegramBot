@@ -1,8 +1,3 @@
-| | Bot must be admin? | Window | Works in a private chat? |
-| --- | --- | --- | --- |
-| Answering a callback query, quoting its id | no | 15 seconds | yes |
-| Replying to an incoming ephemeral message | no | 15 seconds | yes |
-| Writing to any non-bot member of the chat | **yes** | any time | no — there are no admins in a private chat |
 ---
 description: Answering one person in a group, without the rest of the chat reading along.
 ---
@@ -39,21 +34,26 @@ That error means the bot tried the third route without the rights for it — mos
 
 ## Answering a button press
 
-This is the common case, and it needs no special rights.
+An ephemeral reply to a button press requires no admin rights. The generic inline handler attribute in this example requires C# 11 or newer.
 
 ```csharp
 using PRTelegramBot.Attributes;
 using PRTelegramBot.Interfaces;
 using PRTelegramBot.Services.Messages;
+using Telegram.Bot;
 
 [InlineCallbackHandler<MyHeader>(MyHeader.ShowBalance)]
 public static async Task ShowBalance(IBotContext context)
 {
+    var callback = context.Update.CallbackQuery!;
+    await context.BotClient.AnswerCallbackQuery(callback.Id, cancellationToken: context.CancellationToken);
     await MessageSender.SendEphemeral(context, "Your balance is 42 ⭐.");
 }
 ```
 
-`SendEphemeral` takes what it needs from the current update: the user who will see the message, and the callback query it is answering, so Telegram knows which tap it belongs to and that it falls inside the 15-second window.
+Starting with Bot API 10.4, `SendEphemeral(context, text)` uses `CallbackQueryId` as the destination. Telegram delivers the reply to the user who pressed the button. This also works when an inline message's update has no `CallbackQuery.Message`. Reply within 15 seconds. Telegram excludes channel direct messages chats. [Ephemeral message parameters](https://core.telegram.org/bots/api#ephemeralmessageparameters).
+
+Call `AnswerCallbackQuery` from `Telegram.Bot` to dismiss the loading indicator if your handler has yet to acknowledge the button press.
 
 ## Continuing inside the overlay
 
@@ -105,7 +105,7 @@ It must also stay off for a button press that came from an ephemeral message —
 
 ## Through OptionMessage
 
-`SendEphemeral` is a convenience over one property. Anything that accepts an [`OptionMessage`](api/classes/optionmessage.md) can be made ephemeral by setting it directly, which is how photos, files and [rich messages](rich-messages.md) are sent this way:
+`SendEphemeral` is a convenience over one property. Set [`OptionMessage.EphemeralMessageParameters`](api/classes/optionmessage.md) directly to send ephemeral photos, files or [rich messages](rich-messages.md).
 
 ```csharp
 var option = new OptionMessage

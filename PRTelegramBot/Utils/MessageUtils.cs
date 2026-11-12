@@ -73,7 +73,11 @@ namespace PRTelegramBot.Utils
 
             ReplyParameters parameters = new ReplyParameters();
             if (option.ReplyToMessageId is not null)
+            {
                 parameters.MessageId = option.ReplyToMessageId.Value;
+                if (option.ReplyToEphemeralMessageId is null)
+                    parameters.QuoteRichTexts = option.QuoteRichTexts;
+            }
             if (option.ReplyToEphemeralMessageId is not null)
                 parameters.EphemeralMessageId = option.ReplyToEphemeralMessageId.Value;
             parameters.AllowSendingWithoutReply = option.AllowSendingWithoutReply;

@@ -72,6 +72,11 @@ namespace PRTelegramBot.Services.Messages
         /// <returns>Message.</returns>
         public static async Task<Message> Send(IBotContext context, long chatId, string text, OptionMessage? option = null)
         {
+            return await SendText(context, chatId, text, option);
+        }
+
+        private static async Task<Message> SendText(IBotContext context, ChatId? chatId, string text, OptionMessage? option)
+        {
             option = MessageUtils.CreateOptionsIfNull(option);
             var replyMarkup = MessageUtils.GetReplyMarkup(option);
             var replyParams = MessageUtils.CreateReplyParametersFromOptions(option);
@@ -85,7 +90,7 @@ namespace PRTelegramBot.Services.Messages
                 {
                     count++;
                     if (count < chunk.Count)
-                        await Send(context, chatId, item, option);
+                        await SendText(context, chatId, item, option);
                     if (count == chunk.Count)
                         text = item;
                 }
@@ -135,8 +140,9 @@ namespace PRTelegramBot.Services.Messages
         /// Telegram accepts one only under these conditions, or answers <c>BOT_NOT_ADMIN</c>:
         /// </para>
         /// <list type="bullet">
-        /// <item>within 15 seconds of a callback query, quoting its id — the usual case, and
-        /// this method takes the id from the update for you;</item>
+        /// <item>within 15 seconds of a callback query, using its ID as the destination.
+        /// This works for inline callbacks too. Telegram excludes channel direct messages chats.
+        /// The caller must still acknowledge the button press with <c>AnswerCallbackQuery</c>;</item>
         /// <item>within 15 seconds of an incoming ephemeral message, replying to it — also
         /// filled in from the update, through <see cref="OptionMessage.ReplyToEphemeralMessageId"/>;</item>
         /// <item>at any time, to any non-bot member, <b>if the bot is an administrator of the
@@ -146,7 +152,17 @@ namespace PRTelegramBot.Services.Messages
         /// </remarks>
         public static async Task<Message> SendEphemeral(IBotContext context, string text, OptionMessage? option = null, bool replaceCallbackQueryMessage = false)
         {
-            return await SendEphemeral(context, context.Update.GetUserId(), text, option, replaceCallbackQueryMessage);
+            if (context.Update.CallbackQuery is not { } callback)
+                return await SendEphemeral(context, context.Update.GetUserId(), text, option, replaceCallbackQueryMessage);
+
+            var sendOptions = option?.Copy() ?? new OptionMessage();
+            sendOptions.EphemeralMessageParameters = new EphemeralMessageParameters
+            {
+                CallbackQueryId = callback.Id,
+                ReplaceCallbackQueryMessage = replaceCallbackQueryMessage,
+            };
+
+            return await SendText(context, null, text, sendOptions);
         }
 
         /// <summary>
@@ -163,15 +179,16 @@ namespace PRTelegramBot.Services.Messages
         /// <remarks>
         /// Delivery is not guaranteed — a user who is offline may never see the message.
         /// <para>
-        /// Writing to somebody who did not trigger the update means there is no callback query to
-        /// quote, so this needs the bot to be an administrator of the chat. Without that Telegram
-        /// answers <c>BOT_NOT_ADMIN</c>.
+        /// The update must carry a chat ID. A callback query is included only if the recipient
+        /// pressed the button. Sending to a different member requires the bot to be an administrator
+        /// of the chat.
         /// </para>
         /// </remarks>
         public static async Task<Message> SendEphemeral(IBotContext context, long receiverUserId, string text, OptionMessage? option = null, bool replaceCallbackQueryMessage = false)
         {
-            option = MessageUtils.CreateOptionsIfNull(option);
-            var callbackQueryId = context.Update.CallbackQuery?.Id;
+            option = option?.Copy() ?? new OptionMessage();
+            var callback = context.Update.CallbackQuery;
+            var callbackQueryId = callback?.From.Id == receiverUserId ? callback.Id : null;
 
             option.EphemeralMessageParameters = new EphemeralMessageParameters
             {
@@ -183,7 +200,9 @@ namespace PRTelegramBot.Services.Messages
             // Replying inside an ephemeral overlay is the second way Telegram lets a bot that
             // is not an administrator send one, so carry the id over when the caller has not
             // chosen a reply target of their own.
-            option.ReplyToEphemeralMessageId ??= context.Update.Message?.EphemeralMessageId;
+            if (context.Update.Message is { EphemeralMessageId: { } ephemeralId, From.Id: var senderId }
+                && senderId == receiverUserId)
+                option.ReplyToEphemeralMessageId ??= ephemeralId;
 
             return await Send(context, context.Update.GetChatId(), text, option);
         }

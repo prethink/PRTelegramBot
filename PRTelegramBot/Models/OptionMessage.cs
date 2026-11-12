@@ -98,6 +98,12 @@ namespace PRTelegramBot.Models
         public int? ReplyToEphemeralMessageId { get; set; }
 
         /// <summary>
+        /// Rich text excerpts to quote from the message identified by <see cref="ReplyToMessageId"/>.
+        /// </summary>
+        /// <remarks>Keep the formatting and order from the original rich message.</remarks>
+        public RichText[]? QuoteRichTexts { get; set; }
+
+        /// <summary>
         /// Allows sending without a reply.
         /// </summary>
         public bool AllowSendingWithoutReply { get; set; }
@@ -155,13 +161,14 @@ namespace PRTelegramBot.Models
         /// </summary>
         /// <remarks>
         /// An ephemeral message is shown to a single user as an overlay over the chat and is
-        /// never stored in the chat history. Set at least
-        /// <see cref="Telegram.Bot.Types.EphemeralMessageParameters.ReceiverUserId"/>; a plain
-        /// <see cref="long"/> converts to it implicitly, so
-        /// <c>EphemeralMessageParameters = userId</c> is enough for the simple case.
+        /// never stored in the chat history. Set <c>ReceiverUserId</c> for a targeted send or
+        /// <c>CallbackQueryId</c> for a reply to the user who pressed the button.
+        /// A plain <see cref="long"/> converts to parameters with only the receiver set.
         /// </remarks>
         public EphemeralMessageParameters? EphemeralMessageParameters { get; set; }
 
         #endregion
+
+        internal OptionMessage Copy() => (OptionMessage)MemberwiseClone();
     }
 }

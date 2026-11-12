@@ -56,6 +56,7 @@ namespace PRTelegramBot.Services.Messages
 
         /// <summary>
         /// Отправка эфемерного сообщения пользователю, от которого пришёл текущий update.
+        /// Для callback query адрес ответа определяется по идентификатору запроса, в том числе для inline-сообщений.
         /// </summary>
         /// <param name="context">Контекст бота.</param>
         /// <param name="text">Текст.</param>

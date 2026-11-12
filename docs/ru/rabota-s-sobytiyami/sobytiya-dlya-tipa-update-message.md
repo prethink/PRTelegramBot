@@ -407,6 +407,15 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnRichMessageHandle;
 
+        /// <summary>Сообщение с HTML-виджетом.</summary>
+        public event Func<BotEventArgs, Task>? OnWidgetHandle;
+
+        /// <summary>Сообщение отправлено по ссылке с отменой платы в Telegram Stars.</summary>
+        public event Func<BotEventArgs, Task>? OnPaidMessagesWaivedHandle;
+
+        /// <summary>Служебное сообщение о переводе через TON-кошелёк.</summary>
+        public event Func<BotEventArgs, Task>? OnTonWalletTransferHandle;
+
         #endregion
     }
 }

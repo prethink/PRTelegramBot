@@ -165,8 +165,7 @@ namespace PRTelegramBot.Core
 
             if (whiteListManager.Settings == WhiteListSettings.OnPreUpdate && whiteListManager.Count > 0)
             {
-                var hasUserInWhiteList = await whiteListManager.HasUser(update.GetChatId());
-                if (!hasUserInWhiteList)
+                if (!update.TryGetChatId(out var chatId) || !await whiteListManager.HasUser(chatId))
                 {
                     bot.Events.OnAccessDeniedInvoke(context.CreateBotEventArgs());
                     return;
@@ -244,6 +243,12 @@ namespace PRTelegramBot.Core
 
             if (update.Type == UpdateType.StoppedMessageGeneration)
                 await bot.Events.UpdateEvents.OnStoppedMessageGenerationHandler(context.CreateBotEventArgs());
+
+            if (update.Type == UpdateType.WidgetQuery)
+                await bot.Events.UpdateEvents.OnWidgetQueryHandler(context.CreateBotEventArgs());
+
+            if (update.Type == UpdateType.SharedWidgetQuery)
+                await bot.Events.UpdateEvents.OnSharedWidgetQueryHandler(context.CreateBotEventArgs());
 
             if (update.Type == UpdateType.Unknown)
                 await bot.Events.UpdateEvents.OnUnknownHandler(context.CreateBotEventArgs());

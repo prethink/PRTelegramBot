@@ -2,7 +2,7 @@
 
 # PRTelegramBot
 
-![Static Badge](https://img.shields.io/badge/version-v1.1.2-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.3-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.3.3-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+![Static Badge](https://img.shields.io/badge/version-v1.1.3-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.4-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.4-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 [English](README.md) | **Русский**
 
@@ -21,7 +21,7 @@
 
 Фреймворк для создания Telegram-ботов на .NET поверх Telegram.Bot: роутинг команд через атрибуты, меню, middleware, DI и фоновые задачи.
 
-Разрабатывается с 2023 года, сейчас — на **Bot API 10.3** через [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot). Обёртка не спрятана: все её методы и типы остаются вам доступны. Сверху фреймворк добавляет тот слой, который иначе пишется руками в каждом проекте заново — роутинг команд, меню, состояние между сообщениями, контроль доступа, конфигурация и фоновые задачи.
+Разрабатывается с 2023 года, сейчас — на **Bot API 10.4** через [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot). Обёртка не спрятана: все её методы и типы остаются вам доступны. Сверху фреймворк добавляет тот слой, который иначе пишется руками в каждом проекте заново — роутинг команд, меню, состояние между сообщениями, контроль доступа, конфигурация и фоновые задачи.
 
 Обработчики — это обычные методы, помеченные атрибутом. Никакой таблицы регистрации, которую надо держать в актуальном состоянии: фреймворк находит их рефлексией при старте, поэтому добавить команду значит добавить метод.
 
@@ -132,8 +132,9 @@ public static class Commands
  - **Билдер сообщений.** `MessageBuilder` собирает текст по шаблону с позиционными аргументами и именованными токенами вида `{QA}`, в том числе с ленивым вычислением значений.
  - **Inline-подтверждения.** `InlineCallbackWithConfirmation` оборачивает кнопку так, что перед выполнением у пользователя запрашивается подтверждение.
  - **Отключённые кнопки.** `InlineDisabled` показывает кнопку серой — меню сохраняет вёрстку, пока пункт недоступен, вместо того чтобы терять кнопку и прыгать.
- - **Эфемерные сообщения.** `MessageSender.SendEphemeral` отвечает одному человеку в группе сообщением, которое видит только он и которое не попадает в историю чата.
- - **Rich-сообщения.** `MessageSender.SendRichMessage` отправляет сообщение, собранное из блоков — заголовков, списков, таблиц, цитат и встроенных медиа — с теми же настройками, что и любое другое.
+ - **Эфемерные сообщения.** `MessageSender.SendEphemeral` отвечает на нажатие кнопки лично её отправителю, в том числе для сообщения из inline-режима. [Эфемерные сообщения](https://prethink.gitbook.io/prtelegrambot/ru/efemernye-soobsheniya).
+ - **Rich-сообщения.** `MessageSender.SendRichMessage` отправляет заголовки, списки, таблицы и встроенные медиа. При ответе можно цитировать фрагменты исходного rich-сообщения через `OptionMessage.QuoteRichTexts`. [Rich-сообщения](https://prethink.gitbook.io/prtelegrambot/ru/rich-soobsheniya).
+ - **HTML-виджеты.** Отправка через `BotClient.SendWidget` и обработка запросов через `OnWidgetQueryHandle` и `OnSharedWidgetQueryHandle`. [HTML-виджеты](https://prethink.gitbook.io/prtelegrambot/ru/html-vidzhety).
  - **Постраничная работа с сообщениями.** Управление сообщениями с постраничной навигацией.
  - **Сообщения-заглушки.** `MessageAwaiter` отправляет сообщение на время обработки данных и удаляет его после.
  - **Встроенный функционал календаря.** Работа с датами и календарями.

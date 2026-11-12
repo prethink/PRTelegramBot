@@ -57,6 +57,9 @@ namespace PRTelegramBot.Extensions
                 UpdateType.PollAnswer => update.PollAnswer!.VoterChat?.Id
                     ?? throw new InvalidOperationException("The poll answer carries no voter chat, so the chat id cannot be determined."),
                 UpdateType.RemovedChatBoost => update.RemovedChatBoost!.Chat.Id,
+                UpdateType.WidgetQuery => update.WidgetQuery!.Chat?.Id
+                    ?? throw new InvalidOperationException("The widget query carries no chat id."),
+                UpdateType.SharedWidgetQuery => throw new InvalidOperationException("Shared widget queries carry no chat id."),
                 _ => throw new NotImplementedException($"Not implemented get chatId for {update.Type}")
             }; 
         }
@@ -104,6 +107,9 @@ namespace PRTelegramBot.Extensions
                 UpdateType.Message => update.Message!.MessageId,
                 UpdateType.CallbackQuery => update.CallbackQuery!.Message?.MessageId
                     ?? throw new InvalidOperationException("The callback query carries no message, so the message id cannot be determined."),
+                UpdateType.WidgetQuery => update.WidgetQuery!.MessageId
+                    ?? throw new InvalidOperationException("The widget query carries no message id."),
+                UpdateType.SharedWidgetQuery => throw new InvalidOperationException("Shared widget queries carry no message id."),
                 //TODO: messageId still needs work
                 _ => throw new NotImplementedException($"Not implemented get messageId for {update.Type}")
             };
@@ -152,6 +158,7 @@ namespace PRTelegramBot.Extensions
                 UpdateType.MyChatMember => GetFullNameFromChat(update.MyChatMember!.Chat),
                 UpdateType.PollAnswer => GetFullNameFromChat(update.PollAnswer!.VoterChat),
                 UpdateType.RemovedChatBoost => GetFullNameFromChat(update.RemovedChatBoost!.Chat),
+                UpdateType.WidgetQuery => GetFullNameFromChat(update.WidgetQuery!.Chat),
                 _ => string.Empty
             };
         }
@@ -188,6 +195,8 @@ namespace PRTelegramBot.Extensions
                 UpdateType.EditedChannelPost => RequireSender(update.EditedChannelPost!.From, update.Type),
                 UpdateType.EditedMessage => RequireSender(update.EditedMessage!.From, update.Type),
                 UpdateType.MyChatMember => update.MyChatMember!.From.Id,
+                UpdateType.WidgetQuery => update.WidgetQuery!.From.Id,
+                UpdateType.SharedWidgetQuery => update.SharedWidgetQuery!.From.Id,
                 _ => throw new NotImplementedException($"Not implemented get userId for {update.Type}")
             };
         }

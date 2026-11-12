@@ -69,6 +69,15 @@ That makes it the natural place for a ban list, a rate limiter, or logging every
 | `OnPollHandle` | a poll's state changed |
 | `OnPollAnswerHandle` | someone answered |
 
+## HTML widgets
+
+| Event | Raised for |
+| --- | --- |
+| `OnWidgetQueryHandle` | a widget in a message sent by or via the bot sends a query |
+| `OnSharedWidgetQueryHandle` | a shared widget in a forwarded message sends a query |
+
+See [HTML widgets](../html-widgets.md) for registration and replies.
+
 ## Payments
 
 | Event | Raised for |

@@ -3,6 +3,8 @@ using PRTelegramBot.Models;
 using PRTelegramBot.Services.Media;
 using PRTelegramBot.Services.Messages;
 using PRTelegramBot.Tests.TestModels;
+using System.Text.Json;
+using Telegram.Bot;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 
@@ -125,9 +127,55 @@ namespace PRTelegramBot.Tests.ServicesTests
 
             await MessageSender.SendEphemeral(bot.Context.Object, "only you can see this");
 
-            var parameters = bot.Single<SendMessageRequest>().EphemeralMessageParameters!;
-            parameters.ReceiverUserId.Should().Be(UserId);
-            parameters.CallbackQueryId.Should().Be("cq-1");
+            var request = bot.Single<SendMessageRequest>();
+            request.ChatId.Should().BeNull();
+            request.EphemeralMessageParameters!.ReceiverUserId.Should().BeNull();
+            request.EphemeralMessageParameters.CallbackQueryId.Should().Be("cq-1");
+        }
+
+        [Test]
+        public async Task SendEphemeralCanReplyToAnInlineCallbackWithoutAChat()
+        {
+            var update = CallbackQueryUpdate();
+            update.CallbackQuery!.Message = null;
+            update.CallbackQuery.InlineMessageId = "inline-message";
+            var bot = new BotClientMock(update);
+            var option = new OptionMessage { DisableNotification = true };
+
+            await MessageSender.SendEphemeral(bot.Context.Object, "only you can see this", option);
+
+            var request = bot.Single<SendMessageRequest>();
+            request.ChatId.Should().BeNull();
+            request.EphemeralMessageParameters!.CallbackQueryId.Should().Be("cq-1");
+            request.EphemeralMessageParameters.ReceiverUserId.Should().BeNull();
+            request.DisableNotification.Should().BeTrue();
+            option.EphemeralMessageParameters.Should().BeNull();
+
+            using var payload = JsonDocument.Parse(JsonSerializer.Serialize(request, JsonBotAPI.Options));
+            payload.RootElement.TryGetProperty("chat_id", out _).Should().BeFalse();
+            var ephemeral = payload.RootElement.GetProperty("ephemeral_message_parameters");
+            ephemeral.TryGetProperty("receiver_user_id", out _).Should().BeFalse();
+            ephemeral.GetProperty("callback_query_id").GetString().Should().Be("cq-1");
+        }
+
+        [Test]
+        public async Task ExplicitReceiverKeepsOnlyTheirOwnCallbackQuery()
+        {
+            var bot = new BotClientMock(CallbackQueryUpdate());
+
+            await MessageSender.SendEphemeral(bot.Context.Object, UserId, "For the sender");
+            await MessageSender.SendEphemeral(bot.Context.Object, 999, "For another member", replaceCallbackQueryMessage: true);
+
+            var reply = bot.At<SendMessageRequest>(0);
+            reply.ChatId!.Identifier.Should().Be(ChatId);
+            reply.EphemeralMessageParameters!.ReceiverUserId.Should().Be(UserId);
+            reply.EphemeralMessageParameters.CallbackQueryId.Should().Be("cq-1");
+
+            var targeted = bot.At<SendMessageRequest>(1);
+            targeted.ChatId!.Identifier.Should().Be(ChatId);
+            targeted.EphemeralMessageParameters!.ReceiverUserId.Should().Be(999);
+            targeted.EphemeralMessageParameters.CallbackQueryId.Should().BeNull();
+            targeted.EphemeralMessageParameters.ReplaceCallbackQueryMessage.Should().BeFalse();
         }
 
         [Test]

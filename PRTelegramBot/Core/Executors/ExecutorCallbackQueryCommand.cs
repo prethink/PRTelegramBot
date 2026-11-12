@@ -43,11 +43,10 @@ namespace PRTelegramBot.Core.Executors
             }
 
             var whiteListManager = bot.GetWhiteListManager();
-            var hasUserInWhiteList = await whiteListManager.HasUser(context.Update.GetChatId());
-
-            if (whiteListManager.Settings == WhiteListSettings.OnlyCommands && whiteListManager.Count > 0)
+            if (whiteListManager.Settings == WhiteListSettings.OnlyCommands &&
+                whiteListManager.Count > 0 && whiteListAttribute is null)
             {
-                if (whiteListAttribute is null && !hasUserInWhiteList)
+                if (!context.TryGetChatId(out var chatId) || !await whiteListManager.HasUser(chatId))
                 {
                     bot.Events.OnAccessDeniedInvoke(context.CreateBotEventArgs());
                     return InternalCheckResult.NotInWhiteList;

@@ -3,6 +3,30 @@
 **English** | [Русский](CHANGELOG.ru.md)
 
 
+## November 13, 2026 - v1.1.3
+
+> Support for [Bot API 10.4](https://core.telegram.org/bots/api-changelog#november-9-2026). Telegram.Bot updated from 22.10.3.3 to 22.10.4.
+
+### 🔄 Breaking changes
+
+- Telegram.Bot renamed `StoryAreaPosition` to `AreaPosition`. Update explicit references to the old type.
+- Telegram.Bot inserted optional description formatting parameters into `VerifyUser` and `VerifyChat`. Pass a previously positional cancellation token by name, for example `cancellationToken: token`.
+
+### 🚀 New functionality
+
+- Added `UpdateEvents.OnWidgetQueryHandle` and `OnSharedWidgetQueryHandle`, and `MessageEvents.OnWidgetHandle`, `OnPaidMessagesWaivedHandle` and `OnTonWalletTransferHandle`. Update helpers now expose the sender of both query types and the chat and message IDs when provided.
+- `MessageSender.SendEphemeral(context, text)` can reply using the callback query ID alone, including for inline messages with no chat ID in the update.
+- Set `OptionMessage.QuoteRichTexts` with `ReplyToMessageId` to include rich excerpts in a reply.
+
+### 🐞 Bugs
+
+- When an explicit ephemeral recipient differs from the sender, the request no longer attaches the sender's callback or ephemeral reply target. Ephemeral sends no longer change the caller's options.
+- Inline callbacks without a chat ID can reach command handlers when the chat allowlist does not apply. When the allowlist applies and the update has no chat ID, access is denied through the usual event.
+
+### 🧩 Common
+
+- Documented HTML widgets, ephemeral callback replies and rich quotes in English and Russian, and updated the package README. [Telegram.Bot changes](https://www.nuget.org/packages/Telegram.Bot/22.10.4#releasenotes-body-tab).
+
 ## October 10, 2026 - v1.1.2
 
 > Support for [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot updated from 22.10.3.1 to 22.10.3.3.

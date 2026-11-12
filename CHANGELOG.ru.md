@@ -3,6 +3,30 @@
 [English](CHANGELOG.md) | **Русский**
 
 
+## 13.11.2026 - v1.1.3
+
+> Поддержка [Bot API 10.4](https://core.telegram.org/bots/api-changelog#november-9-2026). Telegram.Bot обновлён с 22.10.3.3 до 22.10.4.
+
+### 🔄 Breaking changes
+
+- Telegram.Bot переименовал `StoryAreaPosition` в `AreaPosition`. Обновите явные ссылки на старый тип.
+- Telegram.Bot добавил необязательные параметры форматирования описания в `VerifyUser` и `VerifyChat`. Если токен отмены передавался позиционно, укажите его по имени, например `cancellationToken: token`.
+
+### 🚀 New functionality
+
+- Добавлены `UpdateEvents.OnWidgetQueryHandle` и `OnSharedWidgetQueryHandle`, а также `MessageEvents.OnWidgetHandle`, `OnPaidMessagesWaivedHandle` и `OnTonWalletTransferHandle`. Методы расширения возвращают отправителя обоих типов запросов и идентификаторы чата и сообщения, если они есть в update.
+- `MessageSender.SendEphemeral(context, text)` отвечает по одному идентификатору callback query, в том числе для inline-сообщений, когда в update нет идентификатора чата.
+- Чтобы процитировать фрагменты rich-сообщения в ответе, задайте `OptionMessage.QuoteRichTexts` вместе с `ReplyToMessageId`.
+
+### 🐞 Bugs
+
+- При отправке эфемерного сообщения другому пользователю запрос больше не содержит callback или цель эфемерного ответа исходного отправителя. Эфемерная отправка больше не меняет переданные настройки.
+- Inline-callback без идентификатора чата доходит до обработчика команды, если проверка по белому списку чатов не применяется. Если проверка включена и в update нет идентификатора чата, отказ передаётся через обычное событие.
+
+### 🧩 Common
+
+- В английскую и русскую документацию добавлены HTML-виджеты, эфемерные ответы на callback query и rich-цитаты. Обновлён README пакета. [Изменения Telegram.Bot](https://www.nuget.org/packages/Telegram.Bot/22.10.4#releasenotes-body-tab).
+
 ## 10.10.2026 - v1.1.2
 
 > Поддержка [Bot API 10.3](https://core.telegram.org/bots/api#recent-changes). Telegram.Bot обновлён с 22.10.3.1 до 22.10.3.3.

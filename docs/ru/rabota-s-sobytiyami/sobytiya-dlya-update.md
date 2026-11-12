@@ -138,6 +138,12 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnStoppedMessageGenerationHandle;
 
+        /// <summary>Запрос от виджета в сообщении, отправленном ботом или через него.</summary>
+        public event Func<BotEventArgs, Task>? OnWidgetQueryHandle;
+
+        /// <summary>Запрос от общего виджета в пересланном сообщении.</summary>
+        public event Func<BotEventArgs, Task>? OnSharedWidgetQueryHandle;
+
         /// <summary>
         /// Событие обновления управляемого бота.
         /// </summary>

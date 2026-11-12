@@ -1,7 +1,12 @@
 ﻿using PRTelegramBot.Builders;
 using PRTelegramBot.Core;
+using PRTelegramBot.Core.Executors;
+using PRTelegramBot.Extensions;
+using PRTelegramBot.Interfaces;
+using PRTelegramBot.Models;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.EventsArgs;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Tests.EventsTests
 {
@@ -398,6 +403,109 @@ namespace PRTelegramBot.Tests.EventsTests
             await bot.Handler.HandleUpdateAsync(bot.BotClient, update, new CancellationToken());
             Assert.IsTrue(eventCalled, $"The {nameof(bot.Events.UpdateEvents.OnPreUpdate)} event was not called.");
             bot.Events.UpdateEvents.OnPreUpdate -= EventHandler;
+        }
+
+        [Test]
+        public async Task InlineCallbackCommandCanExecuteWithoutAChatWhenAllowlistIsEmpty()
+        {
+            var update = new Update
+            {
+                CallbackQuery = new CallbackQuery
+                {
+                    Id = "inline-callback",
+                    InlineMessageId = "inline-message",
+                    From = new User { Id = 123 },
+                },
+            };
+            var context = new BotContext(bot, update);
+            var command = new CommandHandler(MarkInlineCommandExecuted);
+
+            var result = await new ExecutorCallbackQueryCommand(bot).Execute(context, command);
+
+            Assert.That(result, Is.EqualTo(CommandResult.Executed));
+            Assert.That(context.TryGetCustomValue<string>(out var value), Is.True);
+            Assert.That(value, Is.EqualTo("executed"));
+        }
+
+        private static Task MarkInlineCommandExecuted(IBotContext context)
+        {
+            ((BotContext)context).SetCustomData("executed");
+            return Task.CompletedTask;
+        }
+
+        [Test]
+        public async Task WidgetQueryReachesItsEventWithChatAndMessageIds()
+        {
+            var update = new Update
+            {
+                WidgetQuery = new WidgetQuery
+                {
+                    Id = "widget-query",
+                    From = new User { Id = 123 },
+                    Chat = new Chat { Id = 456 },
+                    MessageId = 789,
+                    ChatInstance = "chat-instance",
+                    Data = "ping",
+                    Type = new WidgetQueryTypeData(),
+                },
+            };
+            Update? received = null;
+            Task OnWidgetQuery(BotEventArgs e)
+            {
+                received = e.Context.Update;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.UpdateEvents.OnWidgetQueryHandle += OnWidgetQuery;
+            try
+            {
+                await ((Handler)bot.Handler).UpdateAsync(new BotContext(bot, update));
+            }
+            finally
+            {
+                bot.Events.UpdateEvents.OnWidgetQueryHandle -= OnWidgetQuery;
+            }
+
+            Assert.That(received, Is.SameAs(update));
+            Assert.That(update.GetChatId(), Is.EqualTo(456L));
+            Assert.That(update.GetMessageId(), Is.EqualTo(789));
+            Assert.That(update.GetUserId(), Is.EqualTo(123L));
+        }
+
+        [Test]
+        public async Task SharedWidgetQueryReachesItsEventWithoutAChat()
+        {
+            var update = new Update
+            {
+                SharedWidgetQuery = new SharedWidgetQuery
+                {
+                    Id = "shared-widget-query",
+                    From = new User { Id = 123 },
+                    WidgetId = "shared-widget",
+                    Data = "ping",
+                    Type = new WidgetQueryTypeData(),
+                },
+            };
+            Update? received = null;
+            Task OnSharedWidgetQuery(BotEventArgs e)
+            {
+                received = e.Context.Update;
+                return Task.CompletedTask;
+            }
+
+            bot.Events.UpdateEvents.OnSharedWidgetQueryHandle += OnSharedWidgetQuery;
+            try
+            {
+                await ((Handler)bot.Handler).UpdateAsync(new BotContext(bot, update));
+            }
+            finally
+            {
+                bot.Events.UpdateEvents.OnSharedWidgetQueryHandle -= OnSharedWidgetQuery;
+            }
+
+            Assert.That(received, Is.SameAs(update));
+            Assert.That(update.TryGetChatId(out _), Is.False);
+            Assert.That(update.GetUserId(), Is.EqualTo(123L));
         }
 
         /// <summary>

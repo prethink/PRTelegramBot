@@ -38,6 +38,7 @@ There are 78 of them, grouped below. If Telegram adds a message type and the fra
 | `OnLivePhotoHandle` | a live photo |
 | `OnPaidMediaHandle` | paid media |
 | `OnRichMessageHandle` | a rich message |
+| `OnWidgetHandle` | a message containing an [HTML widget](../html-widgets.md) |
 | `OnGameHandle` | a game |
 | `OnDiceHandle` | a dice roll |
 
@@ -111,6 +112,8 @@ There are 78 of them, grouped below. If Telegram adds a message type and the fra
 | `OnUniqueGiftHandle` | a unique gift |
 | `OnGiftUpgradeSentHandle` | a gift upgrade was sent |
 | `OnPaidMessagePriceChangedHandle` | the paid-message price changed |
+| `OnPaidMessagesWaivedHandle` | the sender used a link that waives the Telegram Stars fee |
+| `OnTonWalletTransferHandle` | a service message reports a TON wallet transfer |
 | `OnDirectMessagePriceChangedHandle` | the direct-message price changed |
 
 ## Giveaways and boosts

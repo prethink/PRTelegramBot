@@ -405,6 +405,21 @@ namespace PRTelegramBot.Core.Events
         /// </summary>
         public event Func<BotEventArgs, Task>? OnCommunityChatJoinedHandle;
 
+        /// <summary>
+        /// Raised when a message contains an HTML widget.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnWidgetHandle;
+
+        /// <summary>
+        /// Raised when a user sends a message using a link that waives the Telegram Stars fee.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnPaidMessagesWaivedHandle;
+
+        /// <summary>
+        /// Raised when a service message reports a TON wallet transfer.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnTonWalletTransferHandle;
+
 
         #endregion
 
@@ -804,6 +819,15 @@ namespace PRTelegramBot.Core.Events
         /// Raises the <see cref="OnCommunityChatJoinedHandle"/> event.
         /// </summary>
         internal Task OnCommunityChatJoinedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnCommunityChatJoinedHandle, e);
+
+        /// <summary>Raises the <see cref="OnWidgetHandle"/> event.</summary>
+        internal Task OnWidgetHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWidgetHandle, e);
+
+        /// <summary>Raises the <see cref="OnPaidMessagesWaivedHandle"/> event.</summary>
+        internal Task OnPaidMessagesWaivedHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnPaidMessagesWaivedHandle, e);
+
+        /// <summary>Raises the <see cref="OnTonWalletTransferHandle"/> event.</summary>
+        internal Task OnTonWalletTransferHandleInvoke(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnTonWalletTransferHandle, e);
 
 
         #endregion

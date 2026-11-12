@@ -92,6 +92,16 @@ namespace PRTelegramBot.Core.Events
         public event Func<BotEventArgs, Task>? OnStoppedMessageGenerationHandle;
 
         /// <summary>
+        /// Raised when a widget in a message sent by or via the bot sends a query.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnWidgetQueryHandle;
+
+        /// <summary>
+        /// Raised when a widget in a forwarded message sends a query.
+        /// </summary>
+        public event Func<BotEventArgs, Task>? OnSharedWidgetQueryHandle;
+
+        /// <summary>
         /// Event raised for an update of an unknown type.
         /// </summary>
         public event Func<BotEventArgs, Task>? OnUnknownHandle;
@@ -221,6 +231,12 @@ namespace PRTelegramBot.Core.Events
 
         /// <summary>Raises the <see cref="OnStoppedMessageGenerationHandle"/> event.</summary>
         internal Task OnStoppedMessageGenerationHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnStoppedMessageGenerationHandle, e);
+
+        /// <summary>Raises the <see cref="OnWidgetQueryHandle"/> event.</summary>
+        internal Task OnWidgetQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnWidgetQueryHandle, e);
+
+        /// <summary>Raises the <see cref="OnSharedWidgetQueryHandle"/> event.</summary>
+        internal Task OnSharedWidgetQueryHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnSharedWidgetQueryHandle, e);
 
         /// <summary>Raises the <see cref="OnUnknownHandle"/> event.</summary>
         internal Task OnUnknownHandler(BotEventArgs e) => EventsUtils.InvokeAllAsync(OnUnknownHandle, e);

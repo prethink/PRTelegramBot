@@ -188,6 +188,9 @@ namespace PRTelegramBot.Core.UpdateDispatchers
             TypeMessage.Add(MessageType.CommunityChatAdded, bot.Events.MessageEvents.OnCommunityChatAddedHandleInvoke);
             TypeMessage.Add(MessageType.CommunityChatRemoved, bot.Events.MessageEvents.OnCommunityChatRemovedHandleInvoke);
             TypeMessage.Add(MessageType.CommunityChatJoined, bot.Events.MessageEvents.OnCommunityChatJoinedHandleInvoke);
+            TypeMessage.Add(MessageType.Widget, bot.Events.MessageEvents.OnWidgetHandleInvoke);
+            TypeMessage.Add(MessageType.PaidMessagesWaived, bot.Events.MessageEvents.OnPaidMessagesWaivedHandleInvoke);
+            TypeMessage.Add(MessageType.TonWalletTransfer, bot.Events.MessageEvents.OnTonWalletTransferHandleInvoke);
         }
 
         #endregion

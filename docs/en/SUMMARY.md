@@ -28,6 +28,7 @@
 * [Paginated messages](paginated-messages.md)
 * [Ephemeral messages](ephemeral-messages.md)
 * [Rich messages](rich-messages.md)
+* [HTML widgets](html-widgets.md)
 * [Configuration files for bots](configuration-files.md)
 * [User cache](user-cache.md)
 * [Restricted access to commands](restricted-access.md)

@@ -31,6 +31,7 @@
 * [Постраничный вывод информации в сообщение](postranichnyi-vyvod-informacii-v-soobshenie.md)
 * [Эфемерные сообщения](efemernye-soobsheniya.md)
 * [Rich-сообщения](rich-soobsheniya.md)
+* [HTML-виджеты](html-vidzhety.md)
 * [Работа с событиями](rabota-s-sobytiyami/README.md)
   * [События для типа update message](rabota-s-sobytiyami/sobytiya-dlya-tipa-update-message.md)
   * [События для update](rabota-s-sobytiyami/sobytiya-dlya-update.md)

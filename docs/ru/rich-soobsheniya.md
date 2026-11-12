@@ -111,6 +111,25 @@ await MessageSender.SendRichMessage(context, blockMessage);
 
 Поддерживаются виды `photo`, `video`, `document` и `audio`. `MessageSender.SendRichMessage` преобразует такую ссылку в медиа-вложение, ожидаемое Telegram.Bot.
 
+## Ответ с rich-цитатой
+
+Укажите идентификатор исходного сообщения в `ReplyToMessageId`, а фрагменты в `QuoteRichTexts`. Например, в обработчике ответа можно повторно использовать цитату, которую выделил пользователь.
+
+```csharp
+if (context.Update.Message is { ReplyToMessage: { } original, Quote.RichTexts: { Length: > 0 } excerpts })
+{
+    var options = new OptionMessage
+    {
+        ReplyToMessageId = original.Id,
+        QuoteRichTexts = excerpts,
+    };
+
+    await MessageSender.SendRichMessage(context, "<p>Here is the requested clarification.</p>", options);
+}
+```
+
+Если собираете цитату вручную, сохраните порядок и форматирование фрагментов. Telegram принимает до 32 элементов общей длиной до 1024 символов. [ReplyParameters в Bot API](https://core.telegram.org/bots/api#replyparameters).
+
 ## Приём
 
 Входящее rich-сообщение поднимает `OnRichMessageHandle`, а опознаётся оно по `MessageType.RichMessage`. См. [События для типа update message](rabota-s-sobytiyami/sobytiya-dlya-tipa-update-message.md).

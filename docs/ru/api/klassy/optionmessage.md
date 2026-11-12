@@ -91,6 +91,11 @@ namespace PRTelegramBot.Models
         public int? ReplyToMessageId { get; set; }
 
         /// <summary>
+        /// Фрагменты rich-сообщения, указанного в ReplyToMessageId.
+        /// </summary>
+        public RichText[]? QuoteRichTexts { get; set; }
+
+        /// <summary>
         /// Идентификатор входящего эфемерного сообщения, на которое отвечаем.
         /// Ответ на эфемерное сообщение сам обязан быть эфемерным, и Telegram принимает
         /// его только в течение 15 секунд после исходного.
@@ -153,7 +158,8 @@ namespace PRTelegramBot.Models
         /// <summary>
         /// Параметры отправляемого эфемерного сообщения.
         /// Эфемерное сообщение показывается одному пользователю поверх чата и не попадает
-        /// в историю. Обычный long приводится к этому типу неявно.
+        /// в историю. Укажите ReceiverUserId для отправки пользователю или CallbackQueryId
+        /// для ответа на нажатие кнопки. Обычный long задаёт идентификатор получателя.
         /// </summary>
         public EphemeralMessageParameters? EphemeralMessageParameters { get; set; }
 
