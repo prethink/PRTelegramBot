@@ -3,6 +3,30 @@
 **English** | [Русский](CHANGELOG.ru.md)
 
 
+## November 23, 2026 - v1.1.4
+
+> Updated Telegram.Bot from 22.10.4 to 22.10.5 for [Bot API 10.5](https://core.telegram.org/bots/api-changelog#november-22-2026).
+
+### 🔄 Breaking changes
+
+| Before | After |
+| --- | --- |
+| Read bot capability flags such as `CanJoinGroups` on `User` | Read them on `BotFullInfo` returned by `GetMe`. Update explicitly typed tasks and request mocks to use `BotFullInfo`. |
+| Read or set `Text` on `RichBlockExpandableBlockQuotation` or `InputRichBlockExpandableBlockQuotation` | Use `Blocks`. Wrap existing text in a paragraph block when constructing a quote. |
+
+### 🚀 New functionality
+
+- Use `BotClient.SetMySettings` to configure bot capabilities and choose `Default`, `Auto` or `Inline` callback delivery. `WriteAccessAllowed.Inviter` identifies the bot owner when an invitation grants write access.
+- `MessageEditor.Edit(context, text, option)` accepts callbacks addressed by inline message ID. It returns the edited message for chat edits and null after a successful inline edit. The new `MessageEditor.EditInline(context, keyboard)` overload replaces the keyboard on either target. Pass null to remove it.
+
+### 🐞 Bugs
+
+- Calendar navigation and confirmation prompts work when a callback carries only `InlineMessageId`. The confirmation edits the original message and clears its buttons when declined. A delete action skips deletion when Telegram supplies no chat message.
+
+### 🧩 Common
+
+- Updated the package README and added a [guide to bot settings and callback queries](https://prethink.gitbook.io/prtelegrambot/bot-settings).
+
 ## November 13, 2026 - v1.1.3
 
 > Support for [Bot API 10.4](https://core.telegram.org/bots/api-changelog#november-9-2026). Telegram.Bot updated from 22.10.3.3 to 22.10.4.

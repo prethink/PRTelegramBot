@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using PRTelegramBot.Actions;
 using PRTelegramBot.Builders;
 using PRTelegramBot.Core;
 using PRTelegramBot.Core.BotScope;
@@ -6,7 +7,10 @@ using PRTelegramBot.Interfaces;
 using PRTelegramBot.Models.CallbackCommands;
 using PRTelegramBot.Models.Enums;
 using PRTelegramBot.Models.InlineButtons;
+using PRTelegramBot.Tests.TestModels;
 using PRTelegramBot.Utils;
+using Telegram.Bot.Requests;
+using Telegram.Bot.Types;
 
 namespace PRTelegramBot.Tests.CoreTests
 {
@@ -101,6 +105,39 @@ namespace PRTelegramBot.Tests.CoreTests
 
                 InlineCallbackWithConfirmation.TryGetPending(id, out var afterwards).Should().BeFalse();
                 afterwards.Should().BeNull();
+            }
+        }
+
+        [Test]
+        public async Task InlineOnlyConfirmationCanBeOpenedAndDeclined()
+        {
+            var callback = new CallbackQuery { InlineMessageId = "inline-confirmation" };
+            var client = new BotClientMock(new Update { CallbackQuery = callback });
+            client.Context.SetupGet(x => x.Current).Returns(botInstance);
+            using var scope = new BotDataScope(client.Context.Object, botInstance);
+            var confirmation = BuildConfirmation();
+            callback.Data = confirmation.GetInlineButton().CallbackData;
+            var id = InlineCallback<EntityTCommand<string>>.GetCommandByCallbackOrNull(callback.Data!).Data.EntityId;
+
+            try
+            {
+                await InlineConfirmation.ActionWithConfirmation(client.Context.Object);
+                var prompt = client.Single<EditInlineMessageTextRequest>();
+                prompt.InlineMessageId.Should().Be(callback.InlineMessageId);
+                prompt.Text.Should().Be(confirmation.BaseMessage);
+
+                callback.Data = prompt.ReplyMarkup!.InlineKeyboard.Single().Last().CallbackData;
+                await InlineConfirmation.ActionWithConfirmationResultNo(client.Context.Object);
+
+                client.SentCount.Should().Be(2);
+                var edit = client.At<EditInlineMessageReplyMarkupRequest>(1);
+                edit.InlineMessageId.Should().Be(callback.InlineMessageId);
+                edit.ReplyMarkup.Should().BeNull();
+                InlineCallbackWithConfirmation.TryGetPending(id, out _).Should().BeFalse();
+            }
+            finally
+            {
+                InlineCallbackWithConfirmation.Complete(id);
             }
         }
 

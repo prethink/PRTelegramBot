@@ -18,14 +18,15 @@ The [API reference](api/) is generated from the XML documentation comments in th
 
 PRTelegramBot is listed in Telegram's official [Bot API library examples](https://core.telegram.org/bots/samples).
 
-This documentation covers version 1.1.3.
+This documentation covers version 1.1.4.
 
 ## ⚛️ Framework core
 
 PRTelegramBot is built on top of [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot), so every method and type that library gives you stays available. Its [documentation](https://telegrambots.github.io/book/) applies here too.
 
-* Telegram.Bot v22.10.4 [https://github.com/TelegramBots/Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot)
-* Supports [Bot API 10.4](https://core.telegram.org/bots/api)
+* Telegram.Bot v22.10.5 [https://github.com/TelegramBots/Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot)
+* Supports [Bot API 10.5](https://core.telegram.org/bots/api)
+* [Bot settings and callback queries](bot-settings.md)
 
 The library targets .NET 6.0 and runs on any newer version.
 

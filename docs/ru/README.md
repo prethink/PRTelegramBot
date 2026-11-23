@@ -14,7 +14,7 @@ description: >-
 
 PRTelegramBot представлен в официальном каталоге Telegram [Bot API Library Examples](https://core.telegram.org/bots/samples).
 
-Документация актуальна для версии 1.1.3
+Документация актуальна для версии 1.1.4
 
 Переходите с 0.9.x? Начните с [страницы миграции](perekhod-na-1.0.md) — в 1.0 есть ломающие изменения.
 
@@ -26,8 +26,9 @@ PRTelegramBot представлен в официальном каталоге 
 
 _**Внимание! В основе PRTelegramBot лежит библиотека**_ [_**TelegramBot**_](https://github.com/TelegramBots/Telegram.Bot)_**, поэтому вы можете использовать все функции которые задействует эта библиотека.**_ [_**Документация**_](https://telegrambots.github.io/book/)
 
-* TelegramBot v22.10.4 [https://github.com/TelegramBots/Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot)
-* Поддерживается [Bot API 10.4](https://core.telegram.org/bots/api)
+* TelegramBot v22.10.5 [https://github.com/TelegramBots/Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot)
+* Поддерживается [Bot API 10.5](https://core.telegram.org/bots/api)
+* [Настройки бота и callback-запросы](nastroiki-bota.md)
 
 Библиотека собрана под .NET 6.0 и работает на любой более новой версии.
 

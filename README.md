@@ -2,7 +2,7 @@
 
 # PRTelegramBot
 
-![Static Badge](https://img.shields.io/badge/version-v1.1.3-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.4-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.4-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/prethink/PRTelegramBot/blob/master/LICENSE)
+![Static Badge](https://img.shields.io/badge/version-v1.1.4-brightgreen) [![Static Badge](https://img.shields.io/badge/Telegram_Bot_API-10.5-blue)](https://core.telegram.org/bots/api) ![Static Badge](https://img.shields.io/badge/telegram.bot-22.10.5-blue) ![NuGet Downloads](https://img.shields.io/nuget/dt/prtelegrambot) ![NuGet Version](https://img.shields.io/nuget/v/prtelegrambot) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/prethink/PRTelegramBot/blob/master/LICENSE)
 
 **English** | [Русский](https://github.com/prethink/PRTelegramBot/blob/master/README.ru.md)
 
@@ -21,7 +21,7 @@
 
 A .NET framework for building Telegram bots on top of Telegram.Bot: attribute-based command routing, menus, middleware, DI and background tasks.
 
-In development since 2023, currently tracking **Bot API 10.4** through [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot). The wrapper is not hidden: every method and type it gives you stays available. What the framework adds on top is the layer that otherwise gets rewritten by hand in every project — command routing, menus, state between messages, access control, configuration and background work.
+In development since 2023, currently tracking **Bot API 10.5** through [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot). The wrapper is not hidden: every method and type it gives you stays available. What the framework adds on top is the layer that otherwise gets rewritten by hand in every project — command routing, menus, state between messages, access control, configuration and background work.
 
 Handlers are ordinary methods marked with an attribute. There is no registration table to keep in sync — the framework finds them by reflection at startup, so adding a command means adding a method:
 
@@ -135,6 +135,7 @@ There is also a [quick-start template](https://github.com/prethink/PRTelegramBot
  - **Ephemeral messages.** `MessageSender.SendEphemeral` privately replies to the user who pressed a button, including buttons on messages sent in inline mode. [Ephemeral messages](https://prethink.gitbook.io/prtelegrambot/ephemeral-messages).
  - **Rich messages.** `MessageSender.SendRichMessage` sends headings, lists, tables and embedded media. Use `OptionMessage.QuoteRichTexts` to quote excerpts from the original rich message in a reply. [Rich messages](https://prethink.gitbook.io/prtelegrambot/rich-messages).
  - **HTML widgets.** Send them with `BotClient.SendWidget` and handle requests with `OnWidgetQueryHandle` and `OnSharedWidgetQueryHandle`. [HTML widgets](https://prethink.gitbook.io/prtelegrambot/html-widgets).
+ - **Bot settings.** Configure callback delivery with `SetMySettings` and edit a button’s message by chat or inline ID. [Bot settings and callback queries](https://prethink.gitbook.io/prtelegrambot/bot-settings).
  - **Paginated messages.** Message management with page-by-page navigation.
  - **Waiting messages.** `MessageAwaiter` posts a placeholder message while the data is being processed and removes it afterwards.
  - **Built-in calendar.** Working with dates and calendars.

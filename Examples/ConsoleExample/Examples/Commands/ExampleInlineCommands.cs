@@ -136,15 +136,16 @@ namespace ConsoleExample.Examples.Commands
                 if (command != null)
                 {
                     string msg = $"The identifier you passed: {command.Data.EntityId}";
-                    if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
+                    if (context.Update.CallbackQuery?.InlineMessageId is not null
+                        || command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                     {
                         await MessageEditor.Edit(context, msg);
                     }
-                    else
+                    else if (context.Update.CallbackQuery?.Message is { } message)
                     {
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
                         {
-                            await context.BotClient.DeleteMessage(context.Update.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
+                            await context.BotClient.DeleteMessage(message.Chat.Id, message.Id);
                         }
                         await MessageSender.Send(context, msg);
                     }
@@ -170,15 +171,16 @@ namespace ConsoleExample.Examples.Commands
                 if (command != null)
                 {
                     string msg = $"The identifier you passed: {command.Data.EntityId}";
-                    if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
+                    if (context.Update.CallbackQuery?.InlineMessageId is not null
+                        || command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                     {
                         await MessageEditor.Edit(context, msg);
                     }
-                    else
+                    else if (context.Update.CallbackQuery?.Message is { } message)
                     {
                         if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Delete)
                         {
-                            await context.BotClient.DeleteMessage(context.Update.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
+                            await context.BotClient.DeleteMessage(message.Chat.Id, message.Id);
                         }
                         await MessageSender.Send(context, msg);
                     }

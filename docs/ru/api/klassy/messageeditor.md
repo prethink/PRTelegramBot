@@ -22,7 +22,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="messageId">Идентификатор сообщения.</param>
         /// <param name="option">Настройки сообщения.</param>
         /// <returns>Сообщение.</returns>
-        public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> EditInline(IBotContext context, long chatId, int messageId, OptionMessage? option = null)
 
         /// <summary>
         /// Редактирование сообщения.
@@ -33,7 +33,7 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="text">Текст.</param>
         /// <param name="option">Настройки сообщения.</param>
         /// <returns>Сообщение.</returns>
-        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, long chatId, int messageId, string text, OptionMessage option = null)
+        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, long chatId, int messageId, string text, OptionMessage? option = null)
 
         /// <summary>
         /// Редактирование сообщения.
@@ -41,8 +41,11 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="context">Контекст бота.</param>
         /// <param name="text">Текст.</param>
         /// <param name="option">Настройки сообщения.</param>
-        /// <returns>Сообщение.</returns>
-        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, string text, OptionMessage option = null)
+        /// <returns>Изменённое сообщение чата или null при редактировании по inline-идентификатору.</returns>
+        public static async Task<Telegram.Bot.Types.Message?> Edit(IBotContext context, string text, OptionMessage? option = null)
+
+        /// <summary>Заменяет клавиатуру по сообщению чата или inline-идентификатору. Передайте null, чтобы убрать клавиатуру.</summary>
+        public static async Task EditInline(IBotContext context, InlineKeyboardMarkup? keyboard, CancellationToken cancellationToken = default)
 
         #endregion
     }

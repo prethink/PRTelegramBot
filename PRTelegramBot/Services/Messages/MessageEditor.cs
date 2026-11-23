@@ -41,6 +41,20 @@ namespace PRTelegramBot.Services.Messages
         }
 
         /// <summary>
+        /// Replaces or removes the keyboard on the message identified by the update.
+        /// </summary>
+        /// <param name="context">Bot context containing the message or callback query.</param>
+        /// <param name="keyboard">Replacement inline keyboard, or null to remove it.</param>
+        /// <param name="cancellationToken">Token used to cancel the request.</param>
+        public static async Task EditInline(IBotContext context, InlineKeyboardMarkup? keyboard, CancellationToken cancellationToken = default)
+        {
+            if (context.Update.CallbackQuery?.InlineMessageId is string inlineId)
+                await context.BotClient.EditMessageReplyMarkup(inlineId, replyMarkup: keyboard, cancellationToken: cancellationToken);
+            else
+                await context.BotClient.EditMessageReplyMarkup(context.GetChatId(), context.GetMessageId(), replyMarkup: keyboard, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
         /// Edits a message.
         /// </summary>
         /// <param name="context">Bot context.</param>
@@ -71,16 +85,25 @@ namespace PRTelegramBot.Services.Messages
         /// <param name="context">Bot context.</param>
         /// <param name="text">Text.</param>
         /// <param name="option">Message options.</param>
-        /// <returns>Message.</returns>
-        public static async Task<Telegram.Bot.Types.Message> Edit(IBotContext context, string text, OptionMessage? option = null)
+        /// <returns>The edited chat message, or null when Telegram acknowledges an edit by inline message ID.</returns>
+        public static async Task<Telegram.Bot.Types.Message?> Edit(IBotContext context, string text, OptionMessage? option = null)
         {
             option = MessageUtils.CreateOptionsIfNull(option);
 
-            long chatId = context.GetChatId();
-            int messageId = context.GetMessageId();
+            if (context.Update.CallbackQuery?.InlineMessageId is string inlineId)
+            {
+                await context.BotClient.EditMessageText(
+                    inlineMessageId: inlineId,
+                    text: text,
+                    parseMode: option.ParseMode,
+                    replyMarkup: MessageUtils.GetReplyMarkup(option) as InlineKeyboardMarkup,
+                    entities: option.Entities,
+                    linkPreviewOptions: MessageUtils.CreateLinkPreviewOptionsFromOption(option),
+                    cancellationToken: option.CancellationToken);
+                return null;
+            }
 
-            var editMessage = await Edit(context, chatId, messageId, text, option);
-            return editMessage;
+            return await Edit(context, context.GetChatId(), context.GetMessageId(), text, option);
         }
 
         #endregion

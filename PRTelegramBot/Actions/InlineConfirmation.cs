@@ -40,7 +40,8 @@ namespace PRTelegramBot.Actions
                         var menu = new List<IInlineContent>() { yesButton, noButton };
                         var testMenu = MenuGenerator.InlineKeyboard(2, menu);
                         var option = new OptionMessage() { MenuInlineKeyboardMarkup = testMenu };
-                        if (command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
+                        if (context.Update.CallbackQuery?.InlineMessageId is not null
+                            || command.Data.GetActionWithLastMessage() == ActionWithLastMessage.Edit)
                             await MessageEditor.Edit(context, inlineCommand.BaseMessage, option);
                         else
                             await MessageSender.Send(context, inlineCommand.BaseMessage, option);
@@ -74,7 +75,10 @@ namespace PRTelegramBot.Actions
                         InlineCallbackWithConfirmation.Complete(command.Data.EntityId);
                 }
 
-                await context.BotClient.DeleteMessage(context.GetChatIdClass(), context.Update.CallbackQuery.Message.MessageId);
+                if (context.Update.CallbackQuery?.Message is { } message)
+                    await context.BotClient.DeleteMessage(message.Chat.Id, message.Id);
+                else if (context.Update.CallbackQuery?.InlineMessageId is not null)
+                    await MessageEditor.EditInline(context, keyboard: null);
             }
             catch (Exception ex)
             {

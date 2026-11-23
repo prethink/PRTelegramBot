@@ -179,8 +179,8 @@ namespace PRTelegramBot.Models.InlineButtons
             {
                 var lastMessage = Context.Update.CallbackQuery.Message;
                 var actionWithLastMessage = Data.GetActionWithLastMessage();
-                if (actionWithLastMessage == Enums.ActionWithLastMessage.Delete)
-                    await Context.BotClient.DeleteMessage(Context.Update.GetChatIdClass(), lastMessage.MessageId);
+                if (actionWithLastMessage == Enums.ActionWithLastMessage.Delete && lastMessage is not null)
+                    await Context.BotClient.DeleteMessage(lastMessage.Chat.Id, lastMessage.Id);
             }
             catch (Exception ex)
             {

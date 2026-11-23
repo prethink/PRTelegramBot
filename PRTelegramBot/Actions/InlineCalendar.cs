@@ -33,9 +33,7 @@ namespace PRTelegramBot.Actions
                 if (command is not null)
                 {
                     var monthYearMarkup = Markup.PickMonthYear(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = monthYearMarkup;
-                    await MessageEditor.EditInline(context, context.Update.CallbackQuery.Message.Chat.Id, context.Update.CallbackQuery.Message.MessageId, option);
+                    await MessageEditor.EditInline(context, monthYearMarkup);
                 }
             }
             catch (Exception ex)
@@ -56,9 +54,7 @@ namespace PRTelegramBot.Actions
                 if (command is not null)
                 {
                     var monthPickerMarkup = Markup.PickMonth(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = monthPickerMarkup;
-                    await MessageEditor.EditInline(context, context.Update.CallbackQuery.Message.Chat.Id, context.Update.CallbackQuery.Message.MessageId, option);
+                    await MessageEditor.EditInline(context, monthPickerMarkup);
                 }
 
 
@@ -81,9 +77,7 @@ namespace PRTelegramBot.Actions
                 if (command is not null)
                 {
                     var monthYearMarkup = Markup.PickYear(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = monthYearMarkup;
-                    await MessageEditor.EditInline(context, context.Update.CallbackQuery.Message.Chat.Id, context.Update.CallbackQuery.Message.MessageId, option);
+                    await MessageEditor.EditInline(context, monthYearMarkup);
                 }
             }
             catch (Exception ex)
@@ -104,9 +98,7 @@ namespace PRTelegramBot.Actions
                 if (command is not null)
                 {
                     var calendarMarkup = Markup.Calendar(command.Data.Date, CultureInfo.GetCultureInfo(command.Data.Culture, false), command.Data.HeaderCallbackCommand);
-                    var option = new OptionMessage();
-                    option.MenuInlineKeyboardMarkup = calendarMarkup;
-                    await MessageEditor.EditInline(context, context.Update.CallbackQuery.Message.Chat.Id, context.Update.CallbackQuery.Message.MessageId, option);
+                    await MessageEditor.EditInline(context, calendarMarkup);
                 }
             }
             catch (Exception ex)

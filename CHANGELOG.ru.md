@@ -3,6 +3,30 @@
 [English](CHANGELOG.md) | **Русский**
 
 
+## 23.11.2026 - v1.1.4
+
+> Telegram.Bot обновлён с 22.10.4 до 22.10.5 для поддержки [Bot API 10.5](https://core.telegram.org/bots/api-changelog#november-22-2026).
+
+### 🔄 Breaking changes
+
+| Было | Стало |
+| --- | --- |
+| Флаги возможностей бота, например `CanJoinGroups`, читались из `User` | Читайте их из `BotFullInfo`, который возвращает `GetMe`. Замените тип результата в явно типизированных задачах и моках запросов на `BotFullInfo`. |
+| Текст раскрывающейся цитаты читался и задавался через `Text` у `RichBlockExpandableBlockQuotation` и `InputRichBlockExpandableBlockQuotation` | Используйте `Blocks`. При создании цитаты оберните прежний текст в блок абзаца. |
+
+### 🚀 New functionality
+
+- Через `BotClient.SetMySettings` можно настроить возможности бота и режим доставки callback-запросов (`Default`, `Auto` или `Inline`). Поле `WriteAccessAllowed.Inviter` указывает владельца бота, если доступ на запись получен по его приглашению.
+- `MessageEditor.Edit(context, text, option)` поддерживает callback-запросы с inline-идентификатором. Метод возвращает изменённое сообщение чата или null после успешного редактирования по inline-идентификатору. Новая перегрузка `MessageEditor.EditInline(context, keyboard)` заменяет клавиатуру в обоих случаях. Передайте null, чтобы убрать кнопки.
+
+### 🐞 Bugs
+
+- Навигация календаря и запросы подтверждения работают, когда в callback передан только `InlineMessageId`. Бот показывает подтверждение в исходном сообщении и при отказе убирает кнопки. Действие удаления пропускается, если Telegram не передал сообщение чата.
+
+### 🧩 Common
+
+- Обновлён README пакета и добавлено [руководство по настройкам бота и callback-запросам](https://prethink.gitbook.io/prtelegrambot/ru/nastroiki-bota).
+
 ## 13.11.2026 - v1.1.3
 
 > Поддержка [Bot API 10.4](https://core.telegram.org/bots/api-changelog#november-9-2026). Telegram.Bot обновлён с 22.10.3.3 до 22.10.4.

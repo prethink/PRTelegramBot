@@ -58,6 +58,54 @@ namespace PRTelegramBot.Tests.ServicesTests
         }
 
         [Test]
+        public async Task EditUsesTheInlineMessageIdAndPreservesTextOptions()
+        {
+            var update = new Update { CallbackQuery = new CallbackQuery { InlineMessageId = "inline-target" } };
+            var bot = new BotClientMock(update);
+            var option = new OptionMessage { ParseMode = ParseMode.Html, MenuInlineKeyboardMarkup = Inline(), DisableWebPagePreview = true };
+
+            var result = await MessageEditor.Edit(bot.Context.Object, "<b>updated</b>", option);
+
+            var request = bot.Single<EditInlineMessageTextRequest>();
+            request.InlineMessageId.Should().Be("inline-target");
+            request.Text.Should().Be("<b>updated</b>");
+            request.ParseMode.Should().Be(ParseMode.Html);
+            request.ReplyMarkup.Should().BeSameAs(option.MenuInlineKeyboardMarkup);
+            request.LinkPreviewOptions!.IsDisabled.Should().BeTrue();
+            result.Should().BeNull();
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task EditInlineReplacesOrRemovesTheInlineCallbackKeyboard(bool remove)
+        {
+            var update = new Update { CallbackQuery = new CallbackQuery { InlineMessageId = "inline-target" } };
+            var bot = new BotClientMock(update);
+            var keyboard = remove ? null : Inline();
+
+            await MessageEditor.EditInline(bot.Context.Object, keyboard);
+
+            var request = bot.Single<EditInlineMessageReplyMarkupRequest>();
+            request.InlineMessageId.Should().Be("inline-target");
+            request.ReplyMarkup.Should().BeSameAs(keyboard);
+        }
+
+        [Test]
+        public async Task EditInlineUsesTheChatMessageFromTheCallback()
+        {
+            var update = new Update { CallbackQuery = new CallbackQuery { Message = UpdateForChat().Message } };
+            var bot = new BotClientMock(update);
+            var keyboard = Inline();
+
+            await MessageEditor.EditInline(bot.Context.Object, keyboard);
+
+            var request = bot.Single<EditMessageReplyMarkupRequest>();
+            request.ChatId.Identifier.Should().Be(ChatId);
+            request.MessageId.Should().Be(MessageId);
+            request.ReplyMarkup.Should().BeSameAs(keyboard);
+        }
+
+        [Test]
         public async Task EditCarriesTheParseModeAndPreviewOptions()
         {
             var bot = new BotClientMock();
